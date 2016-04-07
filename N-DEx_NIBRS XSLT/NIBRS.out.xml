@@ -1,0 +1,37 @@
+<nibrs:Report xmlns:nibrscodes="http://fbi.gov/cjis/nibrs/nibrs-codes/4.0"
+	xmlns:niem-xsd="http://release.niem.gov/niem/proxy/xsd/3.0/"
+	xmlns:nc20="http://niem.gov/niem/niem-core/2.0" xmlns:ndexia="http://fbi.gov/cjis/N-DEx/IncidentArrest/2.1"
+	xmlns:lexs="http://usdoj.gov/leisp/lexs/3.1" xmlns:j40="http://niem.gov/niem/domains/jxdm/4.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:i="http://release.niem.gov/niem/appinfo/3.0/"
+	xmlns:lexsdigest="http://usdoj.gov/leisp/lexs/digest/3.1" xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.1/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:s20="http://niem.gov/niem/structures/2.0"
+	xmlns:cjiscodes="http://fbi.gov/cjis/cjis-codes/1.0" xmlns:s="http://release.niem.gov/niem/structures/3.0/"
+	xmlns:nc="http://release.niem.gov/niem/niem-core/3.0/" xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.0"
+	xmlns:lexspd="http://usdoj.gov/leisp/lexs/publishdiscover/3.1"
+	xmlns:lexslib="http://usdoj.gov/leisp/lexs/library/3.1" xmlns:cjis="http://fbi.gov/cjis/1.0">
+	<nibrs:ReportHeader>
+		<nibrs:NIBRSReportCategoryCode>Group A Incident Report
+		</nibrs:NIBRSReportCategoryCode>
+		<nibrs:ReportDate>
+			<nc:YearMonthDate>2016-02</nc:YearMonthDate>
+		</nibrs:ReportDate>
+		<nibrs:ReportingAgency>
+			<j:OrganizationAugmentation>
+				<j:OrganizationORIIdentification>
+					<nc:IdentificationID>WVNDX01I</nc:IdentificationID>
+				</j:OrganizationORIIdentification>
+			</j:OrganizationAugmentation>
+		</nibrs:ReportingAgency>
+	</nibrs:ReportHeader>
+	<nc:incident>
+		<nc:ActivityIdentification>
+			<nc:IdentificationID>54236732</nc:IdentificationID>
+		</nc:ActivityIdentification>
+		<nc:ActivityDate>
+			<nc:DateTime>2016-02-19T10:00:00</nc:DateTime>
+		</nc:ActivityDate>
+		<nc:ActivityDate>
+			<nc:DateTime>2016-02-19T10:00:00</nc:DateTime>
+		</nc:ActivityDate>
+	</nc:incident>
+</nibrs:Report>
