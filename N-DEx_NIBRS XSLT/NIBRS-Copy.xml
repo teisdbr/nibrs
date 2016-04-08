@@ -262,12 +262,12 @@
 						<!--Element 34, Offender Number(s) to be related -->
 						<lexsdigest:SubjectVictimAssociation s20:id="SVA_1">
 							<lexsdigest:SubjectPersonReference s20:ref="Person_Subject_1"/>
-							<lexsdigest:VictimPersonReference s20:ref="Person_Arrest_Subject_1"/>
+							<lexsdigest:VictimPersonReference s20:ref="Person_Officer_Victim_1"/>
 						</lexsdigest:SubjectVictimAssociation>
 						<!--Element 34, Offender Number(s) to be related -->
 						<lexsdigest:SubjectVictimAssociation s20:id="SVA_2">
 							<lexsdigest:SubjectPersonReference s20:ref="Person_Subject_1"/>
-							<lexsdigest:VictimPersonReference s20:ref="Person_Arrest_Subject_1"/>
+							<lexsdigest:VictimPersonReference s20:ref="Person_Victim_1"/>
 						</lexsdigest:SubjectVictimAssociation>
 						<nc20:ActivityReportingOrganizationAssociation>
 							<nc20:ActivityReference s20:ref="Incident_1"/>
