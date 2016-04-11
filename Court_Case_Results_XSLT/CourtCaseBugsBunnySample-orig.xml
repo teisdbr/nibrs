@@ -1,0 +1,647 @@
+<CourtCaseQueryResults>
+  <DocumentCreationDate>
+    <DateTime>2016-03-16T20:15:58.8255362Z</DateTime>
+  </DocumentCreationDate>
+  <DocumentIdentification>
+    <IdentificationID>203284</IdentificationID>
+  </DocumentIdentification>
+  <SystemIdentification>
+    <IdentificationID>System ID?</IdentificationID>
+    <SystemName>System Name?</SystemName>
+  </SystemIdentification>
+  <Case>
+    <ActivityIdentification>
+      <IdentificationID>203284</IdentificationID>
+    </ActivityIdentification>
+    <ActivityStatus>
+      <StatusCommentText>TEST - CREATED FOR APPLY MONIES FOR BACKGROUND INFO REQUESTS</StatusCommentText>
+      <StatusDescriptionText>Closed pending clerk action</StatusDescriptionText>
+      <StatusDate>
+        <Date>2016-03-16T00:00:00</Date>
+      </StatusDate>
+    </ActivityStatus>
+    <CaseCategoryText>MC</CaseCategoryText>
+    <CaseGeneralCategoryText>CR</CaseGeneralCategoryText>
+    <CaseTrackingID>CR-2011-0008770-MC</CaseTrackingID>
+    <CaseDocketID>LIMITED vs. Bunny, Bugs TEST-Bkg Req</CaseDocketID>
+    <CaseFiling>
+      <DocumentCreationDate>
+        <DateTime>2011-06-16T00:00:00</DateTime>
+      </DocumentCreationDate>
+    </CaseFiling>
+    <CaseAugmentation>
+      <CaseAmendedCharge>
+        <ChargeCountQuantity>?</ChargeCountQuantity>
+        <ChargeDescriptionText>?</ChargeDescriptionText>
+        <ChargeFilingDate>
+          <Date />
+        </ChargeFilingDate>
+        <ChargeStatute>
+          <StatuteCodeIdentification>
+            <IdentificationID> </IdentificationID>
+            <IdentificationCategoryDescriptionText />
+          </StatuteCodeIdentification>
+        </ChargeStatute>
+      </CaseAmendedCharge>
+      <CaseCharge>
+        <ChargeCountQuantity>1</ChargeCountQuantity>
+        <ChargeDescriptionText />
+        <ChargeDisposition>
+          <DispositionDate>
+            <Date />
+          </DispositionDate>
+          <DispositionDescriptionText />
+          <ChargeDispositionOtherText />
+        </ChargeDisposition>
+        <ChargeFilingDate>
+          <Date />
+        </ChargeFilingDate>
+        <ChargePlea>
+          <ActivityDate>
+            <Date />
+          </ActivityDate>
+          <PleaCategoryCode />
+        </ChargePlea>
+        <ChargeSentence>
+          <ActivityIdentification>
+            <IdentificationID>1111111</IdentificationID>
+          </ActivityIdentification>
+          <ActivityDate>
+            <Date />
+          </ActivityDate>
+          <ActivityStatus>
+            <StatusDescriptionText />
+          </ActivityStatus>
+          <OrganizationName></OrganizationName>
+          <SentenceCharge>
+            <ChargeStatute>
+              <StatuteCodeIdentification>
+                <IdentificationID>42-4-0000</IdentificationID>
+              </StatuteCodeIdentification>
+            </ChargeStatute>
+          </SentenceCharge>
+          <SentenceTerm />
+          <SupervisionFineAmount>
+            <Amount>350.00</Amount>
+          </SupervisionFineAmount>
+          <SentenceDeferredDate>
+            <Date />
+          </SentenceDeferredDate>
+          <SentenceConcurrentIndicator />
+          <SentenceConfinementCategoryText></SentenceConfinementCategoryText>
+          <SentenceConfinementComment />
+          <SentenceWorkReleaseIndicator />
+        </ChargeSentence>
+        <ChargeSequenceID />
+        <ChargeStatute>
+          <StatuteCodeIdentification>
+            <IdentificationID>42-4-0000</IdentificationID>
+            <IdentificationCategoryDescriptionText>Invalid County Charge Filed</IdentificationCategoryDescriptionText>
+          </StatuteCodeIdentification>
+        </ChargeStatute>
+      </CaseCharge>
+      <CaseCourt>
+        <OrganizationAugmentation>
+          <OrganizationJurisdiction>
+            <JurisdictionText>LIMITED</JurisdictionText>
+          </OrganizationJurisdiction>
+        </OrganizationAugmentation>
+        <CourtName>Thornton Municipal Court</CourtName>
+        <CourtDivisionText>Main Court</CourtDivisionText>
+      </CaseCourt>
+      <CaseCourtEvent>
+        <ActivityIdentification>
+          <IdentificationID>353165</IdentificationID>
+        </ActivityIdentification>
+        <ActivityDate>
+          <Date>2012-06-07T10:27:19</Date>
+        </ActivityDate>
+        <ActivityDescriptionText>New Case Created</ActivityDescriptionText>
+        <ActivityName />
+        <CourtEventJudge>
+          <RoleOfPerson>
+          <!-- Add "PersonName -->
+          <PersonName>
+            <PersonFullName>Rose, Charles</PersonFullName>
+            </PersonName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CommentsForCourtClerk>COMMENT: USED TO APPLY MONIES FOR BACKGROND REQUESTS</CommentsForCourtClerk>
+        <FirstCourtAppearance>
+          <CourtAppearanceDate>
+            <Date />
+          </CourtAppearanceDate>
+        </FirstCourtAppearance>
+        <CourtEventCommentsText></CourtEventCommentsText>
+      </CaseCourtEvent>
+      <CaseCourtEvent>
+        <ActivityIdentification>
+          <IdentificationID>353166</IdentificationID>
+        </ActivityIdentification>
+        <ActivityDate>
+          <Date>2012-06-07T10:27:31</Date>
+        </ActivityDate>
+        <ActivityDescriptionText>Arraignment date set:</ActivityDescriptionText>
+        <ActivityName />
+        <CourtEventJudge>
+          <RoleOfPerson>
+            <PersonFullName>Rose, Charles</PersonFullName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CommentsForCourtClerk>COMMENT: USED TO APPLY MONIES FOR BACKGROND REQUESTS</CommentsForCourtClerk>
+        <FirstCourtAppearance>
+          <CourtAppearanceDate>
+            <Date />
+          </CourtAppearanceDate>
+        </FirstCourtAppearance>
+        <CourtEventCommentsText></CourtEventCommentsText>
+      </CaseCourtEvent>
+      <CaseCourtEvent>
+        <ActivityIdentification>
+          <IdentificationID>1159066</IdentificationID>
+        </ActivityIdentification>
+        <ActivityDate>
+          <Date>2015-09-03T09:38:00</Date>
+        </ActivityDate>
+        <ActivityDescriptionText>Payment Received for Copies (0.75)</ActivityDescriptionText>
+        <ActivityName />
+        <CourtEventJudge>
+          <RoleOfPerson>
+            <PersonFullName>Conversion</PersonFullName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CommentsForCourtClerk>COMMENT: USED TO APPLY MONIES FOR BACKGROND REQUESTS</CommentsForCourtClerk>
+        <FirstCourtAppearance>
+          <CourtAppearanceDate>
+            <Date />
+          </CourtAppearanceDate>
+        </FirstCourtAppearance>
+        <CourtEventCommentsText></CourtEventCommentsText>
+      </CaseCourtEvent>
+      <CaseCourtEvent>
+        <ActivityIdentification>
+          <IdentificationID>1159110</IdentificationID>
+        </ActivityIdentification>
+        <ActivityDate>
+          <Date>2015-09-03T10:21:00</Date>
+        </ActivityDate>
+        <ActivityDescriptionText>Payment Received for Copies (0.75)</ActivityDescriptionText>
+        <ActivityName />
+        <CourtEventJudge>
+          <RoleOfPerson>
+            <PersonFullName>Conversion</PersonFullName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CommentsForCourtClerk>COMMENT: USED TO APPLY MONIES FOR BACKGROND REQUESTS</CommentsForCourtClerk>
+        <FirstCourtAppearance>
+          <CourtAppearanceDate>
+            <Date />
+          </CourtAppearanceDate>
+        </FirstCourtAppearance>
+        <CourtEventCommentsText></CourtEventCommentsText>
+      </CaseCourtEvent>
+      <CaseCourtEvent>
+        <ActivityIdentification>
+          <IdentificationID>1172996</IdentificationID>
+        </ActivityIdentification>
+        <ActivityDate>
+          <Date>2015-09-15T09:48:00</Date>
+        </ActivityDate>
+        <ActivityDescriptionText>Payment Received for Copies (1.75)</ActivityDescriptionText>
+        <ActivityName />
+        <CourtEventJudge>
+          <RoleOfPerson>
+            <PersonFullName>Conversion</PersonFullName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CommentsForCourtClerk>COMMENT: USED TO APPLY MONIES FOR BACKGROND REQUESTS</CommentsForCourtClerk>
+        <FirstCourtAppearance>
+          <CourtAppearanceDate>
+            <Date />
+          </CourtAppearanceDate>
+        </FirstCourtAppearance>
+        <CourtEventCommentsText></CourtEventCommentsText>
+      </CaseCourtEvent>
+      <CaseCourtEvent>
+        <ActivityIdentification>
+          <IdentificationID>1173360</IdentificationID>
+        </ActivityIdentification>
+        <ActivityDate>
+          <Date>2015-09-16T08:21:00</Date>
+        </ActivityDate>
+        <ActivityDescriptionText>Payment Received for Copies (0.75)</ActivityDescriptionText>
+        <ActivityName />
+        <CourtEventJudge>
+          <RoleOfPerson>
+            <PersonFullName>Conversion</PersonFullName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CommentsForCourtClerk>COMMENT: USED TO APPLY MONIES FOR BACKGROND REQUESTS</CommentsForCourtClerk>
+        <FirstCourtAppearance>
+          <CourtAppearanceDate>
+            <Date />
+          </CourtAppearanceDate>
+        </FirstCourtAppearance>
+        <CourtEventCommentsText></CourtEventCommentsText>
+      </CaseCourtEvent>
+      <CaseCourtEvent>
+        <ActivityIdentification>
+          <IdentificationID>1178186</IdentificationID>
+        </ActivityIdentification>
+        <ActivityDate>
+          <Date>2015-09-28T15:10:00</Date>
+        </ActivityDate>
+        <ActivityDescriptionText>Payment Received for Copies (0.75)</ActivityDescriptionText>
+        <ActivityName />
+        <CourtEventJudge>
+          <RoleOfPerson>
+            <PersonFullName>Conversion</PersonFullName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CommentsForCourtClerk>COMMENT: USED TO APPLY MONIES FOR BACKGROND REQUESTS</CommentsForCourtClerk>
+        <FirstCourtAppearance>
+          <CourtAppearanceDate>
+            <Date />
+          </CourtAppearanceDate>
+        </FirstCourtAppearance>
+        <CourtEventCommentsText></CourtEventCommentsText>
+      </CaseCourtEvent>
+      <CaseDefendantSelfRepresentationIndicator />
+      <CaseDefendantParty>
+        <EntityOrganization>
+          <OrganizationName>Bunny, Bugs TEST-Bkg Req</OrganizationName>
+        </EntityOrganization>
+        <EntityPerson>
+          <structures_ref>Person_127364</structures_ref>
+        </EntityPerson>
+      </CaseDefendantParty>
+      <CaseDomesticViolenceIndicator>false</CaseDomesticViolenceIndicator>
+      <CaseHearing>
+        <ActivityIdentification>
+          <IdentificationID>437</IdentificationID>
+        </ActivityIdentification>
+        <ActivityCategoryText>Arraignment</ActivityCategoryText>
+        <ActivityDateRange>
+          <StartDate>
+            <DateTime>2011-06-30T00:00:00</DateTime>
+          </StartDate>
+          <EndDate>
+            <DateTime>2011-06-30T00:00:00</DateTime>
+          </EndDate>
+        </ActivityDateRange>
+        <ActivityDescriptionText>Arraignment</ActivityDescriptionText>
+        <ActivityName>CR-2011-0008770-MC</ActivityName>
+        <ActivityReasonText>TODO: Not in mapping spreadsheet.</ActivityReasonText>
+        <ActivityDisposition>
+          <DispositionDescriptionText></DispositionDescriptionText>
+        </ActivityDisposition>
+        <CourtEventJudge>
+          <RoleOfPerson>
+            <PersonName>
+              <PersonFullName>Undefined Name</PersonFullName>
+            </PersonName>
+          </RoleOfPerson>
+        </CourtEventJudge>
+        <CourtEventCommentsText></CourtEventCommentsText>
+        <CourtEventAppearance>
+          <CourtAppearanceCourt>
+            <CourtName>B</CourtName>
+          </CourtAppearanceCourt>
+        </CourtEventAppearance>
+      </CaseHearing>
+      <CaseJudge>
+        <RoleOfPerson>
+          <!--PersonFullName>Conversion</PersonFullName-->
+          <PersonName>
+               <PersonFullName>Conversion</PersonFullName>
+          </PersonName>
+        </RoleOfPerson>
+        <JudicialOfficialBarMembership>
+          <JudicialOfficialBarIdentification>
+            <IdentificationID>111534</IdentificationID>
+          </JudicialOfficialBarIdentification>
+        </JudicialOfficialBarMembership>
+      </CaseJudge>
+      <CaseLineageCase>
+        <CaseTrackingID />
+      </CaseLineageCase>
+      <CaseOtherIdentification>
+        <IdentificationID />
+        <IdentificationCategoryDescriptionText>TODO: Not in mapping spreadsheet.</IdentificationCategoryDescriptionText>
+      </CaseOtherIdentification>
+      <CaseTrial>
+        <TrialByText />
+        <SpeedyTrialDate>
+          <Date />
+        </SpeedyTrialDate>
+      </CaseTrial>
+      <CaseTrial>
+        <TrialByText>NO_TRIAL</TrialByText>
+        <SpeedyTrialDate>
+          <Date />
+        </SpeedyTrialDate>
+      </CaseTrial>
+      <CaseSealedIndicator>false</CaseSealedIndicator>
+      <RemandDate />
+      <CaseUnderAdvisementDate />
+      <JuryRequestedIndicator>false</JuryRequestedIndicator>
+      <JuryVerdictIndicator>false</JuryVerdictIndicator>
+      <FailureToPayHoldDate />
+      <FailureToAppearHoldDate />
+      <FailureToComplyHoldDate />
+      <FailureToPayVictimHoldDate />
+      <FailureToPayHoldIndefiniteIndicator>false</FailureToPayHoldIndefiniteIndicator>
+    </CaseAugmentation>
+  </Case>
+  <Identity>
+    <structures_id />
+    <IdentityPersonRepresentation>
+      <PersonBirthDate>
+        <Date />
+      </PersonBirthDate>
+      <PersonName>
+        <PersonGivenName />
+        <PersonMiddleName />
+        <PersonSurName />
+        <PersonNameSuffixText />
+        <PersonFullName></PersonFullName>
+      </PersonName>
+      <PersonSSNIdentification>
+        <IdentificationID>TODO: caserole.NAME.SOCIAL_SECURITY_NUMBER</IdentificationID>
+      </PersonSSNIdentification>
+    </IdentityPersonRepresentation>
+  </Identity>
+  <Identity>
+    <structures_id />
+    <IdentityPersonRepresentation>
+      <PersonBirthDate>
+        <Date />
+      </PersonBirthDate>
+      <PersonName>
+        <PersonGivenName />
+        <PersonMiddleName />
+        <PersonSurName />
+        <PersonNameSuffixText />
+        <PersonFullName></PersonFullName>
+      </PersonName>
+      <PersonSSNIdentification>
+        <IdentificationID>TODO: caserole.NAME.SOCIAL_SECURITY_NUMBER</IdentificationID>
+      </PersonSSNIdentification>
+    </IdentityPersonRepresentation>
+  </Identity>
+  <Citation>
+    <structures_id>Citation_15943</structures_id>
+    <ActivityIdentification>
+      <IdentificationID>1111111</IdentificationID>
+    </ActivityIdentification>
+    <CitationViolation>
+      <ActivityDate>
+        <Date>2011-01-10T00:00:00</Date>
+      </ActivityDate>
+      <IncidentLocation>
+        <Address>
+          <AddressSecondaryUnitText />
+          <AddressDeliveryPointID />
+          <LocationStreet>
+            <StreetName />
+            <StreetCategoryText />
+          </LocationStreet>
+          <LocationCountyName />
+        </Address>
+        <AddressCrossStreet>
+          <CrossStreetDescriptionText />
+        </AddressCrossStreet>
+        <LocationDescriptionText />
+        <LocationName />
+      </IncidentLocation>
+      <ViolationAugmentation>
+        <DrivingPointNumberText>0</DrivingPointNumberText>
+        <DrivingPointNumberReducedText />
+        <PersonBloodAlcoholContentTestRefusedIndicator>false</PersonBloodAlcoholContentTestRefusedIndicator>
+        <PersonBloodAlcoholContentNumberText />
+      </ViolationAugmentation>
+    </CitationViolation>
+    <CitationAugmentation>
+      <CourtAppearanceDate>
+        <DateTime>2011-06-30T00:00:00</DateTime>
+      </CourtAppearanceDate>
+      <VehicleOverweightMeasure>
+        <MeasureValueText />
+      </VehicleOverweightMeasure>
+      <CourtAppearanceRequiredIndicator>false</CourtAppearanceRequiredIndicator>
+      <InjuryIndicator>false</InjuryIndicator>
+      <SchoolZoneIndicator>false</SchoolZoneIndicator>
+      <ConstructionZoneIndicator>false</ConstructionZoneIndicator>
+      <LicenseSurrenderedIndicator>false</LicenseSurrenderedIndicator>
+      <FatalityIndicator>false</FatalityIndicator>
+      <NuclearMaterialsIndicator>false</NuclearMaterialsIndicator>
+      <OffenseDomesticViolenceIndicator>false</OffenseDomesticViolenceIndicator>
+    </CitationAugmentation>
+  </Citation>
+  <Fee>
+    <structures_id>Fee_15943</structures_id>
+    <ObligationPaidDate>
+      <DateTime>TODO: Not in mapping spreadsheet.</DateTime>
+    </ObligationPaidDate>
+  </Fee>
+  <Vehicle>
+    <structures_id>Vehicle_15943</structures_id>
+    <VehicleCMVIndicator>false</VehicleCMVIndicator>
+    <VehicleIdentification>
+      <IdentificationID />
+      <ConveyanceRegistrationPlateIdentification>
+        <IdentificationID />
+        <StateCode />
+      </ConveyanceRegistrationPlateIdentification>
+    </VehicleIdentification>
+    <VehicleMakeCode />
+    <VehicleModelCode />
+    <ItemColor>
+      <ConveyanceColorPrimaryCode />
+    </ItemColor>
+    <ConveyanceAugmentation>
+      <ModelYearRange>
+        <StartDate>
+          <YearDate />
+        </StartDate>
+      </ModelYearRange>
+    </ConveyanceAugmentation>
+  </Vehicle>
+  <DisciplinaryActionRestitution>
+    <structures_id>Restitution_111534</structures_id>
+    <total>0.0000</total>
+    <ObligationDueAmount>
+      <Amount>0.0000</Amount>
+    </ObligationDueAmount>
+    <ObligationPaidAmount>
+      <Amount>0.0000</Amount>
+    </ObligationPaidAmount>
+  </DisciplinaryActionRestitution>
+  <DisciplinaryActionRestitution>
+    <structures_id>Restitution_127364</structures_id>
+    <total>0.0000</total>
+    <ObligationDueAmount>
+      <Amount>0.0000</Amount>
+    </ObligationDueAmount>
+    <ObligationPaidAmount>
+      <Amount>0.0000</Amount>
+    </ObligationPaidAmount>
+  </DisciplinaryActionRestitution>
+  <Person>
+    <structures_id>Person_1278</structures_id>
+    <PersonBirthDate>
+      <Date />
+    </PersonBirthDate>
+    <PersonDescriptionText>TODO: Not in mapping spreadsheet.</PersonDescriptionText>
+    <PersonEthnicityText />
+    <PersonEyeColorCode />
+    <PersonHairColorCode />
+    <PersonHeightMeasure>
+      <MeasureValueText />
+      <MeasureUnitText>feet</MeasureUnitText>
+    </PersonHeightMeasure>
+    <PersonPrimaryLanguage>
+      <LanguageName />
+    </PersonPrimaryLanguage>
+    <PersonName>
+      <PersonGivenName />
+      <PersonMiddleName />
+      <PersonSurName>Conversion</PersonSurName>
+      <PersonNameSuffixText />
+      <PersonFullName>Conversion</PersonFullName>
+    </PersonName>
+    <PersonPhysicalFeature>
+      <PhysicalFeatureDescriptionText></PhysicalFeatureDescriptionText>
+    </PersonPhysicalFeature>
+    <PersonRaceText />
+    <PersonSexText />
+    <PersonInmateIdentification>
+      <IdentificationID></IdentificationID>
+    </PersonInmateIdentification>
+    <PersonOtherIdentification>
+      <IdentificationID></IdentificationID>
+    </PersonOtherIdentification>
+    <PersonSSNIdentification>
+      <IdentificationID>TODO: data.NAME.SOCIAL_SECURITY_NUMBER</IdentificationID>
+    </PersonSSNIdentification>
+    <PersonStateIdentification>
+      <IdentificationID>TODO: Not in mapping spreadsheet.</IdentificationID>
+    </PersonStateIdentification>
+    <PersonWeightMeasure>
+      <MeasureValueText />
+    </PersonWeightMeasure>
+    <PersonAugmentation>
+      <DriverLicense>
+        <DriverLicenseIdentification>
+          <IdentificationID />
+          <IdentificationSourceText />
+        </DriverLicenseIdentification>
+        <DriverLicenseExpirationDate>
+          <DateTime />
+        </DriverLicenseExpirationDate>
+        <DriverLicenseIssueDate>
+          <DateTime />
+        </DriverLicenseIssueDate>
+        <DriverLicenseCommercialClassText>false</DriverLicenseCommercialClassText>
+        <DriverLicenseNonCommercialClassText />
+      </DriverLicense>
+      <PersonFBIIdentification>
+        <IdentificationID>TODO: Not in mapping spreadsheet.</IdentificationID>
+      </PersonFBIIdentification>
+      <PersonSystemIdentification>
+        <IdentificationID>?</IdentificationID>
+      </PersonSystemIdentification>
+      <PersonStateFingerprintIdentification>
+        <IdentificationID>?</IdentificationID>
+      </PersonStateFingerprintIdentification>
+      <StudentIdentification>
+        <IdentificationID></IdentificationID>
+      </StudentIdentification>
+    </PersonAugmentation>
+  </Person>
+  <Person>
+    <structures_id>Person_186705</structures_id>
+    <PersonBirthDate>
+      <Date />
+    </PersonBirthDate>
+    <PersonDescriptionText>TODO: Not in mapping spreadsheet.</PersonDescriptionText>
+    <PersonEthnicityText />
+    <PersonEyeColorCode />
+    <PersonHairColorCode />
+    <PersonHeightMeasure>
+      <MeasureValueText />
+      <MeasureUnitText>feet</MeasureUnitText>
+    </PersonHeightMeasure>
+    <PersonPrimaryLanguage>
+      <LanguageName />
+    </PersonPrimaryLanguage>
+    <PersonName>
+      <PersonGivenName>Bugs</PersonGivenName>
+      <PersonMiddleName>TEST-Bkg Req</PersonMiddleName>
+      <PersonSurName>Bunny</PersonSurName>
+      <PersonNameSuffixText />
+      <PersonFullName>Bunny, Bugs TEST-Bkg Req</PersonFullName>
+    </PersonName>
+    <PersonPhysicalFeature>
+      <PhysicalFeatureDescriptionText>COMMENT; BODYMARKS; CLERKCOMMENT</PhysicalFeatureDescriptionText>
+    </PersonPhysicalFeature>
+    <PersonRaceText />
+    <PersonSexText />
+    <PersonInmateIdentification>
+      <IdentificationID></IdentificationID>
+    </PersonInmateIdentification>
+    <PersonOtherIdentification>
+      <IdentificationID></IdentificationID>
+    </PersonOtherIdentification>
+    <PersonSSNIdentification>
+      <IdentificationID>TODO: data.NAME.SOCIAL_SECURITY_NUMBER</IdentificationID>
+    </PersonSSNIdentification>
+    <PersonStateIdentification>
+      <IdentificationID>TODO: Not in mapping spreadsheet.</IdentificationID>
+    </PersonStateIdentification>
+    <PersonWeightMeasure>
+      <MeasureValueText />
+    </PersonWeightMeasure>
+    <PersonAugmentation>
+      <DriverLicense>
+        <DriverLicenseIdentification>
+          <IdentificationID>999999999</IdentificationID>
+          <IdentificationSourceText />
+        </DriverLicenseIdentification>
+        <DriverLicenseExpirationDate>
+          <DateTime />
+        </DriverLicenseExpirationDate>
+        <DriverLicenseIssueDate>
+          <DateTime />
+        </DriverLicenseIssueDate>
+        <DriverLicenseCommercialClassText>false</DriverLicenseCommercialClassText>
+        <DriverLicenseNonCommercialClassText />
+      </DriverLicense>
+      <PersonFBIIdentification>
+        <IdentificationID>TODO: Not in mapping spreadsheet.</IdentificationID>
+      </PersonFBIIdentification>
+      <PersonSystemIdentification>
+        <IdentificationID>?</IdentificationID>
+      </PersonSystemIdentification>
+      <PersonStateFingerprintIdentification>
+        <IdentificationID>?</IdentificationID>
+      </PersonStateFingerprintIdentification>
+      <StudentIdentification>
+        <IdentificationID></IdentificationID>
+      </StudentIdentification>
+    </PersonAugmentation>
+  </Person>
+  <Location>
+    <structures_id>Location_276237</structures_id>
+    <Address>
+      <AddressSecondaryUnitText />
+      <LocationStreet>
+        <StreetFullText>BACKGROUND REQUESTS ONLY</StreetFullText>
+      </LocationStreet>
+      <LocationCityName />
+      <LocationStateName>CO</LocationStateName>
+      <LocationPostalCode>80229</LocationPostalCode>
+    </Address>
+    <LocationCategoryText>MAILING</LocationCategoryText>
+  </Location>
+</CourtCaseQueryResults>
