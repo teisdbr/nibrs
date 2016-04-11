@@ -316,7 +316,7 @@
 							<!-- Element 43, Type Of Arrest -->
 							<j40:ArrestCategoryCode>O</j40:ArrestCategoryCode>
 							<ndexia:ArrestAugmentation>
-								<lexslib:SameAsDigestReference lexslib:ref="Arrest_01"/>
+								<lexslib:SameAsDigestReference lexslib:ref="Arrest_1"/>
 							</ndexia:ArrestAugmentation>
 						</ndexia:Arrest>
 						<ndexia:ArrestSubject>
