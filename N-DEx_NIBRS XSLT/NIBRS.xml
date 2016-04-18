@@ -204,30 +204,29 @@
 							<!-- Element 27, Sex of Victim -->
 							<nc:PersonSexCode>M</nc:PersonSexCode>
 						</lexsdigest:Person>
-						<j:EnforcementOfficial s:id="Victim_1">
+						<j:Victim s:id="Victim_1">
 							<nc:RoleOfPersonReference s:ref="Person_Officer_Victim_1"/>
-							<!-- Element 25B, Assignment Type (Officer) -->
-							<j:EnforcementOfficialAssignmentCategoryCode>H</j:EnforcementOfficialAssignmentCategoryCode>
+						</j:Victim>
+						<j:EnforcementOfficial s:id="Officer_1">
+							<nc:RoleOfPersonReference s:ref="Person_Officer_Victim_1"/>
 						</j:EnforcementOfficial>
 					</lexsdigest:EntityPerson>
 					<!-- ======================= NIBRS Victim   ======================= -->
-					<lexsdigest:EntityPerson>
+					<!--lexsdigest:EntityPerson>
 						<lexsdigest:Person s:id="Person_Victim_1">
 							<nc:PersonAgeMeasure>
-								<!-- Element 26, Age of Victim (only one would be included per victim)-->
 								<nc:MeasurePointValue>32</nc:MeasurePointValue>
 								<nc:MeasureRangeValue>
 									<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
 									<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
 								</nc:MeasureRangeValue>
 							</nc:PersonAgeMeasure>
-							<!-- Element 27, Sex of Victim -->
 							<nc:PersonSexCode>M</nc:PersonSexCode>
 						</lexsdigest:Person>
 						<j:Victim s:id="Victim_2">
 							<nc:RoleOfPersonReference s:ref="Person_Victim_1"/>
 						</j:Victim>
-					</lexsdigest:EntityPerson>
+					</lexsdigest:EntityPerson-->
 					<!-- ======================= NIBRS Property  ======================= -->
 					<lexsdigest:EntityTangibleItem>
 						<nc:TangibleItem s:id="TI_1"/>
@@ -350,10 +349,12 @@
 							</ndexia:DrugAugmentation>
 						</ndexia:Drug>
 						<ndexia:EnforcementOfficial>
-							<!-- Element 25A - Type of Activity (Officer)/ Circumstance -->
+							<!-- Element 25A - Type of Activity (Officer)/ Circumstance ??? -->
 							<ndexia:EnforcementOfficialActivityCategoryCode>Responding to disturbance call</ndexia:EnforcementOfficialActivityCategoryCode>
+								<!-- Element 25B, Assignment Type (Officer) -->
+							 <j:EnforcementOfficialAssignmentCategoryCode>I</j:EnforcementOfficialAssignmentCategoryCode>
 							<ndexia:EnforcementOfficialAugmentation>
-								<lexslib:SameAsDigestReference lexslib:ref="Victim_1"/>
+								<lexslib:SameAsDigestReference lexslib:ref="Officer_1"/>
 							</ndexia:EnforcementOfficialAugmentation>
 						</ndexia:EnforcementOfficial>
 						<ndexia:Incident>
@@ -508,25 +509,20 @@
 								<ndexia:VictimSequenceNumberText>1</ndexia:VictimSequenceNumberText>
 							</ndexia:VictimAugmentation>
 						</ndexia:Victim>
-						<ndexia:Victim>
+						<!--ndexia:Victim>
 							<ndexia:VictimInjury>
 								<ndexia:InjuryAugmentation>
-									<!-- Element 33, Type Injury -->
 									<ndexia:InjuryCategoryCode>Loss of Teeth</ndexia:InjuryCategoryCode>
 								</ndexia:InjuryAugmentation>
 							</ndexia:VictimInjury>
-							<!-- Element 25, Type of Victim -->
 							<j:VictimCategoryCode>I</j:VictimCategoryCode>
-							<!-- Element 32, Additional Justifiable Homicide Circumstances -->
 							<j:VictimJustifiableHomicideFactorCode>C</j:VictimJustifiableHomicideFactorCode>
 							<ndexia:VictimAugmentation>
 								<lexslib:SameAsDigestReference lexslib:ref="Victim_2"/>
-								<!-- Element 31, Aggravated Assault/Homicide Circumstances -->
 								<ndexia:VictimAggravatedAssaultHomicideFactorCode>Revenge assault</ndexia:VictimAggravatedAssaultHomicideFactorCode>
-								<!-- Element 23, Victim Sequence Number -->
 								<ndexia:VictimSequenceNumberText>1</ndexia:VictimSequenceNumberText>
 							</ndexia:VictimAugmentation>
-						</ndexia:Victim>
+						</ndexia:Victim-->
 						<ndexia:SubjectVictimAssociation>
 							<ndexia:SubjectVictimAssociationAugmentation>
 								<lexslib:SameAsDigestReference lexslib:ref="SVA_1"/>
@@ -534,13 +530,12 @@
 								<ndexia:VictimToSubjectRelationshipCode>Stranger</ndexia:VictimToSubjectRelationshipCode>
 							</ndexia:SubjectVictimAssociationAugmentation>
 						</ndexia:SubjectVictimAssociation>
-						<ndexia:SubjectVictimAssociation>
+						<!--ndexia:SubjectVictimAssociation>
 							<ndexia:SubjectVictimAssociationAugmentation>
 								<lexslib:SameAsDigestReference lexslib:ref="SVA_2"/>
-								<!-- Element 35, Relationship(s) of Victim To Offender -->
 								<ndexia:VictimToSubjectRelationshipCode>Acquaintance</ndexia:VictimToSubjectRelationshipCode>
 							</ndexia:SubjectVictimAssociationAugmentation>
-						</ndexia:SubjectVictimAssociation>
+						</ndexia:SubjectVictimAssociation-->
 					</ndexia:IncidentReport>
 				</lexs:StructuredPayload>
 				<!-- NIBRS STRUCTURED PAYLOAD -->
