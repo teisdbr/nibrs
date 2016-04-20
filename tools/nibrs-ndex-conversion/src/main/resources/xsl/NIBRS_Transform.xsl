@@ -344,7 +344,7 @@
 					select="generate-id($DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=$victimID])" /></xsl:attribute>
 			</j:Victim>
 			<xsl:apply-templates
-				select="$NDEXIA/ndexia:SubjectVictimAssociation[ndexia:SubjectVictimAssociationAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$svaID]/ndexia:VictimToSubjectRelationshipCode" />
+				select="$NDEXIA/ndexia:SubjectVictimAssociation[ndexia:SubjectVictimAssociationAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$svaID]/ndexia:SubjectVictimAssociationAugmentation/ndexia:VictimToSubjectRelationshipCode" />
 		</j:SubjectVictimAssociation>
 	</xsl:template>
 	<!-- SECTION -->

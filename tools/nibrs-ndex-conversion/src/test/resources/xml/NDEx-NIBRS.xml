@@ -528,12 +528,12 @@
 								<ndexia:VictimToSubjectRelationshipCode>Stranger</ndexia:VictimToSubjectRelationshipCode>
 							</ndexia:SubjectVictimAssociationAugmentation>
 						</ndexia:SubjectVictimAssociation>
-						<!--ndexia:SubjectVictimAssociation>
+						<ndexia:SubjectVictimAssociation>
 							<ndexia:SubjectVictimAssociationAugmentation>
 								<lexslib:SameAsDigestReference lexslib:ref="SVA_2"/>
 								<ndexia:VictimToSubjectRelationshipCode>Acquaintance</ndexia:VictimToSubjectRelationshipCode>
 							</ndexia:SubjectVictimAssociationAugmentation>
-						</ndexia:SubjectVictimAssociation-->
+						</ndexia:SubjectVictimAssociation>
 					</ndexia:IncidentReport>
 				</lexs:StructuredPayload>
 				<!-- NIBRS STRUCTURED PAYLOAD -->
