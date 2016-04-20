@@ -171,20 +171,6 @@
 			<xsl:apply-templates select="$DIGEST/lexsdigest:EntityPerson/j40:ArrestSubject" mode="arrest"/>
 		</j:Arrest>
 	</xsl:template>
-	<!-- Arrestee -->
-	<xsl:template match="j40:ArrestSubject" mode="arrestee">
-		<xsl:variable name="personID">
-			<xsl:value-of select="nc20:RoleOfPersonReference/@s20:ref"/>
-		</xsl:variable>
-		<j:Arrestee>
-			<nc:RoleOfPerson>
-				<xsl:attribute name="s:id"><xsl:value-of select="generate-id(../lexsdigest:Person)"/></xsl:attribute>
-			</nc:RoleOfPerson>
-			<xsl:apply-templates select="$NDEXIA/ndexia:ArrestSubject[ndexia:ArrestSubjectAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:ArrestSubjectAugmentation/j40:ArrestSequenceID"/>
-			<xsl:apply-templates select="$NDEXIA/ndexia:ArrestSubject[ndexia:ArrestSubjectAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:ArrestSubjectAugmentation/ndexia:ArresteeArmedWithCode"/>
-			<xsl:apply-templates select="$NDEXIA/ndexia:ArrestSubject[ndexia:ArrestSubjectAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:ArrestSubjectAugmentation/ndexia:ArresteeJuvenileDispositionCode"/>
-		</j:Arrestee>
-	</xsl:template>
 	<!-- Arrest - Arrest Subject -->
 	<xsl:template match="j40:ArrestSubject" mode="arrest">
 		<xsl:variable name="personID">

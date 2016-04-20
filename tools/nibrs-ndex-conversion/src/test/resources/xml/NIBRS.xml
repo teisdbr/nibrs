@@ -249,8 +249,8 @@
 						<lexsdigest:OffenseVictimPersonAssociation>
 							<nc:ActivityReference s:ref="Offense_1"/>
 							<nc:PersonReference s:ref="Person_Victim_1"/>
-							<!-- Element 24, Victim Connected to UCR Offense Code -->
 						</lexsdigest:OffenseVictimPersonAssociation>
+						<!-- Element 24, Victim Connected to UCR Offense Code -->
 						<lexsdigest:OffenseVictimPersonAssociation>
 							<nc:ActivityReference s:ref="Offense_1"/>
 							<nc:PersonReference s:ref="Person_Victim_2"/>
