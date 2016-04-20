@@ -102,11 +102,8 @@
 							<nc:ActivityCategoryText>Incident</nc:ActivityCategoryText>
 							<nc:ActivityDate>
 								<!-- Element 3, Incident Date and Hour-->
-								
-						<!-- Element 3, IncidentReportDateIndicator is true to designate that the ActivityDate is the Report Date rather than the Incident Date>    
-                 <cjis:IncidentReportDateIndicator>false</cjis:IncidentReportDateIndicator--> 
-								
-								
+								<!-- Element 3, IncidentReportDateIndicator is true to designate that the ActivityDate is the Report Date rather than the Incident Date>    
+                 <cjis:IncidentReportDateIndicator>false</cjis:IncidentReportDateIndicator-->
 								<nc:DateTime>2016-02-19T10:00:00</nc:DateTime>
 							</nc:ActivityDate>
 						</nc:Activity>
@@ -150,7 +147,7 @@
 						<nc:Drug s:id="Drug_1">
 							<!-- Element 20, Suspected Involved Drug Type -->
 							<!-- N-DEx uses text description; NIBRS uses code value -->
-							<j:DrugDEACode>N6</j:DrugDEACode>
+							<j:DrugDEACode>X</j:DrugDEACode>
 						</nc:Drug>
 					</lexsdigest:EntityDrug>
 					<!-- ======================= NIBRS Offender ======================= -->
@@ -158,7 +155,7 @@
 						<lexsdigest:Person s:id="Person_Subject_1">
 							<nc:PersonAgeMeasure>
 								<!-- Element 37, Age of Subject (only one would be included per subject)-->
-								<nc:MeasurePointValue>26</nc:MeasurePointValue>
+								<nc:MeasurePointValue>Offender</nc:MeasurePointValue>
 								<nc:MeasureRangeValue>
 									<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
 									<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
@@ -177,7 +174,7 @@
 						<lexsdigest:Person s:id="Person_Arrest_Subject_1">
 							<nc:PersonAgeMeasure>
 								<!-- Element 47, Age of Arrestee (only one would be included per victim)-->
-								<nc:MeasurePointValue>26</nc:MeasurePointValue>
+								<nc:MeasurePointValue>Arrest Subject</nc:MeasurePointValue>
 								<nc:MeasureRangeValue>
 									<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
 									<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
@@ -192,30 +189,30 @@
 					</lexsdigest:EntityPerson>
 					<!-- ======================= NIBRS Victim (Officer)  ======================= -->
 					<lexsdigest:EntityPerson>
-						<lexsdigest:Person s:id="Person_Officer_Victim_1">
+						<lexsdigest:Person s:id="Person_Victim_1">
 							<nc:PersonAgeMeasure>
 								<!-- Element 26, Age of Victim (only one would be included per victim)-->
-								<nc:MeasurePointValue>32</nc:MeasurePointValue>
+								<nc:MeasurePointValue>Victim 1</nc:MeasurePointValue>
 								<nc:MeasureRangeValue>
-									<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
-									<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
+									<nc:RangeMinimumValue>62</nc:RangeMinimumValue>
+									<nc:RangeMaximumValue>60</nc:RangeMaximumValue>
 								</nc:MeasureRangeValue>
 							</nc:PersonAgeMeasure>
 							<!-- Element 27, Sex of Victim -->
 							<nc:PersonSexCode>M</nc:PersonSexCode>
 						</lexsdigest:Person>
 						<j:Victim s:id="Victim_1">
-							<nc:RoleOfPersonReference s:ref="Person_Officer_Victim_1"/>
+							<nc:RoleOfPersonReference s:ref="Person_Victim_1"/>
 						</j:Victim>
 						<j:EnforcementOfficial s:id="Officer_1">
-							<nc:RoleOfPersonReference s:ref="Person_Officer_Victim_1"/>
+							<nc:RoleOfPersonReference s:ref="Person_Victim_1"/>
 						</j:EnforcementOfficial>
 					</lexsdigest:EntityPerson>
 					<!-- ======================= NIBRS Victim   ======================= -->
-					<!--lexsdigest:EntityPerson>
-						<lexsdigest:Person s:id="Person_Victim_1">
+					<lexsdigest:EntityPerson>
+						<lexsdigest:Person s:id="Person_Victim_2">
 							<nc:PersonAgeMeasure>
-								<nc:MeasurePointValue>32</nc:MeasurePointValue>
+								<nc:MeasurePointValue>Victim 2</nc:MeasurePointValue>
 								<nc:MeasureRangeValue>
 									<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
 									<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
@@ -224,9 +221,9 @@
 							<nc:PersonSexCode>M</nc:PersonSexCode>
 						</lexsdigest:Person>
 						<j:Victim s:id="Victim_2">
-							<nc:RoleOfPersonReference s:ref="Person_Victim_1"/>
+							<nc:RoleOfPersonReference s:ref="Person_Victim_2"/>
 						</j:Victim>
-					</lexsdigest:EntityPerson-->
+					</lexsdigest:EntityPerson>
 					<!-- ======================= NIBRS Property  ======================= -->
 					<lexsdigest:EntityTangibleItem>
 						<nc:TangibleItem s:id="TI_1"/>
@@ -242,7 +239,7 @@
 					<lexsdigest:Associations>
 						<lexsdigest:ArrestSubjectAssociation>
 							<nc:ActivityReference s:ref="Arrest_1"/>
-							<nc:PersonReference s:ref="Arrest_Subject_1"/>
+							<nc:PersonReference s:ref="Person_Arrest_Subject_1"/>
 						</lexsdigest:ArrestSubjectAssociation>
 						<lexsdigest:OffenseLocationAssociation>
 							<nc:ActivityReference s:ref="Offense_1"/>
@@ -251,22 +248,22 @@
 						<!-- Element 24, Victim Connected to UCR Offense Code -->
 						<lexsdigest:OffenseVictimPersonAssociation>
 							<nc:ActivityReference s:ref="Offense_1"/>
-							<nc:PersonReference s:ref="Person_Officer_Victim_1"/>
+							<nc:PersonReference s:ref="Person_Victim_1"/>
 							<!-- Element 24, Victim Connected to UCR Offense Code -->
 						</lexsdigest:OffenseVictimPersonAssociation>
 						<lexsdigest:OffenseVictimPersonAssociation>
 							<nc:ActivityReference s:ref="Offense_1"/>
-							<nc:PersonReference s:ref="Person_Victim_1"/>
+							<nc:PersonReference s:ref="Person_Victim_2"/>
 						</lexsdigest:OffenseVictimPersonAssociation>
 						<!--Element 34, Offender Number(s) to be related -->
 						<lexsdigest:SubjectVictimAssociation s:id="SVA_1">
-							<lexsdigest:SubjectPersonReference s:ref="Person_Subject_1"/>
-							<lexsdigest:VictimPersonReference s:ref="Person_Arrest_Subject_1"/>
+							<lexsdigest:SubjectPersonReference s:ref="Person_Arrest_Subject_1"/>
+							<lexsdigest:VictimPersonReference s:ref="Person_Victim_1"/>
 						</lexsdigest:SubjectVictimAssociation>
 						<!--Element 34, Offender Number(s) to be related -->
 						<lexsdigest:SubjectVictimAssociation s:id="SVA_2">
-							<lexsdigest:SubjectPersonReference s:ref="Person_Subject_1"/>
-							<lexsdigest:VictimPersonReference s:ref="Person_Arrest_Subject_1"/>
+							<lexsdigest:SubjectPersonReference s:ref="Person_Arrest_Subject_1"/>
+							<lexsdigest:VictimPersonReference s:ref="Person_Victim_2"/>
 						</lexsdigest:SubjectVictimAssociation>
 						<nc:ActivityReportingOrganizationAssociation>
 							<nc:ActivityReference s:ref="Incident_1"/>
@@ -288,7 +285,7 @@
 					</lexs:StructuredPayloadMetadata>
 					<ndexia:IncidentReport>
 						<!-- Submission Type -->
-						<ndexia:NIBRSReportCategoryCode>Group A Incident Report</ndexia:NIBRSReportCategoryCode>
+						<ndexia:NIBRSReportCategoryCode>GROUP A INCIDENT REPORT</ndexia:NIBRSReportCategoryCode>
 						<ndexia:Organization>
 							<j:OrganizationAugmentation>
 								<j:OrganizationORIIdentification>
@@ -304,7 +301,7 @@
 							<j:OrganizationAugmentation>
 								<j:OrganizationORIIdentification>
 									<!-- Element 25C, ORI-Other Jurisdiction (Officer) -->
-									<nc:IdentificationID>ORI789678</nc:IdentificationID>
+									<nc:IdentificationID>WVNDX01</nc:IdentificationID>
 								</j:OrganizationORIIdentification>
 							</j:OrganizationAugmentation>
 							<ndexia:EnforcementUnitAugmentation>
@@ -320,7 +317,7 @@
 						</ndexia:Arrest>
 						<ndexia:ArrestSubject>
 							<ndexia:ArrestSubjectAugmentation>
-								<lexslib:SameAsDigestReference lexslib:ref="Arrest_Subject_1"/>
+								<lexslib:SameAsDigestReference lexslib:ref="Person_Arrest_Subject_1"/>
 								<j:ArrestSequenceID>
 									<!-- Element 40, Arrestee Sequence Number -->
 									<nc:IdentificationID>1</nc:IdentificationID>
@@ -331,6 +328,7 @@
 								<j:ChargeUCRCode>39B</j:ChargeUCRCode>
 								<!-- Element 46, Arrestee Was Armed With -->
 								<ndexia:ArresteeArmedWithCode>12A</ndexia:ArresteeArmedWithCode>
+								<!-- -->
 								<ndexia:ArresteeClearanceIndicator>true</ndexia:ArresteeClearanceIndicator>
 								<!-- Element 52, Disposition of Arrestee Under 18 -->
 								<ndexia:ArresteeJuvenileDispositionCode>H</ndexia:ArresteeJuvenileDispositionCode>
@@ -343,16 +341,16 @@
 									<nc:SubstanceQuantityMeasure>
 										<!-- Element 21/22, Estimated Quantity/Fraction -->
 										<nc:MeasurePointValue>1.5</nc:MeasurePointValue>
-										<nc:SubstanceUnitCode>XX</nc:SubstanceUnitCode>
+										<nc:SubstanceUnitCode>X</nc:SubstanceUnitCode>
 									</nc:SubstanceQuantityMeasure>
 								</ndexia:ItemQuantityStatusValue>
 							</ndexia:DrugAugmentation>
 						</ndexia:Drug>
 						<ndexia:EnforcementOfficial>
-							<!-- Element 25A - Type of Activity (Officer)/ Circumstance ??? -->
-							<ndexia:EnforcementOfficialActivityCategoryCode>Responding to disturbance call</ndexia:EnforcementOfficialActivityCategoryCode>
-								<!-- Element 25B, Assignment Type (Officer) -->
-							 <j:EnforcementOfficialAssignmentCategoryCode>I</j:EnforcementOfficialAssignmentCategoryCode>
+							<!-- Element 25A - Type of Activity (Officer)/ Circumstance -->
+							<ndexia:EnforcementOfficialActivityCategoryCode>G</ndexia:EnforcementOfficialActivityCategoryCode>
+							<!-- Element 25B, Assignment Type (Officer) -->
+							<j:EnforcementOfficialAssignmentCategoryCode>10</j:EnforcementOfficialAssignmentCategoryCode>
 							<ndexia:EnforcementOfficialAugmentation>
 								<lexslib:SameAsDigestReference lexslib:ref="Officer_1"/>
 							</ndexia:EnforcementOfficialAugmentation>
@@ -380,20 +378,20 @@
 							</j:IncidentFactor>
 							<j:IncidentForce>
 								<!-- Element 13, Type Weapon/Force Involved -->
-								<j:ForceCategoryCode>12A</j:ForceCategoryCode>
+								<j:ForceCategoryCode>11A</j:ForceCategoryCode>
 							</j:IncidentForce>
 							<!-- Element 10, Number Of Premises Entered -->
-							<j:IncidentStructuresEnteredQuantity>2</j:IncidentStructuresEnteredQuantity>
+							<j:IncidentStructuresEnteredQuantity>1</j:IncidentStructuresEnteredQuantity>
 							<!-- Element 12, Type Criminal Activity/Gang Information -->
 							<!-- N-DEx uses text description; NIBRS uses code value -->
-							<ndexia:CriminalActivityCategoryCode>Transmitting</ndexia:CriminalActivityCategoryCode>
+							<ndexia:CriminalActivityCategoryCode>N</ndexia:CriminalActivityCategoryCode>
 							<!-- Element 8A, Bias Motivation -->
-							<ndexia:OffenseBiasMotivationCode>AntiBisexual</ndexia:OffenseBiasMotivationCode>
+							<ndexia:OffenseBiasMotivationCode>NONE</ndexia:OffenseBiasMotivationCode>
 							<!-- Element 2A, Cargo Theft Indicator: True/False-->
-							<ndexia:OffenseCargoTheftIndicator>false</ndexia:OffenseCargoTheftIndicator>
+							<ndexia:OffenseCargoTheftIndicator>true</ndexia:OffenseCargoTheftIndicator>
 							<!-- Element 6, Offense Code -->
 							<!-- N-DEx uses text description; NIBRS uses code value -->
-							<ndexia:OffenseCode>Aggravated Assault_public official_gun</ndexia:OffenseCode>
+							<ndexia:OffenseCode>64A</ndexia:OffenseCode>
 							<!-- Element 7, Attempted/Completed -->
 							<ndexia:OffenseCompletedIndicator>false</ndexia:OffenseCompletedIndicator>
 							<ndexia:OffenseEntryPoint>
@@ -403,7 +401,7 @@
 						</ndexia:Offense>
 						<ndexia:Person>
 							<!-- Element 39A, Ethnicity of Subject -->
-							<nc:PersonEthnicityCode>N</nc:PersonEthnicityCode>
+							<nc:PersonEthnicityCode>XX</nc:PersonEthnicityCode>
 							<!-- Element 39, Race of Subject -->
 							<!-- N-DEx does not use "P" -->
 							<nc:PersonRaceCode> W</nc:PersonRaceCode>
@@ -427,10 +425,10 @@
 						</ndexia:Person>
 						<ndexia:Person>
 							<!-- Element 29, Ethnicity of Victim -->
-							<nc:PersonEthnicityCode>N</nc:PersonEthnicityCode>
+							<nc:PersonEthnicityCode>U</nc:PersonEthnicityCode>
 							<!-- Element 28, Race of Victim -->
-		<!-- N-DEx does not use "P" -->
-							<nc:PersonRaceCode>W</nc:PersonRaceCode>
+							<!-- N-DEx does not use "P" -->
+							<nc:PersonRaceCode>B</nc:PersonRaceCode>
 							<!-- Element 30, Resident Status -->
 							<nc:PersonResidentCode>R</nc:PersonResidentCode>
 							<ndexia:PersonAugmentation>
@@ -439,7 +437,7 @@
 						</ndexia:Person>
 						<ndexia:Person>
 							<!-- Element 29, Ethnicity of Victim -->
-							<nc:PersonEthnicityCode>N</nc:PersonEthnicityCode>
+							<nc:PersonEthnicityCode>W</nc:PersonEthnicityCode>
 							<!-- Element 28, Race of Victim -->
 							<!-- N-DEx does not use "P" -->
 							<nc:PersonRaceCode> B</nc:PersonRaceCode>
@@ -452,14 +450,14 @@
 						<ndexia:Location>
 							<!-- Element 9, Location Type -->
 							<!-- N-DEx uses text description; NIBRS uses code value -->
-							<ndexia:LocationCategoryCode>Airport_Terminal_Hangar</ndexia:LocationCategoryCode>
+							<ndexia:LocationCategoryCode>13</ndexia:LocationCategoryCode>
 							<ndexia:LocationAugmentation>
 								<lexslib:SameAsDigestReference lexslib:ref="Offense_Loc_1"/>
 							</ndexia:LocationAugmentation>
 						</ndexia:Location>
 						<ndexia:Subject>
 							<ndexia:SubjectAugmentation>
-								<lexslib:SameAsDigestReference lexslib:ref="Subject_1"/>
+								<lexslib:SameAsDigestReference lexslib:ref="Person_Subject_1"/>
 								<!-- Element 36, Offender Sequence Number -->
 								<ndexia:SubjectSequenceNumberText>1</ndexia:SubjectSequenceNumberText>
 							</ndexia:SubjectAugmentation>
@@ -474,16 +472,16 @@
 									<ndexia:ItemStatus>
 										<nc:StatusDate>
 											<!-- Element 17, Date Recovered -->
-											<nc:Date>2012-03-06</nc:Date>
+											<nc:Date>2016-02-24</nc:Date>
 										</nc:StatusDate>
 										<ndexia:ItemStatusAugmentation>
 											<!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
-											<ndexia:ItemStatusCode>None</ndexia:ItemStatusCode>
+											<ndexia:ItemStatusCode>NONE</ndexia:ItemStatusCode>
 										</ndexia:ItemStatusAugmentation>
 									</ndexia:ItemStatus>
 									<ndexia:ItemValue>
 										<!-- Element 16, Value of Property in US Dollars -->
-										<nc:ItemValueAmount>100.00</nc:ItemValueAmount>
+										<nc:ItemValueAmount>1200</nc:ItemValueAmount>
 									</ndexia:ItemValue>
 								</ndexia:ItemQuantityStatusValue>
 							</ndexia:TangibleItemAugmentation>
@@ -493,15 +491,15 @@
 								<ndexia:InjuryAugmentation>
 									<!-- Element 33, Type Injury -->
 									<!-- N-DEx uses text description; NIBRS uses code value -->
-									<ndexia:InjuryCategoryCode>Loss of Teeth</ndexia:InjuryCategoryCode>
+									<ndexia:InjuryCategoryCode>N</ndexia:InjuryCategoryCode>
 								</ndexia:InjuryAugmentation>
 							</ndexia:VictimInjury>
 							<!-- Element 25, Type of Victim -->
-							<j:VictimCategoryCode>I</j:VictimCategoryCode>
+							<j:VictimCategoryCode>H</j:VictimCategoryCode>
 							<!-- Element 32, Additional Justifiable Homicide Circumstances -->
 							<j:VictimJustifiableHomicideFactorCode>C</j:VictimJustifiableHomicideFactorCode>
 							<ndexia:VictimAugmentation>
-								<lexslib:SameAsDigestReference lexslib:ref="Victim_1"/>
+								<lexslib:SameAsDigestReference lexslib:ref="Person_Victim_1"/>
 								<!-- Element 31, Aggravated Assault/Homicide Circumstances -->
 								<!-- REVIEW -->
 								<ndexia:VictimAggravatedAssaultHomicideFactorCode>Revenge assault</ndexia:VictimAggravatedAssaultHomicideFactorCode>
@@ -509,20 +507,20 @@
 								<ndexia:VictimSequenceNumberText>1</ndexia:VictimSequenceNumberText>
 							</ndexia:VictimAugmentation>
 						</ndexia:Victim>
-						<!--ndexia:Victim>
+						<ndexia:Victim>
 							<ndexia:VictimInjury>
 								<ndexia:InjuryAugmentation>
 									<ndexia:InjuryCategoryCode>Loss of Teeth</ndexia:InjuryCategoryCode>
 								</ndexia:InjuryAugmentation>
 							</ndexia:VictimInjury>
 							<j:VictimCategoryCode>I</j:VictimCategoryCode>
-							<j:VictimJustifiableHomicideFactorCode>C</j:VictimJustifiableHomicideFactorCode>
+							<j:VictimJustifiableHomicideFactorCode>D</j:VictimJustifiableHomicideFactorCode>
 							<ndexia:VictimAugmentation>
-								<lexslib:SameAsDigestReference lexslib:ref="Victim_2"/>
-								<ndexia:VictimAggravatedAssaultHomicideFactorCode>Revenge assault</ndexia:VictimAggravatedAssaultHomicideFactorCode>
-								<ndexia:VictimSequenceNumberText>1</ndexia:VictimSequenceNumberText>
+								<lexslib:SameAsDigestReference lexslib:ref="Person_Victim_2"/>
+								<ndexia:VictimAggravatedAssaultHomicideFactorCode>Revenge</ndexia:VictimAggravatedAssaultHomicideFactorCode>
+								<ndexia:VictimSequenceNumberText>2</ndexia:VictimSequenceNumberText>
 							</ndexia:VictimAugmentation>
-						</ndexia:Victim-->
+						</ndexia:Victim>
 						<ndexia:SubjectVictimAssociation>
 							<ndexia:SubjectVictimAssociationAugmentation>
 								<lexslib:SameAsDigestReference lexslib:ref="SVA_1"/>

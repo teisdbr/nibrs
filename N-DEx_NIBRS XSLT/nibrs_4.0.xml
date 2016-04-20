@@ -18,7 +18,7 @@
         <nibrs:ReportHeader>
             <!-- Submission Type -->
             <nibrs:NIBRSReportCategoryCode>GROUP A INCIDENT REPORT</nibrs:NIBRSReportCategoryCode>
-            <!-- Submission Action Type -->
+            <!-- Submission Action Type XX-->
             <nibrs:ReportActionCategoryCode>I</nibrs:ReportActionCategoryCode>
             <!-- Year/Month Of Tape -->
             <nibrs:ReportDate>
@@ -100,7 +100,7 @@
                     <nc:Date>2016-02-24</nc:Date>
                 </nc:ItemValueDate>
             </nc:ItemValue>
-            <!-- Element 15, Property Description -->
+            <!-- Element 15, Property Description XX -->
             <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
             <!-- Element 19, Number of Recovered Motor Vehicles, if Status is Recovered -->
             <!-- Element 18, Number of Stolen Motor Vehicles, if Status is Stolen -->
@@ -182,10 +182,10 @@
         </nc:Person>
         <j:EnforcementOfficial>
             <nc:RoleOfPerson s:ref="PersonVictim1"/>
-            <!-- Type of Activity (Officer)/ Circumstance -->
-            <j:EnforcementOfficialActivityCategoryCode>10</j:EnforcementOfficialActivityCategoryCode>
+            <!-- Type of Activity (Officer)/ Circumstance XX 25A?-->
+            <j:EnforcementOfficialActivityCategoryCode>G</j:EnforcementOfficialActivityCategoryCode>
             <!-- Element 25B, Assignment Type (Officer) -->
-            <j:EnforcementOfficialAssignmentCategoryCode>G</j:EnforcementOfficialAssignmentCategoryCode>
+            <j:EnforcementOfficialAssignmentCategoryCode>10</j:EnforcementOfficialAssignmentCategoryCode>
             <j:EnforcementOfficialUnit>
                 <j:OrganizationAugmentation>
                     <j:OrganizationORIIdentification>
