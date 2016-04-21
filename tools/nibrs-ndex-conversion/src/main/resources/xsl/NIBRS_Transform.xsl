@@ -391,8 +391,7 @@
 			<xsl:apply-templates
 				select="$NDEXIA/ndexia:Victim[ndexia:VictimAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:VictimInjury/ndexia:InjuryAugmentation/ndexia:InjuryCategoryCode" />
 			<xsl:apply-templates
-				select="	
-$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonRaceCode" />
+				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
 			<xsl:apply-templates
 				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
 			<xsl:apply-templates select="nc20:PersonSexCode" />
@@ -408,8 +407,7 @@ $NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@l
 			<xsl:apply-templates
 				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonEthnicityCode" />
 			<xsl:apply-templates
-				select="	
-$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonRaceCode" />
+				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
 			<xsl:apply-templates
 				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
 			<xsl:apply-templates select="nc20:PersonSexCode" />
@@ -427,8 +425,7 @@ $NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@l
 			<xsl:apply-templates
 				select="$NDEXIA/ndexia:Victim[ndexia:VictimAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:VictimInjury/ndexia:InjuryAugmentation/ndexia:InjuryCategoryCode" />
 			<xsl:apply-templates
-				select="	
-$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonRaceCode" />
+				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
 			<xsl:apply-templates
 				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
 			<xsl:apply-templates select="nc20:PersonSexCode" />
@@ -801,8 +798,7 @@ $NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@l
 			</j:InjuryCategoryCode>
 		</nc:PersonInjury>
 	</xsl:template>
-	<xsl:template match="nc20:PersonRaceCode">
-		<!-- Element 28, Race of Victim -->
+	<xsl:template match="ndexia:PersonRaceCode">
 		<j:PersonRaceNDExCode>
 			<xsl:value-of select="." />
 		</j:PersonRaceNDExCode>
@@ -822,7 +818,48 @@ $NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@l
 	<xsl:template match="ndexia:EnforcementOfficialActivityCategoryCode">
 		<!-- Element 25A - Type of Activity (Officer)/ Circumstance -->
 		<j:EnforcementOfficialActivityCategoryCode>
-			<xsl:value-of select="." />
+			<xsl:if test=".='Responding to disturbance call'">
+				<xsl:value-of select="'01'" />
+			</xsl:if>
+			<xsl:if test=".='Burglary in progress or pursuing'">
+				<xsl:value-of select="'02'" />
+			</xsl:if>
+			<xsl:if test=".='Robbery in progress or pursuing'">
+				<xsl:value-of select="'03'" />
+			</xsl:if>
+			<xsl:if test=".='Attempting other arrest'">
+				<xsl:value-of select="'04'" />
+			</xsl:if>
+			<xsl:if test=".='Civil disorder'">
+				<xsl:value-of select="'05'" />
+			</xsl:if>
+			<xsl:if test=".='Domestic Disturbance'">
+				<xsl:value-of select="''" />
+			</xsl:if>
+			<xsl:if test=".='Handling_Transporting prisoner'">
+				<xsl:value-of select="'06'" />
+			</xsl:if>
+			<xsl:if test=".='Investigation_Suspicious person'">
+				<xsl:value-of select="'07'" />
+			</xsl:if>
+			<xsl:if test=".='Ambush_No warning'">
+				<xsl:value-of select="'08'" />
+			</xsl:if>
+			<xsl:if test=".='Mentally deranged assailant'">
+				<xsl:value-of select="'09'" />
+			</xsl:if>
+			<xsl:if test=".='Traffic Pursuit_Stop'">
+				<xsl:value-of select="'10'" />
+			</xsl:if>
+			<xsl:if test=".='Traffic Pursuit'">
+				<xsl:value-of select="''" />
+			</xsl:if>
+			<xsl:if test=".='Traffic Stop'">
+				<xsl:value-of select="''" />
+			</xsl:if>
+			<xsl:if test=".='Other'">
+				<xsl:value-of select="'11'" />
+			</xsl:if>
 		</j:EnforcementOfficialActivityCategoryCode>
 	</xsl:template>
 	<xsl:template match="j40:EnforcementOfficialAssignmentCategoryCode">
