@@ -50,7 +50,7 @@
    </nc:Incident>
    <j:Offense s:id="d1e228">
       <nibrs:OffenseUCRCode>64A</nibrs:OffenseUCRCode>
-      <nibrs:CriminalActivityCategoryCode>N</nibrs:CriminalActivityCategoryCode>
+      <nibrs:CriminalActivityCategoryCode>T</nibrs:CriminalActivityCategoryCode>
       <j:OffenseFactorBiasMotivationCode>NONE</j:OffenseFactorBiasMotivationCode>
       <j:OffenseStructuresEnteredQuantity>1</j:OffenseStructuresEnteredQuantity>
       <j:OffenseFactor>
@@ -81,7 +81,7 @@
       </nc:ItemValue>
    </nc:Item>
    <nc:Substance>
-      <j:DrugCategoryCode>X</j:DrugCategoryCode>
+      <j:DrugCategoryCode>B</j:DrugCategoryCode>
       <nc:SubstanceQuantityMeasure>
          <nc:MeasureDecimalValue>1.5</nc:MeasureDecimalValue>
          <j:SubstanceUnitCode>X</j:SubstanceUnitCode>

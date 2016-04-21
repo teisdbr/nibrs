@@ -97,7 +97,7 @@
 			<xsl:value-of select="@s20:id" />
 		</xsl:variable>
 		<xsl:variable name="OFFENSE"
-		select="/lexspd:doPublish/lexs:PublishMessageContainer/lexs:PublishMessage/lexs:DataItemPackage/lexs:Digest" />
+			select="/lexspd:doPublish/lexs:PublishMessageContainer/lexs:PublishMessage/lexs:DataItemPackage/lexs:Digest" />
 		<j:Offense>
 			<xsl:attribute name="s:id"><xsl:value-of select="generate-id(.)" /></xsl:attribute>
 			<xsl:apply-templates
@@ -512,7 +512,87 @@ $NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@l
 	<xsl:template match="ndexia:CriminalActivityCategoryCode">
 		<!-- Element 12, Type Criminal Activity/Gang Information -->
 		<nibrs:CriminalActivityCategoryCode>
-			<xsl:value-of select="." />
+			<xsl:if test=".='Assisting'">
+				<xsl:value-of select="'O'" />
+			</xsl:if>
+			<xsl:if test=".='Buying'">
+				<xsl:value-of select="'B'" />
+			</xsl:if>
+			<xsl:if test=".='Buying_Receiving'">
+				<xsl:value-of select="'B'" />
+			</xsl:if>
+			<xsl:if test=".='Concealing'">
+				<xsl:value-of select="'P'" />
+			</xsl:if>
+			<xsl:if test=".='Consuming'">
+				<xsl:value-of select="'U'" />
+			</xsl:if>
+			<xsl:if test=".='Cultivating'">
+				<xsl:value-of select="'C'" />
+			</xsl:if>
+			<xsl:if test=".='Cultivating_Manufacturing_Publishing'">
+				<xsl:value-of select="'C'" />
+			</xsl:if>
+			<xsl:if test=".='Distributing'">
+				<xsl:value-of select="'D'" />
+			</xsl:if>
+			<xsl:if test=".='Distributing_Selling'">
+				<xsl:value-of select="'D'" />
+			</xsl:if>
+			<xsl:if test=".='Exploiting Children'">
+				<xsl:value-of select="'E'" />
+			</xsl:if>
+			<xsl:if test=".='Importing'">
+				<xsl:value-of select="'T'" />
+			</xsl:if>
+			<xsl:if test=".='Manufacturing'">
+				<xsl:value-of select="'C'" />
+			</xsl:if>
+			<xsl:if test=".='Operating'">
+				<xsl:value-of select="'O'" />
+			</xsl:if>
+			<xsl:if test=".='Operating_Promoting_Assisting'">
+				<xsl:value-of select="'O'" />
+			</xsl:if>
+			<xsl:if test=".='Possessing'">
+				<xsl:value-of select="'P'" />
+			</xsl:if>
+			<xsl:if test=".='Possessing_Concealing'">
+				<xsl:value-of select="'P'" />
+			</xsl:if>
+			<xsl:if test=".='Promoting'">
+				<xsl:value-of select="'O'" />
+			</xsl:if>
+			<xsl:if test=".='Publishing'">
+				<xsl:value-of select="'C'" />
+			</xsl:if>
+			<xsl:if test=".='Receiving'">
+				<xsl:value-of select="'B'" />
+			</xsl:if>
+			<xsl:if test=".='Selling'">
+				<xsl:value-of select="'D'" />
+			</xsl:if>
+			<xsl:if test=".='Transmitting'">
+				<xsl:value-of select="'T'" />
+			</xsl:if>
+			<xsl:if test=".='Transporting'">
+				<xsl:value-of select="'T'" />
+			</xsl:if>
+			<xsl:if test=".='Transporting_Transmitting_Importing'">
+				<xsl:value-of select="'T'" />
+			</xsl:if>
+			<xsl:if test=".='Using'">
+				<xsl:value-of select="'U'" />
+			</xsl:if>
+			<xsl:if test=".='Using_Consuming'">
+				<xsl:value-of select="'U'" />
+			</xsl:if>
+			<xsl:if test=".='None'">
+				<xsl:value-of select="'N'" />
+			</xsl:if>
+			<xsl:if test=".='Unknown'">
+				<xsl:value-of select="'N'" />
+			</xsl:if>
 		</nibrs:CriminalActivityCategoryCode>
 	</xsl:template>
 	<xsl:template match="ndexia:OffenseBiasMotivationCode">
@@ -594,7 +674,58 @@ $NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@l
 	<xsl:template match="nc20:Drug/j40:DrugDEACode">
 		<!-- Element 20, Suspected Involved Drug Type -->
 		<j:DrugCategoryCode>
-			<xsl:value-of select="." />
+			<xsl:if test=".='C3'">
+				<xsl:value-of select="'A'" />
+			</xsl:if>
+			<xsl:if test=".='C1' or .='C2' or .='C4' or .='C5'">
+				<xsl:value-of select="'B'" />
+			</xsl:if>
+			<xsl:if test=".='M4' or .='M5'">
+				<xsl:value-of select="'C'" />
+			</xsl:if>
+			<xsl:if test=".='H1'">
+				<xsl:value-of select="'D'" />
+			</xsl:if>
+			<xsl:if test=".='M1' or .='M2'">
+				<xsl:value-of select="'E'" />
+			</xsl:if>
+			<xsl:if test=".='H3'">
+				<xsl:value-of select="'F'" />
+			</xsl:if>
+			<xsl:if test=".='H2'">
+				<xsl:value-of select="'G'" />
+			</xsl:if>
+			<xsl:if
+				test=".='H4' or .='N1' or .='N2' or .='N3' or .='N5' or .='N8' or .='N9' or .='R1'">
+				<xsl:value-of select="'H'" />
+			</xsl:if>
+			<xsl:if test=".='L1'">
+				<xsl:value-of select="'I'" />
+			</xsl:if>
+			<xsl:if test=".='L2'">
+				<xsl:value-of select="'J'" />
+			</xsl:if>
+			<xsl:if test=".='G2' or .='L3' or .='L4' or .='L5'">
+				<xsl:value-of select="'K'" />
+			</xsl:if>
+			<xsl:if test=".='A1' or .='A2' or .='A3' or .='A4' or .='A7'">
+				<xsl:value-of select="'L'" />
+			</xsl:if>
+			<xsl:if
+				test=".='A5' or .='A6' or .='A8' or .='B1' or .='B2' or .='S1' or .='S2'">
+				<xsl:value-of select="'M'" />
+			</xsl:if>
+			<!-- No N-DEX values for NIBRS "N" -->
+			<xsl:if test=".='D1' or .='D2' or .='D4' or .='G1' or .='N6'">
+				<xsl:value-of select="'O'" />
+			</xsl:if>
+			<xsl:if test=".='G3' or .='N4' or .='N7'">
+				<xsl:value-of select="'P'" />
+			</xsl:if>
+			<xsl:if test=".='Z1'">
+				<xsl:value-of select="'U'" />
+			</xsl:if>
+			<!-- No N-DEX values for NIBRS "X" -->
 		</j:DrugCategoryCode>
 	</xsl:template>
 	<xsl:template match="nc20:MeasurePointValue" mode="quantity">
@@ -637,7 +768,36 @@ $NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@l
 		<!-- Element 33, Type Injury -->
 		<nc:PersonInjury>
 			<j:InjuryCategoryCode>
-				<xsl:value-of select="." />
+				<xsl:if test=".='Apparent Broken Bones'">
+					<xsl:value-of select="'B'" />
+				</xsl:if>
+				<xsl:if test=".='Apparent Minor Injury'">
+					<xsl:value-of select="'M'" />
+				</xsl:if>
+				<xsl:if test=".='Loss of Teeth'">
+					<xsl:value-of select="'T'" />
+				</xsl:if>
+				<xsl:if test=".='Other Major Injury'">
+					<xsl:value-of select="'O'" />
+				</xsl:if>
+				<xsl:if test=".='Possible Internal Injury'">
+					<xsl:value-of select="'I'" />
+				</xsl:if>
+				<xsl:if test=".='Severe Laceration'">
+					<xsl:value-of select="'L'" />
+				</xsl:if>
+				<xsl:if test=".='Unconsciousness'">
+					<xsl:value-of select="'U'" />
+				</xsl:if>
+				<xsl:if test=".='None'">
+					<xsl:value-of select="'N'" />
+				</xsl:if>
+				<xsl:if test=".='Undetermined'">
+					<xsl:value-of select="''" />
+				</xsl:if>
+				<xsl:if test=".='Other'">
+					<xsl:value-of select="''" />
+				</xsl:if>
 			</j:InjuryCategoryCode>
 		</nc:PersonInjury>
 	</xsl:template>
