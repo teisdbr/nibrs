@@ -13,8 +13,6 @@ import org.search.nibrs.ff_conversion.util.*;
  * <br/>At some point, if other report elements than Incidents are desired, this
  * will need to be modified. Currently, it only broadcasts Incident "add"
  * records.
- * 
- * @author Scott Came
  *  
  */
 public class IncidentBuilder
@@ -318,8 +316,3 @@ public class IncidentBuilder
     }
 
 }
-
-/*
- * Change Log: $Log: IncidentBuilder.java,v $
- *  
- */
