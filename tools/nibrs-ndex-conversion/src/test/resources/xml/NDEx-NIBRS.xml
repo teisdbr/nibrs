@@ -147,7 +147,7 @@
 						<nc:Drug s:id="Drug_1">
 							<!-- Element 20, Suspected Involved Drug Type -->
 							<!-- N-DEx uses text description; NIBRS uses code value -->
-							<j:DrugDEACode>X</j:DrugDEACode>
+							<j:DrugDEACode>C1</j:DrugDEACode>
 						</nc:Drug>
 					</lexsdigest:EntityDrug>
 					<!-- ======================= NIBRS Offender ======================= -->
@@ -384,7 +384,7 @@
 							<j:IncidentStructuresEnteredQuantity>1</j:IncidentStructuresEnteredQuantity>
 							<!-- Element 12, Type Criminal Activity/Gang Information -->
 							<!-- N-DEx uses text description; NIBRS uses code value -->
-							<ndexia:CriminalActivityCategoryCode>N</ndexia:CriminalActivityCategoryCode>
+							<ndexia:CriminalActivityCategoryCode>Transporting</ndexia:CriminalActivityCategoryCode>
 							<!-- Element 8A, Bias Motivation -->
 							<ndexia:OffenseBiasMotivationCode>NONE</ndexia:OffenseBiasMotivationCode>
 							<!-- Element 2A, Cargo Theft Indicator: True/False-->
@@ -490,7 +490,7 @@
 							<ndexia:VictimInjury>
 								<ndexia:InjuryAugmentation>
 									<!-- Element 33, Type Injury -->
-									<!-- N-DEx uses text description; NIBRS uses code value -->
+									<!-- N-DEx uses text description; NIBRS uses code value -DONE -->
 									<ndexia:InjuryCategoryCode>N</ndexia:InjuryCategoryCode>
 								</ndexia:InjuryAugmentation>
 							</ndexia:VictimInjury>
