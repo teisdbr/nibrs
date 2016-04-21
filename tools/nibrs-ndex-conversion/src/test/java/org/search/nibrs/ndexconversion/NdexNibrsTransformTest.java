@@ -60,10 +60,18 @@ public class NdexNibrsTransformTest {
 		
 		Node reportHeaderNode = NibrsUtils.xPathNodeSearch(ndexNibrsDoc, "/nibrs:Report/nibrs:ReportHeader");
 		
-		String reportCatCode =  NibrsUtils.xPathStringSearch(reportHeaderNode, 
+		String sReportCatCode =  NibrsUtils.xPathStringSearch(reportHeaderNode, 
 				"//nibrs:NIBRSReportCategoryCode");	
 		
-		Assert.assertEquals("GROUP A INCIDENT REPORT", reportCatCode);
+		Assert.assertEquals("GROUP A INCIDENT REPORT", sReportCatCode);
+		
+		Node reportCatCodeNode = NibrsUtils.xPathNodeSearch(reportHeaderNode, "//nibrs:NIBRSReportCategoryCode");
+		reportCatCodeNode.setTextContent("New Value");
+		
+		String sReportCatCodeNewValue = NibrsUtils.xPathStringSearch(reportHeaderNode, "//nibrs:NIBRSReportCategoryCode");
+		
+		Assert.assertEquals("New Value", sReportCatCodeNewValue);
+		
 	}
 	
 }
