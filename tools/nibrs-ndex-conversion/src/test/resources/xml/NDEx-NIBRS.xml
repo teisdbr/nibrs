@@ -392,8 +392,8 @@
 								<!-- Element 2A, Cargo Theft Indicator: True/False-->
 								<ndexia:OffenseCargoTheftIndicator>true</ndexia:OffenseCargoTheftIndicator>
 								<!-- Element 6, Offense Code -->
-								<!-- N-DEx uses text description; NIBRS uses code value -->
-								<ndexia:OffenseCode>Abscond while on parole</ndexia:OffenseCode>
+								<!-- N-DEx uses text description; NIBRS uses code value DONE -->
+								<ndexia:OffenseCode>Adultery</ndexia:OffenseCode>
 								<!-- Element 7, Attempted/Completed -->
 								<ndexia:OffenseCompletedIndicator>false</ndexia:OffenseCompletedIndicator>
 								<ndexia:OffenseEntryPoint>
@@ -447,7 +447,7 @@
 							</ndexia:Person>
 							<ndexia:Location>
 								<!-- Element 9, Location Type -->
-								<!-- N-DEx uses text description; NIBRS uses code value -->
+								<!-- N-DEx uses text description; NIBRS uses code value DONE -->
 								<ndexia:LocationCategoryCode>Airport_Terminal_Private</ndexia:LocationCategoryCode>
 								<ndexia:LocationAugmentation>
 									<lexslib:SameAsDigestReference lexslib:ref="Offense_Loc_1"/>
@@ -498,8 +498,8 @@
 								<j:VictimJustifiableHomicideFactorCode>F</j:VictimJustifiableHomicideFactorCode>
 								<ndexia:VictimAugmentation>
 									<lexslib:SameAsDigestReference lexslib:ref="Person_Victim_1"/>
-									<!-- Element 31, Aggravated Assault/Homicide Circumstances -->
-								<!-- N-DEx uses text description; NIBRS uses code value  -->
+									<!-- Element 31, Aggravated Assault/Homicide Circumstances DONE -->
+								<!-- N-DEx uses text description; NIBRS uses code value DONE -->
 									<ndexia:VictimAggravatedAssaultHomicideFactorCode>Revenge assault</ndexia:VictimAggravatedAssaultHomicideFactorCode>
 									<!-- Element 23, Victim Sequence Number -->
 									<ndexia:VictimSequenceNumberText>1</ndexia:VictimSequenceNumberText>
@@ -515,7 +515,7 @@
 								<j:VictimJustifiableHomicideFactorCode>D</j:VictimJustifiableHomicideFactorCode>
 								<ndexia:VictimAugmentation>
 									<lexslib:SameAsDigestReference lexslib:ref="Person_Victim_2"/>
-									<!-- N-DEx uses text description; NIBRS uses code value  -->
+									<!-- N-DEx uses text description; NIBRS uses code value  DONE -->
 									<ndexia:VictimAggravatedAssaultHomicideFactorCode>Argument over money</ndexia:VictimAggravatedAssaultHomicideFactorCode>
 									<ndexia:VictimSequenceNumberText>2</ndexia:VictimSequenceNumberText>
 								</ndexia:VictimAugmentation>
@@ -543,7 +543,7 @@
 							<lexs:CommunityDescription>OJBC</lexs:CommunityDescription>
 							<lexs:CommunityVersion>1.0</lexs:CommunityVersion>
 						</lexs:StructuredPayloadMetadata>
-						<nibrs-ext:IncidentReport xmlns:j="http://niem.gov/niem/domains/jxdm/4.0" xmlns:s="http://niem.gov/niem/structures/2.0" xmlns:it="http://niem.gov/niem/domains/internationalTrade/2.0" xmlns:nc="http://niem.gov/niem/niem-core/2.0" xmlns:nibrs-ext="http://ojbc.org/IEPD/Extensions/NIBRSStructuredPayload/1.0" xmlns:lexslib="http://usdoj.gov/leisp/lexs/library/3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+						<nibrs-ext:IncidentReport xmlns:j="http://niem.gov/niem/domains/jxdm/4.1" xmlns:s="http://niem.gov/niem/structures/2.0" xmlns:nc="http://niem.gov/niem/niem-core/2.0" xmlns:nibrs-ext="http://ojbc.org/IEPD/Extensions/NIBRSStructuredPayload/1.0" xmlns:lexslib="http://usdoj.gov/leisp/lexs/library/3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 							<nibrs-ext:Property>
 								<!-- Element 15, Property Description -->
 								<j:PropertyCategoryNIBRSPropertyCategoryCode>01</j:PropertyCategoryNIBRSPropertyCategoryCode>

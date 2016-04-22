@@ -16,6 +16,7 @@
               xmlns:lexsdigest="http://usdoj.gov/leisp/lexs/digest/3.1"
               xmlns:s20="http://niem.gov/niem/structures/2.0"
               xmlns:j40="http://niem.gov/niem/domains/jxdm/4.0"
+              xmlns:j41="http://niem.gov/niem/domains/jxdm/4.1"
               xmlns:lexslib="http://usdoj.gov/leisp/lexs/library/3.1"
               xmlns:ndexia="http://fbi.gov/cjis/N-DEx/IncidentArrest/2.1">
    <nibrs:ReportHeader>
@@ -49,7 +50,7 @@
       </j:IncidentAugmentation>
    </nc:Incident>
    <j:Offense s:id="d1e228">
-      <nibrs:OffenseUCRCode>Abscond while on parole</nibrs:OffenseUCRCode>
+      <nibrs:OffenseUCRCode>90F)</nibrs:OffenseUCRCode>
       <nibrs:CriminalActivityCategoryCode>T</nibrs:CriminalActivityCategoryCode>
       <j:OffenseFactorBiasMotivationCode>Gender Bias</j:OffenseFactorBiasMotivationCode>
       <j:OffenseStructuresEnteredQuantity>1</j:OffenseStructuresEnteredQuantity>
@@ -65,7 +66,7 @@
       <j:OffenseAttemptedIndicator>false</j:OffenseAttemptedIndicator>
    </j:Offense>
    <nc:Location s:id="d1e437">
-      <j:LocationCategoryCode>Airport_Terminal_Private</j:LocationCategoryCode>
+      <j:LocationCategoryCode>01</j:LocationCategoryCode>
    </nc:Location>
    <nc:Item>
       <nc:ItemStatus>
@@ -155,14 +156,14 @@
       <nc:RoleOfPerson s:id="d1e353"/>
       <j:VictimSequenceNumberText>1</j:VictimSequenceNumberText>
       <j:VictimCategoryCode>B</j:VictimCategoryCode>
-      <j:VictimAggravatedAssaultHomicideFactorCode>Revenge assault</j:VictimAggravatedAssaultHomicideFactorCode>
+      <j:VictimAggravatedAssaultHomicideFactorCode>09</j:VictimAggravatedAssaultHomicideFactorCode>
       <j:VictimJustifiableHomicideFactorCode>F</j:VictimJustifiableHomicideFactorCode>
    </j:Victim>
    <j:Victim>
       <nc:RoleOfPerson s:id="d1e393"/>
       <j:VictimSequenceNumberText>2</j:VictimSequenceNumberText>
       <j:VictimCategoryCode>I</j:VictimCategoryCode>
-      <j:VictimAggravatedAssaultHomicideFactorCode>Argument over money</j:VictimAggravatedAssaultHomicideFactorCode>
+      <j:VictimAggravatedAssaultHomicideFactorCode>01</j:VictimAggravatedAssaultHomicideFactorCode>
       <j:VictimJustifiableHomicideFactorCode>D</j:VictimJustifiableHomicideFactorCode>
    </j:Victim>
    <j:Subject>
