@@ -37,9 +37,10 @@
          <nc:IdentificationID>54236732</nc:IdentificationID>
       </nc:ActivityIdentification>
       <nc:ActivityDate>
-         <nc:DateTime>2016-02-19T10:00:00</nc:DateTime>
+         <nc:DateTime>2016-01-19T10:00:00</nc:DateTime>
       </nc:ActivityDate>
       <cjis:IncidentAugmentation>
+         <cjis:IncidentReportDateIndicator>true</cjis:IncidentReportDateIndicator>
          <j:OffenseCargoTheftIndicator>true</j:OffenseCargoTheftIndicator>
       </cjis:IncidentAugmentation>
       <j:IncidentAugmentation>
@@ -50,7 +51,7 @@
       </j:IncidentAugmentation>
    </nc:Incident>
    <j:Offense s:id="d1e228">
-      <nibrs:OffenseUCRCode>90F)</nibrs:OffenseUCRCode>
+      <nibrs:OffenseUCRCode>90F</nibrs:OffenseUCRCode>
       <nibrs:CriminalActivityCategoryCode>T</nibrs:CriminalActivityCategoryCode>
       <j:OffenseFactorBiasMotivationCode>Gender Bias</j:OffenseFactorBiasMotivationCode>
       <j:OffenseStructuresEnteredQuantity>1</j:OffenseStructuresEnteredQuantity>
@@ -79,7 +80,9 @@
          <nc:ItemValueDate>
             <nc:Date>2016-02-24</nc:Date>
          </nc:ItemValueDate>
+         <nc:ItemQuantity>1</nc:ItemQuantity>
       </nc:ItemValue>
+      <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
    </nc:Item>
    <nc:Substance>
       <j:DrugCategoryCode>B</j:DrugCategoryCode>

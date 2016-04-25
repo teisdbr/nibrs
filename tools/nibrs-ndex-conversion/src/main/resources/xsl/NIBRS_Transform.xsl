@@ -17,6 +17,8 @@
 		select="/lexspd:doPublish/lexs:PublishMessageContainer/lexs:PublishMessage/lexs:DataItemPackage/lexs:Digest" />
 	<xsl:variable name="NDEXIA"
 		select="/lexspd:doPublish/lexs:PublishMessageContainer/lexs:PublishMessage/lexs:DataItemPackage/lexs:StructuredPayload/ndexia:IncidentReport" />
+	<xsl:variable name="NDEX-EXT"
+		select="/lexspd:doPublish/lexs:PublishMessageContainer/lexs:PublishMessage/lexs:DataItemPackage/lexs:StructuredPayload/nibrs-ext:IncidentReport" />
 	<xsl:template match="/">
 		<nibrs:Report>
 			<xsl:apply-templates select="." mode="header" />
@@ -96,8 +98,6 @@
 		<xsl:variable name="activityID">
 			<xsl:value-of select="@s20:id" />
 		</xsl:variable>
-		<xsl:variable name="OFFENSE"
-			select="/lexspd:doPublish/lexs:PublishMessageContainer/lexs:PublishMessage/lexs:DataItemPackage/lexs:Digest" />
 		<j:Offense>
 			<xsl:attribute name="s:id"><xsl:value-of select="generate-id(.)" /></xsl:attribute>
 			<xsl:apply-templates
@@ -141,7 +141,7 @@
 			<xsl:apply-templates
 				select="$NDEXIA/ndexia:TangibleItem[ndexia:TangibleItemAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$itemID]/ndexia:TangibleItemAugmentation/ndexia:ItemQuantityStatusValue" />
 			<xsl:apply-templates
-				select="$NDEXIA/ndexia:TangibleItem[ndexia:TangibleItemAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$itemID]/j41:PropertyCategoryNIBRSPropertyCategoryCode" />
+				select="$NDEX-EXT/nibrs-ext:Property/j41:PropertyCategoryNIBRSPropertyCategoryCode" />
 		</nc:Item>
 	</xsl:template>
 	<!-- Substance -->
@@ -159,11 +159,11 @@
 	<!-- PERSONS -->
 	<xsl:template match="lexsdigest:EntityPerson" mode="person">
 		<xsl:apply-templates select="lexsdigest:Person[../j40:Victim]"
-			mode="person_victim" />
+			mode="person" />
 		<xsl:apply-templates select="lexsdigest:Person[../j40:IncidentSubject]"
-			mode="person_subject" />
+			mode="person" />
 		<xsl:apply-templates select="lexsdigest:Person[../j40:ArrestSubject]"
-			mode="person_arrestee" />
+			mode="person" />
 	</xsl:template>
 	<!-- Enforcement Official -->
 	<xsl:template match="j40:EnforcementOfficial" mode="official">
@@ -348,8 +348,27 @@
 		</j:SubjectVictimAssociation>
 	</xsl:template>
 	<!-- SECTION -->
+	<xsl:template match="lexsdigest:Person" mode="person">
+		<xsl:variable name="personID">
+			<xsl:value-of select="@s20:id" />
+		</xsl:variable>
+		<nc:Person>
+			<xsl:attribute name="s:id"><xsl:value-of select="generate-id(.)" /></xsl:attribute>
+			<xsl:apply-templates select="nc20:PersonAgeMeasure" />
+			<xsl:apply-templates
+				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonEthnicityCode" />
+			<xsl:apply-templates
+				select="$NDEXIA/ndexia:Victim[ndexia:VictimAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:VictimInjury/ndexia:InjuryAugmentation/ndexia:InjuryCategoryCode" />
+			<xsl:apply-templates
+				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
+			<xsl:apply-templates
+				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
+			<xsl:apply-templates select="nc20:PersonSexCode" />
+		</nc:Person>
+	</xsl:template>
 	<xsl:template match="ndexia:Offense" mode="cargo">
 		<cjis:IncidentAugmentation>
+			<xsl:apply-templates select="." mode="date_indicator" />
 			<xsl:apply-templates select="ndexia:OffenseCargoTheftIndicator" />
 		</cjis:IncidentAugmentation>
 	</xsl:template>
@@ -363,6 +382,7 @@
 		<nc:ItemValue>
 			<xsl:apply-templates select="ndexia:ItemValue/nc20:ItemValueAmount" />
 			<xsl:apply-templates select="ndexia:ItemStatus/nc20:StatusDate" />
+			<xsl:apply-templates select="nc20:ItemQuantity" />
 		</nc:ItemValue>
 	</xsl:template>
 	<xsl:template match="nc20:PersonAgeMeasure">
@@ -379,58 +399,6 @@
 		</nc:SubstanceQuantityMeasure>
 	</xsl:template>
 	<!-- COMMENT -->
-	<xsl:template match="lexsdigest:Person" mode="person_victim">
-		<xsl:variable name="personID">
-			<xsl:value-of select="@s20:id" />
-		</xsl:variable>
-		<nc:Person>
-			<xsl:attribute name="s:id"><xsl:value-of select="generate-id(.)" /></xsl:attribute>
-			<xsl:apply-templates select="nc20:PersonAgeMeasure" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonEthnicityCode" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Victim[ndexia:VictimAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:VictimInjury/ndexia:InjuryAugmentation/ndexia:InjuryCategoryCode" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
-			<xsl:apply-templates
-				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
-			<xsl:apply-templates select="nc20:PersonSexCode" />
-		</nc:Person>
-	</xsl:template>
-	<xsl:template match="lexsdigest:Person" mode="person_subject">
-		<xsl:variable name="personID">
-			<xsl:value-of select="@s20:id" />
-		</xsl:variable>
-		<nc:Person>
-			<xsl:attribute name="s:id"><xsl:value-of select="generate-id(.)" /></xsl:attribute>
-			<xsl:apply-templates select="nc20:PersonAgeMeasure" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonEthnicityCode" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
-			<xsl:apply-templates
-				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
-			<xsl:apply-templates select="nc20:PersonSexCode" />
-		</nc:Person>
-	</xsl:template>
-	<xsl:template match="lexsdigest:Person" mode="person_arrestee">
-		<xsl:variable name="personID">
-			<xsl:value-of select="@s20:id" />
-		</xsl:variable>
-		<nc:Person>
-			<xsl:attribute name="s:id"><xsl:value-of select="generate-id(.)" /></xsl:attribute>
-			<xsl:apply-templates select="nc20:PersonAgeMeasure" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonEthnicityCode" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Victim[ndexia:VictimAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:VictimInjury/ndexia:InjuryAugmentation/ndexia:InjuryCategoryCode" />
-			<xsl:apply-templates
-				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
-			<xsl:apply-templates
-				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
-			<xsl:apply-templates select="nc20:PersonSexCode" />
-		</nc:Person>
-	</xsl:template>
 	<xsl:template match="nc20:Organization" mode="unit">
 		<xsl:variable name="orgID">
 			<xsl:value-of select="@s20:id" />
@@ -441,11 +409,28 @@
 	</xsl:template>
 	<!-- COMMENT -->
 	<!-- SECTION -->
+
 	<xsl:template match="nc20:MeasureRangeValue">
 		<nc:MeasureRangeValue>
 			<xsl:apply-templates select="nc20:RangeMinimumValue" />
 			<xsl:apply-templates select="nc20:RangeMaximumValue" />
 		</nc:MeasureRangeValue>
+	</xsl:template>
+	<xsl:template match="ndexia:Offense" mode="date_indicator">
+		<xsl:variable name="mesg_date">
+			<xsl:value-of
+				select="/lexspd:doPublish/lexs:PublishMessageContainer/lexs:PublishMessage/lexs:DataItemPackage/lexs:PackageMetadata/lexs:DataItemDate" />
+		</xsl:variable>
+		<xsl:variable name="incid_date">
+			<xsl:value-of
+				select="$DIGEST/lexsdigest:EntityActivity/nc:Activity/nc:ActivityDate/nc:DateTime" />
+		</xsl:variable>
+		<xsl:if
+			test="substring-before($mesg_date,'T')=substring-before($incid_date,'T')">
+			<cjis:IncidentReportDateIndicator>true
+			</cjis:IncidentReportDateIndicator>
+		</xsl:if>
+		<!-- FIX with 'else -->
 	</xsl:template>
 	<!-- BOTTOM SECTION -->
 	<xsl:template match="ndexia:NIBRSReportCategoryCode">
@@ -3234,6 +3219,11 @@
 		<nc:ItemValueDate>
 			<xsl:apply-templates select="nc20:Date" />
 		</nc:ItemValueDate>
+	</xsl:template>
+	<xsl:template match="nc20:ItemQuantity">
+		<nc:ItemQuantity>
+			<xsl:value-of select="." />
+		</nc:ItemQuantity>
 	</xsl:template>
 	<xsl:template match="j41:PropertyCategoryNIBRSPropertyCategoryCode">
 		<!-- Element 15, Property Description -->

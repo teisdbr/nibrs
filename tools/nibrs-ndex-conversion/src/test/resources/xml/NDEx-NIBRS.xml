@@ -58,7 +58,7 @@
 							</nc:ContactTelephoneNumber>
 							<nc:OrganizationName>APEX POLICE DEPARTMENT</nc:OrganizationName>
 						</lexs:DataItemContact>
-						<lexs:DataItemDate>2016-01-19</lexs:DataItemDate>
+						<lexs:DataItemDate>2015-01-19</lexs:DataItemDate>
 						<lexs:DataItemReferenceID>2015000388</lexs:DataItemReferenceID>
 						<lexs:DataItemPublishInstruction>Insert</lexs:DataItemPublishInstruction>
 						<lexs:DataItemStatus>Closed</lexs:DataItemStatus>
@@ -104,7 +104,7 @@
 									<!-- Element 3, Incident Date and Hour-->
 									<!-- Element 3, IncidentReportDateIndicator is true to designate that the ActivityDate is the Report Date rather than the Incident Date>    
                  <cjis:IncidentReportDateIndicator>false</cjis:IncidentReportDateIndicator-->
-									<nc:DateTime>2016-02-19T10:00:00</nc:DateTime>
+									<nc:DateTime>2016-01-19T10:00:00</nc:DateTime>
 								</nc:ActivityDate>
 							</nc:Activity>
 						</lexsdigest:EntityActivity>
