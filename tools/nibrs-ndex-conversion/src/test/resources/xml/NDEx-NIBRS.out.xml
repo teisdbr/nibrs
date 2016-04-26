@@ -99,6 +99,7 @@
       </nc:PersonAgeMeasure>
       <j:PersonEthnicityCode>U</j:PersonEthnicityCode>
       <j:PersonRaceNDExCode>P</j:PersonRaceNDExCode>
+      <j:PersonResidentCode>R</j:PersonResidentCode>
       <j:PersonSexCode>M</j:PersonSexCode>
    </nc:Person>
    <nc:Person s:id="d1e306">
@@ -107,6 +108,7 @@
       </nc:PersonAgeMeasure>
       <j:PersonEthnicityCode>U</j:PersonEthnicityCode>
       <j:PersonRaceNDExCode>P</j:PersonRaceNDExCode>
+      <j:PersonResidentCode>R</j:PersonResidentCode>
       <j:PersonSexCode>F</j:PersonSexCode>
    </nc:Person>
    <nc:Person s:id="d1e333">
@@ -118,6 +120,7 @@
          <j:InjuryCategoryCode>I</j:InjuryCategoryCode>
       </nc:PersonInjury>
       <j:PersonRaceNDExCode>P</j:PersonRaceNDExCode>
+      <j:PersonResidentCode>R</j:PersonResidentCode>
       <j:PersonSexCode>M</j:PersonSexCode>
    </nc:Person>
    <nc:Person s:id="d1e364">

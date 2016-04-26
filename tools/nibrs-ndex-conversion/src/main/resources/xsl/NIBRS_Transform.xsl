@@ -363,7 +363,7 @@
 			<xsl:apply-templates
 				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/ndexia:PersonAugmentation/ndexia:PersonRaceCode" />
 			<xsl:apply-templates
-				select="$DIGEST/lexsdigest:EntityPerson/lexsdigest:Person[@s20:id=/$DIGEST/lexsdigest:EntityPerson/j40:EnforcementOfficial/nc20:RoleOfPersonReference/@s20:ref]/nc20:PersonResidentCode" />
+				select="$NDEXIA/ndexia:Person[ndexia:PersonAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$personID]/nc20:PersonResidentCode" />
 			<xsl:apply-templates select="nc20:PersonSexCode" />
 		</nc:Person>
 	</xsl:template>
