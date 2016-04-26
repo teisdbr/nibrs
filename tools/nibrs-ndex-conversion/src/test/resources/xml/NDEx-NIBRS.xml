@@ -102,9 +102,7 @@
 								<nc:ActivityCategoryText>Incident</nc:ActivityCategoryText>
 								<nc:ActivityDate>
 									<!-- Element 3, Incident Date and Hour-->
-									<!-- Element 3, IncidentReportDateIndicator is true to designate that the ActivityDate is the Report Date rather than the Incident Date>    
-                 <cjis:IncidentReportDateIndicator>false</cjis:IncidentReportDateIndicator-->
-									<nc:DateTime>2016-01-19T10:00:00</nc:DateTime>
+									<nc:DateTime>2016-02-19T10:00:00</nc:DateTime>
 								</nc:ActivityDate>
 							</nc:Activity>
 						</lexsdigest:EntityActivity>
@@ -156,10 +154,6 @@
 								<nc:PersonAgeMeasure>
 									<!-- Element 37, Age of Subject (only one would be included per subject)-->
 									<nc:MeasurePointValue>34</nc:MeasurePointValue>
-									<nc:MeasureRangeValue>
-										<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
-										<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
-									</nc:MeasureRangeValue>
 								</nc:PersonAgeMeasure>
 								<!-- Element 38, Sex of Subject -->
 								<nc:PersonSexCode>M</nc:PersonSexCode>
@@ -174,10 +168,6 @@
 								<nc:PersonAgeMeasure>
 									<!-- Element 47, Age of Arrestee (only one would be included per victim)-->
 									<nc:MeasurePointValue>56</nc:MeasurePointValue>
-									<nc:MeasureRangeValue>
-										<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
-										<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
-									</nc:MeasureRangeValue>
 								</nc:PersonAgeMeasure>
 								<!-- Element 48, Sex of Arrestee -->
 								<nc:PersonSexCode>F</nc:PersonSexCode>
@@ -192,10 +182,6 @@
 								<nc:PersonAgeMeasure>
 									<!-- Element 26, Age of Victim (only one would be included per victim)-->
 									<nc:MeasurePointValue>45</nc:MeasurePointValue>
-									<nc:MeasureRangeValue>
-										<nc:RangeMinimumValue>62</nc:RangeMinimumValue>
-										<nc:RangeMaximumValue>60</nc:RangeMaximumValue>
-									</nc:MeasureRangeValue>
 								</nc:PersonAgeMeasure>
 								<!-- Element 27, Sex of Victim -->
 								<nc:PersonSexCode>M</nc:PersonSexCode>
@@ -212,10 +198,6 @@
 							<lexsdigest:Person s:id="Person_Victim_2">
 								<nc:PersonAgeMeasure>
 									<nc:MeasurePointValue>34</nc:MeasurePointValue>
-									<nc:MeasureRangeValue>
-										<nc:RangeMinimumValue>22</nc:RangeMinimumValue>
-										<nc:RangeMaximumValue>30</nc:RangeMaximumValue>
-									</nc:MeasureRangeValue>
 								</nc:PersonAgeMeasure>
 								<nc:PersonSexCode>M</nc:PersonSexCode>
 							</lexsdigest:Person>
@@ -360,7 +342,7 @@
 							<ndexia:Incident>
 								<j:IncidentAugmentation>
 									<!-- Element 4, Cleared Exceptionally -->
-									<j:IncidentExceptionalClearanceCode>E</j:IncidentExceptionalClearanceCode>
+									<j:IncidentExceptionalClearanceCode>A</j:IncidentExceptionalClearanceCode>
 									<!-- Element 5, Exceptional Clearance Date -->
 									<j:IncidentExceptionalClearanceDate>
 										<nc:Date>2016-02-25</nc:Date>

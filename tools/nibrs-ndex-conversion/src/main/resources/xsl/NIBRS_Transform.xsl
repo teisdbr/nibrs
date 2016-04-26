@@ -63,7 +63,6 @@
 				mode="subject_victim_association" />
 		</nibrs:Report>
 	</xsl:template>
-	<!-- SECTION -->
 	<!-- Header -->
 	<xsl:template match="/" mode="header">
 		<nibrs:ReportHeader>
@@ -142,6 +141,8 @@
 				select="$NDEXIA/ndexia:TangibleItem[ndexia:TangibleItemAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$itemID]/ndexia:TangibleItemAugmentation/ndexia:ItemQuantityStatusValue" />
 			<xsl:apply-templates
 				select="$NDEX-EXT/nibrs-ext:Property/j41:PropertyCategoryNIBRSPropertyCategoryCode" />
+<xsl:apply-templates
+				select="$NDEXIA/ndexia:TangibleItem[ndexia:TangibleItemAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$itemID]/ndexia:TangibleItemAugmentation/ndexia:ItemQuantityStatusValue/nc20:ItemQuantity" />
 		</nc:Item>
 	</xsl:template>
 	<!-- Substance -->
@@ -172,7 +173,7 @@
 		</xsl:variable>
 		<j:EnforcementOfficial>
 			<nc:RoleOfPerson>
-				<xsl:attribute name="s:id"><xsl:value-of
+				<xsl:attribute name="s:ref"><xsl:value-of
 					select="generate-id(../lexsdigest:Person)" /></xsl:attribute>
 			</nc:RoleOfPerson>
 			<xsl:apply-templates
@@ -191,7 +192,7 @@
 		</xsl:variable>
 		<j:Victim>
 			<nc:RoleOfPerson>
-				<xsl:attribute name="s:id"><xsl:value-of
+				<xsl:attribute name="s:ref"><xsl:value-of
 					select="generate-id(../lexsdigest:Person)" /></xsl:attribute>
 			</nc:RoleOfPerson>
 			<xsl:apply-templates
@@ -211,7 +212,7 @@
 		</xsl:variable>
 		<j:Subject>
 			<nc:RoleOfPerson>
-				<xsl:attribute name="s:id"><xsl:value-of
+				<xsl:attribute name="s:ref"><xsl:value-of
 					select="generate-id(../lexsdigest:Person)" /></xsl:attribute>
 			</nc:RoleOfPerson>
 			<xsl:apply-templates
@@ -225,7 +226,7 @@
 		</xsl:variable>
 		<j:Arrestee>
 			<nc:RoleOfPerson>
-				<xsl:attribute name="s:id"><xsl:value-of
+				<xsl:attribute name="s:ref"><xsl:value-of
 					select="generate-id(../lexsdigest:Person)" /></xsl:attribute>
 			</nc:RoleOfPerson>
 			<xsl:apply-templates
@@ -382,7 +383,6 @@
 		<nc:ItemValue>
 			<xsl:apply-templates select="ndexia:ItemValue/nc20:ItemValueAmount" />
 			<xsl:apply-templates select="ndexia:ItemStatus/nc20:StatusDate" />
-			<xsl:apply-templates select="nc20:ItemQuantity" />
 		</nc:ItemValue>
 	</xsl:template>
 	<xsl:template match="nc20:PersonAgeMeasure">
@@ -398,7 +398,6 @@
 			<xsl:apply-templates select="nc20:SubstanceUnitCode" />
 		</nc:SubstanceQuantityMeasure>
 	</xsl:template>
-	<!-- COMMENT -->
 	<xsl:template match="nc20:Organization" mode="unit">
 		<xsl:variable name="orgID">
 			<xsl:value-of select="@s20:id" />
@@ -407,9 +406,7 @@
 			select="$NDEXIA/ndexia:EnforcementUnit[ndexia:EnforcementUnitAugmentation/lexslib:SameAsDigestReference/@lexslib:ref=$orgID]/j40:OrganizationAugmentation/j40:OrganizationORIIdentification"
 			mode="unit" />
 	</xsl:template>
-	<!-- COMMENT -->
 	<!-- SECTION -->
-
 	<xsl:template match="nc20:MeasureRangeValue">
 		<nc:MeasureRangeValue>
 			<xsl:apply-templates select="nc20:RangeMinimumValue" />
@@ -432,11 +429,12 @@
 		</xsl:if>
 		<!-- FIX with 'else -->
 	</xsl:template>
-	<!-- BOTTOM SECTION -->
+	<!-- SECTION -->
 	<xsl:template match="ndexia:NIBRSReportCategoryCode">
 		<nibrs:NIBRSReportCategoryCode>
-			<xsl:value-of select="." />
+			<xsl:value-of select="upper-case(.)" />	
 		</nibrs:NIBRSReportCategoryCode>
+		<nibrs:ReportActionCategoryCode>I</nibrs:ReportActionCategoryCode>
 	</xsl:template>
 	<xsl:template match="nc20:YearMonth">
 		<nibrs:ReportDate>
@@ -2200,7 +2198,7 @@
 	<xsl:template match="ndexia:OffenseBiasMotivationCode">
 		<!-- Element 8A, Bias Motivation -->
 		<j:OffenseFactorBiasMotivationCode>
-			<xsl:value-of select="." />
+			<xsl:value-of select="upper-case(.)" />	
 		</j:OffenseFactorBiasMotivationCode>
 	</xsl:template>
 	<xsl:template match="j40:IncidentStructuresEnteredQuantity">
@@ -3193,16 +3191,13 @@
 			<xsl:if test=".='Yard_Ship'">
 				<xsl:value-of select="''" />
 			</xsl:if>
-
-
-
 		</j:LocationCategoryCode>
 	</xsl:template>
 	<xsl:template match="ndexia:ItemStatusCode">
 		<!-- Element 14, Type Property Loss/etc Substituted for nc:ItemStatus -->
 		<nc:ItemStatus>
 			<cjis:ItemStatusCode>
-				<xsl:value-of select="." />
+				<xsl:value-of select="upper-case(.)" />	
 			</cjis:ItemStatusCode>
 		</nc:ItemStatus>
 	</xsl:template>
