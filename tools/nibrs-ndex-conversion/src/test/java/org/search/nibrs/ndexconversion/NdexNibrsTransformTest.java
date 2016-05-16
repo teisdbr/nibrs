@@ -132,7 +132,7 @@ public class NdexNibrsTransformTest {
 		
 		
 		
-		//add Warrant section that should not affect the output		
+		//add Warrant section to input doc that should not affect the transformation output		
 		Element warrantEntityActivityEl = XmlUtils.appendChildElement(digestNode, Namespace.lexsdigest31, "EntityActivity");
 		
 		Element activityElement = XmlUtils.appendChildElement(warrantEntityActivityEl, Namespace.nc, "Activity");
