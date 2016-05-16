@@ -27,7 +27,9 @@ public class NibrsNamespaceContext implements NamespaceContext {
 		s("s", "http://release.niem.gov/niem/structures/3.0/"),
 		xsi("xsi", "http://www.w3.org/2001/XMLSchema-instance"),
 		xsd("xsd", "http://www.w3.org/2001/XMLSchema"),
-		nibrscodes("nibrscodes", "http://fbi.gov/cjis/nibrs/nibrs-codes/4.0");
+		nibrscodes("nibrscodes", "http://fbi.gov/cjis/nibrs/nibrs-codes/4.0"),
+		lexs31("lexs31", "http://usdoj.gov/leisp/lexs/3.1");
+		
 		public String prefix;
 		public String uri;
 		Namespace(String prefix, String uri) {

@@ -94,6 +94,17 @@ public class XmlUtils {
     }
     
     /**
+     * Print the specified XML DOM node to System.out
+     * 
+     * @param n
+     *            the node to print
+     * @throws Exception
+     */
+    public static final void printNode(Node n) throws Exception {
+        printNode(n, System.out);
+    }    
+    
+    /**
      * Read the contents of the specified file into a DOM document
      * @param f the input XML file
      * @return the document
