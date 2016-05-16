@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.0"
-	xmlns:nibrs-ext="http://ojbc.org/IEPD/Extensions/NIBRSStructuredPayload/1.0"
+	xmlns:nibrs-ext="http://nibrs.org/IEPD/Extensions/NIBRSStructuredPayload/1.0"
 	xmlns:nibrscodes="http://fbi.gov/cjis/nibrs/nibrs-codes/4.0"
 	xmlns:cjis="http://fbi.gov/cjis/1.0" xmlns:cjiscodes="http://fbi.gov/cjis/cjis-codes/1.0"
 	xmlns:i="http://release.niem.gov/niem/appinfo/3.0/" xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.1/"
@@ -3357,6 +3357,7 @@
 		</nc:PersonInjury>
 	</xsl:template>
 	<xsl:template match="ndexia:PersonRaceCode">
+	<!-- Element 28, Person RaceCode -->
 		<j:PersonRaceNDExCode>
 			<xsl:value-of select="." />
 		</j:PersonRaceNDExCode>
