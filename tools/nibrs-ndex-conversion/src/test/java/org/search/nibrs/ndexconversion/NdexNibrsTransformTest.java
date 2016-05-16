@@ -18,9 +18,7 @@ import org.search.nibrs.xml.XsltTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-
-public class NdexNibrsTransformTest {
-		
+public class NdexNibrsTransformTest {		
 	
 	@Test
 	public void nibrsTransformTest() throws Exception{
@@ -47,6 +45,8 @@ public class NdexNibrsTransformTest {
 		
 		String reportCatCode =  XmlUtils.xPathStringSearch(reportHeaderNode, 
 				"//nibrs:NIBRSReportCategoryCode");
+						
+		reportCatCode = reportCatCode.trim();
 		
 		Assert.assertEquals("GROUP A INCIDENT REPORT", reportCatCode);
 	}
@@ -61,6 +61,8 @@ public class NdexNibrsTransformTest {
 		String sReportCatCode =  XmlUtils.xPathStringSearch(reportHeaderNode, 
 				"//nibrs:NIBRSReportCategoryCode");	
 		
+		sReportCatCode = sReportCatCode.trim();
+		
 		Assert.assertEquals("GROUP A INCIDENT REPORT", sReportCatCode);
 		
 		Node reportCatCodeNode = XmlUtils.xPathNodeSearch(reportHeaderNode, "//nibrs:NIBRSReportCategoryCode");
@@ -70,5 +72,5 @@ public class NdexNibrsTransformTest {
 		
 		Assert.assertEquals("New Value", sReportCatCodeNewValue);		
 	}
-	
+		
 }
