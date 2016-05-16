@@ -17,6 +17,7 @@ import org.search.nibrs.xml.XmlUtils;
 import org.search.nibrs.xml.XsltTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class NdexNibrsTransformTest {		
 	
@@ -72,5 +73,46 @@ public class NdexNibrsTransformTest {
 		
 		Assert.assertEquals("New Value", sReportCatCodeNewValue);		
 	}
+	
+	
+	
+	@Test
+	public void nibrsLexsStructPayloadRemovalTransformTest() throws Exception{
+		
+		XsltTransformer xsltTransformer = new XsltTransformer();
+		
+		InputStream inFileStream = new FileInputStream("src/test/resources/xml/NDEx-NIBRS.xml");		
+		SAXSource inputFileSource = XmlUtils.createSaxSource(inFileStream);
+						
+		File xsltFile = new File("src/main/resources/xsl/NIBRS_Transform.xsl");
+		StreamSource xsltSource = new StreamSource(xsltFile);				
+						
+		
+		Document inputFileDoc = XmlUtils.parseFileToDocument(new File("src/test/resources/xml/NDEx-NIBRS.xml"));
+		
+		XmlUtils.printNode(inputFileDoc);
+		
+		NodeList structPayloadNodeList = XmlUtils.xPathNodeListSearch(inputFileDoc, "//lexs31:StructuredPayload");
+		
+		for(int i=0; i < structPayloadNodeList.getLength(); i++){
+			
+			Node strucPayloadNode = structPayloadNodeList.item(i);
+			
+			Node structPayloadParent = strucPayloadNode.getParentNode();
+			
+			structPayloadParent.removeChild(strucPayloadNode);
+		}
+		
+		XmlUtils.printNode(inputFileDoc);
+				
+		String transformedXml = xsltTransformer.transform(inputFileSource, xsltSource, null);
+						
+		Document trasformedDoc = XmlUtils.loadXMLFromString(transformedXml);
+	
+		XmlUtils.printNode(trasformedDoc);
+		
+		//TODO assert doc appearance after removing //lexs31:StructuredPayload from input doc before transformation
+	}	
 		
 }
+
