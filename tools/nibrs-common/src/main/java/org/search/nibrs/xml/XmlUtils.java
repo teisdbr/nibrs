@@ -1,14 +1,20 @@
 package org.search.nibrs.xml;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 
 import javax.xml.namespace.NamespaceContext;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -19,6 +25,7 @@ import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 /**
  * Utilities class for handling common XML tasks.
@@ -86,6 +93,62 @@ public class XmlUtils {
     }
     
     /**
+     * Read the contents of the specified file into a DOM document
+     * @param f the input XML file
+     * @return the document
+     * @throws Exception
+     */
+    public static final Document parseFileToDocument(File f) throws Exception {
+    	
+        DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
+        
+        docBuilderFact.setNamespaceAware(true);
+        
+        DocumentBuilder docBuilder = docBuilderFact.newDocumentBuilder();
+        
+        Document document = docBuilder.parse(f);
+        
+        return document;
+    }    
+    
+	public static SAXSource createSaxSource(String xml) {
+		
+		InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
+		
+		inputSource.setEncoding("UTF-8");
+		
+		return new SAXSource(inputSource);
+	}  
+	
+	public static SAXSource createSaxSource(InputStream inSream) {
+		
+		InputSource inputSource = new InputSource(inSream);
+		
+		inputSource.setEncoding("UTF-8");
+		
+		return new SAXSource(inputSource);
+	}	
+	
+	/**
+	 * This method accepts an XML string and return a namespace aware XML document
+	 */
+    public static Document loadXMLFromString(String xml) throws Exception{
+    	
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        
+        factory.setNamespaceAware(true);
+        
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        
+        InputSource is = new InputSource(new StringReader(xml));
+        
+        Document returnDoc = builder.parse(is);
+        
+        return returnDoc;
+    }	
+    
+    
+    /**
      * Search the context node for a node that matches the specified xpath
      * 
      * @param context the node that's the context for the xpath
@@ -104,4 +167,29 @@ public class XmlUtils {
         return (Node) expression.evaluate(context, XPathConstants.NODE);
     }
 
+    /**
+     * Search the context node for a String that matches the specified xpath
+     * 
+     * @param context
+     *            the node that's the context for the xpath
+     * @param xPath
+     *            the xpath query
+     * @return the matching string, or null if no match
+     * @throws Exception
+     */
+    public static final String xPathStringSearch(Node context, String xPath) throws Exception {
+    	
+        if (xPath == null){
+            return null;
+        }
+        
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        
+        xpath.setNamespaceContext(NAMESPACE_CONTEXT);
+        
+        XPathExpression expression = xpath.compile(xPath);
+        
+        return (String) expression.evaluate(context, XPathConstants.STRING);
+    }    
 }
+

@@ -1,10 +1,40 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>org.search.nibrs</groupId>
 	<artifactId>nibrs-common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	
+	<properties>
+		<saxon-version>8.7</saxon-version>
+		<xmlunit-version>1.5</xmlunit-version>	
+	</properties>
+	
 	<dependencies>
+		 <!-- note any project "parent" that depends on ojb-common will have a transitive
+		 	dependency on these saxon dependencies, unless that parent project edits its
+		 	declared ojb-common dependency to specify exclusion elements on these transitive
+		 	saxon jars.  Having saxon on the classpath causes TransformerFactory instances and other
+		 	transform code to behave unexpectedly when saxon is included unintentionally.
+		-->
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>saxon</artifactId>
+			<version>${saxon-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>saxon-dom</artifactId>
+			<version>${saxon-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+			<version>${xmlunit-version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
