@@ -16,7 +16,7 @@ public class Offense
     private String[] typeOfCriminalActivity;
     private String[] typeOfWeaponForceInvolved;
     private String[] automaticWeaponIndicator;
-    private String biasMotivation;
+    private String[] biasMotivation;
 
     public Offense()
     {
@@ -24,6 +24,11 @@ public class Offense
         typeOfCriminalActivity = new String[3];
         typeOfWeaponForceInvolved = new String[3];
         automaticWeaponIndicator = new String[3];
+        biasMotivation = new String[5];
+    }
+    
+    public boolean getOffenseAttemptedIndicator() {
+    	return "A".equals(getOffenseAttemptedCompleted());
     }
 
     public String getAutomaticWeaponIndicator(int position)
@@ -66,14 +71,14 @@ public class Offense
         offendersSuspectedOfUsing[position] = value;
     }
 
-    public String getBiasMotivation()
+    public String getBiasMotivation(int position)
     {
-        return biasMotivation;
+        return biasMotivation[position];
     }
 
-    public void setBiasMotivation(String biasMotivation)
+    public void setBiasMotivation(int position, String value)
     {
-        this.biasMotivation = biasMotivation;
+        biasMotivation[position] = value;
     }
 
     public String getLocationType()

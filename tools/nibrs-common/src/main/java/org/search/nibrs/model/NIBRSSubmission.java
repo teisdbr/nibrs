@@ -6,12 +6,12 @@ import java.util.*;
  * Representation of a full NIBRS report file.
  *
  */
-public class NIBRSReport
+public class NIBRSSubmission
 {
     
     private List<Incident> incidentList;
     
-    public NIBRSReport()
+    public NIBRSSubmission()
     {
         incidentList = new ArrayList<Incident>();
     }
@@ -21,9 +21,8 @@ public class NIBRSReport
         incidentList.add(incident);
     }
     
-    public Iterator<Incident> incidentIterator()
-    {
-        return Collections.unmodifiableList(incidentList).iterator();
+    public List<Incident> getIncidents() {
+    	return Collections.unmodifiableList(incidentList);
     }
     
     public int getIncidentCount()

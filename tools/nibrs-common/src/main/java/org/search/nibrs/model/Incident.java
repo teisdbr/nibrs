@@ -15,10 +15,11 @@ public class Incident
     private String ori;
     private String incidentNumber;
     private Date incidentDate;
-    private String reportDateIndicator;
+    private String reportDateIndicatorS;
     private Integer incidentHour;
     private String exceptionalClearanceCode;
     private Date exceptionalClearanceDate;
+    private Boolean cargoTheftIndicator;
     
     private List<Offense> offenseSegmentList;
     private List<Property> propertySegmentList;
@@ -35,7 +36,15 @@ public class Incident
         arresteeSegmentList = new ArrayList<Arrestee>();
     }
     
-    public void addOffense(Offense offense)
+    public Boolean getCargoTheftIndicator() {
+		return cargoTheftIndicator;
+	}
+
+	public void setCargoTheftIndicator(Boolean cargoTheftIndicator) {
+		this.cargoTheftIndicator = cargoTheftIndicator;
+	}
+
+	public void addOffense(Offense offense)
     {
         offenseSegmentList.add(offense);
     }
@@ -47,7 +56,11 @@ public class Incident
     
     public Iterator<Offense> offenseIterator()
     {
-        return Collections.unmodifiableList(offenseSegmentList).iterator();
+        return getOffenses().iterator();
+    }
+    
+    public List<Offense> getOffenses() {
+    	return Collections.unmodifiableList(offenseSegmentList);
     }
 
     public void addProperty(Property property)
@@ -62,10 +75,14 @@ public class Incident
     
     public Iterator<Property> propertyIterator()
     {
-        return Collections.unmodifiableList(propertySegmentList).iterator();
+        return getProperties().iterator();
     }
+    
+    public List<Property> getProperties() {
+		return Collections.unmodifiableList(propertySegmentList);
+	}
 
-    public void addVictim(Victim victim)
+	public void addVictim(Victim victim)
     {
         victimSegmentList.add(victim);
     }
@@ -174,13 +191,13 @@ public class Incident
     {
         this.ori = ori;
     }
-    public String getReportDateIndicator()
+    public boolean getReportDateIndicator()
     {
-        return reportDateIndicator;
+        return "R".equals(reportDateIndicatorS);
     }
     public void setReportDateIndicator(String reportDateIndicator)
     {
-        this.reportDateIndicator = reportDateIndicator;
+        this.reportDateIndicatorS = reportDateIndicator;
     }
     public int getYearOfTape()
     {
