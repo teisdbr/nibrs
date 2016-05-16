@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
@@ -159,6 +160,21 @@ public class XmlUtils {
         return returnDoc;
     }	
     
+    
+    public static String getStringFromNode(Node node) throws Exception{
+    	
+    	StringWriter writer = new StringWriter();
+    	
+    	Transformer transformer = TransformerFactory.newInstance().newTransformer();
+    	
+    	transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    	
+    	transformer.transform(new DOMSource(node), new StreamResult(writer));
+    	
+    	String xml = writer.toString();
+    	
+    	return xml;
+    }
     
     /**
      * Search the context node for a node that matches the specified xpath
