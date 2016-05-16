@@ -82,8 +82,6 @@ public class NdexNibrsTransformTest {
 		
 		XsltTransformer xsltTransformer = new XsltTransformer();
 		
-		InputStream inFileStream = new FileInputStream("src/test/resources/xml/NDEx-NIBRS.xml");		
-		SAXSource inputFileSource = XmlUtils.createSaxSource(inFileStream);
 						
 		File xsltFile = new File("src/main/resources/xsl/NIBRS_Transform.xsl");
 		StreamSource xsltSource = new StreamSource(xsltFile);				
@@ -92,7 +90,7 @@ public class NdexNibrsTransformTest {
 		
 		NodeList structPayloadNodeList = XmlUtils.xPathNodeListSearch(inputFileDoc, "//lexs31:StructuredPayload");
 		
-		// remove every occurence of lexs31:StructuredPayload
+		// remove every occurrence of lexs31:StructuredPayload
 		for(int i=0; i < structPayloadNodeList.getLength(); i++){
 			
 			Node strucPayloadNode = structPayloadNodeList.item(i);
@@ -101,14 +99,21 @@ public class NdexNibrsTransformTest {
 			
 			structPayloadParent.removeChild(strucPayloadNode);
 		}
-						
+									
+		String sInputDoc = XmlUtils.getStringFromNode(inputFileDoc);
+		
+		SAXSource inputFileSource = XmlUtils.createSaxSource(sInputDoc);
+		
 		String transformedXml = xsltTransformer.transform(inputFileSource, xsltSource, null);
 						
 		Document trasformedDoc = XmlUtils.loadXMLFromString(transformedXml);
-	
+						
+		Node offenseUcrCodeNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:Report/j:Offense/nibrs:OffenseUCRCode");
+
+		// example printing document to console
 		XmlUtils.printNode(trasformedDoc);
 		
-		//TODO assert doc appearance after removing //lexs31:StructuredPayload from input doc before transformation
+		Assert.assertNull(offenseUcrCodeNode);			
 	}	
 	
 	
@@ -116,10 +121,7 @@ public class NdexNibrsTransformTest {
 	public void nibrsAddWarrantActivityTest() throws Exception{
 		
 		XsltTransformer xsltTransformer = new XsltTransformer();
-		
-		InputStream inFileStream = new FileInputStream("src/test/resources/xml/NDEx-NIBRS.xml");		
-		SAXSource inputFileSource = XmlUtils.createSaxSource(inFileStream);
-						
+								
 		File xsltFile = new File("src/main/resources/xsl/NIBRS_Transform.xsl");
 		StreamSource xsltSource = new StreamSource(xsltFile);				
 					
@@ -127,6 +129,8 @@ public class NdexNibrsTransformTest {
 						
 		Node digestNode = XmlUtils.xPathNodeSearch(inputFileDoc, 
 				"/lexspd31:doPublish/lexs31:PublishMessageContainer/lexs31:PublishMessage/lexs31:DataItemPackage/lexs31:Digest");
+		
+		
 		
 		//add Warrant section that should not affect the output		
 		Element warrantEntityActivityEl = XmlUtils.appendChildElement(digestNode, Namespace.lexsdigest31, "EntityActivity");
@@ -140,9 +144,17 @@ public class NdexNibrsTransformTest {
 		Element activityIdValueElement = XmlUtils.appendChildElement(activityIdElement, Namespace.nc, "IdentificationID");
 		
 		activityIdValueElement.setTextContent("1234567");
-						
-		String transformedXml = xsltTransformer.transform(inputFileSource, xsltSource, null);
+		// done adding warrant section				
+		
+		
+		
+		String sInputDoc = XmlUtils.getStringFromNode(inputFileDoc);
+		
+		SAXSource intputSaxSource =  XmlUtils.createSaxSource(sInputDoc);
+		
+		String transformedXml = xsltTransformer.transform(intputSaxSource, xsltSource, null);
 		 				
+		// should expect same transformation result - even though warrant section added above to input document
 		XmlTestUtils.compareDocs("src/test/resources/xml/NDEx-NIBRS.out.xml", transformedXml);		
 	}	
 	
