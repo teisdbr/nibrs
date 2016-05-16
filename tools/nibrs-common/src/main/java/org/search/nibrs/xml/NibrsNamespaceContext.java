@@ -28,7 +28,11 @@ public class NibrsNamespaceContext implements NamespaceContext {
 		xsi("xsi", "http://www.w3.org/2001/XMLSchema-instance"),
 		xsd("xsd", "http://www.w3.org/2001/XMLSchema"),
 		nibrscodes("nibrscodes", "http://fbi.gov/cjis/nibrs/nibrs-codes/4.0"),
-		lexs31("lexs31", "http://usdoj.gov/leisp/lexs/3.1");
+		lexs31("lexs31", "http://usdoj.gov/leisp/lexs/3.1"),
+		lexspd31("lexspd31", "http://usdoj.gov/leisp/lexs/publishdiscover/3.1"),
+		lexsdigest31("lexsdigest31", "http://usdoj.gov/leisp/lexs/digest/3.1"),
+		structures20("structures20", "http://niem.gov/niem/structures/2.0")
+		;
 		
 		public String prefix;
 		public String uri;
