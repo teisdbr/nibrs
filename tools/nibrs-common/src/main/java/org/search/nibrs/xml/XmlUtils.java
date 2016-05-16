@@ -25,6 +25,7 @@ import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**
@@ -191,5 +192,28 @@ public class XmlUtils {
         
         return (String) expression.evaluate(context, XPathConstants.STRING);
     }    
+    
+    /**
+     * Search the context node for a node set that matches the specified xpath
+     * @param context the node that's the context for the xpath
+     * @param xPath the xpath query
+     * @return the matching node, or null if no match
+     * @throws Exception
+     */
+    public static final NodeList xPathNodeListSearch(Node context, String xPath) throws Exception {
+    	
+        if (xPath == null){
+            return null;
+        }
+        
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        
+        xpath.setNamespaceContext(NAMESPACE_CONTEXT);
+        
+        XPathExpression expression = xpath.compile(xPath);
+        
+        return (NodeList) expression.evaluate(context, XPathConstants.NODESET);        
+    }
+    
 }
 
