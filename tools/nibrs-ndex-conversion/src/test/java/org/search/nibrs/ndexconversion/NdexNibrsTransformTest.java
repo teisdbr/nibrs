@@ -12,11 +12,9 @@ import javax.xml.transform.stream.StreamSource;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.ojbc.test.util.XmlTestUtils;
-import org.ojbc.util.camel.helper.OJBUtils;
-import org.ojbc.util.xml.XmlUtils;
-import org.ojbc.util.xml.XsltTransformer;
-import org.search.nibrs.ndexconversion.util.NibrsUtils;
+import org.search.nibrs.xml.XmlTestUtils;
+import org.search.nibrs.xml.XmlUtils;
+import org.search.nibrs.xml.XsltTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -30,7 +28,7 @@ public class NdexNibrsTransformTest {
 		XsltTransformer xsltTransformer = new XsltTransformer();
 		
 		InputStream inFileStream = new FileInputStream("src/test/resources/xml/NDEx-NIBRS.xml");		
-		SAXSource inputFileSource = OJBUtils.createSaxSource(inFileStream);
+		SAXSource inputFileSource = XmlUtils.createSaxSource(inFileStream);
 						
 		File xsltFile = new File("src/main/resources/xsl/NIBRS_Transform.xsl");
 		StreamSource xsltSource = new StreamSource(xsltFile);				
@@ -43,11 +41,11 @@ public class NdexNibrsTransformTest {
 		 				
 		XmlTestUtils.compareDocs("src/test/resources/xml/NDEx-NIBRS.out.xml", transformedXml);
 		
-		Document trasformedDoc = OJBUtils.loadXMLFromString(transformedXml);
+		Document trasformedDoc = XmlUtils.loadXMLFromString(transformedXml);
 	
-		Node reportHeaderNode = NibrsUtils.xPathNodeSearch(trasformedDoc, "/nibrs:Report/nibrs:ReportHeader");
+		Node reportHeaderNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:Report/nibrs:ReportHeader");
 		
-		String reportCatCode =  NibrsUtils.xPathStringSearch(reportHeaderNode, 
+		String reportCatCode =  XmlUtils.xPathStringSearch(reportHeaderNode, 
 				"//nibrs:NIBRSReportCategoryCode");
 		
 		Assert.assertEquals("GROUP A INCIDENT REPORT", reportCatCode);
@@ -58,20 +56,19 @@ public class NdexNibrsTransformTest {
 		
 		Document ndexNibrsDoc = XmlUtils.parseFileToDocument(new File("src/test/resources/xml/NDEx-NIBRS.out.xml"));
 		
-		Node reportHeaderNode = NibrsUtils.xPathNodeSearch(ndexNibrsDoc, "/nibrs:Report/nibrs:ReportHeader");
+		Node reportHeaderNode = XmlUtils.xPathNodeSearch(ndexNibrsDoc, "/nibrs:Report/nibrs:ReportHeader");
 		
-		String sReportCatCode =  NibrsUtils.xPathStringSearch(reportHeaderNode, 
+		String sReportCatCode =  XmlUtils.xPathStringSearch(reportHeaderNode, 
 				"//nibrs:NIBRSReportCategoryCode");	
 		
 		Assert.assertEquals("GROUP A INCIDENT REPORT", sReportCatCode);
 		
-		Node reportCatCodeNode = NibrsUtils.xPathNodeSearch(reportHeaderNode, "//nibrs:NIBRSReportCategoryCode");
+		Node reportCatCodeNode = XmlUtils.xPathNodeSearch(reportHeaderNode, "//nibrs:NIBRSReportCategoryCode");
 		reportCatCodeNode.setTextContent("New Value");
 		
-		String sReportCatCodeNewValue = NibrsUtils.xPathStringSearch(reportHeaderNode, "//nibrs:NIBRSReportCategoryCode");
+		String sReportCatCodeNewValue = XmlUtils.xPathStringSearch(reportHeaderNode, "//nibrs:NIBRSReportCategoryCode");
 		
-		Assert.assertEquals("New Value", sReportCatCodeNewValue);
-		
+		Assert.assertEquals("New Value", sReportCatCodeNewValue);		
 	}
 	
 }
