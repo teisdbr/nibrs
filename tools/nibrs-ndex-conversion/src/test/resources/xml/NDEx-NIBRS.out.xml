@@ -1,0 +1,214 @@
+<nibrs:Report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.0"
+              xmlns:nibrs-ext="http://ojbc.org/IEPD/Extensions/NIBRSStructuredPayload/1.0"
+              xmlns:nibrscodes="http://fbi.gov/cjis/nibrs/nibrs-codes/4.0"
+              xmlns:cjis="http://fbi.gov/cjis/1.0"
+              xmlns:cjiscodes="http://fbi.gov/cjis/cjis-codes/1.0"
+              xmlns:i="http://release.niem.gov/niem/appinfo/3.0/"
+              xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.1/"
+              xmlns:nc="http://release.niem.gov/niem/niem-core/3.0/"
+              xmlns:niem-xsd="http://release.niem.gov/niem/proxy/xsd/3.0/"
+              xmlns:s="http://release.niem.gov/niem/structures/3.0/"
+              xmlns:nc20="http://niem.gov/niem/niem-core/2.0"
+              xmlns:lexs="http://usdoj.gov/leisp/lexs/3.1"
+              xmlns:lexspd="http://usdoj.gov/leisp/lexs/publishdiscover/3.1"
+              xmlns:lexsdigest="http://usdoj.gov/leisp/lexs/digest/3.1"
+              xmlns:s20="http://niem.gov/niem/structures/2.0"
+              xmlns:j40="http://niem.gov/niem/domains/jxdm/4.0"
+              xmlns:j41="http://niem.gov/niem/domains/jxdm/4.1"
+              xmlns:lexslib="http://usdoj.gov/leisp/lexs/library/3.1"
+              xmlns:ndexia="http://fbi.gov/cjis/N-DEx/IncidentArrest/2.1">
+   <nibrs:ReportHeader>
+      <nibrs:NIBRSReportCategoryCode>GROUP A INCIDENT REPORT</nibrs:NIBRSReportCategoryCode>
+      <nibrs:ReportActionCategoryCode>I</nibrs:ReportActionCategoryCode>
+      <nibrs:ReportDate>
+         <nc:YearMonthDate>2016-02</nc:YearMonthDate>
+      </nibrs:ReportDate>
+      <nibrs:ReportingAgency>
+         <j:OrganizationAugmentation>
+            <j:OrganizationORIIdentification>
+               <nc:IdentificationID>WVNDX01I</nc:IdentificationID>
+            </j:OrganizationORIIdentification>
+         </j:OrganizationAugmentation>
+      </nibrs:ReportingAgency>
+   </nibrs:ReportHeader>
+   <nc:Incident>
+      <nc:ActivityIdentification>
+         <nc:IdentificationID>54236732</nc:IdentificationID>
+      </nc:ActivityIdentification>
+      <nc:ActivityDate>
+         <nc:DateTime>2016-02-19T10:00:00</nc:DateTime>
+      </nc:ActivityDate>
+      <cjis:IncidentAugmentation>
+         <cjis:IncidentReportDateIndicator>true
+			</cjis:IncidentReportDateIndicator>
+         <j:OffenseCargoTheftIndicator>true</j:OffenseCargoTheftIndicator>
+      </cjis:IncidentAugmentation>
+      <j:IncidentAugmentation>
+         <j:IncidentExceptionalClearanceCode>A</j:IncidentExceptionalClearanceCode>
+         <j:IncidentExceptionalClearanceDate>
+            <nc:Date>2016-02-25</nc:Date>
+         </j:IncidentExceptionalClearanceDate>
+      </j:IncidentAugmentation>
+   </nc:Incident>
+   <j:Offense s:id="d1e226">
+      <nibrs:OffenseUCRCode>90F</nibrs:OffenseUCRCode>
+      <nibrs:CriminalActivityCategoryCode>T</nibrs:CriminalActivityCategoryCode>
+      <j:OffenseFactorBiasMotivationCode>GENDER BIAS</j:OffenseFactorBiasMotivationCode>
+      <j:OffenseStructuresEnteredQuantity>1</j:OffenseStructuresEnteredQuantity>
+      <j:OffenseFactor>
+         <j:OffenseFactorCode>D</j:OffenseFactorCode>
+      </j:OffenseFactor>
+      <j:OffenseEntryPoint>
+         <j:PassagePointMethodCode>F</j:PassagePointMethodCode>
+      </j:OffenseEntryPoint>
+      <j:OffenseForce>
+         <j:ForceCategoryCode>11A</j:ForceCategoryCode>
+      </j:OffenseForce>
+      <j:OffenseAttemptedIndicator>false</j:OffenseAttemptedIndicator>
+   </j:Offense>
+   <nc:Location s:id="d1e399">
+      <j:LocationCategoryCode>01</j:LocationCategoryCode>
+   </nc:Location>
+   <nc:Item>
+      <nc:ItemStatus>
+         <cjis:ItemStatusCode>RETURNED</cjis:ItemStatusCode>
+      </nc:ItemStatus>
+      <nc:ItemValue>
+         <nc:ItemValueAmount>
+            <nc:Amount>1200</nc:Amount>
+         </nc:ItemValueAmount>
+         <nc:ItemValueDate>
+            <nc:Date>2016-02-24</nc:Date>
+         </nc:ItemValueDate>
+      </nc:ItemValue>
+      <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
+      <nc:ItemQuantity>1</nc:ItemQuantity>
+   </nc:Item>
+   <nc:Substance>
+      <j:DrugCategoryCode>B</j:DrugCategoryCode>
+      <nc:SubstanceQuantityMeasure>
+         <nc:MeasureDecimalValue>1.5</nc:MeasureDecimalValue>
+         <j:SubstanceUnitCode>XX</j:SubstanceUnitCode>
+      </nc:SubstanceQuantityMeasure>
+   </nc:Substance>
+   <nc:Person s:id="d1e280">
+      <nc:PersonAgeMeasure>
+         <nc:MeasureIntegerValue>34</nc:MeasureIntegerValue>
+      </nc:PersonAgeMeasure>
+      <j:PersonEthnicityCode>U</j:PersonEthnicityCode>
+      <j:PersonRaceNDExCode>P</j:PersonRaceNDExCode>
+      <j:PersonResidentCode>R</j:PersonResidentCode>
+      <j:PersonSexCode>M</j:PersonSexCode>
+   </nc:Person>
+   <nc:Person s:id="d1e306">
+      <nc:PersonAgeMeasure>
+         <nc:MeasureIntegerValue>56</nc:MeasureIntegerValue>
+      </nc:PersonAgeMeasure>
+      <j:PersonEthnicityCode>U</j:PersonEthnicityCode>
+      <j:PersonRaceNDExCode>P</j:PersonRaceNDExCode>
+      <j:PersonResidentCode>R</j:PersonResidentCode>
+      <j:PersonSexCode>F</j:PersonSexCode>
+   </nc:Person>
+   <nc:Person s:id="d1e333">
+      <nc:PersonAgeMeasure>
+         <nc:MeasureIntegerValue>45</nc:MeasureIntegerValue>
+      </nc:PersonAgeMeasure>
+      <j:PersonEthnicityCode>H</j:PersonEthnicityCode>
+      <nc:PersonInjury>
+         <j:InjuryCategoryCode>I</j:InjuryCategoryCode>
+      </nc:PersonInjury>
+      <j:PersonRaceNDExCode>P</j:PersonRaceNDExCode>
+      <j:PersonResidentCode>R</j:PersonResidentCode>
+      <j:PersonSexCode>M</j:PersonSexCode>
+   </nc:Person>
+   <nc:Person s:id="d1e364">
+      <nc:PersonAgeMeasure>
+         <nc:MeasureIntegerValue>34</nc:MeasureIntegerValue>
+      </nc:PersonAgeMeasure>
+      <nc:PersonInjury>
+         <j:InjuryCategoryCode>T</j:InjuryCategoryCode>
+      </nc:PersonInjury>
+      <j:PersonSexCode>M</j:PersonSexCode>
+   </nc:Person>
+   <j:EnforcementOfficial>
+      <nc:RoleOfPerson s:ref="d1e333"/>
+      <j:EnforcementOfficialActivityCategoryCode>08</j:EnforcementOfficialActivityCategoryCode>
+      <j:EnforcementOfficialAssignmentCategoryCode>L</j:EnforcementOfficialAssignmentCategoryCode>
+      <j:EnforcementOfficialUnit>
+         <j:OrganizationAugmentation>
+            <j:OrganizationORIIdentification>
+               <nc:IdentificationID>WVNDX01</nc:IdentificationID>
+            </j:OrganizationORIIdentification>
+         </j:OrganizationAugmentation>
+      </j:EnforcementOfficialUnit>
+   </j:EnforcementOfficial>
+   <j:Victim>
+      <nc:RoleOfPerson s:ref="d1e333"/>
+      <j:VictimSequenceNumberText>1</j:VictimSequenceNumberText>
+      <j:VictimCategoryCode>B</j:VictimCategoryCode>
+      <j:VictimAggravatedAssaultHomicideFactorCode>09</j:VictimAggravatedAssaultHomicideFactorCode>
+      <j:VictimJustifiableHomicideFactorCode>F</j:VictimJustifiableHomicideFactorCode>
+   </j:Victim>
+   <j:Victim>
+      <nc:RoleOfPerson s:ref="d1e364"/>
+      <j:VictimSequenceNumberText>2</j:VictimSequenceNumberText>
+      <j:VictimCategoryCode>I</j:VictimCategoryCode>
+      <j:VictimAggravatedAssaultHomicideFactorCode>01</j:VictimAggravatedAssaultHomicideFactorCode>
+      <j:VictimJustifiableHomicideFactorCode>D</j:VictimJustifiableHomicideFactorCode>
+   </j:Victim>
+   <j:Subject>
+      <nc:RoleOfPerson s:ref="d1e280"/>
+      <j:SubjectSequenceNumberText>1</j:SubjectSequenceNumberText>
+   </j:Subject>
+   <j:Arrestee>
+      <nc:RoleOfPerson s:ref="d1e306"/>
+      <j:ArrestSequenceID>
+										
+										1
+									</j:ArrestSequenceID>
+      <j:ArresteeClearanceIndicator>true</j:ArresteeClearanceIndicator>
+      <j:ArresteeArmedWithCode>12</j:ArresteeArmedWithCode>
+      <j:ArresteeJuvenileDispositionCode>H</j:ArresteeJuvenileDispositionCode>
+   </j:Arrestee>
+   <j:Arrest s:id="d1e237">
+      <nc:ActivityIdentification>
+         <nc:IdentificationID>12345</nc:IdentificationID>
+      </nc:ActivityIdentification>
+      <nc:ActivityDate>
+         <nc:Date>2016-02-28</nc:Date>
+      </nc:ActivityDate>
+      <j:ArrestCharge>
+         <nibrs:ChargeUCRCode>90Z</nibrs:ChargeUCRCode>
+      </j:ArrestCharge>
+      <j:ArrestCategoryCode>T</j:ArrestCategoryCode>
+      <j:ArrestSubjectCountCode>N</j:ArrestSubjectCountCode>
+   </j:Arrest>
+   <j:ArrestSubjectAssociation>
+      <nc:Activity s:ref="d1e237"/>
+      <j:Subject s:ref="d1e306"/>
+   </j:ArrestSubjectAssociation>
+   <j:OffenseLocationAssociation>
+      <j:Offense s:ref="d1e226"/>
+      <nc:Location s:ref="d1e399"/>
+   </j:OffenseLocationAssociation>
+   <j:OffenseVictimAssociation>
+      <j:Offense s:ref="d1e226"/>
+      <j:Victim s:ref="d1e333"/>
+   </j:OffenseVictimAssociation>
+   <j:OffenseVictimAssociation>
+      <j:Offense s:ref="d1e226"/>
+      <j:Victim s:ref="d1e364"/>
+   </j:OffenseVictimAssociation>
+   <j:SubjectVictimAssociation>
+      <j:Subject s:ref="d1e306"/>
+      <j:Victim s:ref="d1e333"/>
+      <j:VictimToSubjectRelationshipCode>Boyfriend</j:VictimToSubjectRelationshipCode>
+   </j:SubjectVictimAssociation>
+   <j:SubjectVictimAssociation>
+      <j:Subject s:ref="d1e306"/>
+      <j:Victim s:ref="d1e364"/>
+      <j:VictimToSubjectRelationshipCode>Acquaintance</j:VictimToSubjectRelationshipCode>
+   </j:SubjectVictimAssociation>
+</nibrs:Report>
