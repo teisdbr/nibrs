@@ -11,8 +11,15 @@ public class Offender
     private String ageOfOffenderString;
     private String sexOfOffender;
     private String raceOfOffender;
+    private String ethnicityOfOffender;
 
-    public String getAgeOfOffenderString()
+    public String getEthnicityOfOffender() {
+		return ethnicityOfOffender;
+	}
+	public void setEthnicityOfOffender(String ethnicityOfOffender) {
+		this.ethnicityOfOffender = ethnicityOfOffender;
+	}
+	public String getAgeOfOffenderString()
     {
         return ageOfOffenderString;
     }

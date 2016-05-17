@@ -20,8 +20,35 @@ public class Victim
     private String[] typeOfInjury;
     private Integer[] offenderNumberRelated;
     private String[] victimOffenderRelationship;
+    private String typeOfOfficerActivityCircumstance;
+    private String officerAssignmentType;
+    private String officerOtherJurisdictionORI;
 
-    public Victim()
+    public String getTypeOfOfficerActivityCircumstance() {
+		return typeOfOfficerActivityCircumstance;
+	}
+
+	public void setTypeOfOfficerActivityCircumstance(String typeOfOfficerActivityCircumstance) {
+		this.typeOfOfficerActivityCircumstance = typeOfOfficerActivityCircumstance;
+	}
+
+	public String getOfficerAssignmentType() {
+		return officerAssignmentType;
+	}
+
+	public void setOfficerAssignmentType(String officerAssignmentType) {
+		this.officerAssignmentType = officerAssignmentType;
+	}
+
+	public String getOfficerOtherJurisdictionORI() {
+		return officerOtherJurisdictionORI;
+	}
+
+	public void setOfficerOtherJurisdictionORI(String officerOtherJurisdictionORI) {
+		this.officerOtherJurisdictionORI = officerOtherJurisdictionORI;
+	}
+
+	public Victim()
     {
         ucrOffenseCodeConnection = new String[10];
         aggravatedAssaultHomicideCircumstances = new String[2];

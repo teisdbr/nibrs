@@ -94,8 +94,12 @@ public class Incident
     
     public Iterator<Victim> victimIterator()
     {
-        return Collections.unmodifiableList(victimSegmentList).iterator();
+        return getVictims().iterator();
     }
+
+	public List<Victim> getVictims() {
+		return Collections.unmodifiableList(victimSegmentList);
+	}
 
     public void addOffender(Offender offender)
     {
@@ -109,8 +113,12 @@ public class Incident
     
     public Iterator<Offender> offenderIterator()
     {
-        return Collections.unmodifiableList(offenderSegmentList).iterator();
+        return getOffenders().iterator();
     }
+
+    public List<Offender> getOffenders() {
+		return Collections.unmodifiableList(offenderSegmentList);
+	}
 
     public void addArrestee(Arrestee arrestee)
     {
@@ -124,8 +132,12 @@ public class Incident
     
     public Iterator<Arrestee> arresteeIterator()
     {
-        return Collections.unmodifiableList(arresteeSegmentList).iterator();
+        return getArrestees().iterator();
     }
+
+    public List<Arrestee> getArrestees() {
+		return Collections.unmodifiableList(arresteeSegmentList);
+	}
 
     public String getCityIndicator()
     {
