@@ -1,21 +1,17 @@
 package org.search.nibrs.xml;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -87,10 +83,7 @@ public class XmlUtils {
      */
     public static void printNode(Node n, OutputStream os) throws Exception {
         TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer t = tf.newTransformer();
-        t.setOutputProperty(OutputKeys.INDENT, "yes");
-        t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        Transformer t = setupTransformerOptions(tf.newTransformer());
         t.transform(new DOMSource(n), new StreamResult(os));
     }
     
@@ -111,69 +104,36 @@ public class XmlUtils {
      * @return the document
      * @throws Exception
      */
-    public static final Document parseFileToDocument(File f) throws Exception {
-    	
-        DocumentBuilderFactory docBuilderFact = DocumentBuilderFactory.newInstance();
-        
-        docBuilderFact.setNamespaceAware(true);
-        
-        DocumentBuilder docBuilder = docBuilderFact.newDocumentBuilder();
-        
-        Document document = docBuilder.parse(f);
-        
-        return document;
+    public static final Document toDocument(File f) throws Exception {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
+        return dbf.newDocumentBuilder().parse(f);
     }    
     
-	public static SAXSource createSaxSource(String xml) {
-		
-		InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
-		
-		inputSource.setEncoding("UTF-8");
-		
-		return new SAXSource(inputSource);
-	}  
-	
-	public static SAXSource createSaxSource(InputStream inSream) {
-		
-		InputSource inputSource = new InputSource(inSream);
-		
-		inputSource.setEncoding("UTF-8");
-		
-		return new SAXSource(inputSource);
-	}	
-	
-	/**
-	 * This method accepts an XML string and return a namespace aware XML document
-	 */
-    public static Document loadXMLFromString(String xml) throws Exception{
-    	
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        
-        factory.setNamespaceAware(true);
-        
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        
-        InputSource is = new InputSource(new StringReader(xml));
-        
-        Document returnDoc = builder.parse(is);
-        
-        return returnDoc;
+    /**
+     * Read the contents of the specified String into a DOM document
+     * @param xml the String containing the XML
+     * @return the document
+     * @throws Exception
+     */
+    public static final Document toDocument(String xml) throws Exception {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(true);
+        return dbf.newDocumentBuilder().parse(new InputSource(new StringReader(xml)));
     }	
     
-    
-    public static String getStringFromNode(Node node) throws Exception{
-    	
+    /**
+     * Write the specified DOM node into a String.
+     * @param node the node to write
+     * @return the xml string
+     * @throws Exception
+     */
+    public static final String nodeToString(Node node) throws Exception {
     	StringWriter writer = new StringWriter();
-    	
     	Transformer transformer = TransformerFactory.newInstance().newTransformer();
-    	
-    	transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-    	
+    	setupTransformerOptions(transformer);
     	transformer.transform(new DOMSource(node), new StreamResult(writer));
-    	
-    	String xml = writer.toString();
-    	
-    	return xml;
+    	return writer.toString();
     }
     
     /**
@@ -197,27 +157,22 @@ public class XmlUtils {
 
     /**
      * Search the context node for a String that matches the specified xpath
-     * 
-     * @param context
-     *            the node that's the context for the xpath
-     * @param xPath
-     *            the xpath query
+     * @param context the node that's the context for the xpath
+     * @param xPath the xpath query
      * @return the matching string, or null if no match
      * @throws Exception
      */
     public static final String xPathStringSearch(Node context, String xPath) throws Exception {
     	
-        if (xPath == null){
+        if (xPath == null) {
             return null;
         }
         
         XPath xpath = XPathFactory.newInstance().newXPath();
-        
         xpath.setNamespaceContext(NAMESPACE_CONTEXT);
-        
         XPathExpression expression = xpath.compile(xPath);
-        
         return (String) expression.evaluate(context, XPathConstants.STRING);
+        
     }    
     
     /**
@@ -229,17 +184,22 @@ public class XmlUtils {
      */
     public static final NodeList xPathNodeListSearch(Node context, String xPath) throws Exception {
     	
-        if (xPath == null){
+        if (xPath == null) {
             return null;
         }
         
         XPath xpath = XPathFactory.newInstance().newXPath();
-        
         xpath.setNamespaceContext(NAMESPACE_CONTEXT);
-        
         XPathExpression expression = xpath.compile(xPath);
-        
         return (NodeList) expression.evaluate(context, XPathConstants.NODESET);        
+
+    }
+    
+    private static final Transformer setupTransformerOptions(Transformer t) {
+        t.setOutputProperty(OutputKeys.INDENT, "yes");
+        t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+		return t;
     }
     
 }

@@ -1,5 +1,6 @@
 package org.search.nibrs.ndexconversion;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -14,13 +15,23 @@ import org.junit.Test;
 import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.search.nibrs.xml.XmlTestUtils;
 import org.search.nibrs.xml.XmlUtils;
-import org.search.nibrs.xml.XsltTransformer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 public class NdexNibrsTransformTest {		
+	
+	private static SAXSource createSaxSource(String xml) {
+		InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
+		return new SAXSource(inputSource);
+	}  
+	
+	private static SAXSource createSaxSource(InputStream inSream) {
+		InputSource inputSource = new InputSource(inSream);
+		return new SAXSource(inputSource);
+	}	
 	
 	@Test
 	public void nibrsTransformTest() throws Exception{
@@ -28,7 +39,7 @@ public class NdexNibrsTransformTest {
 		XsltTransformer xsltTransformer = new XsltTransformer();
 		
 		InputStream inFileStream = new FileInputStream("src/test/resources/xml/NDEx-NIBRS.xml");		
-		SAXSource inputFileSource = XmlUtils.createSaxSource(inFileStream);
+		SAXSource inputFileSource = createSaxSource(inFileStream);
 						
 		File xsltFile = new File("src/main/resources/xsl/NIBRS_Transform.xsl");
 		StreamSource xsltSource = new StreamSource(xsltFile);				
@@ -39,9 +50,9 @@ public class NdexNibrsTransformTest {
 				
 		String transformedXml = xsltTransformer.transform(inputFileSource, xsltSource, paramMap);
 		 				
-		XmlTestUtils.compareDocs("src/test/resources/xml/NDEx-NIBRS.out.xml", transformedXml);
+		XmlTestUtils.compareDocuments("src/test/resources/xml/NDEx-NIBRS.out.xml", transformedXml);
 		
-		Document trasformedDoc = XmlUtils.loadXMLFromString(transformedXml);
+		Document trasformedDoc = XmlUtils.toDocument(transformedXml);
 	
 		Node reportHeaderNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:Report/nibrs:ReportHeader");
 		
@@ -56,7 +67,7 @@ public class NdexNibrsTransformTest {
 	@Test
 	public void nibrsUtilsTest() throws Exception{
 		
-		Document ndexNibrsDoc = XmlUtils.parseFileToDocument(new File("src/test/resources/xml/NDEx-NIBRS.out.xml"));
+		Document ndexNibrsDoc = XmlUtils.toDocument(new File("src/test/resources/xml/NDEx-NIBRS.out.xml"));
 		
 		Node reportHeaderNode = XmlUtils.xPathNodeSearch(ndexNibrsDoc, "/nibrs:Report/nibrs:ReportHeader");
 		
@@ -86,7 +97,7 @@ public class NdexNibrsTransformTest {
 		File xsltFile = new File("src/main/resources/xsl/NIBRS_Transform.xsl");
 		StreamSource xsltSource = new StreamSource(xsltFile);				
 								
-		Document inputFileDoc = XmlUtils.parseFileToDocument(new File("src/test/resources/xml/NDEx-NIBRS.xml"));		
+		Document inputFileDoc = XmlUtils.toDocument(new File("src/test/resources/xml/NDEx-NIBRS.xml"));		
 		
 		NodeList structPayloadNodeList = XmlUtils.xPathNodeListSearch(inputFileDoc, "//lexs31:StructuredPayload");
 		
@@ -100,13 +111,13 @@ public class NdexNibrsTransformTest {
 			structPayloadParent.removeChild(strucPayloadNode);
 		}
 									
-		String sInputDoc = XmlUtils.getStringFromNode(inputFileDoc);
+		String sInputDoc = XmlUtils.nodeToString(inputFileDoc);
 		
-		SAXSource inputFileSource = XmlUtils.createSaxSource(sInputDoc);
+		SAXSource inputFileSource = createSaxSource(sInputDoc);
 		
 		String transformedXml = xsltTransformer.transform(inputFileSource, xsltSource, null);
 						
-		Document trasformedDoc = XmlUtils.loadXMLFromString(transformedXml);
+		Document trasformedDoc = XmlUtils.toDocument(transformedXml);
 						
 		Node offenseUcrCodeNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:Report/j:Offense/nibrs:OffenseUCRCode");
 
@@ -125,7 +136,7 @@ public class NdexNibrsTransformTest {
 		File xsltFile = new File("src/main/resources/xsl/NIBRS_Transform.xsl");
 		StreamSource xsltSource = new StreamSource(xsltFile);				
 					
-		Document inputFileDoc = XmlUtils.parseFileToDocument(new File("src/test/resources/xml/NDEx-NIBRS.xml"));
+		Document inputFileDoc = XmlUtils.toDocument(new File("src/test/resources/xml/NDEx-NIBRS.xml"));
 						
 		Node digestNode = XmlUtils.xPathNodeSearch(inputFileDoc, 
 				"/lexspd31:doPublish/lexs31:PublishMessageContainer/lexs31:PublishMessage/lexs31:DataItemPackage/lexs31:Digest");
@@ -148,14 +159,14 @@ public class NdexNibrsTransformTest {
 		
 		
 		
-		String sInputDoc = XmlUtils.getStringFromNode(inputFileDoc);
+		String sInputDoc = XmlUtils.nodeToString(inputFileDoc);
 		
-		SAXSource intputSaxSource =  XmlUtils.createSaxSource(sInputDoc);
+		SAXSource intputSaxSource =  createSaxSource(sInputDoc);
 		
 		String transformedXml = xsltTransformer.transform(intputSaxSource, xsltSource, null);
 		 				
 		// should expect same transformation result - even though warrant section added above to input document
-		XmlTestUtils.compareDocs("src/test/resources/xml/NDEx-NIBRS.out.xml", transformedXml);		
+		XmlTestUtils.compareDocuments("src/test/resources/xml/NDEx-NIBRS.out.xml", transformedXml);		
 	}	
 	
 	
