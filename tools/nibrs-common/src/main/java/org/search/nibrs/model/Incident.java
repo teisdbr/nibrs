@@ -29,12 +29,32 @@ public class Incident
 
     public Incident()
     {
-        offenseSegmentList = new ArrayList<Offense>();
-        propertySegmentList = new ArrayList<Property>();
-        victimSegmentList = new ArrayList<Victim>();
-        offenderSegmentList = new ArrayList<Offender>();
-        arresteeSegmentList = new ArrayList<Arrestee>();
+        removeOffenses();
+        removeProperties();
+        removeVictims();
+        removeOffenders();
+        removeArrestees();
     }
+
+	public void removeArrestees() {
+		arresteeSegmentList = new ArrayList<Arrestee>();
+	}
+
+	public void removeOffenders() {
+		offenderSegmentList = new ArrayList<Offender>();
+	}
+
+	public void removeVictims() {
+		victimSegmentList = new ArrayList<Victim>();
+	}
+
+	public void removeProperties() {
+		propertySegmentList = new ArrayList<Property>();
+	}
+
+	public void removeOffenses() {
+		offenseSegmentList = new ArrayList<Offense>();
+	}
     
     public Boolean getCargoTheftIndicator() {
 		return cargoTheftIndicator;
