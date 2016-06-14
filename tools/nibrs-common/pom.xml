@@ -14,22 +14,12 @@
 	</properties>
 	
 	<dependencies>
-		 <!-- note any project "parent" that depends on ojb-common will have a transitive
-		 	dependency on these saxon dependencies, unless that parent project edits its
-		 	declared ojb-common dependency to specify exclusion elements on these transitive
-		 	saxon jars.  Having saxon on the classpath causes TransformerFactory instances and other
-		 	transform code to behave unexpectedly when saxon is included unintentionally.
-		-->
 		<dependency>
-			<groupId>net.sf.saxon</groupId>
-			<artifactId>saxon</artifactId>
-			<version>${saxon-version}</version>
+    		<groupId>net.sf.saxon</groupId>
+    		<artifactId>Saxon-HE</artifactId>
+    		<version>9.6.0-4</version>
 		</dependency>
-		<dependency>
-			<groupId>net.sf.saxon</groupId>
-			<artifactId>saxon-dom</artifactId>
-			<version>${saxon-version}</version>
-		</dependency>
+		 
 		<dependency>
 			<groupId>xmlunit</groupId>
 			<artifactId>xmlunit</artifactId>
