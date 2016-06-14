@@ -13,6 +13,8 @@ import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stax.StAXResult;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
@@ -37,7 +39,7 @@ import org.w3c.dom.Element;
  * handle Group B
  * log4j info
  * error handling
- * finish streaming of output
+ * separate out ndex namespace context
  * 
  * IEPD issues for FBI:
  * --inclusion of RoleOfOrganization when no Organization possible
@@ -124,11 +126,14 @@ public class ReportConverter {
 	public void convertNIBRSSubmissionToStream(NIBRSSubmission submission, OutputStream os) throws Exception {
 
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
+		factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
 		XMLStreamWriter writer = factory.createXMLStreamWriter(os);
 
 		writer.writeStartDocument();
 		writer.writeStartElement(Namespace.nibrs.prefix, "Submission", Namespace.nibrs.uri);
-		writer.writeNamespace(Namespace.nibrs.prefix, Namespace.nibrs.uri);
+		for (Namespace n : Namespace.values()) {
+			writer.writeNamespace(n.prefix, n.uri);
+		}
 
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer t = tf.newTransformer();
@@ -138,11 +143,9 @@ public class ReportConverter {
 
 		for (Incident incident : submission.getIncidents()) {
 			Element reportElement = buildReportElement(incident);
-			// t.transform(new DOMSource(reportElement), new
-			// StAXResult(writer));
+			t.transform(new DOMSource(reportElement), new StAXResult(writer));
 		}
 
-		writer.writeEndElement();
 		writer.flush();
 		writer.close();
 
@@ -166,9 +169,44 @@ public class ReportConverter {
 		addSubjectElements(incident, reportElement);
 		
 		addArresteeElements(incident, reportElement);
+		
+		addArrestElement(incident, reportElement);
 
+		addArrestSubjectAssociationElements(incident, reportElement);
 		addOffenseLocationAssociationElements(incident, reportElement);
+		addOffenseVictimAssociationElements(incident, reportElement);
 		return reportElement;
+	}
+
+	private void addOffenseVictimAssociationElements(Incident incident, Element reportElement) {
+		for (Victim victim : incident.getVictims()) {
+			//victim.getUcrOffenseCodeConnection(position)
+		}
+	}
+
+	private void addArrestSubjectAssociationElements(Incident incident, Element reportElement) {
+		for (Arrestee arrestee : incident.getArrestees()) {
+			Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "ArrestSubjectAssociation");
+			Element e = XmlUtils.appendChildElement(associationElement, Namespace.nc, "Activity");
+			XmlUtils.addAttribute(e, Namespace.s, "ref", "Arrest-" + arrestee.getArresteeSequenceNumber());
+			e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Subject");
+			XmlUtils.addAttribute(e, Namespace.s, "ref", "Arrestee-" + arrestee.getArresteeSequenceNumber());
+		}
+	}
+
+	private void addArrestElement(Incident incident, Element reportElement) {
+		for (Arrestee arrestee : incident.getArrestees()) {
+			Element arrestElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Arrest");
+			XmlUtils.addAttribute(arrestElement, Namespace.s, "id", "Arrest-" + arrestee.getArresteeSequenceNumber());
+			Element e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityIdentification");
+			XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID").setTextContent(arrestee.getArrestTransactionNumber());
+			e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityDate");
+			XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(arrestee.getArrestDate()));
+			e = XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestCharge");
+			XmlUtils.appendChildElement(e, Namespace.nibrs, "ChargeUCRCode").setTextContent(arrestee.getUcrArrestOffenseCode());
+			XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestCategoryCode").setTextContent(arrestee.getTypeOfArrest());
+			XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestSubjectCountCode").setTextContent(arrestee.getMultipleArresteeSegmentsIndicator());
+		}		
 	}
 
 	private void addArresteeElements(Incident incident, Element reportElement) {

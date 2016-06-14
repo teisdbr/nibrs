@@ -1,5 +1,6 @@
 package org.search.nibrs.ff_conversion.exporter;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 
 import org.junit.Test;
@@ -28,7 +29,11 @@ public class TestReportConverter {
 	public void testStreamConversion() throws Exception {
 		NIBRSSubmission report = new NIBRSSubmission();
 		report.addIncident(buildBaseIncident());
-		new ReportConverter().convertNIBRSSubmissionToStream(report, System.out);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		new ReportConverter().convertNIBRSSubmissionToStream(report, baos);
+		String xml = baos.toString();
+		Document d = XmlUtils.toDocument(xml);
+		XmlUtils.printNode(d);
 	}
 
 	private Incident buildBaseIncident() throws ParseException {
@@ -166,6 +171,11 @@ public class TestReportConverter {
 		arrestee.setAgeOfArresteeString("22");
 		arrestee.setRaceOfArrestee("W");
 		arrestee.setSexOfArrestee("M");
+		arrestee.setArrestTransactionNumber("12345");
+		arrestee.setArrestDate(ReportConverter.DATE_FORMAT.parse("2016-05-16"));
+		arrestee.setUcrArrestOffenseCode("64A");
+		arrestee.setTypeOfArrest("O");
+		arrestee.setMultipleArresteeSegmentsIndicator("N");
 		
 		return incident;
 		
