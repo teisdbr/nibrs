@@ -14,14 +14,14 @@ import org.search.nibrs.model.Victim;
 import org.search.nibrs.xml.XmlUtils;
 import org.w3c.dom.Document;
 
-public class TestReportConverter {
+public class TestXMLExporter {
 	
 	@Test
 	public void testDocumentConversion() throws Exception {
 		
 		NIBRSSubmission report = new NIBRSSubmission();
 		report.addIncident(buildBaseIncident());
-		Document d = new ReportConverter().convertNIBRSSubmissionToDocument(report);
+		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report);
 		XmlUtils.printNode(d, System.out);
 	}
 	
@@ -30,7 +30,7 @@ public class TestReportConverter {
 		NIBRSSubmission report = new NIBRSSubmission();
 		report.addIncident(buildBaseIncident());
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new ReportConverter().convertNIBRSSubmissionToStream(report, baos);
+		new XMLExporter().convertNIBRSSubmissionToStream(report, baos);
 		String xml = baos.toString();
 		Document d = XmlUtils.toDocument(xml);
 		XmlUtils.printNode(d);
@@ -43,7 +43,7 @@ public class TestReportConverter {
 		incident.setMonthOfTape(5);
 		incident.setOri("WA123456789");
 		incident.setIncidentNumber("54236732");
-		incident.setIncidentDate(ReportConverter.DATETIME_FORMAT.parse("2016-05-12T10:07:46.342-0500"));
+		incident.setIncidentDate(XMLExporter.DATETIME_FORMAT.parse("2016-05-12T10:07:46.342-0500"));
 		incident.setExceptionalClearanceCode("N");
 		
 		Offense o = new Offense();
@@ -107,7 +107,7 @@ public class TestReportConverter {
 		p.setTypeOfPropertyLoss("5");
 		p.setPropertyDescription(0, "17");
 		p.setValueOfProperty(0, 200);
-		p.setDateRecovered(0, ReportConverter.DATE_FORMAT.parse("2016-05-16"));
+		p.setDateRecovered(0, XMLExporter.DATE_FORMAT.parse("2016-05-16"));
 		
 		p = new Property();
 		incident.addProperty(p);
@@ -172,7 +172,7 @@ public class TestReportConverter {
 		arrestee.setRaceOfArrestee("W");
 		arrestee.setSexOfArrestee("M");
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(ReportConverter.DATE_FORMAT.parse("2016-05-16"));
+		arrestee.setArrestDate(XMLExporter.DATE_FORMAT.parse("2016-05-16"));
 		arrestee.setUcrArrestOffenseCode("64A");
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");

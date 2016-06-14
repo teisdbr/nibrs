@@ -49,7 +49,7 @@ import org.w3c.dom.Element;
  * 
  */
 
-public class ReportConverter {
+public class XMLExporter {
 
 	static final NumberFormat MONTH_NUMBER_FORMAT = new DecimalFormat("00");
 	static final DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
