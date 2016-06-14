@@ -1,4 +1,4 @@
-package org.search.nibrs.ff_conversion.importer;
+package org.search.nibrs.flatfile.importer;
 
 import static org.junit.Assert.*;
 
@@ -6,8 +6,9 @@ import java.io.*;
 import java.util.*;
 
 import org.search.nibrs.model.*;
-import org.search.nibrs.ff_conversion.util.*;
-
+import org.search.nibrs.flatfile.importer.DefaultIncidentListener;
+import org.search.nibrs.flatfile.importer.IncidentBuilder;
+import org.search.nibrs.flatfile.util.*;
 import org.junit.*;
 
 /**

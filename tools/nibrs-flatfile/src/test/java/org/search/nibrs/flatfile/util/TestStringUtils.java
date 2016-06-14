@@ -1,10 +1,12 @@
-package org.search.nibrs.ff_conversion.util;
+package org.search.nibrs.flatfile.util;
 
 import static org.junit.Assert.*;
 
 import java.util.*;
 
 import org.junit.*;
+import org.search.nibrs.flatfile.util.DateUtils;
+import org.search.nibrs.flatfile.util.StringUtils;
 
 public class TestStringUtils
 {

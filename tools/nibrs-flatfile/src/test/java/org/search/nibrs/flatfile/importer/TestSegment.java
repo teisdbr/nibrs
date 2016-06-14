@@ -1,8 +1,9 @@
-package org.search.nibrs.ff_conversion.importer;
+package org.search.nibrs.flatfile.importer;
 
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.search.nibrs.flatfile.importer.Segment;
 
 public class TestSegment
 {

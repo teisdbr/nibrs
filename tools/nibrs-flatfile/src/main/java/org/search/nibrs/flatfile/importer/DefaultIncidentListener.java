@@ -1,4 +1,4 @@
-package org.search.nibrs.ff_conversion.importer;
+package org.search.nibrs.flatfile.importer;
 
 import java.util.*;
 

@@ -1,6 +1,6 @@
-package org.search.nibrs.ff_conversion.importer;
+package org.search.nibrs.flatfile.importer;
 
-import org.search.nibrs.ff_conversion.util.*;
+import org.search.nibrs.flatfile.util.*;
 
 /**
  * Representation of a single line in a NIBRS report file.

@@ -1,10 +1,10 @@
-package org.search.nibrs.ff_conversion.importer;
+package org.search.nibrs.flatfile.importer;
 
 import java.io.*;
 import java.util.*;
 
+import org.search.nibrs.flatfile.util.*;
 import org.search.nibrs.model.*;
-import org.search.nibrs.ff_conversion.util.*;
 
 /**
  * Builder class that constructs incidents from a stream of NIBRS report data.
