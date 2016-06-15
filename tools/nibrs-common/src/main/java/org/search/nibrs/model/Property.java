@@ -1,15 +1,18 @@
 package org.search.nibrs.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Representation of an article of property reported within an Incident in a NIBRS report.
  *
  */
-public class Property
+public class Property implements Serializable
 {
     
-    private String typeOfPropertyLoss;
+	private static final long serialVersionUID = -6949610444314905319L;
+	
+	private String typeOfPropertyLoss;
     private String[] propertyDescription;
     private Integer[] valueOfProperty;
     private Date[] dateRecovered;

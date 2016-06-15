@@ -1,13 +1,17 @@
 package org.search.nibrs.model;
 
+import java.io.Serializable;
+
 /**
  * Representation of a Victim reported within an Incident in a NIBRS report.
  *
  */
-public class Victim
+public class Victim implements Serializable
 {
     
-    private Integer victimSequenceNumber;
+	private static final long serialVersionUID = -1133037294039133967L;
+	
+	private Integer victimSequenceNumber;
     private String[] ucrOffenseCodeConnection;
     private String typeOfVictim;
     private String ageOfVictimString;

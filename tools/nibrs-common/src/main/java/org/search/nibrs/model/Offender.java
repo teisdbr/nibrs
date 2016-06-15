@@ -1,13 +1,17 @@
 package org.search.nibrs.model;
 
+import java.io.Serializable;
+
 /**
  * Representation of an Offender reported within an Incident in a NIBRS report.
  *
  */
-public class Offender
+public class Offender implements Serializable
 {
     
-    private Integer offenderSequenceNumber;
+	private static final long serialVersionUID = 871781322681376238L;
+	
+	private Integer offenderSequenceNumber;
     private String ageOfOffenderString;
     private String sexOfOffender;
     private String raceOfOffender;

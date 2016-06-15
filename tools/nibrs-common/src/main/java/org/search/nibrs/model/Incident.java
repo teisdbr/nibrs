@@ -1,15 +1,23 @@
 package org.search.nibrs.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Representation of an individual incident in a NIBRS report.
  *
  */
-public class Incident
+public class Incident implements Serializable
 {
     
-    private int monthOfTape;
+	private static final long serialVersionUID = 3136534413958035709L;
+	
+	private int monthOfTape;
     private int yearOfTape;
     private String cityIndicator;
     private String ori;
@@ -35,23 +43,66 @@ public class Incident
         removeOffenders();
         removeArrestees();
     }
+    
+    public Incident deepCopy() {
+    	
+    	Incident ret = null;
+    	
+    	try {
+    		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(this);
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			ObjectInputStream ois = new ObjectInputStream(bais);
+			ret = (Incident) ois.readObject();
+    	} catch (IOException ioe) {
+    		// this should never really happen
+    		throw new RuntimeException(ioe);
+    	} catch (ClassNotFoundException cnfe) {
+    		// this should never really happen
+    		throw new RuntimeException(cnfe);
+		}
+    	
+    	return ret;
+    	
+    }
+
+	public void removeArrestee(int index) {
+		arresteeSegmentList.remove(index);
+	}
 
 	public void removeArrestees() {
 		arresteeSegmentList = new ArrayList<Arrestee>();
+	}
+
+	public void removeOffender(int index) {
+		offenderSegmentList.remove(index);
 	}
 
 	public void removeOffenders() {
 		offenderSegmentList = new ArrayList<Offender>();
 	}
 
+	public void removeVictim(int index) {
+		victimSegmentList.remove(index);
+	}
+
 	public void removeVictims() {
 		victimSegmentList = new ArrayList<Victim>();
+	}
+
+	public void removeProperty(int index) {
+		propertySegmentList.remove(index);
 	}
 
 	public void removeProperties() {
 		propertySegmentList = new ArrayList<Property>();
 	}
 
+	public void removeOffense(int index) {
+		offenseSegmentList.remove(index);
+	}
+    
 	public void removeOffenses() {
 		offenseSegmentList = new ArrayList<Offense>();
 	}

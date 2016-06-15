@@ -1,15 +1,18 @@
 package org.search.nibrs.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Representation of an Arrestee reported within an Incident in a NIBRS report.
  *
  */
-public class Arrestee
+public class Arrestee implements Serializable
 {
     
-    private Integer arresteeSequenceNumber;
+	private static final long serialVersionUID = 7160255436781736744L;
+	
+	private Integer arresteeSequenceNumber;
     private String arrestTransactionNumber;
     private Date arrestDate;
     private String typeOfArrest;

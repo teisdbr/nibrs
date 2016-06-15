@@ -1,13 +1,17 @@
 package org.search.nibrs.model;
 
+import java.io.Serializable;
+
 /**
  * Representation of an Offense reported within an Incident in a NIBRS report.
  *  
  */
-public class Offense
+public class Offense implements Serializable
 {
 
-    private String ucrOffenseCode;
+	private static final long serialVersionUID = -313348054514046667L;
+	
+	private String ucrOffenseCode;
     private String offenseAttemptedCompleted;
     private String[] offendersSuspectedOfUsing;
     private String locationType;

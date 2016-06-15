@@ -16,6 +16,10 @@ public class NIBRSSubmission
         incidentList = new ArrayList<Incident>();
     }
     
+    public void addIncidents(Collection<Incident> incidents) {
+    	incidentList.addAll(incidents);
+    }
+    
     public void addIncident(Incident incident)
     {
         incidentList.add(incident);
