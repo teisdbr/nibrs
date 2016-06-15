@@ -1,6 +1,9 @@
 package org.search.nibrs.validation;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -15,10 +18,10 @@ public class RuleViolationExemplarFactory {
 	
 	private static final RuleViolationExemplarFactory INSTANCE = new RuleViolationExemplarFactory();
 	
-	private Map<Integer, Function<Incident, Incident>> tweakerMap;
+	private Map<Integer, Function<Incident, List<Incident>>> tweakerMap;
 	
 	private RuleViolationExemplarFactory() {
-		tweakerMap = new HashMap<Integer, Function<Incident,Incident>>();
+		tweakerMap = new HashMap<Integer, Function<Incident,List<Incident>>>();
 		populateExemplarMap();
 	}
 	
@@ -35,7 +38,7 @@ public class RuleViolationExemplarFactory {
 	 * @param ruleNumber the rule number
 	 * @return an incident that exemplifies violation of the rule
 	 */
-	public Incident getIncidentThatViolatesRule(Integer ruleNumber) {
+	public List<Incident> getIncidentsThatViolateRule(Integer ruleNumber) {
 		return tweakerMap.get(ruleNumber).apply(BaselineIncidentFactory.getBaselineIncident());
 	}
 	
@@ -44,8 +47,20 @@ public class RuleViolationExemplarFactory {
 		tweakerMap.put(115, incident -> {
 			// do whatever you need to do in here to "tweak" the incident so that it violates the rule
 			// Rule 115 says that there cannot be embedded blanks within an Incident Number
-			incident.setIncidentNumber("1234 5678");
-			return incident;
+			Incident ret = incident.deepCopy();
+			ret.setIncidentNumber("1234 5678");
+			return Collections.singletonList(ret);
+		});
+		
+		tweakerMap.put(119, incident -> {
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setCargoTheftIndicator(true);
+			Incident copy2 = copy.deepCopy();
+			copy.getOffenses().get(0).setUcrOffenseCode("13B");
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
 		});
 		
 	}
