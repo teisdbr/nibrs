@@ -52,6 +52,12 @@ public class RuleViolationExemplarFactory {
 			return Collections.singletonList(ret);
 		});
 		
+		tweakerMap.put(117, incident -> {
+			Incident ret = incident.deepCopy();
+			ret.setIncidentNumber("89+123*SC");
+			return Collections.singletonList(ret);
+		});
+		
 		tweakerMap.put(119, incident -> {
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
