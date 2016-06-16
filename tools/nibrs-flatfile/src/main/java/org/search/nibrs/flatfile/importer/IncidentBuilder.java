@@ -129,6 +129,7 @@ public class IncidentBuilder
 
     private void handleThrowable(String currentIncidentNumber, Throwable t)
     {
+    	t.printStackTrace();
         for (Iterator<IncidentListener> it = listeners.iterator(); it.hasNext();)
         {
             IncidentListener listener = it.next();
@@ -262,7 +263,11 @@ public class IncidentBuilder
         newOffender.setAgeOfOffenderString(StringUtils.getStringBetween(40, 43, segmentData));
         newOffender.setSexOfOffender(StringUtils.getStringBetween(44, 44, segmentData));
         newOffender.setRaceOfOffender(StringUtils.getStringBetween(45, 45, segmentData));
-        newOffender.setEthnicityOfOffender(StringUtils.getStringBetween(46, 46, segmentData));
+        int length = s.getSegmentLength();
+        boolean hasOffenderEthnicity = length == 46;
+        if (hasOffenderEthnicity) {
+        	newOffender.setEthnicityOfOffender(StringUtils.getStringBetween(46, 46, segmentData));
+        }
         return newOffender;
     }
 
@@ -297,9 +302,14 @@ public class IncidentBuilder
             newVictim.setTypeOfInjury(i, StringUtils.getStringBetween(85 + i, 85 + i, segmentData));
         }
         
-        newVictim.setTypeOfOfficerActivityCircumstance(StringUtils.getStringBetween(130, 131, segmentData));
-        newVictim.setOfficerAssignmentType(StringUtils.getStringBetween(132, 132, segmentData));
-        newVictim.setOfficerOtherJurisdictionORI(StringUtils.getStringBetween(133, 141, segmentData));
+        int length = s.getSegmentLength();
+        boolean leoka = length == 141;
+        
+        if (leoka) {
+        	newVictim.setTypeOfOfficerActivityCircumstance(StringUtils.getStringBetween(130, 131, segmentData));
+        	newVictim.setOfficerAssignmentType(StringUtils.getStringBetween(132, 132, segmentData));
+        	newVictim.setOfficerOtherJurisdictionORI(StringUtils.getStringBetween(133, 141, segmentData));
+        }
         
         return newVictim;
         
@@ -359,7 +369,10 @@ public class IncidentBuilder
         newOffense.setNumberOfPremisesEntered(StringUtils.getIntegerBetween(47, 48, segmentData));
         newOffense.setMethodOfEntry(StringUtils.getStringBetween(49, 49, segmentData));
         
-        for (int i=0; i < 5; i++) {
+        int length = s.getSegmentLength();
+        int biasMotivationFields = length == 63 ? 1 : 5;
+        
+        for (int i=0; i < biasMotivationFields; i++) {
             newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62+i, 63+i, segmentData));
         }
         

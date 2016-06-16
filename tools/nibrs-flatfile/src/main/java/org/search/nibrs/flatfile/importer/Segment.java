@@ -51,6 +51,7 @@ public class Segment
 	        Integer i = null;
 	        try {
 				i = Integer.parseInt(sv);
+				this.segmentLength = i;
 	        } catch (NumberFormatException nfe) {
 	        	e = new NIBRSError();
 	        	e.setContext(lineNumber);
