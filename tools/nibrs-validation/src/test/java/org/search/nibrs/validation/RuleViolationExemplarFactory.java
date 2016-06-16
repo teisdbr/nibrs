@@ -45,20 +45,25 @@ public class RuleViolationExemplarFactory {
 	private void populateExemplarMap() {
 
 		tweakerMap.put(115, incident -> {
-			// do whatever you need to do in here to "tweak" the incident so that it violates the rule
-			// Rule 115 says that there cannot be embedded blanks within an Incident Number
+			//(Incident Number) Must be blank right-fill if under 12 characters in length. 
+			//Cannot have embedded blanks between the first and last characters entered.
 			Incident ret = incident.deepCopy();
 			ret.setIncidentNumber("1234 5678");
 			return Collections.singletonList(ret);
 		});
 		
 		tweakerMap.put(117, incident -> {
+			//(Incident Number) can only have character combinations of A through Z, 0 through 9, hyphens, 
+			//and/or blanks. For example, 89-123-SC is valid, but 89+123*SC is invalid.
 			Incident ret = incident.deepCopy();
 			ret.setIncidentNumber("89+123*SC");
 			return Collections.singletonList(ret);
 		});
 		
 		tweakerMap.put(119, incident -> {
+			/*Data Element 2A (Cargo Theft) must be populated with a valid data value when 
+			Data Element 6 (UCR Offense Code) contains a Cargo Theft-related offense.
+			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setCargoTheftIndicator(true);
