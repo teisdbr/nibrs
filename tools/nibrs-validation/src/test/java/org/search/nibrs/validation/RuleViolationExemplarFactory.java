@@ -44,6 +44,15 @@ public class RuleViolationExemplarFactory {
 	
 	private void populateExemplarMap() {
 
+		tweakerMap.put(059, incident -> {
+			/*(First two positions must be the code of the state (e.g., SC, MD) in which the incident occurred.
+			 For nonfederal participants, every record must have the same code.
+			*/
+			Incident ret = incident.deepCopy();
+			ret.setOri("ZZ123456789");
+			return Collections.singletonList(ret);
+		});
+		
 		tweakerMap.put(105, incident -> {
 			/*The data element in error contains a date that is not entered correctly.
 			Each component of the date must be valid; that is, months must be 01 through 12,
