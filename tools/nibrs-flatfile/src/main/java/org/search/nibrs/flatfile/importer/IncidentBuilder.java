@@ -129,7 +129,7 @@ public class IncidentBuilder
 
     private void handleThrowable(String currentIncidentNumber, Throwable t)
     {
-    	t.printStackTrace();
+    	//t.printStackTrace();
         for (Iterator<IncidentListener> it = listeners.iterator(); it.hasNext();)
         {
             IncidentListener listener = it.next();
@@ -155,6 +155,7 @@ public class IncidentBuilder
         newIncident.setIncidentNumber(s.getIncidentNumber());
         newIncident.setOri(s.getOri());
         String segmentData = s.getData();
+        int length = s.getSegmentLength();
         newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
     	newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
         newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
@@ -178,6 +179,11 @@ public class IncidentBuilder
             int clearanceMonth = DateUtils.convertMonthValue(clearanceMonthOrig);
             int clearanceDay = getIntValueFromSegment(s, 56, 57, errorList, "Clearance Day must be a number");
             newIncident.setExceptionalClearanceDate(DateUtils.makeDate(clearanceYear, clearanceMonth, clearanceDay));
+        }
+        boolean cargoTheft = length == 88;
+        if (cargoTheft) {
+        	String cargoTheftYN = StringUtils.getStringBetween(88, 88, segmentData);
+        	newIncident.setCargoTheftIndicator("Y".equals(cargoTheftYN));
         }
         return newIncident;
     }

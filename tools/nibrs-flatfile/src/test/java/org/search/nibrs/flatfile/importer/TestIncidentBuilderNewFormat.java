@@ -20,13 +20,13 @@ public class TestIncidentBuilderNewFormat
 {
 	
     private static final String TESTDATA_NEWFORMAT =
-        "00871I022003    TN006000002-000895   20020102 10N                                      \n" +
+        "00881I022003    TN006000002-000895   20020102 10N                                      N\n" +
         "00712I022003    TN006000002-000895   220CN  20  N            88        \n" +
         "03073I022003    TN006000002-000895   713000000020                                                                                                                                                                                                                                                                  \n" +
         "01414I022003    TN006000002-000895   001220                           I46  FWNR                                                              \n" +
         "00465I022003    TN006000002-000895   0124  MW \n" +
         "01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                \n" +
-        "00871I022003    TN006000002-003178   20020116 12N                                      \n" +
+        "00881I022003    TN006000002-003178   20020116 12N                                      Y\n" +
         "00712I022003    TN006000002-003178   220CN  20  N            88        \n" +
         "03073I022003    TN006000002-003178   777000000005                                                                                                                                                                                                                                                                  \n" +
         "01414I022003    TN006000002-003178   001220                           I28  MWNR                                                              \n" +
@@ -96,7 +96,6 @@ public class TestIncidentBuilderNewFormat
         assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate());
         assertEquals(new Integer(10), incident.getIncidentHour());
         assertFalse(incident.getReportDateIndicator());
-        assertNull(incident.getCargoTheftIndicator());
         assertEquals("N", incident.getExceptionalClearanceCode());
         assertNull(incident.getExceptionalClearanceDate());
         assertEquals(1, incident.getOffenseCount());
@@ -104,6 +103,17 @@ public class TestIncidentBuilderNewFormat
         assertEquals(1, incident.getVictimCount());
         assertEquals(1, incident.getOffenderCount());
         assertEquals(1, incident.getArresteeCount());
+    }
+    
+    @Test
+    public void testCargoTheftIndicator() {
+    	List<Incident> incidentList = incidentListener.getIncidentList();
+        Incident incident = (Incident) incidentList.get(0);
+        assertFalse(incident.getCargoTheftIndicator());
+        incident = (Incident) incidentList.get(1);
+        assertTrue(incident.getCargoTheftIndicator());
+        incident = (Incident) incidentList.get(2);
+        assertNull(incident.getCargoTheftIndicator());
     }
     
     @Test
