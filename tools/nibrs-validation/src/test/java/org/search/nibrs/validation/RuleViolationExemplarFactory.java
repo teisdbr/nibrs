@@ -44,7 +44,91 @@ public class RuleViolationExemplarFactory {
 	
 	private void populateExemplarMap() {
 
-		tweakerMap.put(059, incident -> {
+		tweakerMap.put(101, incident -> {
+			/*(The referenced data element in a Group A Incident Report
+			Segment 1 must be populated with a valid data length and cannot be blank.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setOri(null);
+			Incident copy2 = copy.deepCopy();
+			copy2.setOri("WA1234");
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+		tweakerMap.put(201, incident -> {
+			/*(The referenced data element in a Group A Incident Report
+			Segment 2 must be populated with a valid data length and cannot be blank.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setOri(null);
+			Incident copy2 = copy.deepCopy();
+			copy2.setOri("WA1234");
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+		tweakerMap.put(301, incident -> {
+			/*(The referenced data element in a Group A Incident Report
+			Segment 3 must be populated with a valid data length and cannot be blank.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setOri(null);
+			Incident copy2 = copy.deepCopy();
+			copy2.setOri("WA1234");
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+		tweakerMap.put(401, incident -> {
+			/*(The referenced data element in a Group A Incident Report
+			Segment 3 must be populated with a valid data length and cannot be blank.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setOri(null);
+			Incident copy2 = copy.deepCopy();
+			copy2.setOri("WA1234");
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+		tweakerMap.put(501, incident -> {
+			/*(The referenced data element in a Group A Incident Report
+			Segment 3 must be populated with a valid data length and cannot be blank.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setOri(null);
+			Incident copy2 = copy.deepCopy();
+			copy2.setOri("WA1234");
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+		tweakerMap.put(601, incident -> {
+			/*(The referenced data element in a Group A Incident Report
+			Segment 3 must be populated with a valid data length and cannot be blank.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setOri(null);
+			Incident copy2 = copy.deepCopy();
+			copy2.setOri("WA1234");
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+			tweakerMap.put(59, incident -> {
 			/*(First two positions must be the code of the state (e.g., SC, MD) in which the incident occurred.
 			 For nonfederal participants, every record must have the same code.
 			*/
@@ -67,9 +151,6 @@ public class RuleViolationExemplarFactory {
 			Incident copy2 = copy.deepCopy();
 			copy.setYearOfTape(2016);
 			copy.setMonthOfTape(13);
-			Incident copy3 = copy.deepCopy();
-			copy.setYearOfTape(2016);
-			copy.setMonthOfTape(6);
 			incidents.add(copy);
 			incidents.add(copy2);
 			return incidents;
