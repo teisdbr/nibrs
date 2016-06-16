@@ -44,21 +44,60 @@ public class RuleViolationExemplarFactory {
 	
 	private void populateExemplarMap() {
 
+		tweakerMap.put(105, incident -> {
+			/*The data element in error contains a date that is not entered correctly.
+			Each component of the date must be valid; that is, months must be 01 through 12,
+			days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx).
+			In addition, days cannot exceed maximum for the month (e.g., June cannot have 31days).
+			Also, the date cannot exceed the current date.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setYearOfTape(0120);
+			copy.setMonthOfTape(5);
+			Incident copy2 = copy.deepCopy();
+			copy.setYearOfTape(2016);
+			copy.setMonthOfTape(13);
+			Incident copy3 = copy.deepCopy();
+			copy.setYearOfTape(2016);
+			copy.setMonthOfTape(6);
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+		
 		tweakerMap.put(115, incident -> {
-			// do whatever you need to do in here to "tweak" the incident so that it violates the rule
-			// Rule 115 says that there cannot be embedded blanks within an Incident Number
+			/*(Incident Number) Must be blank right-fill if under 12 characters in length. 
+			Cannot have embedded blanks between the first and last characters entered.
+			*/
 			Incident ret = incident.deepCopy();
 			ret.setIncidentNumber("1234 5678");
 			return Collections.singletonList(ret);
 		});
 		
+		tweakerMap.put(116, incident -> {
+			/*(Incident Number) must be left-justified with blank right-fill.
+			Since the number is less than 12 characters, it must begin in position 1.
+			 */
+			Incident ret = incident.deepCopy();
+			ret.setIncidentNumber(" 12345678");
+			return Collections.singletonList(ret);
+		});
+		
 		tweakerMap.put(117, incident -> {
+			/*(Incident Number) can only have character combinations of A through Z, 0 through 9,
+			hyphens, and/or blanks. For example, 89-123-SC is valid, but 89+123*SC is invalid.
+			 */
 			Incident ret = incident.deepCopy();
 			ret.setIncidentNumber("89+123*SC");
 			return Collections.singletonList(ret);
 		});
 		
 		tweakerMap.put(119, incident -> {
+			/*Data Element 2A (Cargo Theft) must be populated with a valid data value when 
+			Data Element 6 (UCR Offense Code) contains a Cargo Theft-related offense.
+			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setCargoTheftIndicator(true);
