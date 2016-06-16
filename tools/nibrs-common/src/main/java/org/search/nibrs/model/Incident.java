@@ -17,8 +17,8 @@ public class Incident implements Serializable
     
 	private static final long serialVersionUID = 3136534413958035709L;
 	
-	private int monthOfTape;
-    private int yearOfTape;
+	private Integer monthOfTape;
+    private Integer yearOfTape;
     private String cityIndicator;
     private String ori;
     private String incidentNumber;
@@ -262,9 +262,9 @@ public class Incident implements Serializable
     {
         return monthOfTape;
     }
-    public void setMonthOfTape(int monthOfTape)
+    public void setMonthOfTape(Integer monthOfTape)
     {
-        this.monthOfTape = monthOfTape;
+    	this.monthOfTape = monthOfTape;
     }
     public String getOri()
     {
@@ -286,7 +286,7 @@ public class Incident implements Serializable
     {
         return yearOfTape;
     }
-    public void setYearOfTape(int yearOfTape)
+    public void setYearOfTape(Integer yearOfTape)
     {
         this.yearOfTape = yearOfTape;
     }

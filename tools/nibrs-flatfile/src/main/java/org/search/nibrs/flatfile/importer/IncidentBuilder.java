@@ -154,7 +154,7 @@ public class IncidentBuilder
         newIncident.setIncidentNumber(s.getIncidentNumber());
         newIncident.setOri(s.getOri());
         String segmentData = s.getData();
-    	newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
+        newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
     	newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
         newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
         int incidentYear = getIntValueFromSegment(s, 38, 41, errorList, "Incident Year must be a number");
@@ -185,7 +185,7 @@ public class IncidentBuilder
 		String sv = StringUtils.getStringBetween(startPos, endPos, s.getData());
         Integer i = null;
         try {
-			i = Integer.parseInt(sv);
+			i = new Integer(sv);
         } catch (NumberFormatException nfe) {
         	NIBRSError e = new NIBRSError();
         	e.setContext(s.getLineNumber());
@@ -194,6 +194,7 @@ public class IncidentBuilder
         	e.setValue(sv);
         	e.setSegmentType(s.getSegmentType());
         	errorList.add(e);
+        	LOG.debug("Error in int conversion: lineNumber=" + s.getLineNumber() + ", value=" + sv);
         }
 		return i;
 	}
