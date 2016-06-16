@@ -149,44 +149,51 @@ public class IncidentBuilder
         }
     }
 
-    private final Incident buildIncidentSegment(Segment s, List<NIBRSError> errorList)
-    {
-        Incident newIncident = new Incident();
-        newIncident.setIncidentNumber(s.getIncidentNumber());
-        newIncident.setOri(s.getOri());
-        String segmentData = s.getData();
-        int length = s.getSegmentLength();
-        newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
-    	newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
-        newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
-        int incidentYear = getIntValueFromSegment(s, 38, 41, errorList, "Incident Year must be a number");
-        int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, errorList, "Incident Month must be a number");
-        int incidentMonth = DateUtils.convertMonthValue(incidentMonthOrig);
-        int incidentDay = getIntValueFromSegment(s, 44, 45, errorList, "Incident Day must be a number");
-        newIncident.setIncidentDate(DateUtils.makeDate(incidentYear, incidentMonth, incidentDay));
-        newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
-        String hourString = StringUtils.getStringBetween(47, 48, segmentData);
-        if (hourString != null)
-        {
-            newIncident.setIncidentHour(new Integer(hourString));
-        }
-        newIncident.setExceptionalClearanceCode(StringUtils.getStringBetween(49, 49, segmentData));
-        String clearanceYearString = StringUtils.getStringBetween(50, 53, segmentData);
-        if (clearanceYearString != null)
-        {
-            int clearanceYear = getIntValueFromSegment(s, 50, 53, errorList, "Clearance Year must be a number");
-            int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, errorList, "Clearance Month must be a number");
-            int clearanceMonth = DateUtils.convertMonthValue(clearanceMonthOrig);
-            int clearanceDay = getIntValueFromSegment(s, 56, 57, errorList, "Clearance Day must be a number");
-            newIncident.setExceptionalClearanceDate(DateUtils.makeDate(clearanceYear, clearanceMonth, clearanceDay));
-        }
-        boolean cargoTheft = length == 88;
-        if (cargoTheft) {
-        	String cargoTheftYN = StringUtils.getStringBetween(88, 88, segmentData);
-        	newIncident.setCargoTheftIndicator("Y".equals(cargoTheftYN));
-        }
-        return newIncident;
-    }
+    private final Incident buildIncidentSegment(Segment s, List<NIBRSError> errorList) {
+		Incident newIncident = new Incident();
+		newIncident.setIncidentNumber(s.getIncidentNumber());
+		newIncident.setOri(s.getOri());
+		String segmentData = s.getData();
+		int length = s.getSegmentLength();
+		if (length == 87 || length == 88) {
+			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
+			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
+			newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
+			int incidentYear = getIntValueFromSegment(s, 38, 41, errorList, "Incident Year must be a number");
+			int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, errorList, "Incident Month must be a number");
+			int incidentMonth = DateUtils.convertMonthValue(incidentMonthOrig);
+			int incidentDay = getIntValueFromSegment(s, 44, 45, errorList, "Incident Day must be a number");
+			newIncident.setIncidentDate(DateUtils.makeDate(incidentYear, incidentMonth, incidentDay));
+			newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
+			String hourString = StringUtils.getStringBetween(47, 48, segmentData);
+			if (hourString != null) {
+				newIncident.setIncidentHour(new Integer(hourString));
+			}
+			newIncident.setExceptionalClearanceCode(StringUtils.getStringBetween(49, 49, segmentData));
+			String clearanceYearString = StringUtils.getStringBetween(50, 53, segmentData);
+			if (clearanceYearString != null) {
+				int clearanceYear = getIntValueFromSegment(s, 50, 53, errorList, "Clearance Year must be a number");
+				int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, errorList, "Clearance Month must be a number");
+				int clearanceMonth = DateUtils.convertMonthValue(clearanceMonthOrig);
+				int clearanceDay = getIntValueFromSegment(s, 56, 57, errorList, "Clearance Day must be a number");
+				newIncident.setExceptionalClearanceDate(DateUtils.makeDate(clearanceYear, clearanceMonth, clearanceDay));
+			}
+			boolean cargoTheft = length == 88;
+			if (cargoTheft) {
+				String cargoTheftYN = StringUtils.getStringBetween(88, 88, segmentData);
+				newIncident.setCargoTheftIndicator("Y".equals(cargoTheftYN));
+			}
+		} else {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Administrative segments must be either length 87 or 88)");
+			errorList.add(e);
+		}
+		return newIncident;
+	}
 
 	private Integer getIntValueFromSegment(Segment s, int startPos, int endPos, List<NIBRSError> errorList, String errorMessage) {
 		String sv = StringUtils.getStringBetween(startPos, endPos, s.getData());
@@ -237,96 +244,123 @@ public class IncidentBuilder
         }
     }
 
-    private Arrestee buildArresteeSegment(Segment s, List<NIBRSError> errorList)
-    {
-        Arrestee newArrestee = new Arrestee();
-        String segmentData = s.getData();
-        newArrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
-        newArrestee.setArrestTransactionNumber(StringUtils.getStringBetween(40, 51, segmentData));
-        newArrestee.setArrestDate(StringUtils.getDateBetween(52, 59, segmentData));
-        newArrestee.setTypeOfArrest(StringUtils.getStringBetween(60, 60, segmentData));
-        newArrestee.setMultipleArresteeSegmentsIndicator(StringUtils.getStringBetween(61, 61, segmentData));
-        newArrestee.setUcrArrestOffenseCode(StringUtils.getStringBetween(62, 64, segmentData));
-        for (int i=0;i < 2;i++)
-        {
-            newArrestee.setArresteeArmedWith(i, StringUtils.getStringBetween(65 + 3*i, 66 + 3*i, segmentData));
-            newArrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(67 + 3*i, 67 + 3*i, segmentData));
-        }
-        newArrestee.setAgeOfArresteeString(StringUtils.getStringBetween(71, 74, segmentData));
-        newArrestee.setSexOfArrestee(StringUtils.getStringBetween(75, 75, segmentData));
-        newArrestee.setRaceOfArrestee(StringUtils.getStringBetween(76, 76, segmentData));
-        newArrestee.setEthnicityOfArrestee(StringUtils.getStringBetween(77, 77, segmentData));
-        newArrestee.setResidentStatusOfArrestee(StringUtils.getStringBetween(78, 78, segmentData));
-        newArrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(79, 79, segmentData));
-        return newArrestee;
-    }
+	private Arrestee buildArresteeSegment(Segment s, List<NIBRSError> errorList) {
+		Arrestee newArrestee = new Arrestee();
+		String segmentData = s.getData();
+		int length = s.getSegmentLength();
+		if (length == 110) {
+			newArrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
+			newArrestee.setArrestTransactionNumber(StringUtils.getStringBetween(40, 51, segmentData));
+			newArrestee.setArrestDate(StringUtils.getDateBetween(52, 59, segmentData));
+			newArrestee.setTypeOfArrest(StringUtils.getStringBetween(60, 60, segmentData));
+			newArrestee.setMultipleArresteeSegmentsIndicator(StringUtils.getStringBetween(61, 61, segmentData));
+			newArrestee.setUcrArrestOffenseCode(StringUtils.getStringBetween(62, 64, segmentData));
+			for (int i = 0; i < 2; i++) {
+				newArrestee.setArresteeArmedWith(i, StringUtils.getStringBetween(65 + 3 * i, 66 + 3 * i, segmentData));
+				newArrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(67 + 3 * i, 67 + 3 * i, segmentData));
+			}
+			newArrestee.setAgeOfArresteeString(StringUtils.getStringBetween(71, 74, segmentData));
+			newArrestee.setSexOfArrestee(StringUtils.getStringBetween(75, 75, segmentData));
+			newArrestee.setRaceOfArrestee(StringUtils.getStringBetween(76, 76, segmentData));
+			newArrestee.setEthnicityOfArrestee(StringUtils.getStringBetween(77, 77, segmentData));
+			newArrestee.setResidentStatusOfArrestee(StringUtils.getStringBetween(78, 78, segmentData));
+			newArrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(79, 79, segmentData));
+		} else {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Arrestee segments must be length 110)");
+			errorList.add(e);
+		}
+		return newArrestee;
+	}
 
-    private Offender buildOffenderSegment(Segment s, List<NIBRSError> errorList)
-    {
-        Offender newOffender = new Offender();
-        String segmentData = s.getData();
-        newOffender.setOffenderSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
-        newOffender.setAgeOfOffenderString(StringUtils.getStringBetween(40, 43, segmentData));
-        newOffender.setSexOfOffender(StringUtils.getStringBetween(44, 44, segmentData));
-        newOffender.setRaceOfOffender(StringUtils.getStringBetween(45, 45, segmentData));
-        int length = s.getSegmentLength();
-        boolean hasOffenderEthnicity = length == 46;
-        if (hasOffenderEthnicity) {
-        	newOffender.setEthnicityOfOffender(StringUtils.getStringBetween(46, 46, segmentData));
-        }
-        return newOffender;
-    }
+	private Offender buildOffenderSegment(Segment s, List<NIBRSError> errorList) {
+		Offender newOffender = new Offender();
+		String segmentData = s.getData();
+		int length = s.getSegmentLength();
+		if (length == 45 || length == 46) {
+			newOffender.setOffenderSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
+			newOffender.setAgeOfOffenderString(StringUtils.getStringBetween(40, 43, segmentData));
+			newOffender.setSexOfOffender(StringUtils.getStringBetween(44, 44, segmentData));
+			newOffender.setRaceOfOffender(StringUtils.getStringBetween(45, 45, segmentData));
+			boolean hasOffenderEthnicity = length == 46;
+			if (hasOffenderEthnicity) {
+				newOffender.setEthnicityOfOffender(StringUtils.getStringBetween(46, 46, segmentData));
+			}
+		} else {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Offender segments must be length 45 (with no offender ethnicity) or 46 (with ethnicity))");
+			errorList.add(e);
+		}
+		return newOffender;
+	}
 
-    private Victim buildVictimSegment(Segment s, List<NIBRSError> errorList)
-    {
-        
-        Victim newVictim = new Victim();
-        
-        String segmentData = s.getData();
-        
-        newVictim.setVictimSequenceNumber(StringUtils.getIntegerBetween(38, 40, segmentData));
-        
-        for (int i=0;i < 10;i++)
-        {
-            newVictim.setUcrOffenseCodeConnection(i, StringUtils.getStringBetween(41 + 3*i, 43 + 3*i, segmentData));
-            newVictim.setOffenderNumberRelated(i, StringUtils.getIntegerBetween(90 + 4*i, 91 + 4*i, segmentData));
-            newVictim.setVictimOffenderRelationship(i, StringUtils.getStringBetween(92 + 4*i, 93 + 4*i, segmentData));
-        }
-        
-        newVictim.setTypeOfVictim(StringUtils.getStringBetween(71, 71, segmentData));
-        newVictim.setAgeOfVictimString(StringUtils.getStringBetween(72, 75, segmentData));
-        newVictim.setSexOfVictim(StringUtils.getStringBetween(76, 76, segmentData));
-        newVictim.setRaceOfVictim(StringUtils.getStringBetween(77, 77, segmentData));
-        newVictim.setEthnicityOfVictim(StringUtils.getStringBetween(78, 78, segmentData));
-        newVictim.setResidentStatusOfVictim(StringUtils.getStringBetween(79, 79, segmentData));
-        newVictim.setAggravatedAssaultHomicideCircumstances(0, StringUtils.getStringBetween(80, 81, segmentData));
-        newVictim.setAggravatedAssaultHomicideCircumstances(1, StringUtils.getStringBetween(82, 83, segmentData));
-        newVictim.setAdditionalJustifiableHomicideCircumstances(StringUtils.getStringBetween(84, 84, segmentData));
-        
-        for (int i=0;i < 5;i++)
-        {
-            newVictim.setTypeOfInjury(i, StringUtils.getStringBetween(85 + i, 85 + i, segmentData));
-        }
-        
-        int length = s.getSegmentLength();
-        boolean leoka = length == 141;
-        
-        if (leoka) {
-        	newVictim.setTypeOfOfficerActivityCircumstance(StringUtils.getStringBetween(130, 131, segmentData));
-        	newVictim.setOfficerAssignmentType(StringUtils.getStringBetween(132, 132, segmentData));
-        	newVictim.setOfficerOtherJurisdictionORI(StringUtils.getStringBetween(133, 141, segmentData));
-        }
-        
-        return newVictim;
-        
-    }
+	private Victim buildVictimSegment(Segment s, List<NIBRSError> errorList) {
 
-    private Property buildPropertySegment(Segment s, List<NIBRSError> errorList)
-    {
+		Victim newVictim = new Victim();
+		String segmentData = s.getData();
+		int length = s.getSegmentLength();
+
+		if (length == 129 || length == 141) {
+
+			newVictim.setVictimSequenceNumber(StringUtils.getIntegerBetween(38, 40, segmentData));
+
+			for (int i = 0; i < 10; i++) {
+				newVictim.setUcrOffenseCodeConnection(i, StringUtils.getStringBetween(41 + 3 * i, 43 + 3 * i, segmentData));
+				newVictim.setOffenderNumberRelated(i, StringUtils.getIntegerBetween(90 + 4 * i, 91 + 4 * i, segmentData));
+				newVictim.setVictimOffenderRelationship(i, StringUtils.getStringBetween(92 + 4 * i, 93 + 4 * i, segmentData));
+			}
+
+			newVictim.setTypeOfVictim(StringUtils.getStringBetween(71, 71, segmentData));
+			newVictim.setAgeOfVictimString(StringUtils.getStringBetween(72, 75, segmentData));
+			newVictim.setSexOfVictim(StringUtils.getStringBetween(76, 76, segmentData));
+			newVictim.setRaceOfVictim(StringUtils.getStringBetween(77, 77, segmentData));
+			newVictim.setEthnicityOfVictim(StringUtils.getStringBetween(78, 78, segmentData));
+			newVictim.setResidentStatusOfVictim(StringUtils.getStringBetween(79, 79, segmentData));
+			newVictim.setAggravatedAssaultHomicideCircumstances(0, StringUtils.getStringBetween(80, 81, segmentData));
+			newVictim.setAggravatedAssaultHomicideCircumstances(1, StringUtils.getStringBetween(82, 83, segmentData));
+			newVictim.setAdditionalJustifiableHomicideCircumstances(StringUtils.getStringBetween(84, 84, segmentData));
+
+			for (int i = 0; i < 5; i++) {
+				newVictim.setTypeOfInjury(i, StringUtils.getStringBetween(85 + i, 85 + i, segmentData));
+			}
+
+			boolean leoka = length == 141;
+
+			if (leoka) {
+				newVictim.setTypeOfOfficerActivityCircumstance(StringUtils.getStringBetween(130, 131, segmentData));
+				newVictim.setOfficerAssignmentType(StringUtils.getStringBetween(132, 132, segmentData));
+				newVictim.setOfficerOtherJurisdictionORI(StringUtils.getStringBetween(133, 141, segmentData));
+			}
+
+		} else {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Victim segments must be length 129 (without LEOKA elements) or 141 (with LEOKA elements))");
+			errorList.add(e);
+		}
+
+		return newVictim;
+
+	}
+
+    private Property buildPropertySegment(Segment s, List<NIBRSError> errorList) {
 
         Property newProperty = new Property();
-
         String segmentData = s.getData();
+        int length = s.getSegmentLength();
+        
+        if (length == 307) {
 
         newProperty.setTypeOfPropertyLoss(StringUtils.getStringBetween(38, 38, segmentData));
         
@@ -357,42 +391,62 @@ public class IncidentBuilder
             }
             newProperty.setTypeDrugMeasurement(i, StringUtils.getStringBetween(246 + 15*i, 247 + 15*i, segmentData));
         }
+        
+        } else {
+        	NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Property segments must be length 307)");
+			errorList.add(e);
+        }
 
         return newProperty;
 
     }
 
-    private Offense buildOffenseSegment(Segment s, List<NIBRSError> errorList)
-    {
+	private Offense buildOffenseSegment(Segment s, List<NIBRSError> errorList) {
 
-        Offense newOffense = new Offense();
+		Offense newOffense = new Offense();
 
-        String segmentData = s.getData();
+		String segmentData = s.getData();
+		int length = s.getSegmentLength();
 
-        newOffense.setUcrOffenseCode(StringUtils.getStringBetween(38, 40, segmentData));
-        newOffense.setOffenseAttemptedCompleted(StringUtils.getStringBetween(41, 41, segmentData));
-        newOffense.setLocationType(StringUtils.getStringBetween(45, 46, segmentData));
-        newOffense.setNumberOfPremisesEntered(StringUtils.getIntegerBetween(47, 48, segmentData));
-        newOffense.setMethodOfEntry(StringUtils.getStringBetween(49, 49, segmentData));
-        
-        int length = s.getSegmentLength();
-        int biasMotivationFields = length == 63 ? 1 : 5;
-        
-        for (int i=0; i < biasMotivationFields; i++) {
-            newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62+i, 63+i, segmentData));
-        }
-        
-        for (int i = 0; i < 3; i++)
-        {
-            newOffense.setOffendersSuspectedOfUsing(i, StringUtils.getStringBetween(42 + i, 42 + i, segmentData));
-            newOffense.setTypeOfCriminalActivity(i, StringUtils.getStringBetween(50 + i, 50 + i, segmentData));
-            newOffense.setTypeOfWeaponForceInvolved(i, StringUtils.getStringBetween(53 + 3 * i, 54 + 3 * i, segmentData));
-            newOffense.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(55 + 3 * i, 55 + 3 * i, segmentData));
-        }
+		if (length == 63 || length == 71) {
 
-        return newOffense;
+			newOffense.setUcrOffenseCode(StringUtils.getStringBetween(38, 40, segmentData));
+			newOffense.setOffenseAttemptedCompleted(StringUtils.getStringBetween(41, 41, segmentData));
+			newOffense.setLocationType(StringUtils.getStringBetween(45, 46, segmentData));
+			newOffense.setNumberOfPremisesEntered(StringUtils.getIntegerBetween(47, 48, segmentData));
+			newOffense.setMethodOfEntry(StringUtils.getStringBetween(49, 49, segmentData));
 
-    }
+			int biasMotivationFields = length == 63 ? 1 : 5;
+
+			for (int i = 0; i < biasMotivationFields; i++) {
+				newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62 + i, 63 + i, segmentData));
+			}
+
+			for (int i = 0; i < 3; i++) {
+				newOffense.setOffendersSuspectedOfUsing(i, StringUtils.getStringBetween(42 + i, 42 + i, segmentData));
+				newOffense.setTypeOfCriminalActivity(i, StringUtils.getStringBetween(50 + i, 50 + i, segmentData));
+				newOffense.setTypeOfWeaponForceInvolved(i, StringUtils.getStringBetween(53 + 3 * i, 54 + 3 * i, segmentData));
+				newOffense.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(55 + 3 * i, 55 + 3 * i, segmentData));
+			}
+
+		} else {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Offense segments must be length 63 (with only one bias motivation) or 71 (with five)");
+			errorList.add(e);
+		}
+
+		return newOffense;
+
+	}
 
     private final boolean isIncluded(Segment s)
     {
