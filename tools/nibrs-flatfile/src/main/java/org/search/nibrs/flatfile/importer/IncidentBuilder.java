@@ -3,6 +3,9 @@ package org.search.nibrs.flatfile.importer;
 import java.io.*;
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.util.*;
 import org.search.nibrs.model.*;
 
@@ -17,12 +20,26 @@ import org.search.nibrs.model.*;
  */
 public class IncidentBuilder
 {
+	
+	private static final class LogListener implements IncidentListener {
+		public int incidentCount = 0;
+		public void newIncident(Incident newIncident) {
+			LOG.info("Created incident # " + newIncident.getIncidentNumber());
+			incidentCount++;
+		}
+		public void handleThrowable(Throwable t, String currentIncidentNumber) {
+		}
+	}
+
+	private static final Logger LOG = LogManager.getLogger(IncidentBuilder.class);
 
     private List<IncidentListener> listeners;
+    private LogListener logListener = new LogListener();
 
     public IncidentBuilder()
     {
         listeners = new ArrayList<IncidentListener>();
+        listeners.add(logListener);
     }
 
     public void addIncidentListener(IncidentListener listener)
@@ -35,8 +52,11 @@ public class IncidentBuilder
         listeners.remove(listener);
     }
 
-    public void buildIncidents(Reader reader) throws IOException
+    public List<NIBRSError> buildIncidents(Reader reader) throws IOException
     {
+    	
+    	List<NIBRSError> errorList = new ArrayList<NIBRSError>();
+    	
         BufferedReader br = null;
         if (!(reader instanceof BufferedReader))
         {
@@ -50,12 +70,16 @@ public class IncidentBuilder
         Incident currentIncident = null;
         String currentIncidentNumber = null;
         Throwable currentThrowable = null;
+        int lineNumber = 1;
+        LOG.info("Processing NIBRS flat file");
         while ((line = br.readLine()) != null)
         {
             try
             {
-                Segment s = new Segment(line);
-                if (isIncluded(s))
+                Segment s = new Segment();
+                List<NIBRSError> segmentErrors = s.setData(lineNumber, line);
+				errorList.addAll(segmentErrors);
+                if (segmentErrors.isEmpty() && isIncluded(s))
                 {
                     if (currentIncidentNumber == null || !currentIncidentNumber.equals(s.getIncidentNumber()))
                     {
@@ -69,13 +93,13 @@ public class IncidentBuilder
                             currentThrowable = null;
                         }
                         currentIncidentNumber = s.getIncidentNumber();
-                        currentIncident = buildIncidentSegment(s);
+                        currentIncident = buildIncidentSegment(s, errorList);
                     }
                     else
                     {
                         if (currentThrowable == null)
                         {
-                            addSegmentToIncident(currentIncident, s);
+                            addSegmentToIncident(currentIncident, s, errorList);
                         }
                     }
                 }
@@ -84,6 +108,7 @@ public class IncidentBuilder
             {
                 currentThrowable = t;
             }
+            lineNumber++;
         }
         if (currentThrowable == null)
         {
@@ -93,10 +118,18 @@ public class IncidentBuilder
         {
             handleThrowable(currentIncidentNumber, currentThrowable);
         }
+        
+        LOG.info("finished processing file, read " + (lineNumber-1) + " lines.");
+        LOG.info("Encountered " + errorList.size() + " error(s).");
+        LOG.info("Created " + logListener.incidentCount + " incident(s).");
+        
+        return errorList;
+        
     }
 
     private void handleThrowable(String currentIncidentNumber, Throwable t)
     {
+    	t.printStackTrace();
         for (Iterator<IncidentListener> it = listeners.iterator(); it.hasNext();)
         {
             IncidentListener listener = it.next();
@@ -116,18 +149,19 @@ public class IncidentBuilder
         }
     }
 
-    private final Incident buildIncidentSegment(Segment s)
+    private final Incident buildIncidentSegment(Segment s, List<NIBRSError> errorList)
     {
         Incident newIncident = new Incident();
         newIncident.setIncidentNumber(s.getIncidentNumber());
         newIncident.setOri(s.getOri());
         String segmentData = s.getData();
-        newIncident.setMonthOfTape(Integer.parseInt(StringUtils.getStringBetween(7, 8, segmentData)));
-        newIncident.setYearOfTape(Integer.parseInt(StringUtils.getStringBetween(9, 12, segmentData)));
+        newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
+    	newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
         newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
-        int incidentYear = Integer.parseInt(StringUtils.getStringBetween(38, 41, segmentData));
-        int incidentMonth = DateUtils.convertMonthValue(Integer.parseInt(StringUtils.getStringBetween(42, 43, segmentData)));
-        int incidentDay = Integer.parseInt(StringUtils.getStringBetween(44, 45, segmentData));
+        int incidentYear = getIntValueFromSegment(s, 38, 41, errorList, "Incident Year must be a number");
+        int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, errorList, "Incident Month must be a number");
+        int incidentMonth = DateUtils.convertMonthValue(incidentMonthOrig);
+        int incidentDay = getIntValueFromSegment(s, 44, 45, errorList, "Incident Day must be a number");
         newIncident.setIncidentDate(DateUtils.makeDate(incidentYear, incidentMonth, incidentDay));
         newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
         String hourString = StringUtils.getStringBetween(47, 48, segmentData);
@@ -139,40 +173,65 @@ public class IncidentBuilder
         String clearanceYearString = StringUtils.getStringBetween(50, 53, segmentData);
         if (clearanceYearString != null)
         {
-            int clearanceYear = Integer.parseInt(clearanceYearString);
-            int clearanceMonth = DateUtils.convertMonthValue(Integer.parseInt(StringUtils.getStringBetween(54, 55, segmentData)));
-            int clearanceDay = Integer.parseInt(StringUtils.getStringBetween(56, 57, segmentData));
+            int clearanceYear = getIntValueFromSegment(s, 50, 53, errorList, "Clearance Year must be a number");
+            int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, errorList, "Clearance Month must be a number");
+            int clearanceMonth = DateUtils.convertMonthValue(clearanceMonthOrig);
+            int clearanceDay = getIntValueFromSegment(s, 56, 57, errorList, "Clearance Day must be a number");
             newIncident.setExceptionalClearanceDate(DateUtils.makeDate(clearanceYear, clearanceMonth, clearanceDay));
         }
         return newIncident;
     }
 
-    private final void addSegmentToIncident(Incident currentIncident, Segment s)
+	private Integer getIntValueFromSegment(Segment s, int startPos, int endPos, List<NIBRSError> errorList, String errorMessage) {
+		String sv = StringUtils.getStringBetween(startPos, endPos, s.getData());
+        Integer i = null;
+        try {
+			i = new Integer(sv);
+        } catch (NumberFormatException nfe) {
+        	NIBRSError e = new NIBRSError();
+        	e.setContext(s.getLineNumber());
+        	e.setIncidentNumber(s.getIncidentNumber());
+			e.setRuleDescription(errorMessage);
+        	e.setValue(sv);
+        	e.setSegmentType(s.getSegmentType());
+        	errorList.add(e);
+        	LOG.debug("Error in int conversion: lineNumber=" + s.getLineNumber() + ", value=" + sv);
+        }
+		return i;
+	}
+
+    private final void addSegmentToIncident(Incident currentIncident, Segment s, List<NIBRSError> errorList)
     {
         char segmentType = s.getSegmentType();
         switch (segmentType)
         {
         case '2':
-            currentIncident.addOffense(buildOffenseSegment(s));
+            currentIncident.addOffense(buildOffenseSegment(s, errorList));
             break;
         case '3':
-            currentIncident.addProperty(buildPropertySegment(s));
+            currentIncident.addProperty(buildPropertySegment(s, errorList));
             break;
         case '4':
-            currentIncident.addVictim(buildVictimSegment(s));
+            currentIncident.addVictim(buildVictimSegment(s, errorList));
             break;
         case '5':
-            currentIncident.addOffender(buildOffenderSegment(s));
+            currentIncident.addOffender(buildOffenderSegment(s, errorList));
             break;
         case '6':
-            currentIncident.addArrestee(buildArresteeSegment(s));
+            currentIncident.addArrestee(buildArresteeSegment(s, errorList));
             break;
         default:
-            throw new IllegalStateException("Unknown segment type " + segmentType);
+            NIBRSError error = new NIBRSError();
+            error.setContext(s.getLineNumber());
+            error.setIncidentNumber(s.getIncidentNumber());
+            error.setRuleNumber(51);
+            error.setRuleDescription("Segment Level must contain data values 0–7.");
+            error.setValue(segmentType);
+            errorList.add(error);
         }
     }
 
-    private Arrestee buildArresteeSegment(Segment s)
+    private Arrestee buildArresteeSegment(Segment s, List<NIBRSError> errorList)
     {
         Arrestee newArrestee = new Arrestee();
         String segmentData = s.getData();
@@ -196,7 +255,7 @@ public class IncidentBuilder
         return newArrestee;
     }
 
-    private Offender buildOffenderSegment(Segment s)
+    private Offender buildOffenderSegment(Segment s, List<NIBRSError> errorList)
     {
         Offender newOffender = new Offender();
         String segmentData = s.getData();
@@ -204,11 +263,15 @@ public class IncidentBuilder
         newOffender.setAgeOfOffenderString(StringUtils.getStringBetween(40, 43, segmentData));
         newOffender.setSexOfOffender(StringUtils.getStringBetween(44, 44, segmentData));
         newOffender.setRaceOfOffender(StringUtils.getStringBetween(45, 45, segmentData));
-        newOffender.setEthnicityOfOffender(StringUtils.getStringBetween(46, 46, segmentData));
+        int length = s.getSegmentLength();
+        boolean hasOffenderEthnicity = length == 46;
+        if (hasOffenderEthnicity) {
+        	newOffender.setEthnicityOfOffender(StringUtils.getStringBetween(46, 46, segmentData));
+        }
         return newOffender;
     }
 
-    private Victim buildVictimSegment(Segment s)
+    private Victim buildVictimSegment(Segment s, List<NIBRSError> errorList)
     {
         
         Victim newVictim = new Victim();
@@ -239,15 +302,20 @@ public class IncidentBuilder
             newVictim.setTypeOfInjury(i, StringUtils.getStringBetween(85 + i, 85 + i, segmentData));
         }
         
-        newVictim.setTypeOfOfficerActivityCircumstance(StringUtils.getStringBetween(130, 131, segmentData));
-        newVictim.setOfficerAssignmentType(StringUtils.getStringBetween(132, 132, segmentData));
-        newVictim.setOfficerOtherJurisdictionORI(StringUtils.getStringBetween(133, 141, segmentData));
+        int length = s.getSegmentLength();
+        boolean leoka = length == 141;
+        
+        if (leoka) {
+        	newVictim.setTypeOfOfficerActivityCircumstance(StringUtils.getStringBetween(130, 131, segmentData));
+        	newVictim.setOfficerAssignmentType(StringUtils.getStringBetween(132, 132, segmentData));
+        	newVictim.setOfficerOtherJurisdictionORI(StringUtils.getStringBetween(133, 141, segmentData));
+        }
         
         return newVictim;
         
     }
 
-    private Property buildPropertySegment(Segment s)
+    private Property buildPropertySegment(Segment s, List<NIBRSError> errorList)
     {
 
         Property newProperty = new Property();
@@ -288,7 +356,7 @@ public class IncidentBuilder
 
     }
 
-    private Offense buildOffenseSegment(Segment s)
+    private Offense buildOffenseSegment(Segment s, List<NIBRSError> errorList)
     {
 
         Offense newOffense = new Offense();
@@ -301,7 +369,10 @@ public class IncidentBuilder
         newOffense.setNumberOfPremisesEntered(StringUtils.getIntegerBetween(47, 48, segmentData));
         newOffense.setMethodOfEntry(StringUtils.getStringBetween(49, 49, segmentData));
         
-        for (int i=0; i < 5; i++) {
+        int length = s.getSegmentLength();
+        int biasMotivationFields = length == 63 ? 1 : 5;
+        
+        for (int i=0; i < biasMotivationFields; i++) {
             newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62+i, 63+i, segmentData));
         }
         
