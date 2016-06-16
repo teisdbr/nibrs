@@ -15,11 +15,4 @@ public interface IncidentListener
      */
     public void newIncident(Incident newIncident);
 
-    /**
-     * Called on implementations when the builder encounters a throwable in processing an incident
-     * @param t the throwable
-     * @param currentIncidentNumber the number of the incident being processed when the error occurred
-     */
-    public void handleThrowable(Throwable t, String currentIncidentNumber);
-
 }

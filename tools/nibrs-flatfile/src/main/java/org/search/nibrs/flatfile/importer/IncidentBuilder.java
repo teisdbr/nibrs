@@ -13,143 +13,101 @@ import org.search.nibrs.model.*;
  * Builder class that constructs incidents from a stream of NIBRS report data.
  * Incidents are broadcast to listeners as events; this keeps the class as
  * memory-unintensive as possible (NIBRS report streams can be rather large).
- * <br/>At some point, if other report elements than Incidents are desired, this
- * will need to be modified. Currently, it only broadcasts Incident "add"
- * records.
- *  
+ * <br/>
+ * At some point, if other report elements than Incidents are desired, this will
+ * need to be modified. Currently, it only broadcasts Incident "add" records.
+ * 
  */
-public class IncidentBuilder
-{
-	
+public class IncidentBuilder {
+
 	private static final class LogListener implements IncidentListener {
 		public int incidentCount = 0;
 		public void newIncident(Incident newIncident) {
 			LOG.info("Created incident # " + newIncident.getIncidentNumber());
 			incidentCount++;
 		}
-		public void handleThrowable(Throwable t, String currentIncidentNumber) {
-		}
 	}
 
 	private static final Logger LOG = LogManager.getLogger(IncidentBuilder.class);
 
-    private List<IncidentListener> listeners;
-    private LogListener logListener = new LogListener();
+	private List<IncidentListener> listeners;
+	private LogListener logListener = new LogListener();
 
-    public IncidentBuilder()
-    {
-        listeners = new ArrayList<IncidentListener>();
-        listeners.add(logListener);
-    }
+	public IncidentBuilder() {
+		listeners = new ArrayList<IncidentListener>();
+		listeners.add(logListener);
+	}
 
-    public void addIncidentListener(IncidentListener listener)
-    {
-        listeners.add(listener);
-    }
+	public void addIncidentListener(IncidentListener listener) {
+		listeners.add(listener);
+	}
 
-    public void removeIncidentListener(IncidentListener listener)
-    {
-        listeners.remove(listener);
-    }
+	public void removeIncidentListener(IncidentListener listener) {
+		listeners.remove(listener);
+	}
 
-    public List<NIBRSError> buildIncidents(Reader reader) throws IOException
-    {
-    	
-    	List<NIBRSError> errorList = new ArrayList<NIBRSError>();
-    	
-        BufferedReader br = null;
-        if (!(reader instanceof BufferedReader))
-        {
-            br = new BufferedReader(reader);
-        }
-        else
-        {
-            br = (BufferedReader) reader;
-        }
-        String line = null;
-        Incident currentIncident = null;
-        String currentIncidentNumber = null;
-        Throwable currentThrowable = null;
-        int lineNumber = 1;
-        LOG.info("Processing NIBRS flat file");
-        while ((line = br.readLine()) != null)
-        {
-            try
-            {
-                Segment s = new Segment();
-                List<NIBRSError> segmentErrors = s.setData(lineNumber, line);
-				errorList.addAll(segmentErrors);
-                if (segmentErrors.isEmpty() && isIncluded(s))
-                {
-                    if (currentIncidentNumber == null || !currentIncidentNumber.equals(s.getIncidentNumber()))
-                    {
-                        if (currentThrowable == null)
-                        {
-                            handleNewIncident(currentIncident);
-                        }
-                        else
-                        {
-                            handleThrowable(s.getIncidentNumber(), currentThrowable);
-                            currentThrowable = null;
-                        }
-                        currentIncidentNumber = s.getIncidentNumber();
-                        currentIncident = buildIncidentSegment(s, errorList);
-                    }
-                    else
-                    {
-                        if (currentThrowable == null)
-                        {
-                            addSegmentToIncident(currentIncident, s, errorList);
-                        }
-                    }
-                }
-            }
-            catch (Throwable t)
-            {
-                currentThrowable = t;
-            }
-            lineNumber++;
-        }
-        if (currentThrowable == null)
-        {
-            handleNewIncident(currentIncident);
-        }
-        else
-        {
-            handleThrowable(currentIncidentNumber, currentThrowable);
-        }
-        
-        LOG.info("finished processing file, read " + (lineNumber-1) + " lines.");
-        LOG.info("Encountered " + errorList.size() + " error(s).");
-        LOG.info("Created " + logListener.incidentCount + " incident(s).");
-        
-        return errorList;
-        
-    }
+	/**
+	 * Read NIBRS incidents from the flatfile format exposed by the specified Reader
+	 * @param reader the source of the data
+	 * @return a list of errors encountered, if any
+	 * @throws IOException exception encountered in addressing the Reader
+	 */
+	public List<NIBRSError> buildIncidents(Reader reader) throws IOException {
 
-    private void handleThrowable(String currentIncidentNumber, Throwable t)
-    {
-    	//t.printStackTrace();
-        for (Iterator<IncidentListener> it = listeners.iterator(); it.hasNext();)
-        {
-            IncidentListener listener = it.next();
-            listener.handleThrowable(t, currentIncidentNumber);
-        }
-    }
+		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 
-    private final void handleNewIncident(Incident newIncident)
-    {
-        if (newIncident != null)
-        {
-            for (Iterator<IncidentListener> it = listeners.iterator(); it.hasNext();)
-            {
-                IncidentListener listener = it.next();
-                listener.newIncident(newIncident);
-            }
-        }
-    }
+		BufferedReader br = null;
+		
+		// we buffer to improve performance in reading big files
+		if (!(reader instanceof BufferedReader)) {
+			br = new BufferedReader(reader);
+		} else {
+			br = (BufferedReader) reader;
+		}
+		
+		String line = null;
+		Incident currentIncident = null;
+		String currentIncidentNumber = null;
+		int lineNumber = 1;
+		
+		LOG.info("Processing NIBRS flat file");
+		
+		while ((line = br.readLine()) != null) {
+			Segment s = new Segment();
+			List<NIBRSError> segmentErrors = s.setData(lineNumber, line);
+			errorList.addAll(segmentErrors);
+			if (segmentErrors.isEmpty() && isIncluded(s)) {
+				if (currentIncidentNumber == null || !currentIncidentNumber.equals(s.getIncidentNumber())) {
+					handleNewIncident(currentIncident);
+					currentIncidentNumber = s.getIncidentNumber();
+					currentIncident = buildIncidentSegment(s, errorList);
+				} else {
+					addSegmentToIncident(currentIncident, s, errorList);
+				}
+			}
+			lineNumber++;
+		}
+		
+		handleNewIncident(currentIncident);
 
-    private final Incident buildIncidentSegment(Segment s, List<NIBRSError> errorList) {
+		LOG.info("finished processing file, read " + (lineNumber - 1) + " lines.");
+		LOG.info("Encountered " + errorList.size() + " error(s).");
+		LOG.info("Created " + logListener.incidentCount + " incident(s).");
+
+		return errorList;
+
+	}
+
+	private final void handleNewIncident(Incident newIncident) {
+		if (newIncident != null) {
+			for (Iterator<IncidentListener> it = listeners.iterator(); it.hasNext();) {
+				IncidentListener listener = it.next();
+				listener.newIncident(newIncident);
+			}
+		}
+	}
+
+	private final Incident buildIncidentSegment(Segment s, List<NIBRSError> errorList) {
 		Incident newIncident = new Incident();
 		newIncident.setIncidentNumber(s.getIncidentNumber());
 		newIncident.setOri(s.getOri());
@@ -197,52 +155,50 @@ public class IncidentBuilder
 
 	private Integer getIntValueFromSegment(Segment s, int startPos, int endPos, List<NIBRSError> errorList, String errorMessage) {
 		String sv = StringUtils.getStringBetween(startPos, endPos, s.getData());
-        Integer i = null;
-        try {
+		Integer i = null;
+		try {
 			i = new Integer(sv);
-        } catch (NumberFormatException nfe) {
-        	NIBRSError e = new NIBRSError();
-        	e.setContext(s.getLineNumber());
-        	e.setIncidentNumber(s.getIncidentNumber());
+		} catch (NumberFormatException nfe) {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setIncidentNumber(s.getIncidentNumber());
 			e.setRuleDescription(errorMessage);
-        	e.setValue(sv);
-        	e.setSegmentType(s.getSegmentType());
-        	errorList.add(e);
-        	LOG.debug("Error in int conversion: lineNumber=" + s.getLineNumber() + ", value=" + sv);
-        }
+			e.setValue(sv);
+			e.setSegmentType(s.getSegmentType());
+			errorList.add(e);
+			LOG.debug("Error in int conversion: lineNumber=" + s.getLineNumber() + ", value=" + sv);
+		}
 		return i;
 	}
 
-    private final void addSegmentToIncident(Incident currentIncident, Segment s, List<NIBRSError> errorList)
-    {
-        char segmentType = s.getSegmentType();
-        switch (segmentType)
-        {
-        case '2':
-            currentIncident.addOffense(buildOffenseSegment(s, errorList));
-            break;
-        case '3':
-            currentIncident.addProperty(buildPropertySegment(s, errorList));
-            break;
-        case '4':
-            currentIncident.addVictim(buildVictimSegment(s, errorList));
-            break;
-        case '5':
-            currentIncident.addOffender(buildOffenderSegment(s, errorList));
-            break;
-        case '6':
-            currentIncident.addArrestee(buildArresteeSegment(s, errorList));
-            break;
-        default:
-            NIBRSError error = new NIBRSError();
-            error.setContext(s.getLineNumber());
-            error.setIncidentNumber(s.getIncidentNumber());
-            error.setRuleNumber(51);
-            error.setRuleDescription("Segment Level must contain data values 0–7.");
-            error.setValue(segmentType);
-            errorList.add(error);
-        }
-    }
+	private final void addSegmentToIncident(Incident currentIncident, Segment s, List<NIBRSError> errorList) {
+		char segmentType = s.getSegmentType();
+		switch (segmentType) {
+		case '2':
+			currentIncident.addOffense(buildOffenseSegment(s, errorList));
+			break;
+		case '3':
+			currentIncident.addProperty(buildPropertySegment(s, errorList));
+			break;
+		case '4':
+			currentIncident.addVictim(buildVictimSegment(s, errorList));
+			break;
+		case '5':
+			currentIncident.addOffender(buildOffenderSegment(s, errorList));
+			break;
+		case '6':
+			currentIncident.addArrestee(buildArresteeSegment(s, errorList));
+			break;
+		default:
+			NIBRSError error = new NIBRSError();
+			error.setContext(s.getLineNumber());
+			error.setIncidentNumber(s.getIncidentNumber());
+			error.setRuleNumber(51);
+			error.setRuleDescription("Segment Level must contain data values 0–7.");
+			error.setValue(segmentType);
+			errorList.add(error);
+		}
+	}
 
 	private Arrestee buildArresteeSegment(Segment s, List<NIBRSError> errorList) {
 		Arrestee newArrestee = new Arrestee();
@@ -354,57 +310,53 @@ public class IncidentBuilder
 
 	}
 
-    private Property buildPropertySegment(Segment s, List<NIBRSError> errorList) {
+	private Property buildPropertySegment(Segment s, List<NIBRSError> errorList) {
 
-        Property newProperty = new Property();
-        String segmentData = s.getData();
-        int length = s.getSegmentLength();
-        
-        if (length == 307) {
+		Property newProperty = new Property();
+		String segmentData = s.getData();
+		int length = s.getSegmentLength();
 
-        newProperty.setTypeOfPropertyLoss(StringUtils.getStringBetween(38, 38, segmentData));
-        
-        for (int i=0;i < 10;i++)
-        {
-            newProperty.setPropertyDescription(i, StringUtils.getStringBetween(39 + 19*i, 40 + 19*i, segmentData));
-            newProperty.setValueOfProperty(i, StringUtils.getIntegerBetween(41 + 19*i, 49 + 19*i, segmentData));
-            newProperty.setDateRecovered(i, StringUtils.getDateBetween(50 + 19*i, 57 + 19*i, segmentData));
-        }
-        
-        newProperty.setNumberOfStolenMotorVehicles(StringUtils.getIntegerBetween(229, 230, segmentData));
-        newProperty.setNumberOfRecoveredMotorVehicles(StringUtils.getIntegerBetween(231, 232, segmentData));
-        
-        for (int i=0;i < 3;i++)
-        {
-            newProperty.setSuspectedDrugType(i, StringUtils.getStringBetween(233 + 15*i, 233 + 15*i, segmentData));
-            String drugQuantityWholePartString = StringUtils.getStringBetween(234 + 15*i, 242 + 15*i, segmentData);
-            String drugQuantityFractionalPartString = StringUtils.getStringBetween(243 + 15*i, 245 + 15*i, segmentData);
-            if (drugQuantityWholePartString != null)
-            {
-                String fractionalValueString = "000";
-                if (drugQuantityFractionalPartString != null)
-                {
-                    fractionalValueString = drugQuantityFractionalPartString;
-                }
-                String drugQuantityFullValueString = drugQuantityWholePartString + "." + fractionalValueString;
-                newProperty.setEstimatedDrugQuantity(i, new Double(drugQuantityFullValueString));
-            }
-            newProperty.setTypeDrugMeasurement(i, StringUtils.getStringBetween(246 + 15*i, 247 + 15*i, segmentData));
-        }
-        
-        } else {
-        	NIBRSError e = new NIBRSError();
+		if (length == 307) {
+
+			newProperty.setTypeOfPropertyLoss(StringUtils.getStringBetween(38, 38, segmentData));
+
+			for (int i = 0; i < 10; i++) {
+				newProperty.setPropertyDescription(i, StringUtils.getStringBetween(39 + 19 * i, 40 + 19 * i, segmentData));
+				newProperty.setValueOfProperty(i, StringUtils.getIntegerBetween(41 + 19 * i, 49 + 19 * i, segmentData));
+				newProperty.setDateRecovered(i, StringUtils.getDateBetween(50 + 19 * i, 57 + 19 * i, segmentData));
+			}
+
+			newProperty.setNumberOfStolenMotorVehicles(StringUtils.getIntegerBetween(229, 230, segmentData));
+			newProperty.setNumberOfRecoveredMotorVehicles(StringUtils.getIntegerBetween(231, 232, segmentData));
+
+			for (int i = 0; i < 3; i++) {
+				newProperty.setSuspectedDrugType(i, StringUtils.getStringBetween(233 + 15 * i, 233 + 15 * i, segmentData));
+				String drugQuantityWholePartString = StringUtils.getStringBetween(234 + 15 * i, 242 + 15 * i, segmentData);
+				String drugQuantityFractionalPartString = StringUtils.getStringBetween(243 + 15 * i, 245 + 15 * i, segmentData);
+				if (drugQuantityWholePartString != null) {
+					String fractionalValueString = "000";
+					if (drugQuantityFractionalPartString != null) {
+						fractionalValueString = drugQuantityFractionalPartString;
+					}
+					String drugQuantityFullValueString = drugQuantityWholePartString + "." + fractionalValueString;
+					newProperty.setEstimatedDrugQuantity(i, new Double(drugQuantityFullValueString));
+				}
+				newProperty.setTypeDrugMeasurement(i, StringUtils.getStringBetween(246 + 15 * i, 247 + 15 * i, segmentData));
+			}
+
+		} else {
+			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
 			e.setIncidentNumber(s.getIncidentNumber());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Property segments must be length 307)");
 			errorList.add(e);
-        }
+		}
 
-        return newProperty;
+		return newProperty;
 
-    }
+	}
 
 	private Offense buildOffenseSegment(Segment s, List<NIBRSError> errorList) {
 
@@ -448,10 +400,9 @@ public class IncidentBuilder
 
 	}
 
-    private final boolean isIncluded(Segment s)
-    {
-        // currently, we exclude all the segment types except for incident adds.
-        return s.getActionType() == 'I';
-    }
+	private final boolean isIncluded(Segment s) {
+		// currently, we exclude all the segment types except for incident adds.
+		return s.getActionType() == 'I';
+	}
 
 }
