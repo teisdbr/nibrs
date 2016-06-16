@@ -45,16 +45,27 @@ public class RuleViolationExemplarFactory {
 	private void populateExemplarMap() {
 
 		tweakerMap.put(115, incident -> {
-			//(Incident Number) Must be blank right-fill if under 12 characters in length. 
-			//Cannot have embedded blanks between the first and last characters entered.
+			/*(Incident Number) Must be blank right-fill if under 12 characters in length. 
+			Cannot have embedded blanks between the first and last characters entered.
+			*/
 			Incident ret = incident.deepCopy();
 			ret.setIncidentNumber("1234 5678");
 			return Collections.singletonList(ret);
 		});
 		
+		tweakerMap.put(116, incident -> {
+			/*(Incident Number) must be left-justified with blank right-fill.
+			Since the number is less than 12 characters, it must begin in position 1.
+			 */
+			Incident ret = incident.deepCopy();
+			ret.setIncidentNumber(" 12345678");
+			return Collections.singletonList(ret);
+		});
+		
 		tweakerMap.put(117, incident -> {
-			//(Incident Number) can only have character combinations of A through Z, 0 through 9, hyphens, 
-			//and/or blanks. For example, 89-123-SC is valid, but 89+123*SC is invalid.
+			/*(Incident Number) can only have character combinations of A through Z, 0 through 9,
+			hyphens, and/or blanks. For example, 89-123-SC is valid, but 89+123*SC is invalid.
+			 */
 			Incident ret = incident.deepCopy();
 			ret.setIncidentNumber("89+123*SC");
 			return Collections.singletonList(ret);
