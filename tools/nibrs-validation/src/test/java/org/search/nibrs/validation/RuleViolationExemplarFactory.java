@@ -44,9 +44,18 @@ public class RuleViolationExemplarFactory {
 	
 	private void populateExemplarMap() {
 
+		tweakerMap.put(59, incident -> {
+			/*First two positions must be the code of the state (e.g., SC, MD) in which the incident occurred.
+			 For nonfederal participants, every record must have the same code.
+			*/
+			Incident ret = incident.deepCopy();
+			ret.setOri("ZZ123456789");
+			return Collections.singletonList(ret);
+		});
+		
 		tweakerMap.put(101, incident -> {
 			/*The referenced data element in a Group A Incident Report
-			Segment 1 must be populated with a valid data length and cannot be blank.
+			Segment 1 must be populated with a valid data format, value and cannot be blank.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
@@ -60,7 +69,7 @@ public class RuleViolationExemplarFactory {
 		
 		tweakerMap.put(201, incident -> {
 			/*The referenced data element in a Group A Incident Report
-			Segment 2 must be populated with a valid data length and cannot be blank.
+			Segment 2 must be populated with a valid data format, value and cannot be blank.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
@@ -80,7 +89,7 @@ public class RuleViolationExemplarFactory {
 			Incident copy = incident.deepCopy();
 			copy.setOri(null);
 			Incident copy2 = copy.deepCopy();
-			copy2.setOri("WA1234");
+			copy2.setOri("ZZ123456789");
 			incidents.add(copy);
 			incidents.add(copy2);
 			return incidents;
@@ -89,7 +98,7 @@ public class RuleViolationExemplarFactory {
 		
 		tweakerMap.put(301, incident -> {
 			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data length and cannot be blank.
+			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
@@ -103,7 +112,7 @@ public class RuleViolationExemplarFactory {
 		
 		tweakerMap.put(401, incident -> {
 			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data length and cannot be blank.
+			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
@@ -117,7 +126,7 @@ public class RuleViolationExemplarFactory {
 		
 		tweakerMap.put(501, incident -> {
 			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data length and cannot be blank.
+			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
@@ -131,7 +140,7 @@ public class RuleViolationExemplarFactory {
 		
 		tweakerMap.put(601, incident -> {
 			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data length and cannot be blank.
+			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
@@ -143,14 +152,7 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
-			tweakerMap.put(59, incident -> {
-			/*First two positions must be the code of the state (e.g., SC, MD) in which the incident occurred.
-			 For nonfederal participants, every record must have the same code.
-			*/
-			Incident ret = incident.deepCopy();
-			ret.setOri("ZZ123456789");
-			return Collections.singletonList(ret);
-		});
+			
 		
 		tweakerMap.put(105, incident -> {
 			/*The data element in error contains a date that is not entered correctly.
