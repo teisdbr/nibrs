@@ -215,6 +215,17 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		tweakerMap.put(251, incident -> {
+			/*(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
+			*/
+			Incident ret = incident.deepCopy();
+			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			return Collections.singletonList(ret);
+		});
+		
+		
+		
+		
 	}
 
 }
