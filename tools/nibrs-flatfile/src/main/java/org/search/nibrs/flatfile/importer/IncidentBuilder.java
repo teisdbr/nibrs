@@ -76,7 +76,7 @@ public class IncidentBuilder {
 			Segment s = new Segment();
 			List<NIBRSError> segmentErrors = s.setData(lineNumber, line);
 			errorList.addAll(segmentErrors);
-			if (segmentErrors.isEmpty() && isIncluded(s)) {
+			if (segmentErrors.isEmpty()) {
 				if (currentIncidentNumber == null || !currentIncidentNumber.equals(s.getIncidentNumber())) {
 					handleNewIncident(currentIncident);
 					currentIncidentNumber = s.getIncidentNumber();
@@ -406,11 +406,6 @@ public class IncidentBuilder {
 
 		return newOffense;
 
-	}
-
-	private final boolean isIncluded(Segment s) {
-		// currently, we exclude all the segment types except for incident adds.
-		return s.getActionType() == 'I';
 	}
 
 }
