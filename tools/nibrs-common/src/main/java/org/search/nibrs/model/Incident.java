@@ -28,8 +28,9 @@ public class Incident implements Serializable
     private String exceptionalClearanceCode;
     private Date exceptionalClearanceDate;
     private Boolean cargoTheftIndicator;
+    private boolean hasUpstreamErrors;
     
-    private List<Offense> offenseSegmentList;
+	private List<Offense> offenseSegmentList;
     private List<Property> propertySegmentList;
     private List<Victim> victimSegmentList;
     private List<Offender> offenderSegmentList;
@@ -290,4 +291,10 @@ public class Incident implements Serializable
     {
         this.yearOfTape = yearOfTape;
     }
+    public boolean getHasUpstreamErrors() {
+		return hasUpstreamErrors;
+	}
+	public void setHasUpstreamErrors(boolean hasUpstreamErrors) {
+		this.hasUpstreamErrors = hasUpstreamErrors;
+	}
 }

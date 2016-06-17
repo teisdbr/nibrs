@@ -80,9 +80,17 @@ public class IncidentBuilder {
 				if (currentIncidentNumber == null || !currentIncidentNumber.equals(s.getIncidentNumber())) {
 					handleNewIncident(currentIncident);
 					currentIncidentNumber = s.getIncidentNumber();
+					int errorListSize = errorList.size();
 					currentIncident = buildIncidentSegment(s, errorList);
+					if (errorList.size() > errorListSize) {
+						currentIncident.setHasUpstreamErrors(true);
+					}
 				} else {
+					int errorListSize = errorList.size();
 					addSegmentToIncident(currentIncident, s, errorList);
+					if (errorList.size() > errorListSize) {
+						currentIncident.setHasUpstreamErrors(true);
+					}
 				}
 			}
 			lineNumber++;

@@ -28,13 +28,16 @@ public class TestIncidentBuilderErrors {
             "01414I022003    TN006000002-000895   001220                           I46  FWNR                                                              \n" +
             "00468I022003    TN006000002-000895   0124  MW \n";
     	
-    	List<NIBRSError> errorList = getErrorsForTestData(testData);
+    	DefaultIncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
 
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(new Integer(51), e.getRuleNumber());
         assertEquals('8', e.getValue());
         assertEquals(5, e.getContext());
+        
+        assertTrue(incidentListener.getIncidentList().get(0).getHasUpstreamErrors());
     	
     }
 
@@ -48,12 +51,14 @@ public class TestIncidentBuilderErrors {
             "01414I022003    TN006000002-000895   001220                           I46  FWNR                                                              \n" +
             "00465I022003    TN006000002-000895   0124  MW \n";
     	
-    	List<NIBRSError> errorList = getErrorsForTestData(testData);
-        
+    	DefaultIncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(2, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals("AB", e.getValue());
     	
+        assertTrue(incidentListener.getIncidentList().get(0).getHasUpstreamErrors());
+
     }
     
     @Test
@@ -66,13 +71,16 @@ public class TestIncidentBuilderErrors {
                 "01414I022003    TN006000002-000895   001220                           I46  FWNR                                                              \n" +
                 "00465I022003    TN006000002-000895   0124  MW \n";
         	
-        List<NIBRSError> errorList = getErrorsForTestData(testData);
+    	DefaultIncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals('1', e.getSegmentType());
         assertEquals(1, e.getContext());
         assertEquals(80, e.getValue());
     	
+        assertTrue(incidentListener.getIncidentList().get(0).getHasUpstreamErrors());
+
     }
     
     @Test
@@ -86,12 +94,15 @@ public class TestIncidentBuilderErrors {
     			"00465I022003    TN006000002-000895   0124  MW \n" +
     			"01116I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                 ";
 
-        List<NIBRSError> errorList = getErrorsForTestData(testData);
+    	DefaultIncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals('6', e.getSegmentType());
         assertEquals(6, e.getContext());
         assertEquals(111, e.getValue());
+        
+        assertTrue(incidentListener.getIncidentList().get(0).getHasUpstreamErrors());
         
     }
 
@@ -106,7 +117,8 @@ public class TestIncidentBuilderErrors {
     			"00465I022003    TN006000002-000895   0124  MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        List<NIBRSError> errorList = getErrorsForTestData(testData);
+        IncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals('2', e.getSegmentType());
@@ -126,7 +138,8 @@ public class TestIncidentBuilderErrors {
     			"00465I022003    TN006000002-000895   0124  MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        List<NIBRSError> errorList = getErrorsForTestData(testData);
+        IncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals('3', e.getSegmentType());
@@ -146,7 +159,8 @@ public class TestIncidentBuilderErrors {
     			"00465I022003    TN006000002-000895   0124  MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        List<NIBRSError> errorList = getErrorsForTestData(testData);
+        IncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals('4', e.getSegmentType());
@@ -166,7 +180,8 @@ public class TestIncidentBuilderErrors {
     			"00475I022003    TN006000002-000895   0124   MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        List<NIBRSError> errorList = getErrorsForTestData(testData);
+        IncidentListener incidentListener = new DefaultIncidentListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals('5', e.getSegmentType());
@@ -175,9 +190,8 @@ public class TestIncidentBuilderErrors {
         
     }
 
-	private List<NIBRSError> getErrorsForTestData(String testData) throws IOException {
+	private List<NIBRSError> getErrorsForTestData(String testData, IncidentListener incidentListener) throws IOException {
 		Reader testdataReader = new BufferedReader(new StringReader(testData));
-        IncidentListener incidentListener = new DefaultIncidentListener();
         IncidentBuilder incidentBuilder = new IncidentBuilder();
         incidentBuilder.addIncidentListener(incidentListener);
         List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader);

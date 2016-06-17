@@ -25,11 +25,6 @@ public final class DefaultIncidentListener implements IncidentListener
         return Collections.unmodifiableList(incidents);
     }
 
-    public void handleThrowable(Throwable t, String currentIncidentNumber)
-    {
-        throwables.put(currentIncidentNumber, t);
-    }
-    
     public Map<String, Throwable> getThrowablesMap()
     {
         return Collections.unmodifiableMap(throwables);
