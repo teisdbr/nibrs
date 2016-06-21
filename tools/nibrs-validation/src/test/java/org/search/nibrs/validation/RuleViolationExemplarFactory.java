@@ -82,17 +82,28 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		tweakerMap.put(201, incident -> {
-			/*The referenced data element in a Group A Incident Report
-			Segment 2 must be populated with a valid data format, value and cannot be blank.
+			*The referenced data element in a Group A Incident Report
+			Segment 2 is mandatory & must be present.
 			*/
-			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
-			copy.setOri(null);
+			copy.setYearOfTape(null);
 			Incident copy2 = copy.deepCopy();
-			copy2.setOri("WA1234");
+			copy2.setMonthOfTape(null);
+			Incident copy3 = copy.deepCopy();
+			copy3.setOri(null);
+			Incident copy4 = copy.deepCopy();
+			copy4.setIncidentNumber(null);
+			Incident copy5 = copy.deepCopy();
+			copy5.setIncidentDate(null);
+			Incident copy6 = copy.deepCopy();
+			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy5);
 			return incidents;
 		});
 		
@@ -113,62 +124,106 @@ public class RuleViolationExemplarFactory {
 		
 		
 		tweakerMap.put(301, incident -> {
-			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data format, value and cannot be blank.
+			*The referenced data element in a Group A Incident Report
+			Segment 3 is mandatory & must be present.
 			*/
-			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
-			copy.setOri(null);
+			copy.setYearOfTape(null);
 			Incident copy2 = copy.deepCopy();
-			copy2.setOri("WA1234");
+			copy2.setMonthOfTape(null);
+			Incident copy3 = copy.deepCopy();
+			copy3.setOri(null);
+			Incident copy4 = copy.deepCopy();
+			copy4.setIncidentNumber(null);
+			Incident copy5 = copy.deepCopy();
+			copy5.setIncidentDate(null);
+			Incident copy6 = copy.deepCopy();
+			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy5);
 			return incidents;
 		});
 		
 		tweakerMap.put(401, incident -> {
-			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data format, value and cannot be blank.
+			*The referenced data element in a Group A Incident Report
+			Segment 4 is mandatory & must be present.
 			*/
-			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
-			copy.setOri(null);
+			copy.setYearOfTape(null);
 			Incident copy2 = copy.deepCopy();
-			copy2.setOri("WA1234");
+			copy2.setMonthOfTape(null);
+			Incident copy3 = copy.deepCopy();
+			copy3.setOri(null);
+			Incident copy4 = copy.deepCopy();
+			copy4.setIncidentNumber(null);
+			Incident copy5 = copy.deepCopy();
+			copy5.setIncidentDate(null);
+			Incident copy6 = copy.deepCopy();
+			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy5);
 			return incidents;
 		});
 		
 		tweakerMap.put(501, incident -> {
-			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data format, value and cannot be blank.
+			*The referenced data element in a Group A Incident Report
+			Segment 5 is mandatory & must be present.
 			*/
-			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
-			copy.setOri(null);
+			copy.setYearOfTape(null);
 			Incident copy2 = copy.deepCopy();
-			copy2.setOri("WA1234");
+			copy2.setMonthOfTape(null);
+			Incident copy3 = copy.deepCopy();
+			copy3.setOri(null);
+			Incident copy4 = copy.deepCopy();
+			copy4.setIncidentNumber(null);
+			Incident copy5 = copy.deepCopy();
+			copy5.setIncidentDate(null);
+			Incident copy6 = copy.deepCopy();
+			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy5);
 			return incidents;
 		});
 		
 		tweakerMap.put(601, incident -> {
-			/*The referenced data element in a Group A Incident Report
-			Segment 3 must be populated with a valid data format, value and cannot be blank.
+			*The referenced data element in a Group A Incident Report
+			Segment 1 is mandatory & must be present.
 			*/
-			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
-			copy.setOri(null);
+			copy.setYearOfTape(null);
 			Incident copy2 = copy.deepCopy();
-			copy2.setOri("WA1234");
+			copy2.setMonthOfTape(null);
+			Incident copy3 = copy.deepCopy();
+			copy3.setOri(null);
+			Incident copy4 = copy.deepCopy();
+			copy4.setIncidentNumber(null);
+			Incident copy5 = copy.deepCopy();
+			copy5.setIncidentDate(null);
+			Incident copy6 = copy.deepCopy();
+			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy5);
 			return incidents;
 		});
 		
