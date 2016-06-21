@@ -58,20 +58,23 @@ public class RuleViolationExemplarFactory {
 			Segment 1 is mandatory & must be present.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
-			Incident copy = copy.deepCopy();
+			Incident copy = incident.deepCopy();
 			copy.setYearOfTape(null);
 			Incident copy2 = copy.deepCopy();
 			copy2.setMonthOfTape(null);
-			Incident copy3 = incident.deepCopy();
+			Incident copy3 = copy.deepCopy();
 			copy3.setOri(null);
 			Incident copy4 = copy.deepCopy();
 			copy4.setIncidentNumber(null);
 			Incident copy5 = copy.deepCopy();
-			copy5.setExceptionalClearanceCode(null);
+			copy5.setIncidentDate(null);
+			Incident copy6 = copy.deepCopy();
+			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
+			incidents.add(copy5);
 			incidents.add(copy5);
 			return incidents;
 			
