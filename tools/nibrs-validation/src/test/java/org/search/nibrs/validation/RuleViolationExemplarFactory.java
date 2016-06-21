@@ -75,14 +75,14 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			incidents.add(copy5);
+			incidents.add(copy6);
 			return incidents;
 			
 			
 		});
 		
 		tweakerMap.put(201, incident -> {
-			*The referenced data element in a Group A Incident Report
+			/*The referenced data element in a Group A Incident Report
 			Segment 2 is mandatory & must be present.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
@@ -103,7 +103,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			incidents.add(copy5);
+			incidents.add(copy6);
 			return incidents;
 		});
 		
@@ -124,7 +124,7 @@ public class RuleViolationExemplarFactory {
 		
 		
 		tweakerMap.put(301, incident -> {
-			*The referenced data element in a Group A Incident Report
+			/*The referenced data element in a Group A Incident Report
 			Segment 3 is mandatory & must be present.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
@@ -145,12 +145,12 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			incidents.add(copy5);
+			incidents.add(copy6);
 			return incidents;
 		});
 		
 		tweakerMap.put(401, incident -> {
-			*The referenced data element in a Group A Incident Report
+			/*The referenced data element in a Group A Incident Report
 			Segment 4 is mandatory & must be present.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
@@ -171,12 +171,12 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			incidents.add(copy5);
+			incidents.add(copy6);
 			return incidents;
 		});
 		
 		tweakerMap.put(501, incident -> {
-			*The referenced data element in a Group A Incident Report
+			/*The referenced data element in a Group A Incident Report
 			Segment 5 is mandatory & must be present.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
@@ -197,13 +197,13 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			incidents.add(copy5);
+			incidents.add(copy6);
 			return incidents;
 		});
 		
 		tweakerMap.put(601, incident -> {
-			*The referenced data element in a Group A Incident Report
-			Segment 1 is mandatory & must be present.
+			/*The referenced data element in a Group A Incident Report
+			Segment 6 is mandatory & must be present.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
@@ -223,7 +223,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			incidents.add(copy5);
+			incidents.add(copy6);
 			return incidents;
 		});
 		
