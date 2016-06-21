@@ -94,13 +94,15 @@ public class RuleViolationExemplarFactory {
 			Incident copy3 = copy.deepCopy();
 			copy3.setOri("WA1234");
 			Incident copy4 = copy.deepCopy();
-			copy4.setIncidentNumber(null);
+			copy4.setIncidentNumber("12345");
 			Incident copy5 = copy.deepCopy();
-			copy5.setIncidentDate(null);
+			copy5.setIncidentDate(Date.from(LocalDateTime.of(1054, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			Incident copy6 = copy.deepCopy();
-			copy6.setExceptionalClearanceCode(null);
+			copy6.setExceptionalClearanceCode("A");
 			Incident copy7 = copy.deepCopy();
 			copy7.setCityIndicator("ZZ12");
+			Incident copy8 = copy.deepCopy();
+			copy8.setIncidentDate(Date.from(LocalDateTime.of(1054, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -108,6 +110,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy5);
 			incidents.add(copy6);
 			incidents.add(copy7);
+			incidents.add(copy8);
 			return incidents;
 		
 		tweakerMap.put(201, incident -> {
