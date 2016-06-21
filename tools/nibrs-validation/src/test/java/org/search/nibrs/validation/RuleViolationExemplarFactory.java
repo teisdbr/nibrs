@@ -1,7 +1,10 @@
 package org.search.nibrs.validation;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,13 +99,11 @@ public class RuleViolationExemplarFactory {
 			Incident copy4 = copy.deepCopy();
 			copy4.setIncidentNumber("12345");
 			Incident copy5 = copy.deepCopy();
-			copy5.setIncidentDate(Date.from(LocalDateTime.of(1054, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy5.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			Incident copy6 = copy.deepCopy();
 			copy6.setExceptionalClearanceCode("A");
 			Incident copy7 = copy.deepCopy();
 			copy7.setCityIndicator("ZZ12");
-			Incident copy8 = copy.deepCopy();
-			copy8.setIncidentDate(Date.from(LocalDateTime.of(1054, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -110,9 +111,21 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy5);
 			incidents.add(copy6);
 			incidents.add(copy7);
-			incidents.add(copy8);
 			return incidents;
+			
+			});
 		
+			tweakerMap.put(152, incident -> {
+				/*If Hour is entered within Data Element 3 (Incident Date/Hour), it must be 00 through 23. 
+				If 00=Midnight is entered, be careful that the Incident Date is entered as if the time was
+				1 minute past midnight.
+				*/
+				Incident ret = incident.deepCopy();
+				ret.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+				return Collections.singletonList(ret);
+			});
+			
+			
 		tweakerMap.put(201, incident -> {
 			/*The referenced data element in a Group A Incident Report
 			Segment 2 is mandatory & must be present.
