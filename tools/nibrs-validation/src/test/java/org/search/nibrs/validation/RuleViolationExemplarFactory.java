@@ -46,7 +46,7 @@ public class RuleViolationExemplarFactory {
 
 		tweakerMap.put(59, incident -> {
 			/*First two positions must be the code of the state (e.g., SC, MD) in which the incident occurred.
-			 For nonfederal participants, every record must have the same code.
+			 For non-federal participants, every record must have the same code.
 			*/
 			Incident ret = incident.deepCopy();
 			ret.setOri("ZZ123456789");
@@ -55,22 +55,34 @@ public class RuleViolationExemplarFactory {
 		
 		tweakerMap.put(101, incident -> {
 			/*The referenced data element in a Group A Incident Report
-			Segment 1 must be populated with a valid data format, value and cannot be blank.
+			Segment 1 is mandatory & must be present.
 			*/
 			List<Incident> incidents = new ArrayList<Incident>();
-			Incident copy = incident.deepCopy();
-			copy.setOri(null);
+			Incident copy = copy.deepCopy();
+			copy.setYearOfTape(null);
 			Incident copy2 = copy.deepCopy();
-			copy2.setOri("WA1234");
+			copy2.setMonthOfTape(null);
+			Incident copy3 = incident.deepCopy();
+			copy3.setOri(null);
+			Incident copy4 = copy.deepCopy();
+			copy4.setIncidentNumber(null);
+			Incident copy5 = copy.deepCopy();
+			copy5.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
 			return incidents;
+			
+			
 		});
 		
 		tweakerMap.put(201, incident -> {
 			/*The referenced data element in a Group A Incident Report
 			Segment 2 must be populated with a valid data format, value and cannot be blank.
 			*/
+			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setOri(null);
@@ -85,6 +97,7 @@ public class RuleViolationExemplarFactory {
 			/*The referenced data element in a Group A Incident Report must 
 			be populated with a valid data value and cannot be blank.
 			*/
+			//ORI first 2 characters need to be valid state code
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setOri(null);
@@ -100,6 +113,7 @@ public class RuleViolationExemplarFactory {
 			/*The referenced data element in a Group A Incident Report
 			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
+			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setOri(null);
@@ -114,6 +128,7 @@ public class RuleViolationExemplarFactory {
 			/*The referenced data element in a Group A Incident Report
 			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
+			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setOri(null);
@@ -128,6 +143,7 @@ public class RuleViolationExemplarFactory {
 			/*The referenced data element in a Group A Incident Report
 			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
+			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setOri(null);
@@ -142,6 +158,7 @@ public class RuleViolationExemplarFactory {
 			/*The referenced data element in a Group A Incident Report
 			Segment 3 must be populated with a valid data format, value and cannot be blank.
 			*/
+			//ORI code mandatory and length test cases
 			List<Incident> incidents = new ArrayList<Incident>();
 			Incident copy = incident.deepCopy();
 			copy.setOri(null);
