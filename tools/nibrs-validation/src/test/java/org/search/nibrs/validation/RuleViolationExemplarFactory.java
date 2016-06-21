@@ -120,6 +120,17 @@ public class RuleViolationExemplarFactory {
 			
 			});
 		
+		tweakerMap.put(151, incident -> {
+			/*This field must be blank if the incident date is known. If the incident date is unknown,
+		 	then the report date would be entered instead and must be indicated with an “R” in the Report
+		 	Indicator field within the Administrative Segment.
+			*/
+			Incident ret = incident.deepCopy();
+			ret.setReportDateIndicator("R");
+			return Collections.singletonList(ret);
+		});
+		
+		
 			tweakerMap.put(152, incident -> {
 				/*If Hour is entered within Data Element 3 (Incident Date/Hour), it must be 00 through 23. 
 				If 00=Midnight is entered, be careful that the Incident Date is entered as if the time was
