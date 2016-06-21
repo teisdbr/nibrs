@@ -99,11 +99,15 @@ public class RuleViolationExemplarFactory {
 			Incident copy4 = copy.deepCopy();
 			copy4.setIncidentNumber("12345");
 			Incident copy5 = copy.deepCopy();
-			copy5.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy5.setIncidentDate(Date.from(LocalDateTime.of(1054, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			Incident copy6 = copy.deepCopy();
-			copy6.setExceptionalClearanceCode("A");
+			copy6.setExceptionalClearanceCode("X");
 			Incident copy7 = copy.deepCopy();
 			copy7.setCityIndicator("ZZ12");
+			//ReportDateIndicator should be set to "R" if unknown.
+			Incident copy8 = copy.deepCopy();
+			copy8.setIncidentDate(null);
+			copy8.setReportDateIndicator("S");
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -111,6 +115,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy5);
 			incidents.add(copy6);
 			incidents.add(copy7);
+			incidents.add(copy8);
 			return incidents;
 			
 			});
