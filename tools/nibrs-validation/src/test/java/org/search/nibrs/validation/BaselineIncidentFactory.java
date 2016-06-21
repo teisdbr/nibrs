@@ -31,7 +31,7 @@ final class BaselineIncidentFactory {
 		incident.setOri("WA123456789");
 		incident.setIncidentNumber("54236732");
 		incident.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-		incident.setExceptionalClearanceCode("N");
+		incident.setExceptionalClearanceCode("A");
 		incident.setCityIndicator("GAA7");
 		
 		Offense o = new Offense();
