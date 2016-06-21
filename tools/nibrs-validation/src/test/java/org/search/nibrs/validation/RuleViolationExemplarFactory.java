@@ -78,8 +78,37 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			return incidents;
 			
-			
+								
 		});
+		
+		
+		tweakerMap.put(104, incident -> {
+			/*The referenced data element in a Group A Incident Report
+			Segment 1 must be valid.
+			*/
+			List<Incident> incidents = new ArrayList<Incident>();
+			Incident copy = incident.deepCopy();
+			copy.setYearOfTape(1054);
+			Incident copy2 = copy.deepCopy();
+			copy2.setMonthOfTape(14);
+			Incident copy3 = copy.deepCopy();
+			copy3.setOri("WA1234");
+			Incident copy4 = copy.deepCopy();
+			copy4.setIncidentNumber(null);
+			Incident copy5 = copy.deepCopy();
+			copy5.setIncidentDate(null);
+			Incident copy6 = copy.deepCopy();
+			copy6.setExceptionalClearanceCode(null);
+			Incident copy7 = copy.deepCopy();
+			copy7.setCityIndicator("ZZ12");
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			return incidents;
 		
 		tweakerMap.put(201, incident -> {
 			/*The referenced data element in a Group A Incident Report
