@@ -7,9 +7,11 @@ import java.util.*;
 
 import org.search.nibrs.model.*;
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.flatfile.importer.DefaultIncidentListener;
+import org.search.nibrs.flatfile.importer.DefaultReportListener;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.flatfile.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.*;
 
 /**
@@ -19,7 +21,9 @@ import org.junit.*;
 public class TestIncidentBuilderOldFormat
 {
 	
-    private static final String TESTDATA_OLDFORMAT =
+	private static final Logger LOG = LogManager.getLogger(TestIncidentBuilderOldFormat.class);
+	
+	private static final String TESTDATA_OLDFORMAT =
             "00871I022003    TN006000002-000895   20020102 10N                                      \n" +
             "00632I022003    TN006000002-000895   220CN  20  N            88\n" +
             "03073I022003    TN006000002-000895   713000000020                                                                                                                                                                                                                                                                  \n" +
@@ -70,28 +74,66 @@ public class TestIncidentBuilderOldFormat
             "03073I022003    TN038010003000037    432000000100                                                                                                                                                                                                                                                                  \n" +
             "01294I022003    TN038010003000037    00113A23H290                     I20  FBNR09   N    01BG                                    \n" +
             "00455I022003    TN038010003000037    0133  MB\n" +
-            "01106I022003    TN038010003000037    0100002655    20030112TN13A01    33  MBNR                                \n";
+            "01106I022003    TN038010003000037    0100002655    20030112TN13A01    33  MBNR                                \n" +
+    		"00667I022003    TN03801000000265601    20030112T90A01    33  MBNR \n" +
+            "00430I022003    TN0380100000000000000012003\n";
 
      
     private Reader testdataReader;
-    private DefaultIncidentListener incidentListener;
+    private DefaultReportListener incidentListener;
     
     @Before
     public void setUp() throws Exception
     {
         testdataReader = new BufferedReader(new StringReader(TESTDATA_OLDFORMAT));
-        incidentListener = new DefaultIncidentListener();
+        incidentListener = new DefaultReportListener();
         IncidentBuilder incidentBuilder = new IncidentBuilder();
         incidentBuilder.addIncidentListener(incidentListener);
         List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader);
+        for (NIBRSError e : errorList) {
+        	LOG.info(e.getRuleDescription());
+        }
         assertEquals(0, errorList.size());
+    }
+    
+    @Test
+    public void testZeroReport() {
+    	ZeroReport report = incidentListener.getZeroReportList().get(0);
+    	assertEquals("TN0380100", report.getOri());
+    	assertEquals('0', report.getAdminSegmentLevel());
+    	assertEquals('I', report.getReportActionType());
+    }
+    
+    @Test
+    public void testGroupBIncident() {
+    	GroupBIncidentReport report = incidentListener.getGroupBIncidentList().get(0);
+    	assertEquals("TN0380100", report.getOri());
+    	assertEquals('7', report.getAdminSegmentLevel());
+    	assertEquals('I', report.getReportActionType());
+    	Arrestee arrestee = report.getArrestee();
+    	assertNotNull(arrestee);
+		assertEquals("0000265601", arrestee.getArrestTransactionNumber());
+		assertNull(arrestee.getArresteeSequenceNumber());
+		assertNull(arrestee.getMultipleArresteeSegmentsIndicator());
+        assertEquals(DateUtils.makeDate(2003, Calendar.JANUARY, 12), arrestee.getArrestDate());
+        assertEquals("T", arrestee.getTypeOfArrest());
+        assertEquals("90A", arrestee.getUcrArrestOffenseCode());
+        assertEquals("01", arrestee.getArresteeArmedWith(0));
+        assertNull(arrestee.getAutomaticWeaponIndicator(0));
+        assertNull(arrestee.getArresteeArmedWith(1));
+        assertNull(arrestee.getAutomaticWeaponIndicator(1));
+        assertEquals("33", arrestee.getAgeOfArresteeString());
+        assertEquals("M", arrestee.getSexOfArrestee());
+        assertEquals("B", arrestee.getRaceOfArrestee());
+        assertEquals("R", arrestee.getResidentStatusOfArrestee());
+        assertNull(arrestee.getDispositionOfArresteeUnder18());
     }
     
     @Test
     public void testFirstIncident()
     {
-        List<Incident> incidentList = incidentListener.getIncidentList();
-        Incident incident = (Incident) incidentList.get(0);
+        List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
+        GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
         assertNotNull(incident);
         assertEquals("02-000895", incident.getIncidentNumber());
         assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate());
@@ -105,12 +147,13 @@ public class TestIncidentBuilderOldFormat
         assertEquals(1, incident.getVictimCount());
         assertEquals(1, incident.getOffenderCount());
         assertEquals(1, incident.getArresteeCount());
+    	assertEquals('I', incident.getReportActionType());
     }
     
     @Test
     public void testFirstIncidentArrestee()
     {
-        Arrestee arrestee = (Arrestee) ((Incident) incidentListener.getIncidentList().get(0)).arresteeIterator().next();
+        Arrestee arrestee = (Arrestee) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
         assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
         assertEquals("02-000895", arrestee.getArrestTransactionNumber());
         assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate());
@@ -132,7 +175,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testFirstIncidentOffender()
     {
-        Offender offender = (Offender) ((Incident) incidentListener.getIncidentList().get(0)).offenderIterator().next();
+        Offender offender = (Offender) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenderIterator().next();
         assertEquals(new Integer(1), offender.getOffenderSequenceNumber());
         assertEquals("24", offender.getAgeOfOffenderString());
         assertEquals("M", offender.getSexOfOffender());
@@ -142,7 +185,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testFirstIncidentVictim()
     {
-        Victim victim = (Victim) ((Incident) incidentListener.getIncidentList().get(0)).victimIterator().next();
+        Victim victim = (Victim) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).victimIterator().next();
         assertEquals(new Integer(1), victim.getVictimSequenceNumber());
         assertEquals("220", victim.getUcrOffenseCodeConnection(0));
         for (int i=1;i < 10;i++)
@@ -171,7 +214,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testComplexIncidentVictim()
     {
-        Victim victim = (Victim) ((Incident) incidentListener.getIncidentList().get(7)).victimIterator().next();
+        Victim victim = (Victim) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(7)).victimIterator().next();
         assertEquals("13A", victim.getUcrOffenseCodeConnection(0));
         assertEquals("23H", victim.getUcrOffenseCodeConnection(1));
         assertEquals("290", victim.getUcrOffenseCodeConnection(2));
@@ -184,7 +227,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testFirstIncidentProperty()
     {
-        Property property = (Property) ((Incident) incidentListener.getIncidentList().get(0)).propertyIterator().next();
+        Property property = (Property) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).propertyIterator().next();
         assertEquals("7", property.getTypeOfPropertyLoss());
         assertEquals("13", property.getPropertyDescription(0));
         assertEquals(new Integer(20), property.getValueOfProperty(0));
@@ -206,7 +249,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testDrugIncidentProperty()
     {
-        Property property = (Property) ((Incident) incidentListener.getIncidentList().get(5)).propertyIterator().next();
+        Property property = (Property) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(5)).propertyIterator().next();
         assertEquals("E", property.getSuspectedDrugType(0));
         assertEquals(new Double(0.1), property.getEstimatedDrugQuantity(0));
         assertEquals("GM", property.getTypeDrugMeasurement(0));
@@ -218,7 +261,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testMotorVehicleIncidentProperty()
     {
-        Iterator<Property> propertyIterator = ((Incident) incidentListener.getIncidentList().get(6)).propertyIterator();
+        Iterator<Property> propertyIterator = ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(6)).propertyIterator();
         Property stolenProperty = (Property) propertyIterator.next();
         Property recoveredProperty = (Property) propertyIterator.next();
         assertEquals("7", stolenProperty.getTypeOfPropertyLoss());
@@ -233,7 +276,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testFirstIncidentOffense()
     {
-        Offense offense = (Offense) ((Incident) incidentListener.getIncidentList().get(0)).offenseIterator().next();
+        Offense offense = (Offense) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenseIterator().next();
         assertEquals("220", offense.getUcrOffenseCode());
         assertEquals("C", offense.getOffenseAttemptedCompleted());
         assertEquals("N", offense.getOffendersSuspectedOfUsing(0));
@@ -265,18 +308,37 @@ public class TestIncidentBuilderOldFormat
                 "111502",
                 "03000037"
         };
-        List<Incident> incidentList = incidentListener.getIncidentList();
+        List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
         for (int i=0;i < numbers.length;i++)
         {
-            assertEquals(numbers[i], ((Incident) incidentList.get(i)).getIncidentNumber());
+            assertEquals(numbers[i], ((GroupAIncidentReport) incidentList.get(i)).getIncidentNumber());
         }
     }
     
     @Test
-    public void testCorrectIncidentCount()
+    public void testCorrectGroupAIncidentCount()
     {
-        List<Incident> incidentList = incidentListener.getIncidentList();
+        List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
         assertEquals(8, incidentList.size());
+    }
+    
+    @Test
+    public void testCorrectGroupBIncidentCount()
+    {
+        List<GroupBIncidentReport> incidentList = incidentListener.getGroupBIncidentList();
+        assertEquals(1, incidentList.size());
+    }
+    
+    @Test
+    public void testCorrectZeroReportCount()
+    {
+        List<ZeroReport> incidentList = incidentListener.getZeroReportList();
+        assertEquals(1, incidentList.size());
+    }
+    
+    @Test
+    public void testCorrectReportCount() {
+    	assertEquals(10, incidentListener.getReportList().size());
     }
 
 }

@@ -31,9 +31,10 @@ public class TestSegment
         assertEquals(0, s.setData(1, segment).size());
         assertEquals('1', s.getSegmentType());
         assertEquals('I', s.getActionType());
-        assertEquals("111502", s.getIncidentNumber());
+        assertEquals("111502", s.getSegmentUniqueIdentifier());
         assertEquals("TN0390500", s.getOri());
         assertEquals(1, s.getLineNumber());
+        assertEquals('1', s.getSegmentLevel());
     }
     
     @Test
@@ -44,8 +45,9 @@ public class TestSegment
         assertEquals(0, s.setData(1, segment).size());
         assertEquals('2', s.getSegmentType());
         assertEquals('I', s.getActionType());
-        assertEquals("111502", s.getIncidentNumber());
+        assertEquals("111502", s.getSegmentUniqueIdentifier());
         assertEquals("TN0390500", s.getOri());
+        assertEquals('2', s.getSegmentLevel());
     }
 
     @Test
@@ -56,7 +58,7 @@ public class TestSegment
         assertEquals(0, s.setData(1, segment).size());
         assertEquals('3', s.getSegmentType());
         assertEquals('I', s.getActionType());
-        assertEquals("111502", s.getIncidentNumber());
+        assertEquals("111502", s.getSegmentUniqueIdentifier());
         assertEquals("TN0390500", s.getOri());
     }
 
@@ -68,7 +70,7 @@ public class TestSegment
         assertEquals(0, s.setData(1, segment).size());
         assertEquals('4', s.getSegmentType());
         assertEquals('I', s.getActionType());
-        assertEquals("111502", s.getIncidentNumber());
+        assertEquals("111502", s.getSegmentUniqueIdentifier());
         assertEquals("TN0390500", s.getOri());
     }
 
@@ -80,7 +82,7 @@ public class TestSegment
         assertEquals(0, s.setData(1, segment).size());
         assertEquals('5', s.getSegmentType());
         assertEquals('I', s.getActionType());
-        assertEquals("111502", s.getIncidentNumber());
+        assertEquals("111502", s.getSegmentUniqueIdentifier());
         assertEquals("TN0390500", s.getOri());
     }
 

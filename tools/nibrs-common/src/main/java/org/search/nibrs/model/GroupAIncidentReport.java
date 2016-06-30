@@ -1,42 +1,31 @@
 package org.search.nibrs.model;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
 /**
- * Representation of an individual incident in a NIBRS report.
+ * Representation of an individual Group A incident in a NIBRS submission.
  *
  */
-public class Incident implements Serializable
+public class GroupAIncidentReport extends Report implements Serializable
 {
     
 	private static final long serialVersionUID = 3136534413958035709L;
 	
-	private Integer monthOfTape;
-    private Integer yearOfTape;
-    private String cityIndicator;
-    private String ori;
-    private String incidentNumber;
+	private String incidentNumber;
     private Date incidentDate;
     private String reportDateIndicatorS;
     private Integer incidentHour;
     private String exceptionalClearanceCode;
     private Date exceptionalClearanceDate;
     private Boolean cargoTheftIndicator;
-    private boolean hasUpstreamErrors;
-    
-	private List<Offense> offenseSegmentList;
+    private List<Offense> offenseSegmentList;
     private List<Property> propertySegmentList;
     private List<Victim> victimSegmentList;
     private List<Offender> offenderSegmentList;
     private List<Arrestee> arresteeSegmentList;
 
-    public Incident()
+    public GroupAIncidentReport()
     {
         removeOffenses();
         removeProperties();
@@ -45,27 +34,16 @@ public class Incident implements Serializable
         removeArrestees();
     }
     
-    public Incident deepCopy() {
-    	
-    	Incident ret = null;
-    	
-    	try {
-    		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(this);
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			ret = (Incident) ois.readObject();
-    	} catch (IOException ioe) {
-    		// this should never really happen
-    		throw new RuntimeException(ioe);
-    	} catch (ClassNotFoundException cnfe) {
-    		// this should never really happen
-    		throw new RuntimeException(cnfe);
-		}
-    	
-    	return ret;
-    	
+    public String getUniqueReportDescription() {
+    	return "Group A Incident: Incident # " + incidentNumber;
+    }
+    
+    public String getUniqueReportIdentifier() {
+    	return getOri() + "." + incidentNumber;
+    }
+    
+    public GroupAIncidentReport deepCopy() {
+    	return (GroupAIncidentReport) copyWithObjectStream(this);
     }
 
 	public void removeArrestee(int index) {
@@ -211,14 +189,6 @@ public class Incident implements Serializable
 		return Collections.unmodifiableList(arresteeSegmentList);
 	}
 
-    public String getCityIndicator()
-    {
-        return cityIndicator;
-    }
-    public void setCityIndicator(String cityIndicator)
-    {
-        this.cityIndicator = cityIndicator;
-    }
     public String getExceptionalClearanceCode()
     {
         return exceptionalClearanceCode;
@@ -259,22 +229,6 @@ public class Incident implements Serializable
     {
         this.incidentNumber = incidentNumber;
     }
-    public int getMonthOfTape()
-    {
-        return monthOfTape;
-    }
-    public void setMonthOfTape(Integer monthOfTape)
-    {
-    	this.monthOfTape = monthOfTape;
-    }
-    public String getOri()
-    {
-        return ori;
-    }
-    public void setOri(String ori)
-    {
-        this.ori = ori;
-    }
     public boolean getReportDateIndicator()
     {
         return "R".equals(reportDateIndicatorS);
@@ -283,18 +237,4 @@ public class Incident implements Serializable
     {
         this.reportDateIndicatorS = reportDateIndicator;
     }
-    public int getYearOfTape()
-    {
-        return yearOfTape;
-    }
-    public void setYearOfTape(Integer yearOfTape)
-    {
-        this.yearOfTape = yearOfTape;
-    }
-    public boolean getHasUpstreamErrors() {
-		return hasUpstreamErrors;
-	}
-	public void setHasUpstreamErrors(boolean hasUpstreamErrors) {
-		this.hasUpstreamErrors = hasUpstreamErrors;
-	}
 }

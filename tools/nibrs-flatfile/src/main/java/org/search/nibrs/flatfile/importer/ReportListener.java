@@ -6,13 +6,13 @@ import org.search.nibrs.model.*;
  * Interface for objects that are interested in processing new Incidents as they are built from a NIBRS report stream.
  *
  */
-public interface IncidentListener
+public interface ReportListener
 {
 
     /**
-     * Called on implementations when the builder creates a new Incident from the report stream.
-     * @param newIncident the new Incident object
+     * Called on implementations when the builder creates a new Report from the report stream.
+     * @param report the new Report object
      */
-    public void newIncident(Incident newIncident);
+    public void newReport(Report report);
 
 }

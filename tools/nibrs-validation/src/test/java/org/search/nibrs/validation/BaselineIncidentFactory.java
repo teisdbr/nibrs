@@ -6,7 +6,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import org.search.nibrs.model.Arrestee;
-import org.search.nibrs.model.Incident;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.Offender;
 import org.search.nibrs.model.Offense;
 import org.search.nibrs.model.Victim;
@@ -23,9 +23,9 @@ final class BaselineIncidentFactory {
 		return INSTANCE;
 	}
 
-	static Incident getBaselineIncident() {
+	static GroupAIncidentReport getBaselineIncident() {
 		
-		Incident incident = new Incident();
+		GroupAIncidentReport incident = new GroupAIncidentReport();
 		incident.setYearOfTape(2016);
 		incident.setMonthOfTape(5);
 		incident.setOri("WA123456789");

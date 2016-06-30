@@ -17,15 +17,20 @@ public class Segment
 	
 	private static final Logger LOG = LogManager.getLogger(Segment.class);
     
-    private String incidentNumber;
+    private String segmentUniqueIdentifier;
     private String ori;
     private char segmentType;
     private char actionType;
     private String data;
     private int segmentLength;
     private int lineNumber;
+    private char segmentLevel;
     
-    public List<NIBRSError> setData(int lineNumber, String data)
+    public char getSegmentLevel() {
+		return segmentLevel;
+	}
+
+	public List<NIBRSError> setData(int lineNumber, String data)
     {
     	List<NIBRSError> ret = new ArrayList<NIBRSError>();
         this.data = data;
@@ -69,9 +74,10 @@ public class Segment
 	        	LOG.debug("i=" + i + ", data.length()=" + data.length());
 	        }
 	        if (e == null) {
-	        	this.incidentNumber = StringUtils.getStringBetween(26, 37, data);
+	        	this.segmentUniqueIdentifier = StringUtils.getStringBetween(26, 37, data);
 	        	this.ori = StringUtils.getStringBetween(17, 25, data);
 	        	this.actionType = StringUtils.getStringBetween(6, 6, data).charAt(0);
+	        	this.segmentLevel = StringUtils.getStringBetween(5, 5, data).charAt(0);
 	        }
 		}
         return ret;
@@ -84,9 +90,9 @@ public class Segment
     {
         return data;
     }
-    public String getIncidentNumber()
+    public String getSegmentUniqueIdentifier()
     {
-        return incidentNumber;
+        return segmentUniqueIdentifier;
     }
     public String getOri()
     {

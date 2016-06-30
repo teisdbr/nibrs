@@ -9,29 +9,29 @@ import java.util.*;
 public class NIBRSSubmission
 {
     
-    private List<Incident> incidentList;
+    private List<Report> reportList;
     
     public NIBRSSubmission()
     {
-        incidentList = new ArrayList<Incident>();
+        reportList = new ArrayList<Report>();
     }
     
-    public void addIncidents(Collection<Incident> incidents) {
-    	incidentList.addAll(incidents);
+    public void addReports(Collection<Report> reports) {
+    	reportList.addAll(reports);
     }
     
-    public void addIncident(Incident incident)
+    public void addReport(Report incident)
     {
-        incidentList.add(incident);
+        reportList.add(incident);
     }
     
-    public List<Incident> getIncidents() {
-    	return Collections.unmodifiableList(incidentList);
+    public List<Report> getReports() {
+    	return Collections.unmodifiableList(reportList);
     }
     
-    public int getIncidentCount()
+    public int getReportCount()
     {
-        return incidentList.size();
+        return reportList.size();
     }
 
 }

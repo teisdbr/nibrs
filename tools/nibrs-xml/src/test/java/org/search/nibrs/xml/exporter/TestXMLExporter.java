@@ -5,7 +5,7 @@ import java.text.ParseException;
 
 import org.junit.Test;
 import org.search.nibrs.model.Arrestee;
-import org.search.nibrs.model.Incident;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.Offender;
 import org.search.nibrs.model.Offense;
@@ -20,7 +20,7 @@ public class TestXMLExporter {
 	public void testDocumentConversion() throws Exception {
 		
 		NIBRSSubmission report = new NIBRSSubmission();
-		report.addIncident(buildBaseIncident());
+		report.addReport(buildBaseIncident());
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report);
 		XmlUtils.printNode(d, System.out);
 	}
@@ -28,7 +28,7 @@ public class TestXMLExporter {
 	@Test
 	public void testStreamConversion() throws Exception {
 		NIBRSSubmission report = new NIBRSSubmission();
-		report.addIncident(buildBaseIncident());
+		report.addReport(buildBaseIncident());
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		new XMLExporter().convertNIBRSSubmissionToStream(report, baos);
 		String xml = baos.toString();
@@ -36,9 +36,9 @@ public class TestXMLExporter {
 		XmlUtils.printNode(d);
 	}
 
-	private Incident buildBaseIncident() throws ParseException {
+	private GroupAIncidentReport buildBaseIncident() throws ParseException {
 		
-		Incident incident = new Incident();
+		GroupAIncidentReport incident = new GroupAIncidentReport();
 		incident.setYearOfTape(2016);
 		incident.setMonthOfTape(5);
 		incident.setOri("WA123456789");

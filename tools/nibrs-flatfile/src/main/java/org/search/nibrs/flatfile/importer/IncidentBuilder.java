@@ -20,29 +20,29 @@ import org.search.nibrs.model.*;
  */
 public class IncidentBuilder {
 
-	private static final class LogListener implements IncidentListener {
-		public int incidentCount = 0;
-		public void newIncident(Incident newIncident) {
-			LOG.info("Created incident # " + newIncident.getIncidentNumber());
-			incidentCount++;
+	private static final class LogListener implements ReportListener {
+		public int reportCount = 0;
+		public void newReport(Report newReport) {
+			LOG.info("Created " + newReport.getUniqueReportDescription());
+			reportCount++;
 		}
 	}
 
 	private static final Logger LOG = LogManager.getLogger(IncidentBuilder.class);
 
-	private List<IncidentListener> listeners;
+	private List<ReportListener> listeners;
 	private LogListener logListener = new LogListener();
 
 	public IncidentBuilder() {
-		listeners = new ArrayList<IncidentListener>();
+		listeners = new ArrayList<ReportListener>();
 		listeners.add(logListener);
 	}
 
-	public void addIncidentListener(IncidentListener listener) {
+	public void addIncidentListener(ReportListener listener) {
 		listeners.add(listener);
 	}
 
-	public void removeIncidentListener(IncidentListener listener) {
+	public void removeIncidentListener(ReportListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -66,8 +66,7 @@ public class IncidentBuilder {
 		}
 		
 		String line = null;
-		Incident currentIncident = null;
-		String currentIncidentNumber = null;
+		Report currentReport = null;
 		int lineNumber = 1;
 		
 		LOG.info("Processing NIBRS flat file");
@@ -77,48 +76,127 @@ public class IncidentBuilder {
 			List<NIBRSError> segmentErrors = s.setData(lineNumber, line);
 			errorList.addAll(segmentErrors);
 			if (segmentErrors.isEmpty()) {
-				if (currentIncidentNumber == null || !currentIncidentNumber.equals(s.getIncidentNumber())) {
-					handleNewIncident(currentIncident);
-					currentIncidentNumber = s.getIncidentNumber();
-					int errorListSize = errorList.size();
-					currentIncident = buildIncidentSegment(s, errorList);
-					if (errorList.size() > errorListSize) {
-						currentIncident.setHasUpstreamErrors(true);
-					}
+				char level = s.getSegmentLevel();
+				if (level == '0' || level == '1' || level == '7') {
+					handleNewReport(currentReport);
+					currentReport = buildReport(errorList, s);
 				} else {
 					int errorListSize = errorList.size();
-					addSegmentToIncident(currentIncident, s, errorList);
+					addSegmentToIncident((GroupAIncidentReport) currentReport, s, errorList);
 					if (errorList.size() > errorListSize) {
-						currentIncident.setHasUpstreamErrors(true);
+						currentReport.setHasUpstreamErrors(true);
 					}
 				}
 			}
 			lineNumber++;
 		}
 		
-		handleNewIncident(currentIncident);
+		handleNewReport(currentReport);
 
 		LOG.info("finished processing file, read " + (lineNumber - 1) + " lines.");
 		LOG.info("Encountered " + errorList.size() + " error(s).");
-		LOG.info("Created " + logListener.incidentCount + " incident(s).");
+		LOG.info("Created " + logListener.reportCount + " incident(s).");
 
 		return errorList;
 
 	}
 
-	private final void handleNewIncident(Incident newIncident) {
-		if (newIncident != null) {
-			for (Iterator<IncidentListener> it = listeners.iterator(); it.hasNext();) {
-				IncidentListener listener = it.next();
-				listener.newIncident(newIncident);
+	public Report buildReport(List<NIBRSError> errorList, Segment s) {
+		int errorListSize = errorList.size();
+		Report ret = null;
+		char level = s.getSegmentLevel();
+		if (level == '1') {
+			ret = buildGroupAIncidentSegment(s, errorList);
+		} else if (level == '7') {
+			ret = buildGroupBIncidentReport(s, errorList);
+		} else if (level == '0') {
+			ret = buildZeroReport(s, errorList);
+		}
+		if (errorList.size() > errorListSize) {
+			ret.setHasUpstreamErrors(true);
+		}
+		return ret;
+	}
+
+	private ZeroReport buildZeroReport(Segment s, List<NIBRSError> errorList) {
+		ZeroReport ret = new ZeroReport();
+		ret.setOri(s.getOri());
+		ret.setAdminSegmentLevel(s.getSegmentLevel());
+		ret.setReportActionType(s.getActionType());
+		int length = s.getSegmentLength();
+		if (length == 43) {
+			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
+			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
+			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, s.getData()));
+		} else {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Zero Report segments must be length 43)");
+			errorList.add(e);
+		}
+		return ret;
+	}
+
+	private Report buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
+		GroupBIncidentReport ret = new GroupBIncidentReport();
+		Arrestee arrestee = new Arrestee();
+		String segmentData = s.getData();
+		ret.setOri(s.getOri());
+		ret.setAdminSegmentLevel(s.getSegmentLevel());
+		ret.setReportActionType(s.getActionType());
+		int length = s.getSegmentLength();
+		if (length == 66) {
+			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
+			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
+			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
+			arrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
+			arrestee.setArrestTransactionNumber(StringUtils.getStringBetween(26, 37, segmentData));
+			arrestee.setArrestDate(StringUtils.getDateBetween(40, 47, segmentData));
+			arrestee.setTypeOfArrest(StringUtils.getStringBetween(48, 48, segmentData));
+			arrestee.setUcrArrestOffenseCode(StringUtils.getStringBetween(49, 51, segmentData));
+			for (int i = 0; i < 2; i++) {
+				arrestee.setArresteeArmedWith(i, StringUtils.getStringBetween(52 + 3 * i, 53 + 3 * i, segmentData));
+				arrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(54 + 3 * i, 54 + 3 * i, segmentData));
+			}
+			arrestee.setAgeOfArresteeString(StringUtils.getStringBetween(58, 61, segmentData));
+			arrestee.setSexOfArrestee(StringUtils.getStringBetween(62, 62, segmentData));
+			arrestee.setRaceOfArrestee(StringUtils.getStringBetween(63, 63, segmentData));
+			arrestee.setEthnicityOfArrestee(StringUtils.getStringBetween(64, 64, segmentData));
+			arrestee.setResidentStatusOfArrestee(StringUtils.getStringBetween(65, 65, segmentData));
+			arrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(66, 66, segmentData));
+		} else {
+			NIBRSError e = new NIBRSError();
+			e.setContext(s.getLineNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setSegmentType(s.getSegmentType());
+			e.setValue(length);
+			e.setRuleDescription("Invalid segment length (Group B Arrestee segments must be length 66)");
+			errorList.add(e);
+		}
+		
+		ret.setArrestee(arrestee);
+	
+		return ret;
+	}
+
+	private final void handleNewReport(Report newReport) {
+		if (newReport != null) {
+			for (Iterator<ReportListener> it = listeners.iterator(); it.hasNext();) {
+				ReportListener listener = it.next();
+				listener.newReport(newReport);
 			}
 		}
 	}
 
-	private final Incident buildIncidentSegment(Segment s, List<NIBRSError> errorList) {
-		Incident newIncident = new Incident();
-		newIncident.setIncidentNumber(s.getIncidentNumber());
+	private final Report buildGroupAIncidentSegment(Segment s, List<NIBRSError> errorList) {
+		GroupAIncidentReport newIncident = new GroupAIncidentReport();
+		newIncident.setIncidentNumber(s.getSegmentUniqueIdentifier());
 		newIncident.setOri(s.getOri());
+		newIncident.setAdminSegmentLevel(s.getSegmentLevel());
+		newIncident.setReportActionType(s.getActionType());
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 87 || length == 88) {
@@ -152,7 +230,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Administrative segments must be either length 87 or 88)");
@@ -169,7 +247,7 @@ public class IncidentBuilder {
 		} catch (NumberFormatException nfe) {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setRuleDescription(errorMessage);
 			e.setValue(sv);
 			e.setSegmentType(s.getSegmentType());
@@ -179,7 +257,7 @@ public class IncidentBuilder {
 		return i;
 	}
 
-	private final void addSegmentToIncident(Incident currentIncident, Segment s, List<NIBRSError> errorList) {
+	private final void addSegmentToIncident(GroupAIncidentReport currentIncident, Segment s, List<NIBRSError> errorList) {
 		char segmentType = s.getSegmentType();
 		switch (segmentType) {
 		case '2':
@@ -200,7 +278,7 @@ public class IncidentBuilder {
 		default:
 			NIBRSError error = new NIBRSError();
 			error.setContext(s.getLineNumber());
-			error.setIncidentNumber(s.getIncidentNumber());
+			error.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			error.setRuleNumber(51);
 			error.setRuleDescription("Segment Level must contain data values 0–7.");
 			error.setValue(segmentType);
@@ -232,7 +310,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Arrestee segments must be length 110)");
@@ -257,7 +335,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Offender segments must be length 45 (with no offender ethnicity) or 46 (with ethnicity))");
@@ -307,7 +385,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Victim segments must be length 129 (without LEOKA elements) or 141 (with LEOKA elements))");
@@ -355,7 +433,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Property segments must be length 307)");
@@ -397,7 +475,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setIncidentNumber(s.getIncidentNumber());
+			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Offense segments must be length 63 (with only one bias motivation) or 71 (with five)");

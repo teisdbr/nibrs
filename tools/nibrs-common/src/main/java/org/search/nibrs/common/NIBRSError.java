@@ -9,7 +9,7 @@ public class NIBRSError {
 	private Object context;
 	private Integer ruleNumber;
 	private String ruleDescription;
-	private String incidentNumber;
+	private String segmentUniqueIdentifier;
 	private Object value;
 	private char segmentType;
 	private String withinSegmentIdentifier;
@@ -32,11 +32,11 @@ public class NIBRSError {
 	public void setRuleNumber(Integer ruleNumber) {
 		this.ruleNumber = ruleNumber;
 	}
-	public String getIncidentNumber() {
-		return incidentNumber;
+	public String getSegmentUniqueIdentifier() {
+		return segmentUniqueIdentifier;
 	}
-	public void setIncidentNumber(String incidentNumber) {
-		this.incidentNumber = incidentNumber;
+	public void setSegmentUniqueIdentifier(String identifier) {
+		this.segmentUniqueIdentifier = identifier;
 	}
 	public Object getValue() {
 		return value;
