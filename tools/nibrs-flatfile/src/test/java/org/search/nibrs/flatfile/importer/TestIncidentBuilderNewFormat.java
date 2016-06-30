@@ -104,6 +104,7 @@ public class TestIncidentBuilderNewFormat
         assertEquals(1, incident.getOffenderCount());
         assertEquals(1, incident.getArresteeCount());
         assertFalse(incident.getHasUpstreamErrors());
+        assertTrue(incident.includesLeoka());
     }
     
     @Test

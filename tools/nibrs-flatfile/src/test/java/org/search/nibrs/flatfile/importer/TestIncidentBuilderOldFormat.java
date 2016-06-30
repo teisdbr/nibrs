@@ -148,6 +148,7 @@ public class TestIncidentBuilderOldFormat
         assertEquals(1, incident.getOffenderCount());
         assertEquals(1, incident.getArresteeCount());
     	assertEquals('I', incident.getReportActionType());
+    	assertFalse(incident.includesLeoka());
     }
     
     @Test

@@ -267,7 +267,7 @@ public class IncidentBuilder {
 			currentIncident.addProperty(buildPropertySegment(s, errorList));
 			break;
 		case '4':
-			currentIncident.addVictim(buildVictimSegment(s, errorList));
+			currentIncident.addVictim(buildVictimSegment(s, currentIncident, errorList));
 			break;
 		case '5':
 			currentIncident.addOffender(buildOffenderSegment(s, errorList));
@@ -344,7 +344,7 @@ public class IncidentBuilder {
 		return newOffender;
 	}
 
-	private Victim buildVictimSegment(Segment s, List<NIBRSError> errorList) {
+	private Victim buildVictimSegment(Segment s, GroupAIncidentReport parentIncident, List<NIBRSError> errorList) {
 
 		Victim newVictim = new Victim();
 		String segmentData = s.getData();
@@ -381,6 +381,8 @@ public class IncidentBuilder {
 				newVictim.setOfficerAssignmentType(StringUtils.getStringBetween(132, 132, segmentData));
 				newVictim.setOfficerOtherJurisdictionORI(StringUtils.getStringBetween(133, 141, segmentData));
 			}
+			
+			parentIncident.setIncludesLeoka(leoka);
 
 		} else {
 			NIBRSError e = new NIBRSError();

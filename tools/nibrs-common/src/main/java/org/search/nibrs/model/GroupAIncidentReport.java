@@ -24,8 +24,9 @@ public class GroupAIncidentReport extends Report implements Serializable
     private List<Victim> victimSegmentList;
     private List<Offender> offenderSegmentList;
     private List<Arrestee> arresteeSegmentList;
+    private boolean includesLeoka = false;
 
-    public GroupAIncidentReport()
+	public GroupAIncidentReport()
     {
         removeOffenses();
         removeProperties();
@@ -34,6 +35,14 @@ public class GroupAIncidentReport extends Report implements Serializable
         removeArrestees();
     }
     
+    public boolean includesLeoka() {
+		return includesLeoka;
+	}
+
+	public void setIncludesLeoka(boolean includesLeoka) {
+		this.includesLeoka = includesLeoka;
+	}
+
     public String getUniqueReportDescription() {
     	return "Group A Incident: Incident # " + incidentNumber;
     }
