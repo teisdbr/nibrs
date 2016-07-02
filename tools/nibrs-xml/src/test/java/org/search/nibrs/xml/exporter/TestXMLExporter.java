@@ -1,9 +1,14 @@
 package org.search.nibrs.xml.exporter;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.Arrestee;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
@@ -21,7 +26,9 @@ public class TestXMLExporter {
 		
 		NIBRSSubmission report = new NIBRSSubmission();
 		report.addReport(buildBaseIncident());
-		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report);
+		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
+		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
+		assertTrue(errorList.isEmpty());
 		XmlUtils.printNode(d, System.out);
 	}
 	
@@ -30,7 +37,9 @@ public class TestXMLExporter {
 		NIBRSSubmission report = new NIBRSSubmission();
 		report.addReport(buildBaseIncident());
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new XMLExporter().convertNIBRSSubmissionToStream(report, baos);
+		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
+		new XMLExporter().convertNIBRSSubmissionToStream(report, baos, errorList);
+		assertTrue(errorList.isEmpty());
 		String xml = baos.toString();
 		Document d = XmlUtils.toDocument(xml);
 		XmlUtils.printNode(d);
@@ -45,6 +54,7 @@ public class TestXMLExporter {
 		incident.setIncidentNumber("54236732");
 		incident.setIncidentDate(XMLExporter.DATETIME_FORMAT.parse("2016-05-12T10:07:46.342-0500"));
 		incident.setExceptionalClearanceCode("N");
+		incident.setReportActionType('I');
 		
 		Offense o = new Offense();
 		incident.addOffense(o);
@@ -127,6 +137,10 @@ public class TestXMLExporter {
 		v.setResidentStatusOfVictim("R");
 		v.setSexOfVictim("F");
 		v.setRaceOfVictim("B");
+		v.setUcrOffenseCodeConnection(0, "64A");
+		v.setUcrOffenseCodeConnection(1, "13A");
+		v.setOffenderNumberRelated(0, 1);
+		v.setVictimOffenderRelationship(0, "ER");
 		
 		v = new Victim();
 		incident.addVictim(v);
@@ -138,11 +152,17 @@ public class TestXMLExporter {
 		v.setResidentStatusOfVictim("R");
 		v.setSexOfVictim("F");
 		v.setRaceOfVictim("B");
+		v.setUcrOffenseCodeConnection(0, "13A");
+		v.setOffenderNumberRelated(0, 1);
+		v.setVictimOffenderRelationship(0, "FR");
 		
 		v = new Victim();
 		incident.addVictim(v);
 		v.setVictimSequenceNumber(3);
 		v.setTypeOfVictim("B");
+		v.setUcrOffenseCodeConnection(0, "220");
+		v.setOffenderNumberRelated(0, 1);
+		v.setVictimOffenderRelationship(0, "RU");
 		
 		v = new Victim();
 		incident.addVictim(v);
@@ -157,6 +177,9 @@ public class TestXMLExporter {
 		v.setOfficerAssignmentType("F");
 		v.setTypeOfOfficerActivityCircumstance("04");
 		v.setOfficerOtherJurisdictionORI("WA987654321");
+		v.setUcrOffenseCodeConnection(0, "13A");
+		v.setOffenderNumberRelated(0, 1);
+		v.setVictimOffenderRelationship(0, "ST");
 		
 		Offender offender = new Offender();
 		incident.addOffender(offender);
@@ -181,10 +204,4 @@ public class TestXMLExporter {
 		
 	}
 	
-	@Test
-	public void foo() {
-		System.out.println("1234".substring(2, 4));
-	}
-	
-
 }

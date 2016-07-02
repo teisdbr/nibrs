@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLOutputFactory;
@@ -18,8 +19,12 @@ import javax.xml.transform.stax.StAXResult;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.Arrestee;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.GroupBIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.Offender;
 import org.search.nibrs.model.Offense;
@@ -38,13 +43,13 @@ import org.w3c.dom.Element;
  * 
  * handle actions other than add ("I")
  * handle Group B
- * log4j info
- * error handling
- * separate out ndex namespace context
  * 
  */
 
 public class XMLExporter {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(XMLExporter.class);
 
 	static final NumberFormat MONTH_NUMBER_FORMAT = new DecimalFormat("00");
 	static final DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -52,8 +57,36 @@ public class XMLExporter {
 
 	static final BidiMap<String, String> BIAS_MAP = new DualHashBidiMap<String, String>();
 	static final BidiMap<String, String> ITEM_STATUS_MAP = new DualHashBidiMap<String, String>();
+	static final BidiMap<String, String> RELATIONSHIP_MAP = new DualHashBidiMap<String, String>();
 
 	static {
+		
+		RELATIONSHIP_MAP.put("AQ", "Acquaintance");
+		RELATIONSHIP_MAP.put("BE", "Babysitter");
+		RELATIONSHIP_MAP.put("CF", "Child of Boyfriend_Girlfriend");
+		RELATIONSHIP_MAP.put("EE", "Employee");
+		RELATIONSHIP_MAP.put("ER", "Employer");
+		RELATIONSHIP_MAP.put("XS", "Ex_Spouse");
+		RELATIONSHIP_MAP.put("OF", "Family Member");
+		RELATIONSHIP_MAP.put("CH", "Family Member_Child");
+		RELATIONSHIP_MAP.put("GC", "Family Member_Grandchild");
+		RELATIONSHIP_MAP.put("GP", "Family Member_Grandparent");
+		RELATIONSHIP_MAP.put("IL", "Family Member_In-Law");
+		RELATIONSHIP_MAP.put("PA", "Family Member_Parent");
+		RELATIONSHIP_MAP.put("SB", "Family Member_Sibling");
+		RELATIONSHIP_MAP.put("SE", "Family Member_Spouse");
+		RELATIONSHIP_MAP.put("CS", "Family Member_Spouse_Common Law");
+		RELATIONSHIP_MAP.put("SC", "Family Member_Stepchild");
+		RELATIONSHIP_MAP.put("SP", "Family Member_Stepparent");
+		RELATIONSHIP_MAP.put("SS", "Family Member_Stepsibling");
+		RELATIONSHIP_MAP.put("FR", "Friend");
+		RELATIONSHIP_MAP.put("HR", "Homosexual relationship");
+		RELATIONSHIP_MAP.put("NE", "Neighbor");
+		RELATIONSHIP_MAP.put("OK", "NonFamily_Otherwise Known");
+		RELATIONSHIP_MAP.put("RU", "Relationship Unknown");
+		RELATIONSHIP_MAP.put("ST", "Stranger");
+		RELATIONSHIP_MAP.put("VO", "Victim Was Offender");
+		
 		BIAS_MAP.put("13", "ANTIAMERICAN INDIAN_ ALASKAN NATIVE");
 		BIAS_MAP.put("31", "ANTIARAB");
 		BIAS_MAP.put("14", "ANTIASIAN");
@@ -102,13 +135,13 @@ public class XMLExporter {
 
 	}
 
-	public Document convertNIBRSSubmissionToDocument(NIBRSSubmission submission) throws Exception {
+	public Document convertNIBRSSubmissionToDocument(NIBRSSubmission submission, List<NIBRSError> errorList) throws Exception {
 
 		Document ret = XmlUtils.createNewDocument();
 		Element root = XmlUtils.appendChildElement(ret, Namespace.nibrs, "Submission");
 
 		for (Report report : submission.getReports()) {
-			Element reportElement = buildReportElement(report);
+			Element reportElement = buildReportElement(report, errorList);
 			root.appendChild(ret.adoptNode(reportElement));
 		}
 
@@ -118,7 +151,7 @@ public class XMLExporter {
 
 	}
 
-	public void convertNIBRSSubmissionToStream(NIBRSSubmission submission, OutputStream os) throws Exception {
+	public void convertNIBRSSubmissionToStream(NIBRSSubmission submission, OutputStream os, List<NIBRSError> errorList) throws Exception {
 
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
@@ -137,7 +170,7 @@ public class XMLExporter {
 		t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
 		for (Report incident : submission.getReports()) {
-			Element reportElement = buildReportElement(incident);
+			Element reportElement = buildReportElement(incident, errorList);
 			t.transform(new DOMSource(reportElement), new StAXResult(writer));
 		}
 
@@ -146,15 +179,15 @@ public class XMLExporter {
 
 	}
 	
-	private Element buildReportElement(Report report) throws ParserConfigurationException {
+	private Element buildReportElement(Report report, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Element ret = null;
 		if (report instanceof GroupAIncidentReport) {
-			ret = buildGroupAIncidentReportElement((GroupAIncidentReport) report);
+			ret = buildGroupAIncidentReportElement((GroupAIncidentReport) report, errorList);
 		}
 		return ret;
 	}
 
-	private Element buildGroupAIncidentReportElement(GroupAIncidentReport incident) throws ParserConfigurationException {
+	private Element buildGroupAIncidentReportElement(GroupAIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Document temp = XmlUtils.createNewDocument();
 		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "Report");
 		addReportHeaderElement(incident, reportElement);
@@ -163,27 +196,65 @@ public class XMLExporter {
 		addLocationElements(incident, reportElement);
 		addNonDrugPropertyElements(incident, reportElement);
 		addDrugPropertyElements(incident, reportElement);
-
-		addPersonElements(incident, reportElement);
+		addPersonElements(incident, reportElement, errorList);
 		addEnforcementOfficialElements(incident, reportElement);
-		
 		addVictimElements(incident, reportElement);
-		
 		addSubjectElements(incident, reportElement);
-		
 		addArresteeElements(incident, reportElement);
-		
 		addArrestElement(incident, reportElement);
-
 		addArrestSubjectAssociationElements(incident, reportElement);
 		addOffenseLocationAssociationElements(incident, reportElement);
 		addOffenseVictimAssociationElements(incident, reportElement);
+		addSubjectVictimAssociationElements(incident, reportElement);
 		return reportElement;
+	}
+
+	private void addSubjectVictimAssociationElements(GroupAIncidentReport incident, Element reportElement) {
+		for (Victim victim : incident.getVictims()) {
+			for (int position=0; position < 10; position++) {
+				Integer offenderSequenceNumber = victim.getOffenderNumberRelated(position);
+				String relString = victim.getVictimOffenderRelationship(position);
+				if (offenderSequenceNumber != null) {
+					Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "SubjectVictimAssociation");
+					Element e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Subject");
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "Offender-" + offenderSequenceNumber);
+					e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Victim");
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
+					if (relString != null) {
+						String relCode = RELATIONSHIP_MAP.get(relString);
+						if (relString.equals("BG")) {
+							Offender o = incident.getOffenderForSequenceNumber(offenderSequenceNumber);
+							if ("M".equals(o.getSexOfOffender())) {
+								relCode = "Boyfriend";
+							} else if ("F".equals(o.getSexOfOffender())) {
+								relCode = "Girlfriend";
+							} else {
+								relCode = "Relationship Unknown";
+							}
+						}
+						if (relCode != null) {
+							XmlUtils.appendChildElement(associationElement, Namespace.j, "VictimToSubjectRelationshipCode").setTextContent(relCode);
+						} else {
+							// todo: handle via error mechanism
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private void addOffenseVictimAssociationElements(GroupAIncidentReport incident, Element reportElement) {
 		for (Victim victim : incident.getVictims()) {
-			//victim.getUcrOffenseCodeConnection(position)
+			for (int position=0; position < 10; position++) {
+				String ucrCode = victim.getUcrOffenseCodeConnection(position);
+				if (ucrCode != null) {
+					Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "OffenseVictimAssociation");
+					Element e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Offense");
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "Offense-" + ucrCode);
+					e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Victim");
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
+				}
+			}
 		}
 	}
 
@@ -202,14 +273,23 @@ public class XMLExporter {
 			Element arrestElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Arrest");
 			XmlUtils.addAttribute(arrestElement, Namespace.s, "id", "Arrest-" + arrestee.getArresteeSequenceNumber());
 			Element e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityIdentification");
-			XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID").setTextContent(arrestee.getArrestTransactionNumber());
+			appendElementAndValueIfNotNull(e, Namespace.nc, "IdentificationID", arrestee.getArrestTransactionNumber());
 			e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityDate");
-			XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(arrestee.getArrestDate()));
+			Date arrestDate = arrestee.getArrestDate();
+			if (arrestDate != null) {
+				XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(arrestDate));
+			}
 			e = XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestCharge");
-			XmlUtils.appendChildElement(e, Namespace.nibrs, "ChargeUCRCode").setTextContent(arrestee.getUcrArrestOffenseCode());
-			XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestCategoryCode").setTextContent(arrestee.getTypeOfArrest());
-			XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestSubjectCountCode").setTextContent(arrestee.getMultipleArresteeSegmentsIndicator());
+			appendElementAndValueIfNotNull(e, Namespace.nibrs, "ChargeUCRCode", arrestee.getUcrArrestOffenseCode());
+			appendElementAndValueIfNotNull(arrestElement, Namespace.j, "ArrestCategoryCode", arrestee.getTypeOfArrest());
+			appendElementAndValueIfNotNull(arrestElement, Namespace.j, "ArrestSubjectCountCode", arrestee.getMultipleArresteeSegmentsIndicator());
 		}		
+	}
+
+	private void appendElementAndValueIfNotNull(Element parentElement, Namespace elementNamespace, String elementName, String value) {
+		if (value != null) {
+			XmlUtils.appendChildElement(parentElement, elementNamespace, elementName).setTextContent(value);
+		}
 	}
 
 	private void addArresteeElements(GroupAIncidentReport incident, Element reportElement) {
@@ -218,7 +298,7 @@ public class XMLExporter {
 			XmlUtils.addAttribute(arresteeElement, Namespace.s, "id", "ArresteeObject-" + arrestee.getArresteeSequenceNumber());
 			Element e = XmlUtils.appendChildElement(arresteeElement, Namespace.nc, "RoleOfPerson");
 			XmlUtils.addAttribute(e, Namespace.s, "ref", "Arrestee-" + arrestee.getArresteeSequenceNumber());
-			XmlUtils.appendChildElement(arresteeElement, Namespace.j, "ArrestSequenceID").setTextContent(String.valueOf(arrestee.getArresteeSequenceNumber()));
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "ArrestSequenceID", String.valueOf(arrestee.getArresteeSequenceNumber()));
 		}
 	}
 
@@ -227,7 +307,7 @@ public class XMLExporter {
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Subject");
 			Element e = XmlUtils.appendChildElement(offenderElement, Namespace.nc, "RoleOfPerson");
 			XmlUtils.addAttribute(e, Namespace.s, "ref", "Offender-" + offender.getOffenderSequenceNumber());
-			XmlUtils.appendChildElement(offenderElement, Namespace.j, "OffenderSequenceNumberText").setTextContent(String.valueOf(offender.getOffenderSequenceNumber()));
+			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "OffenderSequenceNumberText", String.valueOf(offender.getOffenderSequenceNumber()));
 		}
 	}
 
@@ -236,37 +316,25 @@ public class XMLExporter {
 			Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Victim");
 			Element e = XmlUtils.appendChildElement(victimElement, Namespace.nc, "RoleOfPerson");
 			XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
-			XmlUtils.appendChildElement(victimElement, Namespace.j, "VictimSequenceNumberText").setTextContent(String.valueOf(victim.getVictimSequenceNumber()));
-			XmlUtils.appendChildElement(victimElement, Namespace.j, "VictimCategoryCode").setTextContent(victim.getTypeOfVictim());
+			appendElementAndValueIfNotNull(victimElement, Namespace.j, "VictimSequenceNumberText", String.valueOf(victim.getVictimSequenceNumber()));
+			appendElementAndValueIfNotNull(victimElement, Namespace.j, "VictimCategoryCode", victim.getTypeOfVictim());
 			for (int i=0;i < 2;i++) {
-				String agg = victim.getAggravatedAssaultHomicideCircumstances(i);
-				if (agg != null) {
-					XmlUtils.appendChildElement(victimElement, Namespace.j, "VictimAggravatedAssaultHomicideFactorCode").setTextContent(agg);
-				}
+				appendElementAndValueIfNotNull(victimElement, Namespace.j, "VictimAggravatedAssaultHomicideFactorCode", victim.getAggravatedAssaultHomicideCircumstances(i));
 			}
-			String just = victim.getAdditionalJustifiableHomicideCircumstances();
-			if (just != null) {
-				XmlUtils.appendChildElement(victimElement, Namespace.j, "VictimJustifiableHomicideFactorCode").setTextContent(just);
-			}
+			appendElementAndValueIfNotNull(victimElement, Namespace.j, "VictimJustifiableHomicideFactorCode", victim.getAdditionalJustifiableHomicideCircumstances());
 		}		
 	}
 
 	private void addEnforcementOfficialElements(GroupAIncidentReport incident, Element reportElement) {
 		for (Victim victim : incident.getVictims()) {
 			String victimType = victim.getTypeOfVictim();
-			String officerAssignmentType = victim.getOfficerAssignmentType();
-			String typeOfficerCircumstances = victim.getTypeOfOfficerActivityCircumstance();
 			String officerOtherJurisdictionORI = victim.getOfficerOtherJurisdictionORI();
 			if ("L".equals(victimType)) {
 				Element enforcementOfficialElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "EnforcementOfficial");
 				Element e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.nc, "RoleOfPerson");
 				XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
-				if (typeOfficerCircumstances != null) {
-					XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.j, "EnforcementOfficialActivityCategoryCode").setTextContent(typeOfficerCircumstances);
-				}
-				if (officerAssignmentType != null) {
-					XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.j, "EnforcementOfficialAssignmentCategoryCode").setTextContent(officerAssignmentType);
-				}
+				appendElementAndValueIfNotNull(enforcementOfficialElement, Namespace.j, "EnforcementOfficialActivityCategoryCode", victim.getTypeOfOfficerActivityCircumstance());
+				appendElementAndValueIfNotNull(enforcementOfficialElement, Namespace.j, "EnforcementOfficialAssignmentCategoryCode", victim.getOfficerAssignmentType());
 				if (officerOtherJurisdictionORI != null) {
 					e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.j, "EnforcementOfficialUnit");
 					e = XmlUtils.appendChildElement(e, Namespace.j, "OrganizationAugmentation");
@@ -277,22 +345,21 @@ public class XMLExporter {
 		}
 	}
 
-	private void addPersonElements(GroupAIncidentReport incident, Element reportElement) {
-		addVictimPersonElements(incident, reportElement);
-		addOffenderPersonElements(incident, reportElement);
-		addArresteePersonElements(incident, reportElement);
+	private void addPersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
+		addVictimPersonElements(incident, reportElement, errorList);
+		addOffenderPersonElements(incident, reportElement, errorList);
+		addArresteePersonElements(incident, reportElement, errorList);
 	}
 
-	private void addArresteePersonElements(GroupAIncidentReport incident, Element reportElement) {
+	private void addArresteePersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
 		for (Arrestee arrestee : incident.getArrestees()) {
 			Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
 			XmlUtils.addAttribute(arresteeElement, Namespace.s, "id", "Arrestee-" + arrestee.getArresteeSequenceNumber());
-			String ethnicity = arrestee.getEthnicityOfArrestee();
-			if (ethnicity != null) {
-				XmlUtils.appendChildElement(arresteeElement, Namespace.nc, "PersonEthnicityCode").setTextContent(ethnicity);
-			}
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.nc, "PersonEthnicityCode", arrestee.getEthnicityOfArrestee());
 			NIBRSAge age = new NIBRSAge(arrestee.getAgeOfArresteeString());
-			if (age.ageMin != null) {
+			if (age.error != null) {
+				errorList.add(age.error);
+			} else if (age.ageMin != null) {
 				Element e = XmlUtils.appendChildElement(arresteeElement, Namespace.nc, "PersonAgeMeasure");
 				if (age.ageMax == null) {
 					XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.ageMin));
@@ -302,25 +369,21 @@ public class XMLExporter {
 					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.ageMin));
 				}
 			}
-			XmlUtils.appendChildElement(arresteeElement, Namespace.j, "PersonRaceNDExCode").setTextContent(arrestee.getRaceOfArrestee());
-			String residentStatusOfArrestee = arrestee.getResidentStatusOfArrestee();
-			if (residentStatusOfArrestee != null) {
-				XmlUtils.appendChildElement(arresteeElement, Namespace.j, "PersonResidentCode").setTextContent(residentStatusOfArrestee);
-			}
-			XmlUtils.appendChildElement(arresteeElement, Namespace.j, "PersonSexCode").setTextContent(arrestee.getSexOfArrestee());
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonRaceNDExCode", arrestee.getRaceOfArrestee());
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonResidentCode", arrestee.getResidentStatusOfArrestee());
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonSexCode", arrestee.getSexOfArrestee());
 		}
 	}
 
-	private void addOffenderPersonElements(GroupAIncidentReport incident, Element reportElement) {
+	private void addOffenderPersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
 		for (Offender offender : incident.getOffenders()) {
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
 			XmlUtils.addAttribute(offenderElement, Namespace.s, "id", "Offender-" + offender.getOffenderSequenceNumber());
-			String ethnicity = offender.getEthnicityOfOffender();
-			if (ethnicity != null) {
-				XmlUtils.appendChildElement(offenderElement, Namespace.nc, "PersonEthnicityCode").setTextContent(ethnicity);
-			}
+			appendElementAndValueIfNotNull(offenderElement, Namespace.nc, "PersonEthnicityCode", offender.getEthnicityOfOffender());
 			NIBRSAge age = new NIBRSAge(offender.getAgeOfOffenderString());
-			if (age.ageMin != null) {
+			if (age.error != null) {
+				errorList.add(age.error);
+			} else if (age.ageMin != null) {
 				Element e = XmlUtils.appendChildElement(offenderElement, Namespace.nc, "PersonAgeMeasure");
 				if (age.ageMax == null) {
 					XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.ageMin));
@@ -330,8 +393,8 @@ public class XMLExporter {
 					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.ageMin));
 				}
 			}
-			XmlUtils.appendChildElement(offenderElement, Namespace.j, "PersonRaceNDExCode").setTextContent(offender.getRaceOfOffender());
-			XmlUtils.appendChildElement(offenderElement, Namespace.j, "PersonSexCode").setTextContent(offender.getSexOfOffender());
+			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "PersonRaceNDExCode", offender.getRaceOfOffender());
+			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "PersonSexCode", offender.getSexOfOffender());
 		}
 	}
 
@@ -340,6 +403,7 @@ public class XMLExporter {
 		public Integer ageMin;
 		public Integer ageMax;
 		public String nonNumericAge;
+		public NIBRSError error;
 
 		public NIBRSAge(String ageString) {
 			if (ageString != null) {
@@ -348,12 +412,16 @@ public class XMLExporter {
 					try {
 						ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
 					} catch (NumberFormatException nfe) {
-						// TODO: handle per error mechanism
+						error = new NIBRSError();
+						error.setValue(ageString);
+						error.setRuleDescription("Invalid age string");
 					}
 					try {
 						ageMax = Integer.parseInt(ageStringTrim.substring(2, 4));
 					} catch (NumberFormatException nfe) {
-						// TODO: handle per error mechanism
+						error = new NIBRSError();
+						error.setValue(ageString);
+						error.setRuleDescription("Invalid age string");
 					}
 				} else {
 					if ("NN".equals(ageStringTrim) || "NB".equals(ageStringTrim) || "BB".equals(ageStringTrim) || "00".equals(ageStringTrim)) {
@@ -362,7 +430,9 @@ public class XMLExporter {
 						try {
 							ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
 						} catch (NumberFormatException nfe) {
-							// TODO: handle per error mechanism
+							error = new NIBRSError();
+							error.setValue(ageString);
+							error.setRuleDescription("Invalid age string");
 						}
 					}
 				}
@@ -371,18 +441,17 @@ public class XMLExporter {
 
 	}
 
-	private void addVictimPersonElements(GroupAIncidentReport incident, Element reportElement) {
+	private void addVictimPersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
 		for (Victim victim : incident.getVictims()) {
 			String victimType = victim.getTypeOfVictim();
 			if ("L".equals(victimType) || "I".equals(victimType)) {
 				Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
 				XmlUtils.addAttribute(victimElement, Namespace.s, "id", "Victim-" + victim.getVictimSequenceNumber());
-				String ethnicity = victim.getEthnicityOfVictim();
-				if (ethnicity != null) {
-					XmlUtils.appendChildElement(victimElement, Namespace.nc, "PersonEthnicityCode").setTextContent(ethnicity);
-				}
+				appendElementAndValueIfNotNull(victimElement, Namespace.nc, "PersonEthnicityCode", victim.getEthnicityOfVictim());
 				NIBRSAge age = new NIBRSAge(victim.getAgeOfVictimString());
-				if (age.ageMin != null) {
+				if (age.error != null) {
+					errorList.add(age.error);
+				} else if (age.ageMin != null) {
 					Element e = XmlUtils.appendChildElement(victimElement, Namespace.nc, "PersonAgeMeasure");
 					if (age.ageMax == null) {
 						XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.ageMin));
@@ -399,12 +468,9 @@ public class XMLExporter {
 						XmlUtils.appendChildElement(injuryElement, Namespace.j, "InjuryCategoryCode").setTextContent(injury);
 					}
 				}
-				XmlUtils.appendChildElement(victimElement, Namespace.j, "PersonRaceNDExCode").setTextContent(victim.getRaceOfVictim());
-				String residentStatusOfVictim = victim.getResidentStatusOfVictim();
-				if (residentStatusOfVictim != null) {
-					XmlUtils.appendChildElement(victimElement, Namespace.j, "PersonResidentCode").setTextContent(residentStatusOfVictim);
-				}
-				XmlUtils.appendChildElement(victimElement, Namespace.j, "PersonSexCode").setTextContent(victim.getSexOfVictim());
+				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonRaceNDExCode", victim.getRaceOfVictim());
+				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonResidentCode", victim.getResidentStatusOfVictim());
+				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonSexCode", victim.getSexOfVictim());
 				String ageCode = age.nonNumericAge;
 				if (ageCode != null) {
 					Element e = XmlUtils.appendChildElement(victimElement, Namespace.j, "PersonAugmentation");
@@ -419,11 +485,14 @@ public class XMLExporter {
 			for (int i = 0; i < 10; i++) {
 				String description = property.getPropertyDescription(i);
 				if ("10".equals(description)) {
-					Element substanceElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Substance");
-					XmlUtils.appendChildElement(substanceElement, Namespace.j, "DrugCategoryCode").setTextContent(property.getSuspectedDrugType(i));
-					Element e = XmlUtils.appendChildElement(substanceElement, Namespace.nc, "SubstanceQuantityMeasure");
-					XmlUtils.appendChildElement(e, Namespace.nc, "MeasureDecimalValue").setTextContent(String.valueOf(property.getEstimatedDrugQuantity(i)));
-					XmlUtils.appendChildElement(e, Namespace.j, "SubstanceUnitCode").setTextContent(String.valueOf(property.getTypeDrugMeasurement(i)));
+					String suspectedDrugType = property.getSuspectedDrugType(i);
+					if (suspectedDrugType != null) {
+						Element substanceElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Substance");
+						XmlUtils.appendChildElement(substanceElement, Namespace.j, "DrugCategoryCode").setTextContent(suspectedDrugType);
+						Element e = XmlUtils.appendChildElement(substanceElement, Namespace.nc, "SubstanceQuantityMeasure");
+						appendElementAndValueIfNotNull(e, Namespace.nc, "MeasureDecimalValue", String.valueOf(property.getEstimatedDrugQuantity(i)));
+						appendElementAndValueIfNotNull(e, Namespace.j, "SubstanceUnitCode", String.valueOf(property.getTypeDrugMeasurement(i)));
+					}
 				}
 			}
 		}
@@ -435,18 +504,30 @@ public class XMLExporter {
 			for (int i = 0; i < 10; i++) {
 				String description = property.getPropertyDescription(i);
 				if (description != null && !"10".equals(description)) {
+					Element e;
 					Element itemElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Item");
-					Element e = XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemStatus");
-					XmlUtils.appendChildElement(e, Namespace.cjis, "ItemStatusCode").setTextContent(ITEM_STATUS_MAP.get(property.getTypeOfPropertyLoss()));
-					Element itemValueElement = XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemValue");
-					e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueAmount");
-					XmlUtils.appendChildElement(e, Namespace.nc, "Amount").setTextContent(String.valueOf(property.getValueOfProperty(i)));
-					Date dateRecovered = property.getDateRecovered(i);
-					if (dateRecovered != null) {
-						e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueDate");
-						XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(dateRecovered));
+					String typeOfPropertyLoss = property.getTypeOfPropertyLoss();
+					if (typeOfPropertyLoss != null) {
+						String mappedLossType = ITEM_STATUS_MAP.get(typeOfPropertyLoss);
+						if (mappedLossType != null) {
+							e = XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemStatus");
+							XmlUtils.appendChildElement(e, Namespace.cjis, "ItemStatusCode").setTextContent(mappedLossType);
+						} else {
+							// todo: handle via error mechanism
+						}
 					}
-					XmlUtils.appendChildElement(itemElement, Namespace.j, "ItemCategoryNIBRSPropertyCategoryCode").setTextContent(description);
+					String value = String.valueOf(property.getValueOfProperty(i));
+					if (value != null) {
+						Element itemValueElement = XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemValue");
+						e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueAmount");
+						XmlUtils.appendChildElement(e, Namespace.nc, "Amount").setTextContent(value);
+						Date dateRecovered = property.getDateRecovered(i);
+						if (dateRecovered != null) {
+							e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueDate");
+							XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(dateRecovered));
+						}
+					}
+					appendElementAndValueIfNotNull(itemElement, Namespace.j, "ItemCategoryNIBRSPropertyCategoryCode", description);
 					Integer rmv = property.getNumberOfRecoveredMotorVehicles();
 					Integer smv = property.getNumberOfStolenMotorVehicles();
 					if (rmv != null || smv != null) {
@@ -472,7 +553,7 @@ public class XMLExporter {
 		for (Offense offense : incident.getOffenses()) {
 			Element locationElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Location");
 			XmlUtils.addAttribute(locationElement, Namespace.s, "id", "Location-" + offense.getUcrOffenseCode());
-			XmlUtils.appendChildElement(locationElement, Namespace.j, "LocationCategoryCode").setTextContent(offense.getLocationType());
+			appendElementAndValueIfNotNull(locationElement, Namespace.j, "LocationCategoryCode", offense.getLocationType());
 		}
 	}
 
@@ -480,24 +561,22 @@ public class XMLExporter {
 		for (Offense offense : incident.getOffenses()) {
 			Element offenseElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Offense");
 			XmlUtils.addAttribute(offenseElement, Namespace.s, "id", "Offense-" + offense.getUcrOffenseCode());
-			XmlUtils.appendChildElement(offenseElement, Namespace.nibrs, "OffenseUCRCode").setTextContent(offense.getUcrOffenseCode());
+			appendElementAndValueIfNotNull(offenseElement, Namespace.nibrs, "OffenseUCRCode", offense.getUcrOffenseCode());
 			for (int i = 0; i < 3; i++) {
-				String typeOfCriminalActivity = offense.getTypeOfCriminalActivity(i);
-				if (typeOfCriminalActivity != null) {
-					XmlUtils.appendChildElement(offenseElement, Namespace.nibrs, "CriminalActivityCategoryCode").setTextContent(typeOfCriminalActivity);
-				}
+				appendElementAndValueIfNotNull(offenseElement, Namespace.nibrs, "CriminalActivityCategoryCode", offense.getTypeOfCriminalActivity(i));
 			}
 			for (int i = 0; i < 5; i++) {
-				String biasCode = offense.getBiasMotivation(i);
-				String biasNdexCode = BIAS_MAP.get(biasCode);
-				if (biasCode != null) {
-					XmlUtils.appendChildElement(offenseElement, Namespace.j, "OffenseFactorBiasMotivationCode").setTextContent(biasNdexCode);
+				String biasMotivation = offense.getBiasMotivation(i);
+				if (biasMotivation != null) {
+					String mappedValue = BIAS_MAP.get(biasMotivation);
+					if (mappedValue != null) {
+						XmlUtils.appendChildElement(offenseElement, Namespace.j, "OffenseFactorBiasMotivationCode").setTextContent(mappedValue);
+					} else {
+						// todo: handle via error mechanism
+					}
 				}
 			}
-			Integer numberOfPremisesEntered = offense.getNumberOfPremisesEntered();
-			if (numberOfPremisesEntered != null) {
-				XmlUtils.appendChildElement(offenseElement, Namespace.j, "OffenseStructuresEnteredQuantity").setTextContent(String.valueOf(numberOfPremisesEntered));
-			}
+			appendElementAndValueIfNotNull(offenseElement, Namespace.j, "OffenseStructuresEnteredQuantity", String.valueOf(offense.getNumberOfPremisesEntered()));
 			for (int i = 0; i < 3; i++) {
 				String offenderSuspectedOfUsing = offense.getOffendersSuspectedOfUsing(i);
 				if (offenderSuspectedOfUsing != null) {
@@ -517,29 +596,29 @@ public class XMLExporter {
 					XmlUtils.appendChildElement(e, Namespace.j, "ForceCategoryCode").setTextContent(typeWeaponForce);
 				}
 			}
-			XmlUtils.appendChildElement(offenseElement, Namespace.j, "OffenseAttemptedIndicator").setTextContent(String.valueOf(offense.getOffenseAttemptedIndicator()));
+			appendElementAndValueIfNotNull(offenseElement, Namespace.j, "OffenseAttemptedIndicator", String.valueOf(offense.getOffenseAttemptedIndicator()));
 		}
 	}
 
 	private void addIncidentElement(GroupAIncidentReport incident, Element reportElement) {
+		Element e;
 		Element incidentElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Incident");
-		Element e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityIdentification");
-		e = XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID");
-		e.setTextContent(incident.getIncidentNumber());
-		e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityDate");
-		e = XmlUtils.appendChildElement(e, Namespace.nc, "DateTime");
-		e.setTextContent(DATETIME_FORMAT.format(incident.getIncidentDate()));
-		Element augElement = XmlUtils.appendChildElement(incidentElement, Namespace.cjis, "IncidentAugmentation");
-		e = XmlUtils.appendChildElement(augElement, Namespace.cjis, "IncidentReportDateIndicator");
-		e.setTextContent(String.valueOf(incident.getReportDateIndicator()));
-		Boolean cargoTheftIndicator = incident.getCargoTheftIndicator();
-		if (cargoTheftIndicator != null) {
-			e = XmlUtils.appendChildElement(augElement, Namespace.j, "OffenseCargoTheftIndicator");
-			e.setTextContent(String.valueOf(cargoTheftIndicator));
+		String incidentNumber = incident.getIncidentNumber();
+		if (incidentNumber != null) {
+			e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityIdentification");
+			XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID").setTextContent(incidentNumber);
 		}
+		Date incidentDate = incident.getIncidentDate();
+		if (incidentDate != null) {
+			e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityDate");
+			e = XmlUtils.appendChildElement(e, Namespace.nc, "DateTime");
+			e.setTextContent(DATETIME_FORMAT.format(incidentDate));
+		}
+		Element augElement = XmlUtils.appendChildElement(incidentElement, Namespace.cjis, "IncidentAugmentation");
+		appendElementAndValueIfNotNull(augElement, Namespace.cjis, "IncidentReportDateIndicator", String.valueOf(incident.getReportDateIndicator()));
+		appendElementAndValueIfNotNull(augElement, Namespace.j, "OffenseCargoTheftIndicator", String.valueOf(incident.getCargoTheftIndicator()));
 		augElement = XmlUtils.appendChildElement(incidentElement, Namespace.j, "IncidentAugmentation");
-		e = XmlUtils.appendChildElement(augElement, Namespace.j, "IncidentExceptionalClearanceCode");
-		e.setTextContent(incident.getExceptionalClearanceCode());
+		appendElementAndValueIfNotNull(augElement, Namespace.j, "IncidentExceptionalClearanceCode", incident.getExceptionalClearanceCode());
 		Date exceptionalClearanceDate = incident.getExceptionalClearanceDate();
 		if (exceptionalClearanceDate != null) {
 			e = XmlUtils.appendChildElement(augElement, Namespace.j, "IncidentExceptionalClearanceDate");
@@ -548,20 +627,33 @@ public class XMLExporter {
 		}
 	}
 
-	private void addReportHeaderElement(Report incident, Element reportElement) {
+	private void addReportHeaderElement(Report report, Element reportElement) {
 		Element reportHeaderElement = XmlUtils.appendChildElement(reportElement, Namespace.nibrs, "ReportHeader");
 		Element e = XmlUtils.appendChildElement(reportHeaderElement, Namespace.nibrs, "NIBRSReportCategoryCode");
-		e.setTextContent("GROUP A INCIDENT REPORT");
-		e = XmlUtils.appendChildElement(reportHeaderElement, Namespace.nibrs, "ReportActionCategoryCode");
-		e.setTextContent("I");
+		String reportType = null;
+		if (report instanceof GroupAIncidentReport) {
+			reportType = "GROUP A INCIDENT REPORT";
+			GroupAIncidentReport ga = (GroupAIncidentReport) report;
+			if (ga.includesLeoka()) {
+				reportType += "_LEOKA";
+			}
+		} else if (report instanceof GroupBIncidentReport) {
+			reportType = "GROUP B ARREST REPORT";
+		} else {
+			reportType = "ZERO REPORT";
+		}
+		e.setTextContent(reportType);
+		XmlUtils.appendChildElement(reportHeaderElement, Namespace.nibrs, "ReportActionCategoryCode").setTextContent("" + report.getReportActionType());
 		e = XmlUtils.appendChildElement(reportHeaderElement, Namespace.nibrs, "ReportDate");
 		e = XmlUtils.appendChildElement(e, Namespace.nc, "YearMonthDate");
-		e.setTextContent(incident.getYearOfTape() + "-" + MONTH_NUMBER_FORMAT.format(incident.getMonthOfTape()));
-		e = XmlUtils.appendChildElement(reportHeaderElement, Namespace.nibrs, "ReportingAgency");
-		e = XmlUtils.appendChildElement(e, Namespace.j, "OrganizationAugmentation");
-		e = XmlUtils.appendChildElement(e, Namespace.j, "OrganizationORIIdentification");
-		e = XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID");
-		e.setTextContent(incident.getOri());
+		e.setTextContent(report.getYearOfTape() + "-" + MONTH_NUMBER_FORMAT.format(report.getMonthOfTape()));
+		String ori = report.getOri();
+		if (ori != null) {
+			e = XmlUtils.appendChildElement(reportHeaderElement, Namespace.nibrs, "ReportingAgency");
+			e = XmlUtils.appendChildElement(e, Namespace.j, "OrganizationAugmentation");
+			e = XmlUtils.appendChildElement(e, Namespace.j, "OrganizationORIIdentification");
+			XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID").setTextContent(ori);
+		}
 	}
 
 }

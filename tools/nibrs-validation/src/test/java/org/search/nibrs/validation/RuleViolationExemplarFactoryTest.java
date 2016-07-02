@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.Report;
@@ -27,7 +28,7 @@ public class RuleViolationExemplarFactoryTest {
 		RuleViolationExemplarFactory exemplarFactory = RuleViolationExemplarFactory.getInstance();
 		GroupAIncidentReport incident = exemplarFactory.getGroupAIncidentsThatViolateRule(115).get(0);
 		report.addReport(incident);
-		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report);
+		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, new ArrayList<NIBRSError>());
 		//XmlUtils.printNode(d, System.out);
 		String incidentNumberValue = XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report/nc:Incident/nc:ActivityIdentification/nc:IdentificationID");
 		assertTrue(incidentNumberValue.trim().contains(" "));
@@ -36,7 +37,7 @@ public class RuleViolationExemplarFactoryTest {
 		assertEquals(2, incidents.size());
 		report = new NIBRSSubmission();
 		report.addReports(incidents);
-		d = new XMLExporter().convertNIBRSSubmissionToDocument(report);
+		d = new XMLExporter().convertNIBRSSubmissionToDocument(report, new ArrayList<NIBRSError>());
 		//XmlUtils.printNode(d, System.out);
 		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report/j:Offense[nibrs:OffenseUCRCode='13A']"));
 		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report/j:Offense[nibrs:OffenseUCRCode='13B']"));

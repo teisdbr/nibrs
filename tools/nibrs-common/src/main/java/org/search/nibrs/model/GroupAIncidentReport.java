@@ -34,6 +34,20 @@ public class GroupAIncidentReport extends Report implements Serializable
         removeOffenders();
         removeArrestees();
     }
+	
+	public Offender getOffenderForSequenceNumber(Integer sequenceNumber) {
+		Offender ret = null;
+		if (sequenceNumber == null) {
+			return null;
+		}
+		for (Offender o : offenderSegmentList) {
+			if (sequenceNumber.equals(o.getOffenderSequenceNumber())) {
+				ret = o;
+				break;
+			}
+		}
+		return ret;
+	}
     
     public boolean includesLeoka() {
 		return includesLeoka;
