@@ -47,11 +47,11 @@ final class BaselineIncidentFactory {
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
 		v.setVictimSequenceNumber(1);
-		v.setAgeOfVictimString("2022");
-		v.setEthnicityOfVictim("N");
+		v.setAgeString("2022");
+		v.setEthnicity("N");
 		v.setResidentStatusOfVictim("R");
-		v.setSexOfVictim("F");
-		v.setRaceOfVictim("B");
+		v.setSex("F");
+		v.setRace("B");
 		v.setOffenderNumberRelated(0, 1);
 		v.setVictimOffenderRelationship(0, "SE");
 		v.setUcrOffenseCodeConnection(0, "13A");
@@ -59,16 +59,16 @@ final class BaselineIncidentFactory {
 		Offender offender = new Offender();
 		incident.addOffender(offender);
 		offender.setOffenderSequenceNumber(1);
-		offender.setAgeOfOffenderString("22");
-		offender.setRaceOfOffender("W");
-		offender.setSexOfOffender("M");
+		offender.setAgeString("22");
+		offender.setRace("W");
+		offender.setSex("M");
 		
 		Arrestee arrestee = new Arrestee();
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(1);
-		arrestee.setAgeOfArresteeString("22");
-		arrestee.setRaceOfArrestee("W");
-		arrestee.setSexOfArrestee("M");
+		arrestee.setAgeString("22");
+		arrestee.setRace("W");
+		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
 		arrestee.setArrestDate(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		arrestee.setUcrArrestOffenseCode("13A");

@@ -122,9 +122,9 @@ public class TestIncidentBuilderOldFormat
         assertNull(arrestee.getAutomaticWeaponIndicator(0));
         assertNull(arrestee.getArresteeArmedWith(1));
         assertNull(arrestee.getAutomaticWeaponIndicator(1));
-        assertEquals("33", arrestee.getAgeOfArresteeString());
-        assertEquals("M", arrestee.getSexOfArrestee());
-        assertEquals("B", arrestee.getRaceOfArrestee());
+        assertEquals(new Integer(33), arrestee.getAge().getAgeMin());
+        assertEquals("M", arrestee.getSex());
+        assertEquals("B", arrestee.getRace());
         assertEquals("R", arrestee.getResidentStatusOfArrestee());
         assertNull(arrestee.getDispositionOfArresteeUnder18());
     }
@@ -165,9 +165,9 @@ public class TestIncidentBuilderOldFormat
         assertNull(arrestee.getAutomaticWeaponIndicator(0));
         assertNull(arrestee.getArresteeArmedWith(1));
         assertNull(arrestee.getAutomaticWeaponIndicator(1));
-        assertEquals("24", arrestee.getAgeOfArresteeString());
-        assertEquals("M", arrestee.getSexOfArrestee());
-        assertEquals("W", arrestee.getRaceOfArrestee());
+        assertEquals(new Integer(24), arrestee.getAge().getAgeMin());
+        assertEquals("M", arrestee.getSex());
+        assertEquals("W", arrestee.getRace());
         assertEquals("R", arrestee.getResidentStatusOfArrestee());
         assertNull(arrestee.getDispositionOfArresteeUnder18());
         
@@ -178,9 +178,9 @@ public class TestIncidentBuilderOldFormat
     {
         Offender offender = (Offender) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenderIterator().next();
         assertEquals(new Integer(1), offender.getOffenderSequenceNumber());
-        assertEquals("24", offender.getAgeOfOffenderString());
-        assertEquals("M", offender.getSexOfOffender());
-        assertEquals("W", offender.getRaceOfOffender());
+        assertEquals(new Integer(24), offender.getAge().getAgeMin());
+        assertEquals("M", offender.getSex());
+        assertEquals("W", offender.getRace());
     }
     
     @Test
@@ -194,9 +194,9 @@ public class TestIncidentBuilderOldFormat
             assertNull(victim.getUcrOffenseCodeConnection(i));
         }
         assertEquals("I", victim.getTypeOfVictim());
-        assertEquals("46", victim.getAgeOfVictimString());
-        assertEquals("W", victim.getRaceOfVictim());
-        assertEquals("N", victim.getEthnicityOfVictim());
+        assertEquals(new Integer(46), victim.getAge().getAgeMin());
+        assertEquals("W", victim.getRace());
+        assertEquals("N", victim.getEthnicity());
         assertEquals("R", victim.getResidentStatusOfVictim());
         assertNull(victim.getAggravatedAssaultHomicideCircumstances(0));
         assertNull(victim.getAggravatedAssaultHomicideCircumstances(1));

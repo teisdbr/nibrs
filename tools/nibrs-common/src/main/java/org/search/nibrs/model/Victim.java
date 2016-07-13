@@ -3,10 +3,11 @@ package org.search.nibrs.model;
 import java.io.Serializable;
 
 /**
- * Representation of a Victim reported within an Incident in a NIBRS report.
+ * Representation of a Victim reported within an Incident in a NIBRS report.  Note that we extend Person even though some types of victims are not people
+ * (e.g., Business)...since NIBRS represents them all with the same data structure.
  *
  */
-public class Victim implements Serializable
+public class Victim extends Person implements Serializable
 {
     
 	private static final long serialVersionUID = -1133037294039133967L;
@@ -14,10 +15,6 @@ public class Victim implements Serializable
 	private Integer victimSequenceNumber;
     private String[] ucrOffenseCodeConnection;
     private String typeOfVictim;
-    private String ageOfVictimString;
-    private String sexOfVictim;
-    private String raceOfVictim;
-    private String ethnicityOfVictim;
     private String residentStatusOfVictim;
     private String[] aggravatedAssaultHomicideCircumstances;
     private String additionalJustifiableHomicideCircumstances;
@@ -27,6 +24,10 @@ public class Victim implements Serializable
     private String typeOfOfficerActivityCircumstance;
     private String officerAssignmentType;
     private String officerOtherJurisdictionORI;
+    private int populatedAggravatedAssaultHomicideCircumstancesCount;
+    private int populatedTypeOfInjuryCount;
+    private int populatedUcrOffenseCodeConnectionCount;
+    private int populatedOffenderNumberRelatedCount;
 
     public String getTypeOfOfficerActivityCircumstance() {
 		return typeOfOfficerActivityCircumstance;
@@ -79,9 +80,18 @@ public class Victim implements Serializable
     public void setOffenderNumberRelated(int position, Integer value)
     {
         offenderNumberRelated[position] = value;
+        populatedOffenderNumberRelatedCount = Math.max(populatedOffenderNumberRelatedCount, position+1);
     }
 
-    public String getTypeOfInjury(int position)
+    public int getPopulatedUcrOffenseCodeConnectionCount() {
+		return populatedUcrOffenseCodeConnectionCount;
+	}
+
+	public int getPopulatedOffenderNumberRelatedCount() {
+		return populatedOffenderNumberRelatedCount;
+	}
+
+	public String getTypeOfInjury(int position)
     {
         return typeOfInjury[position];
     }
@@ -89,6 +99,7 @@ public class Victim implements Serializable
     public void setTypeOfInjury(int position, String value)
     {
         typeOfInjury[position] = value;
+        populatedTypeOfInjuryCount = Math.max(populatedTypeOfInjuryCount, position+1);
     }
 
     public String getAggravatedAssaultHomicideCircumstances(int position)
@@ -99,9 +110,18 @@ public class Victim implements Serializable
     public void setAggravatedAssaultHomicideCircumstances(int position, String value)
     {
         aggravatedAssaultHomicideCircumstances[position] = value;
+        populatedAggravatedAssaultHomicideCircumstancesCount = Math.max(populatedAggravatedAssaultHomicideCircumstancesCount,  position+1);
     }
 
-    public String getUcrOffenseCodeConnection(int position)
+    public int getPopulatedAggravatedAssaultHomicideCircumstancesCount() {
+		return populatedAggravatedAssaultHomicideCircumstancesCount;
+	}
+
+	public int getPopulatedTypeOfInjuryCount() {
+		return populatedTypeOfInjuryCount;
+	}
+
+	public String getUcrOffenseCodeConnection(int position)
     {
         return ucrOffenseCodeConnection[position];
     }
@@ -109,16 +129,9 @@ public class Victim implements Serializable
     public void setUcrOffenseCodeConnection(int position, String value)
     {
         ucrOffenseCodeConnection[position] = value;
+        populatedUcrOffenseCodeConnectionCount = Math.max(populatedUcrOffenseCodeConnectionCount, position+1);
     }
 
-    public String getEthnicityOfVictim()
-    {
-        return ethnicityOfVictim;
-    }
-    public void setEthnicityOfVictim(String ethnicityOfVictim)
-    {
-        this.ethnicityOfVictim = ethnicityOfVictim;
-    }
     public String getAdditionalJustifiableHomicideCircumstances()
     {
         return additionalJustifiableHomicideCircumstances;
@@ -127,22 +140,6 @@ public class Victim implements Serializable
     {
         this.additionalJustifiableHomicideCircumstances = additionalJustifiableHomicideCircumstances;
     }
-    public String getAgeOfVictimString()
-    {
-        return ageOfVictimString;
-    }
-    public void setAgeOfVictimString(String ageOfVictimString)
-    {
-        this.ageOfVictimString = ageOfVictimString;
-    }
-    public String getRaceOfVictim()
-    {
-        return raceOfVictim;
-    }
-    public void setRaceOfVictim(String raceOfVictim)
-    {
-        this.raceOfVictim = raceOfVictim;
-    }
     public String getResidentStatusOfVictim()
     {
         return residentStatusOfVictim;
@@ -150,14 +147,6 @@ public class Victim implements Serializable
     public void setResidentStatusOfVictim(String residenceStatusOfVictim)
     {
         this.residentStatusOfVictim = residenceStatusOfVictim;
-    }
-    public String getSexOfVictim()
-    {
-        return sexOfVictim;
-    }
-    public void setSexOfVictim(String sexOfVictim)
-    {
-        this.sexOfVictim = sexOfVictim;
     }
     public String getTypeOfVictim()
     {
@@ -180,5 +169,13 @@ public class Victim implements Serializable
     {
         return NIBRSRules.victimTypeCodeIsPerson(getTypeOfVictim());
     }
+
+	public boolean isPerson() {
+		return "I".equals(typeOfVictim) || "L".equals(typeOfVictim);
+	}
+	
+	public boolean isLawEnforcementOfficer() {
+		return "L".equals(typeOfVictim);
+	}
 
 }

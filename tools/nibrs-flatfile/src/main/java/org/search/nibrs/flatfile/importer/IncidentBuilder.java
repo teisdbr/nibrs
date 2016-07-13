@@ -161,10 +161,10 @@ public class IncidentBuilder {
 				arrestee.setArresteeArmedWith(i, StringUtils.getStringBetween(52 + 3 * i, 53 + 3 * i, segmentData));
 				arrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(54 + 3 * i, 54 + 3 * i, segmentData));
 			}
-			arrestee.setAgeOfArresteeString(StringUtils.getStringBetween(58, 61, segmentData));
-			arrestee.setSexOfArrestee(StringUtils.getStringBetween(62, 62, segmentData));
-			arrestee.setRaceOfArrestee(StringUtils.getStringBetween(63, 63, segmentData));
-			arrestee.setEthnicityOfArrestee(StringUtils.getStringBetween(64, 64, segmentData));
+			arrestee.setAgeString(StringUtils.getStringBetween(58, 61, segmentData));
+			arrestee.setSex(StringUtils.getStringBetween(62, 62, segmentData));
+			arrestee.setRace(StringUtils.getStringBetween(63, 63, segmentData));
+			arrestee.setEthnicity(StringUtils.getStringBetween(64, 64, segmentData));
 			arrestee.setResidentStatusOfArrestee(StringUtils.getStringBetween(65, 65, segmentData));
 			arrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(66, 66, segmentData));
 		} else {
@@ -301,10 +301,10 @@ public class IncidentBuilder {
 				newArrestee.setArresteeArmedWith(i, StringUtils.getStringBetween(65 + 3 * i, 66 + 3 * i, segmentData));
 				newArrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(67 + 3 * i, 67 + 3 * i, segmentData));
 			}
-			newArrestee.setAgeOfArresteeString(StringUtils.getStringBetween(71, 74, segmentData));
-			newArrestee.setSexOfArrestee(StringUtils.getStringBetween(75, 75, segmentData));
-			newArrestee.setRaceOfArrestee(StringUtils.getStringBetween(76, 76, segmentData));
-			newArrestee.setEthnicityOfArrestee(StringUtils.getStringBetween(77, 77, segmentData));
+			newArrestee.setAgeString(StringUtils.getStringBetween(71, 74, segmentData));
+			newArrestee.setSex(StringUtils.getStringBetween(75, 75, segmentData));
+			newArrestee.setRace(StringUtils.getStringBetween(76, 76, segmentData));
+			newArrestee.setEthnicity(StringUtils.getStringBetween(77, 77, segmentData));
 			newArrestee.setResidentStatusOfArrestee(StringUtils.getStringBetween(78, 78, segmentData));
 			newArrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(79, 79, segmentData));
 		} else {
@@ -325,12 +325,12 @@ public class IncidentBuilder {
 		int length = s.getSegmentLength();
 		if (length == 45 || length == 46) {
 			newOffender.setOffenderSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
-			newOffender.setAgeOfOffenderString(StringUtils.getStringBetween(40, 43, segmentData));
-			newOffender.setSexOfOffender(StringUtils.getStringBetween(44, 44, segmentData));
-			newOffender.setRaceOfOffender(StringUtils.getStringBetween(45, 45, segmentData));
+			newOffender.setAgeString(StringUtils.getStringBetween(40, 43, segmentData));
+			newOffender.setSex(StringUtils.getStringBetween(44, 44, segmentData));
+			newOffender.setRace(StringUtils.getStringBetween(45, 45, segmentData));
 			boolean hasOffenderEthnicity = length == 46;
 			if (hasOffenderEthnicity) {
-				newOffender.setEthnicityOfOffender(StringUtils.getStringBetween(46, 46, segmentData));
+				newOffender.setEthnicity(StringUtils.getStringBetween(46, 46, segmentData));
 			}
 		} else {
 			NIBRSError e = new NIBRSError();
@@ -361,10 +361,10 @@ public class IncidentBuilder {
 			}
 
 			newVictim.setTypeOfVictim(StringUtils.getStringBetween(71, 71, segmentData));
-			newVictim.setAgeOfVictimString(StringUtils.getStringBetween(72, 75, segmentData));
-			newVictim.setSexOfVictim(StringUtils.getStringBetween(76, 76, segmentData));
-			newVictim.setRaceOfVictim(StringUtils.getStringBetween(77, 77, segmentData));
-			newVictim.setEthnicityOfVictim(StringUtils.getStringBetween(78, 78, segmentData));
+			newVictim.setAgeString(StringUtils.getStringBetween(72, 75, segmentData));
+			newVictim.setSex(StringUtils.getStringBetween(76, 76, segmentData));
+			newVictim.setRace(StringUtils.getStringBetween(77, 77, segmentData));
+			newVictim.setEthnicity(StringUtils.getStringBetween(78, 78, segmentData));
 			newVictim.setResidentStatusOfVictim(StringUtils.getStringBetween(79, 79, segmentData));
 			newVictim.setAggravatedAssaultHomicideCircumstances(0, StringUtils.getStringBetween(80, 81, segmentData));
 			newVictim.setAggravatedAssaultHomicideCircumstances(1, StringUtils.getStringBetween(82, 83, segmentData));

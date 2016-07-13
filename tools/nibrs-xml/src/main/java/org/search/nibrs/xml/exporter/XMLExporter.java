@@ -25,6 +25,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.Arrestee;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.Offender;
 import org.search.nibrs.model.Offense;
@@ -183,8 +184,23 @@ public class XMLExporter {
 		Element ret = null;
 		if (report instanceof GroupAIncidentReport) {
 			ret = buildGroupAIncidentReportElement((GroupAIncidentReport) report, errorList);
+		} else if (report instanceof GroupBIncidentReport) {
+			ret = buildGroupBIncidentReportElement((GroupBIncidentReport) report, errorList);
 		}
 		return ret;
+	}
+	
+	private Element buildGroupBIncidentReportElement(GroupBIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
+		Document temp = XmlUtils.createNewDocument();
+		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "Report");
+		addReportHeaderElement(incident, reportElement);
+		addArresteeElement(incident, reportElement);
+		return reportElement;
+	}
+
+	private void addArresteeElement(GroupBIncidentReport incident, Element reportElement) {
+		Arrestee arrestee = incident.getArrestee();
+		
 	}
 
 	private Element buildGroupAIncidentReportElement(GroupAIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
@@ -194,7 +210,7 @@ public class XMLExporter {
 		addIncidentElement(incident, reportElement);
 		addOffenseElements(incident, reportElement);
 		addLocationElements(incident, reportElement);
-		addNonDrugPropertyElements(incident, reportElement);
+		addNonDrugPropertyElements(incident, reportElement, errorList);
 		addDrugPropertyElements(incident, reportElement);
 		addPersonElements(incident, reportElement, errorList);
 		addEnforcementOfficialElements(incident, reportElement);
@@ -224,9 +240,9 @@ public class XMLExporter {
 						String relCode = RELATIONSHIP_MAP.get(relString);
 						if (relString.equals("BG")) {
 							Offender o = incident.getOffenderForSequenceNumber(offenderSequenceNumber);
-							if ("M".equals(o.getSexOfOffender())) {
+							if ("M".equals(o.getSex())) {
 								relCode = "Boyfriend";
-							} else if ("F".equals(o.getSexOfOffender())) {
+							} else if ("F".equals(o.getSex())) {
 								relCode = "Girlfriend";
 							} else {
 								relCode = "Relationship Unknown";
@@ -355,23 +371,23 @@ public class XMLExporter {
 		for (Arrestee arrestee : incident.getArrestees()) {
 			Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
 			XmlUtils.addAttribute(arresteeElement, Namespace.s, "id", "Arrestee-" + arrestee.getArresteeSequenceNumber());
-			appendElementAndValueIfNotNull(arresteeElement, Namespace.nc, "PersonEthnicityCode", arrestee.getEthnicityOfArrestee());
-			NIBRSAge age = new NIBRSAge(arrestee.getAgeOfArresteeString());
-			if (age.error != null) {
-				errorList.add(age.error);
-			} else if (age.ageMin != null) {
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.nc, "PersonEthnicityCode", arrestee.getEthnicity());
+			NIBRSAge age = arrestee.getAge();
+			if (age.getError() != null) {
+				errorList.add(age.getError());
+			} else if (age.getAgeMin() != null) {
 				Element e = XmlUtils.appendChildElement(arresteeElement, Namespace.nc, "PersonAgeMeasure");
-				if (age.ageMax == null) {
-					XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.ageMin));
+				if (!age.isAgeRange()) {
+					XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.getAgeMin()));
 				} else {
 					e = XmlUtils.appendChildElement(e, Namespace.nc, "MeasureRangeValue");
-					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMaximumIntegerValue").setTextContent(String.valueOf(age.ageMax));
-					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.ageMin));
+					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMaximumIntegerValue").setTextContent(String.valueOf(age.getAgeMax()));
+					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.getAgeMin()));
 				}
 			}
-			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonRaceNDExCode", arrestee.getRaceOfArrestee());
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonRaceNDExCode", arrestee.getRace());
 			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonResidentCode", arrestee.getResidentStatusOfArrestee());
-			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonSexCode", arrestee.getSexOfArrestee());
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonSexCode", arrestee.getSex());
 		}
 	}
 
@@ -379,66 +395,25 @@ public class XMLExporter {
 		for (Offender offender : incident.getOffenders()) {
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
 			XmlUtils.addAttribute(offenderElement, Namespace.s, "id", "Offender-" + offender.getOffenderSequenceNumber());
-			appendElementAndValueIfNotNull(offenderElement, Namespace.nc, "PersonEthnicityCode", offender.getEthnicityOfOffender());
-			NIBRSAge age = new NIBRSAge(offender.getAgeOfOffenderString());
-			if (age.error != null) {
-				errorList.add(age.error);
-			} else if (age.ageMin != null) {
-				Element e = XmlUtils.appendChildElement(offenderElement, Namespace.nc, "PersonAgeMeasure");
-				if (age.ageMax == null) {
-					XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.ageMin));
-				} else {
-					e = XmlUtils.appendChildElement(e, Namespace.nc, "MeasureRangeValue");
-					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMaximumIntegerValue").setTextContent(String.valueOf(age.ageMax));
-					XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.ageMin));
-				}
-			}
-			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "PersonRaceNDExCode", offender.getRaceOfOffender());
-			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "PersonSexCode", offender.getSexOfOffender());
-		}
-	}
-
-	private static final class NIBRSAge {
-
-		public Integer ageMin;
-		public Integer ageMax;
-		public String nonNumericAge;
-		public NIBRSError error;
-
-		public NIBRSAge(String ageString) {
-			if (ageString != null) {
-				String ageStringTrim = ageString.trim();
-				if (ageStringTrim.length() == 4) {
-					try {
-						ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
-					} catch (NumberFormatException nfe) {
-						error = new NIBRSError();
-						error.setValue(ageString);
-						error.setRuleDescription("Invalid age string");
-					}
-					try {
-						ageMax = Integer.parseInt(ageStringTrim.substring(2, 4));
-					} catch (NumberFormatException nfe) {
-						error = new NIBRSError();
-						error.setValue(ageString);
-						error.setRuleDescription("Invalid age string");
-					}
-				} else {
-					if ("NN".equals(ageStringTrim) || "NB".equals(ageStringTrim) || "BB".equals(ageStringTrim) || "00".equals(ageStringTrim)) {
-						nonNumericAge = ageStringTrim;
+			appendElementAndValueIfNotNull(offenderElement, Namespace.nc, "PersonEthnicityCode", offender.getEthnicity());
+			NIBRSAge age = offender.getAge();
+			if (age != null) {
+				if (age.getError() != null) {
+					errorList.add(age.getError());
+				} else if (age.getAgeMin() != null) {
+					Element e = XmlUtils.appendChildElement(offenderElement, Namespace.nc, "PersonAgeMeasure");
+					if (!age.isAgeRange()) {
+						XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.getAgeMin()));
 					} else {
-						try {
-							ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
-						} catch (NumberFormatException nfe) {
-							error = new NIBRSError();
-							error.setValue(ageString);
-							error.setRuleDescription("Invalid age string");
-						}
+						e = XmlUtils.appendChildElement(e, Namespace.nc, "MeasureRangeValue");
+						XmlUtils.appendChildElement(e, Namespace.nc, "RangeMaximumIntegerValue").setTextContent(String.valueOf(age.getAgeMax()));
+						XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.getAgeMin()));
 					}
 				}
 			}
+			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "PersonRaceNDExCode", offender.getRace());
+			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "PersonSexCode", offender.getSex());
 		}
-
 	}
 
 	private void addVictimPersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
@@ -447,18 +422,18 @@ public class XMLExporter {
 			if ("L".equals(victimType) || "I".equals(victimType)) {
 				Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
 				XmlUtils.addAttribute(victimElement, Namespace.s, "id", "Victim-" + victim.getVictimSequenceNumber());
-				appendElementAndValueIfNotNull(victimElement, Namespace.nc, "PersonEthnicityCode", victim.getEthnicityOfVictim());
-				NIBRSAge age = new NIBRSAge(victim.getAgeOfVictimString());
-				if (age.error != null) {
-					errorList.add(age.error);
-				} else if (age.ageMin != null) {
+				appendElementAndValueIfNotNull(victimElement, Namespace.nc, "PersonEthnicityCode", victim.getEthnicity());
+				NIBRSAge age = victim.getAge();
+				if (age.getError() != null) {
+					errorList.add(age.getError());
+				} else if (age.getAgeMin() != null) {
 					Element e = XmlUtils.appendChildElement(victimElement, Namespace.nc, "PersonAgeMeasure");
-					if (age.ageMax == null) {
-						XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.ageMin));
+					if (!age.isAgeRange()) {
+						XmlUtils.appendChildElement(e, Namespace.nc, "MeasureIntegerValue").setTextContent(String.valueOf(age.getAgeMin()));
 					} else {
 						e = XmlUtils.appendChildElement(e, Namespace.nc, "MeasureRangeValue");
-						XmlUtils.appendChildElement(e, Namespace.nc, "RangeMaximumIntegerValue").setTextContent(String.valueOf(age.ageMax));
-						XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.ageMin));
+						XmlUtils.appendChildElement(e, Namespace.nc, "RangeMaximumIntegerValue").setTextContent(String.valueOf(age.getAgeMax()));
+						XmlUtils.appendChildElement(e, Namespace.nc, "RangeMinimumIntegerValue").setTextContent(String.valueOf(age.getAgeMin()));
 					}
 				}
 				for (int i = 0; i < 5; i++) {
@@ -468,10 +443,10 @@ public class XMLExporter {
 						XmlUtils.appendChildElement(injuryElement, Namespace.j, "InjuryCategoryCode").setTextContent(injury);
 					}
 				}
-				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonRaceNDExCode", victim.getRaceOfVictim());
+				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonRaceNDExCode", victim.getRace());
 				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonResidentCode", victim.getResidentStatusOfVictim());
-				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonSexCode", victim.getSexOfVictim());
-				String ageCode = age.nonNumericAge;
+				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonSexCode", victim.getSex());
+				String ageCode = age.getNonNumericAge();
 				if (ageCode != null) {
 					Element e = XmlUtils.appendChildElement(victimElement, Namespace.j, "PersonAugmentation");
 					XmlUtils.appendChildElement(e, Namespace.nibrs, "PersonAgeCode").setTextContent(ageCode);
@@ -499,7 +474,7 @@ public class XMLExporter {
 
 	}
 
-	private void addNonDrugPropertyElements(GroupAIncidentReport incident, Element reportElement) {
+	private void addNonDrugPropertyElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
 		for (Property property : incident.getProperties()) {
 			for (int i = 0; i < 10; i++) {
 				String description = property.getPropertyDescription(i);
@@ -513,7 +488,10 @@ public class XMLExporter {
 							e = XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemStatus");
 							XmlUtils.appendChildElement(e, Namespace.cjis, "ItemStatusCode").setTextContent(mappedLossType);
 						} else {
-							// todo: handle via error mechanism
+							NIBRSError error = new NIBRSError();
+							error.setRuleDescription("Invalid item status");
+							error.setValue(typeOfPropertyLoss);
+							errorList.add(error);
 						}
 					}
 					String value = String.valueOf(property.getValueOfProperty(i));

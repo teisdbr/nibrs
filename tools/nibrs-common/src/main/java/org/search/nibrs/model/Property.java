@@ -21,6 +21,8 @@ public class Property implements Serializable
     private String[] suspectedDrugType;
     private Double[] estimatedDrugQuantity;
     private String[] typeDrugMeasurement;
+    private int populatedPropertyDescriptionCount;
+    private int populatedSuspectedDrugTypeCount;
 
     public Property()
     {
@@ -30,6 +32,14 @@ public class Property implements Serializable
         suspectedDrugType = new String[3];
         estimatedDrugQuantity = new Double[3];
         typeDrugMeasurement = new String[3];
+    }
+    
+    public int getPopulatedSuspectedDrugTypeCount() {
+    	return populatedSuspectedDrugTypeCount;
+    }
+    
+    public int getPopulatedPropertyDescriptionCount() {
+    	return populatedPropertyDescriptionCount;
     }
     
     public Double getEstimatedDrugQuantity(int position)
@@ -60,6 +70,7 @@ public class Property implements Serializable
     public void setSuspectedDrugType(int position, String value)
     {
         suspectedDrugType[position] = value;
+        populatedSuspectedDrugTypeCount = Math.max(populatedSuspectedDrugTypeCount, position+1);
     }
 
     public Date getDateRecovered(int position)
@@ -90,6 +101,7 @@ public class Property implements Serializable
     public void setPropertyDescription(int position, String value)
     {
         propertyDescription[position] = value;
+        populatedPropertyDescriptionCount = Math.max(populatedPropertyDescriptionCount, position+1);
     }
 
     public Integer getNumberOfRecoveredMotorVehicles()

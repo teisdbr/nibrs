@@ -7,7 +7,7 @@ import java.util.*;
  * Representation of an Arrestee reported within an Incident in a NIBRS report.
  *
  */
-public class Arrestee implements Serializable
+public class Arrestee extends Person implements Serializable
 {
     
 	private static final long serialVersionUID = 7160255436781736744L;
@@ -20,10 +20,6 @@ public class Arrestee implements Serializable
     private String ucrArrestOffenseCode;
     private String[] arresteeArmedWith;
     private String[] automaticWeaponIndicator;
-    private String ageOfArresteeString;
-    private String sexOfArrestee;
-    private String raceOfArrestee;
-    private String ethnicityOfArrestee;
     private String residentStatusOfArrestee;
     private String dispositionOfArresteeUnder18;
 
@@ -53,14 +49,6 @@ public class Arrestee implements Serializable
         arresteeArmedWith[position] = value;
     }
     
-    public String getAgeOfArresteeString()
-    {
-        return ageOfArresteeString;
-    }
-    public void setAgeOfArresteeString(String ageOfArresteeString)
-    {
-        this.ageOfArresteeString = ageOfArresteeString;
-    }
     public Date getArrestDate()
     {
         return arrestDate;
@@ -93,14 +81,6 @@ public class Arrestee implements Serializable
     {
         this.dispositionOfArresteeUnder18 = dispositionOfArresteeUnder18;
     }
-    public String getEthnicityOfArrestee()
-    {
-        return ethnicityOfArrestee;
-    }
-    public void setEthnicityOfArrestee(String ethnicityOfArrestee)
-    {
-        this.ethnicityOfArrestee = ethnicityOfArrestee;
-    }
     public String getMultipleArresteeSegmentsIndicator()
     {
         return multipleArresteeSegmentsIndicator;
@@ -109,14 +89,6 @@ public class Arrestee implements Serializable
     {
         this.multipleArresteeSegmentsIndicator = multipleArresteeSegmentsIndicator;
     }
-    public String getRaceOfArrestee()
-    {
-        return raceOfArrestee;
-    }
-    public void setRaceOfArrestee(String raceOfArrestee)
-    {
-        this.raceOfArrestee = raceOfArrestee;
-    }
     public String getResidentStatusOfArrestee()
     {
         return residentStatusOfArrestee;
@@ -124,14 +96,6 @@ public class Arrestee implements Serializable
     public void setResidentStatusOfArrestee(String residentStatusOfArrestee)
     {
         this.residentStatusOfArrestee = residentStatusOfArrestee;
-    }
-    public String getSexOfArrestee()
-    {
-        return sexOfArrestee;
-    }
-    public void setSexOfArrestee(String sexOfArrestee)
-    {
-        this.sexOfArrestee = sexOfArrestee;
     }
     public String getTypeOfArrest()
     {

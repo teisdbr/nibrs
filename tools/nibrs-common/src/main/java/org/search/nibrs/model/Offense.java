@@ -21,6 +21,10 @@ public class Offense implements Serializable
     private String[] typeOfWeaponForceInvolved;
     private String[] automaticWeaponIndicator;
     private String[] biasMotivation;
+    private int populatedBiasMotivationCount;
+    private int populatedTypeOfWeaponForceInvolvedCount;
+    private int populatedTypeOfCriminalActivityCount;
+    private int populatedOffendersSuspectedOfUsingCount;
 
     public Offense()
     {
@@ -29,6 +33,22 @@ public class Offense implements Serializable
         typeOfWeaponForceInvolved = new String[3];
         automaticWeaponIndicator = new String[3];
         biasMotivation = new String[5];
+    }
+    
+    public int getPopulatedOffendersSuspectedOfUsingCount() {
+    	return populatedOffendersSuspectedOfUsingCount;
+    }
+    
+    public int getPopulatedTypeOfCriminalActivityCount() {
+    	return populatedTypeOfCriminalActivityCount;
+    }
+    
+    public int getPopulatedTypeOfWeaponForceInvolvedCount() {
+    	return populatedTypeOfWeaponForceInvolvedCount;
+    }
+    
+    public int getPopulatedBiasMotivationCount() {
+    	return populatedBiasMotivationCount;
     }
     
     public boolean getOffenseAttemptedIndicator() {
@@ -53,6 +73,7 @@ public class Offense implements Serializable
     public void setTypeOfWeaponForceInvolved(int position, String value)
     {
         typeOfWeaponForceInvolved[position] = value;
+        populatedTypeOfWeaponForceInvolvedCount = Math.max(populatedTypeOfWeaponForceInvolvedCount, position+1);
     }
 
     public String getTypeOfCriminalActivity(int position)
@@ -63,6 +84,7 @@ public class Offense implements Serializable
     public void setTypeOfCriminalActivity(int position, String value)
     {
         typeOfCriminalActivity[position] = value;
+        populatedTypeOfCriminalActivityCount = Math.max(populatedTypeOfCriminalActivityCount, position+1);
     }
 
     public String getOffendersSuspectedOfUsing(int position)
@@ -73,6 +95,7 @@ public class Offense implements Serializable
     public void setOffendersSuspectedOfUsing(int position, String value)
     {
         offendersSuspectedOfUsing[position] = value;
+        populatedOffendersSuspectedOfUsingCount = Math.max(populatedOffendersSuspectedOfUsingCount, position+1);
     }
 
     public String getBiasMotivation(int position)
@@ -83,6 +106,7 @@ public class Offense implements Serializable
     public void setBiasMotivation(int position, String value)
     {
         biasMotivation[position] = value;
+        populatedBiasMotivationCount = Math.max(populatedBiasMotivationCount, position+1);
     }
 
     public String getLocationType()
