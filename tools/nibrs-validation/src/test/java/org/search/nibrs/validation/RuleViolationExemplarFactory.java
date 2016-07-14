@@ -314,8 +314,13 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy = incident.deepCopy();
 			Offense HomicideOffense = new Offense();
 			HomicideOffense.setUcrOffenseCode("09A");
-			HomicideOffense.setTypeOfWeaponForceInvolved = ("99");
+			HomicideOffense.setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy2 = incident.deepCopy();
+			Offense HomicideOffense2 = new Offense();
+			HomicideOffense2.setUcrOffenseCode("09A");
+			HomicideOffense2.setTypeOfWeaponForceInvolved(0, "99");
 			incidents.add(copy);
+			incidents.add(copy2);
 			return incidents;
 			
 		});
