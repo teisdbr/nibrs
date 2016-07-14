@@ -195,9 +195,13 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = copy.deepCopy();
 			Offense firstOffense = new Offense();
 			firstOffense.setUcrOffenseCode("XXX");
+			GroupAIncidentReport copy4 = copy.deepCopy();
+			Offense BiasOffense = new Offense();
+			BiasOffense.setBiasMotivation(0, "10");
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
+			incidents.add(copy4);
 			return incidents;
 		});
 		
