@@ -236,6 +236,19 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(264, incident -> {
+			/*Group A Offense code cannot contain a Group B Offense
+			*/
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense firstOffense = new Offense();
+			firstOffense.setUcrOffenseCode("90A");
+			incidents.add(copy);
+			return incidents;
+		});
+		
+		
+		
 		groupATweakerMap.put(266, incident -> {
 			/*When a Justifiable Homicide is reported, no other offense may be
 			reported in the Group “A” Incident Report. These should be submitted on another
