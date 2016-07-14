@@ -41,6 +41,7 @@ final class BaselineIncidentFactory {
 		o.setUcrOffenseCode("13A");
 		o.setOffenseAttemptedCompleted("C");
 		o.setTypeOfWeaponForceInvolved(0, "99");
+		o.setOffendersSuspectedOfUsing(0, "N");
 		o.setLocationType("15");
 		
 		Victim v = new Victim();
