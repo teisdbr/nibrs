@@ -174,6 +174,9 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy9 = copy.deepCopy();
 			Offense BiasOffense = new Offense();
 			BiasOffense.setBiasMotivation(0, null);
+			GroupAIncidentReport copy10 = copy.deepCopy();
+			Offense OffenderSuspectedOfUsing = new Offense();
+			OffenderSuspectedOfUsing.setOffendersSuspectedOfUsing(0, null);
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -183,6 +186,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy7);
 			incidents.add(copy8);
 			incidents.add(copy9);
+			incidents.add(copy10);
 			return incidents;
 		});
 		
