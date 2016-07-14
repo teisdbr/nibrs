@@ -204,6 +204,38 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(263, incident -> {
+			/*Can be submitted only 10 times for each Group A Incident Report; 
+			10 offense codes are allowed for each incident.
+			*/
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense firstOffense = new Offense();
+			firstOffense.setUcrOffenseCode("13A");
+			Offense secondOffense = new Offense();
+			secondOffense.setUcrOffenseCode("13B");
+			Offense thirdOffense = new Offense();
+			thirdOffense.setUcrOffenseCode("13C");
+			Offense fourthOffense = new Offense();
+			fourthOffense.setUcrOffenseCode("13D");
+			Offense fifthOffense = new Offense();
+			fifthOffense.setUcrOffenseCode("13E");
+			Offense sixthOffense = new Offense();
+			sixthOffense.setUcrOffenseCode("13F");
+			Offense seventhOffense = new Offense();
+			seventhOffense.setUcrOffenseCode("13G");
+			Offense eighthOffense = new Offense();
+			eighthOffense.setUcrOffenseCode("13H");
+			Offense ninthOffense = new Offense();
+			ninthOffense.setUcrOffenseCode("13I");
+			Offense tenthOffense = new Offense();
+			tenthOffense.setUcrOffenseCode("13J");
+			Offense eleventhOffense = new Offense();
+			eleventhOffense.setUcrOffenseCode("13K");
+			incidents.add(copy);
+			return incidents;
+		});
+		
 		groupATweakerMap.put(301, incident -> {
 			/*The referenced data element in a Group A Incident Report
 			Segment 3 is mandatory & must be present.
