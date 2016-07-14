@@ -137,14 +137,14 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		
-			groupATweakerMap.put(152, incident -> {
-				/*If Hour is entered within Data Element 3 (Incident Date/Hour), it must be 00 through 23. 
-				If 00=Midnight is entered, be careful that the Incident Date is entered as if the time was
-				1 minute past midnight.
-				*/
-				GroupAIncidentReport ret = incident.deepCopy();
-				ret.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-				return Collections.singletonList(ret);
+		groupATweakerMap.put(152, incident -> {
+			/*If Hour is entered within Data Element 3 (Incident Date/Hour), it must be 00 through 23. 
+			If 00=Midnight is entered, be careful that the Incident Date is entered as if the time was
+			1 minute past midnight.
+			*/
+			GroupAIncidentReport ret = incident.deepCopy();
+			ret.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			return Collections.singletonList(ret);
 			});
 			
 			
@@ -201,6 +201,14 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(251, incident -> {
+			/*(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
+			*/
+			GroupAIncidentReport ret = incident.deepCopy();
+			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			return Collections.singletonList(ret);
+		});
+		
 		groupATweakerMap.put(256, incident -> {
 			/*Offense Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
 			 Assault.
@@ -211,35 +219,8 @@ public class RuleViolationExemplarFactory {
 			return Collections.singletonList(ret);
 		});
 		
-		groupATweakerMap.put(251, incident -> {
-			/*(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
-			*/
-			GroupAIncidentReport ret = incident.deepCopy();
 			
-			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
-			return Collections.singletonList(ret);
-		});
-		
-		
-		
-		
-		
-		
-		
-		groupATweakerMap.put(256, incident -> {
-			/*(Offense Attempted/Completed) Code must be C=Completed if Data Element 6 (UCR Offense Code)
-			is an Assault or Homicide.
-			*/
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
-			Offense HomicideOffense = new Offense();
-			HomicideOffense.setUcrOffenseCode("09C");
-			HomicideOffense.setOffenseAttemptedCompleted = ("99");
-			incidents.add(copy);
-			return incidents;
 			
-		});
-		
 		groupATweakerMap.put(262, incident -> {
 			/*When a Group “A” Incident Report is submitted, the individual segments
 		 	comprising the incident cannot contain duplicates. 
