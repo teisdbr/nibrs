@@ -236,6 +236,24 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(263, incident -> {
+			/*When a Justifiable Homicide is reported, no other offense may ber
+			reported in the Group “A” Incident Report. These should be submitted on another
+			Group “A” Incident Report.
+			*/
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense JustifiableHomicideOffense = new Offense();
+			JustifiableHomicideOffense.setUcrOffenseCode("09C");
+			Offense secondOffense = new Offense();
+			secondOffense.setUcrOffenseCode("13B");
+			incidents.add(copy);
+			return incidents;
+			
+		});
+				
+		
+		
 		groupATweakerMap.put(301, incident -> {
 			/*The referenced data element in a Group A Incident Report
 			Segment 3 is mandatory & must be present.
