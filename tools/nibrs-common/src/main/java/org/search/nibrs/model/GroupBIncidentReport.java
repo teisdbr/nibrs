@@ -10,24 +10,18 @@ public class GroupBIncidentReport extends Report implements Serializable {
 	
 	private static final long serialVersionUID = -6738808121869747274L;
 	
-	private Arrestee arrestee;
-
 	@Override
 	public String getUniqueReportDescription() {
-    	return "Group B Incident: ATN # " + arrestee.getArrestTransactionNumber();
+    	return "Group B Incident: ATN # " + getATNOrEmpty();
 	}
 
 	@Override
 	public String getUniqueReportIdentifier() {
-		return getOri() + "." + arrestee.getArrestTransactionNumber();
-	}
-
-	public void setArrestee(Arrestee arrestee) {
-		this.arrestee = arrestee;
+		return getOri() + "." + getATNOrEmpty();
 	}
 	
-	public Arrestee getArrestee() {
-		return arrestee;
+	private String getATNOrEmpty() {
+		return getArresteeCount() == 0 ? "empty" : getArrestees().get(0).getArrestTransactionNumber();
 	}
 
 }

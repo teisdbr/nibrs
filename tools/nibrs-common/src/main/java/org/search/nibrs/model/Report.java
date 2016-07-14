@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public abstract class Report implements Serializable {
 
@@ -18,7 +22,15 @@ public abstract class Report implements Serializable {
 	private char adminSegmentLevel;
 	private char reportActionType;
 	private boolean hasUpstreamErrors;
+	private List<Arrestee> arresteeSegmentList;
 	
+	public Report() {
+		removeArrestees();
+	}
+	
+	public abstract String getUniqueReportDescription();
+	public abstract String getUniqueReportIdentifier();
+
 	public char getReportActionType() {
 		return reportActionType;
 	}
@@ -26,9 +38,6 @@ public abstract class Report implements Serializable {
 		this.reportActionType = reportActionType;
 	}
 	
-	public abstract String getUniqueReportDescription();
-	public abstract String getUniqueReportIdentifier();
-
 	public char getAdminSegmentLevel() {
 		return adminSegmentLevel;
 	}
@@ -75,6 +84,24 @@ public abstract class Report implements Serializable {
 
 	public void setHasUpstreamErrors(boolean hasUpstreamErrors) {
 		this.hasUpstreamErrors = hasUpstreamErrors;
+	}
+	public void removeArrestee(int index) {
+		arresteeSegmentList.remove(index);
+	}
+	public void removeArrestees() {
+		arresteeSegmentList = new ArrayList<Arrestee>();
+	}
+	public void addArrestee(Arrestee arrestee) {
+	    arresteeSegmentList.add(arrestee);
+	}
+	public int getArresteeCount() {
+	    return arresteeSegmentList.size();
+	}
+	public Iterator<Arrestee> arresteeIterator() {
+	    return getArrestees().iterator();
+	}
+	public List<Arrestee> getArrestees() {
+		return Collections.unmodifiableList(arresteeSegmentList);
 	}
 	protected static final Report copyWithObjectStream(Report report) {
 		Report ret = null;

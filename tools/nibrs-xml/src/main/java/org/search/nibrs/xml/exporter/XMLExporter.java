@@ -32,6 +32,7 @@ import org.search.nibrs.model.Offense;
 import org.search.nibrs.model.Property;
 import org.search.nibrs.model.Report;
 import org.search.nibrs.model.Victim;
+import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.xml.NibrsNamespaceContext;
 import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.search.nibrs.xml.XmlUtils;
@@ -186,21 +187,27 @@ public class XMLExporter {
 			ret = buildGroupAIncidentReportElement((GroupAIncidentReport) report, errorList);
 		} else if (report instanceof GroupBIncidentReport) {
 			ret = buildGroupBIncidentReportElement((GroupBIncidentReport) report, errorList);
+		} else {
+			ret = buildZeroReportElement((ZeroReport) report, errorList);
 		}
 		return ret;
+	}
+	
+	private Element buildZeroReportElement(Report incident, List<NIBRSError> errorList) throws ParserConfigurationException {
+		Document temp = XmlUtils.createNewDocument();
+		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "Report");
+		addReportHeaderElement(incident, reportElement);
+		return reportElement;
 	}
 	
 	private Element buildGroupBIncidentReportElement(GroupBIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Document temp = XmlUtils.createNewDocument();
 		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "Report");
 		addReportHeaderElement(incident, reportElement);
-		addArresteeElement(incident, reportElement);
+		addArresteePersonElements(incident, reportElement, errorList);
+		addArresteeElements(incident, reportElement);
+		addArrestElement(incident, reportElement);
 		return reportElement;
-	}
-
-	private void addArresteeElement(GroupBIncidentReport incident, Element reportElement) {
-		Arrestee arrestee = incident.getArrestee();
-		
 	}
 
 	private Element buildGroupAIncidentReportElement(GroupAIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
@@ -274,7 +281,7 @@ public class XMLExporter {
 		}
 	}
 
-	private void addArrestSubjectAssociationElements(GroupAIncidentReport incident, Element reportElement) {
+	private void addArrestSubjectAssociationElements(Report incident, Element reportElement) {
 		for (Arrestee arrestee : incident.getArrestees()) {
 			Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "ArrestSubjectAssociation");
 			Element e = XmlUtils.appendChildElement(associationElement, Namespace.nc, "Activity");
@@ -284,7 +291,7 @@ public class XMLExporter {
 		}
 	}
 
-	private void addArrestElement(GroupAIncidentReport incident, Element reportElement) {
+	private void addArrestElement(Report incident, Element reportElement) {
 		for (Arrestee arrestee : incident.getArrestees()) {
 			Element arrestElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Arrest");
 			XmlUtils.addAttribute(arrestElement, Namespace.s, "id", "Arrest-" + arrestee.getArresteeSequenceNumber());
@@ -308,7 +315,7 @@ public class XMLExporter {
 		}
 	}
 
-	private void addArresteeElements(GroupAIncidentReport incident, Element reportElement) {
+	private void addArresteeElements(Report incident, Element reportElement) {
 		for (Arrestee arrestee : incident.getArrestees()) {
 			Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Arrestee");
 			XmlUtils.addAttribute(arresteeElement, Namespace.s, "id", "ArresteeObject-" + arrestee.getArresteeSequenceNumber());
@@ -367,7 +374,7 @@ public class XMLExporter {
 		addArresteePersonElements(incident, reportElement, errorList);
 	}
 
-	private void addArresteePersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
+	private void addArresteePersonElements(Report incident, Element reportElement, List<NIBRSError> errorList) {
 		for (Arrestee arrestee : incident.getArrestees()) {
 			Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
 			XmlUtils.addAttribute(arresteeElement, Namespace.s, "id", "Arrestee-" + arrestee.getArresteeSequenceNumber());

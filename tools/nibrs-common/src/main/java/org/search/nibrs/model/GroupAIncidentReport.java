@@ -23,7 +23,6 @@ public class GroupAIncidentReport extends Report implements Serializable
     private List<Property> propertySegmentList;
     private List<Victim> victimSegmentList;
     private List<Offender> offenderSegmentList;
-    private List<Arrestee> arresteeSegmentList;
     private boolean includesLeoka = false;
 
 	public GroupAIncidentReport()
@@ -32,7 +31,6 @@ public class GroupAIncidentReport extends Report implements Serializable
         removeProperties();
         removeVictims();
         removeOffenders();
-        removeArrestees();
     }
 	
 	public Offender getOffenderForSequenceNumber(Integer sequenceNumber) {
@@ -68,14 +66,6 @@ public class GroupAIncidentReport extends Report implements Serializable
     public GroupAIncidentReport deepCopy() {
     	return (GroupAIncidentReport) copyWithObjectStream(this);
     }
-
-	public void removeArrestee(int index) {
-		arresteeSegmentList.remove(index);
-	}
-
-	public void removeArrestees() {
-		arresteeSegmentList = new ArrayList<Arrestee>();
-	}
 
 	public void removeOffender(int index) {
 		offenderSegmentList.remove(index);
@@ -191,25 +181,6 @@ public class GroupAIncidentReport extends Report implements Serializable
 
     public List<Offender> getOffenders() {
 		return Collections.unmodifiableList(offenderSegmentList);
-	}
-
-    public void addArrestee(Arrestee arrestee)
-    {
-        arresteeSegmentList.add(arrestee);
-    }
-    
-    public int getArresteeCount()
-    {
-        return arresteeSegmentList.size();
-    }
-    
-    public Iterator<Arrestee> arresteeIterator()
-    {
-        return getArrestees().iterator();
-    }
-
-    public List<Arrestee> getArrestees() {
-		return Collections.unmodifiableList(arresteeSegmentList);
 	}
 
     public String getExceptionalClearanceCode()

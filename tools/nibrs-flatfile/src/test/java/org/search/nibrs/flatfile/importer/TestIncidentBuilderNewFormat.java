@@ -135,7 +135,7 @@ public class TestIncidentBuilderNewFormat
     @Test
     public void testFirstIncidentArrestee()
     {
-        Arrestee arrestee = (Arrestee) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
+        Arrestee arrestee = (Arrestee) ((Report) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
         assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
         assertEquals("02-000895", arrestee.getArrestTransactionNumber());
         assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate());

@@ -110,7 +110,7 @@ public class TestIncidentBuilderOldFormat
     	assertEquals("TN0380100", report.getOri());
     	assertEquals('7', report.getAdminSegmentLevel());
     	assertEquals('I', report.getReportActionType());
-    	Arrestee arrestee = report.getArrestee();
+    	Arrestee arrestee = report.getArrestees().get(0);
     	assertNotNull(arrestee);
 		assertEquals("0000265601", arrestee.getArrestTransactionNumber());
 		assertNull(arrestee.getArresteeSequenceNumber());
@@ -154,7 +154,7 @@ public class TestIncidentBuilderOldFormat
     @Test
     public void testFirstIncidentArrestee()
     {
-        Arrestee arrestee = (Arrestee) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
+        Arrestee arrestee = (Arrestee) ((Report) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
         assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
         assertEquals("02-000895", arrestee.getArrestTransactionNumber());
         assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate());

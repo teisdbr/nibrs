@@ -177,7 +177,7 @@ public class IncidentBuilder {
 			errorList.add(e);
 		}
 		
-		ret.setArrestee(arrestee);
+		ret.addArrestee(arrestee);
 	
 		return ret;
 	}

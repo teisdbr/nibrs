@@ -22,6 +22,7 @@ import org.search.nibrs.model.Offense;
 import org.search.nibrs.model.Person;
 import org.search.nibrs.model.Property;
 import org.search.nibrs.model.Victim;
+import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.xml.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -58,14 +59,24 @@ public class TestXMLExporter {
 	
 	@Test
 	public void testGroupBExport() throws Exception {
-		
 		NIBRSSubmission report = new NIBRSSubmission();
 		GroupBIncidentReport baseIncident = buildBaseGroupBIncident();
 		report.addReport(baseIncident);
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
 		XmlUtils.printNode(d);
-		
+		// todo: asserts
+	}
+	
+	@Test
+	public void testZeroReportExport() throws Exception {
+		NIBRSSubmission report = new NIBRSSubmission();
+		ZeroReport baseIncident = buildZeroReport();
+		report.addReport(baseIncident);
+		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
+		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
+		XmlUtils.printNode(d);
+		// todo: asserts
 	}
 	
 	@Test
@@ -215,6 +226,16 @@ public class TestXMLExporter {
 		}
 	}
 	
+	private ZeroReport buildZeroReport() {
+		ZeroReport incident = new ZeroReport();
+		incident.setYearOfTape(2016);
+		incident.setMonthOfTape(5);
+		incident.setOri("WA1234567");
+		incident.setReportActionType('I');
+		incident.setAdminSegmentLevel('0');
+		return incident;
+	}
+
 	private GroupBIncidentReport buildBaseGroupBIncident() throws ParseException {
 		
 		GroupBIncidentReport incident = new GroupBIncidentReport();
@@ -227,7 +248,7 @@ public class TestXMLExporter {
 		incident.setAdminSegmentLevel('7');
 		
 		Arrestee arrestee = new Arrestee();
-		incident.setArrestee(arrestee);
+		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(1);
 		arrestee.setAgeString("22");
 		arrestee.setRace("W");

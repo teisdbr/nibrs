@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.Report;
 import org.search.nibrs.xml.XmlUtils;
@@ -26,7 +25,7 @@ public class RuleViolationExemplarFactoryTest {
 		// This test doesn't really test anything meaningful...just demonstrates how to use the exemplar factory
 		NIBRSSubmission report = new NIBRSSubmission();
 		RuleViolationExemplarFactory exemplarFactory = RuleViolationExemplarFactory.getInstance();
-		GroupAIncidentReport incident = exemplarFactory.getGroupAIncidentsThatViolateRule(115).get(0);
+		Report incident = exemplarFactory.getGroupAIncidentsThatViolateRule(115).get(0);
 		report.addReport(incident);
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, new ArrayList<NIBRSError>());
 		//XmlUtils.printNode(d, System.out);
