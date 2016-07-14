@@ -180,16 +180,20 @@ public class RuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(204, incident -> {
 			/*The referenced data element in a Group A Incident Report must 
-			be populated with a valid data value and cannot be blank.
+			be populated with a valid data value.
 			*/
 			//ORI first 2 characters need to be valid state code
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = incident.deepCopy();
-			copy.setOri(null);
+			copy.setOri("1234567890123");
 			GroupAIncidentReport copy2 = copy.deepCopy();
 			copy2.setOri("ZZ123456789");
+			GroupAIncidentReport copy3 = copy.deepCopy();
+			Offense firstOffense = new Offense();
+			firstOffense.setUcrOffenseCode("XXX");
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
 			return incidents;
 		});
 		
