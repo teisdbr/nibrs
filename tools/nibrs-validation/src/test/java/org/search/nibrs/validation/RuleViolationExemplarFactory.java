@@ -305,7 +305,7 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = incident.deepCopy();
 			Offense HomicideOffense = new Offense();
-			HomicideOffense.setUcrOffenseCode("09C");
+			HomicideOffense.setUcrOffenseCode("09A");
 			HomicideOffense.setTypeOfWeaponForceInvolved = ("99");
 			incidents.add(copy);
 			return incidents;
