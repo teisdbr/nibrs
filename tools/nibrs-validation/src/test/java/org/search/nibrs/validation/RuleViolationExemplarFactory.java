@@ -201,6 +201,45 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(256, incident -> {
+			/*Offense Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
+			 Assault.
+			*/
+			GroupAIncidentReport ret = incident.deepCopy();
+			ret.getOffenses().get(0).setUcrOffenseCode("09A");
+			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			return Collections.singletonList(ret);
+		});
+		
+		groupATweakerMap.put(251, incident -> {
+			/*(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
+			*/
+			GroupAIncidentReport ret = incident.deepCopy();
+			
+			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			return Collections.singletonList(ret);
+		});
+		
+		
+		
+		
+		
+		
+		
+		groupATweakerMap.put(256, incident -> {
+			/*(Offense Attempted/Completed) Code must be C=Completed if Data Element 6 (UCR Offense Code)
+			is an Assault or Homicide.
+			*/
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense HomicideOffense = new Offense();
+			HomicideOffense.setUcrOffenseCode("09C");
+			HomicideOffense.setOffenseAttemptedCompleted = ("99");
+			incidents.add(copy);
+			return incidents;
+			
+		});
+		
 		groupATweakerMap.put(262, incident -> {
 			/*When a Group “A” Incident Report is submitted, the individual segments
 		 	comprising the incident cannot contain duplicates. 
@@ -461,13 +500,7 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
-		groupATweakerMap.put(251, incident -> {
-			/*(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
-			*/
-			GroupAIncidentReport ret = incident.deepCopy();
-			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
-			return Collections.singletonList(ret);
-		});
+		
 		
 		
 		
