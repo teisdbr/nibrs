@@ -236,8 +236,8 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
-		groupATweakerMap.put(263, incident -> {
-			/*When a Justifiable Homicide is reported, no other offense may ber
+		groupATweakerMap.put(266, incident -> {
+			/*When a Justifiable Homicide is reported, no other offense may be
 			reported in the Group “A” Incident Report. These should be submitted on another
 			Group “A” Incident Report.
 			*/
@@ -252,6 +252,21 @@ public class RuleViolationExemplarFactory {
 			
 		});
 				
+		
+		groupATweakerMap.put(267, incident -> {
+			/*If a homicide offense is submitted, Data Element 13 (Type Weapon/Force Involved)
+			cannot have 99=None. Some type of weapon/force must be used in a homicide offense.
+			*/
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense HomicideOffense = new Offense();
+			HomicideOffense.setUcrOffenseCode("09C");
+			HomicideOffense.setTypeOfWeaponForceInvolved = ("99");
+			incidents.add(copy);
+			return incidents;
+			
+		});
+		
 		
 		
 		groupATweakerMap.put(301, incident -> {
