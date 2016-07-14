@@ -289,7 +289,19 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+			groupATweakerMap.put(207, incident -> {
+			/* The referenced data element in error is one that contains multiple
+			 * data values. However "N" is mutually exclusive with other codes.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense firstOffendersSuspectedOfUsing = new Offense();
+			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
+			Offense secondOffendersSuspectedOfUsing = new Offense();
+			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "N");
+			incidents.add(copy);
+			return incidents;
 			
+		});
 				
 		groupATweakerMap.put(251, incident -> {
 			/*(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
