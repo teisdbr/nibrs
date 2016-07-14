@@ -276,6 +276,7 @@ public class RuleViolationExemplarFactory {
 		groupATweakerMap.put(206, incident -> {
 			/* The referenced data element in error is one that contains multiple
 			 * data values. When more than one code is entered, none can be duplicate codes.
+			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = incident.deepCopy();
 			Offense firstOffendersSuspectedOfUsing = new Offense();
@@ -284,7 +285,15 @@ public class RuleViolationExemplarFactory {
 			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
 			Offense thirdOffendersSuspectedOfUsing = new Offense();
 			thirdOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
+			GroupAIncidentReport copy2 = incident.deepCopy();
+			Offense firstBiasMotivationOffense = new Offense();
+			firstBiasMotivationOffense.setBiasMotivation(0,"15");
+			Offense secondBiasMotivationOffense = new Offense ();
+			secondBiasMotivationOffense.setBiasMotivation(0, "26");
+			Offense thirdBiasMotivationOffense = new Offense ();
+			thirdBiasMotivationOffense.setBiasMotivation (0, "26");
 			incidents.add(copy);
+			incidents.add(copy2);
 			return incidents;
 			
 		});
