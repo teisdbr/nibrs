@@ -13,6 +13,7 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.Offense;
 
 /**
  * Class that manages a set of "edits" to baseline incidents.  These edits create "exemplars" of NIBRS rules violations that can be used to
@@ -188,6 +189,20 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(262, incident -> {
+			/*When a Group “A” Incident Report is submitted, the individual segments
+		 	comprising the incident cannot contain duplicates. 
+		 	In this case, two Offense Segments were submitted having the same
+		 	offense in Data Element 6 (UCR Offense Code).
+			*/
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense secondOffense = new Offense();
+			secondOffense.setUcrOffenseCode("13B");
+			copy.addOffense(secondOffense);
+			incidents.add(copy);
+			return incidents;
+		});
 		
 		groupATweakerMap.put(301, incident -> {
 			/*The referenced data element in a Group A Incident Report
