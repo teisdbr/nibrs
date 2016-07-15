@@ -312,8 +312,8 @@ public class RuleViolationExemplarFactory {
 		});
 		
 			groupATweakerMap.put(207, incident -> {
-			/* The referenced data element in error is one that contains multiple
-			 * data values. However "N" is mutually exclusive with other codes.
+			// The referenced data element in error is one that contains multiple
+			// data values. However "N" is mutually exclusive with other codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = incident.deepCopy();
 			Offense firstOffendersSuspectedOfUsing = new Offense();
@@ -330,24 +330,26 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 		});
-				
+			
 		groupATweakerMap.put(251, incident -> {
-			/*(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
-			*/
+			// (Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
 			GroupAIncidentReport ret = incident.deepCopy();
 			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
 			return Collections.singletonList(ret);
 		});
 		
 			groupATweakerMap.put(252, incident -> {
-				/* When number of premises is entered location type must be 14 or 19
-				 * and UCR Offense Code must be Burglary.
+				// When number of premises is entered location type must be 14 or 19
+				// and UCR Offense Code must be Burglary.
 				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+				
+				// todo: implement this for real
+				
 				GroupAIncidentReport copy = incident.deepCopy();
-				Offense NumberOfPremisesEntered = new Offense();
-				NumberOfPremisesEntered.setNumberOfPremisesEntered(2);
-				Offense OffenseLocation = new Offense();
-				OffenseLocation.setLocationType("14");
+				Offense offense = new Offense();
+				offense.setNumberOfPremisesEntered(2);
+				offense.setLocationType("14");
+				incident.addOffense(offense);
 				incidents.add(copy);
 				return incidents;	
 			
@@ -368,7 +370,7 @@ public class RuleViolationExemplarFactory {
 			
 			
 		groupATweakerMap.put(262, incident -> {
-			/*When a Group “A” Incident Report is submitted, the individual segments
+			/*When a Group ï¿½Aï¿½ Incident Report is submitted, the individual segments
 		 	comprising the incident cannot contain duplicates. 
 		 	In this case, two Offense Segments were submitted having the same
 		 	offense in Data Element 6 (UCR Offense Code).
@@ -429,8 +431,8 @@ public class RuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(266, incident -> {
 			/*When a Justifiable Homicide is reported, no other offense may be
-			reported in the Group “A” Incident Report. These should be submitted on another
-			Group “A” Incident Report.
+			reported in the Group ï¿½Aï¿½ Incident Report. These should be submitted on another
+			Group ï¿½Aï¿½ Incident Report.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = incident.deepCopy();
