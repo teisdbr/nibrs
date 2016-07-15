@@ -277,8 +277,6 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy6 = copy.deepCopy();
 			Offense NumberOfPremisesEntered = new Offense();
 			NumberOfPremisesEntered.setNumberOfPremisesEntered(100);
-			
-			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
