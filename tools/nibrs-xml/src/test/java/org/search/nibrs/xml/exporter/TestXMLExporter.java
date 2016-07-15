@@ -21,12 +21,14 @@ import org.search.nibrs.model.Offender;
 import org.search.nibrs.model.Offense;
 import org.search.nibrs.model.Person;
 import org.search.nibrs.model.Property;
+import org.search.nibrs.model.Report;
 import org.search.nibrs.model.Victim;
 import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.xml.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class TestXMLExporter {
 	
@@ -41,7 +43,7 @@ public class TestXMLExporter {
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
 		assertTrue(errorList.isEmpty());
-		XmlUtils.printNode(d, System.out);
+		//XmlUtils.printNode(d, System.out);
 	}
 	
 	@Test
@@ -54,7 +56,7 @@ public class TestXMLExporter {
 		assertTrue(errorList.isEmpty());
 		String xml = baos.toString();
 		Document d = XmlUtils.toDocument(xml);
-		XmlUtils.printNode(d);
+		//XmlUtils.printNode(d);
 	}
 	
 	@Test
@@ -64,10 +66,40 @@ public class TestXMLExporter {
 		report.addReport(baseIncident);
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
-		XmlUtils.printNode(d);
-		// todo: asserts
+		//XmlUtils.printNode(d);
+		assertEquals(baseIncident.getYearOfTape() + "-" + new DecimalFormat("00").format(baseIncident.getMonthOfTape()),
+				XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate"));
+		assertEquals(baseIncident.getOri(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:ReportingAgency/j:OrganizationAugmentation/j:OrganizationORIIdentification/nc:IdentificationID"));
+		assertEquals(baseIncident.getReportActionType(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:ReportActionCategoryCode").charAt(0));
+		assertEquals("GROUP B ARREST REPORT", XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:NIBRSReportCategoryCode"));
+
+		assertArrestees(d, baseIncident, 1);
 	}
 	
+	private void assertArrestees(Document d, Report baseIncident, int expectedArresteeCount) throws Exception {
+		List<Arrestee> arresteeList = baseIncident.getArrestees();
+		assertEquals(expectedArresteeCount, arresteeList.size());
+		NodeList arresteeNodes = XmlUtils.xPathNodeListSearch(d, "/nibrs:Submission/nibrs:Report[1]/j:Arrestee");
+		assertEquals(expectedArresteeCount, arresteeNodes.getLength());
+		for (int i=0; i < arresteeNodes.getLength();i++) {
+			Node arresteeNode = arresteeNodes.item(i);
+			Arrestee arrestee = arresteeList.get(i);
+			assertEquals(arrestee.getArresteeSequenceNumber(), Integer.valueOf(XmlUtils.xPathStringSearch(arresteeNode, "j:ArrestSequenceID")));
+			String personId = XmlUtils.xPathStringSearch(arresteeNode, "nc:RoleOfPerson/@s:ref");
+			Node personNode = XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report[1]/nc:Person[@s:id='" + personId + "']");
+			assertEquals(arrestee.getSex(), XmlUtils.xPathStringSearch(personNode, "j:PersonSexCode"));
+			assertEquals(arrestee.getRace(), XmlUtils.xPathStringSearch(personNode, "j:PersonRaceNDExCode"));
+			assertPersonAge(arrestee.getAge(), personNode);
+			Node assnNode = XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report[1]/j:ArrestSubjectAssociation[j:Subject/@s:ref='" + personId + "']");
+			assertNotNull(assnNode);
+			String arrestId = XmlUtils.xPathStringSearch(assnNode, "nc:Activity/@s:ref");
+			Node arrestNode = XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report[1]/j:Arrest[@s:id='" + arrestId + "']");
+			assertEquals(arrestee.getArrestTransactionNumber(), XmlUtils.xPathStringSearch(arrestNode, "nc:ActivityIdentification/nc:IdentificationID"));
+			assertEquals(arrestee.getUcrArrestOffenseCode(), XmlUtils.xPathStringSearch(arrestNode, "j:ArrestCharge/nibrs:ChargeUCRCode"));
+			assertEquals(arrestee.getTypeOfArrest(), XmlUtils.xPathStringSearch(arrestNode, "j:ArrestCategoryCode"));
+		}
+	}
+
 	@Test
 	public void testZeroReportExport() throws Exception {
 		NIBRSSubmission report = new NIBRSSubmission();
@@ -75,8 +107,13 @@ public class TestXMLExporter {
 		report.addReport(baseIncident);
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
-		XmlUtils.printNode(d);
-		// todo: asserts
+		//XmlUtils.printNode(d);
+		assertEquals(baseIncident.getYearOfTape() + "-" + new DecimalFormat("00").format(baseIncident.getMonthOfTape()),
+				XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate"));
+		assertEquals(baseIncident.getOri(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:ReportingAgency/j:OrganizationAugmentation/j:OrganizationORIIdentification/nc:IdentificationID"));
+		assertEquals(baseIncident.getReportActionType(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:ReportActionCategoryCode").charAt(0));
+		assertEquals("ZERO REPORT", XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/nibrs:ReportHeader/nibrs:NIBRSReportCategoryCode"));
+
 	}
 	
 	@Test
@@ -201,6 +238,8 @@ public class TestXMLExporter {
 			}
 		}
 		
+		assertArrestees(d, baseIncident, baseIncident.getArresteeCount());
+		
 	}
 
 	private void assertDemographics(Person person, Element personElement) throws Exception {
@@ -215,7 +254,7 @@ public class TestXMLExporter {
 		assertPersonAge(person.getAge(), personElement);
 	}
 
-	private void assertPersonAge(NIBRSAge age, Element personElement) throws Exception {
+	private void assertPersonAge(NIBRSAge age, Node personElement) throws Exception {
 		if (age.isAgeRange()) {
 			assertEquals(age.getAgeMin(), new Integer(XmlUtils.xPathStringSearch(personElement, "nc:PersonAgeMeasure/nc:MeasureRangeValue/nc:RangeMinimumIntegerValue")));
 			assertEquals(age.getAgeMax(), new Integer(XmlUtils.xPathStringSearch(personElement, "nc:PersonAgeMeasure/nc:MeasureRangeValue/nc:RangeMaximumIntegerValue")));
