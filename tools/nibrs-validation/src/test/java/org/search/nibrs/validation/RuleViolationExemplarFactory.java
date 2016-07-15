@@ -237,6 +237,10 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy10 = copy.deepCopy();
 			Offense OffenderSuspectedOfUsing = new Offense();
 			OffenderSuspectedOfUsing.setOffendersSuspectedOfUsing(0, null);
+			GroupAIncidentReport copy11 = copy.deepCopy();
+			Offense OffenseLocation = new Offense();
+			OffenseLocation.setLocationType(null);
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -247,6 +251,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy8);
 			incidents.add(copy9);
 			incidents.add(copy10);
+			incidents.add(copy11);
 			return incidents;
 		});
 		
@@ -266,10 +271,16 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy4 = copy.deepCopy();
 			Offense BiasOffense = new Offense();
 			BiasOffense.setBiasMotivation(0, "10");
+			GroupAIncidentReport copy5 = copy.deepCopy();
+			Offense OffenseLocation = new Offense();
+			OffenseLocation.setLocationType("99");
+						
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
+			incidents.add(copy5);
 			return incidents;
 		});
 		
@@ -307,7 +318,13 @@ public class RuleViolationExemplarFactory {
 			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
 			Offense secondOffendersSuspectedOfUsing = new Offense();
 			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "N");
+			GroupAIncidentReport copy2 = incident.deepCopy();
+			Offense firstBiasMotivationOffense = new Offense();
+			firstBiasMotivationOffense.setBiasMotivation(0,"15");
+			Offense secondBiasMotivationOffense = new Offense ();
+			secondBiasMotivationOffense.setBiasMotivation(0, "88");
 			incidents.add(copy);
+			incidents.add(copy2);
 			return incidents;
 			
 		});
@@ -428,6 +445,18 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(270, incident -> {
+			/*If a justifiable homicide offense is submitted, Data Element 8A (Bias motivation) must be 88.
+			*/
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense JustifiableHomicideOffense = new Offense();
+			JustifiableHomicideOffense.setUcrOffenseCode("09C");
+			JustifiableHomicideOffense.setBiasMotivation(0, "11");
+			incidents.add(copy);
+			return incidents;
+		
+		});
 		
 		
 		groupATweakerMap.put(301, incident -> {
