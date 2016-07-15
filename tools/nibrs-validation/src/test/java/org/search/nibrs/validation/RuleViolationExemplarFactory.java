@@ -339,6 +339,22 @@ public class RuleViolationExemplarFactory {
 			return Collections.singletonList(ret);
 		});
 		
+			groupATweakerMap.put(252, incident -> {
+				/* When number of premises is entered location type must be 14 or 19
+				 * and UCR Offense Code must be Burglary.
+				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+				GroupAIncidentReport copy = incident.deepCopy();
+				Offense NumberOfPremisesEntered = new Offense();
+				NumberOfPremisesEntered.setNumberOfPremisesEntered(2);
+				Offense OffenseLocation = new Offense();
+				OffenseLocation.setLocationType("14");
+				incidents.add(copy);
+				return incidents;	
+			
+			});
+			
+			
+			
 		groupATweakerMap.put(256, incident -> {
 			/*Offense Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
 			 Assault.
