@@ -44,6 +44,7 @@ final class BaselineIncidentFactory {
 		o.setOffendersSuspectedOfUsing(0, "N");
 		o.setBiasMotivation(0, "15");
 		o.setLocationType("15");
+		o.setNumberOfPremisesEntered(null);
 		
 		Victim v = new Victim();
 		incident.addVictim(v);
