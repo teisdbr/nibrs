@@ -1,5 +1,7 @@
 package org.search.nibrs.model;
 
+import java.io.Serializable;
+
 import org.search.nibrs.common.NIBRSError;
 
 /**
@@ -7,8 +9,10 @@ import org.search.nibrs.common.NIBRSError;
  * integer value, or a range of integer values.  If the age is a single value, the min and max will be equal.
  *
  */
-public class NIBRSAge {
+public class NIBRSAge implements Serializable {
 
+	private static final long serialVersionUID = -5464715207325338661L;
+	
 	private Integer ageMin;
 	private Integer ageMax;
 	private String nonNumericAge;
