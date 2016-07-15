@@ -207,6 +207,7 @@ public class XMLExporter {
 		addArresteePersonElements(incident, reportElement, errorList);
 		addArresteeElements(incident, reportElement);
 		addArrestElement(incident, reportElement);
+		addArrestSubjectAssociationElements(incident, reportElement);
 		return reportElement;
 	}
 
