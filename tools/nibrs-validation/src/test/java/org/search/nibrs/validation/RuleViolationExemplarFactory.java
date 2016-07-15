@@ -274,13 +274,17 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy5 = copy.deepCopy();
 			Offense OffenseLocation = new Offense();
 			OffenseLocation.setLocationType("99");
-						
+			GroupAIncidentReport copy6 = copy.deepCopy();
+			Offense NumberOfPremisesEntered = new Offense();
+			NumberOfPremisesEntered.setNumberOfPremisesEntered(100);
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
+			incidents.add(copy6);
 			return incidents;
 		});
 		
