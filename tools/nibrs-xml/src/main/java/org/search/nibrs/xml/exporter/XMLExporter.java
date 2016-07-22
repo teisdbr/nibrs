@@ -41,13 +41,9 @@ import org.w3c.dom.Element;
 
 /*
  * 
- * TODO:
- * 
- * handle actions other than add ("I")
- * handle Group B
+ * Class supporting export of NIBRS data to XML that conforms to the FBI NIBRS IEPD.
  * 
  */
-
 public class XMLExporter {
 	
 	@SuppressWarnings("unused")

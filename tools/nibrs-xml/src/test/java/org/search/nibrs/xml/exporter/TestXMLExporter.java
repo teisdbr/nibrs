@@ -43,6 +43,7 @@ public class TestXMLExporter {
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
 		assertTrue(errorList.isEmpty());
+		assertNotNull(d);
 		//XmlUtils.printNode(d, System.out);
 	}
 	
@@ -56,6 +57,7 @@ public class TestXMLExporter {
 		assertTrue(errorList.isEmpty());
 		String xml = baos.toString();
 		Document d = XmlUtils.toDocument(xml);
+		assertNotNull(d);
 		//XmlUtils.printNode(d);
 	}
 	
