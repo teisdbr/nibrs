@@ -262,6 +262,18 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});	
 		
+		groupATweakerMap.put(172, incident -> {
+			//(Incident Date) cannot be earlier than 01/01/1991. This edit will preclude dates that are obviously
+			//incorrect since the FBI began accepting NIBRS data on this date.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setIncidentDate(Date.from(LocalDateTime.of(1990, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			incidents.add(copy);
+			return incidents;
+		});	
+		
+		
+		
 		groupATweakerMap.put(173, incident -> {
 			//Data Element 5 (Exceptional Clearance Date) cannot contain a date earlier than the date the LEA began submitting data via the NIBRS.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
