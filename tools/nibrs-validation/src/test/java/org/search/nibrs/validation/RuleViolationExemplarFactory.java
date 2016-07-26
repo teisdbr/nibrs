@@ -355,21 +355,23 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy2 = copy.deepCopy();
 			copy2.setOri("ZZ123456789");
 			GroupAIncidentReport copy3 = copy.deepCopy();
+			copy3.setCityIndicator("ZZ12");
+			GroupAIncidentReport copy4 = copy.deepCopy();
 			Offense firstOffense = new Offense();
 			firstOffense.setUcrOffenseCode("XXX");
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy5 = copy.deepCopy();
 			Offense biasOffense = new Offense();
 			biasOffense.setBiasMotivation(0, "10");
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy6 = copy.deepCopy();
 			Offense offenseLocation = new Offense();
 			offenseLocation.setLocationType("99");
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy7 = copy.deepCopy();
 			Offense numberOfPremisesEntered = new Offense();
 			numberOfPremisesEntered.setNumberOfPremisesEntered(100);
-			GroupAIncidentReport copy7 = copy.deepCopy();
+			GroupAIncidentReport copy8 = copy.deepCopy();
 			Offense methodOfEntry = new Offense();
 			methodOfEntry.setMethodOfEntry(null);
-			GroupAIncidentReport copy8 = copy.deepCopy();
+			GroupAIncidentReport copy9 = copy.deepCopy();
 			Offense criminalActivity = new Offense();
 			criminalActivity.setTypeOfCriminalActivity(0, null);
 			
@@ -381,6 +383,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
+			incidents.add(copy9);
 			return incidents;
 		});
 		
