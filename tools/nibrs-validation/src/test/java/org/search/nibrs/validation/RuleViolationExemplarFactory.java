@@ -77,17 +77,19 @@ public class RuleViolationExemplarFactory {
 			copy5.setIncidentDate(null);
 			GroupAIncidentReport copy6 = copy.deepCopy();
 			copy6.setExceptionalClearanceCode(null);
+			GroupAIncidentReport copy7 = copy.deepCopy();
+			copy7.setExceptionalClearanceDate(null);
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
+			incidents.add(copy7);
 			return incidents;
 			
 								
 		});
-		
 		
 		groupATweakerMap.put(104, incident -> {
 			//The referenced data element in a Group A Incident Report
