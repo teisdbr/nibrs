@@ -225,6 +225,18 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});	
 		
+		
+		groupATweakerMap.put(156, incident -> {
+			//Data Element 5 (Exceptional Clearance Date) must be present if the case was cleared exceptionally. 
+			//Data Element 4 (Cleared Exceptionally) has an entry of A through E; therefore, the date must also be entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setExceptionalClearanceCode("A");
+			copy.setExceptionalClearanceDate(null);
+			incidents.add(copy);
+			return incidents;
+		});	
+		
 		groupATweakerMap.put(201, incident -> {
 			//The referenced data element in a Group A Incident Report
 			//Segment 2 is mandatory & must be present.
