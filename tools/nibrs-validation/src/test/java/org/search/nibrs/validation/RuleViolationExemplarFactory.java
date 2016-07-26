@@ -127,6 +127,7 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 			});
+		
 		groupATweakerMap.put(105, incident -> {
 			//The data element in error contains a date that is not entered correctly.
 			//Each component of the date must be valid; that is, months must be 01 through 12,
