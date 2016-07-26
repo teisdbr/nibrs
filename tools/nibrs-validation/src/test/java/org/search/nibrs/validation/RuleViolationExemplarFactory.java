@@ -138,8 +138,11 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy2 = copy.deepCopy();
 			copy.setYearOfTape(2016);
 			copy.setMonthOfTape(13);
+			GroupAIncidentReport copy3 = copy.deepCopy();
+			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(3016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
 			return incidents;
 		});
 		
