@@ -432,6 +432,69 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+			groupATweakerMap.put(220, incident -> {
+				//Data Element 12 (Type Criminal Activity/Gang Information) Must be populated with a valid data value and cannot be blank when Data Element 6 (UCR Offense Code) is:
+				//		250=Counterfeiting/Forgery
+				//		280=Stolen Property Offenses
+				//		35A=Drug/Narcotic Violations
+				//		35B=Drug Equipment Violations
+				//		39C=Gambling Equipment Violations
+				//		370=Pornography/Obscene Material
+				//		520=Weapon Law Violations
+				//		720=Animal Cruelty
+				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+				GroupAIncidentReport copy = incident.deepCopy();
+				Offense firstCriminalActivity = new Offense();
+				firstCriminalActivity.setTypeOfCriminalActivity(0, null);
+				firstCriminalActivity.setUcrOffenseCode("250");
+				GroupAIncidentReport copy1 = incident.deepCopy();
+				Offense secondCriminalActivity = new Offense();
+				secondCriminalActivity.setTypeOfCriminalActivity(0, null);
+				secondCriminalActivity.setUcrOffenseCode("280");
+				GroupAIncidentReport copy2 = incident.deepCopy();
+				Offense thirdCriminalActivity = new Offense();
+				thirdCriminalActivity.setTypeOfCriminalActivity(0, null);
+				thirdCriminalActivity.setUcrOffenseCode("35A");
+				GroupAIncidentReport copy3 = incident.deepCopy();
+				Offense fourthCriminalActivity = new Offense();
+				fourthCriminalActivity.setTypeOfCriminalActivity(0, null);
+				fourthCriminalActivity.setUcrOffenseCode("35B");
+				GroupAIncidentReport copy4 = incident.deepCopy();
+				Offense fifthCriminalActivity = new Offense();
+				fifthCriminalActivity.setTypeOfCriminalActivity(0, null);
+				fifthCriminalActivity.setUcrOffenseCode("39C");
+				GroupAIncidentReport copy5 = incident.deepCopy();
+				Offense sixthCriminalActivity = new Offense();
+				sixthCriminalActivity.setTypeOfCriminalActivity(0, null);
+				sixthCriminalActivity.setUcrOffenseCode("370");
+				GroupAIncidentReport copy6 = incident.deepCopy();
+				Offense seventhCriminalActivity = new Offense();
+				seventhCriminalActivity.setTypeOfCriminalActivity(0, null);
+				seventhCriminalActivity.setUcrOffenseCode("520");
+				GroupAIncidentReport copy7 = incident.deepCopy();
+				Offense eigthCriminalActivity1 = new Offense();
+				eigthCriminalActivity1.setTypeOfCriminalActivity(0, null);
+				eigthCriminalActivity1.setUcrOffenseCode("720");
+				incidents.add(copy);
+				incidents.add(copy1);
+				incidents.add(copy2);
+				incidents.add(copy3);
+				incidents.add(copy4);
+				incidents.add(copy5);
+				incidents.add(copy6);
+				incidents.add(copy7);
+				return incidents;
+				
+			});
+			
+			
+			
+			
+			
+			
+			
+			
 			
 		groupATweakerMap.put(251, incident -> {
 			// (Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
