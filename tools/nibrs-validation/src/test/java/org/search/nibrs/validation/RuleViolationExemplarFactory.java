@@ -197,7 +197,16 @@ public class RuleViolationExemplarFactory {
 			return Collections.singletonList(ret);
 			});
 			
-			
+		groupATweakerMap.put(153, incident -> {
+			//Data Element 4 ((Cleared Exceptionally) Cannot be N=Not Applicable if Data Element 5 (Exceptional Clearance Date) is entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setExceptionalClearanceCode("N");
+			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			incidents.add(copy);
+			return incidents;
+		});	
+		
 		groupATweakerMap.put(201, incident -> {
 			//The referenced data element in a Group A Incident Report
 			//Segment 2 is mandatory & must be present.
@@ -353,6 +362,11 @@ public class RuleViolationExemplarFactory {
 		});
 		
 			
+		
+		
+		
+		
+		
 			
 		groupATweakerMap.put(262, incident -> {
 			//When a Group A Incident Report is submitted, the individual segments
