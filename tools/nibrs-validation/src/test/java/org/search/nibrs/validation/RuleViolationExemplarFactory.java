@@ -213,6 +213,16 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});	
 		
+		groupATweakerMap.put(155, incident -> {
+			//Data Element 5 (Exceptional Clearance Date) is earlier than Data Element 3 (Incident Date/Hour).
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2015, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			incidents.add(copy);
+			return incidents;
+		});	
+		
 		groupATweakerMap.put(201, incident -> {
 			//The referenced data element in a Group A Incident Report
 			//Segment 2 is mandatory & must be present.
