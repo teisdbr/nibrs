@@ -114,7 +114,11 @@ public class RuleViolationExemplarFactory {
 			copy8.setIncidentDate(null);
 			copy8.setReportDateIndicator("S");
 			GroupAIncidentReport copy9 = copy.deepCopy();
-			copy9.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			//(Incident Hour) The referenced data element must contain a valid data value when it is entered.
+			copy9.setIncidentDate(Date.from(LocalDateTime.of(2016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			//(Incident Hour)) The referenced data element must contain a valid data value when it is entered.
+			GroupAIncidentReport copy10 = copy.deepCopy();
+			copy10.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -124,6 +128,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy7);
 			incidents.add(copy8);
 			incidents.add(copy9);
+			incidents.add(copy10);
 			return incidents;
 			
 			});
@@ -191,11 +196,13 @@ public class RuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(151, incident -> {
 			//This field must be blank if the incident date is known. If the incident date is unknown,
-		 	//then the report date would be entered instead and must be indicated with an �R� in the Report
+		 	//then the report date would be entered instead and must be indicated with an "R" in the Report
 		 	//Indicator field within the Administrative Segment. The "R" in this case is invalid.
-			GroupAIncidentReport ret = incident.deepCopy();
-			ret.setReportDateIndicator("R");
-			return Collections.singletonList(ret);
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setReportDateIndicator("R");
+			incidents.add(copy);
+			return incidents;
 		});
 		
 		
