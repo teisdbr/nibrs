@@ -237,6 +237,19 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});	
 		
+		groupATweakerMap.put(173, incident -> {
+			//Data Element 5 (Exceptional Clearance Date) cannot contain a date earlier than the date the LEA began submitting data via the NIBRS.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(1016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			incidents.add(copy);
+			return incidents;
+		});	
+		
+		
+		
+		
+		
 		groupATweakerMap.put(201, incident -> {
 			//The referenced data element in a Group A Incident Report
 			//Segment 2 is mandatory & must be present.
