@@ -452,6 +452,24 @@ public class RuleViolationExemplarFactory {
 				
 			});
 		
+		groupATweakerMap.put(253, incident -> {
+			// (Method of Entry) Data Element was not entered; it must be entered 
+			//when UCR Offense Code of 220=Burglary has been entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense offense = new Offense();
+			offense.setMethodOfEntry(null);
+			offense.setUcrOffenseCode("220");
+			incident.addOffense(offense);
+			incidents.add(copy);
+			return incidents;	
+		
+			
+		});
+		
+		
+		
+		
 		groupATweakerMap.put(257, incident -> {
 			// (Number of Premises Entered) Must be entered if offense code is 220 (Burglary) 
 			//and if Data Element 9 (Location Type) contains 14=Hotel/Motel/Etc. or 19=Rental Storage Facility.
