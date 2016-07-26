@@ -210,9 +210,11 @@ public class RuleViolationExemplarFactory {
 			//If Hour is entered within Data Element 3 (Incident Date/Hour), it must be 00 through 23. 
 			//If 00=Midnight is entered, be careful that the Incident Date is entered as if the time was
 			//1 minute past midnight.
-			GroupAIncidentReport ret = incident.deepCopy();
-			ret.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-			return Collections.singletonList(ret);
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 00, 0, 00).atZone(ZoneId.systemDefault()).toInstant()));
+			incidents.add(copy);
+			return incidents;
 			});
 			
 		groupATweakerMap.put(153, incident -> {
