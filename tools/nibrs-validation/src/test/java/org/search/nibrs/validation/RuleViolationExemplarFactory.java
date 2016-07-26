@@ -426,23 +426,27 @@ public class RuleViolationExemplarFactory {
 			return Collections.singletonList(ret);
 		});
 		
-			groupATweakerMap.put(252, incident -> {
+		groupATweakerMap.put(252, incident -> {
 				// When number of premises is entered location type must be 14 or 19
-				// and UCR Offense Code must be Burglary.
+				// and UCR Offense Code must be Burglary (220).
 				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-				
-				// todo: implement this for real
-				
 				GroupAIncidentReport copy = incident.deepCopy();
 				Offense offense = new Offense();
 				offense.setNumberOfPremisesEntered(2);
 				offense.setLocationType("14");
+				offense.setUcrOffenseCode("120");
+				GroupAIncidentReport copy1 = incident.deepCopy();
+				Offense offense1 = new Offense();
+				offense1.setNumberOfPremisesEntered(2);
+				offense1.setLocationType("19");
+				offense1.setUcrOffenseCode("120");
 				incident.addOffense(offense);
 				incidents.add(copy);
+				incidents.add(copy1);
 				return incidents;	
 			
+				
 			});
-			
 			
 			
 		groupATweakerMap.put(256, incident -> {
