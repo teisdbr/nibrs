@@ -43,6 +43,7 @@ public class TestXMLExporter {
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
 		assertTrue(errorList.isEmpty());
+		assertNotNull(d);
 		//XmlUtils.printNode(d, System.out);
 	}
 	
@@ -56,6 +57,7 @@ public class TestXMLExporter {
 		assertTrue(errorList.isEmpty());
 		String xml = baos.toString();
 		Document d = XmlUtils.toDocument(xml);
+		assertNotNull(d);
 		//XmlUtils.printNode(d);
 	}
 	
@@ -199,7 +201,8 @@ public class TestXMLExporter {
 		
 		for (Victim v : baseIncident.getVictims()) {
 			Integer victimSequenceNumber = v.getVictimSequenceNumber();
-			// todo: need to verify association for business victims (email sent to Becki 7/7/16)
+			assertEquals(XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report[1]/j:Victim[nc:RoleOfPerson/@s:ref='Victim-" + victimSequenceNumber + "']/j:VictimCategoryCode"),
+					v.getTypeOfVictim());
 			if (v.isPerson()) {
 				Element victimPersonElement = (Element) XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report[1]/nc:Person[@s:id='Victim-" + victimSequenceNumber + "']");
 				assertNotNull(victimPersonElement);
@@ -223,6 +226,8 @@ public class TestXMLExporter {
 					assertEquals(v.getOfficerOtherJurisdictionORI(), XmlUtils.xPathStringSearch(enforcementOfficialElement,
 							"j:EnforcementOfficialUnit/j:OrganizationAugmentation/j:OrganizationORIIdentification/nc:IdentificationID"));
 				}
+			} else {
+				assertNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report[1]/nc:Person[@s:id='Victim-" + victimSequenceNumber + "']"));
 			}
 			for (int i=0; i < v.getPopulatedUcrOffenseCodeConnectionCount(); i++) {
 				String offenseCode = v.getUcrOffenseCodeConnection(i);
