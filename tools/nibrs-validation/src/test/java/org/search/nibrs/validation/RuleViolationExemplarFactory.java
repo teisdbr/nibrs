@@ -249,6 +249,18 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});	
 		
+		groupATweakerMap.put(171, incident -> {
+			//A Group “A” Incident Report was submitted with a date entered into Data Element 3 (Incident Date/Hour)
+			//that is earlier than January 1 of the previous year, using the Month of Tape and Year of Tape as a reference point, 
+			//e.g., if the Month of Tape and Year of Tape contain a value of 01/1999, but the incident date is 12/25/1997, the incident will be rejected.
+			//Volume 2, section I, provides specifications concerning the FBI’s 2-year database.
+			//For example, the May 1999 electronic submission cannot contain incidents happening after this date.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setIncidentDate(Date.from(LocalDateTime.of(2000, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			incidents.add(copy);
+			return incidents;
+		});	
 		
 		groupATweakerMap.put(173, incident -> {
 			//Data Element 5 (Exceptional Clearance Date) cannot contain a date earlier than the date the LEA began submitting data via the NIBRS.
