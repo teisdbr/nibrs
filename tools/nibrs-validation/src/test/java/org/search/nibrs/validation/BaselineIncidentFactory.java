@@ -40,6 +40,7 @@ final class BaselineIncidentFactory {
 		o = new Offense();
 		incident.addOffense(o);
 		o.setUcrOffenseCode("13A");
+		o.setTypeOfCriminalActivity(0, "J");
 		o.setOffenseAttemptedCompleted("C");
 		o.setTypeOfWeaponForceInvolved(0, "99");
 		o.setOffendersSuspectedOfUsing(0, "N");
