@@ -111,6 +111,8 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy8 = copy.deepCopy();
 			copy8.setIncidentDate(null);
 			copy8.setReportDateIndicator("S");
+			GroupAIncidentReport copy9 = copy.deepCopy();
+			copy9.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -119,6 +121,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
+			incidents.add(copy9);
 			return incidents;
 			
 			});
@@ -202,7 +205,7 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = incident.deepCopy();
 			copy.setExceptionalClearanceCode("N");
-			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
 			return incidents;
 		});	
