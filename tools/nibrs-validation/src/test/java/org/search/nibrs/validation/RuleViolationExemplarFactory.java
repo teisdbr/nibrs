@@ -447,6 +447,30 @@ public class RuleViolationExemplarFactory {
 			
 				
 			});
+		
+		groupATweakerMap.put(257, incident -> {
+			// (Number of Premises Entered) Must be entered if offense code is 220 (Burglary) 
+			//and if Data Element 9 (Location Type) contains 14=Hotel/Motel/Etc. or 19=Rental Storage Facility.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense offense = new Offense();
+			offense.setLocationType("14");
+			offense.setUcrOffenseCode("220");
+			GroupAIncidentReport copy1 = incident.deepCopy();
+			Offense offense1 = new Offense();
+			offense1.setLocationType("19");
+			offense1.setUcrOffenseCode("220");
+			incident.addOffense(offense);
+			incidents.add(copy);
+			incidents.add(copy1);
+			return incidents;	
+		
+			
+		});
+			
+			
+			
+			
 			
 			
 		groupATweakerMap.put(256, incident -> {
