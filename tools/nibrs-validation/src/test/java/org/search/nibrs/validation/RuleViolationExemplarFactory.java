@@ -468,11 +468,10 @@ public class RuleViolationExemplarFactory {
 			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"J");
 			GroupAIncidentReport copy4 = incident.deepCopy();
 			Offense firstTypeOfWeaponForceInvolve = new Offense();
-			firstTypeOfWeaponForceInvolve.setTypeOfCriminalActivity(0, "11");
+			firstTypeOfWeaponForceInvolve.setTypeOfWeaponForceInvolved(0, "11");
 			Offense secondTypeOfWeaponForceInvolved = new Offense ();
-			secondTypeOfWeaponForceInvolved.setTypeOfCriminalActivity(0,"99");
-			
-			
+			secondTypeOfWeaponForceInvolved.setTypeOfWeaponForceInvolved(0,"99");
+				
 			
 			
 			
@@ -619,7 +618,16 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		
+		groupATweakerMap.put(256, incident -> {
+			//Offense Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
+			// Assault.
+			GroupAIncidentReport ret = incident.deepCopy();
+			ret.getOffenses().get(0).setUcrOffenseCode("09A");
+			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			return Collections.singletonList(ret);
+		});
 		
+			
 		
 		
 		
@@ -643,20 +651,26 @@ public class RuleViolationExemplarFactory {
 			
 		});
 			
-			
-			
-			
-			
-			
-		groupATweakerMap.put(256, incident -> {
-			//Offense Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
-			// Assault.
-			GroupAIncidentReport ret = incident.deepCopy();
-			ret.getOffenses().get(0).setUcrOffenseCode("09A");
-			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
-			return Collections.singletonList(ret);
+		groupATweakerMap.put(258, incident -> {
+			//(Automatic Weapon Indicator) In Data Element 13 (Type of Weapon/Force Involved), A=Automatic is the third character of code. It is valid only with the following codes:
+			//	11=Firearm (Type Not Stated)
+			//		12=Handgun
+			//		13=Rifle
+			//		15=Other Firearm
+			//		A weapon code other than those mentioned was entered with the automatic indicator. An automatic weapon is, by definition, a firearm.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense automaticWeaponIndicator = new Offense();
+			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "A");
+			automaticWeaponIndicator.setTypeOfWeaponForceInvolved(0, "20");
+			incident.addOffense(automaticWeaponIndicator);
+			incidents.add(copy);
+			return incidents;	
+					
 		});
-		
+			
+			
+			
 			
 		
 		
