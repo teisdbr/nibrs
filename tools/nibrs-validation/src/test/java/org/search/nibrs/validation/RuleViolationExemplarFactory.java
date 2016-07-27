@@ -381,7 +381,9 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy9 = copy.deepCopy();
 			Offense criminalActivity = new Offense();
 			criminalActivity.setTypeOfCriminalActivity(0, null);
-			
+			GroupAIncidentReport copy10 = copy.deepCopy();
+			Offense weaponForceInvolved = new Offense();
+			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, "10");
 			
 			
 			
@@ -396,6 +398,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy7);
 			incidents.add(copy8);
 			incidents.add(copy9);
+			incidents.add(copy10);
 			return incidents;
 		});
 		
