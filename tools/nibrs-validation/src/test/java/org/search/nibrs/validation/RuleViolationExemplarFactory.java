@@ -671,7 +671,6 @@ public class RuleViolationExemplarFactory {
 			
 			
 			
-			
 		
 		
 		
@@ -750,7 +749,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = incident.deepCopy();
 			Offense thirdOffense = new Offense();
 			thirdOffense.setUcrOffenseCode("13B");
-			OffensesetTypeOfWeaponForceInvolved(0, "13");
+			thirdOffense.setTypeOfWeaponForceInvolved(0, "13");
 			GroupAIncidentReport copy4 = incident.deepCopy();
 			Offense fourthOffense = new Offense();
 			fourthOffense.setUcrOffenseCode("13B");
@@ -841,6 +840,42 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+	
+		groupATweakerMap.put(269, incident -> {
+			//(Type Weapon/Force Involved) If Data Element 6 (UCR Offense Code) is 13B=Simple Assault and the
+			//weapon involved is 11=Firearm, 12=Handgun, 13=Rifle, 14=Shotgun, or 15=Other Firearm, then the offense 
+			//should instead be classified as 13A=Aggravated Assault.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense firstOffense = new Offense();
+			firstOffense.setUcrOffenseCode("13B");
+			firstOffense.setTypeOfWeaponForceInvolved(0, "11");
+			GroupAIncidentReport copy2 = incident.deepCopy();
+			Offense secondOffense = new Offense();
+			secondOffense.setUcrOffenseCode("13B");
+			secondOffense.setTypeOfWeaponForceInvolved(0, "12");
+			GroupAIncidentReport copy3 = incident.deepCopy();
+			Offense thirdOffense = new Offense();
+			thirdOffense.setUcrOffenseCode("13B");
+			OffensesetTypeOfWeaponForceInvolved(0, "13");
+			GroupAIncidentReport copy4 = incident.deepCopy();
+			Offense fourthOffense = new Offense();
+			fourthOffense.setUcrOffenseCode("13B");
+			fourthOffense.setTypeOfWeaponForceInvolved(0, "14");
+			GroupAIncidentReport copy5 = incident.deepCopy();
+			Offense fifthOffense = new Offense();
+			fifthOffense.setUcrOffenseCode("13B");
+			fifthOffense.setTypeOfWeaponForceInvolved(0, "15");
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			return incidents;
+		
+		
+		
 		
 		groupATweakerMap.put(270, incident -> {
 			//If a justifiable homicide offense is submitted, Data Element 8A (Bias motivation) must be 88.
