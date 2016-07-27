@@ -734,6 +734,79 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		
+		groupATweakerMap.put(265, incident -> {
+			//(Type Weapon/Force Involved) If an Offense Segment (Level 2) was submitted for 13B=Simple Assault,
+			//Data Element 13 (Type Weapon/Force Involved) can only have codes of 40=Personal Weapons,
+			//90=Other, 95=Unknown, and 99=None. All other codes are not valid because they do not relate to a simple assault.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense firstOffense = new Offense();
+			firstOffense.setUcrOffenseCode("13B");
+			firstOffense.setTypeOfWeaponForceInvolved(0, "11");
+			GroupAIncidentReport copy2 = incident.deepCopy();
+			Offense secondOffense = new Offense();
+			secondOffense.setUcrOffenseCode("13B");
+			secondOffense.setTypeOfWeaponForceInvolved(0, "12");
+			GroupAIncidentReport copy3 = incident.deepCopy();
+			Offense thirdOffense = new Offense();
+			thirdOffense.setUcrOffenseCode("13B");
+			OffensesetTypeOfWeaponForceInvolved(0, "13");
+			GroupAIncidentReport copy4 = incident.deepCopy();
+			Offense fourthOffense = new Offense();
+			fourthOffense.setUcrOffenseCode("13B");
+			fourthOffense.setTypeOfWeaponForceInvolved(0, "14");
+			GroupAIncidentReport copy5 = incident.deepCopy();
+			Offense fifthOffense = new Offense();
+			fifthOffense.setUcrOffenseCode("13B");
+			fifthOffense.setTypeOfWeaponForceInvolved(0, "15");
+			GroupAIncidentReport copy6 = incident.deepCopy();
+			Offense sixthOffense = new Offense();
+			sixthOffense.setUcrOffenseCode("13B");
+			sixthOffense.setTypeOfWeaponForceInvolved(0, "20");
+			GroupAIncidentReport copy7 = incident.deepCopy();
+			Offense seventhOffense = new Offense();
+			seventhOffense.setUcrOffenseCode("13B");
+			seventhOffense.setTypeOfWeaponForceInvolved(0, "30");
+			GroupAIncidentReport copy8 = incident.deepCopy();
+			Offense eighthOffense = new Offense();
+			eighthOffense.setUcrOffenseCode("13B");
+			eighthOffense.setTypeOfWeaponForceInvolved(0, "50");
+			GroupAIncidentReport copy9 = incident.deepCopy();
+			Offense ninthOffense = new Offense();
+			ninthOffense.setUcrOffenseCode("13B");
+			ninthOffense.setTypeOfWeaponForceInvolved(0, "60");
+			GroupAIncidentReport copy10 = incident.deepCopy();
+			Offense tenthOffense = new Offense();
+			tenthOffense.setUcrOffenseCode("13B");
+			tenthOffense.setTypeOfWeaponForceInvolved(0, "65");
+			GroupAIncidentReport copy11 = incident.deepCopy();
+			Offense eleventhOffense = new Offense();
+			eleventhOffense.setUcrOffenseCode("13B");
+			eleventhOffense.setTypeOfWeaponForceInvolved(0, "70");
+			GroupAIncidentReport copy12 = incident.deepCopy();
+			Offense twelfthOffense = new Offense();
+			twelfthOffense.setUcrOffenseCode("13B");
+			twelfthOffense.setTypeOfWeaponForceInvolved(0, "85");
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			incidents.add(copy11);
+			incidents.add(copy12);
+			return incidents;
+		});
+		
+		
+		
+		
+		
+		
 		
 		groupATweakerMap.put(266, incident -> {
 			//When a Justifiable Homicide is reported, no other offense may be
