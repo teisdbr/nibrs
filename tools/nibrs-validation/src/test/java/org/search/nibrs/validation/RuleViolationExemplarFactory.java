@@ -331,6 +331,12 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy11 = copy.deepCopy();
 			Offense offenseLocation = new Offense();
 			offenseLocation.setLocationType(null);
+			GroupAIncidentReport copy12 = copy.deepCopy();
+			Offense weaponForceInvolved = new Offense();
+			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, null);
+			
+			
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -343,6 +349,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy9);
 			incidents.add(copy10);
 			incidents.add(copy11);
+			incidents.add(copy12);
 			return incidents;
 		});
 		
@@ -374,6 +381,11 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy9 = copy.deepCopy();
 			Offense criminalActivity = new Offense();
 			criminalActivity.setTypeOfCriminalActivity(0, null);
+			
+			
+			
+			
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -410,8 +422,13 @@ public class RuleViolationExemplarFactory {
 			firstTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"J");
 			Offense secondTypeOfCriminalActivity = new Offense();
 			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"J");
+			
+			
+			
+			
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
 			return incidents;
 			
 		});
