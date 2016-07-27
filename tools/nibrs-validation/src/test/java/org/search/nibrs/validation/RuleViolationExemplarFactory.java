@@ -352,6 +352,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy10);
 			incidents.add(copy11);
 			incidents.add(copy12);
+			incidents.add(copy13);
 			return incidents;
 		});
 		
@@ -386,7 +387,9 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy10 = copy.deepCopy();
 			Offense weaponForceInvolved = new Offense();
 			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, "10");
-			
+			GroupAIncidentReport copy11 = copy.deepCopy();
+			Offense automaticWeaponIndicator = new Offense();
+			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "B");
 			
 			
 			
@@ -401,6 +404,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy8);
 			incidents.add(copy9);
 			incidents.add(copy10);
+			incidents.add(copy11);
 			return incidents;
 		});
 		
