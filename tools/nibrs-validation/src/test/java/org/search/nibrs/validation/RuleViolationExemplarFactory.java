@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.Offense;
+import org.search.nibrs.model.Property;
 
 /**
  * Class that manages a set of "edits" to baseline incidents.  These edits create "exemplars" of NIBRS rules violations that can be used to
@@ -390,10 +391,6 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy11 = copy.deepCopy();
 			Offense automaticWeaponIndicator = new Offense();
 			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "B");
-			
-			
-			
-			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -437,8 +434,6 @@ public class RuleViolationExemplarFactory {
 			Offense secondtypeOfWeaponForceInvolved = new Offense();
 			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"11");
 			
-			
-			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -471,12 +466,6 @@ public class RuleViolationExemplarFactory {
 			firstTypeOfWeaponForceInvolve.setTypeOfWeaponForceInvolved(0, "11");
 			Offense secondTypeOfWeaponForceInvolved = new Offense ();
 			secondTypeOfWeaponForceInvolved.setTypeOfWeaponForceInvolved(0,"99");
-				
-			
-			
-			
-			
-			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -540,13 +529,7 @@ public class RuleViolationExemplarFactory {
 				
 			});
 			
-			
-			
-			
-			
-			
-			
-			
+		
 			
 		groupATweakerMap.put(251, incident -> {
 			// (Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
@@ -630,7 +613,6 @@ public class RuleViolationExemplarFactory {
 			
 		
 		
-		
 		groupATweakerMap.put(257, incident -> {
 			// (Number of Premises Entered) Must be entered if offense code is 220 (Burglary) 
 			//and if Data Element 9 (Location Type) contains 14=Hotel/Motel/Etc. or 19=Rental Storage Facility.
@@ -669,13 +651,7 @@ public class RuleViolationExemplarFactory {
 					
 		});
 			
-			
-			
-		
-		
-		
-		
-		
+					
 			
 		groupATweakerMap.put(262, incident -> {
 			//When a Group A Incident Report is submitted, the individual segments
@@ -802,15 +778,13 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		
-		
-		
-		
+	
 		
 		
 		groupATweakerMap.put(266, incident -> {
 			//When a Justifiable Homicide is reported, no other offense may be
-			//reported in the Group �A� Incident Report. These should be submitted on another
-			//Group �A� Incident Report.
+			//reported in the Group A Incident Report. These should be submitted on another
+			//Group A Incident Report.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = incident.deepCopy();
 			Offense JustifiableHomicideOffense = new Offense();
@@ -858,7 +832,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = incident.deepCopy();
 			Offense thirdOffense = new Offense();
 			thirdOffense.setUcrOffenseCode("13B");
-			OffensesetTypeOfWeaponForceInvolved(0, "13");
+			thirdOffense.setTypeOfWeaponForceInvolved(0, "13");
 			GroupAIncidentReport copy4 = incident.deepCopy();
 			Offense fourthOffense = new Offense();
 			fourthOffense.setUcrOffenseCode("13B");
@@ -874,7 +848,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy5);
 			return incidents;
 		
-		
+		});
 		
 		
 		groupATweakerMap.put(270, incident -> {
@@ -906,14 +880,72 @@ public class RuleViolationExemplarFactory {
 			copy5.setIncidentDate(null);
 			GroupAIncidentReport copy6 = copy.deepCopy();
 			copy6.setExceptionalClearanceCode(null);
+			GroupAIncidentReport copy7 = copy.deepCopy();
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, null);
+			
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
+			incidents.add(copy7);
 			return incidents;
 		});
+		
+		
+		groupATweakerMap.put(304, incident -> {
+			//The referenced data element in a Group A Incident Report Segment 3 must 
+			//be populated with a valid data value.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			copy.setOri("1234567890123");
+			GroupAIncidentReport copy2 = copy.deepCopy();
+			copy2.setOri("ZZ123456789");
+			GroupAIncidentReport copy3 = copy.deepCopy();
+			copy3.setCityIndicator("ZZ12");
+			GroupAIncidentReport copy4 = copy.deepCopy();
+			Offense firstOffense = new Offense();
+			firstOffense.setUcrOffenseCode("XXX");
+			GroupAIncidentReport copy5 = copy.deepCopy();
+			Offense biasOffense = new Offense();
+			biasOffense.setBiasMotivation(0, "10");
+			GroupAIncidentReport copy6 = copy.deepCopy();
+			Offense offenseLocation = new Offense();
+			offenseLocation.setLocationType("99");
+			GroupAIncidentReport copy7 = copy.deepCopy();
+			Offense numberOfPremisesEntered = new Offense();
+			numberOfPremisesEntered.setNumberOfPremisesEntered(100);
+			GroupAIncidentReport copy8 = copy.deepCopy();
+			Offense methodOfEntry = new Offense();
+			methodOfEntry.setMethodOfEntry(null);
+			GroupAIncidentReport copy9 = copy.deepCopy();
+			Offense criminalActivity = new Offense();
+			criminalActivity.setTypeOfCriminalActivity(0, null);
+			GroupAIncidentReport copy10 = copy.deepCopy();
+			Offense weaponForceInvolved = new Offense();
+			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, "10");
+			GroupAIncidentReport copy11 = copy.deepCopy();
+			Offense automaticWeaponIndicator = new Offense();
+			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "B");
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			incidents.add(copy11);
+			return incidents;
+		});
+		
+		
+		
 		
 		groupATweakerMap.put(401, incident -> {
 			//The referenced data element in a Group A Incident Report
