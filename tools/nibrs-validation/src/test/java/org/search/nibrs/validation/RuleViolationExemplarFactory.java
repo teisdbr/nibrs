@@ -430,8 +430,22 @@ public class RuleViolationExemplarFactory {
 			firstBiasMotivationOffense.setBiasMotivation(0,"15");
 			Offense secondBiasMotivationOffense = new Offense ();
 			secondBiasMotivationOffense.setBiasMotivation(0, "88");
+			GroupAIncidentReport copy3 = incident.deepCopy();
+			Offense firstTypeOfCriminalActivity = new Offense();
+			firstTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "N");
+			Offense secondTypeOfCriminalActivity = new Offense ();
+			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"J");
+			
+			
+			
+			
+			
+			
+			
+			
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
 			return incidents;
 			
 		});
