@@ -425,13 +425,18 @@ public class RuleViolationExemplarFactory {
 			firstTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"J");
 			Offense secondTypeOfCriminalActivity = new Offense();
 			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"J");
-			
+			GroupAIncidentReport copy4 = incident.deepCopy();
+			Offense typeOfWeaponForceInvolved = new Offense();
+			typeOfWeaponForceInvolved.setTypeOfCriminalActivity(0,"11");
+			Offense secondtypeOfWeaponForceInvolved = new Offense();
+			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0,"11");
 			
 			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
+			incidents.add(copy4);
 			return incidents;
 			
 		});
