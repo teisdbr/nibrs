@@ -589,8 +589,7 @@ public class RuleViolationExemplarFactory {
 			incident.addOffense(offense);
 			incidents.add(copy);
 			return incidents;	
-		
-			
+					
 		});
 		
 		groupATweakerMap.put(254, incident -> {
@@ -604,11 +603,20 @@ public class RuleViolationExemplarFactory {
 			incident.addOffense(offense);
 			incidents.add(copy);
 			return incidents;	
-		
-			
+					
 		});
 		
-		
+		groupATweakerMap.put(255, incident -> {
+			//((Automatic Weapon Indicator) Must be A=Automatic or blank=Not Automatic
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Offense automaticWeaponIndicator = new Offense();
+			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "F");
+			incident.addOffense(automaticWeaponIndicator);
+			incidents.add(copy);
+			return incidents;	
+					
+		});
 		
 		
 		
