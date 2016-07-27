@@ -334,7 +334,9 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy12 = copy.deepCopy();
 			Offense weaponForceInvolved = new Offense();
 			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, null);
-			
+			GroupAIncidentReport copy13 = copy.deepCopy();
+			Offense automaticWeaponIndicator = new Offense();
+			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, null);
 			
 			
 			
