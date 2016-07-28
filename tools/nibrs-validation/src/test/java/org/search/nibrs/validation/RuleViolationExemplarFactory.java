@@ -916,20 +916,12 @@ public class RuleViolationExemplarFactory {
 			Offense offenseLocation = new Offense();
 			offenseLocation.setLocationType("99");
 			GroupAIncidentReport copy7 = copy.deepCopy();
-			Offense numberOfPremisesEntered = new Offense();
-			numberOfPremisesEntered.setNumberOfPremisesEntered(100);
-			GroupAIncidentReport copy8 = copy.deepCopy();
-			Offense methodOfEntry = new Offense();
-			methodOfEntry.setMethodOfEntry(null);
-			GroupAIncidentReport copy9 = copy.deepCopy();
-			Offense criminalActivity = new Offense();
-			criminalActivity.setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy10 = copy.deepCopy();
-			Offense weaponForceInvolved = new Offense();
-			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, "10");
-			GroupAIncidentReport copy11 = copy.deepCopy();
-			Offense automaticWeaponIndicator = new Offense();
-			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "B");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "9");
+			
+			
+			
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -937,10 +929,6 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy5);
 			incidents.add(copy6);
 			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
 			return incidents;
 		});
 		
