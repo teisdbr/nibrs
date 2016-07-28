@@ -881,8 +881,8 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy6 = copy.deepCopy();
 			copy6.setExceptionalClearanceCode(null);
 			GroupAIncidentReport copy7 = copy.deepCopy();
-			Property propertyDescription = new Property();
-			propertyDescription.setTypeOfPropertyLoss(0, null);
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss(null);
 			GroupAIncidentReport copy8 = copy.deepCopy();
 			Property propertyDescription = new Property();
 			propertyDescription.setPropertyDescription(0, null);
@@ -894,6 +894,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy5);
 			incidents.add(copy6);
 			incidents.add(copy7);
+			incidents.add(copy8);
 			return incidents;
 		});
 		
@@ -918,8 +919,8 @@ public class RuleViolationExemplarFactory {
 			Offense offenseLocation = new Offense();
 			offenseLocation.setLocationType("99");
 			GroupAIncidentReport copy7 = copy.deepCopy();
-			Property propertyDescription = new Property();
-			propertyDescription.setPropertyDescription(0, "9");
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("9");
 			
 			
 			
