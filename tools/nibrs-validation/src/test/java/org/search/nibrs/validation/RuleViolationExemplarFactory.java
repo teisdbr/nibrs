@@ -882,8 +882,10 @@ public class RuleViolationExemplarFactory {
 			copy6.setExceptionalClearanceCode(null);
 			GroupAIncidentReport copy7 = copy.deepCopy();
 			Property propertyDescription = new Property();
+			propertyDescription.setTypeOfPropertyLoss(0, null);
+			GroupAIncidentReport copy8 = copy.deepCopy();
+			Property propertyDescription = new Property();
 			propertyDescription.setPropertyDescription(0, null);
-			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
