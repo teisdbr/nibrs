@@ -950,6 +950,19 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		
+		groupATweakerMap.put(356, incident -> {
+			//(Property Description) was entered, but Data Elements 15 (Property Description) 
+			//and/or 16 (Property Value) were not entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, null);
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "01");
+		
+			incidents.add(copy);
+			return incidents;
+		});
 		
 		
 		
