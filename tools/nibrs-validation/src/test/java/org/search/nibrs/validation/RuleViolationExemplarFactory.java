@@ -921,8 +921,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy7 = copy.deepCopy();
 			Property typeOfPropertyLoss = new Property();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("9");
-			
-			
+					
 			
 			
 			incidents.add(copy);
@@ -934,6 +933,26 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy7);
 			return incidents;
 		});
+		
+		
+		groupATweakerMap.put(354, incident -> {
+			//(Property Description) Data Element 16 (Value of Property) contains a value, 
+			//but Data Element 15 (Property Description) was not entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = incident.deepCopy();
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, 500);
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, null);
+		
+			incidents.add(copy);
+			return incidents;
+		});
+		
+		
+		
+		
+		
 		
 		
 		
