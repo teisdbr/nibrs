@@ -1,18 +1,24 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
-
 /**
  * Representation of an Offender reported within an Incident in a NIBRS report.
  *
  */
-public class Offender extends Person implements Serializable
+public class Offender extends Person
 {
     
-	private static final long serialVersionUID = 871781322681376238L;
-	
 	private Integer offenderSequenceNumber;
     private boolean reportedUnknown;
+    
+    public Offender() {
+    	super();
+    }
+    
+    public Offender(Offender o) {
+    	super(o);
+    	offenderSequenceNumber = o.offenderSequenceNumber;
+    	reportedUnknown = o.reportedUnknown;
+    }
     
     public boolean getReportedUnknown() {
     	return reportedUnknown;
@@ -29,5 +35,24 @@ public class Offender extends Person implements Serializable
         	reportedUnknown = true;
         }
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((offenderSequenceNumber == null) ? 0 : offenderSequenceNumber.hashCode());
+		result = prime * result + (reportedUnknown ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return "Offender [" + super.toString() + ", offenderSequenceNumber=" + offenderSequenceNumber + ", reportedUnknown=" + reportedUnknown + "]";
+	}
     
 }

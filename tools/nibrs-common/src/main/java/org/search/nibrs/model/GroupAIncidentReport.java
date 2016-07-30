@@ -1,16 +1,23 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Representation of an individual Group A incident in a NIBRS submission.
  *
  */
-public class GroupAIncidentReport extends Report implements Serializable
+public class GroupAIncidentReport extends Report
 {
     
-	private static final long serialVersionUID = 3136534413958035709L;
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReport.class);
 	
 	private String incidentNumber;
     private Date incidentDate;
@@ -27,11 +34,28 @@ public class GroupAIncidentReport extends Report implements Serializable
 
 	public GroupAIncidentReport()
     {
+		super();
         removeOffenses();
         removeProperties();
         removeVictims();
         removeOffenders();
     }
+	
+	public GroupAIncidentReport(GroupAIncidentReport r) {
+		super(r);
+		this.incidentNumber = r.incidentNumber;
+		this.incidentDate = r.incidentDate;
+		this.reportDateIndicatorS = r.reportDateIndicatorS;
+		this.incidentHour = r.incidentHour;
+		this.exceptionalClearanceCode = r.exceptionalClearanceCode;
+		this.exceptionalClearanceDate = r.exceptionalClearanceDate;
+		this.cargoTheftIndicator = r.cargoTheftIndicator;
+		this.includesLeoka = r.includesLeoka;
+		offenseSegmentList = CopyUtils.copyList(r.offenseSegmentList);
+		propertySegmentList = CopyUtils.copyList(r.propertySegmentList);
+		victimSegmentList = CopyUtils.copyList(r.victimSegmentList);
+		offenderSegmentList = CopyUtils.copyList(r.offenderSegmentList);
+	}
 	
 	public Offender getOffenderForSequenceNumber(Integer sequenceNumber) {
 		Offender ret = null;
@@ -63,11 +87,7 @@ public class GroupAIncidentReport extends Report implements Serializable
     	return getOri() + "." + incidentNumber;
     }
     
-    public GroupAIncidentReport deepCopy() {
-    	return (GroupAIncidentReport) copyWithObjectStream(this);
-    }
-
-	public void removeOffender(int index) {
+    public void removeOffender(int index) {
 		offenderSegmentList.remove(index);
 	}
 
@@ -125,7 +145,7 @@ public class GroupAIncidentReport extends Report implements Serializable
     public List<Offense> getOffenses() {
     	return Collections.unmodifiableList(offenseSegmentList);
     }
-
+    
     public void addProperty(Property property)
     {
         propertySegmentList.add(property);
@@ -231,4 +251,55 @@ public class GroupAIncidentReport extends Report implements Serializable
     {
         this.reportDateIndicatorS = reportDateIndicator;
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((cargoTheftIndicator == null) ? 0 : cargoTheftIndicator.hashCode());
+		result = prime * result + ((exceptionalClearanceCode == null) ? 0 : exceptionalClearanceCode.hashCode());
+		result = prime * result + ((exceptionalClearanceDate == null) ? 0 : exceptionalClearanceDate.hashCode());
+		result = prime * result + ((incidentDate == null) ? 0 : incidentDate.hashCode());
+		result = prime * result + ((incidentHour == null) ? 0 : incidentHour.hashCode());
+		result = prime * result + ((incidentNumber == null) ? 0 : incidentNumber.hashCode());
+		result = prime * result + (includesLeoka ? 1231 : 1237);
+		result = prime * result + ((offenderSegmentList == null) ? 0 : offenderSegmentList.hashCode());
+		result = prime * result + ((offenseSegmentList == null) ? 0 : offenseSegmentList.hashCode());
+		result = prime * result + ((propertySegmentList == null) ? 0 : propertySegmentList.hashCode());
+		result = prime * result + ((reportDateIndicatorS == null) ? 0 : reportDateIndicatorS.hashCode());
+		result = prime * result + ((victimSegmentList == null) ? 0 : victimSegmentList.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer(1024);
+		sb.append("GroupAIncidentReport:\n");
+		sb.append(super.toString());
+		sb.append("[incidentNumber=" + incidentNumber + ", incidentDate=" + incidentDate + ", reportDateIndicatorS=" + reportDateIndicatorS + ", incidentHour=" + incidentHour
+				+ ", exceptionalClearanceCode=" + exceptionalClearanceCode + ", exceptionalClearanceDate=" + exceptionalClearanceDate + ", cargoTheftIndicator=" + cargoTheftIndicator + ", includesLeoka=" + includesLeoka);
+		sb.append("\n").append(offenseSegmentList.size() + " Offense Segments:\n");
+		for (Offense o : offenseSegmentList) {
+			sb.append("\t").append(o.toString()).append("\n");
+		}
+		sb.append("\n").append(offenderSegmentList.size() + " Offender Segments:\n");
+		for (Offender o : offenderSegmentList) {
+			sb.append("\t").append(o.toString()).append("\n");
+		}
+		sb.append("\n").append(propertySegmentList.size() + " Property Segments:\n");
+		for (Property p : propertySegmentList) {
+			sb.append("\t").append(p.toString()).append("\n");
+		}
+		sb.append("\n").append(victimSegmentList.size() + " Victim Segments:\n");
+		for (Victim v : victimSegmentList) {
+			sb.append("\t").append(v.toString()).append("\n");
+		}
+		
+		return sb.toString();
+	}
 }

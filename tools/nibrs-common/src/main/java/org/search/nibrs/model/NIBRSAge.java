@@ -1,7 +1,7 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 
 /**
@@ -9,15 +9,36 @@ import org.search.nibrs.common.NIBRSError;
  * integer value, or a range of integer values.  If the age is a single value, the min and max will be equal.
  *
  */
-public class NIBRSAge implements Serializable {
-
-	private static final long serialVersionUID = -5464715207325338661L;
+public class NIBRSAge {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(NIBRSAge.class);
 	
 	private Integer ageMin;
 	private Integer ageMax;
 	private String nonNumericAge;
 	private NIBRSError error;
-
+	private String ageString;
+	
+	public NIBRSAge() {
+	}
+	
+	public NIBRSAge(NIBRSAge a) {
+		this.ageMin = a.ageMin;
+		this.ageMax = a.ageMax;
+		this.nonNumericAge = a.nonNumericAge;
+		this.error = a.error == null ? null : new NIBRSError(a.error);
+		this.ageString = a.ageString;
+	}
+	
+	String getAgeString() {
+		return ageString;
+	}
+	
+	void setError(NIBRSError error) {
+		this.error = error;
+	}
+	
 	public void setAgeString(String ageString) {
 		if (ageString != null) {
 			String ageStringTrim = ageString.trim();
@@ -75,6 +96,26 @@ public class NIBRSAge implements Serializable {
 	
 	public boolean isAgeRange() {
 		return error == null && !isNonNumeric() && !ageMin.equals(ageMax);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ageString == null) ? 0 : ageString.hashCode());
+		//LOG.info("hashCode=" + result);
+		result = prime * result + ((error == null) ? 0 : error.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return isNonNumeric() ? getNonNumericAge() : (isAgeRange() ? ageMin + "-" + ageMax : ageMin.toString());
 	}
 
 }

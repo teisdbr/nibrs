@@ -5,15 +5,19 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.Offense;
+import org.search.nibrs.model.codes.LocationTypeCode;
+import org.search.nibrs.model.codes.OffenseCode;
 
 /**
  * Class that manages a set of "edits" to baseline incidents.  These edits create "exemplars" of NIBRS rules violations that can be used to
@@ -57,7 +61,7 @@ public class RuleViolationExemplarFactory {
 			/*First two positions must be the code of the state (e.g., SC, MD) in which the incident occurred.
 			 For non-federal participants, every record must have the same code.
 			*/
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.setOri("ZZ123456789");
 			return Collections.singletonList(ret);
 		});
@@ -67,17 +71,17 @@ public class RuleViolationExemplarFactory {
 			Segment 1 is mandatory & must be present.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setOri(null);
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -96,22 +100,22 @@ public class RuleViolationExemplarFactory {
 			Segment 1 must be valid.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(1054);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(14);
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setOri("WA1234");
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber("12345");
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentDate(Date.from(LocalDateTime.of(1054, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode("X");
-			GroupAIncidentReport copy7 = copy.deepCopy();
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
 			copy7.setCityIndicator("ZZ12");
 			//ReportDateIndicator should be set to "R" if unknown.
-			GroupAIncidentReport copy8 = copy.deepCopy();
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
 			copy8.setIncidentDate(null);
 			copy8.setReportDateIndicator("S");
 			incidents.add(copy);
@@ -133,10 +137,10 @@ public class RuleViolationExemplarFactory {
 			Also, the date cannot exceed the current date.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(0120);
 			copy.setMonthOfTape(5);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy.setYearOfTape(2016);
 			copy.setMonthOfTape(13);
 			incidents.add(copy);
@@ -149,7 +153,7 @@ public class RuleViolationExemplarFactory {
 			/*(Incident Number) Must be blank right-fill if under 12 characters in length. 
 			Cannot have embedded blanks between the first and last characters entered.
 			*/
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.setIncidentNumber("1234 5678");
 			return Collections.singletonList(ret);
 		});
@@ -158,7 +162,7 @@ public class RuleViolationExemplarFactory {
 			/*(Incident Number) must be left-justified with blank right-fill.
 			Since the number is less than 12 characters, it must begin in position 1.
 			 */
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.setIncidentNumber(" 12345678");
 			return Collections.singletonList(ret);
 		});
@@ -167,7 +171,7 @@ public class RuleViolationExemplarFactory {
 			/*(Incident Number) can only have character combinations of A through Z, 0 through 9,
 			hyphens, and/or blanks. For example, 89-123-SC is valid, but 89+123*SC is invalid.
 			 */
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.setIncidentNumber("89+123*SC");
 			return Collections.singletonList(ret);
 		});
@@ -177,9 +181,9 @@ public class RuleViolationExemplarFactory {
 			Data Element 6 (UCR Offense Code) contains a Cargo Theft-related offense.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setCargoTheftIndicator(true);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy.getOffenses().get(0).setUcrOffenseCode("13B");
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -191,7 +195,7 @@ public class RuleViolationExemplarFactory {
 		 	then the report date would be entered instead and must be indicated with an �R� in the Report
 		 	Indicator field within the Administrative Segment. The "R" in this case is invalid.
 			*/
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.setReportDateIndicator("R");
 			return Collections.singletonList(ret);
 		});
@@ -202,7 +206,7 @@ public class RuleViolationExemplarFactory {
 			If 00=Midnight is entered, be careful that the Incident Date is entered as if the time was
 			1 minute past midnight.
 			*/
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			return Collections.singletonList(ret);
 			});
@@ -213,31 +217,31 @@ public class RuleViolationExemplarFactory {
 			Segment 2 is mandatory & must be present.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setOri(null);
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
-			GroupAIncidentReport copy7 = copy.deepCopy();
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
 			Offense UcrOffense = new Offense();
 			UcrOffense.setUcrOffenseCode(null);
-			GroupAIncidentReport copy8 = copy.deepCopy();
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
 			Offense AttemptedOffense = new Offense();
 			AttemptedOffense.setOffenseAttemptedCompleted(null);
-			GroupAIncidentReport copy9 = copy.deepCopy();
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
 			Offense BiasOffense = new Offense();
 			BiasOffense.setBiasMotivation(0, null);
-			GroupAIncidentReport copy10 = copy.deepCopy();
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
 			Offense OffenderSuspectedOfUsing = new Offense();
 			OffenderSuspectedOfUsing.setOffendersSuspectedOfUsing(0, null);
-			GroupAIncidentReport copy11 = copy.deepCopy();
+			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
 			Offense OffenseLocation = new Offense();
 			OffenseLocation.setLocationType(null);
 			
@@ -261,20 +265,20 @@ public class RuleViolationExemplarFactory {
 			*/
 			//ORI first 2 characters need to be valid state code
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setOri("1234567890123");
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setOri("ZZ123456789");
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			Offense firstOffense = new Offense();
 			firstOffense.setUcrOffenseCode("XXX");
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			Offense BiasOffense = new Offense();
 			BiasOffense.setBiasMotivation(0, "10");
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			Offense OffenseLocation = new Offense();
 			OffenseLocation.setLocationType("99");
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			Offense NumberOfPremisesEntered = new Offense();
 			NumberOfPremisesEntered.setNumberOfPremisesEntered(100);
 			incidents.add(copy);
@@ -291,14 +295,14 @@ public class RuleViolationExemplarFactory {
 			 * data values. When more than one code is entered, none can be duplicate codes.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense firstOffendersSuspectedOfUsing = new Offense();
 			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
 			Offense secondOffendersSuspectedOfUsing = new Offense();
 			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
 			Offense thirdOffendersSuspectedOfUsing = new Offense();
 			thirdOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
-			GroupAIncidentReport copy2 = incident.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			Offense firstBiasMotivationOffense = new Offense();
 			firstBiasMotivationOffense.setBiasMotivation(0,"15");
 			Offense secondBiasMotivationOffense = new Offense ();
@@ -315,12 +319,12 @@ public class RuleViolationExemplarFactory {
 			// The referenced data element in error is one that contains multiple
 			// data values. However "N" is mutually exclusive with other codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense firstOffendersSuspectedOfUsing = new Offense();
 			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
 			Offense secondOffendersSuspectedOfUsing = new Offense();
 			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "N");
-			GroupAIncidentReport copy2 = incident.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			Offense firstBiasMotivationOffense = new Offense();
 			firstBiasMotivationOffense.setBiasMotivation(0,"15");
 			Offense secondBiasMotivationOffense = new Offense ();
@@ -333,24 +337,54 @@ public class RuleViolationExemplarFactory {
 			
 		groupATweakerMap.put(251, incident -> {
 			// (Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
 			return Collections.singletonList(ret);
 		});
 		
 			groupATweakerMap.put(252, incident -> {
+				
 				// When number of premises is entered location type must be 14 or 19
 				// and UCR Offense Code must be Burglary.
+				
 				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 				
-				// todo: implement this for real
+				Set<OffenseCode> offenseCodeSet = EnumSet.allOf(OffenseCode.class);
+				offenseCodeSet.remove(OffenseCode._220); // Burglary
 				
-				GroupAIncidentReport copy = incident.deepCopy();
-				Offense offense = new Offense();
-				offense.setNumberOfPremisesEntered(2);
-				offense.setLocationType("14");
-				incident.addOffense(offense);
-				incidents.add(copy);
+				Set<LocationTypeCode> locationTypeCodeSet = LocationTypeCode.asSet();
+				locationTypeCodeSet.remove(LocationTypeCode._14);
+				locationTypeCodeSet.remove(LocationTypeCode._19);
+				
+				for (OffenseCode oc : offenseCodeSet) {
+					for (LocationTypeCode ltc : locationTypeCodeSet) {
+						GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+						Offense offense = new Offense();
+						offense.setNumberOfPremisesEntered(2);
+						offense.setLocationType(ltc.code);
+						offense.setUcrOffenseCode(oc.code);
+						incident.addOffense(offense);
+						incidents.add(copy);
+					}
+					GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+					Offense offense = new Offense();
+					offense.setNumberOfPremisesEntered(2);
+					offense.setLocationType(LocationTypeCode._14.code);
+					offense.setUcrOffenseCode(oc.code);
+					incident.addOffense(offense);
+					incidents.add(copy);
+				}
+				
+				for (LocationTypeCode ltc : locationTypeCodeSet) {
+					GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+					Offense offense = new Offense();
+					offense.setNumberOfPremisesEntered(2);
+					offense.setLocationType(ltc.code);
+					offense.setUcrOffenseCode(OffenseCode._220.code);
+					incident.addOffense(offense);
+					incidents.add(copy);
+				}
+				
 				return incidents;	
 			
 			});
@@ -361,7 +395,7 @@ public class RuleViolationExemplarFactory {
 			/*Offense Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
 			 Assault.
 			*/
-			GroupAIncidentReport ret = incident.deepCopy();
+			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.getOffenses().get(0).setUcrOffenseCode("09A");
 			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
 			return Collections.singletonList(ret);
@@ -376,7 +410,7 @@ public class RuleViolationExemplarFactory {
 		 	offense in Data Element 6 (UCR Offense Code).
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense secondOffense = new Offense();
 			secondOffense.setUcrOffenseCode("13B");
 			copy.addOffense(secondOffense);
@@ -389,7 +423,7 @@ public class RuleViolationExemplarFactory {
 			10 offense codes are allowed for each incident.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense firstOffense = new Offense();
 			firstOffense.setUcrOffenseCode("13A");
 			Offense secondOffense = new Offense();
@@ -420,7 +454,7 @@ public class RuleViolationExemplarFactory {
 			/*Group A Offense code cannot contain a Group B Offense
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense firstOffense = new Offense();
 			firstOffense.setUcrOffenseCode("90A");
 			incidents.add(copy);
@@ -435,7 +469,7 @@ public class RuleViolationExemplarFactory {
 			Group �A� Incident Report.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense JustifiableHomicideOffense = new Offense();
 			JustifiableHomicideOffense.setUcrOffenseCode("09C");
 			Offense secondOffense = new Offense();
@@ -451,11 +485,11 @@ public class RuleViolationExemplarFactory {
 			cannot have 99=None. Some type of weapon/force must be used in a homicide offense.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense HomicideOffense = new Offense();
 			HomicideOffense.setUcrOffenseCode("09A");
 			HomicideOffense.setTypeOfWeaponForceInvolved(0, null);
-			GroupAIncidentReport copy2 = incident.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			Offense HomicideOffense2 = new Offense();
 			HomicideOffense2.setUcrOffenseCode("09A");
 			HomicideOffense2.setTypeOfWeaponForceInvolved(0, "99");
@@ -469,7 +503,7 @@ public class RuleViolationExemplarFactory {
 			/*If a justifiable homicide offense is submitted, Data Element 8A (Bias motivation) must be 88.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense JustifiableHomicideOffense = new Offense();
 			JustifiableHomicideOffense.setUcrOffenseCode("09C");
 			JustifiableHomicideOffense.setBiasMotivation(0, "11");
@@ -484,17 +518,17 @@ public class RuleViolationExemplarFactory {
 			Segment 3 is mandatory & must be present.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setOri(null);
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -510,17 +544,17 @@ public class RuleViolationExemplarFactory {
 			Segment 4 is mandatory & must be present.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setOri(null);
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -536,17 +570,17 @@ public class RuleViolationExemplarFactory {
 			Segment 5 is mandatory & must be present.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setOri(null);
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -562,17 +596,17 @@ public class RuleViolationExemplarFactory {
 			Segment 6 is mandatory & must be present.
 			*/
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = incident.deepCopy();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = copy.deepCopy();
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = copy.deepCopy();
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setOri(null);
-			GroupAIncidentReport copy4 = copy.deepCopy();
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = copy.deepCopy();
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = copy.deepCopy();
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
 			incidents.add(copy);
 			incidents.add(copy2);

@@ -1,15 +1,48 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public abstract class Person implements Serializable {
+/**
+ * Abstract class of objects that represent People in NIBRS (offenders, victims, and arrestees).
+ *
+ */
+public abstract class Person {
 
-	private static final long serialVersionUID = -6892593914779656925L;
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(Person.class);
 	
 	private NIBRSAge age;
 	private String sex;
 	private String race;
 	private String ethnicity;
+
+	public Person() {
+	}
+	
+	public Person(Person p) {
+		this();
+		age = p.age ==  null ? null : new NIBRSAge(p.age);
+		sex = p.sex;
+		race = p.race;
+		ethnicity = p.ethnicity;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((age == null) ? 0 : age.hashCode());
+		result = prime * result + ((ethnicity == null) ? 0 : ethnicity.hashCode());
+		result = prime * result + ((race == null) ? 0 : race.hashCode());
+		result = prime * result + ((sex == null) ? 0 : sex.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
 
 	public NIBRSAge getAge() {
 	    return age;
@@ -42,6 +75,11 @@ public abstract class Person implements Serializable {
 
 	public void setSex(String sex) {
 	    this.sex = sex;
+	}
+
+	@Override
+	public String toString() {
+		return "age=" + age + ", sex=" + sex + ", race=" + race + ", ethnicity=" + ethnicity;
 	}
 
 }

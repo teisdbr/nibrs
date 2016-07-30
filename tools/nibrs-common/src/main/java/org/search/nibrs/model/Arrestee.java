@@ -1,16 +1,20 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Representation of an Arrestee reported within an Incident in a NIBRS report.
  *
  */
-public class Arrestee extends Person implements Serializable
+public class Arrestee extends Person
 {
     
-	private static final long serialVersionUID = 7160255436781736744L;
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(Arrestee.class);
 	
 	private Integer arresteeSequenceNumber;
     private String arrestTransactionNumber;
@@ -29,7 +33,43 @@ public class Arrestee extends Person implements Serializable
         automaticWeaponIndicator = new String[2];
     }
     
-    public String getAutomaticWeaponIndicator(int position)
+    public Arrestee(Arrestee a) {
+    	super(a);
+    	this.arresteeSequenceNumber = a.arresteeSequenceNumber;
+    	this.arrestTransactionNumber = a.arrestTransactionNumber;
+    	this.arrestDate = a.arrestDate;
+    	this.typeOfArrest = a.typeOfArrest;
+    	this.multipleArresteeSegmentsIndicator = a.multipleArresteeSegmentsIndicator;
+    	this.ucrArrestOffenseCode = a.ucrArrestOffenseCode;
+    	this.residentStatusOfArrestee = a.residentStatusOfArrestee;
+    	this.dispositionOfArresteeUnder18 = a.dispositionOfArresteeUnder18;
+    	this.arresteeArmedWith = CopyUtils.copyArray(a.arresteeArmedWith);
+    	this.automaticWeaponIndicator = CopyUtils.copyArray(a.automaticWeaponIndicator);
+    }
+    
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((arrestDate == null) ? 0 : arrestDate.hashCode());
+		result = prime * result + ((arrestTransactionNumber == null) ? 0 : arrestTransactionNumber.hashCode());
+		result = prime * result + Arrays.hashCode(arresteeArmedWith);
+		result = prime * result + ((arresteeSequenceNumber == null) ? 0 : arresteeSequenceNumber.hashCode());
+		result = prime * result + Arrays.hashCode(automaticWeaponIndicator);
+		result = prime * result + ((dispositionOfArresteeUnder18 == null) ? 0 : dispositionOfArresteeUnder18.hashCode());
+		result = prime * result + ((multipleArresteeSegmentsIndicator == null) ? 0 : multipleArresteeSegmentsIndicator.hashCode());
+		result = prime * result + ((residentStatusOfArrestee == null) ? 0 : residentStatusOfArrestee.hashCode());
+		result = prime * result + ((typeOfArrest == null) ? 0 : typeOfArrest.hashCode());
+		result = prime * result + ((ucrArrestOffenseCode == null) ? 0 : ucrArrestOffenseCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
+
+	public String getAutomaticWeaponIndicator(int position)
     {
         return automaticWeaponIndicator[position];
     }

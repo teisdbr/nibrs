@@ -1,17 +1,15 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Representation of a Victim reported within an Incident in a NIBRS report.  Note that we extend Person even though some types of victims are not people
  * (e.g., Business)...since NIBRS represents them all with the same data structure.
  *
  */
-public class Victim extends Person implements Serializable
+public class Victim extends Person
 {
     
-	private static final long serialVersionUID = -1133037294039133967L;
-	
 	private Integer victimSequenceNumber;
     private String[] ucrOffenseCodeConnection;
     private String typeOfVictim;
@@ -28,6 +26,37 @@ public class Victim extends Person implements Serializable
     private int populatedTypeOfInjuryCount;
     private int populatedUcrOffenseCodeConnectionCount;
     private int populatedOffenderNumberRelatedCount;
+    
+	public Victim()
+    {
+		super();
+        ucrOffenseCodeConnection = new String[10];
+        aggravatedAssaultHomicideCircumstances = new String[2];
+        typeOfInjury = new String[5];
+        offenderNumberRelated = new Integer[10];
+        victimOffenderRelationship = new String[10];
+    }
+    
+    public Victim(Victim v) {
+    	super(v);
+    	victimSequenceNumber = v.victimSequenceNumber;
+    	typeOfVictim = v.typeOfVictim;
+    	residentStatusOfVictim = v.residentStatusOfVictim;
+    	additionalJustifiableHomicideCircumstances = v.additionalJustifiableHomicideCircumstances;
+    	typeOfOfficerActivityCircumstance = v.typeOfOfficerActivityCircumstance;
+    	officerAssignmentType = v.officerAssignmentType;
+    	officerOtherJurisdictionORI = v.officerOtherJurisdictionORI;
+    	populatedAggravatedAssaultHomicideCircumstancesCount = v.populatedAggravatedAssaultHomicideCircumstancesCount;
+    	populatedTypeOfInjuryCount = v.populatedTypeOfInjuryCount;
+    	populatedUcrOffenseCodeConnectionCount = v.populatedUcrOffenseCodeConnectionCount;
+    	populatedOffenderNumberRelatedCount = v.populatedOffenderNumberRelatedCount;
+    	ucrOffenseCodeConnection = CopyUtils.copyArray(v.ucrOffenseCodeConnection);
+    	aggravatedAssaultHomicideCircumstances = CopyUtils.copyArray(v.aggravatedAssaultHomicideCircumstances);
+    	typeOfInjury = CopyUtils.copyArray(v.typeOfInjury);
+    	offenderNumberRelated = CopyUtils.copyArray(v.offenderNumberRelated);
+    	victimOffenderRelationship = CopyUtils.copyArray(v.victimOffenderRelationship);
+    	
+    }
 
     public String getTypeOfOfficerActivityCircumstance() {
 		return typeOfOfficerActivityCircumstance;
@@ -53,15 +82,6 @@ public class Victim extends Person implements Serializable
 		this.officerOtherJurisdictionORI = officerOtherJurisdictionORI;
 	}
 
-	public Victim()
-    {
-        ucrOffenseCodeConnection = new String[10];
-        aggravatedAssaultHomicideCircumstances = new String[2];
-        typeOfInjury = new String[5];
-        offenderNumberRelated = new Integer[10];
-        victimOffenderRelationship = new String[10];
-    }
-    
     public String getVictimOffenderRelationship(int position)
     {
         return victimOffenderRelationship[position];
@@ -176,6 +196,45 @@ public class Victim extends Person implements Serializable
 	
 	public boolean isLawEnforcementOfficer() {
 		return "L".equals(typeOfVictim);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((additionalJustifiableHomicideCircumstances == null) ? 0 : additionalJustifiableHomicideCircumstances.hashCode());
+		result = prime * result + Arrays.hashCode(aggravatedAssaultHomicideCircumstances);
+		result = prime * result + Arrays.hashCode(offenderNumberRelated);
+		result = prime * result + ((officerAssignmentType == null) ? 0 : officerAssignmentType.hashCode());
+		result = prime * result + ((officerOtherJurisdictionORI == null) ? 0 : officerOtherJurisdictionORI.hashCode());
+		result = prime * result + populatedAggravatedAssaultHomicideCircumstancesCount;
+		result = prime * result + populatedOffenderNumberRelatedCount;
+		result = prime * result + populatedTypeOfInjuryCount;
+		result = prime * result + populatedUcrOffenseCodeConnectionCount;
+		result = prime * result + ((residentStatusOfVictim == null) ? 0 : residentStatusOfVictim.hashCode());
+		result = prime * result + Arrays.hashCode(typeOfInjury);
+		result = prime * result + ((typeOfOfficerActivityCircumstance == null) ? 0 : typeOfOfficerActivityCircumstance.hashCode());
+		result = prime * result + ((typeOfVictim == null) ? 0 : typeOfVictim.hashCode());
+		result = prime * result + Arrays.hashCode(ucrOffenseCodeConnection);
+		result = prime * result + Arrays.hashCode(victimOffenderRelationship);
+		result = prime * result + ((victimSequenceNumber == null) ? 0 : victimSequenceNumber.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return "Victim [victimSequenceNumber=" + victimSequenceNumber + ", ucrOffenseCodeConnection=" + Arrays.toString(ucrOffenseCodeConnection) + ", typeOfVictim=" + typeOfVictim
+				+ ", residentStatusOfVictim=" + residentStatusOfVictim + ", aggravatedAssaultHomicideCircumstances=" + Arrays.toString(aggravatedAssaultHomicideCircumstances)
+				+ ", additionalJustifiableHomicideCircumstances=" + additionalJustifiableHomicideCircumstances + ", typeOfInjury=" + Arrays.toString(typeOfInjury) + ", offenderNumberRelated="
+				+ Arrays.toString(offenderNumberRelated) + ", victimOffenderRelationship=" + Arrays.toString(victimOffenderRelationship) + ", typeOfOfficerActivityCircumstance="
+				+ typeOfOfficerActivityCircumstance + ", officerAssignmentType=" + officerAssignmentType + ", officerOtherJurisdictionORI=" + officerOtherJurisdictionORI
+				+ ", populatedAggravatedAssaultHomicideCircumstancesCount=" + populatedAggravatedAssaultHomicideCircumstancesCount + ", populatedTypeOfInjuryCount=" + populatedTypeOfInjuryCount
+				+ ", populatedUcrOffenseCodeConnectionCount=" + populatedUcrOffenseCodeConnectionCount + ", populatedOffenderNumberRelatedCount=" + populatedOffenderNumberRelatedCount + "]";
 	}
 
 }

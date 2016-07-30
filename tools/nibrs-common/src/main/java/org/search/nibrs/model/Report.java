@@ -1,19 +1,21 @@
 package org.search.nibrs.model;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Report implements Serializable {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-	private static final long serialVersionUID = -8095472158829269035L;
+/**
+ * Abstract class of objects representing types of "reports" in NIBRS...  Group A incident reports, Group B arrest reports, and Zero Reports.
+ *
+ */
+public abstract class Report {
+
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(Report.class);
 
 	private Integer monthOfTape;
 	private Integer yearOfTape;
@@ -26,6 +28,17 @@ public abstract class Report implements Serializable {
 	
 	public Report() {
 		removeArrestees();
+	}
+	
+	public Report(Report r) {
+		this.monthOfTape = r.monthOfTape;
+		this.yearOfTape = r.yearOfTape;
+		this.cityIndicator = r.cityIndicator;
+		this.ori = r.ori;
+		this.adminSegmentLevel = r.adminSegmentLevel;
+		this.reportActionType = r.reportActionType;
+		this.hasUpstreamErrors = r.hasUpstreamErrors;
+		arresteeSegmentList = CopyUtils.copyList(r.arresteeSegmentList);
 	}
 	
 	public abstract String getUniqueReportDescription();
@@ -103,23 +116,36 @@ public abstract class Report implements Serializable {
 	public List<Arrestee> getArrestees() {
 		return Collections.unmodifiableList(arresteeSegmentList);
 	}
-	protected static final Report copyWithObjectStream(Report report) {
-		Report ret = null;
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(report);
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			ret = (Report) ois.readObject();
-		} catch (IOException ioe) {
-			// this should never really happen
-			throw new RuntimeException(ioe);
-		} catch (ClassNotFoundException cnfe) {
-			// this should never really happen
-			throw new RuntimeException(cnfe);
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer("[monthOfTape=" + monthOfTape + ", yearOfTape=" + yearOfTape + ", cityIndicator=" + cityIndicator + ", ori=" + ori + ", adminSegmentLevel=" + adminSegmentLevel
+				+ ", reportActionType=" + reportActionType + ", hasUpstreamErrors=" + hasUpstreamErrors + "]");
+		sb.append("\n").append(arresteeSegmentList.size() + " Arrestee Segments:\n");
+		for (Arrestee a : arresteeSegmentList) {
+			sb.append("\t").append(a.toString()).append("\n");
 		}
-		return ret;
+		return sb.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + adminSegmentLevel;
+		result = prime * result + ((arresteeSegmentList == null) ? 0 : arresteeSegmentList.hashCode());
+		result = prime * result + ((cityIndicator == null) ? 0 : cityIndicator.hashCode());
+		result = prime * result + (hasUpstreamErrors ? 1231 : 1237);
+		result = prime * result + ((monthOfTape == null) ? 0 : monthOfTape.hashCode());
+		result = prime * result + ((ori == null) ? 0 : ori.hashCode());
+		result = prime * result + reportActionType;
+		result = prime * result + ((yearOfTape == null) ? 0 : yearOfTape.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
 	}
 	
 }

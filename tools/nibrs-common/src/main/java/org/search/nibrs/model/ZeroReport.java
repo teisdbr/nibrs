@@ -1,14 +1,27 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
-
 /**
- * Representation of an individual "Zero Report" in a NIBRS submission.
+ * Representation of an individual "Zero Report" in a NIBRS submission.  A zero report is submitted by an agency to signify that no crime occurred in that month in that agency.
  *
  */
-public class ZeroReport extends Report implements Serializable {
+public class ZeroReport extends Report {
 
-	private static final long serialVersionUID = 6435774702233555489L;
+	public ZeroReport() {
+	}
+	
+	public ZeroReport(ZeroReport z) {
+		super(z);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return o != null && o.hashCode() == hashCode();
+	}
+	
+	@Override
+	public int hashCode() {
+		return 31*super.hashCode() + getClass().getName().hashCode();
+	}
 
 	@Override
 	public String getUniqueReportDescription() {

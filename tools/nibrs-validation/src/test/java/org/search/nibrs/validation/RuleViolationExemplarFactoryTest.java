@@ -1,6 +1,8 @@
 package org.search.nibrs.validation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.Report;
 import org.search.nibrs.xml.XmlUtils;
@@ -40,6 +43,13 @@ public class RuleViolationExemplarFactoryTest {
 		//XmlUtils.printNode(d, System.out);
 		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report/j:Offense[nibrs:OffenseUCRCode='13A']"));
 		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report/j:Offense[nibrs:OffenseUCRCode='13B']"));
+	}
+	
+	@Test
+	public void testOffenseLocationViolationExemplars() throws Exception {
+		RuleViolationExemplarFactory exemplarFactory = RuleViolationExemplarFactory.getInstance();
+		List<GroupAIncidentReport> incidents = exemplarFactory.getGroupAIncidentsThatViolateRule(252);
+		assertEquals(2789, incidents.size());
 	}
 
 }

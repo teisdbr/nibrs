@@ -1,17 +1,15 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Representation of an article of property reported within an Incident in a NIBRS report.
  *
  */
-public class Property implements Serializable
+public class Property
 {
     
-	private static final long serialVersionUID = -6949610444314905319L;
-	
 	private String typeOfPropertyLoss;
     private String[] propertyDescription;
     private Integer[] valueOfProperty;
@@ -32,6 +30,21 @@ public class Property implements Serializable
         suspectedDrugType = new String[3];
         estimatedDrugQuantity = new Double[3];
         typeDrugMeasurement = new String[3];
+    }
+    
+    public Property(Property p) {
+    	this();
+    	typeOfPropertyLoss = p.typeOfPropertyLoss;
+    	numberOfRecoveredMotorVehicles = p.numberOfRecoveredMotorVehicles;
+    	numberOfStolenMotorVehicles = p.numberOfStolenMotorVehicles;
+    	populatedPropertyDescriptionCount = p.populatedPropertyDescriptionCount;
+    	populatedSuspectedDrugTypeCount = p.populatedSuspectedDrugTypeCount;
+    	propertyDescription = CopyUtils.copyArray(p.propertyDescription);
+    	valueOfProperty = CopyUtils.copyArray(p.valueOfProperty);
+    	dateRecovered = CopyUtils.copyArray(p.dateRecovered);
+    	suspectedDrugType = CopyUtils.copyArray(p.suspectedDrugType);
+    	estimatedDrugQuantity = CopyUtils.copyArray(p.estimatedDrugQuantity);
+    	typeDrugMeasurement = CopyUtils.copyArray(p.typeDrugMeasurement);
     }
     
     public int getPopulatedSuspectedDrugTypeCount() {
@@ -143,5 +156,37 @@ public class Property implements Serializable
     {
         return NIBRSRules.drugMeasurementIsNotReported(getTypeDrugMeasurement(position));
     }
+
+	@Override
+	public String toString() {
+		return "Property [typeOfPropertyLoss=" + typeOfPropertyLoss + ", propertyDescription=" + Arrays.toString(propertyDescription) + ", valueOfProperty=" + Arrays.toString(valueOfProperty)
+				+ ", dateRecovered=" + Arrays.toString(dateRecovered) + ", numberOfStolenMotorVehicles=" + numberOfStolenMotorVehicles + ", numberOfRecoveredMotorVehicles="
+				+ numberOfRecoveredMotorVehicles + ", suspectedDrugType=" + Arrays.toString(suspectedDrugType) + ", estimatedDrugQuantity=" + Arrays.toString(estimatedDrugQuantity)
+				+ ", typeDrugMeasurement=" + Arrays.toString(typeDrugMeasurement) + ", populatedPropertyDescriptionCount=" + populatedPropertyDescriptionCount + ", populatedSuspectedDrugTypeCount="
+				+ populatedSuspectedDrugTypeCount + "]";
+	}
     
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(dateRecovered);
+		result = prime * result + Arrays.hashCode(estimatedDrugQuantity);
+		result = prime * result + ((numberOfRecoveredMotorVehicles == null) ? 0 : numberOfRecoveredMotorVehicles.hashCode());
+		result = prime * result + ((numberOfStolenMotorVehicles == null) ? 0 : numberOfStolenMotorVehicles.hashCode());
+		result = prime * result + populatedPropertyDescriptionCount;
+		result = prime * result + populatedSuspectedDrugTypeCount;
+		result = prime * result + Arrays.hashCode(propertyDescription);
+		result = prime * result + Arrays.hashCode(suspectedDrugType);
+		result = prime * result + Arrays.hashCode(typeDrugMeasurement);
+		result = prime * result + ((typeOfPropertyLoss == null) ? 0 : typeOfPropertyLoss.hashCode());
+		result = prime * result + Arrays.hashCode(valueOfProperty);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
+
 }

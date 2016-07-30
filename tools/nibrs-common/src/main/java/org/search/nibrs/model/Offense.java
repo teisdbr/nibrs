@@ -1,16 +1,14 @@
 package org.search.nibrs.model;
 
-import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Representation of an Offense reported within an Incident in a NIBRS report.
  *  
  */
-public class Offense implements Serializable
+public class Offense
 {
 
-	private static final long serialVersionUID = -313348054514046667L;
-	
 	private String ucrOffenseCode;
     private String offenseAttemptedCompleted;
     private String[] offendersSuspectedOfUsing;
@@ -33,6 +31,24 @@ public class Offense implements Serializable
         typeOfWeaponForceInvolved = new String[3];
         automaticWeaponIndicator = new String[3];
         biasMotivation = new String[5];
+    }
+    
+    public Offense(Offense o) {
+    	this();
+    	this.ucrOffenseCode = o.ucrOffenseCode;
+    	this.offenseAttemptedCompleted = o.offenseAttemptedCompleted;
+    	this.locationType = o.locationType;
+    	this.numberOfPremisesEntered = o.numberOfPremisesEntered;
+    	this.methodOfEntry = o.methodOfEntry;
+    	this.populatedBiasMotivationCount = o.populatedBiasMotivationCount;
+    	this.populatedTypeOfWeaponForceInvolvedCount = o.populatedTypeOfWeaponForceInvolvedCount;
+    	this.populatedTypeOfCriminalActivityCount = o.populatedTypeOfCriminalActivityCount;
+    	this.populatedOffendersSuspectedOfUsingCount = o.populatedOffendersSuspectedOfUsingCount;
+    	offendersSuspectedOfUsing = CopyUtils.copyArray(o.offendersSuspectedOfUsing);
+    	typeOfCriminalActivity = CopyUtils.copyArray(o.typeOfCriminalActivity);
+    	typeOfWeaponForceInvolved = CopyUtils.copyArray(o.typeOfWeaponForceInvolved);
+    	automaticWeaponIndicator = CopyUtils.copyArray(o.automaticWeaponIndicator);
+    	biasMotivation = CopyUtils.copyArray(o.biasMotivation);
     }
     
     public int getPopulatedOffendersSuspectedOfUsingCount() {
@@ -168,4 +184,41 @@ public class Offense implements Serializable
     {
         return NIBRSRules.weaponForceTypeCodeIsWeapon(getTypeOfWeaponForceInvolved(position));
     }
+    
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(automaticWeaponIndicator);
+		result = prime * result + Arrays.hashCode(biasMotivation);
+		result = prime * result + ((locationType == null) ? 0 : locationType.hashCode());
+		result = prime * result + ((methodOfEntry == null) ? 0 : methodOfEntry.hashCode());
+		result = prime * result + ((numberOfPremisesEntered == null) ? 0 : numberOfPremisesEntered.hashCode());
+		result = prime * result + Arrays.hashCode(offendersSuspectedOfUsing);
+		result = prime * result + ((offenseAttemptedCompleted == null) ? 0 : offenseAttemptedCompleted.hashCode());
+		result = prime * result + populatedBiasMotivationCount;
+		result = prime * result + populatedOffendersSuspectedOfUsingCount;
+		result = prime * result + populatedTypeOfCriminalActivityCount;
+		result = prime * result + populatedTypeOfWeaponForceInvolvedCount;
+		result = prime * result + Arrays.hashCode(typeOfCriminalActivity);
+		result = prime * result + Arrays.hashCode(typeOfWeaponForceInvolved);
+		result = prime * result + ((ucrOffenseCode == null) ? 0 : ucrOffenseCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj.hashCode() == hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return "Offense [ucrOffenseCode=" + ucrOffenseCode + ", offenseAttemptedCompleted=" + offenseAttemptedCompleted + ", offendersSuspectedOfUsing=" + Arrays.toString(offendersSuspectedOfUsing)
+				+ ", locationType=" + locationType + ", numberOfPremisesEntered=" + numberOfPremisesEntered + ", methodOfEntry=" + methodOfEntry + ", typeOfCriminalActivity="
+				+ Arrays.toString(typeOfCriminalActivity) + ", typeOfWeaponForceInvolved=" + Arrays.toString(typeOfWeaponForceInvolved) + ", automaticWeaponIndicator="
+				+ Arrays.toString(automaticWeaponIndicator) + ", biasMotivation=" + Arrays.toString(biasMotivation) + ", populatedBiasMotivationCount=" + populatedBiasMotivationCount
+				+ ", populatedTypeOfWeaponForceInvolvedCount=" + populatedTypeOfWeaponForceInvolvedCount + ", populatedTypeOfCriminalActivityCount=" + populatedTypeOfCriminalActivityCount
+				+ ", populatedOffendersSuspectedOfUsingCount=" + populatedOffendersSuspectedOfUsingCount + "]";
+	}
+
 }
