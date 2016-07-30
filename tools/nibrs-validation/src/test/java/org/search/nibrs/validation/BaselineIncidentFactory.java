@@ -32,6 +32,7 @@ final class BaselineIncidentFactory {
 		incident.setIncidentNumber("54236732");
 		incident.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 		incident.setExceptionalClearanceCode("A");
+		incident.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 		incident.setCityIndicator("GAA7");
 		incident.setReportDateIndicator(null);		
 		Offense o = new Offense();
@@ -39,12 +40,14 @@ final class BaselineIncidentFactory {
 		o = new Offense();
 		incident.addOffense(o);
 		o.setUcrOffenseCode("13A");
+		o.setTypeOfCriminalActivity(0, "J");
 		o.setOffenseAttemptedCompleted("C");
 		o.setTypeOfWeaponForceInvolved(0, "99");
 		o.setOffendersSuspectedOfUsing(0, "N");
 		o.setBiasMotivation(0, "15");
 		o.setLocationType("15");
 		o.setNumberOfPremisesEntered(null);
+		o.setAutomaticWeaponIndicator(0, " ");
 		
 		Victim v = new Victim();
 		incident.addVictim(v);
