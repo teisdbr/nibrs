@@ -1112,9 +1112,8 @@ public class RuleViolationExemplarFactory {
 			offense14.setUcrOffenseCode("240");
 			Property propertyDescription14 = new Property();
 			propertyDescription14.setPropertyDescription(0, "35");
-			//Property descriptions for large items are illogical with 23A=Larceny/Pocket-Picking 
-			//and 23B=Larceny/Purse-Snatching
-			//Aircraft
+			//Property descriptions for items that would not fit in a purse or pocket (aircraft, vehicles, structures, 
+			//a person’s identity, watercraft, etc.) are illogical with 23A=Pocket-picking or 23B=Purse-snatching
 			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
 			Offense offense15 = new Offense();
 			offense15.setUcrOffenseCode("23A");
@@ -1312,8 +1311,8 @@ public class RuleViolationExemplarFactory {
 			offense50.setUcrOffenseCode("23B");
 			Property propertyDescription50 = new Property();
 			propertyDescription50.setPropertyDescription(0, "39");
-			//Property descriptions for large items are illogical with 23C=Larceny/Shoplifting
-			//Aircraft
+			//Property descriptions that cannot be shoplifted due to other UCR definitions 
+			//(aircraft, vehicles, structures, a person’s identity, watercraft, etc.) are illogical with 23C=Shoplifting
 			GroupAIncidentReport copy51 = new GroupAIncidentReport(incident);
 			Offense offense51 = new Offense();
 			offense51.setUcrOffenseCode("23C");
@@ -1415,10 +1414,30 @@ public class RuleViolationExemplarFactory {
 			offense67.setUcrOffenseCode("23C");
 			Property propertyDescription67 = new Property();
 			propertyDescription67.setPropertyDescription(0, "39");
-			
-			
-			
-			
+			//Property descriptions for vehicles and structures are illogical with 23D=Theft from Building, 
+			//23E=Theft from Coin-Operated Machine or Device, 23F=Theft from Motor Vehicle, and 
+			//23G=Theft of Motor Vehicle Parts or Accessories
+			//Automobiles
+			GroupAIncidentReport copy68 = new GroupAIncidentReport(incident);
+			Offense offense68 = new Offense();
+			offense68.setUcrOffenseCode("23D");
+			Property propertyDescription68 = new Property();
+			propertyDescription68.setPropertyDescription(0, "03");
+			GroupAIncidentReport copy69 = new GroupAIncidentReport(incident);
+			Offense offense69 = new Offense();
+			offense69.setUcrOffenseCode("23E");
+			Property propertyDescription69 = new Property();
+			propertyDescription50.setPropertyDescription(0, "03");
+			GroupAIncidentReport copy70 = new GroupAIncidentReport(incident);
+			Offense offense70 = new Offense();
+			offense70.setUcrOffenseCode("23F");
+			Property propertyDescription70 = new Property();
+			propertyDescription70.setPropertyDescription(0, "03");
+			GroupAIncidentReport copy71 = new GroupAIncidentReport(incident);
+			Offense offense71 = new Offense();
+			offense71.setUcrOffenseCode("23F");
+			Property propertyDescription71 = new Property();
+			propertyDescription71.setPropertyDescription(0, "03");
 			
 			
 			
