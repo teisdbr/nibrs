@@ -981,7 +981,24 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
-		
+		groupATweakerMap.put(375, incident -> {
+			// (Property Description) At least one Data Element 15 (Property Description) code must
+			//be entered when Data Element 14 (Type Property Loss/Etc.) contains Property Segment(s) for:
+			//		2=Burned
+			//		3=Counterfeited/Forged
+			//		4=Destroyed/Damaged/Vandalized
+			//		5=Recovered
+			//		6=Seized
+			//		7=Stolen/Etc.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, null);
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
+			incidents.add(copy);
+			return incidents;
+		});
 		
 		groupATweakerMap.put(401, incident -> {
 			// The referenced data element in a Group A Incident Report
