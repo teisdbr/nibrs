@@ -1000,6 +1000,109 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(390, incident -> {
+			// (Property Description) must contain a data value that is logical for one or more of the offenses 
+			//entered in Data Element 6 (UCR Offense Code).
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//Property descriptions for structures are illogical with 220=Burglary/Breaking 
+			//& Entering or 240=Motor Vehicle Theft
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Offense offense1 = new Offense();
+			offense1.setUcrOffenseCode("220");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "29");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Offense offense2 = new Offense();
+			offense2.setUcrOffenseCode("240");
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "29");
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Offense offense3 = new Offense();
+			offense3.setUcrOffenseCode("220");
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, "30");
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			Offense offense4 = new Offense();
+			offense4.setUcrOffenseCode("240");
+			Property propertyDescription4 = new Property();
+			propertyDescription4.setPropertyDescription(0, "30");
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			Offense offense5 = new Offense();
+			offense5.setUcrOffenseCode("220");
+			Property propertyDescription5 = new Property();
+			propertyDescription5.setPropertyDescription(0, "31");
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
+			Offense offense6 = new Offense();
+			offense6.setUcrOffenseCode("240");
+			Property propertyDescription6 = new Property();
+			propertyDescription6.setPropertyDescription(0, "31");
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
+			Offense offense7 = new Offense();
+			offense7.setUcrOffenseCode("220");
+			Property propertyDescription7 = new Property();
+			propertyDescription7.setPropertyDescription(0, "32");
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
+			Offense offense8 = new Offense();
+			offense8.setUcrOffenseCode("240");
+			Property propertyDescription8 = new Property();
+			propertyDescription8.setPropertyDescription(0, "32");
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
+			Offense offense9 = new Offense();
+			offense9.setUcrOffenseCode("220");
+			Property propertyDescription9 = new Property();
+			propertyDescription9.setPropertyDescription(0, "33");
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
+			Offense offense10 = new Offense();
+			offense10.setUcrOffenseCode("240");
+			Property propertyDescription10 = new Property();
+			propertyDescription10.setPropertyDescription(0, "33");
+			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
+			Offense offense11 = new Offense();
+			offense11.setUcrOffenseCode("220");
+			Property propertyDescription11 = new Property();
+			propertyDescription11.setPropertyDescription(0, "34");
+			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
+			Offense offense12 = new Offense();
+			offense12.setUcrOffenseCode("240");
+			Property propertyDescription12 = new Property();
+			propertyDescription12.setPropertyDescription(0, "34");
+			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
+			Offense offense13 = new Offense();
+			offense13.setUcrOffenseCode("220");
+			Property propertyDescription13 = new Property();
+			propertyDescription13.setPropertyDescription(0, "35");
+			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
+			Offense offense14 = new Offense();
+			offense14.setUcrOffenseCode("240");
+			Property propertyDescription14 = new Property();
+			propertyDescription14.setPropertyDescription(0, "35");
+			
+			
+			
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			incidents.add(copy11);
+			incidents.add(copy12);
+			incidents.add(copy13);
+			incidents.add(copy14);
+			
+			
+			
+			return incidents;
+		});
+		
+		
+		
+		
 		groupATweakerMap.put(401, incident -> {
 			// The referenced data element in a Group A Incident Report
 			// Segment 4 is mandatory & must be present.
