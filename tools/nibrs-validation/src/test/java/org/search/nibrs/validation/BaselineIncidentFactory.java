@@ -52,11 +52,11 @@ final class BaselineIncidentFactory {
 		
 		Property property = new Property();
 		incident.addProperty(property);
-		property.setTypeOfPropertyLoss("7");
-		property.setPropertyDescription(0, "03");
-		property.setValueOfProperty(0, 500);
+		property.setTypeOfPropertyLoss("1");
+		property.setPropertyDescription(0, "99");
+		property.setValueOfProperty(0, null);
 		property.setDateRecovered(0, null);
-		property.setNumberOfStolenMotorVehicles(1);
+		property.setNumberOfStolenMotorVehicles(null);
 		property.setNumberOfRecoveredMotorVehicles(null);
 		property.setSuspectedDrugType(0, null);
 		property.setEstimatedDrugQuantity(0, null);
