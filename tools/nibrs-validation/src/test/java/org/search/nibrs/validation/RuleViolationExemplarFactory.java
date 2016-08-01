@@ -1312,7 +1312,118 @@ public class RuleViolationExemplarFactory {
 			offense50.setUcrOffenseCode("23B");
 			Property propertyDescription50 = new Property();
 			propertyDescription50.setPropertyDescription(0, "39");
+			//Property descriptions for large items are illogical with 23C=Larceny/Shoplifting
+			//Aircraft
+			GroupAIncidentReport copy51 = new GroupAIncidentReport(incident);
+			Offense offense51 = new Offense();
+			offense51.setUcrOffenseCode("23C");
+			Property propertyDescription51 = new Property();
+			propertyDescription51.setPropertyDescription(0, "01");
+			//Automobiles
+			GroupAIncidentReport copy52 = new GroupAIncidentReport(incident);
+			Offense offense52 = new Offense();
+			offense52.setUcrOffenseCode("23C");
+			Property propertyDescription52 = new Property();
+			propertyDescription52.setPropertyDescription(0, "03");
+			//Buses
+			GroupAIncidentReport copy53 = new GroupAIncidentReport(incident);
+			Offense offense53 = new Offense();
+			offense53.setUcrOffenseCode("23C");
+			Property propertyDescription53 = new Property();
+			propertyDescription53.setPropertyDescription(0, "05");
+			//Farm Equipment
+			GroupAIncidentReport copy54 = new GroupAIncidentReport(incident);
+			Offense offense54 = new Offense();
+			offense54.setUcrOffenseCode("23C");
+			Property propertyDescription54 = new Property();
+			propertyDescription54.setPropertyDescription(0, "12");
+			//Heavy Contruction/Industrial Equipment
+			GroupAIncidentReport copy55 = new GroupAIncidentReport(incident);
+			Offense offense55 = new Offense();
+			offense55.setUcrOffenseCode("23C");
+			Property propertyDescription55 = new Property();
+			propertyDescription55.setPropertyDescription(0, "15");
+			//Livestock
+			GroupAIncidentReport copy56 = new GroupAIncidentReport(incident);
+			Offense offense56 = new Offense();
+			offense56.setUcrOffenseCode("23C");
+			Property propertyDescription56 = new Property();
+			propertyDescription56.setPropertyDescription(0, "18");
+			//Other Motor Vehicles
+			GroupAIncidentReport copy57 = new GroupAIncidentReport(incident);
+			Offense offense57 = new Offense();
+			offense57.setUcrOffenseCode("23C");
+			Property propertyDescription57 = new Property();
+			propertyDescription57.setPropertyDescription(0, "24");
+			//Recreational Vehicles
+			GroupAIncidentReport copy58 = new GroupAIncidentReport(incident);
+			Offense offense58 = new Offense();
+			offense58.setUcrOffenseCode("23C");
+			Property propertyDescription58 = new Property();
+			propertyDescription58.setPropertyDescription(0, "28");
+			//Structures - Single Occupancy Dwellings
+			GroupAIncidentReport copy59 = new GroupAIncidentReport(incident);
+			Offense offense59 = new Offense();
+			offense59.setUcrOffenseCode("23C");
+			Property propertyDescription59 = new Property();
+			propertyDescription59.setPropertyDescription(0, "29");
+			//Structures - Other Dwellings
+			GroupAIncidentReport copy60 = new GroupAIncidentReport(incident);
+			Offense offense60 = new Offense();
+			offense60.setUcrOffenseCode("23C");
+			Property propertyDescription60 = new Property();
+			propertyDescription60.setPropertyDescription(0, "30");
+			//Structures - Commercial/Business
+			GroupAIncidentReport copy61 = new GroupAIncidentReport(incident);
+			Offense offense61 = new Offense();
+			offense61.setUcrOffenseCode("23C");
+			Property propertyDescription61 = new Property();
+			propertyDescription61.setPropertyDescription(0, "31");
+			//Structures - Industrial/Manufacturing
+			GroupAIncidentReport copy62 = new GroupAIncidentReport(incident);
+			Offense offense62 = new Offense();
+			offense62.setUcrOffenseCode("23C");
+			Property propertyDescription62 = new Property();
+			propertyDescription62.setPropertyDescription(0, "32");
+			//Structures - Public/Community
+			GroupAIncidentReport copy63 = new GroupAIncidentReport(incident);
+			Offense offense63 = new Offense();
+			offense63.setUcrOffenseCode("23C");
+			Property propertyDescription63 = new Property();
+			propertyDescription63.setPropertyDescription(0, "33");
+			//Structures - Storage
+			GroupAIncidentReport copy64 = new GroupAIncidentReport(incident);
+			Offense offense64 = new Offense();
+			offense64.setUcrOffenseCode("23C");
+			Property propertyDescription64 = new Property();
+			propertyDescription64.setPropertyDescription(0, "34");
+			//Structures - Other
+			GroupAIncidentReport copy65 = new GroupAIncidentReport(incident);
+			Offense offense65 = new Offense();
+			offense65.setUcrOffenseCode("23C");
+			Property propertyDescription65 = new Property();
+			propertyDescription65.setPropertyDescription(0, "35");
+			//Trucks
+			GroupAIncidentReport copy66 = new GroupAIncidentReport(incident);
+			Offense offense66 = new Offense();
+			offense66.setUcrOffenseCode("23C");
+			Property propertyDescription66 = new Property();
+			propertyDescription66.setPropertyDescription(0, "37");
+			//Watercraft
+			GroupAIncidentReport copy67 = new GroupAIncidentReport(incident);
+			Offense offense67 = new Offense();
+			offense67.setUcrOffenseCode("23C");
+			Property propertyDescription67 = new Property();
+			propertyDescription67.setPropertyDescription(0, "39");
 			
+			
+			
+			
+			
+			
+			
+			
+
 			
 			
 			
@@ -1371,6 +1482,23 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy48);
 			incidents.add(copy49);
 			incidents.add(copy50);
+			incidents.add(copy51);
+			incidents.add(copy52);
+			incidents.add(copy53);
+			incidents.add(copy54);
+			incidents.add(copy55);
+			incidents.add(copy56);
+			incidents.add(copy57);
+			incidents.add(copy58);
+			incidents.add(copy59);
+			incidents.add(copy60);
+			incidents.add(copy61);
+			incidents.add(copy62);
+			incidents.add(copy63);
+			incidents.add(copy64);
+			incidents.add(copy65);
+			incidents.add(copy66);
+			incidents.add(copy67);
 			
 			
 			
