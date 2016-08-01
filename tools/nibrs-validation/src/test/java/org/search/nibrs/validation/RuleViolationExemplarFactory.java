@@ -1606,7 +1606,27 @@ public class RuleViolationExemplarFactory {
 			offense103.setUcrOffenseCode("23F");
 			Property propertyDescription103 = new Property();
 			propertyDescription103.setPropertyDescription(0, "33");
-			
+			//Structures - Storage
+			GroupAIncidentReport copy104 = new GroupAIncidentReport(incident);
+			Offense offense104 = new Offense();
+			offense104.setUcrOffenseCode("23D");
+			Property propertyDescription104 = new Property();
+			propertyDescription104.setPropertyDescription(0, "34");
+			GroupAIncidentReport copy105 = new GroupAIncidentReport(incident);
+			Offense offense105 = new Offense();
+			offense105.setUcrOffenseCode("23E");
+			Property propertyDescription105 = new Property();
+			propertyDescription105.setPropertyDescription(0, "34");
+			GroupAIncidentReport copy106 = new GroupAIncidentReport(incident);
+			Offense offense106 = new Offense();
+			offense106.setUcrOffenseCode("23F");
+			Property propertyDescription106 = new Property();
+			propertyDescription106.setPropertyDescription(0, "34");
+			GroupAIncidentReport copy107 = new GroupAIncidentReport(incident);
+			Offense offense107 = new Offense();
+			offense107.setUcrOffenseCode("23F");
+			Property propertyDescription107 = new Property();
+			propertyDescription107.setPropertyDescription(0, "34");
 			
 			
 
@@ -1721,7 +1741,10 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy101);
 			incidents.add(copy102);
 			incidents.add(copy103);
-			
+			incidents.add(copy104);
+			incidents.add(copy105);
+			incidents.add(copy106);
+			incidents.add(copy107);
 			
 			
 			return incidents;
