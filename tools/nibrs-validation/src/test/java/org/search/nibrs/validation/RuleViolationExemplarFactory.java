@@ -961,6 +961,28 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(356, incident -> {
+			// (Property Description) Must be one of the following when Data Element 18 
+			//(Number of Stolen Motor Vehicles) or Data Element 19 (Number of Recovered Motor Vehicles) 
+			//contain a data value other than 00=Unknown:
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "01");
+			Property numberOfStolenMotorVehicles = new Property();
+			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(2);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "01");
+			Property numberOfRecoveredMotorVehicles = new Property();
+			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(2);
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+		});
+		
+		
+		
 		groupATweakerMap.put(401, incident -> {
 			// The referenced data element in a Group A Incident Report
 			// Segment 4 is mandatory & must be present.
