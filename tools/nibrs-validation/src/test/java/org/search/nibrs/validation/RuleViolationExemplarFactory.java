@@ -1500,8 +1500,28 @@ public class RuleViolationExemplarFactory {
 			Offense offense83 = new Offense();
 			offense83.setUcrOffenseCode("23F");
 			Property propertyDescription83 = new Property();
-			propertyDescription83.setPropertyDescription(0, "28");
-			
+			propertyDescription83.setPropertyDescription(0, "29");
+			//Structures - Single Occupancy Dwellings
+			GroupAIncidentReport copy84 = new GroupAIncidentReport(incident);
+			Offense offense84 = new Offense();
+			offense84.setUcrOffenseCode("23D");
+			Property propertyDescription84 = new Property();
+			propertyDescription84.setPropertyDescription(0, "29");
+			GroupAIncidentReport copy85 = new GroupAIncidentReport(incident);
+			Offense offense85 = new Offense();
+			offense85.setUcrOffenseCode("23E");
+			Property propertyDescription85 = new Property();
+			propertyDescription85.setPropertyDescription(0, "29");
+			GroupAIncidentReport copy86 = new GroupAIncidentReport(incident);
+			Offense offense86 = new Offense();
+			offense86.setUcrOffenseCode("23F");
+			Property propertyDescription86 = new Property();
+			propertyDescription86.setPropertyDescription(0, "29");
+			GroupAIncidentReport copy87 = new GroupAIncidentReport(incident);
+			Offense offense87 = new Offense();
+			offense87.setUcrOffenseCode("23F");
+			Property propertyDescription87 = new Property();
+			propertyDescription87.setPropertyDescription(0, "29");
 			
 			
 
@@ -1596,6 +1616,14 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy81);
 			incidents.add(copy82);
 			incidents.add(copy83);
+			incidents.add(copy84);
+			incidents.add(copy85);
+			incidents.add(copy86);
+			incidents.add(copy87);
+			
+			
+			
+			
 			
 			
 			return incidents;
