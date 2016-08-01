@@ -1500,7 +1500,7 @@ public class RuleViolationExemplarFactory {
 			Offense offense83 = new Offense();
 			offense83.setUcrOffenseCode("23F");
 			Property propertyDescription83 = new Property();
-			propertyDescription83.setPropertyDescription(0, "29");
+			propertyDescription83.setPropertyDescription(0, "28");
 			//Structures - Single Occupancy Dwellings
 			GroupAIncidentReport copy84 = new GroupAIncidentReport(incident);
 			Offense offense84 = new Offense();
@@ -1522,7 +1522,27 @@ public class RuleViolationExemplarFactory {
 			offense87.setUcrOffenseCode("23F");
 			Property propertyDescription87 = new Property();
 			propertyDescription87.setPropertyDescription(0, "29");
-			
+			//Structures - Other Dwellings
+			GroupAIncidentReport copy88 = new GroupAIncidentReport(incident);
+			Offense offense88 = new Offense();
+			offense88.setUcrOffenseCode("23D");
+			Property propertyDescription88 = new Property();
+			propertyDescription88.setPropertyDescription(0, "30");
+			GroupAIncidentReport copy89 = new GroupAIncidentReport(incident);
+			Offense offense89 = new Offense();
+			offense89.setUcrOffenseCode("23E");
+			Property propertyDescription89 = new Property();
+			propertyDescription89.setPropertyDescription(0, "30");
+			GroupAIncidentReport copy90 = new GroupAIncidentReport(incident);
+			Offense offense90 = new Offense();
+			offense90.setUcrOffenseCode("23F");
+			Property propertyDescription90 = new Property();
+			propertyDescription90.setPropertyDescription(0, "30");
+			GroupAIncidentReport copy91 = new GroupAIncidentReport(incident);
+			Offense offense91 = new Offense();
+			offense91.setUcrOffenseCode("23F");
+			Property propertyDescription91 = new Property();
+			propertyDescription91.setPropertyDescription(0, "30");
 			
 
 			
@@ -1620,6 +1640,10 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy85);
 			incidents.add(copy86);
 			incidents.add(copy87);
+			incidents.add(copy88);
+			incidents.add(copy89);
+			incidents.add(copy90);
+			incidents.add(copy91);
 			
 			
 			
