@@ -996,8 +996,44 @@ public class RuleViolationExemplarFactory {
 			propertyDescription.setPropertyDescription(0, null);
 			Property typeOfPropertyLoss = new Property();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, null);
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("3");
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, null);
+			Property typeOfPropertyLoss3 = new Property();
+			typeOfPropertyLoss3.setTypeOfPropertyLoss("4");
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			Property propertyDescription4 = new Property();
+			propertyDescription4.setPropertyDescription(0, null);
+			Property typeOfPropertyLoss4 = new Property();
+			typeOfPropertyLoss4.setTypeOfPropertyLoss("5");
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			Property propertyDescription5 = new Property();
+			propertyDescription5.setPropertyDescription(0, null);
+			Property typeOfPropertyLoss5 = new Property();
+			typeOfPropertyLoss5.setTypeOfPropertyLoss("6");
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
+			Property propertyDescription6 = new Property();
+			propertyDescription6.setPropertyDescription(0, null);
+			Property typeOfPropertyLoss6 = new Property();
+			typeOfPropertyLoss6.setTypeOfPropertyLoss("7");
+			
 			incidents.add(copy);
-			return incidents;
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+	
+			
+			
+			
+			
+						return incidents;
 		});
 		
 		groupATweakerMap.put(390, incident -> {
