@@ -1427,7 +1427,7 @@ public class RuleViolationExemplarFactory {
 			Offense offense69 = new Offense();
 			offense69.setUcrOffenseCode("23E");
 			Property propertyDescription69 = new Property();
-			propertyDescription50.setPropertyDescription(0, "03");
+			propertyDescription69.setPropertyDescription(0, "03");
 			GroupAIncidentReport copy70 = new GroupAIncidentReport(incident);
 			Offense offense70 = new Offense();
 			offense70.setUcrOffenseCode("23F");
@@ -1438,8 +1438,27 @@ public class RuleViolationExemplarFactory {
 			offense71.setUcrOffenseCode("23F");
 			Property propertyDescription71 = new Property();
 			propertyDescription71.setPropertyDescription(0, "03");
-			
-			
+			//Buses
+			GroupAIncidentReport copy72 = new GroupAIncidentReport(incident);
+			Offense offense72 = new Offense();
+			offense72.setUcrOffenseCode("23D");
+			Property propertyDescription72 = new Property();
+			propertyDescription72.setPropertyDescription(0, "05");
+			GroupAIncidentReport copy73 = new GroupAIncidentReport(incident);
+			Offense offense73 = new Offense();
+			offense73.setUcrOffenseCode("23E");
+			Property propertyDescription73 = new Property();
+			propertyDescription73.setPropertyDescription(0, "05");
+			GroupAIncidentReport copy74 = new GroupAIncidentReport(incident);
+			Offense offense74 = new Offense();
+			offense74.setUcrOffenseCode("23F");
+			Property propertyDescription74 = new Property();
+			propertyDescription74.setPropertyDescription(0, "05");
+			GroupAIncidentReport copy75 = new GroupAIncidentReport(incident);
+			Offense offense75 = new Offense();
+			offense75.setUcrOffenseCode("23F");
+			Property propertyDescription75 = new Property();
+			propertyDescription75.setPropertyDescription(0, "05");
 			
 			
 
@@ -1518,7 +1537,14 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy65);
 			incidents.add(copy66);
 			incidents.add(copy67);
-			
+			incidents.add(copy68);
+			incidents.add(copy69);
+			incidents.add(copy70);
+			incidents.add(copy71);
+			incidents.add(copy72);
+			incidents.add(copy73);
+			incidents.add(copy74);
+			incidents.add(copy75);
 			
 			
 			
