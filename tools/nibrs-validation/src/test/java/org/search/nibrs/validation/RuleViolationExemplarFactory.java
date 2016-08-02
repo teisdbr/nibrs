@@ -1697,13 +1697,6 @@ public class RuleViolationExemplarFactory {
 			propertyDescription120.setPropertyDescription(0, "37");
 
 			
-			
-			
-			
-			
-			
-			
-			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -1824,9 +1817,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy118);
 			incidents.add(copy119);
 			incidents.add(copy120);
-			
-			
-			
+						
 			return incidents;
 		});
 		
