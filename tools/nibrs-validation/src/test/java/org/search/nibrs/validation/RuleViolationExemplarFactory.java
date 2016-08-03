@@ -1113,7 +1113,20 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
-		
+		groupATweakerMap.put(353, incident -> {
+			//(Value of Property) is 88=Pending Inventory, but Data Element 16 (Value of Property) is not $1. 
+			//Determine which of the data elements was entered incorrectly.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "88");
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0,000000001);
+			
+			incidents.add(copy);
+			return incidents;
+		});
+
 		
 		
 		
