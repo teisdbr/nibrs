@@ -484,46 +484,150 @@ public class RuleViolationExemplarFactory {
 			Offense firstCriminalActivity = new Offense();
 			firstCriminalActivity.setTypeOfCriminalActivity(0, null);
 			firstCriminalActivity.setUcrOffenseCode("250");
-			GroupAIncidentReport copy1 = new GroupAIncidentReport(incident);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			Offense secondCriminalActivity = new Offense();
 			secondCriminalActivity.setTypeOfCriminalActivity(0, null);
 			secondCriminalActivity.setUcrOffenseCode("280");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
 			Offense thirdCriminalActivity = new Offense();
 			thirdCriminalActivity.setTypeOfCriminalActivity(0, null);
 			thirdCriminalActivity.setUcrOffenseCode("35A");
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
 			Offense fourthCriminalActivity = new Offense();
 			fourthCriminalActivity.setTypeOfCriminalActivity(0, null);
 			fourthCriminalActivity.setUcrOffenseCode("35B");
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
 			Offense fifthCriminalActivity = new Offense();
 			fifthCriminalActivity.setTypeOfCriminalActivity(0, null);
 			fifthCriminalActivity.setUcrOffenseCode("39C");
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
 			Offense sixthCriminalActivity = new Offense();
 			sixthCriminalActivity.setTypeOfCriminalActivity(0, null);
 			sixthCriminalActivity.setUcrOffenseCode("370");
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
 			Offense seventhCriminalActivity = new Offense();
 			seventhCriminalActivity.setTypeOfCriminalActivity(0, null);
 			seventhCriminalActivity.setUcrOffenseCode("520");
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			Offense eigthCriminalActivity1 = new Offense();
-			eigthCriminalActivity1.setTypeOfCriminalActivity(0, null);
-			eigthCriminalActivity1.setUcrOffenseCode("720");
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
+			Offense eighthCriminalActivity = new Offense();
+			eighthCriminalActivity.setTypeOfCriminalActivity(0, null);
+			eighthCriminalActivity.setUcrOffenseCode("720");
 			incidents.add(copy);
-			incidents.add(copy1);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
 			incidents.add(copy7);
+			incidents.add(copy8);
 			return incidents;
 
 		});
 
+		groupATweakerMap.put(221, incident -> {
+			// Data Element 13 (Type Weapon/Force Involved) Must be populated with a valid data value and cannot be blank
+			//when Data Element 6 (UCR Offense Code) is:
+			//09A=Murder and Non-negligent Manslaughter
+			//09B=Negligent Manslaughter
+			//09C=Justifiable Homicide
+			//100=Kidnapping/Abduction
+			//11A=Rape
+			//11B=Sodomy
+			//11C=Sexual Assault With An Object
+			//11D=Fondling
+			//120=Robbery
+			//13A=Aggravated Assault
+			//13B=Simple Assault
+			//210=Extortion/Blackmail
+			//520=Weapon Law Violations
+			//64A=Human Trafficking, Commercial Sex Acts
+			//64B=Human Trafficking, Involuntary Servitude
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Offense firstUCROffense = new Offense();
+			firstUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			firstUCROffense.setUcrOffenseCode("09A");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Offense secondUCROffense = new Offense();
+			secondUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			secondUCROffense.setUcrOffenseCode("09B");
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Offense thirdUCROffense = new Offense();
+			thirdUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			thirdUCROffense.setUcrOffenseCode("09C");
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			Offense fourthUCROffense = new Offense();
+			fourthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			fourthUCROffense.setUcrOffenseCode("100");
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			Offense fifthUCROffense = new Offense();
+			fifthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			fifthUCROffense.setUcrOffenseCode("11A");
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
+			Offense sixthUCROffense = new Offense();
+			sixthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			sixthUCROffense.setUcrOffenseCode("11B");
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
+			Offense seventhUCROffense = new Offense();
+			seventhUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			seventhUCROffense.setUcrOffenseCode("11C");
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
+			Offense eighthUCROffense = new Offense();
+			eighthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			eighthUCROffense.setUcrOffenseCode("11D");
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
+			Offense ninthUCROffense = new Offense();
+			ninthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			ninthUCROffense.setUcrOffenseCode("120");
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
+			Offense tenthUCROffense = new Offense();
+			tenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			tenthUCROffense.setUcrOffenseCode("13A");
+			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
+			Offense eleventhUCROffense = new Offense();
+			eleventhUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			eleventhUCROffense.setUcrOffenseCode("13B");
+			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
+			Offense twelvthUCROffense = new Offense();
+			twelvthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			twelvthUCROffense.setUcrOffenseCode("210");
+			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
+			Offense thirteenthUCROffense = new Offense();
+			thirteenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			thirteenthUCROffense.setUcrOffenseCode("520");
+			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
+			Offense fourteenthUCROffense = new Offense();
+			fourteenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
+			fourteenthUCROffense.setUcrOffenseCode("64A");
+			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
+			Offense fifteenthUCROffense = new Offense();
+			fifteenthUCROffense.setTypeOfCriminalActivity(0, null);
+			fifteenthUCROffense.setUcrOffenseCode("64B");
+			
+				
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			incidents.add(copy11);
+			incidents.add(copy12);
+			incidents.add(copy13);
+			incidents.add(copy14);
+			incidents.add(copy15);
+			return incidents;
+
+		});
+		
+		
+		
+		
 		groupATweakerMap.put(251, incident -> {
 			// (Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
 			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
