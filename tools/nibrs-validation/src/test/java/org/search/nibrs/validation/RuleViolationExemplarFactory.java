@@ -1063,6 +1063,61 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(351, incident -> {
+			// Value of Property) cannot be zero unless Data Element 15 (Property Description) is:
+			//Mandatory zero
+			//09=Credit/Debit Cards
+			//22=Nonnegotiable Instruments
+			//48=Documents–Personal or Business
+			//65=Identity Documents
+			//66=Identity–Intangible
+			//Optional zero
+			//77=Other
+			//99=(blank)–this data value is not currently used by the FBI
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, 000000500);
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "09");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Property valueOfProperty2 = new Property();
+			valueOfProperty2.setValueOfProperty(0, 000000500);
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "22");
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Property valueOfProperty3 = new Property();
+			valueOfProperty3.setValueOfProperty(0, 000000500);
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, "48");
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			Property valueOfProperty4 = new Property();
+			valueOfProperty4.setValueOfProperty(0, 000000500);
+			Property propertyDescription4 = new Property();
+			propertyDescription.setPropertyDescription(0, "65");
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			Property valueOfProperty5 = new Property();
+			valueOfProperty5.setValueOfProperty(0, 000000500);
+			Property propertyDescription5 = new Property();
+			propertyDescription5.setPropertyDescription(0, "66");
+
+			
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			
+			
+			return incidents;
+		});
+
+		
+		
+		
+		
+		
 		groupATweakerMap.put(354, incident -> {
 			// (Property Description) Data Element 16 (Value of Property) contains a value,
 			// but Data Element 15 (Property Description) was not entered.
