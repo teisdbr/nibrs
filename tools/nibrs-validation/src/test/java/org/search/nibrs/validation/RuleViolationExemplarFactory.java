@@ -1,5 +1,6 @@
 package org.search.nibrs.validation;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -1187,6 +1188,156 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy2);
 			return incidents;
 		});
+		
+		groupATweakerMap.put(372, incident -> {
+			//(Type of Property Loss) is 
+			//2=Burned
+			//3=Counterfeited/Forged
+			//4=Destroyed/Damaged/Vandalized
+			//5=Recovered
+			//6=Seized
+			//7=Stolen/Etc.
+			//Data Elements 15 through 22 must have applicable entries in the segment.
+			//2=Burned
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, null);
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, null);
+			Property dateRecovered = new Property();
+			dateRecovered.setDateRecovered(0, null);
+			Property numberOfStolenMotorVehicles = new Property();
+			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(2);
+			Property numberOfRecoveredMotorVehicles = new Property();
+			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
+			Property suspectedDrugType = new Property();
+			suspectedDrugType.setSuspectedDrugType(0, null);
+			Property estimatedDrugQuantity = new Property();
+			estimatedDrugQuantity.setEstimatedDrugQuantity(0, null);
+			Property typeDrugMeasurement = new Property();
+			typeDrugMeasurement.setTypeDrugMeasurement(0, null);
+			//3=Counterfeited/Forged
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("3");
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, null);
+			Property valueOfProperty2 = new Property();
+			valueOfProperty2.setValueOfProperty(0, null);
+			Property dateRecovered2 = new Property();
+			dateRecovered2.setDateRecovered(0, null);
+			Property numberOfStolenMotorVehicles2 = new Property();
+			numberOfStolenMotorVehicles2.setNumberOfStolenMotorVehicles(2);
+			Property numberOfRecoveredMotorVehicles2 = new Property();
+			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
+			Property suspectedDrugType2 = new Property();
+			suspectedDrugType2.setSuspectedDrugType(0, null);
+			Property estimatedDrugQuantity2 = new Property();
+			estimatedDrugQuantity2.setEstimatedDrugQuantity(0, null);
+			Property typeDrugMeasurement2 = new Property();
+			typeDrugMeasurement2.setTypeDrugMeasurement(0, null);
+			//4=Destroyed/Damaged/Vandalized
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss3 = new Property();
+			typeOfPropertyLoss3.setTypeOfPropertyLoss("4");
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, null);
+			Property valueOfProperty3 = new Property();
+			valueOfProperty3.setValueOfProperty(0, null);
+			Property dateRecovered3 = new Property();
+			dateRecovered3.setDateRecovered(0, null);
+			Property numberOfStolenMotorVehicles3 = new Property();
+			numberOfStolenMotorVehicles3.setNumberOfStolenMotorVehicles(2);
+			Property numberOfRecoveredMotorVehicles3 = new Property();
+			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
+			Property suspectedDrugType3 = new Property();
+			suspectedDrugType3.setSuspectedDrugType(0, null);
+			Property estimatedDrugQuantity3 = new Property();
+			estimatedDrugQuantity3.setEstimatedDrugQuantity(0, null);
+			Property typeDrugMeasurement3 = new Property();
+			typeDrugMeasurement3.setTypeDrugMeasurement(0, null);
+			//5=Recovered
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss4 = new Property();
+			typeOfPropertyLoss4.setTypeOfPropertyLoss("5");
+			Property propertyDescription4 = new Property();
+			propertyDescription4.setPropertyDescription(0, null);
+			Property valueOfProperty4 = new Property();
+			valueOfProperty4.setValueOfProperty(0, null);
+			Property dateRecovered4 = new Property();
+			dateRecovered4.setDateRecovered(0, null);
+			Property numberOfStolenMotorVehicles4 = new Property();
+			numberOfStolenMotorVehicles4.setNumberOfStolenMotorVehicles(null);
+			Property numberOfRecoveredMotorVehicles4 = new Property();
+			numberOfRecoveredMotorVehicles4.setNumberOfRecoveredMotorVehicles(null);
+			Property suspectedDrugType4 = new Property();
+			suspectedDrugType4.setSuspectedDrugType(0, null);
+			Property estimatedDrugQuantity4 = new Property();
+			estimatedDrugQuantity4.setEstimatedDrugQuantity(0, null);
+			Property typeDrugMeasurement4 = new Property();
+			typeDrugMeasurement4.setTypeDrugMeasurement(0, null);
+			//6=Seized
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss5 = new Property();
+			typeOfPropertyLoss5.setTypeOfPropertyLoss("5");
+			Property propertyDescription5 = new Property();
+			propertyDescription5.setPropertyDescription(0, null);
+			Property valueOfProperty5 = new Property();
+			valueOfProperty5.setValueOfProperty(0, null);
+			Property dateRecovered5 = new Property();
+			dateRecovered5.setDateRecovered(0, null);
+			Property numberOfStolenMotorVehicles5 = new Property();
+			numberOfStolenMotorVehicles5.setNumberOfStolenMotorVehicles(null);
+			Property numberOfRecoveredMotorVehicles5 = new Property();
+			numberOfRecoveredMotorVehicles5.setNumberOfRecoveredMotorVehicles(null);
+			Property suspectedDrugType5 = new Property();
+			suspectedDrugType5.setSuspectedDrugType(0, null);
+			Property estimatedDrugQuantity5 = new Property();
+			estimatedDrugQuantity5.setEstimatedDrugQuantity(0, null);
+			Property typeDrugMeasurement5 = new Property();
+			typeDrugMeasurement5.setTypeDrugMeasurement(0, null);
+			//6=Stolen, Etc.
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss6 = new Property();
+			typeOfPropertyLoss6.setTypeOfPropertyLoss("5");
+			Property propertyDescription6 = new Property();
+			propertyDescription6.setPropertyDescription(0, null);
+			Property valueOfProperty6 = new Property();
+			valueOfProperty6.setValueOfProperty(0, null);
+			Property dateRecovered6 = new Property();
+			dateRecovered6.setDateRecovered(0, null);
+			Property numberOfStolenMotorVehicles6 = new Property();
+			numberOfStolenMotorVehicles6.setNumberOfStolenMotorVehicles(null);
+			Property numberOfRecoveredMotorVehicles6 = new Property();
+			numberOfRecoveredMotorVehicles6.setNumberOfRecoveredMotorVehicles(null);
+			Property suspectedDrugType6 = new Property();
+			suspectedDrugType6.setSuspectedDrugType(0, null);
+			Property estimatedDrugQuantity6 = new Property();
+			estimatedDrugQuantity6.setEstimatedDrugQuantity(0, null);
+			Property typeDrugMeasurement6 = new Property();
+			typeDrugMeasurement6.setTypeDrugMeasurement(0, null);
+			
+			
+			
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			
+			return incidents;
+			
+			
+			
+			
+			
+		});
+		
 		
 		groupATweakerMap.put(375, incident -> {
 			// (Property Description) At least one Data Element 15 (Property Description) code must
