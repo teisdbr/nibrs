@@ -1198,6 +1198,7 @@ public class RuleViolationExemplarFactory {
 			//6=Seized
 			//7=Stolen/Etc.
 			//Data Elements 15 through 22 must have applicable entries in the segment.
+			
 			//2=Burned
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -1331,11 +1332,6 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			
 			return incidents;
-			
-			
-			
-			
-			
 		});
 		
 		
@@ -1390,6 +1386,23 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 	
+		groupATweakerMap.put(383, incident -> {
+			//(Value of Property) has a value other than zero entered. 
+			//Since Data Element 15 (Property Description) code is 10=Drugs/Narcotics and the only Crime Against Property 
+			//offense submitted is a 35A=Drug/Narcotic Violations, Data Element 16 (Value of Property) must be blank.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Offense offense = new Offense();
+			offense.setUcrOffenseCode("35A");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "10");
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, 000000500);
+			
+			incidents.add(copy);
+						
+			return incidents;
+		});
 			groupATweakerMap.put(387, incident -> {
 			//(Property Description) To ensure that 35A-35B Drug/Narcotic Offenses-Drug Equipment 
 			//Violations are properly reported, Data Element 15 (Property Description) of 11=Drug/Narcotic Equipment 
@@ -1413,6 +1426,7 @@ public class RuleViolationExemplarFactory {
 			
 			incidents.add(copy);
 			incidents.add(copy2);
+			
 			return incidents;
 		});
 		
