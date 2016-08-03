@@ -1067,7 +1067,7 @@ public class RuleViolationExemplarFactory {
 			// Value of Property) cannot be zero unless Data Element 15 (Property Description) is:
 			//Mandatory zero
 			//09=Credit/Debit Cards
-			//22=Nonnegotiable Instruments
+			//22=Non-negotiable Instruments
 			//48=Documents–Personal or Business
 			//65=Identity Documents
 			//66=Identity–Intangible
