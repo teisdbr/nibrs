@@ -601,10 +601,10 @@ public class RuleViolationExemplarFactory {
 			fourteenthUCROffense.setUcrOffenseCode("64A");
 			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
 			Offense fifteenthUCROffense = new Offense();
-			fifteenthUCROffense.setTypeOfCriminalActivity(0, null);
+			fifteenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			fifteenthUCROffense.setUcrOffenseCode("64B");
 			
-				
+			//todo: do we need another set with an invalid value for TypeOfWeaponForceInvolved?	
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -1026,7 +1026,16 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
 			Property typeOfPropertyLoss = new Property();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("9");
-
+			//Data Element 16 Value of Property does not have separate rules for blank and valid.
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, 000000500);
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
+			Property valueOfProperty2 = new Property();
+			valueOfProperty2.setValueOfProperty(0, null);
+			
+			
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -1034,6 +1043,23 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy5);
 			incidents.add(copy6);
 			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+			return incidents;
+		});
+
+		
+		groupATweakerMap.put(342, incident -> {
+			//(Value of Property) When referenced data element contains a value that exceeds an FBI-assigned 
+			//threshold amount, a warning message will be created. The participant is asked to check to 
+			//see if the value entered was a data entry error, or if it was intended to be entered. 
+			//A warning message is always produced when the value is $1,000,000 or greater. 
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, 001000000);
+			
+			incidents.add(copy);
 			return incidents;
 		});
 
@@ -1043,7 +1069,7 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Property valueOfProperty = new Property();
-			valueOfProperty.setValueOfProperty(0, 500);
+			valueOfProperty.setValueOfProperty(0, 000000500);
 			Property propertyDescription = new Property();
 			propertyDescription.setPropertyDescription(0, null);
 
