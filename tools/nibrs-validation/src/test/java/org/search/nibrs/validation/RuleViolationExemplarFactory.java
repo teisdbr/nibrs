@@ -2215,7 +2215,51 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
-		
+		groupATweakerMap.put(391, incident -> {
+			//(Value of Property) has a code that requires a zero value in Data Element 16 (Value of Property). 
+			//Either the wrong property description code was entered or the property value was not entered.
+			//(This error was formerly error number 340, a warning message.) Data Element 16 
+			//(Value of Property) must be zero when Data Element 15 (Property Description) is:
+			//09=Credit/Debit Cards
+			//22=Non-negotiable Instruments
+			//48=Documents–Personal or Business
+			//65=Identity Documents
+			//66=Identity–Intangible
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "09");
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0,000000500);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "22");
+			Property valueOfProperty2 = new Property();
+			valueOfProperty2.setValueOfProperty(0,000000500);
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, "48");
+			Property valueOfProperty3 = new Property();
+			valueOfProperty3.setValueOfProperty(0,000000500);
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			Property propertyDescription4 = new Property();
+			propertyDescription4.setPropertyDescription(0, "65");
+			Property valueOfProperty4 = new Property();
+			valueOfProperty4.setValueOfProperty(0,000000500);
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			Property propertyDescription5 = new Property();
+			propertyDescription5.setPropertyDescription(0, "66");
+			Property valueOfProperty5 = new Property();
+			valueOfProperty5.setValueOfProperty(0,000000500);
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			
+			return incidents;
+		});
 		
 		
 		groupATweakerMap.put(401, incident -> {
