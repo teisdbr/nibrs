@@ -1127,10 +1127,7 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
-		
-		
-		
-		
+			
 		groupATweakerMap.put(354, incident -> {
 			// (Property Description) Data Element 16 (Value of Property) contains a value,
 			// but Data Element 15 (Property Description) was not entered.
@@ -1154,14 +1151,26 @@ public class RuleViolationExemplarFactory {
 			valueOfProperty.setValueOfProperty(0, null);
 			Property propertyDescription = new Property();
 			propertyDescription.setPropertyDescription(0, "01");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Property valueOfProperty2 = new Property();
+			valueOfProperty2.setValueOfProperty(0, 000000500);
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, null);
 
 			incidents.add(copy);
+			incidents.add(copy2);
+			
 			return incidents;
 		});
 
-		groupATweakerMap.put(356, incident -> {
-			// (Property Description) Must be one of the following when Data Element 18 
-			//(Number of Stolen Motor Vehicles) or Data Element 19 (Number of Recovered Motor Vehicles) 
+		groupATweakerMap.put(359, incident -> {
+			// (Property Description) Must be one of the following
+			//03=Automobiles
+			//05=Buses
+			//24=Other Motor Vehicles
+			//28=Recreational Vehicles
+			//37=Trucks
+			//when Data Element 18 (Number of Stolen Motor Vehicles) or Data Element 19 (Number of Recovered Motor Vehicles) 
 			//contain a data value other than 00=Unknown:
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
