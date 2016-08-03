@@ -1235,12 +1235,34 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
+			
+			return incidents;
+		});
 	
+			groupATweakerMap.put(387, incident -> {
+			//(Property Description) To ensure that 35A-35B Drug/Narcotic Offenses-Drug Equipment 
+			//Violations are properly reported, Data Element 15 (Property Description) of 11=Drug/Narcotic Equipment 
+			//is not allowed with only a 35A Drug/Narcotic Violation. Similarly, 10=Drugs/Narcotics is not 
+			//allowed with only a 35B Drug Equipment Violation. And Data Element 14 (Type Property Loss/Etc.) is 6=Seized.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Offense offense = new Offense();
+			offense.setUcrOffenseCode("35A");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "11");
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("6");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Offense offense2 = new Offense();
+			offense2.setUcrOffenseCode("35B");
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "11");
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("6");
 			
-			
-			
-			
-						return incidents;
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
 		});
 		
 		groupATweakerMap.put(390, incident -> {
