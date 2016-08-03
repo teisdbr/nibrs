@@ -54,7 +54,7 @@ final class BaselineIncidentFactory {
 		incident.addProperty(property);
 		property.setTypeOfPropertyLoss("1");
 		property.setPropertyDescription(0, "99");
-		property.setValueOfProperty(0, null);
+		property.setValueOfProperty(0, 000000002);
 		property.setDateRecovered(0, null);
 		property.setNumberOfStolenMotorVehicles(null);
 		property.setNumberOfRecoveredMotorVehicles(null);
