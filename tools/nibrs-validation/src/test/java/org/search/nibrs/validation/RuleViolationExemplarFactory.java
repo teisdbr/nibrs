@@ -1054,6 +1054,21 @@ public class RuleViolationExemplarFactory {
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
 			Property dateRecovered = new Property();
 			dateRecovered.setDateRecovered(0, null);
+			//(Number of Stolen Motor Vehicles) Is mandatory with Data Element 6 (UCR Offense Code) is 240.
+			//The referenced data element in a Group A Incident Report must be 
+			//populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
+			Offense ucrOffenseCode = new Offense();
+			ucrOffenseCode.setUcrOffenseCode("240");
+			Property typeOfPropertyLoss5 = new Property();
+			typeOfPropertyLoss5.setTypeOfPropertyLoss("07");
+			Property propertyDescription5 = new Property();
+			propertyDescription5.setPropertyDescription(0, "03");
+			Property numberOfStolenMotorVehicles = new Property();
+			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(null);
+			Property valueOfProperty4 = new Property();
+			valueOfProperty4.setValueOfProperty(0, 000000500);
+					
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -1065,6 +1080,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy8);
 			incidents.add(copy9);
 			incidents.add(copy10);
+			incidents.add(copy11);
 			return incidents;
 		});
 
