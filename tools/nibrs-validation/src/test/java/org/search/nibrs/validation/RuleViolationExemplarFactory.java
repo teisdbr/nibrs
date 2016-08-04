@@ -1064,6 +1064,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy7);
 			incidents.add(copy8);
 			incidents.add(copy9);
+			incidents.add(copy10);
 			return incidents;
 		});
 
@@ -1075,9 +1076,79 @@ public class RuleViolationExemplarFactory {
 			//Year of Electronic submission fields on the data record. For example, if Month of Electronic 
 			//submission and Year of Electronic submission are 06/1999, the recovered date cannot contain 
 			//any date 07/01/1999 or later. Cannot be earlier than Data Element 3 (Incident Date/Hour).
-		
 			
+			//Date is later than tape submission
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("05");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "03");
+			Property valueOfProperty = new Property();
+			valueOfProperty.setValueOfProperty(0, 000000500);
+			Property numberOfRecoveredMotorVehicles = new Property();
+			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
+			Property dateRecovered = new Property();
+			dateRecovered.setDateRecovered(0, (Date.from(LocalDate.of(2017, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+			//Date Recovered is earlier than incident
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("05");
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "03");
+			Property valueOfProperty2 = new Property();
+			valueOfProperty2.setValueOfProperty(0, 000000500);
+			Property numberOfRecoveredMotorVehicles2 = new Property();
+			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
+			Property dateRecovered2 = new Property();
+			dateRecovered2.setDateRecovered(0, (Date.from(LocalDate.of(2015, 4, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+			//Invalid Date Recovered Month
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
+			Property typeOfPropertyLoss3 = new Property();
+			typeOfPropertyLoss3.setTypeOfPropertyLoss("05");
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, "03");
+			Property valueOfProperty3 = new Property();
+			valueOfProperty3.setValueOfProperty(0, 000000500);
+			Property numberOfRecoveredMotorVehicles3 = new Property();
+			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
+			Property dateRecovered3 = new Property();
+			dateRecovered3.setDateRecovered(0, (Date.from(LocalDate.of(2015, 13, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+			//Invalid Date Recovered Days for month of May
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
+			Property typeOfPropertyLoss4 = new Property();
+			typeOfPropertyLoss4.setTypeOfPropertyLoss("05");
+			Property propertyDescription4 = new Property();
+			propertyDescription4.setPropertyDescription(0, "03");
+			Property valueOfProperty4 = new Property();
+			valueOfProperty4.setValueOfProperty(0, 000000500);
+			Property numberOfRecoveredMotorVehicles4 = new Property();
+			numberOfRecoveredMotorVehicles4.setNumberOfRecoveredMotorVehicles(1);
+			Property dateRecovered4 = new Property();
+			dateRecovered4.setDateRecovered(0, (Date.from(LocalDate.of(2015, 5, 32).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+			//Year Does not include century
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
+			Property typeOfPropertyLoss5 = new Property();
+			typeOfPropertyLoss5.setTypeOfPropertyLoss("05");
+			Property propertyDescription5 = new Property();
+			propertyDescription5.setPropertyDescription(0, "03");
+			Property valueOfProperty5 = new Property();
+			valueOfProperty5.setValueOfProperty(0, 000000500);
+			Property numberOfRecoveredMotorVehicles5 = new Property();
+			numberOfRecoveredMotorVehicles5.setNumberOfRecoveredMotorVehicles(1);
+			Property dateRecovered5 = new Property();
+			dateRecovered5.setDateRecovered(0, (Date.from(LocalDate.of(15, 5, 13).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			
+					
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			
+			return incidents;
+		});
 			
 			
 			
