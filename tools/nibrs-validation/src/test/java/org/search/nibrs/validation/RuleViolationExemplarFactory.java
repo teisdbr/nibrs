@@ -1249,6 +1249,19 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(355, incident -> {
+			// (Type Of Property Loss) must be 5=Recovered for Data Element 17 (Date Recovered) to be entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
+			Property dateRecovered = new Property();
+			dateRecovered.setDateRecovered(0,(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+		
+			incidents.add(copy);
+			return incidents;
+		});
+		
 		//groupATweakerMap.put(356, incident -> {
 			//to-do: Rule is not clear.
 			// (Property Description) was entered, but Data Elements 15 (Property Description)
