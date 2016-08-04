@@ -1143,26 +1143,27 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
-		groupATweakerMap.put(356, incident -> {
+		//groupATweakerMap.put(356, incident -> {
+			//to-do: Rule is not clear.
 			// (Property Description) was entered, but Data Elements 15 (Property Description)
 			// and/or 16 (Property Value) were not entered.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property valueOfProperty = new Property();
-			valueOfProperty.setValueOfProperty(0, null);
-			Property propertyDescription = new Property();
-			propertyDescription.setPropertyDescription(0, "01");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Property valueOfProperty2 = new Property();
-			valueOfProperty2.setValueOfProperty(0, 000000500);
-			Property propertyDescription2 = new Property();
-			propertyDescription2.setPropertyDescription(0, null);
+			//List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			//Property valueOfProperty = new Property();
+			//valueOfProperty.setValueOfProperty(0, null);
+			//Property propertyDescription = new Property();
+			//propertyDescription.setPropertyDescription(0, "01");
+			//GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			//Property valueOfProperty2 = new Property();
+			//.setValueOfProperty(0, 000000500);
+			//Property propertyDescription2 = new Property();
+			//propertyDescription2.setPropertyDescription(0, null);
 
-			incidents.add(copy);
-			incidents.add(copy2);
+			//incidents.add(copy);
+			//incidents.add(copy2);
 			
-			return incidents;
-		});
+			//return incidents;
+		//});
 
 		groupATweakerMap.put(359, incident -> {
 			// (Property Description) Must be one of the following
