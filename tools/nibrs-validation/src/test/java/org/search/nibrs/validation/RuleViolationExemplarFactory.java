@@ -1027,15 +1027,33 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
 			Property typeOfPropertyLoss = new Property();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("9");
-			//Data Element 16 Value of Property does not have separate rules for blank and valid.
+			//Data Element 16 Value of Property does not have separate rules for valid and blank.
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("02");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "03");
 			Property valueOfProperty = new Property();
-			valueOfProperty.setValueOfProperty(0, 000000500);
+			valueOfProperty.setValueOfProperty(0, 0000000500);
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
+			Property typeOfPropertyLoss3 = new Property();
+			typeOfPropertyLoss3.setTypeOfPropertyLoss("02");
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, "03");
 			Property valueOfProperty2 = new Property();
 			valueOfProperty2.setValueOfProperty(0, null);
-			
-			
+			//Data Element 17 DateRecovered cannot be blank. 
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
+			Property typeOfPropertyLoss4 = new Property();
+			typeOfPropertyLoss4.setTypeOfPropertyLoss("05");
+			Property propertyDescription4 = new Property();
+			propertyDescription4.setPropertyDescription(0, "03");
+			Property valueOfProperty3 = new Property();
+			valueOfProperty3.setValueOfProperty(0, 000000500);
+			Property numberOfRecoveredMotorVehicles = new Property();
+			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
+			Property dateRecovered = new Property();
+			dateRecovered.setDateRecovered(0, null);
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -1049,6 +1067,23 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(305, incident -> {
+			//(Date Recovered Each component of the date must be valid; that is, months must be 01 through 12, 
+			//days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). 
+			//In addition, days cannot exceed maximum for the month (e.g., June cannot have 31 days). 
+			//The date cannot be later than that entered within the Month of Electronic submission and 
+			//Year of Electronic submission fields on the data record. For example, if Month of Electronic 
+			//submission and Year of Electronic submission are 06/1999, the recovered date cannot contain 
+			//any date 07/01/1999 or later. Cannot be earlier than Data Element 3 (Incident Date/Hour).
+		
+			
+			
+			
+			
+			
+			
+			
+			
 		
 		groupATweakerMap.put(342, incident -> {
 			//(Value of Property) When referenced data element contains a value that exceeds an FBI-assigned 
