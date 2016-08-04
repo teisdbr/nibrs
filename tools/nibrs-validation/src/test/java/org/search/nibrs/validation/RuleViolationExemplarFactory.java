@@ -1300,6 +1300,60 @@ public class RuleViolationExemplarFactory {
 			//return incidents;
 		//});
 
+		groupATweakerMap.put(357, incident -> {
+			//(Number of Stolen Motor Vehicles) was entered. However, Data Element 14 (Type Property Loss/Etc.) 
+			//7=Stolen/Etc. was not entered, and/or Data Element 6 (UCR Offense Code) of 240=Motor Vehicle Theft was not entered, 
+			//and/or Data Element 7 (Offense Attempted/Completed) was A=Attempted.
+			
+			//UCR Offense Code not = 240
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Offense ucrOffenseCode = new Offense();
+			ucrOffenseCode.setUcrOffenseCode("13A");
+			Offense offenseAttemptedCompleted = new Offense();
+			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("7");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "03");
+			Property numberOfStolenMotorVehicles = new Property();
+			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(1);
+			//Type of Property Loss not stolen
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Offense ucrOffenseCode2 = new Offense();
+			ucrOffenseCode2.setUcrOffenseCode("240");
+			Offense offenseAttemptedCompleted2 = new Offense();
+			offenseAttemptedCompleted2.setOffenseAttemptedCompleted("C");
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("2");
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "03");
+			Property numberOfStolenMotorVehicles2 = new Property();
+			numberOfStolenMotorVehicles2.setNumberOfStolenMotorVehicles(1);
+			//Offense Attempted/Completed not = C
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Offense ucrOffenseCode3 = new Offense();
+			ucrOffenseCode3.setUcrOffenseCode("240");
+			Offense offenseAttemptedCompleted3 = new Offense();
+			offenseAttemptedCompleted3.setOffenseAttemptedCompleted("A");
+			Property typeOfPropertyLoss3 = new Property();
+			typeOfPropertyLoss3.setTypeOfPropertyLoss("7");
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, "03");
+			Property numberOfStolenMotorVehicles3 = new Property();
+			numberOfStolenMotorVehicles3.setNumberOfStolenMotorVehicles(1);
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			
+			return incidents;
+			
+		});
+		
+		
+		
+		
 		groupATweakerMap.put(359, incident -> {
 			// (Property Description) Must be one of the following
 			//03=Automobiles
