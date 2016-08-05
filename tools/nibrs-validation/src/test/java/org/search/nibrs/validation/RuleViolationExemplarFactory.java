@@ -1076,13 +1076,34 @@ public class RuleViolationExemplarFactory {
 			Offense ucrOffenseCode2 = new Offense();
 			ucrOffenseCode2.setUcrOffenseCode("240");
 			Property typeOfPropertyLoss6 = new Property();
-			typeOfPropertyLoss6.setTypeOfPropertyLoss("05");
+			typeOfPropertyLoss6.setTypeOfPropertyLoss("5");
 			Property propertyDescription6 = new Property();
 			propertyDescription6.setPropertyDescription(0, "03");
 			Property numberOfRecoveredMotorVehicles2 = new Property();
 			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(null);
 			Property valueOfProperty5 = new Property();
 			valueOfProperty5.setValueOfProperty(0, 000000500);
+			//Suspected Drug Type must be populated with a valid data value
+			//and cannot be blank (no edit for a 301 error)
+			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
+			Offense ucrOffenseCode3 = new Offense();
+			ucrOffenseCode3.setUcrOffenseCode("35A");
+			Property typeOfPropertyLoss7 = new Property();
+			typeOfPropertyLoss7.setTypeOfPropertyLoss("6");
+			Property propertyDescription7 = new Property();
+			propertyDescription7.setPropertyDescription(0, "10");
+			Property suspectedDrugType = new Property();
+			suspectedDrugType.setSuspectedDrugType(0, null);
+			//Suspected Drug Type must be valid.
+			GroupAIncidentReport copy14 = new GroupAIncidentReport(copy);
+			Offense ucrOffenseCode4 = new Offense();
+			ucrOffenseCode4.setUcrOffenseCode("35A");
+			Property typeOfPropertyLoss8 = new Property();
+			typeOfPropertyLoss8.setTypeOfPropertyLoss("6");
+			Property propertyDescription8 = new Property();
+			propertyDescription8.setPropertyDescription(0, "10");
+			Property suspectedDrugType2 = new Property();
+			suspectedDrugType2.setSuspectedDrugType(0, "W");
 			
 				
 			
@@ -1100,6 +1121,8 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy10);
 			incidents.add(copy11);
 			incidents.add(copy12);
+			incidents.add(copy13);
+			incidents.add(copy14);
 			
 			return incidents;
 		});
