@@ -1421,6 +1421,60 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(360, incident -> {
+			//(Number of Recovered Motor Vehicles was entered. However, Data Element 14 
+			//(Type Property Loss/Etc.) 5=Recovered was not entered, and/or Data Element 6 
+			//(UCR Offense Code) of 240=Motor Vehicle Theft was not entered, and/or Data Element 7 
+			//(Offense Attempted/Completed) was A=Attempted.
+			
+			//UCR Offense Code not = 240
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Offense ucrOffenseCode = new Offense();
+			ucrOffenseCode.setUcrOffenseCode("13A");
+			Offense offenseAttemptedCompleted = new Offense();
+			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("5");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "03");
+			Property numberOfRecoveredMotorVehicles = new Property();
+			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
+			//Type of Property Loss not Recovered
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			Offense ucrOffenseCode2 = new Offense();
+			ucrOffenseCode2.setUcrOffenseCode("240");
+			Offense offenseAttemptedCompleted2 = new Offense();
+			offenseAttemptedCompleted2.setOffenseAttemptedCompleted("C");
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("2");
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "03");
+			Property numberOfRecoveredMotorVehicles2 = new Property();
+			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
+			//Offense Attempted/Completed not = C
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			Offense ucrOffenseCode3 = new Offense();
+			ucrOffenseCode3.setUcrOffenseCode("240");
+			Offense offenseAttemptedCompleted3 = new Offense();
+			offenseAttemptedCompleted3.setOffenseAttemptedCompleted("A");
+			Property typeOfPropertyLoss3 = new Property();
+			typeOfPropertyLoss3.setTypeOfPropertyLoss("5");
+			Property propertyDescription3 = new Property();
+			propertyDescription3.setPropertyDescription(0, "03");
+			Property numberOfRecoveredMotorVehicles3 = new Property();
+			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			
+			return incidents;
+						
+			
+		});
+		
+		
 		groupATweakerMap.put(372, incident -> {
 			//(Type of Property Loss) is 
 			//2=Burned
