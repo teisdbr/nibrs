@@ -1474,6 +1474,29 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(361, incident -> {
+			//((Number of Recovered Motor Vehicles) Entry must be made when Data Element 6 
+			//(UCR Offense Code) is 240=Motor Vehicle Theft, Data Element 14 
+			//(Type Property Loss/Etc.) is 5=Recovered, and Data Element 15 
+			//(Property Description) contains a vehicle code.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			Offense ucrOffenseCode = new Offense();
+			ucrOffenseCode.setUcrOffenseCode("240");
+			Offense offenseAttemptedCompleted = new Offense();
+			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("5");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "03");
+			Property numberOfRecoveredMotorVehicles = new Property();
+			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(null);
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(372, incident -> {
 			//(Type of Property Loss) is 
