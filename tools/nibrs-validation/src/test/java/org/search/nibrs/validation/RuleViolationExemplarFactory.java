@@ -264,7 +264,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(171, incident -> {
-			// A Group �A� Incident Report was submitted with a date entered into Data Element 3 (Incident Date/Hour)
+			// A Group A Incident Report was submitted with a date entered into Data Element 3 (Incident Date/Hour)
 			// that is earlier than January 1 of the previous year, using the Month of Tape and Year of Tape as a reference point,
 			// e.g., if the Month of Tape and Year of Tape contain a value of 01/1999, but the incident date is 12/25/1997, the incident will be rejected.
 			// Volume 2, section I, provides specifications concerning the FBI�s 2-year database.
@@ -302,54 +302,29 @@ public class RuleViolationExemplarFactory {
 			// The referenced data element in a Group A Incident Report
 			// Segment 2 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri(null);
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.setExceptionalClearanceCode(null);
-
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			Offense ucrOffense = new Offense();
-			ucrOffense.setUcrOffenseCode(null);
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			Offense attemptedOffense = new Offense();
-			attemptedOffense.setOffenseAttemptedCompleted(null);
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			Offense biasOffense = new Offense();
-			biasOffense.setBiasMotivation(0, null);
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			Offense offenderSuspectedOfUsing = new Offense();
-			offenderSuspectedOfUsing.setOffendersSuspectedOfUsing(0, null);
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			Offense offenseLocation = new Offense();
-			offenseLocation.setLocationType(null);
-			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
-			Offense weaponForceInvolved = new Offense();
-			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, null);
-			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
-			Offense automaticWeaponIndicator = new Offense();
-			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, null);
-
-			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
-			incidents.add(copy12);
-			incidents.add(copy13);
+			//Data Element 6
+			GroupAIncidentReport offense = new GroupAIncidentReport(incident);
+			offense.getOffenses().get(0).setUcrOffenseCode(null);
+			//Data Element 7
+			GroupAIncidentReport offense2 = new GroupAIncidentReport(offense);
+			offense2.getOffenses().get(0).setOffenseAttemptedCompleted(null);
+			//Data Element 8
+			GroupAIncidentReport offense3 = new GroupAIncidentReport(offense);
+			offense3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
+			//Data Element 8A
+			GroupAIncidentReport offense4 = new GroupAIncidentReport(offense);
+			offense4.getOffenses().get(0).setBiasMotivation(0, null);
+			//Data Element 9
+			GroupAIncidentReport offense5 = new GroupAIncidentReport(offense);
+			offense5.getOffenses().get(0).setLocationType(null);
+			
+			incidents.add(offense);
+			incidents.add(offense2);
+			incidents.add(offense3);
+			incidents.add(offense4);
+			incidents.add(offense5);
+					
+			
 			return incidents;
 		});
 
@@ -1209,9 +1184,49 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 			
+		groupATweakerMap.put(306, incident -> {	
+			//(Suspected Drug Type) The referenced data element in error is one that contains multiple data values. 
+			//When more than one code is entered, none can be duplicate codes.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(copy);
+			Offense ucrOffenseCode = new Offense();
+			ucrOffenseCode.setUcrOffenseCode("35A");
+			Property typeOfPropertyLoss = new Property();
+			typeOfPropertyLoss.setTypeOfPropertyLoss("6");
+			Property propertyDescription = new Property();
+			propertyDescription.setPropertyDescription(0, "10");
+			Property suspectedDrugType = new Property();
+			suspectedDrugType.setSuspectedDrugType(0, "A");
+			Property suspectedDrugType2 = new Property();
+			suspectedDrugType2.setSuspectedDrugType(0, "A");
+				
+			//There are two exceptions to this rule:
+			//When a data value is entered in both Drug Type 1 and Drug Type 2, but different measurement categories are 
+			//entered in Data Element 22 (Type Drug Measurement); this is allowed. For example, when A=Crack Cocaine
+			//is entered in Drug Type 1 and it is also entered in Drug Type 2, Data Element 22 
+			//(Type Drug Measurement) must be two different measurement categories 
+			//(i.e., grams and liters) and not grams and pounds (same weight category).
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
+			Offense ucrOffenseCode2 = new Offense();
+			ucrOffenseCode2.setUcrOffenseCode("35A");
+			Property typeOfPropertyLoss2 = new Property();
+			typeOfPropertyLoss2.setTypeOfPropertyLoss("6");
+			Property propertyDescription2 = new Property();
+			propertyDescription2.setPropertyDescription(0, "10");
+			Property suspectedDrugType3 = new Property();
+			suspectedDrugType3.setSuspectedDrugType(0, "A");
+			Property suspectedDrugType4 = new Property();
+			suspectedDrugType4.setSuspectedDrugType(0, "A");
+			Property typeDrugMeasurement = new Property();
+			typeDrugMeasurement.setTypeDrugMeasurement(0, value);
 			
+			incidents.add(copy);
+			incidents.add(copy2);
 			
+		
 			
+			return incidents;
+		});
 			
 			
 		
