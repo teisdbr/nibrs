@@ -1768,6 +1768,36 @@ public class RuleViolationExemplarFactory {
 				
 			});
 			
+			
+			groupATweakerMap.put(389, incident -> {
+				//(Number of Recovered Stolen Motor Vehicles) More than one vehicle code was entered in 
+				//Data Element 15 (Property Description), but the number recovered in Data Element 18 
+				//(Number of Recovered Motor Vehicles) is less than this number. 
+				//For example, if vehicle codes of 03=Automobiles and 05=Buses were entered as being recovered, 
+				//then the number recovered must be at least 2, unless the number recovered was unknown (00).
+				//The exception to this rule is when 00=Unknown is entered in Data Element 18.
+				
+				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+				Offense ucrOffenseCode = new Offense();
+				ucrOffenseCode.setUcrOffenseCode("240");
+				Offense offenseAttemptedCompleted = new Offense();
+				offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
+				Property typeOfPropertyLoss = new Property();
+				typeOfPropertyLoss.setTypeOfPropertyLoss("5");
+				Property propertyDescription = new Property();
+				propertyDescription.setPropertyDescription(0, "03");
+				Property propertyDescription2 = new Property();
+				propertyDescription2.setPropertyDescription(0, "05");
+				Property numberOfRecoveredMotorVehicles = new Property();
+				numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
+			
+				incidents.add(copy);
+			
+				return incidents;
+				
+			});
+
 		groupATweakerMap.put(390, incident -> {
 			// (Property Description) must contain a data value that is logical for one or more of the offenses 
 			//entered in Data Element 6 (UCR Offense Code).
