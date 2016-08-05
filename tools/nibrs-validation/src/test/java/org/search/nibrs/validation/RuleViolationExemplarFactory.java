@@ -1068,6 +1068,24 @@ public class RuleViolationExemplarFactory {
 			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(null);
 			Property valueOfProperty4 = new Property();
 			valueOfProperty4.setValueOfProperty(0, 000000500);
+			//This data element is Mandatory when Data Element 6 (UCR Offense Code) is 240=Motor Vehicle 
+			//Theft, Data Element 14 (Type Property Loss/Etc.) is 5=Recovered, and 
+			//Data Element 7 (Offense Attempted/Completed) is C=Completed.(Number of Recovered Motor Vehicles The referenced data element 
+			//in a Group A Incident Report must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
+			Offense ucrOffenseCode2 = new Offense();
+			ucrOffenseCode2.setUcrOffenseCode("240");
+			Property typeOfPropertyLoss6 = new Property();
+			typeOfPropertyLoss6.setTypeOfPropertyLoss("05");
+			Property propertyDescription6 = new Property();
+			propertyDescription6.setPropertyDescription(0, "03");
+			Property numberOfRecoveredMotorVehicles2 = new Property();
+			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(null);
+			Property valueOfProperty5 = new Property();
+			valueOfProperty5.setValueOfProperty(0, 000000500);
+			
+				
+			
 					
 			
 			incidents.add(copy);
@@ -1081,6 +1099,8 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy9);
 			incidents.add(copy10);
 			incidents.add(copy11);
+			incidents.add(copy12);
+			
 			return incidents;
 		});
 
@@ -1217,7 +1237,7 @@ public class RuleViolationExemplarFactory {
 			Property valueOfProperty4 = new Property();
 			valueOfProperty4.setValueOfProperty(0, 000000500);
 			Property propertyDescription4 = new Property();
-			propertyDescription.setPropertyDescription(0, "65");
+			propertyDescription4.setPropertyDescription(0, "65");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
 			Property valueOfProperty5 = new Property();
 			valueOfProperty5.setValueOfProperty(0, 000000500);
