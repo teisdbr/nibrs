@@ -1188,7 +1188,7 @@ public class RuleViolationExemplarFactory {
 			//(Suspected Drug Type) The referenced data element in error is one that contains multiple data values. 
 			//When more than one code is entered, none can be duplicate codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(copy);
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Offense ucrOffenseCode = new Offense();
 			ucrOffenseCode.setUcrOffenseCode("35A");
 			Property typeOfPropertyLoss = new Property();
@@ -1218,7 +1218,7 @@ public class RuleViolationExemplarFactory {
 			Property suspectedDrugType4 = new Property();
 			suspectedDrugType4.setSuspectedDrugType(0, "A");
 			Property typeDrugMeasurement = new Property();
-			typeDrugMeasurement.setTypeDrugMeasurement(0, value);
+			//typeDrugMeasurement.setTypeDrugMeasurement(0, value); // doesn't compile
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -1249,12 +1249,12 @@ public class RuleViolationExemplarFactory {
 			//Mandatory zero
 			//09=Credit/Debit Cards
 			//22=Non-negotiable Instruments
-			//48=Documents–Personal or Business
+			//48=Documentsï¿½Personal or Business
 			//65=Identity Documents
-			//66=Identity–Intangible
+			//66=Identityï¿½Intangible
 			//Optional zero
 			//77=Other
-			//99=(blank)–this data value is not currently used by the FBI
+			//99=(blank)ï¿½this data value is not currently used by the FBI
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Property valueOfProperty = new Property();
@@ -1913,7 +1913,7 @@ public class RuleViolationExemplarFactory {
 			Property propertyDescription14 = new Property();
 			propertyDescription14.setPropertyDescription(0, "35");
 			//Property descriptions for items that would not fit in a purse or pocket (aircraft, vehicles, structures, 
-			//a person’s identity, watercraft, etc.) are illogical with 23A=Pocket-picking or 23B=Purse-snatching
+			//a personï¿½s identity, watercraft, etc.) are illogical with 23A=Pocket-picking or 23B=Purse-snatching
 			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
 			Offense offense15 = new Offense();
 			offense15.setUcrOffenseCode("23A");
@@ -2112,7 +2112,7 @@ public class RuleViolationExemplarFactory {
 			Property propertyDescription50 = new Property();
 			propertyDescription50.setPropertyDescription(0, "39");
 			//Property descriptions that cannot be shoplifted due to other UCR definitions 
-			//(aircraft, vehicles, structures, a person’s identity, watercraft, etc.) are illogical with 23C=Shoplifting
+			//(aircraft, vehicles, structures, a personï¿½s identity, watercraft, etc.) are illogical with 23C=Shoplifting
 			GroupAIncidentReport copy51 = new GroupAIncidentReport(incident);
 			Offense offense51 = new Offense();
 			offense51.setUcrOffenseCode("23C");
@@ -2628,9 +2628,9 @@ public class RuleViolationExemplarFactory {
 			//(Value of Property) must be zero when Data Element 15 (Property Description) is:
 			//09=Credit/Debit Cards
 			//22=Non-negotiable Instruments
-			//48=Documents–Personal or Business
+			//48=Documentsï¿½Personal or Business
 			//65=Identity Documents
-			//66=Identity–Intangible
+			//66=Identityï¿½Intangible
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			Property propertyDescription = new Property();
