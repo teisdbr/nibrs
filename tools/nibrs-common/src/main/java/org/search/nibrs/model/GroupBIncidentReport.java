@@ -4,7 +4,7 @@ package org.search.nibrs.model;
  * Representation of an individual Group B incident in a NIBRS submission.
  *
  */
-public class GroupBIncidentReport extends Report {
+public class GroupBIncidentReport extends AbstractReport {
 	
 	public GroupBIncidentReport() {
 	}

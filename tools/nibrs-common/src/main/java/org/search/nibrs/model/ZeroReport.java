@@ -1,10 +1,10 @@
 package org.search.nibrs.model;
 
 /**
- * Representation of an individual "Zero Report" in a NIBRS submission.  A zero report is submitted by an agency to signify that no crime occurred in that month in that agency.
+ * Representation of an individual "Zero AbstractReport" in a NIBRS submission.  A zero report is submitted by an agency to signify that no crime occurred in that month in that agency.
  *
  */
-public class ZeroReport extends Report {
+public class ZeroReport extends AbstractReport {
 
 	public ZeroReport() {
 	}
@@ -25,7 +25,7 @@ public class ZeroReport extends Report {
 
 	@Override
 	public String getUniqueReportDescription() {
-    	return "Zero Report for ORI " + getOri();
+    	return "Zero AbstractReport for ORI " + getOri();
 	}
 
 	@Override

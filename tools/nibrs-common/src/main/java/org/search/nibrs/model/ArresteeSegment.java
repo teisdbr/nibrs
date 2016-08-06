@@ -10,11 +10,11 @@ import org.apache.logging.log4j.Logger;
  * Representation of an Arrestee reported within an Incident in a NIBRS report.
  *
  */
-public class Arrestee extends Person
+public class ArresteeSegment extends AbstractPersonSegment
 {
     
 	@SuppressWarnings("unused")
-	private static final Logger LOG = LogManager.getLogger(Arrestee.class);
+	private static final Logger LOG = LogManager.getLogger(ArresteeSegment.class);
 	
 	private Integer arresteeSequenceNumber;
     private String arrestTransactionNumber;
@@ -27,13 +27,13 @@ public class Arrestee extends Person
     private String residentStatusOfArrestee;
     private String dispositionOfArresteeUnder18;
 
-    public Arrestee()
+    public ArresteeSegment()
     {
         arresteeArmedWith = new String[2];
         automaticWeaponIndicator = new String[2];
     }
     
-    public Arrestee(Arrestee a) {
+    public ArresteeSegment(ArresteeSegment a) {
     	super(a);
     	this.arresteeSequenceNumber = a.arresteeSequenceNumber;
     	this.arrestTransactionNumber = a.arrestTransactionNumber;

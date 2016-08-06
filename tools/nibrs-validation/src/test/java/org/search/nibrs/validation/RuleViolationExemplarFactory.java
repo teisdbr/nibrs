@@ -16,10 +16,10 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.Offense;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.OffenseCode;
-import org.search.nibrs.model.Property;
+import org.search.nibrs.model.PropertySegment;
 
 /**
  * Class that manages a set of "edits" to baseline incidents. These edits create "exemplars" of NIBRS rules violations that can be used to unit test the validation logic in the precert tool.
@@ -70,7 +70,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(101, incident -> {
-			// The referenced data element in a Group A Incident Report
+			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 1 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -99,7 +99,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(104, incident -> {
-			// The referenced data element in a Group A Incident Report
+			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 1 must be valid.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -189,7 +189,7 @@ public class RuleViolationExemplarFactory {
 
 		groupATweakerMap.put(119, incident -> {
 			// Data Element 2A (Cargo Theft) must be populated with a valid data value when
-			// Data Element 6 (UCR Offense Code) contains a Cargo Theft-related offense.
+			// Data Element 6 (UCR OffenseSegment Code) contains a Cargo Theft-related offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setCargoTheftIndicator(true);
@@ -202,7 +202,7 @@ public class RuleViolationExemplarFactory {
 
 		groupATweakerMap.put(151, incident -> {
 			// This field must be blank if the incident date is known. If the incident date is unknown,
-			// then the report date would be entered instead and must be indicated with an "R" in the Report
+			// then the report date would be entered instead and must be indicated with an "R" in the AbstractReport
 			// Indicator field within the Administrative Segment. The "R" in this case is invalid.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -264,7 +264,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(171, incident -> {
-			// A Group A Incident Report was submitted with a date entered into Data Element 3 (Incident Date/Hour)
+			// A Group A Incident AbstractReport was submitted with a date entered into Data Element 3 (Incident Date/Hour)
 			// that is earlier than January 1 of the previous year, using the Month of Tape and Year of Tape as a reference point,
 			// e.g., if the Month of Tape and Year of Tape contain a value of 01/1999, but the incident date is 12/25/1997, the incident will be rejected.
 			// Volume 2, section I, provides specifications concerning the FBI�s 2-year database.
@@ -299,7 +299,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(201, incident -> {
-			// The referenced data element in a Group A Incident Report
+			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 2 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			//Data Element 6
@@ -329,7 +329,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(204, incident -> {
-			// The referenced data element in a Group A Incident Report Segment 2 must
+			// The referenced data element in a Group A Incident AbstractReport Segment 2 must
 			// be populated with a valid data value.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -339,28 +339,28 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setCityIndicator("ZZ12");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			Offense firstOffense = new Offense();
+			OffenseSegment firstOffense = new OffenseSegment();
 			firstOffense.setUcrOffenseCode("XXX");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			Offense biasOffense = new Offense();
+			OffenseSegment biasOffense = new OffenseSegment();
 			biasOffense.setBiasMotivation(0, "10");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			Offense offenseLocation = new Offense();
+			OffenseSegment offenseLocation = new OffenseSegment();
 			offenseLocation.setLocationType("99");
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			Offense numberOfPremisesEntered = new Offense();
+			OffenseSegment numberOfPremisesEntered = new OffenseSegment();
 			numberOfPremisesEntered.setNumberOfPremisesEntered(100);
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			Offense methodOfEntry = new Offense();
+			OffenseSegment methodOfEntry = new OffenseSegment();
 			methodOfEntry.setMethodOfEntry(null);
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			Offense criminalActivity = new Offense();
+			OffenseSegment criminalActivity = new OffenseSegment();
 			criminalActivity.setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			Offense weaponForceInvolved = new Offense();
+			OffenseSegment weaponForceInvolved = new OffenseSegment();
 			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, "10");
 			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			Offense automaticWeaponIndicator = new Offense();
+			OffenseSegment automaticWeaponIndicator = new OffenseSegment();
 			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "B");
 
 			incidents.add(copy);
@@ -382,26 +382,26 @@ public class RuleViolationExemplarFactory {
 			// data values. When more than one code is entered, none can be duplicate codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstOffendersSuspectedOfUsing = new Offense();
+			OffenseSegment firstOffendersSuspectedOfUsing = new OffenseSegment();
 			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
-			Offense secondOffendersSuspectedOfUsing = new Offense();
+			OffenseSegment secondOffendersSuspectedOfUsing = new OffenseSegment();
 			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
-			Offense thirdOffendersSuspectedOfUsing = new Offense();
+			OffenseSegment thirdOffendersSuspectedOfUsing = new OffenseSegment();
 			thirdOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense firstBiasMotivationOffense = new Offense();
+			OffenseSegment firstBiasMotivationOffense = new OffenseSegment();
 			firstBiasMotivationOffense.setBiasMotivation(0, "15");
-			Offense secondBiasMotivationOffense = new Offense();
+			OffenseSegment secondBiasMotivationOffense = new OffenseSegment();
 			secondBiasMotivationOffense.setBiasMotivation(0, "26");
-			Offense thirdBiasMotivationOffense = new Offense();
+			OffenseSegment thirdBiasMotivationOffense = new OffenseSegment();
 			thirdBiasMotivationOffense.setBiasMotivation(0, "26");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense firstTypeOfCriminalActivity = new Offense();
+			OffenseSegment firstTypeOfCriminalActivity = new OffenseSegment();
 			firstTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "J");
-			Offense secondTypeOfCriminalActivity = new Offense();
+			OffenseSegment secondTypeOfCriminalActivity = new OffenseSegment();
 			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "J");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Offense typeOfWeaponForceInvolved = new Offense();
+			OffenseSegment typeOfWeaponForceInvolved = new OffenseSegment();
 			typeOfWeaponForceInvolved.setTypeOfCriminalActivity(0, "11");
 			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "11");
 
@@ -418,24 +418,24 @@ public class RuleViolationExemplarFactory {
 			// data values. However "N" is mutually exclusive with other codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstOffendersSuspectedOfUsing = new Offense();
+			OffenseSegment firstOffendersSuspectedOfUsing = new OffenseSegment();
 			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
-			Offense secondOffendersSuspectedOfUsing = new Offense();
+			OffenseSegment secondOffendersSuspectedOfUsing = new OffenseSegment();
 			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "N");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense firstBiasMotivationOffense = new Offense();
+			OffenseSegment firstBiasMotivationOffense = new OffenseSegment();
 			firstBiasMotivationOffense.setBiasMotivation(0, "15");
-			Offense secondBiasMotivationOffense = new Offense();
+			OffenseSegment secondBiasMotivationOffense = new OffenseSegment();
 			secondBiasMotivationOffense.setBiasMotivation(0, "88");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense firstTypeOfCriminalActivity = new Offense();
+			OffenseSegment firstTypeOfCriminalActivity = new OffenseSegment();
 			firstTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "N");
-			Offense secondTypeOfCriminalActivity = new Offense();
+			OffenseSegment secondTypeOfCriminalActivity = new OffenseSegment();
 			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "J");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Offense firstTypeOfWeaponForceInvolve = new Offense();
+			OffenseSegment firstTypeOfWeaponForceInvolve = new OffenseSegment();
 			firstTypeOfWeaponForceInvolve.setTypeOfWeaponForceInvolved(0, "11");
-			Offense secondTypeOfWeaponForceInvolved = new Offense();
+			OffenseSegment secondTypeOfWeaponForceInvolved = new OffenseSegment();
 			secondTypeOfWeaponForceInvolved.setTypeOfWeaponForceInvolved(0, "99");
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -446,9 +446,9 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(220, incident -> {
-			// Data Element 12 (Type Criminal Activity/Gang Information) Must be populated with a valid data value and cannot be blank when Data Element 6 (UCR Offense Code) is:
+			// Data Element 12 (Type Criminal Activity/Gang Information) Must be populated with a valid data value and cannot be blank when Data Element 6 (UCR OffenseSegment Code) is:
 			// 250=Counterfeiting/Forgery
-			// 280=Stolen Property Offenses
+			// 280=Stolen PropertySegment Offenses
 			// 35A=Drug/Narcotic Violations
 			// 35B=Drug Equipment Violations
 			// 39C=Gambling Equipment Violations
@@ -457,35 +457,35 @@ public class RuleViolationExemplarFactory {
 			// 720=Animal Cruelty
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstCriminalActivity = new Offense();
+			OffenseSegment firstCriminalActivity = new OffenseSegment();
 			firstCriminalActivity.setTypeOfCriminalActivity(0, null);
 			firstCriminalActivity.setUcrOffenseCode("250");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense secondCriminalActivity = new Offense();
+			OffenseSegment secondCriminalActivity = new OffenseSegment();
 			secondCriminalActivity.setTypeOfCriminalActivity(0, null);
 			secondCriminalActivity.setUcrOffenseCode("280");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense thirdCriminalActivity = new Offense();
+			OffenseSegment thirdCriminalActivity = new OffenseSegment();
 			thirdCriminalActivity.setTypeOfCriminalActivity(0, null);
 			thirdCriminalActivity.setUcrOffenseCode("35A");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Offense fourthCriminalActivity = new Offense();
+			OffenseSegment fourthCriminalActivity = new OffenseSegment();
 			fourthCriminalActivity.setTypeOfCriminalActivity(0, null);
 			fourthCriminalActivity.setUcrOffenseCode("35B");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Offense fifthCriminalActivity = new Offense();
+			OffenseSegment fifthCriminalActivity = new OffenseSegment();
 			fifthCriminalActivity.setTypeOfCriminalActivity(0, null);
 			fifthCriminalActivity.setUcrOffenseCode("39C");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			Offense sixthCriminalActivity = new Offense();
+			OffenseSegment sixthCriminalActivity = new OffenseSegment();
 			sixthCriminalActivity.setTypeOfCriminalActivity(0, null);
 			sixthCriminalActivity.setUcrOffenseCode("370");
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			Offense seventhCriminalActivity = new Offense();
+			OffenseSegment seventhCriminalActivity = new OffenseSegment();
 			seventhCriminalActivity.setTypeOfCriminalActivity(0, null);
 			seventhCriminalActivity.setUcrOffenseCode("520");
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
-			Offense eighthCriminalActivity = new Offense();
+			OffenseSegment eighthCriminalActivity = new OffenseSegment();
 			eighthCriminalActivity.setTypeOfCriminalActivity(0, null);
 			eighthCriminalActivity.setUcrOffenseCode("720");
 			incidents.add(copy);
@@ -502,7 +502,7 @@ public class RuleViolationExemplarFactory {
 
 		groupATweakerMap.put(221, incident -> {
 			// Data Element 13 (Type Weapon/Force Involved) Must be populated with a valid data value and cannot be blank
-			//when Data Element 6 (UCR Offense Code) is:
+			//when Data Element 6 (UCR OffenseSegment Code) is:
 			//09A=Murder and Non-negligent Manslaughter
 			//09B=Negligent Manslaughter
 			//09C=Justifiable Homicide
@@ -520,63 +520,63 @@ public class RuleViolationExemplarFactory {
 			//64B=Human Trafficking, Involuntary Servitude
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstUCROffense = new Offense();
+			OffenseSegment firstUCROffense = new OffenseSegment();
 			firstUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			firstUCROffense.setUcrOffenseCode("09A");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense secondUCROffense = new Offense();
+			OffenseSegment secondUCROffense = new OffenseSegment();
 			secondUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			secondUCROffense.setUcrOffenseCode("09B");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense thirdUCROffense = new Offense();
+			OffenseSegment thirdUCROffense = new OffenseSegment();
 			thirdUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			thirdUCROffense.setUcrOffenseCode("09C");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Offense fourthUCROffense = new Offense();
+			OffenseSegment fourthUCROffense = new OffenseSegment();
 			fourthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			fourthUCROffense.setUcrOffenseCode("100");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Offense fifthUCROffense = new Offense();
+			OffenseSegment fifthUCROffense = new OffenseSegment();
 			fifthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			fifthUCROffense.setUcrOffenseCode("11A");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			Offense sixthUCROffense = new Offense();
+			OffenseSegment sixthUCROffense = new OffenseSegment();
 			sixthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			sixthUCROffense.setUcrOffenseCode("11B");
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			Offense seventhUCROffense = new Offense();
+			OffenseSegment seventhUCROffense = new OffenseSegment();
 			seventhUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			seventhUCROffense.setUcrOffenseCode("11C");
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
-			Offense eighthUCROffense = new Offense();
+			OffenseSegment eighthUCROffense = new OffenseSegment();
 			eighthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			eighthUCROffense.setUcrOffenseCode("11D");
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
-			Offense ninthUCROffense = new Offense();
+			OffenseSegment ninthUCROffense = new OffenseSegment();
 			ninthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			ninthUCROffense.setUcrOffenseCode("120");
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
-			Offense tenthUCROffense = new Offense();
+			OffenseSegment tenthUCROffense = new OffenseSegment();
 			tenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			tenthUCROffense.setUcrOffenseCode("13A");
 			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
-			Offense eleventhUCROffense = new Offense();
+			OffenseSegment eleventhUCROffense = new OffenseSegment();
 			eleventhUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			eleventhUCROffense.setUcrOffenseCode("13B");
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
-			Offense twelvthUCROffense = new Offense();
+			OffenseSegment twelvthUCROffense = new OffenseSegment();
 			twelvthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			twelvthUCROffense.setUcrOffenseCode("210");
 			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
-			Offense thirteenthUCROffense = new Offense();
+			OffenseSegment thirteenthUCROffense = new OffenseSegment();
 			thirteenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			thirteenthUCROffense.setUcrOffenseCode("520");
 			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
-			Offense fourteenthUCROffense = new Offense();
+			OffenseSegment fourteenthUCROffense = new OffenseSegment();
 			fourteenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			fourteenthUCROffense.setUcrOffenseCode("64A");
 			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
-			Offense fifteenthUCROffense = new Offense();
+			OffenseSegment fifteenthUCROffense = new OffenseSegment();
 			fifteenthUCROffense.setTypeOfWeaponForceInvolved(0, null);
 			fifteenthUCROffense.setUcrOffenseCode("64B");
 			
@@ -605,7 +605,7 @@ public class RuleViolationExemplarFactory {
 		
 		
 		groupATweakerMap.put(251, incident -> {
-			// (Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
+			// (OffenseSegment Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
 			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.getOffenses().get(0).setOffenseAttemptedCompleted("X");
 			return Collections.singletonList(ret);
@@ -614,7 +614,7 @@ public class RuleViolationExemplarFactory {
 		groupATweakerMap.put(252, incident -> {
 
 			// When number of premises is entered location type must be 14 or 19
-			// and UCR Offense Code must be Burglary.
+			// and UCR OffenseSegment Code must be Burglary.
 
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 
@@ -628,7 +628,7 @@ public class RuleViolationExemplarFactory {
 			for (OffenseCode oc : offenseCodeSet) {
 				for (LocationTypeCode ltc : locationTypeCodeSet) {
 					GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-					Offense offense = new Offense();
+					OffenseSegment offense = new OffenseSegment();
 					offense.setNumberOfPremisesEntered(2);
 					offense.setLocationType(ltc.code);
 					offense.setUcrOffenseCode(oc.code);
@@ -636,7 +636,7 @@ public class RuleViolationExemplarFactory {
 					incidents.add(copy);
 				}
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-				Offense offense = new Offense();
+				OffenseSegment offense = new OffenseSegment();
 				offense.setNumberOfPremisesEntered(2);
 				offense.setLocationType(LocationTypeCode._14.code);
 				offense.setUcrOffenseCode(oc.code);
@@ -646,7 +646,7 @@ public class RuleViolationExemplarFactory {
 
 			for (LocationTypeCode ltc : locationTypeCodeSet) {
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-				Offense offense = new Offense();
+				OffenseSegment offense = new OffenseSegment();
 				offense.setNumberOfPremisesEntered(2);
 				offense.setLocationType(ltc.code);
 				offense.setUcrOffenseCode(OffenseCode._220.code);
@@ -660,10 +660,10 @@ public class RuleViolationExemplarFactory {
 
 		groupATweakerMap.put(253, incident -> {
 			// (Method of Entry) Data Element was not entered; it must be entered
-			// when UCR Offense Code of 220=Burglary has been entered.
+			// when UCR OffenseSegment Code of 220=Burglary has been entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense offense = new Offense();
+			OffenseSegment offense = new OffenseSegment();
 			offense.setMethodOfEntry(null);
 			offense.setUcrOffenseCode("220");
 			incident.addOffense(offense);
@@ -673,11 +673,11 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(254, incident -> {
-			// (Method of Entry) Data Element only applies to UCR Offense Code of 220=Burglary.
+			// (Method of Entry) Data Element only applies to UCR OffenseSegment Code of 220=Burglary.
 			// Since a burglary offense was not entered, the Method of Entry should not have been entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense offense = new Offense();
+			OffenseSegment offense = new OffenseSegment();
 			offense.setMethodOfEntry("F");
 			offense.setUcrOffenseCode("13A");
 			incident.addOffense(offense);
@@ -690,7 +690,7 @@ public class RuleViolationExemplarFactory {
 			// ((Automatic Weapon Indicator) Must be A=Automatic or blank=Not Automatic
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense automaticWeaponIndicator = new Offense();
+			OffenseSegment automaticWeaponIndicator = new OffenseSegment();
 			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "F");
 			incident.addOffense(automaticWeaponIndicator);
 			incidents.add(copy);
@@ -699,7 +699,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(256, incident -> {
-			// Offense Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
+			// OffenseSegment Attempted/Completed, Data Element 7, must be a valid code of A=Attempted or C=Completed if UCR code is Homicide
 			// Assault.
 			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			ret.getOffenses().get(0).setUcrOffenseCode("09A");
@@ -712,11 +712,11 @@ public class RuleViolationExemplarFactory {
 			// and if Data Element 9 (Location Type) contains 14=Hotel/Motel/Etc. or 19=Rental Storage Facility.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense offense = new Offense();
+			OffenseSegment offense = new OffenseSegment();
 			offense.setLocationType("14");
 			offense.setUcrOffenseCode("220");
 			GroupAIncidentReport copy1 = new GroupAIncidentReport(incident);
-			Offense offense1 = new Offense();
+			OffenseSegment offense1 = new OffenseSegment();
 			offense1.setLocationType("19");
 			offense1.setUcrOffenseCode("220");
 			incident.addOffense(offense);
@@ -735,7 +735,7 @@ public class RuleViolationExemplarFactory {
 			// A weapon code other than those mentioned was entered with the automatic indicator. An automatic weapon is, by definition, a firearm.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense automaticWeaponIndicator = new Offense();
+			OffenseSegment automaticWeaponIndicator = new OffenseSegment();
 			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "A");
 			automaticWeaponIndicator.setTypeOfWeaponForceInvolved(0, "20");
 			incident.addOffense(automaticWeaponIndicator);
@@ -745,13 +745,13 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(262, incident -> {
-			// When a Group A Incident Report is submitted, the individual segments
+			// When a Group A Incident AbstractReport is submitted, the individual segments
 			// comprising the incident cannot contain duplicates.
-			// In this case, two Offense Segments were submitted having the same
-			// offense in Data Element 6 (UCR Offense Code).
+			// In this case, two OffenseSegment Segments were submitted having the same
+			// offense in Data Element 6 (UCR OffenseSegment Code).
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense secondOffense = new Offense();
+			OffenseSegment secondOffense = new OffenseSegment();
 			secondOffense.setUcrOffenseCode("13B");
 			copy.addOffense(secondOffense);
 			incidents.add(copy);
@@ -759,97 +759,97 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(263, incident -> {
-			// Can be submitted only 10 times for each Group A Incident Report;
+			// Can be submitted only 10 times for each Group A Incident AbstractReport;
 			// 10 offense codes are allowed for each incident.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstOffense = new Offense();
+			OffenseSegment firstOffense = new OffenseSegment();
 			firstOffense.setUcrOffenseCode("13A");
-			Offense secondOffense = new Offense();
+			OffenseSegment secondOffense = new OffenseSegment();
 			secondOffense.setUcrOffenseCode("13B");
-			Offense thirdOffense = new Offense();
+			OffenseSegment thirdOffense = new OffenseSegment();
 			thirdOffense.setUcrOffenseCode("13C");
-			Offense fourthOffense = new Offense();
+			OffenseSegment fourthOffense = new OffenseSegment();
 			fourthOffense.setUcrOffenseCode("13D");
-			Offense fifthOffense = new Offense();
+			OffenseSegment fifthOffense = new OffenseSegment();
 			fifthOffense.setUcrOffenseCode("13E");
-			Offense sixthOffense = new Offense();
+			OffenseSegment sixthOffense = new OffenseSegment();
 			sixthOffense.setUcrOffenseCode("13F");
-			Offense seventhOffense = new Offense();
+			OffenseSegment seventhOffense = new OffenseSegment();
 			seventhOffense.setUcrOffenseCode("13G");
-			Offense eighthOffense = new Offense();
+			OffenseSegment eighthOffense = new OffenseSegment();
 			eighthOffense.setUcrOffenseCode("13H");
-			Offense ninthOffense = new Offense();
+			OffenseSegment ninthOffense = new OffenseSegment();
 			ninthOffense.setUcrOffenseCode("13I");
-			Offense tenthOffense = new Offense();
+			OffenseSegment tenthOffense = new OffenseSegment();
 			tenthOffense.setUcrOffenseCode("13J");
-			Offense eleventhOffense = new Offense();
+			OffenseSegment eleventhOffense = new OffenseSegment();
 			eleventhOffense.setUcrOffenseCode("13K");
 			incidents.add(copy);
 			return incidents;
 		});
 
 		groupATweakerMap.put(264, incident -> {
-			// Group A Offense code cannot contain a Group B Offense
+			// Group A OffenseSegment code cannot contain a Group B OffenseSegment
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstOffense = new Offense();
+			OffenseSegment firstOffense = new OffenseSegment();
 			firstOffense.setUcrOffenseCode("90A");
 			incidents.add(copy);
 			return incidents;
 		});
 
 		groupATweakerMap.put(265, incident -> {
-			// (Type Weapon/Force Involved) If an Offense Segment (Level 2) was submitted for 13B=Simple Assault,
+			// (Type Weapon/Force Involved) If an OffenseSegment Segment (Level 2) was submitted for 13B=Simple Assault,
 			// Data Element 13 (Type Weapon/Force Involved) can only have codes of 40=Personal Weapons,
 			// 90=Other, 95=Unknown, and 99=None. All other codes are not valid because they do not relate to a simple assault.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstOffense = new Offense();
+			OffenseSegment firstOffense = new OffenseSegment();
 			firstOffense.setUcrOffenseCode("13B");
 			firstOffense.setTypeOfWeaponForceInvolved(0, "11");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense secondOffense = new Offense();
+			OffenseSegment secondOffense = new OffenseSegment();
 			secondOffense.setUcrOffenseCode("13B");
 			secondOffense.setTypeOfWeaponForceInvolved(0, "12");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense thirdOffense = new Offense();
+			OffenseSegment thirdOffense = new OffenseSegment();
 			thirdOffense.setUcrOffenseCode("13B");
 			thirdOffense.setTypeOfWeaponForceInvolved(0, "13");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Offense fourthOffense = new Offense();
+			OffenseSegment fourthOffense = new OffenseSegment();
 			fourthOffense.setUcrOffenseCode("13B");
 			fourthOffense.setTypeOfWeaponForceInvolved(0, "14");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Offense fifthOffense = new Offense();
+			OffenseSegment fifthOffense = new OffenseSegment();
 			fifthOffense.setUcrOffenseCode("13B");
 			fifthOffense.setTypeOfWeaponForceInvolved(0, "15");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			Offense sixthOffense = new Offense();
+			OffenseSegment sixthOffense = new OffenseSegment();
 			sixthOffense.setUcrOffenseCode("13B");
 			sixthOffense.setTypeOfWeaponForceInvolved(0, "20");
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			Offense seventhOffense = new Offense();
+			OffenseSegment seventhOffense = new OffenseSegment();
 			seventhOffense.setUcrOffenseCode("13B");
 			seventhOffense.setTypeOfWeaponForceInvolved(0, "30");
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
-			Offense eighthOffense = new Offense();
+			OffenseSegment eighthOffense = new OffenseSegment();
 			eighthOffense.setUcrOffenseCode("13B");
 			eighthOffense.setTypeOfWeaponForceInvolved(0, "50");
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
-			Offense ninthOffense = new Offense();
+			OffenseSegment ninthOffense = new OffenseSegment();
 			ninthOffense.setUcrOffenseCode("13B");
 			ninthOffense.setTypeOfWeaponForceInvolved(0, "60");
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
-			Offense tenthOffense = new Offense();
+			OffenseSegment tenthOffense = new OffenseSegment();
 			tenthOffense.setUcrOffenseCode("13B");
 			tenthOffense.setTypeOfWeaponForceInvolved(0, "65");
 			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
-			Offense eleventhOffense = new Offense();
+			OffenseSegment eleventhOffense = new OffenseSegment();
 			eleventhOffense.setUcrOffenseCode("13B");
 			eleventhOffense.setTypeOfWeaponForceInvolved(0, "70");
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
-			Offense twelfthOffense = new Offense();
+			OffenseSegment twelfthOffense = new OffenseSegment();
 			twelfthOffense.setUcrOffenseCode("13B");
 			twelfthOffense.setTypeOfWeaponForceInvolved(0, "85");
 			incidents.add(copy);
@@ -869,13 +869,13 @@ public class RuleViolationExemplarFactory {
 
 		groupATweakerMap.put(266, incident -> {
 			// When a Justifiable Homicide is reported, no other offense may be
-			// reported in the Group A Incident Report. These should be submitted on another
-			// Group A Incident Report.
+			// reported in the Group A Incident AbstractReport. These should be submitted on another
+			// Group A Incident AbstractReport.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense JustifiableHomicideOffense = new Offense();
+			OffenseSegment JustifiableHomicideOffense = new OffenseSegment();
 			JustifiableHomicideOffense.setUcrOffenseCode("09C");
-			Offense secondOffense = new Offense();
+			OffenseSegment secondOffense = new OffenseSegment();
 			secondOffense.setUcrOffenseCode("13B");
 			incidents.add(copy);
 			return incidents;
@@ -887,11 +887,11 @@ public class RuleViolationExemplarFactory {
 			// cannot have 99=None. Some type of weapon/force must be used in a homicide offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense homicideOffense = new Offense();
+			OffenseSegment homicideOffense = new OffenseSegment();
 			homicideOffense.setUcrOffenseCode("09A");
 			homicideOffense.setTypeOfWeaponForceInvolved(0, null);
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense homicideOffense2 = new Offense();
+			OffenseSegment homicideOffense2 = new OffenseSegment();
 			homicideOffense2.setUcrOffenseCode("09A");
 			homicideOffense2.setTypeOfWeaponForceInvolved(0, "99");
 			incidents.add(copy);
@@ -901,28 +901,28 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(269, incident -> {
-			// (Type Weapon/Force Involved) If Data Element 6 (UCR Offense Code) is 13B=Simple Assault and the
+			// (Type Weapon/Force Involved) If Data Element 6 (UCR OffenseSegment Code) is 13B=Simple Assault and the
 			// weapon involved is 11=Firearm, 12=Handgun, 13=Rifle, 14=Shotgun, or 15=Other Firearm, then the offense
 			// should instead be classified as 13A=Aggravated Assault.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense firstOffense = new Offense();
+			OffenseSegment firstOffense = new OffenseSegment();
 			firstOffense.setUcrOffenseCode("13B");
 			firstOffense.setTypeOfWeaponForceInvolved(0, "11");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense secondOffense = new Offense();
+			OffenseSegment secondOffense = new OffenseSegment();
 			secondOffense.setUcrOffenseCode("13B");
 			secondOffense.setTypeOfWeaponForceInvolved(0, "12");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense thirdOffense = new Offense();
+			OffenseSegment thirdOffense = new OffenseSegment();
 			thirdOffense.setUcrOffenseCode("13B");
 			thirdOffense.setTypeOfWeaponForceInvolved(0, "13");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Offense fourthOffense = new Offense();
+			OffenseSegment fourthOffense = new OffenseSegment();
 			fourthOffense.setUcrOffenseCode("13B");
 			fourthOffense.setTypeOfWeaponForceInvolved(0, "14");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Offense fifthOffense = new Offense();
+			OffenseSegment fifthOffense = new OffenseSegment();
 			fifthOffense.setUcrOffenseCode("13B");
 			fifthOffense.setTypeOfWeaponForceInvolved(0, "15");
 			incidents.add(copy);
@@ -938,7 +938,7 @@ public class RuleViolationExemplarFactory {
 			// If a justifiable homicide offense is submitted, Data Element 8A (Bias motivation) must be 88.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense JustifiableHomicideOffense = new Offense();
+			OffenseSegment JustifiableHomicideOffense = new OffenseSegment();
 			JustifiableHomicideOffense.setUcrOffenseCode("09C");
 			JustifiableHomicideOffense.setBiasMotivation(0, "11");
 			incidents.add(copy);
@@ -947,7 +947,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(301, incident -> {
-			// The referenced data element in a Group A Incident Report
+			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 3 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -963,10 +963,10 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss(null);
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, null);
 
 			incidents.add(copy);
@@ -981,7 +981,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(304, incident -> {
-			// The referenced data element in a Group A Incident Report Segment 3 must
+			// The referenced data element in a Group A Incident AbstractReport Segment 3 must
 			// be populated with a valid data value.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -991,93 +991,93 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setCityIndicator("ZZ12");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			Offense firstOffense = new Offense();
+			OffenseSegment firstOffense = new OffenseSegment();
 			firstOffense.setUcrOffenseCode("XXX");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			Offense biasOffense = new Offense();
+			OffenseSegment biasOffense = new OffenseSegment();
 			biasOffense.setBiasMotivation(0, "10");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			Offense offenseLocation = new Offense();
+			OffenseSegment offenseLocation = new OffenseSegment();
 			offenseLocation.setLocationType("99");
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("9");
-			//Data Element 16 Value of Property does not have separate rules for valid and blank.
+			//Data Element 16 Value of PropertySegment does not have separate rules for valid and blank.
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("02");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "03");
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0, 0000000500);
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss3 = new Property();
+			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
 			typeOfPropertyLoss3.setTypeOfPropertyLoss("02");
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, "03");
-			Property valueOfProperty2 = new Property();
+			PropertySegment valueOfProperty2 = new PropertySegment();
 			valueOfProperty2.setValueOfProperty(0, null);
 			//Data Element 17 DateRecovered cannot be blank. 
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss4 = new Property();
+			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
 			typeOfPropertyLoss4.setTypeOfPropertyLoss("05");
-			Property propertyDescription4 = new Property();
+			PropertySegment propertyDescription4 = new PropertySegment();
 			propertyDescription4.setPropertyDescription(0, "03");
-			Property valueOfProperty3 = new Property();
+			PropertySegment valueOfProperty3 = new PropertySegment();
 			valueOfProperty3.setValueOfProperty(0, 000000500);
-			Property numberOfRecoveredMotorVehicles = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
-			Property dateRecovered = new Property();
+			PropertySegment dateRecovered = new PropertySegment();
 			dateRecovered.setDateRecovered(0, null);
-			//(Number of Stolen Motor Vehicles) Is mandatory with Data Element 6 (UCR Offense Code) is 240.
-			//The referenced data element in a Group A Incident Report must be 
+			//(Number of Stolen Motor Vehicles) Is mandatory with Data Element 6 (UCR OffenseSegment Code) is 240.
+			//The referenced data element in a Group A Incident AbstractReport must be 
 			//populated with a valid data value and cannot be blank.
 			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			Offense ucrOffenseCode = new Offense();
+			OffenseSegment ucrOffenseCode = new OffenseSegment();
 			ucrOffenseCode.setUcrOffenseCode("240");
-			Property typeOfPropertyLoss5 = new Property();
+			PropertySegment typeOfPropertyLoss5 = new PropertySegment();
 			typeOfPropertyLoss5.setTypeOfPropertyLoss("07");
-			Property propertyDescription5 = new Property();
+			PropertySegment propertyDescription5 = new PropertySegment();
 			propertyDescription5.setPropertyDescription(0, "03");
-			Property numberOfStolenMotorVehicles = new Property();
+			PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
 			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(null);
-			Property valueOfProperty4 = new Property();
+			PropertySegment valueOfProperty4 = new PropertySegment();
 			valueOfProperty4.setValueOfProperty(0, 000000500);
-			//This data element is Mandatory when Data Element 6 (UCR Offense Code) is 240=Motor Vehicle 
-			//Theft, Data Element 14 (Type Property Loss/Etc.) is 5=Recovered, and 
-			//Data Element 7 (Offense Attempted/Completed) is C=Completed.(Number of Recovered Motor Vehicles The referenced data element 
-			//in a Group A Incident Report must be populated with a valid data value and cannot be blank.
+			//This data element is Mandatory when Data Element 6 (UCR OffenseSegment Code) is 240=Motor Vehicle 
+			//Theft, Data Element 14 (Type PropertySegment Loss/Etc.) is 5=Recovered, and 
+			//Data Element 7 (OffenseSegment Attempted/Completed) is C=Completed.(Number of Recovered Motor Vehicles The referenced data element 
+			//in a Group A Incident AbstractReport must be populated with a valid data value and cannot be blank.
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
-			Offense ucrOffenseCode2 = new Offense();
+			OffenseSegment ucrOffenseCode2 = new OffenseSegment();
 			ucrOffenseCode2.setUcrOffenseCode("240");
-			Property typeOfPropertyLoss6 = new Property();
+			PropertySegment typeOfPropertyLoss6 = new PropertySegment();
 			typeOfPropertyLoss6.setTypeOfPropertyLoss("5");
-			Property propertyDescription6 = new Property();
+			PropertySegment propertyDescription6 = new PropertySegment();
 			propertyDescription6.setPropertyDescription(0, "03");
-			Property numberOfRecoveredMotorVehicles2 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles2 = new PropertySegment();
 			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(null);
-			Property valueOfProperty5 = new Property();
+			PropertySegment valueOfProperty5 = new PropertySegment();
 			valueOfProperty5.setValueOfProperty(0, 000000500);
 			//Suspected Drug Type must be populated with a valid data value
 			//and cannot be blank (no edit for a 301 error)
 			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
-			Offense ucrOffenseCode3 = new Offense();
+			OffenseSegment ucrOffenseCode3 = new OffenseSegment();
 			ucrOffenseCode3.setUcrOffenseCode("35A");
-			Property typeOfPropertyLoss7 = new Property();
+			PropertySegment typeOfPropertyLoss7 = new PropertySegment();
 			typeOfPropertyLoss7.setTypeOfPropertyLoss("6");
-			Property propertyDescription7 = new Property();
+			PropertySegment propertyDescription7 = new PropertySegment();
 			propertyDescription7.setPropertyDescription(0, "10");
-			Property suspectedDrugType = new Property();
+			PropertySegment suspectedDrugType = new PropertySegment();
 			suspectedDrugType.setSuspectedDrugType(0, null);
 			//Suspected Drug Type must be valid.
 			GroupAIncidentReport copy14 = new GroupAIncidentReport(copy);
-			Offense ucrOffenseCode4 = new Offense();
+			OffenseSegment ucrOffenseCode4 = new OffenseSegment();
 			ucrOffenseCode4.setUcrOffenseCode("35A");
-			Property typeOfPropertyLoss8 = new Property();
+			PropertySegment typeOfPropertyLoss8 = new PropertySegment();
 			typeOfPropertyLoss8.setTypeOfPropertyLoss("6");
-			Property propertyDescription8 = new Property();
+			PropertySegment propertyDescription8 = new PropertySegment();
 			propertyDescription8.setPropertyDescription(0, "10");
-			Property suspectedDrugType2 = new Property();
+			PropertySegment suspectedDrugType2 = new PropertySegment();
 			suspectedDrugType2.setSuspectedDrugType(0, "W");
 			
 				
@@ -1114,63 +1114,63 @@ public class RuleViolationExemplarFactory {
 			//Date is later than tape submission
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("05");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "03");
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0, 000000500);
-			Property numberOfRecoveredMotorVehicles = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
-			Property dateRecovered = new Property();
+			PropertySegment dateRecovered = new PropertySegment();
 			dateRecovered.setDateRecovered(0, (Date.from(LocalDate.of(2017, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			//Date Recovered is earlier than incident
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("05");
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "03");
-			Property valueOfProperty2 = new Property();
+			PropertySegment valueOfProperty2 = new PropertySegment();
 			valueOfProperty2.setValueOfProperty(0, 000000500);
-			Property numberOfRecoveredMotorVehicles2 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles2 = new PropertySegment();
 			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
-			Property dateRecovered2 = new Property();
+			PropertySegment dateRecovered2 = new PropertySegment();
 			dateRecovered2.setDateRecovered(0, (Date.from(LocalDate.of(2015, 4, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			//Invalid Date Recovered Month
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss3 = new Property();
+			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
 			typeOfPropertyLoss3.setTypeOfPropertyLoss("05");
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, "03");
-			Property valueOfProperty3 = new Property();
+			PropertySegment valueOfProperty3 = new PropertySegment();
 			valueOfProperty3.setValueOfProperty(0, 000000500);
-			Property numberOfRecoveredMotorVehicles3 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles3 = new PropertySegment();
 			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
-			Property dateRecovered3 = new Property();
+			PropertySegment dateRecovered3 = new PropertySegment();
 			dateRecovered3.setDateRecovered(0, (Date.from(LocalDate.of(2015, 13, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			//Invalid Date Recovered Days for month of May
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss4 = new Property();
+			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
 			typeOfPropertyLoss4.setTypeOfPropertyLoss("05");
-			Property propertyDescription4 = new Property();
+			PropertySegment propertyDescription4 = new PropertySegment();
 			propertyDescription4.setPropertyDescription(0, "03");
-			Property valueOfProperty4 = new Property();
+			PropertySegment valueOfProperty4 = new PropertySegment();
 			valueOfProperty4.setValueOfProperty(0, 000000500);
-			Property numberOfRecoveredMotorVehicles4 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles4 = new PropertySegment();
 			numberOfRecoveredMotorVehicles4.setNumberOfRecoveredMotorVehicles(1);
-			Property dateRecovered4 = new Property();
+			PropertySegment dateRecovered4 = new PropertySegment();
 			dateRecovered4.setDateRecovered(0, (Date.from(LocalDate.of(2015, 5, 32).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			//Year Does not include century
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			Property typeOfPropertyLoss5 = new Property();
+			PropertySegment typeOfPropertyLoss5 = new PropertySegment();
 			typeOfPropertyLoss5.setTypeOfPropertyLoss("05");
-			Property propertyDescription5 = new Property();
+			PropertySegment propertyDescription5 = new PropertySegment();
 			propertyDescription5.setPropertyDescription(0, "03");
-			Property valueOfProperty5 = new Property();
+			PropertySegment valueOfProperty5 = new PropertySegment();
 			valueOfProperty5.setValueOfProperty(0, 000000500);
-			Property numberOfRecoveredMotorVehicles5 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles5 = new PropertySegment();
 			numberOfRecoveredMotorVehicles5.setNumberOfRecoveredMotorVehicles(1);
-			Property dateRecovered5 = new Property();
+			PropertySegment dateRecovered5 = new PropertySegment();
 			dateRecovered5.setDateRecovered(0, (Date.from(LocalDate.of(15, 5, 13).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			
 					
@@ -1189,15 +1189,15 @@ public class RuleViolationExemplarFactory {
 			//When more than one code is entered, none can be duplicate codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode = new Offense();
+			OffenseSegment ucrOffenseCode = new OffenseSegment();
 			ucrOffenseCode.setUcrOffenseCode("35A");
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("6");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "10");
-			Property suspectedDrugType = new Property();
+			PropertySegment suspectedDrugType = new PropertySegment();
 			suspectedDrugType.setSuspectedDrugType(0, "A");
-			Property suspectedDrugType2 = new Property();
+			PropertySegment suspectedDrugType2 = new PropertySegment();
 			suspectedDrugType2.setSuspectedDrugType(0, "A");
 				
 			//There are two exceptions to this rule:
@@ -1207,17 +1207,17 @@ public class RuleViolationExemplarFactory {
 			//(Type Drug Measurement) must be two different measurement categories 
 			//(i.e., grams and liters) and not grams and pounds (same weight category).
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			Offense ucrOffenseCode2 = new Offense();
+			OffenseSegment ucrOffenseCode2 = new OffenseSegment();
 			ucrOffenseCode2.setUcrOffenseCode("35A");
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("6");
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "10");
-			Property suspectedDrugType3 = new Property();
+			PropertySegment suspectedDrugType3 = new PropertySegment();
 			suspectedDrugType3.setSuspectedDrugType(0, "A");
-			Property suspectedDrugType4 = new Property();
+			PropertySegment suspectedDrugType4 = new PropertySegment();
 			suspectedDrugType4.setSuspectedDrugType(0, "A");
-			Property typeDrugMeasurement = new Property();
+			PropertySegment typeDrugMeasurement = new PropertySegment();
 			//typeDrugMeasurement.setTypeDrugMeasurement(0, value); // doesn't compile
 			
 			incidents.add(copy);
@@ -1231,13 +1231,13 @@ public class RuleViolationExemplarFactory {
 			
 		
 		groupATweakerMap.put(342, incident -> {
-			//(Value of Property) When referenced data element contains a value that exceeds an FBI-assigned 
+			//(Value of PropertySegment) When referenced data element contains a value that exceeds an FBI-assigned 
 			//threshold amount, a warning message will be created. The participant is asked to check to 
 			//see if the value entered was a data entry error, or if it was intended to be entered. 
 			//A warning message is always produced when the value is $1,000,000 or greater. 
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0, 001000000);
 			
 			incidents.add(copy);
@@ -1245,7 +1245,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(351, incident -> {
-			// Value of Property) cannot be zero unless Data Element 15 (Property Description) is:
+			// Value of PropertySegment) cannot be zero unless Data Element 15 (PropertySegment Description) is:
 			//Mandatory zero
 			//09=Credit/Debit Cards
 			//22=Non-negotiable Instruments
@@ -1257,29 +1257,29 @@ public class RuleViolationExemplarFactory {
 			//99=(blank)�this data value is not currently used by the FBI
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0, 000000500);
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "09");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Property valueOfProperty2 = new Property();
+			PropertySegment valueOfProperty2 = new PropertySegment();
 			valueOfProperty2.setValueOfProperty(0, 000000500);
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "22");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Property valueOfProperty3 = new Property();
+			PropertySegment valueOfProperty3 = new PropertySegment();
 			valueOfProperty3.setValueOfProperty(0, 000000500);
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, "48");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Property valueOfProperty4 = new Property();
+			PropertySegment valueOfProperty4 = new PropertySegment();
 			valueOfProperty4.setValueOfProperty(0, 000000500);
-			Property propertyDescription4 = new Property();
+			PropertySegment propertyDescription4 = new PropertySegment();
 			propertyDescription4.setPropertyDescription(0, "65");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Property valueOfProperty5 = new Property();
+			PropertySegment valueOfProperty5 = new PropertySegment();
 			valueOfProperty5.setValueOfProperty(0, 000000500);
-			Property propertyDescription5 = new Property();
+			PropertySegment propertyDescription5 = new PropertySegment();
 			propertyDescription5.setPropertyDescription(0, "66");
 
 			
@@ -1295,13 +1295,13 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(353, incident -> {
-			//(Value of Property) is 88=Pending Inventory, but Data Element 16 (Value of Property) is not $1. 
+			//(Value of PropertySegment) is 88=Pending Inventory, but Data Element 16 (Value of PropertySegment) is not $1. 
 			//Determine which of the data elements was entered incorrectly.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "88");
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0,000000001);
 			
 			incidents.add(copy);
@@ -1310,13 +1310,13 @@ public class RuleViolationExemplarFactory {
 
 			
 		groupATweakerMap.put(354, incident -> {
-			// (Property Description) Data Element 16 (Value of Property) contains a value,
-			// but Data Element 15 (Property Description) was not entered.
+			// (PropertySegment Description) Data Element 16 (Value of PropertySegment) contains a value,
+			// but Data Element 15 (PropertySegment Description) was not entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0, 000000500);
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, null);
 
 			incidents.add(copy);
@@ -1324,12 +1324,12 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(355, incident -> {
-			// (Type Of Property Loss) must be 5=Recovered for Data Element 17 (Date Recovered) to be entered.
+			// (Type Of PropertySegment Loss) must be 5=Recovered for Data Element 17 (Date Recovered) to be entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
-			Property dateRecovered = new Property();
+			PropertySegment dateRecovered = new PropertySegment();
 			dateRecovered.setDateRecovered(0,(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 		
 			incidents.add(copy);
@@ -1338,18 +1338,18 @@ public class RuleViolationExemplarFactory {
 		
 		//groupATweakerMap.put(356, incident -> {
 			//to-do: Rule is not clear.
-			// (Property Description) was entered, but Data Elements 15 (Property Description)
-			// and/or 16 (Property Value) were not entered.
+			// (PropertySegment Description) was entered, but Data Elements 15 (PropertySegment Description)
+			// and/or 16 (PropertySegment Value) were not entered.
 			//List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			//GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			//Property valueOfProperty = new Property();
+			//PropertySegment valueOfProperty = new PropertySegment();
 			//valueOfProperty.setValueOfProperty(0, null);
-			//Property propertyDescription = new Property();
+			//PropertySegment propertyDescription = new PropertySegment();
 			//propertyDescription.setPropertyDescription(0, "01");
 			//GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			//Property valueOfProperty2 = new Property();
+			//PropertySegment valueOfProperty2 = new PropertySegment();
 			//.setValueOfProperty(0, 000000500);
-			//Property propertyDescription2 = new Property();
+			//PropertySegment propertyDescription2 = new PropertySegment();
 			//propertyDescription2.setPropertyDescription(0, null);
 
 			//incidents.add(copy);
@@ -1359,46 +1359,46 @@ public class RuleViolationExemplarFactory {
 		//});
 
 		groupATweakerMap.put(357, incident -> {
-			//(Number of Stolen Motor Vehicles) was entered. However, Data Element 14 (Type Property Loss/Etc.) 
-			//7=Stolen/Etc. was not entered, and/or Data Element 6 (UCR Offense Code) of 240=Motor Vehicle Theft was not entered, 
-			//and/or Data Element 7 (Offense Attempted/Completed) was A=Attempted.
+			//(Number of Stolen Motor Vehicles) was entered. However, Data Element 14 (Type PropertySegment Loss/Etc.) 
+			//7=Stolen/Etc. was not entered, and/or Data Element 6 (UCR OffenseSegment Code) of 240=Motor Vehicle Theft was not entered, 
+			//and/or Data Element 7 (OffenseSegment Attempted/Completed) was A=Attempted.
 			
-			//UCR Offense Code not = 240
+			//UCR OffenseSegment Code not = 240
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode = new Offense();
+			OffenseSegment ucrOffenseCode = new OffenseSegment();
 			ucrOffenseCode.setUcrOffenseCode("13A");
-			Offense offenseAttemptedCompleted = new Offense();
+			OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
 			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("7");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "03");
-			Property numberOfStolenMotorVehicles = new Property();
+			PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
 			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(1);
-			//Type of Property Loss not stolen
+			//Type of PropertySegment Loss not stolen
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode2 = new Offense();
+			OffenseSegment ucrOffenseCode2 = new OffenseSegment();
 			ucrOffenseCode2.setUcrOffenseCode("240");
-			Offense offenseAttemptedCompleted2 = new Offense();
+			OffenseSegment offenseAttemptedCompleted2 = new OffenseSegment();
 			offenseAttemptedCompleted2.setOffenseAttemptedCompleted("C");
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("2");
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "03");
-			Property numberOfStolenMotorVehicles2 = new Property();
+			PropertySegment numberOfStolenMotorVehicles2 = new PropertySegment();
 			numberOfStolenMotorVehicles2.setNumberOfStolenMotorVehicles(1);
-			//Offense Attempted/Completed not = C
+			//OffenseSegment Attempted/Completed not = C
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode3 = new Offense();
+			OffenseSegment ucrOffenseCode3 = new OffenseSegment();
 			ucrOffenseCode3.setUcrOffenseCode("240");
-			Offense offenseAttemptedCompleted3 = new Offense();
+			OffenseSegment offenseAttemptedCompleted3 = new OffenseSegment();
 			offenseAttemptedCompleted3.setOffenseAttemptedCompleted("A");
-			Property typeOfPropertyLoss3 = new Property();
+			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
 			typeOfPropertyLoss3.setTypeOfPropertyLoss("7");
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, "03");
-			Property numberOfStolenMotorVehicles3 = new Property();
+			PropertySegment numberOfStolenMotorVehicles3 = new PropertySegment();
 			numberOfStolenMotorVehicles3.setNumberOfStolenMotorVehicles(1);
 			
 			incidents.add(copy);
@@ -1411,21 +1411,21 @@ public class RuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(358, incident -> {
 			//(Number of Stolen Motor Vehicles) Entry must be made for Data Element 18 
-			//(Number of Stolen Motor Vehicles) when Data Element 6 (UCR Offense Code) 
-			//is 240=Motor Vehicle Theft, Data Element 7 (Offense Attempted/Completed) is C=Completed, and 
-			//Data Element 14 (Type Property Loss/Etc.) is 7=Stolen/Etc.
+			//(Number of Stolen Motor Vehicles) when Data Element 6 (UCR OffenseSegment Code) 
+			//is 240=Motor Vehicle Theft, Data Element 7 (OffenseSegment Attempted/Completed) is C=Completed, and 
+			//Data Element 14 (Type PropertySegment Loss/Etc.) is 7=Stolen/Etc.
 			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode = new Offense();
+			OffenseSegment ucrOffenseCode = new OffenseSegment();
 			ucrOffenseCode.setUcrOffenseCode("240");
-			Offense offenseAttemptedCompleted = new Offense();
+			OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
 			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("7");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "03");
-			Property numberOfStolenMotorVehicles = new Property();
+			PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
 			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(null);
 		
 			incidents.add(copy);
@@ -1435,7 +1435,7 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(359, incident -> {
-			// (Property Description) Must be one of the following
+			// (PropertySegment Description) Must be one of the following
 			//03=Automobiles
 			//05=Buses
 			//24=Other Motor Vehicles
@@ -1445,14 +1445,14 @@ public class RuleViolationExemplarFactory {
 			//contain a data value other than 00=Unknown:
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "01");
-			Property numberOfStolenMotorVehicles = new Property();
+			PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
 			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(2);
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "01");
-			Property numberOfRecoveredMotorVehicles = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(2);
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -1461,46 +1461,46 @@ public class RuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(360, incident -> {
 			//(Number of Recovered Motor Vehicles was entered. However, Data Element 14 
-			//(Type Property Loss/Etc.) 5=Recovered was not entered, and/or Data Element 6 
-			//(UCR Offense Code) of 240=Motor Vehicle Theft was not entered, and/or Data Element 7 
-			//(Offense Attempted/Completed) was A=Attempted.
+			//(Type PropertySegment Loss/Etc.) 5=Recovered was not entered, and/or Data Element 6 
+			//(UCR OffenseSegment Code) of 240=Motor Vehicle Theft was not entered, and/or Data Element 7 
+			//(OffenseSegment Attempted/Completed) was A=Attempted.
 			
-			//UCR Offense Code not = 240
+			//UCR OffenseSegment Code not = 240
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode = new Offense();
+			OffenseSegment ucrOffenseCode = new OffenseSegment();
 			ucrOffenseCode.setUcrOffenseCode("13A");
-			Offense offenseAttemptedCompleted = new Offense();
+			OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
 			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("5");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "03");
-			Property numberOfRecoveredMotorVehicles = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
-			//Type of Property Loss not Recovered
+			//Type of PropertySegment Loss not Recovered
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode2 = new Offense();
+			OffenseSegment ucrOffenseCode2 = new OffenseSegment();
 			ucrOffenseCode2.setUcrOffenseCode("240");
-			Offense offenseAttemptedCompleted2 = new Offense();
+			OffenseSegment offenseAttemptedCompleted2 = new OffenseSegment();
 			offenseAttemptedCompleted2.setOffenseAttemptedCompleted("C");
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("2");
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "03");
-			Property numberOfRecoveredMotorVehicles2 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles2 = new PropertySegment();
 			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
-			//Offense Attempted/Completed not = C
+			//OffenseSegment Attempted/Completed not = C
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode3 = new Offense();
+			OffenseSegment ucrOffenseCode3 = new OffenseSegment();
 			ucrOffenseCode3.setUcrOffenseCode("240");
-			Offense offenseAttemptedCompleted3 = new Offense();
+			OffenseSegment offenseAttemptedCompleted3 = new OffenseSegment();
 			offenseAttemptedCompleted3.setOffenseAttemptedCompleted("A");
-			Property typeOfPropertyLoss3 = new Property();
+			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
 			typeOfPropertyLoss3.setTypeOfPropertyLoss("5");
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, "03");
-			Property numberOfRecoveredMotorVehicles3 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles3 = new PropertySegment();
 			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
 			
 			incidents.add(copy);
@@ -1514,20 +1514,20 @@ public class RuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(361, incident -> {
 			//((Number of Recovered Motor Vehicles) Entry must be made when Data Element 6 
-			//(UCR Offense Code) is 240=Motor Vehicle Theft, Data Element 14 
-			//(Type Property Loss/Etc.) is 5=Recovered, and Data Element 15 
-			//(Property Description) contains a vehicle code.
+			//(UCR OffenseSegment Code) is 240=Motor Vehicle Theft, Data Element 14 
+			//(Type PropertySegment Loss/Etc.) is 5=Recovered, and Data Element 15 
+			//(PropertySegment Description) contains a vehicle code.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense ucrOffenseCode = new Offense();
+			OffenseSegment ucrOffenseCode = new OffenseSegment();
 			ucrOffenseCode.setUcrOffenseCode("240");
-			Offense offenseAttemptedCompleted = new Offense();
+			OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
 			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("5");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "03");
-			Property numberOfRecoveredMotorVehicles = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(null);
 			
 			incidents.add(copy);
@@ -1537,7 +1537,7 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(372, incident -> {
-			//(Type of Property Loss) is 
+			//(Type of PropertySegment Loss) is 
 			//2=Burned
 			//3=Counterfeited/Forged
 			//4=Destroyed/Damaged/Vandalized
@@ -1549,123 +1549,123 @@ public class RuleViolationExemplarFactory {
 			//2=Burned
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, null);
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0, null);
-			Property dateRecovered = new Property();
+			PropertySegment dateRecovered = new PropertySegment();
 			dateRecovered.setDateRecovered(0, null);
-			Property numberOfStolenMotorVehicles = new Property();
+			PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
 			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(2);
-			Property numberOfRecoveredMotorVehicles = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
-			Property suspectedDrugType = new Property();
+			PropertySegment suspectedDrugType = new PropertySegment();
 			suspectedDrugType.setSuspectedDrugType(0, null);
-			Property estimatedDrugQuantity = new Property();
+			PropertySegment estimatedDrugQuantity = new PropertySegment();
 			estimatedDrugQuantity.setEstimatedDrugQuantity(0, null);
-			Property typeDrugMeasurement = new Property();
+			PropertySegment typeDrugMeasurement = new PropertySegment();
 			typeDrugMeasurement.setTypeDrugMeasurement(0, null);
 			//3=Counterfeited/Forged
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("3");
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, null);
-			Property valueOfProperty2 = new Property();
+			PropertySegment valueOfProperty2 = new PropertySegment();
 			valueOfProperty2.setValueOfProperty(0, null);
-			Property dateRecovered2 = new Property();
+			PropertySegment dateRecovered2 = new PropertySegment();
 			dateRecovered2.setDateRecovered(0, null);
-			Property numberOfStolenMotorVehicles2 = new Property();
+			PropertySegment numberOfStolenMotorVehicles2 = new PropertySegment();
 			numberOfStolenMotorVehicles2.setNumberOfStolenMotorVehicles(2);
-			Property numberOfRecoveredMotorVehicles2 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles2 = new PropertySegment();
 			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
-			Property suspectedDrugType2 = new Property();
+			PropertySegment suspectedDrugType2 = new PropertySegment();
 			suspectedDrugType2.setSuspectedDrugType(0, null);
-			Property estimatedDrugQuantity2 = new Property();
+			PropertySegment estimatedDrugQuantity2 = new PropertySegment();
 			estimatedDrugQuantity2.setEstimatedDrugQuantity(0, null);
-			Property typeDrugMeasurement2 = new Property();
+			PropertySegment typeDrugMeasurement2 = new PropertySegment();
 			typeDrugMeasurement2.setTypeDrugMeasurement(0, null);
 			//4=Destroyed/Damaged/Vandalized
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss3 = new Property();
+			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
 			typeOfPropertyLoss3.setTypeOfPropertyLoss("4");
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, null);
-			Property valueOfProperty3 = new Property();
+			PropertySegment valueOfProperty3 = new PropertySegment();
 			valueOfProperty3.setValueOfProperty(0, null);
-			Property dateRecovered3 = new Property();
+			PropertySegment dateRecovered3 = new PropertySegment();
 			dateRecovered3.setDateRecovered(0, null);
-			Property numberOfStolenMotorVehicles3 = new Property();
+			PropertySegment numberOfStolenMotorVehicles3 = new PropertySegment();
 			numberOfStolenMotorVehicles3.setNumberOfStolenMotorVehicles(2);
-			Property numberOfRecoveredMotorVehicles3 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles3 = new PropertySegment();
 			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
-			Property suspectedDrugType3 = new Property();
+			PropertySegment suspectedDrugType3 = new PropertySegment();
 			suspectedDrugType3.setSuspectedDrugType(0, null);
-			Property estimatedDrugQuantity3 = new Property();
+			PropertySegment estimatedDrugQuantity3 = new PropertySegment();
 			estimatedDrugQuantity3.setEstimatedDrugQuantity(0, null);
-			Property typeDrugMeasurement3 = new Property();
+			PropertySegment typeDrugMeasurement3 = new PropertySegment();
 			typeDrugMeasurement3.setTypeDrugMeasurement(0, null);
 			//5=Recovered
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss4 = new Property();
+			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
 			typeOfPropertyLoss4.setTypeOfPropertyLoss("5");
-			Property propertyDescription4 = new Property();
+			PropertySegment propertyDescription4 = new PropertySegment();
 			propertyDescription4.setPropertyDescription(0, null);
-			Property valueOfProperty4 = new Property();
+			PropertySegment valueOfProperty4 = new PropertySegment();
 			valueOfProperty4.setValueOfProperty(0, null);
-			Property dateRecovered4 = new Property();
+			PropertySegment dateRecovered4 = new PropertySegment();
 			dateRecovered4.setDateRecovered(0, null);
-			Property numberOfStolenMotorVehicles4 = new Property();
+			PropertySegment numberOfStolenMotorVehicles4 = new PropertySegment();
 			numberOfStolenMotorVehicles4.setNumberOfStolenMotorVehicles(null);
-			Property numberOfRecoveredMotorVehicles4 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles4 = new PropertySegment();
 			numberOfRecoveredMotorVehicles4.setNumberOfRecoveredMotorVehicles(null);
-			Property suspectedDrugType4 = new Property();
+			PropertySegment suspectedDrugType4 = new PropertySegment();
 			suspectedDrugType4.setSuspectedDrugType(0, null);
-			Property estimatedDrugQuantity4 = new Property();
+			PropertySegment estimatedDrugQuantity4 = new PropertySegment();
 			estimatedDrugQuantity4.setEstimatedDrugQuantity(0, null);
-			Property typeDrugMeasurement4 = new Property();
+			PropertySegment typeDrugMeasurement4 = new PropertySegment();
 			typeDrugMeasurement4.setTypeDrugMeasurement(0, null);
 			//6=Seized
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss5 = new Property();
+			PropertySegment typeOfPropertyLoss5 = new PropertySegment();
 			typeOfPropertyLoss5.setTypeOfPropertyLoss("5");
-			Property propertyDescription5 = new Property();
+			PropertySegment propertyDescription5 = new PropertySegment();
 			propertyDescription5.setPropertyDescription(0, null);
-			Property valueOfProperty5 = new Property();
+			PropertySegment valueOfProperty5 = new PropertySegment();
 			valueOfProperty5.setValueOfProperty(0, null);
-			Property dateRecovered5 = new Property();
+			PropertySegment dateRecovered5 = new PropertySegment();
 			dateRecovered5.setDateRecovered(0, null);
-			Property numberOfStolenMotorVehicles5 = new Property();
+			PropertySegment numberOfStolenMotorVehicles5 = new PropertySegment();
 			numberOfStolenMotorVehicles5.setNumberOfStolenMotorVehicles(null);
-			Property numberOfRecoveredMotorVehicles5 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles5 = new PropertySegment();
 			numberOfRecoveredMotorVehicles5.setNumberOfRecoveredMotorVehicles(null);
-			Property suspectedDrugType5 = new Property();
+			PropertySegment suspectedDrugType5 = new PropertySegment();
 			suspectedDrugType5.setSuspectedDrugType(0, null);
-			Property estimatedDrugQuantity5 = new Property();
+			PropertySegment estimatedDrugQuantity5 = new PropertySegment();
 			estimatedDrugQuantity5.setEstimatedDrugQuantity(0, null);
-			Property typeDrugMeasurement5 = new Property();
+			PropertySegment typeDrugMeasurement5 = new PropertySegment();
 			typeDrugMeasurement5.setTypeDrugMeasurement(0, null);
 			//6=Stolen, Etc.
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			Property typeOfPropertyLoss6 = new Property();
+			PropertySegment typeOfPropertyLoss6 = new PropertySegment();
 			typeOfPropertyLoss6.setTypeOfPropertyLoss("5");
-			Property propertyDescription6 = new Property();
+			PropertySegment propertyDescription6 = new PropertySegment();
 			propertyDescription6.setPropertyDescription(0, null);
-			Property valueOfProperty6 = new Property();
+			PropertySegment valueOfProperty6 = new PropertySegment();
 			valueOfProperty6.setValueOfProperty(0, null);
-			Property dateRecovered6 = new Property();
+			PropertySegment dateRecovered6 = new PropertySegment();
 			dateRecovered6.setDateRecovered(0, null);
-			Property numberOfStolenMotorVehicles6 = new Property();
+			PropertySegment numberOfStolenMotorVehicles6 = new PropertySegment();
 			numberOfStolenMotorVehicles6.setNumberOfStolenMotorVehicles(null);
-			Property numberOfRecoveredMotorVehicles6 = new Property();
+			PropertySegment numberOfRecoveredMotorVehicles6 = new PropertySegment();
 			numberOfRecoveredMotorVehicles6.setNumberOfRecoveredMotorVehicles(null);
-			Property suspectedDrugType6 = new Property();
+			PropertySegment suspectedDrugType6 = new PropertySegment();
 			suspectedDrugType6.setSuspectedDrugType(0, null);
-			Property estimatedDrugQuantity6 = new Property();
+			PropertySegment estimatedDrugQuantity6 = new PropertySegment();
 			estimatedDrugQuantity6.setEstimatedDrugQuantity(0, null);
-			Property typeDrugMeasurement6 = new Property();
+			PropertySegment typeDrugMeasurement6 = new PropertySegment();
 			typeDrugMeasurement6.setTypeDrugMeasurement(0, null);
 			
 			
@@ -1683,8 +1683,8 @@ public class RuleViolationExemplarFactory {
 		
 		
 		groupATweakerMap.put(375, incident -> {
-			// (Property Description) At least one Data Element 15 (Property Description) code must
-			//be entered when Data Element 14 (Type Property Loss/Etc.) contains Property Segment(s) for:
+			// (PropertySegment Description) At least one Data Element 15 (PropertySegment Description) code must
+			//be entered when Data Element 14 (Type PropertySegment Loss/Etc.) contains PropertySegment Segment(s) for:
 			//		2=Burned
 			//		3=Counterfeited/Forged
 			//		4=Destroyed/Damaged/Vandalized
@@ -1693,34 +1693,34 @@ public class RuleViolationExemplarFactory {
 			//		7=Stolen/Etc.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, null);
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, null);
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("3");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, null);
-			Property typeOfPropertyLoss3 = new Property();
+			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
 			typeOfPropertyLoss3.setTypeOfPropertyLoss("4");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Property propertyDescription4 = new Property();
+			PropertySegment propertyDescription4 = new PropertySegment();
 			propertyDescription4.setPropertyDescription(0, null);
-			Property typeOfPropertyLoss4 = new Property();
+			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
 			typeOfPropertyLoss4.setTypeOfPropertyLoss("5");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Property propertyDescription5 = new Property();
+			PropertySegment propertyDescription5 = new PropertySegment();
 			propertyDescription5.setPropertyDescription(0, null);
-			Property typeOfPropertyLoss5 = new Property();
+			PropertySegment typeOfPropertyLoss5 = new PropertySegment();
 			typeOfPropertyLoss5.setTypeOfPropertyLoss("6");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			Property propertyDescription6 = new Property();
+			PropertySegment propertyDescription6 = new PropertySegment();
 			propertyDescription6.setPropertyDescription(0, null);
-			Property typeOfPropertyLoss6 = new Property();
+			PropertySegment typeOfPropertyLoss6 = new PropertySegment();
 			typeOfPropertyLoss6.setTypeOfPropertyLoss("7");
 			
 			incidents.add(copy);
@@ -1734,16 +1734,16 @@ public class RuleViolationExemplarFactory {
 		});
 	
 		groupATweakerMap.put(383, incident -> {
-			//(Value of Property) has a value other than zero entered. 
-			//Since Data Element 15 (Property Description) code is 10=Drugs/Narcotics and the only Crime Against Property 
-			//offense submitted is a 35A=Drug/Narcotic Violations, Data Element 16 (Value of Property) must be blank.
+			//(Value of PropertySegment) has a value other than zero entered. 
+			//Since Data Element 15 (PropertySegment Description) code is 10=Drugs/Narcotics and the only Crime Against PropertySegment 
+			//offense submitted is a 35A=Drug/Narcotic Violations, Data Element 16 (Value of PropertySegment) must be blank.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense offense = new Offense();
+			OffenseSegment offense = new OffenseSegment();
 			offense.setUcrOffenseCode("35A");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "10");
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0, 000000500);
 			
 			incidents.add(copy);
@@ -1751,24 +1751,24 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 			groupATweakerMap.put(387, incident -> {
-			//(Property Description) To ensure that 35A-35B Drug/Narcotic Offenses-Drug Equipment 
-			//Violations are properly reported, Data Element 15 (Property Description) of 11=Drug/Narcotic Equipment 
+			//(PropertySegment Description) To ensure that 35A-35B Drug/Narcotic Offenses-Drug Equipment 
+			//Violations are properly reported, Data Element 15 (PropertySegment Description) of 11=Drug/Narcotic Equipment 
 			//is not allowed with only a 35A Drug/Narcotic Violation. Similarly, 10=Drugs/Narcotics is not 
-			//allowed with only a 35B Drug Equipment Violation. And Data Element 14 (Type Property Loss/Etc.) is 6=Seized.
+			//allowed with only a 35B Drug Equipment Violation. And Data Element 14 (Type PropertySegment Loss/Etc.) is 6=Seized.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense offense = new Offense();
+			OffenseSegment offense = new OffenseSegment();
 			offense.setUcrOffenseCode("35A");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "11");
-			Property typeOfPropertyLoss = new Property();
+			PropertySegment typeOfPropertyLoss = new PropertySegment();
 			typeOfPropertyLoss.setTypeOfPropertyLoss("6");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense offense2 = new Offense();
+			OffenseSegment offense2 = new OffenseSegment();
 			offense2.setUcrOffenseCode("35B");
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "11");
-			Property typeOfPropertyLoss2 = new Property();
+			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
 			typeOfPropertyLoss2.setTypeOfPropertyLoss("6");
 			
 			incidents.add(copy);
@@ -1779,7 +1779,7 @@ public class RuleViolationExemplarFactory {
 		
 			groupATweakerMap.put(388, incident -> {
 				//(Number of Stolen Motor Vehicles) More than one vehicle code was entered in 
-				//Data Element 15 (Property Description), but the number stolen in Data Element 18 
+				//Data Element 15 (PropertySegment Description), but the number stolen in Data Element 18 
 				//(Number of Stolen Motor Vehicles) is less than this number. 
 				//For example, if vehicle codes of 03=Automobiles and 05=Buses were entered as being stolen, 
 				//then the number stolen must be at least 2, unless the number stolen was unknown (00).
@@ -1787,17 +1787,17 @@ public class RuleViolationExemplarFactory {
 				
 				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-				Offense ucrOffenseCode = new Offense();
+				OffenseSegment ucrOffenseCode = new OffenseSegment();
 				ucrOffenseCode.setUcrOffenseCode("240");
-				Offense offenseAttemptedCompleted = new Offense();
+				OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
 				offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-				Property typeOfPropertyLoss = new Property();
+				PropertySegment typeOfPropertyLoss = new PropertySegment();
 				typeOfPropertyLoss.setTypeOfPropertyLoss("7");
-				Property propertyDescription = new Property();
+				PropertySegment propertyDescription = new PropertySegment();
 				propertyDescription.setPropertyDescription(0, "03");
-				Property propertyDescription2 = new Property();
+				PropertySegment propertyDescription2 = new PropertySegment();
 				propertyDescription2.setPropertyDescription(0, "05");
-				Property numberOfStolenMotorVehicles = new Property();
+				PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
 				numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(1);
 			
 				incidents.add(copy);
@@ -1809,7 +1809,7 @@ public class RuleViolationExemplarFactory {
 			
 			groupATweakerMap.put(389, incident -> {
 				//(Number of Recovered Stolen Motor Vehicles) More than one vehicle code was entered in 
-				//Data Element 15 (Property Description), but the number recovered in Data Element 18 
+				//Data Element 15 (PropertySegment Description), but the number recovered in Data Element 18 
 				//(Number of Recovered Motor Vehicles) is less than this number. 
 				//For example, if vehicle codes of 03=Automobiles and 05=Buses were entered as being recovered, 
 				//then the number recovered must be at least 2, unless the number recovered was unknown (00).
@@ -1817,17 +1817,17 @@ public class RuleViolationExemplarFactory {
 				
 				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-				Offense ucrOffenseCode = new Offense();
+				OffenseSegment ucrOffenseCode = new OffenseSegment();
 				ucrOffenseCode.setUcrOffenseCode("240");
-				Offense offenseAttemptedCompleted = new Offense();
+				OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
 				offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-				Property typeOfPropertyLoss = new Property();
+				PropertySegment typeOfPropertyLoss = new PropertySegment();
 				typeOfPropertyLoss.setTypeOfPropertyLoss("5");
-				Property propertyDescription = new Property();
+				PropertySegment propertyDescription = new PropertySegment();
 				propertyDescription.setPropertyDescription(0, "03");
-				Property propertyDescription2 = new Property();
+				PropertySegment propertyDescription2 = new PropertySegment();
 				propertyDescription2.setPropertyDescription(0, "05");
-				Property numberOfRecoveredMotorVehicles = new Property();
+				PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 				numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
 			
 				incidents.add(copy);
@@ -1837,663 +1837,663 @@ public class RuleViolationExemplarFactory {
 			});
 
 		groupATweakerMap.put(390, incident -> {
-			// (Property Description) must contain a data value that is logical for one or more of the offenses 
-			//entered in Data Element 6 (UCR Offense Code).
+			// (PropertySegment Description) must contain a data value that is logical for one or more of the offenses 
+			//entered in Data Element 6 (UCR OffenseSegment Code).
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			//Property descriptions for structures are illogical with 220=Burglary/Breaking 
+			//PropertySegment descriptions for structures are illogical with 220=Burglary/Breaking 
 			//& Entering or 240=Motor Vehicle Theft
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Offense offense1 = new Offense();
+			OffenseSegment offense1 = new OffenseSegment();
 			offense1.setUcrOffenseCode("220");
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "29");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Offense offense2 = new Offense();
+			OffenseSegment offense2 = new OffenseSegment();
 			offense2.setUcrOffenseCode("240");
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "29");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Offense offense3 = new Offense();
+			OffenseSegment offense3 = new OffenseSegment();
 			offense3.setUcrOffenseCode("220");
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, "30");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Offense offense4 = new Offense();
+			OffenseSegment offense4 = new OffenseSegment();
 			offense4.setUcrOffenseCode("240");
-			Property propertyDescription4 = new Property();
+			PropertySegment propertyDescription4 = new PropertySegment();
 			propertyDescription4.setPropertyDescription(0, "30");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Offense offense5 = new Offense();
+			OffenseSegment offense5 = new OffenseSegment();
 			offense5.setUcrOffenseCode("220");
-			Property propertyDescription5 = new Property();
+			PropertySegment propertyDescription5 = new PropertySegment();
 			propertyDescription5.setPropertyDescription(0, "31");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			Offense offense6 = new Offense();
+			OffenseSegment offense6 = new OffenseSegment();
 			offense6.setUcrOffenseCode("240");
-			Property propertyDescription6 = new Property();
+			PropertySegment propertyDescription6 = new PropertySegment();
 			propertyDescription6.setPropertyDescription(0, "31");
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			Offense offense7 = new Offense();
+			OffenseSegment offense7 = new OffenseSegment();
 			offense7.setUcrOffenseCode("220");
-			Property propertyDescription7 = new Property();
+			PropertySegment propertyDescription7 = new PropertySegment();
 			propertyDescription7.setPropertyDescription(0, "32");
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
-			Offense offense8 = new Offense();
+			OffenseSegment offense8 = new OffenseSegment();
 			offense8.setUcrOffenseCode("240");
-			Property propertyDescription8 = new Property();
+			PropertySegment propertyDescription8 = new PropertySegment();
 			propertyDescription8.setPropertyDescription(0, "32");
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
-			Offense offense9 = new Offense();
+			OffenseSegment offense9 = new OffenseSegment();
 			offense9.setUcrOffenseCode("220");
-			Property propertyDescription9 = new Property();
+			PropertySegment propertyDescription9 = new PropertySegment();
 			propertyDescription9.setPropertyDescription(0, "33");
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
-			Offense offense10 = new Offense();
+			OffenseSegment offense10 = new OffenseSegment();
 			offense10.setUcrOffenseCode("240");
-			Property propertyDescription10 = new Property();
+			PropertySegment propertyDescription10 = new PropertySegment();
 			propertyDescription10.setPropertyDescription(0, "33");
 			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
-			Offense offense11 = new Offense();
+			OffenseSegment offense11 = new OffenseSegment();
 			offense11.setUcrOffenseCode("220");
-			Property propertyDescription11 = new Property();
+			PropertySegment propertyDescription11 = new PropertySegment();
 			propertyDescription11.setPropertyDescription(0, "34");
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
-			Offense offense12 = new Offense();
+			OffenseSegment offense12 = new OffenseSegment();
 			offense12.setUcrOffenseCode("240");
-			Property propertyDescription12 = new Property();
+			PropertySegment propertyDescription12 = new PropertySegment();
 			propertyDescription12.setPropertyDescription(0, "34");
 			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
-			Offense offense13 = new Offense();
+			OffenseSegment offense13 = new OffenseSegment();
 			offense13.setUcrOffenseCode("220");
-			Property propertyDescription13 = new Property();
+			PropertySegment propertyDescription13 = new PropertySegment();
 			propertyDescription13.setPropertyDescription(0, "35");
 			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
-			Offense offense14 = new Offense();
+			OffenseSegment offense14 = new OffenseSegment();
 			offense14.setUcrOffenseCode("240");
-			Property propertyDescription14 = new Property();
+			PropertySegment propertyDescription14 = new PropertySegment();
 			propertyDescription14.setPropertyDescription(0, "35");
-			//Property descriptions for items that would not fit in a purse or pocket (aircraft, vehicles, structures, 
+			//PropertySegment descriptions for items that would not fit in a purse or pocket (aircraft, vehicles, structures, 
 			//a person�s identity, watercraft, etc.) are illogical with 23A=Pocket-picking or 23B=Purse-snatching
 			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
-			Offense offense15 = new Offense();
+			OffenseSegment offense15 = new OffenseSegment();
 			offense15.setUcrOffenseCode("23A");
-			Property propertyDescription15 = new Property();
+			PropertySegment propertyDescription15 = new PropertySegment();
 			propertyDescription15.setPropertyDescription(0, "01");
 			GroupAIncidentReport copy16 = new GroupAIncidentReport(incident);
-			Offense offense16 = new Offense();
+			OffenseSegment offense16 = new OffenseSegment();
 			offense16.setUcrOffenseCode("23B");
-			Property propertyDescription16 = new Property();
+			PropertySegment propertyDescription16 = new PropertySegment();
 			propertyDescription16.setPropertyDescription(0, "01");
 			//Automobiles
 			GroupAIncidentReport copy17 = new GroupAIncidentReport(incident);
-			Offense offense17 = new Offense();
+			OffenseSegment offense17 = new OffenseSegment();
 			offense17.setUcrOffenseCode("23A");
-			Property propertyDescription17 = new Property();
+			PropertySegment propertyDescription17 = new PropertySegment();
 			propertyDescription17.setPropertyDescription(0, "03");
 			GroupAIncidentReport copy18 = new GroupAIncidentReport(incident);
-			Offense offense18 = new Offense();
+			OffenseSegment offense18 = new OffenseSegment();
 			offense18.setUcrOffenseCode("23B");
-			Property propertyDescription18 = new Property();
+			PropertySegment propertyDescription18 = new PropertySegment();
 			propertyDescription18.setPropertyDescription(0, "03");
 			//Bicycles
 			GroupAIncidentReport copy19 = new GroupAIncidentReport(incident);
-			Offense offense19 = new Offense();
+			OffenseSegment offense19 = new OffenseSegment();
 			offense19.setUcrOffenseCode("23A");
-			Property propertyDescription19 = new Property();
+			PropertySegment propertyDescription19 = new PropertySegment();
 			propertyDescription19.setPropertyDescription(0, "04");
 			GroupAIncidentReport copy20 = new GroupAIncidentReport(incident);
-			Offense offense20 = new Offense();
+			OffenseSegment offense20 = new OffenseSegment();
 			offense20.setUcrOffenseCode("23B");
-			Property propertyDescription20 = new Property();
+			PropertySegment propertyDescription20 = new PropertySegment();
 			propertyDescription20.setPropertyDescription(0, "04");
 			//Buses
 			GroupAIncidentReport copy21 = new GroupAIncidentReport(incident);
-			Offense offense21 = new Offense();
+			OffenseSegment offense21 = new OffenseSegment();
 			offense21.setUcrOffenseCode("23A");
-			Property propertyDescription21 = new Property();
+			PropertySegment propertyDescription21 = new PropertySegment();
 			propertyDescription21.setPropertyDescription(0, "05");
 			GroupAIncidentReport copy22 = new GroupAIncidentReport(incident);
-			Offense offense22 = new Offense();
+			OffenseSegment offense22 = new OffenseSegment();
 			offense22.setUcrOffenseCode("23B");
-			Property propertyDescription22 = new Property();
+			PropertySegment propertyDescription22 = new PropertySegment();
 			propertyDescription22.setPropertyDescription(0, "05");
 			//Farm Equipment
 			GroupAIncidentReport copy23 = new GroupAIncidentReport(incident);
-			Offense offense23 = new Offense();
+			OffenseSegment offense23 = new OffenseSegment();
 			offense23.setUcrOffenseCode("23A");
-			Property propertyDescription23 = new Property();
+			PropertySegment propertyDescription23 = new PropertySegment();
 			propertyDescription23.setPropertyDescription(0, "12");
 			GroupAIncidentReport copy24 = new GroupAIncidentReport(incident);
-			Offense offense24 = new Offense();
+			OffenseSegment offense24 = new OffenseSegment();
 			offense24.setUcrOffenseCode("23B");
-			Property propertyDescription24 = new Property();
+			PropertySegment propertyDescription24 = new PropertySegment();
 			propertyDescription24.setPropertyDescription(0, "12");
 			//Heavy Construction/Industrial Equipment
 			GroupAIncidentReport copy25 = new GroupAIncidentReport(incident);
-			Offense offense25 = new Offense();
+			OffenseSegment offense25 = new OffenseSegment();
 			offense25.setUcrOffenseCode("23A");
-			Property propertyDescription25 = new Property();
+			PropertySegment propertyDescription25 = new PropertySegment();
 			propertyDescription25.setPropertyDescription(0, "15");
 			GroupAIncidentReport copy26 = new GroupAIncidentReport(incident);
-			Offense offense26 = new Offense();
+			OffenseSegment offense26 = new OffenseSegment();
 			offense26.setUcrOffenseCode("23B");
-			Property propertyDescription26 = new Property();
+			PropertySegment propertyDescription26 = new PropertySegment();
 			propertyDescription26.setPropertyDescription(0, "15");
 			//Livestock
 			GroupAIncidentReport copy27 = new GroupAIncidentReport(incident);
-			Offense offense27 = new Offense();
+			OffenseSegment offense27 = new OffenseSegment();
 			offense27.setUcrOffenseCode("23A");
-			Property propertyDescription27 = new Property();
+			PropertySegment propertyDescription27 = new PropertySegment();
 			propertyDescription27.setPropertyDescription(0, "18");
 			GroupAIncidentReport copy28 = new GroupAIncidentReport(incident);
-			Offense offense28 = new Offense();
+			OffenseSegment offense28 = new OffenseSegment();
 			offense28.setUcrOffenseCode("23B");
-			Property propertyDescription28 = new Property();
+			PropertySegment propertyDescription28 = new PropertySegment();
 			propertyDescription28.setPropertyDescription(0, "18");
 			//Other Motor Vehicles
 			GroupAIncidentReport copy29 = new GroupAIncidentReport(incident);
-			Offense offense29 = new Offense();
+			OffenseSegment offense29 = new OffenseSegment();
 			offense29.setUcrOffenseCode("23A");
-			Property propertyDescription29 = new Property();
+			PropertySegment propertyDescription29 = new PropertySegment();
 			propertyDescription29.setPropertyDescription(0, "24");
 			GroupAIncidentReport copy30 = new GroupAIncidentReport(incident);
-			Offense offense30 = new Offense();
+			OffenseSegment offense30 = new OffenseSegment();
 			offense30.setUcrOffenseCode("23B");
-			Property propertyDescription30 = new Property();
+			PropertySegment propertyDescription30 = new PropertySegment();
 			propertyDescription30.setPropertyDescription(0, "24");
 			//Recreational Vehicles
 			GroupAIncidentReport copy31 = new GroupAIncidentReport(incident);
-			Offense offense31 = new Offense();
+			OffenseSegment offense31 = new OffenseSegment();
 			offense31.setUcrOffenseCode("23A");
-			Property propertyDescription31 = new Property();
+			PropertySegment propertyDescription31 = new PropertySegment();
 			propertyDescription31.setPropertyDescription(0, "28");
 			GroupAIncidentReport copy32 = new GroupAIncidentReport(incident);
-			Offense offense32 = new Offense();
+			OffenseSegment offense32 = new OffenseSegment();
 			offense32.setUcrOffenseCode("23B");
-			Property propertyDescription32 = new Property();
+			PropertySegment propertyDescription32 = new PropertySegment();
 			propertyDescription32.setPropertyDescription(0, "28");
 			//Structures - Single Occupancy Dwelling
 			GroupAIncidentReport copy33 = new GroupAIncidentReport(incident);
-			Offense offense33 = new Offense();
+			OffenseSegment offense33 = new OffenseSegment();
 			offense33.setUcrOffenseCode("23A");
-			Property propertyDescription33 = new Property();
+			PropertySegment propertyDescription33 = new PropertySegment();
 			propertyDescription33.setPropertyDescription(0, "29");
 			GroupAIncidentReport copy34 = new GroupAIncidentReport(incident);
-			Offense offense34 = new Offense();
+			OffenseSegment offense34 = new OffenseSegment();
 			offense34.setUcrOffenseCode("23B");
-			Property propertyDescription34 = new Property();
+			PropertySegment propertyDescription34 = new PropertySegment();
 			propertyDescription34.setPropertyDescription(0, "29");
 			//Structures - Other Dwellings
 			GroupAIncidentReport copy35 = new GroupAIncidentReport(incident);
-			Offense offense35 = new Offense();
+			OffenseSegment offense35 = new OffenseSegment();
 			offense35.setUcrOffenseCode("23A");
-			Property propertyDescription35 = new Property();
+			PropertySegment propertyDescription35 = new PropertySegment();
 			propertyDescription35.setPropertyDescription(0, "30");
 			GroupAIncidentReport copy36 = new GroupAIncidentReport(incident);
-			Offense offense36 = new Offense();
+			OffenseSegment offense36 = new OffenseSegment();
 			offense36.setUcrOffenseCode("23B");
-			Property propertyDescription36 = new Property();
+			PropertySegment propertyDescription36 = new PropertySegment();
 			propertyDescription36.setPropertyDescription(0, "30");
 			//Structures - Commercial Business
 			GroupAIncidentReport copy37 = new GroupAIncidentReport(incident);
-			Offense offense37 = new Offense();
+			OffenseSegment offense37 = new OffenseSegment();
 			offense37.setUcrOffenseCode("23A");
-			Property propertyDescription37 = new Property();
+			PropertySegment propertyDescription37 = new PropertySegment();
 			propertyDescription37.setPropertyDescription(0, "31");
 			GroupAIncidentReport copy38 = new GroupAIncidentReport(incident);
-			Offense offense38 = new Offense();
+			OffenseSegment offense38 = new OffenseSegment();
 			offense38.setUcrOffenseCode("23B");
-			Property propertyDescription38 = new Property();
+			PropertySegment propertyDescription38 = new PropertySegment();
 			propertyDescription38.setPropertyDescription(0, "31");
 			//Structures - Industrial/Manufacturing
 			GroupAIncidentReport copy39 = new GroupAIncidentReport(incident);
-			Offense offense39 = new Offense();
+			OffenseSegment offense39 = new OffenseSegment();
 			offense39.setUcrOffenseCode("23A");
-			Property propertyDescription39 = new Property();
+			PropertySegment propertyDescription39 = new PropertySegment();
 			propertyDescription39.setPropertyDescription(0, "32");
 			GroupAIncidentReport copy40 = new GroupAIncidentReport(incident);
-			Offense offense40 = new Offense();
+			OffenseSegment offense40 = new OffenseSegment();
 			offense40.setUcrOffenseCode("23B");
-			Property propertyDescription40 = new Property();
+			PropertySegment propertyDescription40 = new PropertySegment();
 			propertyDescription40.setPropertyDescription(0, "32");
 			//Structures - Public/Community
 			GroupAIncidentReport copy41 = new GroupAIncidentReport(incident);
-			Offense offense41 = new Offense();
+			OffenseSegment offense41 = new OffenseSegment();
 			offense41.setUcrOffenseCode("23A");
-			Property propertyDescription41 = new Property();
+			PropertySegment propertyDescription41 = new PropertySegment();
 			propertyDescription41.setPropertyDescription(0, "33");
 			GroupAIncidentReport copy42 = new GroupAIncidentReport(incident);
-			Offense offense42 = new Offense();
+			OffenseSegment offense42 = new OffenseSegment();
 			offense42.setUcrOffenseCode("23B");
-			Property propertyDescription42 = new Property();
+			PropertySegment propertyDescription42 = new PropertySegment();
 			propertyDescription42.setPropertyDescription(0, "33");
 			//Structures - Storage
 			GroupAIncidentReport copy43 = new GroupAIncidentReport(incident);
-			Offense offense43 = new Offense();
+			OffenseSegment offense43 = new OffenseSegment();
 			offense43.setUcrOffenseCode("23A");
-			Property propertyDescription43 = new Property();
+			PropertySegment propertyDescription43 = new PropertySegment();
 			propertyDescription43.setPropertyDescription(0, "34");
 			GroupAIncidentReport copy44 = new GroupAIncidentReport(incident);
-			Offense offense44 = new Offense();
+			OffenseSegment offense44 = new OffenseSegment();
 			offense44.setUcrOffenseCode("23B");
-			Property propertyDescription44 = new Property();
+			PropertySegment propertyDescription44 = new PropertySegment();
 			propertyDescription44.setPropertyDescription(0, "34");
 			//Structures - Other
 			GroupAIncidentReport copy45 = new GroupAIncidentReport(incident);
-			Offense offense45 = new Offense();
+			OffenseSegment offense45 = new OffenseSegment();
 			offense45.setUcrOffenseCode("23A");
-			Property propertyDescription45 = new Property();
+			PropertySegment propertyDescription45 = new PropertySegment();
 			propertyDescription45.setPropertyDescription(0, "35");
 			GroupAIncidentReport copy46 = new GroupAIncidentReport(incident);
-			Offense offense46 = new Offense();
+			OffenseSegment offense46 = new OffenseSegment();
 			offense46.setUcrOffenseCode("23B");
-			Property propertyDescription46 = new Property();
+			PropertySegment propertyDescription46 = new PropertySegment();
 			propertyDescription46.setPropertyDescription(0, "35");
 			//Trucks
 			GroupAIncidentReport copy47 = new GroupAIncidentReport(incident);
-			Offense offense47 = new Offense();
+			OffenseSegment offense47 = new OffenseSegment();
 			offense47.setUcrOffenseCode("23A");
-			Property propertyDescription47 = new Property();
+			PropertySegment propertyDescription47 = new PropertySegment();
 			propertyDescription47.setPropertyDescription(0, "37");
 			GroupAIncidentReport copy48 = new GroupAIncidentReport(incident);
-			Offense offense48 = new Offense();
+			OffenseSegment offense48 = new OffenseSegment();
 			offense48.setUcrOffenseCode("23B");
-			Property propertyDescription48 = new Property();
+			PropertySegment propertyDescription48 = new PropertySegment();
 			propertyDescription48.setPropertyDescription(0, "37");
 			//Watercraft
 			GroupAIncidentReport copy49 = new GroupAIncidentReport(incident);
-			Offense offense49 = new Offense();
+			OffenseSegment offense49 = new OffenseSegment();
 			offense49.setUcrOffenseCode("23A");
-			Property propertyDescription49 = new Property();
+			PropertySegment propertyDescription49 = new PropertySegment();
 			propertyDescription49.setPropertyDescription(0, "39");
 			GroupAIncidentReport copy50 = new GroupAIncidentReport(incident);
-			Offense offense50 = new Offense();
+			OffenseSegment offense50 = new OffenseSegment();
 			offense50.setUcrOffenseCode("23B");
-			Property propertyDescription50 = new Property();
+			PropertySegment propertyDescription50 = new PropertySegment();
 			propertyDescription50.setPropertyDescription(0, "39");
-			//Property descriptions that cannot be shoplifted due to other UCR definitions 
+			//PropertySegment descriptions that cannot be shoplifted due to other UCR definitions 
 			//(aircraft, vehicles, structures, a person�s identity, watercraft, etc.) are illogical with 23C=Shoplifting
 			GroupAIncidentReport copy51 = new GroupAIncidentReport(incident);
-			Offense offense51 = new Offense();
+			OffenseSegment offense51 = new OffenseSegment();
 			offense51.setUcrOffenseCode("23C");
-			Property propertyDescription51 = new Property();
+			PropertySegment propertyDescription51 = new PropertySegment();
 			propertyDescription51.setPropertyDescription(0, "01");
 			//Automobiles
 			GroupAIncidentReport copy52 = new GroupAIncidentReport(incident);
-			Offense offense52 = new Offense();
+			OffenseSegment offense52 = new OffenseSegment();
 			offense52.setUcrOffenseCode("23C");
-			Property propertyDescription52 = new Property();
+			PropertySegment propertyDescription52 = new PropertySegment();
 			propertyDescription52.setPropertyDescription(0, "03");
 			//Buses
 			GroupAIncidentReport copy53 = new GroupAIncidentReport(incident);
-			Offense offense53 = new Offense();
+			OffenseSegment offense53 = new OffenseSegment();
 			offense53.setUcrOffenseCode("23C");
-			Property propertyDescription53 = new Property();
+			PropertySegment propertyDescription53 = new PropertySegment();
 			propertyDescription53.setPropertyDescription(0, "05");
 			//Farm Equipment
 			GroupAIncidentReport copy54 = new GroupAIncidentReport(incident);
-			Offense offense54 = new Offense();
+			OffenseSegment offense54 = new OffenseSegment();
 			offense54.setUcrOffenseCode("23C");
-			Property propertyDescription54 = new Property();
+			PropertySegment propertyDescription54 = new PropertySegment();
 			propertyDescription54.setPropertyDescription(0, "12");
 			//Heavy Contruction/Industrial Equipment
 			GroupAIncidentReport copy55 = new GroupAIncidentReport(incident);
-			Offense offense55 = new Offense();
+			OffenseSegment offense55 = new OffenseSegment();
 			offense55.setUcrOffenseCode("23C");
-			Property propertyDescription55 = new Property();
+			PropertySegment propertyDescription55 = new PropertySegment();
 			propertyDescription55.setPropertyDescription(0, "15");
 			//Livestock
 			GroupAIncidentReport copy56 = new GroupAIncidentReport(incident);
-			Offense offense56 = new Offense();
+			OffenseSegment offense56 = new OffenseSegment();
 			offense56.setUcrOffenseCode("23C");
-			Property propertyDescription56 = new Property();
+			PropertySegment propertyDescription56 = new PropertySegment();
 			propertyDescription56.setPropertyDescription(0, "18");
 			//Other Motor Vehicles
 			GroupAIncidentReport copy57 = new GroupAIncidentReport(incident);
-			Offense offense57 = new Offense();
+			OffenseSegment offense57 = new OffenseSegment();
 			offense57.setUcrOffenseCode("23C");
-			Property propertyDescription57 = new Property();
+			PropertySegment propertyDescription57 = new PropertySegment();
 			propertyDescription57.setPropertyDescription(0, "24");
 			//Recreational Vehicles
 			GroupAIncidentReport copy58 = new GroupAIncidentReport(incident);
-			Offense offense58 = new Offense();
+			OffenseSegment offense58 = new OffenseSegment();
 			offense58.setUcrOffenseCode("23C");
-			Property propertyDescription58 = new Property();
+			PropertySegment propertyDescription58 = new PropertySegment();
 			propertyDescription58.setPropertyDescription(0, "28");
 			//Structures - Single Occupancy Dwellings
 			GroupAIncidentReport copy59 = new GroupAIncidentReport(incident);
-			Offense offense59 = new Offense();
+			OffenseSegment offense59 = new OffenseSegment();
 			offense59.setUcrOffenseCode("23C");
-			Property propertyDescription59 = new Property();
+			PropertySegment propertyDescription59 = new PropertySegment();
 			propertyDescription59.setPropertyDescription(0, "29");
 			//Structures - Other Dwellings
 			GroupAIncidentReport copy60 = new GroupAIncidentReport(incident);
-			Offense offense60 = new Offense();
+			OffenseSegment offense60 = new OffenseSegment();
 			offense60.setUcrOffenseCode("23C");
-			Property propertyDescription60 = new Property();
+			PropertySegment propertyDescription60 = new PropertySegment();
 			propertyDescription60.setPropertyDescription(0, "30");
 			//Structures - Commercial/Business
 			GroupAIncidentReport copy61 = new GroupAIncidentReport(incident);
-			Offense offense61 = new Offense();
+			OffenseSegment offense61 = new OffenseSegment();
 			offense61.setUcrOffenseCode("23C");
-			Property propertyDescription61 = new Property();
+			PropertySegment propertyDescription61 = new PropertySegment();
 			propertyDescription61.setPropertyDescription(0, "31");
 			//Structures - Industrial/Manufacturing
 			GroupAIncidentReport copy62 = new GroupAIncidentReport(incident);
-			Offense offense62 = new Offense();
+			OffenseSegment offense62 = new OffenseSegment();
 			offense62.setUcrOffenseCode("23C");
-			Property propertyDescription62 = new Property();
+			PropertySegment propertyDescription62 = new PropertySegment();
 			propertyDescription62.setPropertyDescription(0, "32");
 			//Structures - Public/Community
 			GroupAIncidentReport copy63 = new GroupAIncidentReport(incident);
-			Offense offense63 = new Offense();
+			OffenseSegment offense63 = new OffenseSegment();
 			offense63.setUcrOffenseCode("23C");
-			Property propertyDescription63 = new Property();
+			PropertySegment propertyDescription63 = new PropertySegment();
 			propertyDescription63.setPropertyDescription(0, "33");
 			//Structures - Storage
 			GroupAIncidentReport copy64 = new GroupAIncidentReport(incident);
-			Offense offense64 = new Offense();
+			OffenseSegment offense64 = new OffenseSegment();
 			offense64.setUcrOffenseCode("23C");
-			Property propertyDescription64 = new Property();
+			PropertySegment propertyDescription64 = new PropertySegment();
 			propertyDescription64.setPropertyDescription(0, "34");
 			//Structures - Other
 			GroupAIncidentReport copy65 = new GroupAIncidentReport(incident);
-			Offense offense65 = new Offense();
+			OffenseSegment offense65 = new OffenseSegment();
 			offense65.setUcrOffenseCode("23C");
-			Property propertyDescription65 = new Property();
+			PropertySegment propertyDescription65 = new PropertySegment();
 			propertyDescription65.setPropertyDescription(0, "35");
 			//Trucks
 			GroupAIncidentReport copy66 = new GroupAIncidentReport(incident);
-			Offense offense66 = new Offense();
+			OffenseSegment offense66 = new OffenseSegment();
 			offense66.setUcrOffenseCode("23C");
-			Property propertyDescription66 = new Property();
+			PropertySegment propertyDescription66 = new PropertySegment();
 			propertyDescription66.setPropertyDescription(0, "37");
 			//Watercraft
 			GroupAIncidentReport copy67 = new GroupAIncidentReport(incident);
-			Offense offense67 = new Offense();
+			OffenseSegment offense67 = new OffenseSegment();
 			offense67.setUcrOffenseCode("23C");
-			Property propertyDescription67 = new Property();
+			PropertySegment propertyDescription67 = new PropertySegment();
 			propertyDescription67.setPropertyDescription(0, "39");
-			//Property descriptions for vehicles and structures are illogical with 23D=Theft from Building, 
+			//PropertySegment descriptions for vehicles and structures are illogical with 23D=Theft from Building, 
 			//23E=Theft from Coin-Operated Machine or Device, 23F=Theft from Motor Vehicle, and 
 			//23G=Theft of Motor Vehicle Parts or Accessories
 			//Automobiles
 			GroupAIncidentReport copy68 = new GroupAIncidentReport(incident);
-			Offense offense68 = new Offense();
+			OffenseSegment offense68 = new OffenseSegment();
 			offense68.setUcrOffenseCode("23D");
-			Property propertyDescription68 = new Property();
+			PropertySegment propertyDescription68 = new PropertySegment();
 			propertyDescription68.setPropertyDescription(0, "03");
 			GroupAIncidentReport copy69 = new GroupAIncidentReport(incident);
-			Offense offense69 = new Offense();
+			OffenseSegment offense69 = new OffenseSegment();
 			offense69.setUcrOffenseCode("23E");
-			Property propertyDescription69 = new Property();
+			PropertySegment propertyDescription69 = new PropertySegment();
 			propertyDescription69.setPropertyDescription(0, "03");
 			GroupAIncidentReport copy70 = new GroupAIncidentReport(incident);
-			Offense offense70 = new Offense();
+			OffenseSegment offense70 = new OffenseSegment();
 			offense70.setUcrOffenseCode("23F");
-			Property propertyDescription70 = new Property();
+			PropertySegment propertyDescription70 = new PropertySegment();
 			propertyDescription70.setPropertyDescription(0, "03");
 			GroupAIncidentReport copy71 = new GroupAIncidentReport(incident);
-			Offense offense71 = new Offense();
+			OffenseSegment offense71 = new OffenseSegment();
 			offense71.setUcrOffenseCode("23G");
-			Property propertyDescription71 = new Property();
+			PropertySegment propertyDescription71 = new PropertySegment();
 			propertyDescription71.setPropertyDescription(0, "03");
 			//Buses
 			GroupAIncidentReport copy72 = new GroupAIncidentReport(incident);
-			Offense offense72 = new Offense();
+			OffenseSegment offense72 = new OffenseSegment();
 			offense72.setUcrOffenseCode("23D");
-			Property propertyDescription72 = new Property();
+			PropertySegment propertyDescription72 = new PropertySegment();
 			propertyDescription72.setPropertyDescription(0, "05");
 			GroupAIncidentReport copy73 = new GroupAIncidentReport(incident);
-			Offense offense73 = new Offense();
+			OffenseSegment offense73 = new OffenseSegment();
 			offense73.setUcrOffenseCode("23E");
-			Property propertyDescription73 = new Property();
+			PropertySegment propertyDescription73 = new PropertySegment();
 			propertyDescription73.setPropertyDescription(0, "05");
 			GroupAIncidentReport copy74 = new GroupAIncidentReport(incident);
-			Offense offense74 = new Offense();
+			OffenseSegment offense74 = new OffenseSegment();
 			offense74.setUcrOffenseCode("23F");
-			Property propertyDescription74 = new Property();
+			PropertySegment propertyDescription74 = new PropertySegment();
 			propertyDescription74.setPropertyDescription(0, "05");
 			GroupAIncidentReport copy75 = new GroupAIncidentReport(incident);
-			Offense offense75 = new Offense();
+			OffenseSegment offense75 = new OffenseSegment();
 			offense75.setUcrOffenseCode("23G");
-			Property propertyDescription75 = new Property();
+			PropertySegment propertyDescription75 = new PropertySegment();
 			propertyDescription75.setPropertyDescription(0, "05");
 			//Other Motor Vehicles
 			GroupAIncidentReport copy76 = new GroupAIncidentReport(incident);
-			Offense offense76 = new Offense();
+			OffenseSegment offense76 = new OffenseSegment();
 			offense76.setUcrOffenseCode("23D");
-			Property propertyDescription76 = new Property();
+			PropertySegment propertyDescription76 = new PropertySegment();
 			propertyDescription76.setPropertyDescription(0, "24");
 			GroupAIncidentReport copy77 = new GroupAIncidentReport(incident);
-			Offense offense77 = new Offense();
+			OffenseSegment offense77 = new OffenseSegment();
 			offense77.setUcrOffenseCode("23E");
-			Property propertyDescription77 = new Property();
+			PropertySegment propertyDescription77 = new PropertySegment();
 			propertyDescription77.setPropertyDescription(0, "24");
 			GroupAIncidentReport copy78 = new GroupAIncidentReport(incident);
-			Offense offense78 = new Offense();
+			OffenseSegment offense78 = new OffenseSegment();
 			offense78.setUcrOffenseCode("23F");
-			Property propertyDescription78 = new Property();
+			PropertySegment propertyDescription78 = new PropertySegment();
 			propertyDescription78.setPropertyDescription(0, "24");
 			GroupAIncidentReport copy79 = new GroupAIncidentReport(incident);
-			Offense offense79 = new Offense();
+			OffenseSegment offense79 = new OffenseSegment();
 			offense79.setUcrOffenseCode("23G");
-			Property propertyDescription79 = new Property();
+			PropertySegment propertyDescription79 = new PropertySegment();
 			propertyDescription79.setPropertyDescription(0, "24");
 			//Recreational Vehicles
 			GroupAIncidentReport copy80 = new GroupAIncidentReport(incident);
-			Offense offense80 = new Offense();
+			OffenseSegment offense80 = new OffenseSegment();
 			offense80.setUcrOffenseCode("23D");
-			Property propertyDescription80 = new Property();
+			PropertySegment propertyDescription80 = new PropertySegment();
 			propertyDescription80.setPropertyDescription(0, "28");
 			GroupAIncidentReport copy81 = new GroupAIncidentReport(incident);
-			Offense offense81 = new Offense();
+			OffenseSegment offense81 = new OffenseSegment();
 			offense81.setUcrOffenseCode("23E");
-			Property propertyDescription81 = new Property();
+			PropertySegment propertyDescription81 = new PropertySegment();
 			propertyDescription81.setPropertyDescription(0, "28");
 			GroupAIncidentReport copy82 = new GroupAIncidentReport(incident);
-			Offense offense82 = new Offense();
+			OffenseSegment offense82 = new OffenseSegment();
 			offense82.setUcrOffenseCode("23F");
-			Property propertyDescription82 = new Property();
+			PropertySegment propertyDescription82 = new PropertySegment();
 			propertyDescription82.setPropertyDescription(0, "28");
 			GroupAIncidentReport copy83 = new GroupAIncidentReport(incident);
-			Offense offense83 = new Offense();
+			OffenseSegment offense83 = new OffenseSegment();
 			offense83.setUcrOffenseCode("23G");
-			Property propertyDescription83 = new Property();
+			PropertySegment propertyDescription83 = new PropertySegment();
 			propertyDescription83.setPropertyDescription(0, "28");
 			//Structures - Single Occupancy Dwellings
 			GroupAIncidentReport copy84 = new GroupAIncidentReport(incident);
-			Offense offense84 = new Offense();
+			OffenseSegment offense84 = new OffenseSegment();
 			offense84.setUcrOffenseCode("23D");
-			Property propertyDescription84 = new Property();
+			PropertySegment propertyDescription84 = new PropertySegment();
 			propertyDescription84.setPropertyDescription(0, "29");
 			GroupAIncidentReport copy85 = new GroupAIncidentReport(incident);
-			Offense offense85 = new Offense();
+			OffenseSegment offense85 = new OffenseSegment();
 			offense85.setUcrOffenseCode("23E");
-			Property propertyDescription85 = new Property();
+			PropertySegment propertyDescription85 = new PropertySegment();
 			propertyDescription85.setPropertyDescription(0, "29");
 			GroupAIncidentReport copy86 = new GroupAIncidentReport(incident);
-			Offense offense86 = new Offense();
+			OffenseSegment offense86 = new OffenseSegment();
 			offense86.setUcrOffenseCode("23F");
-			Property propertyDescription86 = new Property();
+			PropertySegment propertyDescription86 = new PropertySegment();
 			propertyDescription86.setPropertyDescription(0, "29");
 			GroupAIncidentReport copy87 = new GroupAIncidentReport(incident);
-			Offense offense87 = new Offense();
+			OffenseSegment offense87 = new OffenseSegment();
 			offense87.setUcrOffenseCode("23G");
-			Property propertyDescription87 = new Property();
+			PropertySegment propertyDescription87 = new PropertySegment();
 			propertyDescription87.setPropertyDescription(0, "29");
 			//Structures - Other Dwellings
 			GroupAIncidentReport copy88 = new GroupAIncidentReport(incident);
-			Offense offense88 = new Offense();
+			OffenseSegment offense88 = new OffenseSegment();
 			offense88.setUcrOffenseCode("23D");
-			Property propertyDescription88 = new Property();
+			PropertySegment propertyDescription88 = new PropertySegment();
 			propertyDescription88.setPropertyDescription(0, "30");
 			GroupAIncidentReport copy89 = new GroupAIncidentReport(incident);
-			Offense offense89 = new Offense();
+			OffenseSegment offense89 = new OffenseSegment();
 			offense89.setUcrOffenseCode("23E");
-			Property propertyDescription89 = new Property();
+			PropertySegment propertyDescription89 = new PropertySegment();
 			propertyDescription89.setPropertyDescription(0, "30");
 			GroupAIncidentReport copy90 = new GroupAIncidentReport(incident);
-			Offense offense90 = new Offense();
+			OffenseSegment offense90 = new OffenseSegment();
 			offense90.setUcrOffenseCode("23F");
-			Property propertyDescription90 = new Property();
+			PropertySegment propertyDescription90 = new PropertySegment();
 			propertyDescription90.setPropertyDescription(0, "30");
 			GroupAIncidentReport copy91 = new GroupAIncidentReport(incident);
-			Offense offense91 = new Offense();
+			OffenseSegment offense91 = new OffenseSegment();
 			offense91.setUcrOffenseCode("23G");
-			Property propertyDescription91 = new Property();
+			PropertySegment propertyDescription91 = new PropertySegment();
 			propertyDescription91.setPropertyDescription(0, "30");
 			//Structures - Commercial/Business
 			GroupAIncidentReport copy92 = new GroupAIncidentReport(incident);
-			Offense offense92 = new Offense();
+			OffenseSegment offense92 = new OffenseSegment();
 			offense92.setUcrOffenseCode("23D");
-			Property propertyDescription92 = new Property();
+			PropertySegment propertyDescription92 = new PropertySegment();
 			propertyDescription92.setPropertyDescription(0, "31");
 			GroupAIncidentReport copy93 = new GroupAIncidentReport(incident);
-			Offense offense93 = new Offense();
+			OffenseSegment offense93 = new OffenseSegment();
 			offense93.setUcrOffenseCode("23E");
-			Property propertyDescription93 = new Property();
+			PropertySegment propertyDescription93 = new PropertySegment();
 			propertyDescription93.setPropertyDescription(0, "31");
 			GroupAIncidentReport copy94 = new GroupAIncidentReport(incident);
-			Offense offense94 = new Offense();
+			OffenseSegment offense94 = new OffenseSegment();
 			offense94.setUcrOffenseCode("23F");
-			Property propertyDescription94 = new Property();
+			PropertySegment propertyDescription94 = new PropertySegment();
 			propertyDescription94.setPropertyDescription(0, "31");
 			GroupAIncidentReport copy95 = new GroupAIncidentReport(incident);
-			Offense offense95 = new Offense();
+			OffenseSegment offense95 = new OffenseSegment();
 			offense95.setUcrOffenseCode("23G");
-			Property propertyDescription95 = new Property();
+			PropertySegment propertyDescription95 = new PropertySegment();
 			propertyDescription95.setPropertyDescription(0, "31");
 			//Structures - Industrial/Manufacturing
 			GroupAIncidentReport copy96 = new GroupAIncidentReport(incident);
-			Offense offense96 = new Offense();
+			OffenseSegment offense96 = new OffenseSegment();
 			offense96.setUcrOffenseCode("23D");
-			Property propertyDescription96 = new Property();
+			PropertySegment propertyDescription96 = new PropertySegment();
 			propertyDescription96.setPropertyDescription(0, "32");
 			GroupAIncidentReport copy97 = new GroupAIncidentReport(incident);
-			Offense offense97 = new Offense();
+			OffenseSegment offense97 = new OffenseSegment();
 			offense97.setUcrOffenseCode("23E");
-			Property propertyDescription97 = new Property();
+			PropertySegment propertyDescription97 = new PropertySegment();
 			propertyDescription97.setPropertyDescription(0, "32");
 			GroupAIncidentReport copy98 = new GroupAIncidentReport(incident);
-			Offense offense98 = new Offense();
+			OffenseSegment offense98 = new OffenseSegment();
 			offense98.setUcrOffenseCode("23F");
-			Property propertyDescription98 = new Property();
+			PropertySegment propertyDescription98 = new PropertySegment();
 			propertyDescription98.setPropertyDescription(0, "32");
 			GroupAIncidentReport copy99 = new GroupAIncidentReport(incident);
-			Offense offense99 = new Offense();
+			OffenseSegment offense99 = new OffenseSegment();
 			offense99.setUcrOffenseCode("23G");
-			Property propertyDescription99 = new Property();
+			PropertySegment propertyDescription99 = new PropertySegment();
 			propertyDescription99.setPropertyDescription(0, "32");
 			//Structures - Public/Community
 			GroupAIncidentReport copy100 = new GroupAIncidentReport(incident);
-			Offense offense100 = new Offense();
+			OffenseSegment offense100 = new OffenseSegment();
 			offense100.setUcrOffenseCode("23D");
-			Property propertyDescription100 = new Property();
+			PropertySegment propertyDescription100 = new PropertySegment();
 			propertyDescription100.setPropertyDescription(0, "33");
 			GroupAIncidentReport copy101 = new GroupAIncidentReport(incident);
-			Offense offense101 = new Offense();
+			OffenseSegment offense101 = new OffenseSegment();
 			offense101.setUcrOffenseCode("23E");
-			Property propertyDescription101 = new Property();
+			PropertySegment propertyDescription101 = new PropertySegment();
 			propertyDescription101.setPropertyDescription(0, "33");
 			GroupAIncidentReport copy102 = new GroupAIncidentReport(incident);
-			Offense offense102 = new Offense();
+			OffenseSegment offense102 = new OffenseSegment();
 			offense102.setUcrOffenseCode("23F");
-			Property propertyDescription102 = new Property();
+			PropertySegment propertyDescription102 = new PropertySegment();
 			propertyDescription102.setPropertyDescription(0, "33");
 			GroupAIncidentReport copy103 = new GroupAIncidentReport(incident);
-			Offense offense103 = new Offense();
+			OffenseSegment offense103 = new OffenseSegment();
 			offense103.setUcrOffenseCode("23G");
-			Property propertyDescription103 = new Property();
+			PropertySegment propertyDescription103 = new PropertySegment();
 			propertyDescription103.setPropertyDescription(0, "33");
 			//Structures - Storage
 			GroupAIncidentReport copy104 = new GroupAIncidentReport(incident);
-			Offense offense104 = new Offense();
+			OffenseSegment offense104 = new OffenseSegment();
 			offense104.setUcrOffenseCode("23D");
-			Property propertyDescription104 = new Property();
+			PropertySegment propertyDescription104 = new PropertySegment();
 			propertyDescription104.setPropertyDescription(0, "34");
 			GroupAIncidentReport copy105 = new GroupAIncidentReport(incident);
-			Offense offense105 = new Offense();
+			OffenseSegment offense105 = new OffenseSegment();
 			offense105.setUcrOffenseCode("23E");
-			Property propertyDescription105 = new Property();
+			PropertySegment propertyDescription105 = new PropertySegment();
 			propertyDescription105.setPropertyDescription(0, "34");
 			GroupAIncidentReport copy106 = new GroupAIncidentReport(incident);
-			Offense offense106 = new Offense();
+			OffenseSegment offense106 = new OffenseSegment();
 			offense106.setUcrOffenseCode("23F");
-			Property propertyDescription106 = new Property();
+			PropertySegment propertyDescription106 = new PropertySegment();
 			propertyDescription106.setPropertyDescription(0, "34");
 			GroupAIncidentReport copy107 = new GroupAIncidentReport(incident);
-			Offense offense107 = new Offense();
+			OffenseSegment offense107 = new OffenseSegment();
 			offense107.setUcrOffenseCode("23G");
-			Property propertyDescription107 = new Property();
+			PropertySegment propertyDescription107 = new PropertySegment();
 			propertyDescription107.setPropertyDescription(0, "34");
 			//Structures - Other
 			GroupAIncidentReport copy108 = new GroupAIncidentReport(incident);
-			Offense offense108 = new Offense();
+			OffenseSegment offense108 = new OffenseSegment();
 			offense108.setUcrOffenseCode("23D");
-			Property propertyDescription108 = new Property();
+			PropertySegment propertyDescription108 = new PropertySegment();
 			propertyDescription108.setPropertyDescription(0, "35");
 			GroupAIncidentReport copy109 = new GroupAIncidentReport(incident);
-			Offense offense109 = new Offense();
+			OffenseSegment offense109 = new OffenseSegment();
 			offense109.setUcrOffenseCode("23E");
-			Property propertyDescription109 = new Property();
+			PropertySegment propertyDescription109 = new PropertySegment();
 			propertyDescription109.setPropertyDescription(0, "35");
 			GroupAIncidentReport copy110 = new GroupAIncidentReport(incident);
-			Offense offense110 = new Offense();
+			OffenseSegment offense110 = new OffenseSegment();
 			offense110.setUcrOffenseCode("23F");
-			Property propertyDescription110 = new Property();
+			PropertySegment propertyDescription110 = new PropertySegment();
 			propertyDescription110.setPropertyDescription(0, "35");
 			GroupAIncidentReport copy111 = new GroupAIncidentReport(incident);
-			Offense offense111 = new Offense();
+			OffenseSegment offense111 = new OffenseSegment();
 			offense111.setUcrOffenseCode("23G");
-			Property propertyDescription111 = new Property();
+			PropertySegment propertyDescription111 = new PropertySegment();
 			propertyDescription111.setPropertyDescription(0, "35");
 			//Trucks
 			GroupAIncidentReport copy112 = new GroupAIncidentReport(incident);
-			Offense offense112 = new Offense();
+			OffenseSegment offense112 = new OffenseSegment();
 			offense112.setUcrOffenseCode("23D");
-			Property propertyDescription112 = new Property();
+			PropertySegment propertyDescription112 = new PropertySegment();
 			propertyDescription112.setPropertyDescription(0, "37");
 			GroupAIncidentReport copy113 = new GroupAIncidentReport(incident);
-			Offense offense113 = new Offense();
+			OffenseSegment offense113 = new OffenseSegment();
 			offense113.setUcrOffenseCode("23E");
-			Property propertyDescription113 = new Property();
+			PropertySegment propertyDescription113 = new PropertySegment();
 			propertyDescription113.setPropertyDescription(0, "37");
 			GroupAIncidentReport copy114 = new GroupAIncidentReport(incident);
-			Offense offense114 = new Offense();
+			OffenseSegment offense114 = new OffenseSegment();
 			offense114.setUcrOffenseCode("23F");
-			Property propertyDescription114 = new Property();
+			PropertySegment propertyDescription114 = new PropertySegment();
 			propertyDescription114.setPropertyDescription(0, "37");
 			GroupAIncidentReport copy115 = new GroupAIncidentReport(incident);
-			Offense offense115 = new Offense();
+			OffenseSegment offense115 = new OffenseSegment();
 			offense115.setUcrOffenseCode("23G");
-			Property propertyDescription115 = new Property();
+			PropertySegment propertyDescription115 = new PropertySegment();
 			propertyDescription115.setPropertyDescription(0, "37");
-			//Property descriptions for vehicles are illogical with 23H=All Other Larceny
+			//PropertySegment descriptions for vehicles are illogical with 23H=All Other Larceny
 			GroupAIncidentReport copy116 = new GroupAIncidentReport(incident);
-			Offense offense116 = new Offense();
+			OffenseSegment offense116 = new OffenseSegment();
 			offense116.setUcrOffenseCode("23H");
-			Property propertyDescription116 = new Property();
+			PropertySegment propertyDescription116 = new PropertySegment();
 			propertyDescription116.setPropertyDescription(0, "03");
 			GroupAIncidentReport copy117 = new GroupAIncidentReport(incident);
-			Offense offense117 = new Offense();
+			OffenseSegment offense117 = new OffenseSegment();
 			offense117.setUcrOffenseCode("23H");
-			Property propertyDescription117 = new Property();
+			PropertySegment propertyDescription117 = new PropertySegment();
 			propertyDescription117.setPropertyDescription(0, "05");
 			GroupAIncidentReport copy118 = new GroupAIncidentReport(incident);
-			Offense offense118 = new Offense();
+			OffenseSegment offense118 = new OffenseSegment();
 			offense118.setUcrOffenseCode("23H");
-			Property propertyDescription118 = new Property();
+			PropertySegment propertyDescription118 = new PropertySegment();
 			propertyDescription118.setPropertyDescription(0, "24");
 			GroupAIncidentReport copy119 = new GroupAIncidentReport(incident);
-			Offense offense119 = new Offense();
+			OffenseSegment offense119 = new OffenseSegment();
 			offense119.setUcrOffenseCode("23H");
-			Property propertyDescription119 = new Property();
+			PropertySegment propertyDescription119 = new PropertySegment();
 			propertyDescription119.setPropertyDescription(0, "28");
 			GroupAIncidentReport copy120 = new GroupAIncidentReport(incident);
-			Offense offense120 = new Offense();
+			OffenseSegment offense120 = new OffenseSegment();
 			offense120.setUcrOffenseCode("23H");
-			Property propertyDescription120 = new Property();
+			PropertySegment propertyDescription120 = new PropertySegment();
 			propertyDescription120.setPropertyDescription(0, "37");
 
 			
@@ -2622,10 +2622,10 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(391, incident -> {
-			//(Value of Property) has a code that requires a zero value in Data Element 16 (Value of Property). 
+			//(Value of PropertySegment) has a code that requires a zero value in Data Element 16 (Value of PropertySegment). 
 			//Either the wrong property description code was entered or the property value was not entered.
 			//(This error was formerly error number 340, a warning message.) Data Element 16 
-			//(Value of Property) must be zero when Data Element 15 (Property Description) is:
+			//(Value of PropertySegment) must be zero when Data Element 15 (PropertySegment Description) is:
 			//09=Credit/Debit Cards
 			//22=Non-negotiable Instruments
 			//48=Documents�Personal or Business
@@ -2633,29 +2633,29 @@ public class RuleViolationExemplarFactory {
 			//66=Identity�Intangible
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			Property propertyDescription = new Property();
+			PropertySegment propertyDescription = new PropertySegment();
 			propertyDescription.setPropertyDescription(0, "09");
-			Property valueOfProperty = new Property();
+			PropertySegment valueOfProperty = new PropertySegment();
 			valueOfProperty.setValueOfProperty(0,000000500);
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			Property propertyDescription2 = new Property();
+			PropertySegment propertyDescription2 = new PropertySegment();
 			propertyDescription2.setPropertyDescription(0, "22");
-			Property valueOfProperty2 = new Property();
+			PropertySegment valueOfProperty2 = new PropertySegment();
 			valueOfProperty2.setValueOfProperty(0,000000500);
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			Property propertyDescription3 = new Property();
+			PropertySegment propertyDescription3 = new PropertySegment();
 			propertyDescription3.setPropertyDescription(0, "48");
-			Property valueOfProperty3 = new Property();
+			PropertySegment valueOfProperty3 = new PropertySegment();
 			valueOfProperty3.setValueOfProperty(0,000000500);
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			Property propertyDescription4 = new Property();
+			PropertySegment propertyDescription4 = new PropertySegment();
 			propertyDescription4.setPropertyDescription(0, "65");
-			Property valueOfProperty4 = new Property();
+			PropertySegment valueOfProperty4 = new PropertySegment();
 			valueOfProperty4.setValueOfProperty(0,000000500);
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			Property propertyDescription5 = new Property();
+			PropertySegment propertyDescription5 = new PropertySegment();
 			propertyDescription5.setPropertyDescription(0, "66");
-			Property valueOfProperty5 = new Property();
+			PropertySegment valueOfProperty5 = new PropertySegment();
 			valueOfProperty5.setValueOfProperty(0,000000500);
 			
 			incidents.add(copy);
@@ -2669,7 +2669,7 @@ public class RuleViolationExemplarFactory {
 		
 		
 		groupATweakerMap.put(401, incident -> {
-			// The referenced data element in a Group A Incident Report
+			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 4 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -2694,7 +2694,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(501, incident -> {
-			// The referenced data element in a Group A Incident Report
+			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 5 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -2719,7 +2719,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(601, incident -> {
-			// The referenced data element in a Group A Incident Report
+			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 6 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);

@@ -3,10 +3,10 @@ package org.search.nibrs.model;
 import java.util.Arrays;
 
 /**
- * Representation of an Offense reported within an Incident in a NIBRS report.
+ * Representation of an OffenseSegment reported within an Incident in a NIBRS report.
  *  
  */
-public class Offense
+public class OffenseSegment
 {
 
 	private String ucrOffenseCode;
@@ -24,7 +24,7 @@ public class Offense
     private int populatedTypeOfCriminalActivityCount;
     private int populatedOffendersSuspectedOfUsingCount;
 
-    public Offense()
+    public OffenseSegment()
     {
         offendersSuspectedOfUsing = new String[3];
         typeOfCriminalActivity = new String[3];
@@ -33,7 +33,7 @@ public class Offense
         biasMotivation = new String[5];
     }
     
-    public Offense(Offense o) {
+    public OffenseSegment(OffenseSegment o) {
     	this();
     	this.ucrOffenseCode = o.ucrOffenseCode;
     	this.offenseAttemptedCompleted = o.offenseAttemptedCompleted;
@@ -213,7 +213,7 @@ public class Offense
 
 	@Override
 	public String toString() {
-		return "Offense [ucrOffenseCode=" + ucrOffenseCode + ", offenseAttemptedCompleted=" + offenseAttemptedCompleted + ", offendersSuspectedOfUsing=" + Arrays.toString(offendersSuspectedOfUsing)
+		return "OffenseSegment [ucrOffenseCode=" + ucrOffenseCode + ", offenseAttemptedCompleted=" + offenseAttemptedCompleted + ", offendersSuspectedOfUsing=" + Arrays.toString(offendersSuspectedOfUsing)
 				+ ", locationType=" + locationType + ", numberOfPremisesEntered=" + numberOfPremisesEntered + ", methodOfEntry=" + methodOfEntry + ", typeOfCriminalActivity="
 				+ Arrays.toString(typeOfCriminalActivity) + ", typeOfWeaponForceInvolved=" + Arrays.toString(typeOfWeaponForceInvolved) + ", automaticWeaponIndicator="
 				+ Arrays.toString(automaticWeaponIndicator) + ", biasMotivation=" + Arrays.toString(biasMotivation) + ", populatedBiasMotivationCount=" + populatedBiasMotivationCount

@@ -22,7 +22,7 @@ public class IncidentBuilder {
 
 	private static final class LogListener implements ReportListener {
 		public int reportCount = 0;
-		public void newReport(Report newReport) {
+		public void newReport(AbstractReport newReport) {
 			LOG.info("Created " + newReport.getUniqueReportDescription());
 			reportCount++;
 		}
@@ -66,7 +66,7 @@ public class IncidentBuilder {
 		}
 		
 		String line = null;
-		Report currentReport = null;
+		AbstractReport currentReport = null;
 		int lineNumber = 1;
 		
 		LOG.info("Processing NIBRS flat file");
@@ -101,9 +101,9 @@ public class IncidentBuilder {
 
 	}
 
-	public Report buildReport(List<NIBRSError> errorList, Segment s) {
+	public AbstractReport buildReport(List<NIBRSError> errorList, Segment s) {
 		int errorListSize = errorList.size();
-		Report ret = null;
+		AbstractReport ret = null;
 		char level = s.getSegmentLevel();
 		if (level == '1') {
 			ret = buildGroupAIncidentSegment(s, errorList);
@@ -134,15 +134,15 @@ public class IncidentBuilder {
 			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Zero Report segments must be length 43)");
+			e.setRuleDescription("Invalid segment length (Zero AbstractReport segments must be length 43)");
 			errorList.add(e);
 		}
 		return ret;
 	}
 
-	private Report buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
+	private AbstractReport buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
 		GroupBIncidentReport ret = new GroupBIncidentReport();
-		Arrestee arrestee = new Arrestee();
+		ArresteeSegment arrestee = new ArresteeSegment();
 		String segmentData = s.getData();
 		ret.setOri(s.getOri());
 		ret.setAdminSegmentLevel(s.getSegmentLevel());
@@ -182,7 +182,7 @@ public class IncidentBuilder {
 		return ret;
 	}
 
-	private final void handleNewReport(Report newReport) {
+	private final void handleNewReport(AbstractReport newReport) {
 		if (newReport != null) {
 			for (Iterator<ReportListener> it = listeners.iterator(); it.hasNext();) {
 				ReportListener listener = it.next();
@@ -191,7 +191,7 @@ public class IncidentBuilder {
 		}
 	}
 
-	private final Report buildGroupAIncidentSegment(Segment s, List<NIBRSError> errorList) {
+	private final AbstractReport buildGroupAIncidentSegment(Segment s, List<NIBRSError> errorList) {
 		GroupAIncidentReport newIncident = new GroupAIncidentReport();
 		newIncident.setIncidentNumber(s.getSegmentUniqueIdentifier());
 		newIncident.setOri(s.getOri());
@@ -286,8 +286,8 @@ public class IncidentBuilder {
 		}
 	}
 
-	private Arrestee buildArresteeSegment(Segment s, List<NIBRSError> errorList) {
-		Arrestee newArrestee = new Arrestee();
+	private ArresteeSegment buildArresteeSegment(Segment s, List<NIBRSError> errorList) {
+		ArresteeSegment newArrestee = new ArresteeSegment();
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 110) {
@@ -319,8 +319,8 @@ public class IncidentBuilder {
 		return newArrestee;
 	}
 
-	private Offender buildOffenderSegment(Segment s, List<NIBRSError> errorList) {
-		Offender newOffender = new Offender();
+	private OffenderSegment buildOffenderSegment(Segment s, List<NIBRSError> errorList) {
+		OffenderSegment newOffender = new OffenderSegment();
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 45 || length == 46) {
@@ -338,15 +338,15 @@ public class IncidentBuilder {
 			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Offender segments must be length 45 (with no offender ethnicity) or 46 (with ethnicity))");
+			e.setRuleDescription("Invalid segment length (OffenderSegment segments must be length 45 (with no offender ethnicity) or 46 (with ethnicity))");
 			errorList.add(e);
 		}
 		return newOffender;
 	}
 
-	private Victim buildVictimSegment(Segment s, GroupAIncidentReport parentIncident, List<NIBRSError> errorList) {
+	private VictimSegment buildVictimSegment(Segment s, GroupAIncidentReport parentIncident, List<NIBRSError> errorList) {
 
-		Victim newVictim = new Victim();
+		VictimSegment newVictim = new VictimSegment();
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
@@ -390,7 +390,7 @@ public class IncidentBuilder {
 			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Victim segments must be length 129 (without LEOKA elements) or 141 (with LEOKA elements))");
+			e.setRuleDescription("Invalid segment length (VictimSegment segments must be length 129 (without LEOKA elements) or 141 (with LEOKA elements))");
 			errorList.add(e);
 		}
 
@@ -398,9 +398,9 @@ public class IncidentBuilder {
 
 	}
 
-	private Property buildPropertySegment(Segment s, List<NIBRSError> errorList) {
+	private PropertySegment buildPropertySegment(Segment s, List<NIBRSError> errorList) {
 
-		Property newProperty = new Property();
+		PropertySegment newProperty = new PropertySegment();
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
@@ -438,7 +438,7 @@ public class IncidentBuilder {
 			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Property segments must be length 307)");
+			e.setRuleDescription("Invalid segment length (PropertySegment segments must be length 307)");
 			errorList.add(e);
 		}
 
@@ -446,9 +446,9 @@ public class IncidentBuilder {
 
 	}
 
-	private Offense buildOffenseSegment(Segment s, List<NIBRSError> errorList) {
+	private OffenseSegment buildOffenseSegment(Segment s, List<NIBRSError> errorList) {
 
-		Offense newOffense = new Offense();
+		OffenseSegment newOffense = new OffenseSegment();
 
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
@@ -480,7 +480,7 @@ public class IncidentBuilder {
 			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Offense segments must be length 63 (with only one bias motivation) or 71 (with five)");
+			e.setRuleDescription("Invalid segment length (OffenseSegment segments must be length 63 (with only one bias motivation) or 71 (with five)");
 			errorList.add(e);
 		}
 

@@ -3,11 +3,11 @@ package org.search.nibrs.model;
 import java.util.Arrays;
 
 /**
- * Representation of a Victim reported within an Incident in a NIBRS report.  Note that we extend Person even though some types of victims are not people
+ * Representation of a VictimSegment reported within an Incident in a NIBRS report.  Note that we extend AbstractPersonSegment even though some types of victims are not people
  * (e.g., Business)...since NIBRS represents them all with the same data structure.
  *
  */
-public class Victim extends Person
+public class VictimSegment extends AbstractPersonSegment
 {
     
 	private Integer victimSequenceNumber;
@@ -27,7 +27,7 @@ public class Victim extends Person
     private int populatedUcrOffenseCodeConnectionCount;
     private int populatedOffenderNumberRelatedCount;
     
-	public Victim()
+	public VictimSegment()
     {
 		super();
         ucrOffenseCodeConnection = new String[10];
@@ -37,7 +37,7 @@ public class Victim extends Person
         victimOffenderRelationship = new String[10];
     }
     
-    public Victim(Victim v) {
+    public VictimSegment(VictimSegment v) {
     	super(v);
     	victimSequenceNumber = v.victimSequenceNumber;
     	typeOfVictim = v.typeOfVictim;
@@ -228,7 +228,7 @@ public class Victim extends Person
 
 	@Override
 	public String toString() {
-		return "Victim [victimSequenceNumber=" + victimSequenceNumber + ", ucrOffenseCodeConnection=" + Arrays.toString(ucrOffenseCodeConnection) + ", typeOfVictim=" + typeOfVictim
+		return "VictimSegment [victimSequenceNumber=" + victimSequenceNumber + ", ucrOffenseCodeConnection=" + Arrays.toString(ucrOffenseCodeConnection) + ", typeOfVictim=" + typeOfVictim
 				+ ", residentStatusOfVictim=" + residentStatusOfVictim + ", aggravatedAssaultHomicideCircumstances=" + Arrays.toString(aggravatedAssaultHomicideCircumstances)
 				+ ", additionalJustifiableHomicideCircumstances=" + additionalJustifiableHomicideCircumstances + ", typeOfInjury=" + Arrays.toString(typeOfInjury) + ", offenderNumberRelated="
 				+ Arrays.toString(offenderNumberRelated) + ", victimOffenderRelationship=" + Arrays.toString(victimOffenderRelationship) + ", typeOfOfficerActivityCircumstance="

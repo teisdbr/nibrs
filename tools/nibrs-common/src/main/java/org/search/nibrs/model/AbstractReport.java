@@ -12,10 +12,10 @@ import org.apache.logging.log4j.Logger;
  * Abstract class of objects representing types of "reports" in NIBRS...  Group A incident reports, Group B arrest reports, and Zero Reports.
  *
  */
-public abstract class Report {
+public abstract class AbstractReport {
 
 	@SuppressWarnings("unused")
-	private static final Logger LOG = LogManager.getLogger(Report.class);
+	private static final Logger LOG = LogManager.getLogger(AbstractReport.class);
 
 	private Integer monthOfTape;
 	private Integer yearOfTape;
@@ -24,13 +24,13 @@ public abstract class Report {
 	private char adminSegmentLevel;
 	private char reportActionType;
 	private boolean hasUpstreamErrors;
-	private List<Arrestee> arresteeSegmentList;
+	private List<ArresteeSegment> arresteeSegmentList;
 	
-	public Report() {
+	public AbstractReport() {
 		removeArrestees();
 	}
 	
-	public Report(Report r) {
+	public AbstractReport(AbstractReport r) {
 		this.monthOfTape = r.monthOfTape;
 		this.yearOfTape = r.yearOfTape;
 		this.cityIndicator = r.cityIndicator;
@@ -102,18 +102,18 @@ public abstract class Report {
 		arresteeSegmentList.remove(index);
 	}
 	public void removeArrestees() {
-		arresteeSegmentList = new ArrayList<Arrestee>();
+		arresteeSegmentList = new ArrayList<ArresteeSegment>();
 	}
-	public void addArrestee(Arrestee arrestee) {
+	public void addArrestee(ArresteeSegment arrestee) {
 	    arresteeSegmentList.add(arrestee);
 	}
 	public int getArresteeCount() {
 	    return arresteeSegmentList.size();
 	}
-	public Iterator<Arrestee> arresteeIterator() {
+	public Iterator<ArresteeSegment> arresteeIterator() {
 	    return getArrestees().iterator();
 	}
-	public List<Arrestee> getArrestees() {
+	public List<ArresteeSegment> getArrestees() {
 		return Collections.unmodifiableList(arresteeSegmentList);
 	}
 
@@ -122,7 +122,7 @@ public abstract class Report {
 		StringBuffer sb = new StringBuffer("[monthOfTape=" + monthOfTape + ", yearOfTape=" + yearOfTape + ", cityIndicator=" + cityIndicator + ", ori=" + ori + ", adminSegmentLevel=" + adminSegmentLevel
 				+ ", reportActionType=" + reportActionType + ", hasUpstreamErrors=" + hasUpstreamErrors + "]");
 		sb.append("\n").append(arresteeSegmentList.size() + " Arrestee Segments:\n");
-		for (Arrestee a : arresteeSegmentList) {
+		for (ArresteeSegment a : arresteeSegmentList) {
 			sb.append("\t").append(a.toString()).append("\n");
 		}
 		return sb.toString();

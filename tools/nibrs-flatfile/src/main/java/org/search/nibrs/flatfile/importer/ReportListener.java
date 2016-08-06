@@ -10,9 +10,9 @@ public interface ReportListener
 {
 
     /**
-     * Called on implementations when the builder creates a new Report from the report stream.
-     * @param report the new Report object
+     * Called on implementations when the builder creates a new AbstractReport from the report stream.
+     * @param report the new AbstractReport object
      */
-    public void newReport(Report report);
+    public void newReport(AbstractReport report);
 
 }

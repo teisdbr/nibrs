@@ -54,7 +54,7 @@ public class NdexNibrsTransformTest {
 		
 		Document trasformedDoc = XmlUtils.toDocument(transformedXml);
 	
-		Node reportHeaderNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:Report/nibrs:ReportHeader");
+		Node reportHeaderNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:AbstractReport/nibrs:ReportHeader");
 		
 		String reportCatCode =  XmlUtils.xPathStringSearch(reportHeaderNode, 
 				"//nibrs:NIBRSReportCategoryCode");
@@ -69,7 +69,7 @@ public class NdexNibrsTransformTest {
 		
 		Document ndexNibrsDoc = XmlUtils.toDocument(new File("src/test/resources/xml/NDEx-NIBRS.out.xml"));
 		
-		Node reportHeaderNode = XmlUtils.xPathNodeSearch(ndexNibrsDoc, "/nibrs:Report/nibrs:ReportHeader");
+		Node reportHeaderNode = XmlUtils.xPathNodeSearch(ndexNibrsDoc, "/nibrs:AbstractReport/nibrs:ReportHeader");
 		
 		String sReportCatCode =  XmlUtils.xPathStringSearch(reportHeaderNode, 
 				"//nibrs:NIBRSReportCategoryCode");	
@@ -119,7 +119,7 @@ public class NdexNibrsTransformTest {
 						
 		Document trasformedDoc = XmlUtils.toDocument(transformedXml);
 						
-		Node offenseUcrCodeNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:Report/j:Offense/nibrs:OffenseUCRCode");
+		Node offenseUcrCodeNode = XmlUtils.xPathNodeSearch(trasformedDoc, "/nibrs:AbstractReport/j:OffenseSegment/nibrs:OffenseUCRCode");
 
 		// example printing document to console
 		XmlUtils.printNode(trasformedDoc);

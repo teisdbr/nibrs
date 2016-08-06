@@ -7,7 +7,7 @@ import java.util.Date;
  * Representation of an article of property reported within an Incident in a NIBRS report.
  *
  */
-public class Property
+public class PropertySegment
 {
     
 	private String typeOfPropertyLoss;
@@ -22,7 +22,7 @@ public class Property
     private int populatedPropertyDescriptionCount;
     private int populatedSuspectedDrugTypeCount;
 
-    public Property()
+    public PropertySegment()
     {
         propertyDescription = new String[10];
         valueOfProperty = new Integer[10];
@@ -32,7 +32,7 @@ public class Property
         typeDrugMeasurement = new String[3];
     }
     
-    public Property(Property p) {
+    public PropertySegment(PropertySegment p) {
     	this();
     	typeOfPropertyLoss = p.typeOfPropertyLoss;
     	numberOfRecoveredMotorVehicles = p.numberOfRecoveredMotorVehicles;
@@ -159,7 +159,7 @@ public class Property
 
 	@Override
 	public String toString() {
-		return "Property [typeOfPropertyLoss=" + typeOfPropertyLoss + ", propertyDescription=" + Arrays.toString(propertyDescription) + ", valueOfProperty=" + Arrays.toString(valueOfProperty)
+		return "PropertySegment [typeOfPropertyLoss=" + typeOfPropertyLoss + ", propertyDescription=" + Arrays.toString(propertyDescription) + ", valueOfProperty=" + Arrays.toString(valueOfProperty)
 				+ ", dateRecovered=" + Arrays.toString(dateRecovered) + ", numberOfStolenMotorVehicles=" + numberOfStolenMotorVehicles + ", numberOfRecoveredMotorVehicles="
 				+ numberOfRecoveredMotorVehicles + ", suspectedDrugType=" + Arrays.toString(suspectedDrugType) + ", estimatedDrugQuantity=" + Arrays.toString(estimatedDrugQuantity)
 				+ ", typeDrugMeasurement=" + Arrays.toString(typeDrugMeasurement) + ", populatedPropertyDescriptionCount=" + populatedPropertyDescriptionCount + ", populatedSuspectedDrugTypeCount="

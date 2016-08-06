@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.search.nibrs.model.Arrestee;
+import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.Offender;
-import org.search.nibrs.model.Offense;
-import org.search.nibrs.model.Property;
-import org.search.nibrs.model.Victim;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
 
 /**
  * Utility class that creates test incidents.
@@ -36,9 +36,9 @@ final class BaselineIncidentFactory {
 		incident.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 		incident.setCityIndicator("GAA7");
 		incident.setReportDateIndicator(null);		
-		Offense o = new Offense();
+		OffenseSegment o = new OffenseSegment();
 		
-		o = new Offense();
+		o = new OffenseSegment();
 		incident.addOffense(o);
 		o.setUcrOffenseCode("13A");
 		o.setTypeOfCriminalActivity(0, "J");
@@ -50,7 +50,7 @@ final class BaselineIncidentFactory {
 		o.setNumberOfPremisesEntered(null);
 		o.setAutomaticWeaponIndicator(0, " ");
 		
-		Property property = new Property();
+		PropertySegment property = new PropertySegment();
 		incident.addProperty(property);
 		property.setTypeOfPropertyLoss("1");
 		property.setPropertyDescription(0, "99");
@@ -63,7 +63,7 @@ final class BaselineIncidentFactory {
 		property.setTypeDrugMeasurement(0, null);
 
 		
-		Victim v = new Victim();
+		VictimSegment v = new VictimSegment();
 		incident.addVictim(v);
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
@@ -77,14 +77,14 @@ final class BaselineIncidentFactory {
 		v.setVictimOffenderRelationship(0, "SE");
 		v.setUcrOffenseCodeConnection(0, "13A");
 		
-		Offender offender = new Offender();
+		OffenderSegment offender = new OffenderSegment();
 		incident.addOffender(offender);
 		offender.setOffenderSequenceNumber(1);
 		offender.setAgeString("22");
 		offender.setRace("W");
 		offender.setSex("M");
 		
-		Arrestee arrestee = new Arrestee();
+		ArresteeSegment arrestee = new ArresteeSegment();
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(1);
 		arrestee.setAgeString("22");

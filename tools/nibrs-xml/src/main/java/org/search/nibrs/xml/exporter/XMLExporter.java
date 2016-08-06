@@ -22,16 +22,16 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.model.Arrestee;
+import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.NIBRSSubmission;
-import org.search.nibrs.model.Offender;
-import org.search.nibrs.model.Offense;
-import org.search.nibrs.model.Property;
-import org.search.nibrs.model.Report;
-import org.search.nibrs.model.Victim;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.xml.NibrsNamespaceContext;
 import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
@@ -83,7 +83,7 @@ public class XMLExporter {
 		RELATIONSHIP_MAP.put("OK", "NonFamily_Otherwise Known");
 		RELATIONSHIP_MAP.put("RU", "Relationship Unknown");
 		RELATIONSHIP_MAP.put("ST", "Stranger");
-		RELATIONSHIP_MAP.put("VO", "Victim Was Offender");
+		RELATIONSHIP_MAP.put("VO", "VictimSegment Was OffenderSegment");
 		
 		BIAS_MAP.put("13", "ANTIAMERICAN INDIAN_ ALASKAN NATIVE");
 		BIAS_MAP.put("31", "ANTIARAB");
@@ -138,7 +138,7 @@ public class XMLExporter {
 		Document ret = XmlUtils.createNewDocument();
 		Element root = XmlUtils.appendChildElement(ret, Namespace.nibrs, "Submission");
 
-		for (Report report : submission.getReports()) {
+		for (AbstractReport report : submission.getReports()) {
 			Element reportElement = buildReportElement(report, errorList);
 			root.appendChild(ret.adoptNode(reportElement));
 		}
@@ -167,7 +167,7 @@ public class XMLExporter {
 		t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 		t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
-		for (Report incident : submission.getReports()) {
+		for (AbstractReport incident : submission.getReports()) {
 			Element reportElement = buildReportElement(incident, errorList);
 			t.transform(new DOMSource(reportElement), new StAXResult(writer));
 		}
@@ -177,7 +177,7 @@ public class XMLExporter {
 
 	}
 	
-	private Element buildReportElement(Report report, List<NIBRSError> errorList) throws ParserConfigurationException {
+	private Element buildReportElement(AbstractReport report, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Element ret = null;
 		if (report instanceof GroupAIncidentReport) {
 			ret = buildGroupAIncidentReportElement((GroupAIncidentReport) report, errorList);
@@ -189,16 +189,16 @@ public class XMLExporter {
 		return ret;
 	}
 	
-	private Element buildZeroReportElement(Report incident, List<NIBRSError> errorList) throws ParserConfigurationException {
+	private Element buildZeroReportElement(AbstractReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Document temp = XmlUtils.createNewDocument();
-		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "Report");
+		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "AbstractReport");
 		addReportHeaderElement(incident, reportElement);
 		return reportElement;
 	}
 	
 	private Element buildGroupBIncidentReportElement(GroupBIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Document temp = XmlUtils.createNewDocument();
-		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "Report");
+		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "AbstractReport");
 		addReportHeaderElement(incident, reportElement);
 		addArresteePersonElements(incident, reportElement, errorList);
 		addArresteeElements(incident, reportElement);
@@ -209,7 +209,7 @@ public class XMLExporter {
 
 	private Element buildGroupAIncidentReportElement(GroupAIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Document temp = XmlUtils.createNewDocument();
-		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "Report");
+		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "AbstractReport");
 		addReportHeaderElement(incident, reportElement);
 		addIncidentElement(incident, reportElement);
 		addOffenseElements(incident, reportElement);
@@ -230,20 +230,20 @@ public class XMLExporter {
 	}
 
 	private void addSubjectVictimAssociationElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Victim victim : incident.getVictims()) {
+		for (VictimSegment victim : incident.getVictims()) {
 			for (int position=0; position < 10; position++) {
 				Integer offenderSequenceNumber = victim.getOffenderNumberRelated(position);
 				String relString = victim.getVictimOffenderRelationship(position);
 				if (offenderSequenceNumber != null) {
 					Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "SubjectVictimAssociation");
 					Element e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Subject");
-					XmlUtils.addAttribute(e, Namespace.s, "ref", "Offender-" + offenderSequenceNumber);
-					e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Victim");
-					XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "OffenderSegment-" + offenderSequenceNumber);
+					e = XmlUtils.appendChildElement(associationElement, Namespace.j, "VictimSegment");
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "VictimSegment-" + victim.getVictimSequenceNumber());
 					if (relString != null) {
 						String relCode = RELATIONSHIP_MAP.get(relString);
 						if (relString.equals("BG")) {
-							Offender o = incident.getOffenderForSequenceNumber(offenderSequenceNumber);
+							OffenderSegment o = incident.getOffenderForSequenceNumber(offenderSequenceNumber);
 							if ("M".equals(o.getSex())) {
 								relCode = "Boyfriend";
 							} else if ("F".equals(o.getSex())) {
@@ -264,22 +264,22 @@ public class XMLExporter {
 	}
 
 	private void addOffenseVictimAssociationElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Victim victim : incident.getVictims()) {
+		for (VictimSegment victim : incident.getVictims()) {
 			for (int position=0; position < 10; position++) {
 				String ucrCode = victim.getUcrOffenseCodeConnection(position);
 				if (ucrCode != null) {
 					Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "OffenseVictimAssociation");
-					Element e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Offense");
-					XmlUtils.addAttribute(e, Namespace.s, "ref", "Offense-" + ucrCode);
-					e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Victim");
-					XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
+					Element e = XmlUtils.appendChildElement(associationElement, Namespace.j, "OffenseSegment");
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "OffenseSegment-" + ucrCode);
+					e = XmlUtils.appendChildElement(associationElement, Namespace.j, "VictimSegment");
+					XmlUtils.addAttribute(e, Namespace.s, "ref", "VictimSegment-" + victim.getVictimSequenceNumber());
 				}
 			}
 		}
 	}
 
-	private void addArrestSubjectAssociationElements(Report incident, Element reportElement) {
-		for (Arrestee arrestee : incident.getArrestees()) {
+	private void addArrestSubjectAssociationElements(AbstractReport incident, Element reportElement) {
+		for (ArresteeSegment arrestee : incident.getArrestees()) {
 			Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "ArrestSubjectAssociation");
 			Element e = XmlUtils.appendChildElement(associationElement, Namespace.nc, "Activity");
 			XmlUtils.addAttribute(e, Namespace.s, "ref", "Arrest-" + arrestee.getArresteeSequenceNumber());
@@ -288,8 +288,8 @@ public class XMLExporter {
 		}
 	}
 
-	private void addArrestElement(Report incident, Element reportElement) {
-		for (Arrestee arrestee : incident.getArrestees()) {
+	private void addArrestElement(AbstractReport incident, Element reportElement) {
+		for (ArresteeSegment arrestee : incident.getArrestees()) {
 			Element arrestElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Arrest");
 			XmlUtils.addAttribute(arrestElement, Namespace.s, "id", "Arrest-" + arrestee.getArresteeSequenceNumber());
 			Element e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityIdentification");
@@ -312,8 +312,8 @@ public class XMLExporter {
 		}
 	}
 
-	private void addArresteeElements(Report incident, Element reportElement) {
-		for (Arrestee arrestee : incident.getArrestees()) {
+	private void addArresteeElements(AbstractReport incident, Element reportElement) {
+		for (ArresteeSegment arrestee : incident.getArrestees()) {
 			Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Arrestee");
 			XmlUtils.addAttribute(arresteeElement, Namespace.s, "id", "ArresteeObject-" + arrestee.getArresteeSequenceNumber());
 			Element e = XmlUtils.appendChildElement(arresteeElement, Namespace.nc, "RoleOfPerson");
@@ -323,19 +323,19 @@ public class XMLExporter {
 	}
 
 	private void addSubjectElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Offender offender : incident.getOffenders()) {
+		for (OffenderSegment offender : incident.getOffenders()) {
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Subject");
 			Element e = XmlUtils.appendChildElement(offenderElement, Namespace.nc, "RoleOfPerson");
-			XmlUtils.addAttribute(e, Namespace.s, "ref", "Offender-" + offender.getOffenderSequenceNumber());
+			XmlUtils.addAttribute(e, Namespace.s, "ref", "OffenderSegment-" + offender.getOffenderSequenceNumber());
 			appendElementAndValueIfNotNull(offenderElement, Namespace.j, "OffenderSequenceNumberText", String.valueOf(offender.getOffenderSequenceNumber()));
 		}
 	}
 
 	private void addVictimElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Victim victim : incident.getVictims()) {
-			Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Victim");
+		for (VictimSegment victim : incident.getVictims()) {
+			Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "VictimSegment");
 			Element e = XmlUtils.appendChildElement(victimElement, Namespace.nc, "RoleOfPerson");
-			XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
+			XmlUtils.addAttribute(e, Namespace.s, "ref", "VictimSegment-" + victim.getVictimSequenceNumber());
 			appendElementAndValueIfNotNull(victimElement, Namespace.j, "VictimSequenceNumberText", String.valueOf(victim.getVictimSequenceNumber()));
 			appendElementAndValueIfNotNull(victimElement, Namespace.j, "VictimCategoryCode", victim.getTypeOfVictim());
 			for (int i=0;i < 2;i++) {
@@ -346,13 +346,13 @@ public class XMLExporter {
 	}
 
 	private void addEnforcementOfficialElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Victim victim : incident.getVictims()) {
+		for (VictimSegment victim : incident.getVictims()) {
 			String victimType = victim.getTypeOfVictim();
 			String officerOtherJurisdictionORI = victim.getOfficerOtherJurisdictionORI();
 			if ("L".equals(victimType)) {
 				Element enforcementOfficialElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "EnforcementOfficial");
 				Element e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.nc, "RoleOfPerson");
-				XmlUtils.addAttribute(e, Namespace.s, "ref", "Victim-" + victim.getVictimSequenceNumber());
+				XmlUtils.addAttribute(e, Namespace.s, "ref", "VictimSegment-" + victim.getVictimSequenceNumber());
 				appendElementAndValueIfNotNull(enforcementOfficialElement, Namespace.j, "EnforcementOfficialActivityCategoryCode", victim.getTypeOfOfficerActivityCircumstance());
 				appendElementAndValueIfNotNull(enforcementOfficialElement, Namespace.j, "EnforcementOfficialAssignmentCategoryCode", victim.getOfficerAssignmentType());
 				if (officerOtherJurisdictionORI != null) {
@@ -371,9 +371,9 @@ public class XMLExporter {
 		addArresteePersonElements(incident, reportElement, errorList);
 	}
 
-	private void addArresteePersonElements(Report incident, Element reportElement, List<NIBRSError> errorList) {
-		for (Arrestee arrestee : incident.getArrestees()) {
-			Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
+	private void addArresteePersonElements(AbstractReport incident, Element reportElement, List<NIBRSError> errorList) {
+		for (ArresteeSegment arrestee : incident.getArrestees()) {
+			Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "AbstractPersonSegment");
 			XmlUtils.addAttribute(arresteeElement, Namespace.s, "id", "Arrestee-" + arrestee.getArresteeSequenceNumber());
 			appendElementAndValueIfNotNull(arresteeElement, Namespace.nc, "PersonEthnicityCode", arrestee.getEthnicity());
 			NIBRSAge age = arrestee.getAge();
@@ -396,9 +396,9 @@ public class XMLExporter {
 	}
 
 	private void addOffenderPersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
-		for (Offender offender : incident.getOffenders()) {
-			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
-			XmlUtils.addAttribute(offenderElement, Namespace.s, "id", "Offender-" + offender.getOffenderSequenceNumber());
+		for (OffenderSegment offender : incident.getOffenders()) {
+			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "AbstractPersonSegment");
+			XmlUtils.addAttribute(offenderElement, Namespace.s, "id", "OffenderSegment-" + offender.getOffenderSequenceNumber());
 			appendElementAndValueIfNotNull(offenderElement, Namespace.nc, "PersonEthnicityCode", offender.getEthnicity());
 			NIBRSAge age = offender.getAge();
 			if (age != null) {
@@ -421,11 +421,11 @@ public class XMLExporter {
 	}
 
 	private void addVictimPersonElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
-		for (Victim victim : incident.getVictims()) {
+		for (VictimSegment victim : incident.getVictims()) {
 			String victimType = victim.getTypeOfVictim();
 			if ("L".equals(victimType) || "I".equals(victimType)) {
-				Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Person");
-				XmlUtils.addAttribute(victimElement, Namespace.s, "id", "Victim-" + victim.getVictimSequenceNumber());
+				Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "AbstractPersonSegment");
+				XmlUtils.addAttribute(victimElement, Namespace.s, "id", "VictimSegment-" + victim.getVictimSequenceNumber());
 				appendElementAndValueIfNotNull(victimElement, Namespace.nc, "PersonEthnicityCode", victim.getEthnicity());
 				NIBRSAge age = victim.getAge();
 				if (age.getError() != null) {
@@ -460,7 +460,7 @@ public class XMLExporter {
 	}
 
 	private void addDrugPropertyElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Property property : incident.getProperties()) {
+		for (PropertySegment property : incident.getProperties()) {
 			for (int i = 0; i < 10; i++) {
 				String description = property.getPropertyDescription(i);
 				if ("10".equals(description)) {
@@ -479,7 +479,7 @@ public class XMLExporter {
 	}
 
 	private void addNonDrugPropertyElements(GroupAIncidentReport incident, Element reportElement, List<NIBRSError> errorList) {
-		for (Property property : incident.getProperties()) {
+		for (PropertySegment property : incident.getProperties()) {
 			for (int i = 0; i < 10; i++) {
 				String description = property.getPropertyDescription(i);
 				if (description != null && !"10".equals(description)) {
@@ -522,17 +522,17 @@ public class XMLExporter {
 	}
 
 	private void addOffenseLocationAssociationElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Offense offense : incident.getOffenses()) {
+		for (OffenseSegment offense : incident.getOffenses()) {
 			Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "OffenseLocationAssociation");
-			Element e = XmlUtils.appendChildElement(associationElement, Namespace.j, "Offense");
-			XmlUtils.addAttribute(e, Namespace.s, "ref", "Offense-" + offense.getUcrOffenseCode());
+			Element e = XmlUtils.appendChildElement(associationElement, Namespace.j, "OffenseSegment");
+			XmlUtils.addAttribute(e, Namespace.s, "ref", "OffenseSegment-" + offense.getUcrOffenseCode());
 			e = XmlUtils.appendChildElement(associationElement, Namespace.nc, "Location");
 			XmlUtils.addAttribute(e, Namespace.s, "ref", "Location-" + offense.getUcrOffenseCode());
 		}
 	}
 
 	private void addLocationElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Offense offense : incident.getOffenses()) {
+		for (OffenseSegment offense : incident.getOffenses()) {
 			Element locationElement = XmlUtils.appendChildElement(reportElement, Namespace.nc, "Location");
 			XmlUtils.addAttribute(locationElement, Namespace.s, "id", "Location-" + offense.getUcrOffenseCode());
 			appendElementAndValueIfNotNull(locationElement, Namespace.j, "LocationCategoryCode", offense.getLocationType());
@@ -540,9 +540,9 @@ public class XMLExporter {
 	}
 
 	private void addOffenseElements(GroupAIncidentReport incident, Element reportElement) {
-		for (Offense offense : incident.getOffenses()) {
-			Element offenseElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "Offense");
-			XmlUtils.addAttribute(offenseElement, Namespace.s, "id", "Offense-" + offense.getUcrOffenseCode());
+		for (OffenseSegment offense : incident.getOffenses()) {
+			Element offenseElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "OffenseSegment");
+			XmlUtils.addAttribute(offenseElement, Namespace.s, "id", "OffenseSegment-" + offense.getUcrOffenseCode());
 			appendElementAndValueIfNotNull(offenseElement, Namespace.nibrs, "OffenseUCRCode", offense.getUcrOffenseCode());
 			for (int i = 0; i < 3; i++) {
 				appendElementAndValueIfNotNull(offenseElement, Namespace.nibrs, "CriminalActivityCategoryCode", offense.getTypeOfCriminalActivity(i));
@@ -609,7 +609,7 @@ public class XMLExporter {
 		}
 	}
 
-	private void addReportHeaderElement(Report report, Element reportElement) {
+	private void addReportHeaderElement(AbstractReport report, Element reportElement) {
 		Element reportHeaderElement = XmlUtils.appendChildElement(reportElement, Namespace.nibrs, "ReportHeader");
 		Element e = XmlUtils.appendChildElement(reportHeaderElement, Namespace.nibrs, "NIBRSReportCategoryCode");
 		String reportType = null;

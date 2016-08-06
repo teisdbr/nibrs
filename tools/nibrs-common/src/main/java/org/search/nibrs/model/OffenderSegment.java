@@ -1,20 +1,20 @@
 package org.search.nibrs.model;
 
 /**
- * Representation of an Offender reported within an Incident in a NIBRS report.
+ * Representation of an OffenderSegment reported within an Incident in a NIBRS report.
  *
  */
-public class Offender extends Person
+public class OffenderSegment extends AbstractPersonSegment
 {
     
 	private Integer offenderSequenceNumber;
     private boolean reportedUnknown;
     
-    public Offender() {
+    public OffenderSegment() {
     	super();
     }
     
-    public Offender(Offender o) {
+    public OffenderSegment(OffenderSegment o) {
     	super(o);
     	offenderSequenceNumber = o.offenderSequenceNumber;
     	reportedUnknown = o.reportedUnknown;
@@ -52,7 +52,7 @@ public class Offender extends Person
 
 	@Override
 	public String toString() {
-		return "Offender [" + super.toString() + ", offenderSequenceNumber=" + offenderSequenceNumber + ", reportedUnknown=" + reportedUnknown + "]";
+		return "OffenderSegment [" + super.toString() + ", offenderSequenceNumber=" + offenderSequenceNumber + ", reportedUnknown=" + reportedUnknown + "]";
 	}
     
 }

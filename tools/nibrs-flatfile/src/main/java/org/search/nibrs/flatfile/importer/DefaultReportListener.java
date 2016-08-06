@@ -12,15 +12,15 @@ import org.search.nibrs.model.*;
 public final class DefaultReportListener implements ReportListener
 {
     
-    private List<Report> reports = new ArrayList<Report>();
+    private List<AbstractReport> reports = new ArrayList<AbstractReport>();
     private Map<String, Throwable> throwables = new HashMap<String, Throwable>();
 
-    public void newReport(Report newReport)
+    public void newReport(AbstractReport newReport)
     {
         reports.add(newReport);
     }
     
-    public List<Report> getReportList()
+    public List<AbstractReport> getReportList()
     {
         return Collections.unmodifiableList(reports);
     }
@@ -32,7 +32,7 @@ public final class DefaultReportListener implements ReportListener
     
     public List<GroupAIncidentReport> getGroupAIncidentList() {
     	List<GroupAIncidentReport> ret = new ArrayList<GroupAIncidentReport>();
-    	for (Report r : reports) {
+    	for (AbstractReport r : reports) {
     		if (r instanceof GroupAIncidentReport) {
     			ret.add((GroupAIncidentReport) r);
     		}
@@ -42,7 +42,7 @@ public final class DefaultReportListener implements ReportListener
     
     public List<GroupBIncidentReport> getGroupBIncidentList() {
     	List<GroupBIncidentReport> ret = new ArrayList<GroupBIncidentReport>();
-    	for (Report r : reports) {
+    	for (AbstractReport r : reports) {
     		if (r instanceof GroupBIncidentReport) {
     			ret.add((GroupBIncidentReport) r);
     		}
@@ -52,7 +52,7 @@ public final class DefaultReportListener implements ReportListener
     
     public List<ZeroReport> getZeroReportList() {
     	List<ZeroReport> ret = new ArrayList<ZeroReport>();
-    	for (Report r : reports) {
+    	for (AbstractReport r : reports) {
     		if (r instanceof ZeroReport) {
     			ret.add((ZeroReport) r);
     		}

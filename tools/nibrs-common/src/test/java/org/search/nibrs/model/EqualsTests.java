@@ -58,8 +58,8 @@ public class EqualsTests {
 		NIBRSAge a2 = new NIBRSAge(a1);
 		assertTrue(a1.equals(a2));
 		
-		Arrestee arrestee1 = enhancedRandom.nextObject(Arrestee.class);
-		Arrestee arrestee2 = new Arrestee(arrestee1);
+		ArresteeSegment arrestee1 = enhancedRandom.nextObject(ArresteeSegment.class);
+		ArresteeSegment arrestee2 = new ArresteeSegment(arrestee1);
 		assertTrue(arrestee1.equals(arrestee2));
 		
 		for (int i = 0; i < 1000; i++) {

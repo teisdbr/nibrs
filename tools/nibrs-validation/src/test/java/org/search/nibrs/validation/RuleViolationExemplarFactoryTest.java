@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
-import org.search.nibrs.model.Report;
+import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.xml.XmlUtils;
 import org.search.nibrs.xml.exporter.XMLExporter;
 import org.w3c.dom.Document;
@@ -28,21 +28,21 @@ public class RuleViolationExemplarFactoryTest {
 		// This test doesn't really test anything meaningful...just demonstrates how to use the exemplar factory
 		NIBRSSubmission report = new NIBRSSubmission();
 		RuleViolationExemplarFactory exemplarFactory = RuleViolationExemplarFactory.getInstance();
-		Report incident = exemplarFactory.getGroupAIncidentsThatViolateRule(115).get(0);
+		AbstractReport incident = exemplarFactory.getGroupAIncidentsThatViolateRule(115).get(0);
 		report.addReport(incident);
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, new ArrayList<NIBRSError>());
 		//XmlUtils.printNode(d, System.out);
-		String incidentNumberValue = XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:Report/nc:Incident/nc:ActivityIdentification/nc:IdentificationID");
+		String incidentNumberValue = XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport/nc:Incident/nc:ActivityIdentification/nc:IdentificationID");
 		assertTrue(incidentNumberValue.trim().contains(" "));
-		List<Report> incidents = new ArrayList<Report>();
+		List<AbstractReport> incidents = new ArrayList<AbstractReport>();
 		incidents.addAll(exemplarFactory.getGroupAIncidentsThatViolateRule(119));
 		assertEquals(2, incidents.size());
 		report = new NIBRSSubmission();
 		report.addReports(incidents);
 		d = new XMLExporter().convertNIBRSSubmissionToDocument(report, new ArrayList<NIBRSError>());
 		//XmlUtils.printNode(d, System.out);
-		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report/j:Offense[nibrs:OffenseUCRCode='13A']"));
-		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:Report/j:Offense[nibrs:OffenseUCRCode='13B']"));
+		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport/j:OffenseSegment[nibrs:OffenseUCRCode='13A']"));
+		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport/j:OffenseSegment[nibrs:OffenseUCRCode='13B']"));
 	}
 	
 	@Test

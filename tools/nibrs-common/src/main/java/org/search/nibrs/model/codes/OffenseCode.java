@@ -4,7 +4,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Enum for NIBRS Offense Codes.
+ * Enum for NIBRS OffenseSegment Codes.
  *
  */
 public enum OffenseCode {
@@ -17,7 +17,7 @@ public enum OffenseCode {
 	_510("510", "Bribery"),
 	_220("220", "Burglary/Breaking & Entering"),
 	_250("250", "Counterfeiting/Forgery"),
-	_290("290", "Destruction/Damage/Vandalism of Property"),
+	_290("290", "Destruction/Damage/Vandalism of PropertySegment"),
 	_35A("35A", "Drug/Narcotic Violations"),
 	_35B("35B", "Drug Equipment Violations"),
 	_270("270", "Embezzlement"),
@@ -38,7 +38,7 @@ public enum OffenseCode {
 	_09C("09C", "Justifiable Homicide"),
 	_64A("64A", "Human Trafficking, Commercial Sex Acts"),
 	_64B("64B", "Human Trafficking, Involuntary Servitude"),
-	_100("100", "Kidnapping/Abduction Person"),
+	_100("100", "Kidnapping/Abduction AbstractPersonSegment"),
 	_23A("23A", "Pocket-picking"),
 	_23B("23B", "Purse-snatching "),
 	_23C("23C", "Shoplifting "),
@@ -59,7 +59,7 @@ public enum OffenseCode {
 	_11D("11D", "Fondling "),
 	_36A("36A", "Incest "),
 	_36B("36B", "Statutory Rape "),
-	_280("280", "Stolen Property Offenses "),
+	_280("280", "Stolen PropertySegment Offenses "),
 	_520("520", "Weapon Law Violations"),
 	_90A("90A", "Bad Checks"),
 	_90B("90B", "Curfew/Loitering/Vagrancy Violations"),
@@ -70,7 +70,7 @@ public enum OffenseCode {
 	_90G("90G", "Liquor Law Violations"),
 	_90H("90H", "Peeping Tom"),
 	_90I("90I", "Runaway"),
-	_90J("90J", "Trespass of Real Property")
+	_90J("90J", "Trespass of Real PropertySegment")
 	;
 
 	public String code;
