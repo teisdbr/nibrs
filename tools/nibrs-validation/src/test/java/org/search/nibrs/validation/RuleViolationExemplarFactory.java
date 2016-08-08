@@ -731,15 +731,15 @@ public class RuleViolationExemplarFactory {
 
 		});
 
+		
 		groupATweakerMap.put(253, incident -> {
-			// (Method of Entry) Data Element was not entered; it must be entered
+			// Data Element 11 (Method of Entry) Data Element was not entered; it must be entered
 			// when UCR OffenseSegment Code of 220=Burglary has been entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment offense = new OffenseSegment();
-			offense.setMethodOfEntry(null);
-			offense.setUcrOffenseCode("220");
-			incident.addOffense(offense);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getOffenses().get(0).setMethodOfEntry(null);
+			
 			incidents.add(copy);
 			return incidents;
 
