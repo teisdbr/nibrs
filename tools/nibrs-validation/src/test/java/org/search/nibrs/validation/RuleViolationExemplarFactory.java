@@ -1051,11 +1051,19 @@ public class RuleViolationExemplarFactory {
 			// Group A Incident AbstractReport.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment JustifiableHomicideOffense = new OffenseSegment();
-			JustifiableHomicideOffense.setUcrOffenseCode("09C");
-			OffenseSegment secondOffense = new OffenseSegment();
-			secondOffense.setUcrOffenseCode("13B");
+			OffenseSegment offense2 = new OffenseSegment();
+			offense2.setUcrOffenseCode("09C");
+			offense2.setTypeOfCriminalActivity(0, "J");
+			offense2.setOffenseAttemptedCompleted("C");
+			offense2.setTypeOfWeaponForceInvolved(0, "99");
+			offense2.setOffendersSuspectedOfUsing(0, "N");
+			offense2.setBiasMotivation(0, "03");
+			offense2.setLocationType("15");
+			offense2.setNumberOfPremisesEntered(null);
+			offense2.setAutomaticWeaponIndicator(0, " ");
+			
 			incidents.add(copy);
+			
 			return incidents;
 
 		});
