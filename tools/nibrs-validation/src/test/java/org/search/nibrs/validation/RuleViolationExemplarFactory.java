@@ -750,11 +750,10 @@ public class RuleViolationExemplarFactory {
 			// Since a burglary offense was not entered, the Method of Entry should not have been entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment offense = new OffenseSegment();
-			offense.setMethodOfEntry("F");
-			offense.setUcrOffenseCode("13A");
-			incident.addOffense(offense);
+			copy.getOffenses().get(0).setMethodOfEntry("F");
+			
 			incidents.add(copy);
+			
 			return incidents;
 
 		});
