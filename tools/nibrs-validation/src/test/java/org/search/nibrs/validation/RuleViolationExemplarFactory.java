@@ -784,16 +784,18 @@ public class RuleViolationExemplarFactory {
 			// and if Data Element 9 (Location Type) contains 14=Hotel/Motel/Etc. or 19=Rental Storage Facility.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment offense = new OffenseSegment();
-			offense.setLocationType("14");
-			offense.setUcrOffenseCode("220");
-			GroupAIncidentReport copy1 = new GroupAIncidentReport(incident);
-			OffenseSegment offense1 = new OffenseSegment();
-			offense1.setLocationType("19");
-			offense1.setUcrOffenseCode("220");
-			incident.addOffense(offense);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getOffenses().get(0).setLocationType("14");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(null);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("220");
+			copy2.getOffenses().get(0).setLocationType("19");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(null);
+			
+					
 			incidents.add(copy);
-			incidents.add(copy1);
+			incidents.add(copy2);
+			
 			return incidents;
 
 		});
