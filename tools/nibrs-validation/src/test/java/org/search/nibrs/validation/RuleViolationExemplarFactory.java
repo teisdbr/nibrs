@@ -302,29 +302,42 @@ public class RuleViolationExemplarFactory {
 			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 2 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.setYearOfTape(null);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
+			copy2.setMonthOfTape(null);
+			//Data Element 1
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
+			copy3.setOri(null);
+			//Data  Element 2
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
+			copy4.setIncidentNumber(null);
 			//Data Element 6
-			GroupAIncidentReport offense = new GroupAIncidentReport(incident);
-			offense.getOffenses().get(0).setUcrOffenseCode(null);
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
+			copy5.getOffenses().get(0).setUcrOffenseCode(null);
 			//Data Element 7
-			GroupAIncidentReport offense2 = new GroupAIncidentReport(offense);
-			offense2.getOffenses().get(0).setOffenseAttemptedCompleted(null);
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
+			copy6.getOffenses().get(0).setOffenseAttemptedCompleted(null);
 			//Data Element 8
-			GroupAIncidentReport offense3 = new GroupAIncidentReport(offense);
-			offense3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
+			copy7.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
 			//Data Element 8A
-			GroupAIncidentReport offense4 = new GroupAIncidentReport(offense);
-			offense4.getOffenses().get(0).setBiasMotivation(0, null);
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
+			copy8.getOffenses().get(0).setBiasMotivation(0, null);
 			//Data Element 9
-			GroupAIncidentReport offense5 = new GroupAIncidentReport(offense);
-			offense5.getOffenses().get(0).setLocationType(null);
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
+			copy9.getOffenses().get(0).setLocationType(null);
 			
-			incidents.add(offense);
-			incidents.add(offense2);
-			incidents.add(offense3);
-			incidents.add(offense4);
-			incidents.add(offense5);
-					
-			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+						
 			return incidents;
 		});
 
@@ -339,30 +352,22 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setCityIndicator("ZZ12");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			OffenseSegment firstOffense = new OffenseSegment();
-			firstOffense.setUcrOffenseCode("XXX");
+			copy4.getOffenses().get(0).setUcrOffenseCode("XXX");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			OffenseSegment biasOffense = new OffenseSegment();
-			biasOffense.setBiasMotivation(0, "10");
+			copy5.getOffenses().get(0).setBiasMotivation(0, "10");
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			OffenseSegment offenseLocation = new OffenseSegment();
-			offenseLocation.setLocationType("99");
+			copy6.getOffenses().get(0).setLocationType("99");
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			OffenseSegment numberOfPremisesEntered = new OffenseSegment();
-			numberOfPremisesEntered.setNumberOfPremisesEntered(100);
+			copy7.getOffenses().get(0).setNumberOfPremisesEntered(100);
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			OffenseSegment methodOfEntry = new OffenseSegment();
-			methodOfEntry.setMethodOfEntry(null);
+			copy8.getOffenses().get(0).setMethodOfEntry(null);
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			OffenseSegment criminalActivity = new OffenseSegment();
-			criminalActivity.setTypeOfCriminalActivity(0, null);
+			copy9.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			OffenseSegment weaponForceInvolved = new OffenseSegment();
-			weaponForceInvolved.setTypeOfWeaponForceInvolved(0, "10");
+			copy10.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "10");
 			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			OffenseSegment automaticWeaponIndicator = new OffenseSegment();
-			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "B");
-
+			copy11.getOffenses().get(0).setAutomaticWeaponIndicator(0, "B");
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -381,34 +386,30 @@ public class RuleViolationExemplarFactory {
 			// The referenced data element in error is one that contains multiple
 			// data values. When more than one code is entered, none can be duplicate codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//Data Element 8			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment firstOffendersSuspectedOfUsing = new OffenseSegment();
-			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
-			OffenseSegment secondOffendersSuspectedOfUsing = new OffenseSegment();
-			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
-			OffenseSegment thirdOffendersSuspectedOfUsing = new OffenseSegment();
-			thirdOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "A");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(1, "C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(2, "C");
+			//Data Element 8A
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			OffenseSegment firstBiasMotivationOffense = new OffenseSegment();
-			firstBiasMotivationOffense.setBiasMotivation(0, "15");
-			OffenseSegment secondBiasMotivationOffense = new OffenseSegment();
-			secondBiasMotivationOffense.setBiasMotivation(0, "26");
-			OffenseSegment thirdBiasMotivationOffense = new OffenseSegment();
-			thirdBiasMotivationOffense.setBiasMotivation(0, "26");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "15");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "26");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "26");
+			//Data Element 12
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			OffenseSegment firstTypeOfCriminalActivity = new OffenseSegment();
-			firstTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "J");
-			OffenseSegment secondTypeOfCriminalActivity = new OffenseSegment();
-			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "J");
+			copy3.getOffenses().get(0).setTypeOfCriminalActivity(1, "J");
+			copy3.getOffenses().get(0).setTypeOfCriminalActivity(2, "P");
+			//Data Element 13
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			OffenseSegment typeOfWeaponForceInvolved = new OffenseSegment();
-			typeOfWeaponForceInvolved.setTypeOfCriminalActivity(0, "11");
-			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "11");
-
+			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
+			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "11");
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
+			
 			return incidents;
 
 		});
@@ -417,26 +418,23 @@ public class RuleViolationExemplarFactory {
 			// The referenced data element in error is one that contains multiple
 			// data values. However "N" is mutually exclusive with other codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//Data Element 8
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment firstOffendersSuspectedOfUsing = new OffenseSegment();
-			firstOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "A");
-			OffenseSegment secondOffendersSuspectedOfUsing = new OffenseSegment();
-			secondOffendersSuspectedOfUsing.setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "A");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(1, "N");
+			//Data Element 8A
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			OffenseSegment firstBiasMotivationOffense = new OffenseSegment();
-			firstBiasMotivationOffense.setBiasMotivation(0, "15");
-			OffenseSegment secondBiasMotivationOffense = new OffenseSegment();
-			secondBiasMotivationOffense.setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "15");
+			copy2.getOffenses().get(0).setBiasMotivation(1, "88");
+			//Data Element 12
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			OffenseSegment firstTypeOfCriminalActivity = new OffenseSegment();
-			firstTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "N");
-			OffenseSegment secondTypeOfCriminalActivity = new OffenseSegment();
-			secondTypeOfCriminalActivity.setTypeOfCriminalActivity(0, "J");
+			copy3.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
+			copy3.getOffenses().get(0).setTypeOfCriminalActivity(1, "N");
+			//Data Element 13
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			OffenseSegment firstTypeOfWeaponForceInvolve = new OffenseSegment();
-			firstTypeOfWeaponForceInvolve.setTypeOfWeaponForceInvolved(0, "11");
-			OffenseSegment secondTypeOfWeaponForceInvolved = new OffenseSegment();
-			secondTypeOfWeaponForceInvolved.setTypeOfWeaponForceInvolved(0, "99");
+			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
+			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "99");
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -446,7 +444,8 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(220, incident -> {
-			// Data Element 12 (Type Criminal Activity/Gang Information) Must be populated with a valid data value and cannot be blank when Data Element 6 (UCR OffenseSegment Code) is:
+			// Data Element 12 (Type Criminal Activity/Gang Information) Must be populated with a valid data value and cannot be 
+			//blank when Data Element 6 (UCR OffenseSegment Code) is:
 			// 250=Counterfeiting/Forgery
 			// 280=Stolen PropertySegment Offenses
 			// 35A=Drug/Narcotic Violations
@@ -456,38 +455,57 @@ public class RuleViolationExemplarFactory {
 			// 520=Weapon Law Violations
 			// 720=Animal Cruelty
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//TypeOfCriminalActivity cannot be blank
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment firstCriminalActivity = new OffenseSegment();
-			firstCriminalActivity.setTypeOfCriminalActivity(0, null);
-			firstCriminalActivity.setUcrOffenseCode("250");
+			copy.getOffenses().get(0).setUcrOffenseCode("250");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			OffenseSegment secondCriminalActivity = new OffenseSegment();
-			secondCriminalActivity.setTypeOfCriminalActivity(0, null);
-			secondCriminalActivity.setUcrOffenseCode("280");
+			copy2.getOffenses().get(0).setUcrOffenseCode("280");
+			copy2.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			OffenseSegment thirdCriminalActivity = new OffenseSegment();
-			thirdCriminalActivity.setTypeOfCriminalActivity(0, null);
-			thirdCriminalActivity.setUcrOffenseCode("35A");
+			copy3.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy3.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			OffenseSegment fourthCriminalActivity = new OffenseSegment();
-			fourthCriminalActivity.setTypeOfCriminalActivity(0, null);
-			fourthCriminalActivity.setUcrOffenseCode("35B");
+			copy4.getOffenses().get(0).setUcrOffenseCode("35B");
+			copy4.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			OffenseSegment fifthCriminalActivity = new OffenseSegment();
-			fifthCriminalActivity.setTypeOfCriminalActivity(0, null);
-			fifthCriminalActivity.setUcrOffenseCode("39C");
+			copy5.getOffenses().get(0).setUcrOffenseCode("39C");
+			copy5.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			OffenseSegment sixthCriminalActivity = new OffenseSegment();
-			sixthCriminalActivity.setTypeOfCriminalActivity(0, null);
-			sixthCriminalActivity.setUcrOffenseCode("370");
+			copy6.getOffenses().get(0).setUcrOffenseCode("370");
+			copy6.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			OffenseSegment seventhCriminalActivity = new OffenseSegment();
-			seventhCriminalActivity.setTypeOfCriminalActivity(0, null);
-			seventhCriminalActivity.setUcrOffenseCode("520");
+			copy7.getOffenses().get(0).setUcrOffenseCode("520");
+			copy7.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
-			OffenseSegment eighthCriminalActivity = new OffenseSegment();
-			eighthCriminalActivity.setTypeOfCriminalActivity(0, null);
-			eighthCriminalActivity.setUcrOffenseCode("720");
+			copy8.getOffenses().get(0).setUcrOffenseCode("720");
+			copy8.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			//TypeOfCriminalActivity must be valid
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
+			copy9.getOffenses().get(0).setUcrOffenseCode("250");
+			copy9.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
+			copy10.getOffenses().get(0).setUcrOffenseCode("280");
+			copy10.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
+			copy11.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy11.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
+			copy12.getOffenses().get(0).setUcrOffenseCode("35B");
+			copy12.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
+			copy13.getOffenses().get(0).setUcrOffenseCode("39C");
+			copy13.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
+			copy14.getOffenses().get(0).setUcrOffenseCode("370");
+			copy14.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
+			copy15.getOffenses().get(0).setUcrOffenseCode("520");
+			copy15.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+			GroupAIncidentReport copy16 = new GroupAIncidentReport(incident);
+			copy16.getOffenses().get(0).setUcrOffenseCode("720");
+			copy16.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
+						
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -496,6 +514,15 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			incidents.add(copy11);
+			incidents.add(copy12);
+			incidents.add(copy13);
+			incidents.add(copy14);
+			incidents.add(copy15);
+			incidents.add(copy16);
+			
 			return incidents;
 
 		});
