@@ -759,13 +759,13 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(255, incident -> {
-			// ((Automatic Weapon Indicator) Must be A=Automatic or blank=Not Automatic
+			// Data Element 13(Automatic Weapon Indicator) Must be A=Automatic or blank=Not Automatic
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment automaticWeaponIndicator = new OffenseSegment();
-			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "F");
-			incident.addOffense(automaticWeaponIndicator);
+			copy.getOffenses().get(0).setAutomaticWeaponIndicator(0, "F");
+			
 			incidents.add(copy);
+			
 			return incidents;
 
 		});
