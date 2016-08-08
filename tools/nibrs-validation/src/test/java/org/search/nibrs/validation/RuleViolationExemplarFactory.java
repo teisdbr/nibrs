@@ -820,15 +820,25 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(262, incident -> {
-			// When a Group A Incident AbstractReport is submitted, the individual segments
+			// When a Group A Incident Report is submitted, the individual segments
 			// comprising the incident cannot contain duplicates.
 			// In this case, two OffenseSegment Segments were submitted having the same
 			// offense in Data Element 6 (UCR OffenseSegment Code).
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment secondOffense = new OffenseSegment();
-			secondOffense.setUcrOffenseCode("13B");
-			copy.addOffense(secondOffense);
+			OffenseSegment offense2 = new OffenseSegment();
+			offense2.setUcrOffenseCode("13A");
+			offense2.setTypeOfCriminalActivity(0, "J");
+			offense2.setOffenseAttemptedCompleted("C");
+			offense2.setTypeOfWeaponForceInvolved(0, "99");
+			offense2.setOffendersSuspectedOfUsing(0, "N");
+			offense2.setBiasMotivation(0, "15");
+			offense2.setLocationType("15");
+			offense2.setNumberOfPremisesEntered(null);
+			offense2.setAutomaticWeaponIndicator(0, " ");
+			
+					
+			copy.addOffense(offense2);
 			incidents.add(copy);
 			return incidents;
 		});
@@ -838,28 +848,129 @@ public class RuleViolationExemplarFactory {
 			// 10 offense codes are allowed for each incident.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment firstOffense = new OffenseSegment();
-			firstOffense.setUcrOffenseCode("13A");
-			OffenseSegment secondOffense = new OffenseSegment();
-			secondOffense.setUcrOffenseCode("13B");
-			OffenseSegment thirdOffense = new OffenseSegment();
-			thirdOffense.setUcrOffenseCode("13C");
-			OffenseSegment fourthOffense = new OffenseSegment();
-			fourthOffense.setUcrOffenseCode("13D");
-			OffenseSegment fifthOffense = new OffenseSegment();
-			fifthOffense.setUcrOffenseCode("13E");
-			OffenseSegment sixthOffense = new OffenseSegment();
-			sixthOffense.setUcrOffenseCode("13F");
-			OffenseSegment seventhOffense = new OffenseSegment();
-			seventhOffense.setUcrOffenseCode("13G");
-			OffenseSegment eighthOffense = new OffenseSegment();
-			eighthOffense.setUcrOffenseCode("13H");
-			OffenseSegment ninthOffense = new OffenseSegment();
-			ninthOffense.setUcrOffenseCode("13I");
-			OffenseSegment tenthOffense = new OffenseSegment();
-			tenthOffense.setUcrOffenseCode("13J");
-			OffenseSegment eleventhOffense = new OffenseSegment();
-			eleventhOffense.setUcrOffenseCode("13K");
+			//Offense Segment 2
+			OffenseSegment offense2 = new OffenseSegment();
+			offense2.setUcrOffenseCode("13A");
+			offense2.setTypeOfCriminalActivity(0, "J");
+			offense2.setOffenseAttemptedCompleted("C");
+			offense2.setTypeOfWeaponForceInvolved(0, "99");
+			offense2.setOffendersSuspectedOfUsing(0, "N");
+			offense2.setBiasMotivation(0, "15");
+			offense2.setLocationType("15");
+			offense2.setNumberOfPremisesEntered(null);
+			offense2.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 3
+			OffenseSegment offense3 = new OffenseSegment();
+			offense3.setUcrOffenseCode("13B");
+			offense3.setTypeOfCriminalActivity(0, "J");
+			offense3.setOffenseAttemptedCompleted("C");
+			offense3.setTypeOfWeaponForceInvolved(0, "99");
+			offense3.setOffendersSuspectedOfUsing(0, "N");
+			offense3.setBiasMotivation(0, "15");
+			offense3.setLocationType("15");
+			offense3.setNumberOfPremisesEntered(null);
+			offense3.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 4
+			OffenseSegment offense4 = new OffenseSegment();
+			offense4.setUcrOffenseCode("13C");
+			offense4.setTypeOfCriminalActivity(0, "J");
+			offense4.setOffenseAttemptedCompleted("C");
+			offense4.setTypeOfWeaponForceInvolved(0, "99");
+			offense4.setOffendersSuspectedOfUsing(0, "N");
+			offense4.setBiasMotivation(0, "15");
+			offense4.setLocationType("15");
+			offense4.setNumberOfPremisesEntered(null);
+			offense4.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 5
+			OffenseSegment offense5 = new OffenseSegment();
+			offense5.setUcrOffenseCode("23A");
+			offense5.setTypeOfCriminalActivity(0, "J");
+			offense5.setOffenseAttemptedCompleted("C");
+			offense5.setTypeOfWeaponForceInvolved(0, "99");
+			offense5.setOffendersSuspectedOfUsing(0, "N");
+			offense5.setBiasMotivation(0, "15");
+			offense5.setLocationType("15");
+			offense5.setNumberOfPremisesEntered(null);
+			offense5.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 6
+			OffenseSegment offense6 = new OffenseSegment();
+			offense6.setUcrOffenseCode("23B");
+			offense6.setTypeOfCriminalActivity(0, "J");
+			offense6.setOffenseAttemptedCompleted("C");
+			offense6.setTypeOfWeaponForceInvolved(0, "99");
+			offense6.setOffendersSuspectedOfUsing(0, "N");
+			offense6.setBiasMotivation(0, "15");
+			offense6.setLocationType("15");
+			offense6.setNumberOfPremisesEntered(null);
+			offense6.setAutomaticWeaponIndicator(0, " ");
+			//Offense Segment 7
+			OffenseSegment offense7 = new OffenseSegment();
+			offense7.setUcrOffenseCode("23C");
+			offense7.setTypeOfCriminalActivity(0, "J");
+			offense7.setOffenseAttemptedCompleted("C");
+			offense7.setTypeOfWeaponForceInvolved(0, "99");
+			offense7.setOffendersSuspectedOfUsing(0, "N");
+			offense7.setBiasMotivation(0, "15");
+			offense7.setLocationType("15");
+			offense7.setNumberOfPremisesEntered(null);
+			offense7.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 8
+			OffenseSegment offense8 = new OffenseSegment();
+			offense8.setUcrOffenseCode("26C");
+			offense8.setTypeOfCriminalActivity(0, "J");
+			offense8.setOffenseAttemptedCompleted("C");
+			offense8.setTypeOfWeaponForceInvolved(0, "99");
+			offense8.setOffendersSuspectedOfUsing(0, "N");
+			offense8.setBiasMotivation(0, "15");
+			offense8.setLocationType("15");
+			offense8.setNumberOfPremisesEntered(null);
+			offense8.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 9
+			OffenseSegment offense9 = new OffenseSegment();
+			offense9.setUcrOffenseCode("90C");
+			offense9.setTypeOfCriminalActivity(0, "J");
+			offense9.setOffenseAttemptedCompleted("C");
+			offense9.setTypeOfWeaponForceInvolved(0, "99");
+			offense9.setOffendersSuspectedOfUsing(0, "N");
+			offense9.setBiasMotivation(0, "15");
+			offense9.setLocationType("15");
+			offense9.setNumberOfPremisesEntered(null);
+			offense9.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 10
+			OffenseSegment offense10 = new OffenseSegment();
+			offense10.setUcrOffenseCode("90H");
+			offense10.setTypeOfCriminalActivity(0, "J");
+			offense10.setOffenseAttemptedCompleted("C");
+			offense10.setTypeOfWeaponForceInvolved(0, "99");
+			offense10.setOffendersSuspectedOfUsing(0, "N");
+			offense10.setBiasMotivation(0, "15");
+			offense10.setLocationType("15");
+			offense10.setNumberOfPremisesEntered(null);
+			offense10.setAutomaticWeaponIndicator(0, " ");
+			//OffenseSegment 11
+			OffenseSegment offense11 = new OffenseSegment();
+			offense11.setUcrOffenseCode("90J");
+			offense11.setTypeOfCriminalActivity(0, "J");
+			offense11.setOffenseAttemptedCompleted("C");
+			offense11.setTypeOfWeaponForceInvolved(0, "99");
+			offense11.setOffendersSuspectedOfUsing(0, "N");
+			offense11.setBiasMotivation(0, "15");
+			offense11.setLocationType("15");
+			offense11.setNumberOfPremisesEntered(null);
+			offense11.setAutomaticWeaponIndicator(0, " ");
+			
+				
+			copy.addOffense(offense2);
+			copy.addOffense(offense3);		
+			copy.addOffense(offense4);
+			copy.addOffense(offense5);
+			copy.addOffense(offense6);
+			copy.addOffense(offense7);
+			copy.addOffense(offense8);
+			copy.addOffense(offense9);
+			copy.addOffense(offense10);
+			copy.addOffense(offense11);
+
 			incidents.add(copy);
 			return incidents;
 		});
