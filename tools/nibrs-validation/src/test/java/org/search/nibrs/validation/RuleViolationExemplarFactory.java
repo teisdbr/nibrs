@@ -883,7 +883,7 @@ public class RuleViolationExemplarFactory {
 			offense4.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 5
 			OffenseSegment offense5 = new OffenseSegment();
-			offense5.setUcrOffenseCode("23A");
+			offense5.setUcrOffenseCode("510");
 			offense5.setTypeOfCriminalActivity(0, "J");
 			offense5.setOffenseAttemptedCompleted("C");
 			offense5.setTypeOfWeaponForceInvolved(0, "99");
@@ -894,7 +894,7 @@ public class RuleViolationExemplarFactory {
 			offense5.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 6
 			OffenseSegment offense6 = new OffenseSegment();
-			offense6.setUcrOffenseCode("23B");
+			offense6.setUcrOffenseCode("26A");
 			offense6.setTypeOfCriminalActivity(0, "J");
 			offense6.setOffenseAttemptedCompleted("C");
 			offense6.setTypeOfWeaponForceInvolved(0, "99");
@@ -905,7 +905,7 @@ public class RuleViolationExemplarFactory {
 			offense6.setAutomaticWeaponIndicator(0, " ");
 			//Offense Segment 7
 			OffenseSegment offense7 = new OffenseSegment();
-			offense7.setUcrOffenseCode("23C");
+			offense7.setUcrOffenseCode("26B");
 			offense7.setTypeOfCriminalActivity(0, "J");
 			offense7.setOffenseAttemptedCompleted("C");
 			offense7.setTypeOfWeaponForceInvolved(0, "99");
@@ -927,7 +927,7 @@ public class RuleViolationExemplarFactory {
 			offense8.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 9
 			OffenseSegment offense9 = new OffenseSegment();
-			offense9.setUcrOffenseCode("90C");
+			offense9.setUcrOffenseCode("26D");
 			offense9.setTypeOfCriminalActivity(0, "J");
 			offense9.setOffenseAttemptedCompleted("C");
 			offense9.setTypeOfWeaponForceInvolved(0, "99");
@@ -938,7 +938,7 @@ public class RuleViolationExemplarFactory {
 			offense9.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 10
 			OffenseSegment offense10 = new OffenseSegment();
-			offense10.setUcrOffenseCode("90H");
+			offense10.setUcrOffenseCode("26E");
 			offense10.setTypeOfCriminalActivity(0, "J");
 			offense10.setOffenseAttemptedCompleted("C");
 			offense10.setTypeOfWeaponForceInvolved(0, "99");
@@ -949,7 +949,7 @@ public class RuleViolationExemplarFactory {
 			offense10.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 11
 			OffenseSegment offense11 = new OffenseSegment();
-			offense11.setUcrOffenseCode("90J");
+			offense11.setUcrOffenseCode("39A");
 			offense11.setTypeOfCriminalActivity(0, "J");
 			offense11.setOffenseAttemptedCompleted("C");
 			offense11.setTypeOfWeaponForceInvolved(0, "99");
@@ -979,9 +979,10 @@ public class RuleViolationExemplarFactory {
 			// Group A OffenseSegment code cannot contain a Group B OffenseSegment
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment firstOffense = new OffenseSegment();
-			firstOffense.setUcrOffenseCode("90A");
+			copy.getOffenses().get(0).setUcrOffenseCode("90A");
+					
 			incidents.add(copy);
+			
 			return incidents;
 		});
 
