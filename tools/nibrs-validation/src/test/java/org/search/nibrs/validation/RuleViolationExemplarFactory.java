@@ -546,6 +546,188 @@ public class RuleViolationExemplarFactory {
 			//64A=Human Trafficking, Commercial Sex Acts
 			//64B=Human Trafficking, Involuntary Servitude
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//TypeOfWeaponForceInvolved cannot be blank
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("9A");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("9B");
+			copy2.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getOffenses().get(0).setUcrOffenseCode("9C");
+			copy3.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4.getOffenses().get(0).setUcrOffenseCode("100");
+			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			copy5.getOffenses().get(0).setUcrOffenseCode("11A");
+			copy5.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
+			copy6.getOffenses().get(0).setUcrOffenseCode("11B");
+			copy6.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
+			copy7.getOffenses().get(0).setUcrOffenseCode("11C");
+			copy7.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("11D");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("120");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("13A");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("210");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("520");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("64A");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("64B");
+			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, null);
+			//TypeofWeaponForceInvolved must be valid.
+			GroupAIncidentReport copy16 = new GroupAIncidentReport(incident);
+			copy16.getOffenses().get(0).setUcrOffenseCode("9A");
+			copy16.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy17 = new GroupAIncidentReport(incident);
+			copy17.getOffenses().get(0).setUcrOffenseCode("9B");
+			copy17.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy18 = new GroupAIncidentReport(incident);
+			copy18.getOffenses().get(0).setUcrOffenseCode("9C");
+			copy18.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy19 = new GroupAIncidentReport(incident);
+			copy19.getOffenses().get(0).setUcrOffenseCode("100");
+			copy19.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy20 = new GroupAIncidentReport(incident);
+			copy20.getOffenses().get(0).setUcrOffenseCode("11A");
+			copy20.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy21 = new GroupAIncidentReport(incident);
+			copy21.getOffenses().get(0).setUcrOffenseCode("11B");
+			copy21.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy22 = new GroupAIncidentReport(incident);
+			copy22.getOffenses().get(0).setUcrOffenseCode("11C");
+			copy22.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy23 = new GroupAIncidentReport(incident);
+			copy23.getOffenses().get(0).setUcrOffenseCode("11D");
+			copy23.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy24 = new GroupAIncidentReport(incident);
+			copy24.getOffenses().get(0).setUcrOffenseCode("120");
+			copy24.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy25 = new GroupAIncidentReport(incident);
+			copy25.getOffenses().get(0).setUcrOffenseCode("13A");
+			copy25.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy26 = new GroupAIncidentReport(incident);
+			copy26.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy26.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy27 = new GroupAIncidentReport(incident);
+			copy27.getOffenses().get(0).setUcrOffenseCode("210");
+			copy27.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy28 = new GroupAIncidentReport(incident);
+			copy28.getOffenses().get(0).setUcrOffenseCode("520");
+			copy28.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy29 = new GroupAIncidentReport(incident);
+			copy29.getOffenses().get(0).setUcrOffenseCode("64A");
+			copy29.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			GroupAIncidentReport copy30 = new GroupAIncidentReport(incident);
+			copy30.getOffenses().get(0).setUcrOffenseCode("64B");
+			copy30.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "Z");
+			
+							
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			incidents.add(copy11);
+			incidents.add(copy12);
+			incidents.add(copy13);
+			incidents.add(copy14);
+			incidents.add(copy15);
+			incidents.add(copy16);
+			incidents.add(copy17);
+			incidents.add(copy18);
+			incidents.add(copy19);
+			incidents.add(copy20);
+			incidents.add(copy21);
+			incidents.add(copy22);
+			incidents.add(copy23);
+			incidents.add(copy24);
+			incidents.add(copy25);
+			incidents.add(copy26);
+			incidents.add(copy27);
+			incidents.add(copy28);
+			incidents.add(copy29);
+			incidents.add(copy30);
+			
+					
+			return incidents;
+
+		});
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		groupATweakerMap.put(221, incident -> {
+			// Data Element 13 (Type Weapon/Force Involved) Must be populated with a valid data value and cannot be blank
+			//when Data Element 6 (UCR OffenseSegment Code) is:
+			//09A=Murder and Non-negligent Manslaughter
+			//09B=Negligent Manslaughter
+			//09C=Justifiable Homicide
+			//100=Kidnapping/Abduction
+			//11A=Rape
+			//11B=Sodomy
+			//11C=Sexual Assault With An Object
+			//11D=Fondling
+			//120=Robbery
+			//13A=Aggravated Assault
+			//13B=Simple Assault
+			//210=Extortion/Blackmail
+			//520=Weapon Law Violations
+			//64A=Human Trafficking, Commercial Sex Acts
+			//64B=Human Trafficking, Involuntary Servitude
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenseSegment firstUCROffense = new OffenseSegment();
 			firstUCROffense.setTypeOfWeaponForceInvolved(0, null);
