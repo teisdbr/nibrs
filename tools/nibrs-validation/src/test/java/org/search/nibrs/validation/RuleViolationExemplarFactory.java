@@ -1055,7 +1055,7 @@ public class RuleViolationExemplarFactory {
 			offense2.setUcrOffenseCode("09C");
 			offense2.setTypeOfCriminalActivity(0, "J");
 			offense2.setOffenseAttemptedCompleted("C");
-			offense2.setTypeOfWeaponForceInvolved(0, "99");
+			offense2.setTypeOfWeaponForceInvolved(0, "1199");
 			offense2.setOffendersSuspectedOfUsing(0, "N");
 			offense2.setBiasMotivation(0, "03");
 			offense2.setLocationType("15");
@@ -1073,15 +1073,11 @@ public class RuleViolationExemplarFactory {
 			// cannot have 99=None. Some type of weapon/force must be used in a homicide offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment homicideOffense = new OffenseSegment();
-			homicideOffense.setUcrOffenseCode("09A");
-			homicideOffense.setTypeOfWeaponForceInvolved(0, null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			OffenseSegment homicideOffense2 = new OffenseSegment();
-			homicideOffense2.setUcrOffenseCode("09A");
-			homicideOffense2.setTypeOfWeaponForceInvolved(0, "99");
+			copy.getOffenses().get(0).setUcrOffenseCode("09A");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "99");
+			
 			incidents.add(copy);
-			incidents.add(copy2);
+			
 			return incidents;
 
 		});
@@ -1092,30 +1088,28 @@ public class RuleViolationExemplarFactory {
 			// should instead be classified as 13A=Aggravated Assault.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment firstOffense = new OffenseSegment();
-			firstOffense.setUcrOffenseCode("13B");
-			firstOffense.setTypeOfWeaponForceInvolved(0, "11");
+			copy.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			OffenseSegment secondOffense = new OffenseSegment();
-			secondOffense.setUcrOffenseCode("13B");
-			secondOffense.setTypeOfWeaponForceInvolved(0, "12");
+			copy2.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy2.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "12");
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			OffenseSegment thirdOffense = new OffenseSegment();
-			thirdOffense.setUcrOffenseCode("13B");
-			thirdOffense.setTypeOfWeaponForceInvolved(0, "13");
+			copy3.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy3.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "13");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			OffenseSegment fourthOffense = new OffenseSegment();
-			fourthOffense.setUcrOffenseCode("13B");
-			fourthOffense.setTypeOfWeaponForceInvolved(0, "14");
+			copy4.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "14");
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			OffenseSegment fifthOffense = new OffenseSegment();
-			fifthOffense.setUcrOffenseCode("13B");
-			fifthOffense.setTypeOfWeaponForceInvolved(0, "15");
+			copy5.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy5.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "15");
+			
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
+			
 			return incidents;
 
 		});
@@ -1124,10 +1118,11 @@ public class RuleViolationExemplarFactory {
 			// If a justifiable homicide offense is submitted, Data Element 8A (Bias motivation) must be 88.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment JustifiableHomicideOffense = new OffenseSegment();
-			JustifiableHomicideOffense.setUcrOffenseCode("09C");
-			JustifiableHomicideOffense.setBiasMotivation(0, "11");
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getOffenses().get(0).setBiasMotivation(0, "15");
+						
 			incidents.add(copy);
+			
 			return incidents;
 
 		});
