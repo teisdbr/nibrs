@@ -801,7 +801,8 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(258, incident -> {
-			// (Automatic Weapon Indicator) In Data Element 13 (Type of Weapon/Force Involved), A=Automatic is the third character of code. It is valid only with the following codes:
+			// (Automatic Weapon Indicator) In Data Element 13 (Type of Weapon/Force Involved), A=Automatic 
+			//is the third character of code. It is valid only with the following codes:
 			// 11=Firearm (Type Not Stated)
 			// 12=Handgun
 			// 13=Rifle
@@ -809,11 +810,11 @@ public class RuleViolationExemplarFactory {
 			// A weapon code other than those mentioned was entered with the automatic indicator. An automatic weapon is, by definition, a firearm.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment automaticWeaponIndicator = new OffenseSegment();
-			automaticWeaponIndicator.setAutomaticWeaponIndicator(0, "A");
-			automaticWeaponIndicator.setTypeOfWeaponForceInvolved(0, "20");
-			incident.addOffense(automaticWeaponIndicator);
+			copy.getOffenses().get(0).setAutomaticWeaponIndicator(0, "A");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "20");
+
 			incidents.add(copy);
+			
 			return incidents;
 
 		});
