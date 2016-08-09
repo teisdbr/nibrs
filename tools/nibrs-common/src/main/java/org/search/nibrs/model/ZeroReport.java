@@ -1,7 +1,7 @@
 package org.search.nibrs.model;
 
 /**
- * Representation of an individual "Zero AbstractReport" in a NIBRS submission.  A zero report is submitted by an agency to signify that no crime occurred in that month in that agency.
+ * Representation of an individual "Zero Report" in a NIBRS submission.  A zero report is submitted by an agency to signify that no crime occurred in that month in that agency.
  *
  */
 public class ZeroReport extends AbstractReport {
@@ -25,12 +25,20 @@ public class ZeroReport extends AbstractReport {
 
 	@Override
 	public String getUniqueReportDescription() {
-    	return "Zero AbstractReport for ORI " + getOri();
+    	return "Zero Report for ORI " + getOri();
 	}
 
 	@Override
 	public String getUniqueReportIdentifier() {
-		return getOri() + "." + "000000000000";
+		return getOri() + "." + getIncidentNumber();
+	}
+
+	/**
+	 * Get the "incident number" for the zero report, which will always be twelve zeros.
+	 * @return the "incident number"
+	 */
+	public String getIncidentNumber() {
+		return "000000000000";
 	}
 
 }
