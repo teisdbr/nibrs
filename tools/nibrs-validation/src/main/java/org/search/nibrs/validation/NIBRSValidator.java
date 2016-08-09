@@ -63,7 +63,7 @@ public class NIBRSValidator {
 	
 	public List<NIBRSError> validateReport(AbstractReport report){
 		
-		List<NIBRSError> nibrsErrorList = new ArrayList<NIBRSError>();
+		List<NIBRSError> nibrsErrorList = null;
 		
 		if(report instanceof ZeroReport){
 			
@@ -71,7 +71,7 @@ public class NIBRSValidator {
 			
 			ZeroReportValidator zeroReportValidator = new ZeroReportValidator();
 			
-			zeroReportValidator.validate(zeroReport, nibrsErrorList);				
+			nibrsErrorList = zeroReportValidator.validate(zeroReport);				
 		
 		}else if(report instanceof GroupAIncidentReport){
 			
@@ -85,6 +85,5 @@ public class NIBRSValidator {
 		return nibrsErrorList;
 	}
 	
-	
-	
+		
 }

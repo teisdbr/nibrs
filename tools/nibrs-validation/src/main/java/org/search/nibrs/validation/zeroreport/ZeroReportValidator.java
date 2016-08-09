@@ -1,5 +1,6 @@
 package org.search.nibrs.validation.zeroreport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
@@ -9,12 +10,13 @@ import org.search.nibrs.model.ZeroReport;
 public class ZeroReportValidator {
 
 	
-	public List<NIBRSError> validate(ZeroReport zeroReport,
-			List<NIBRSError> nibrsErrorList){
+	public List<NIBRSError> validate(ZeroReport zeroReport){
 				
-		validate12Zeros(zeroReport, nibrsErrorList);
+		List<NIBRSError> errorsList = new ArrayList<NIBRSError>();
+		
+		validate12Zeros(zeroReport, errorsList);
 				
-		return nibrsErrorList;
+		return errorsList;
 	}
 	
 	
