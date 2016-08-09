@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
@@ -27,6 +28,13 @@ final class BaselineIncidentFactory {
 	static GroupAIncidentReport getBaselineIncident() {
 		
 		GroupAIncidentReport incident = new GroupAIncidentReport();
+		
+		ReportSource source = new ReportSource();
+		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+		source.setSourceLocation(trace[1].toString());
+		source.setSourceName(BaselineIncidentFactory.class.getName());
+		incident.setSource(source);
+		
 		incident.setYearOfTape(2016);
 		incident.setMonthOfTape(5);
 		incident.setOri("WA123456789");
