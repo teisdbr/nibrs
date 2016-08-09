@@ -131,7 +131,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Zero AbstractReport segments must be length 43)");
@@ -170,7 +170,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Group B Arrestee segments must be length 66)");
@@ -230,7 +230,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Administrative segments must be either length 87 or 88)");
@@ -247,7 +247,7 @@ public class IncidentBuilder {
 		} catch (NumberFormatException nfe) {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setRuleDescription(errorMessage);
 			e.setValue(sv);
 			e.setSegmentType(s.getSegmentType());
@@ -278,7 +278,7 @@ public class IncidentBuilder {
 		default:
 			NIBRSError error = new NIBRSError();
 			error.setContext(s.getLineNumber());
-			error.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			error.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			error.setRuleNumber(51);
 			error.setRuleDescription("Segment Level must contain data values 0–7.");
 			error.setValue(segmentType);
@@ -310,7 +310,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Arrestee segments must be length 110)");
@@ -335,7 +335,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (OffenderSegment segments must be length 45 (with no offender ethnicity) or 46 (with ethnicity))");
@@ -387,7 +387,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (VictimSegment segments must be length 129 (without LEOKA elements) or 141 (with LEOKA elements))");
@@ -435,7 +435,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (PropertySegment segments must be length 307)");
@@ -477,7 +477,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (OffenseSegment segments must be length 63 (with only one bias motivation) or 71 (with five)");
