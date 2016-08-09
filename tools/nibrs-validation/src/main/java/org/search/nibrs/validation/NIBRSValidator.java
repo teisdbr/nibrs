@@ -21,8 +21,7 @@ public class NIBRSValidator {
 	
 	private ValidationListener validationListener;
 			
-	public NIBRSValidator(ValidationListener validationListener, 
-			int notifyValidationErrorFrequency) {
+	public NIBRSValidator(ValidationListener validationListener) {
 		
 		this.validationListener = validationListener;
 	}
