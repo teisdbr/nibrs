@@ -327,6 +327,8 @@ public class RuleViolationExemplarFactory {
 			//Data Element 9
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
 			copy9.getOffenses().get(0).setLocationType(null);
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
+			copy10.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -337,6 +339,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy7);
 			incidents.add(copy8);
 			incidents.add(copy9);
+			incidents.add(copy10);
 						
 			return incidents;
 		});
@@ -1130,32 +1133,110 @@ public class RuleViolationExemplarFactory {
 		groupATweakerMap.put(301, incident -> {
 			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 3 is mandatory & must be present.
+			//Header Elements cannot be blank
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//Year of Tape
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
+			//Valid Offense Segment for an incident including Property Loss
+			//Burglary, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
+			PropertySegment property = new PropertySegment();
+			copy.addProperty(property);
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000010000);
+			property.setNumberOfStolenMotorVehicles(1);
+			//Month of Tape
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
+			//Valid Offense Segment for an incident including Property Loss
+			//Burglary, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			copy2.getOffenses().get(0).setUcrOffenseCode("220");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
+			PropertySegment property2 = new PropertySegment();
+			copy2.addProperty(property);
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000010000);
+			property.setNumberOfStolenMotorVehicles(1);
+			//City Indicator Blank
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri(null);
+			copy3.setCityIndicator(null);
+			//Valid Offense Segment for an incident including Property Loss
+			//Burglary, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			copy3.getOffenses().get(0).setUcrOffenseCode("220");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
+			PropertySegment property3 = new PropertySegment();
+			copy3.addProperty(property);
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000010000);
+			property.setNumberOfStolenMotorVehicles(1);
+			//ORI Blank
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber(null);
+			copy4.setOri(null);
+			//Valid Offense Segment for an incident including Property Loss
+			//Burglary, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			copy4.getOffenses().get(0).setUcrOffenseCode("220");
+			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy4.getOffenses().get(0).setLocationType("20");
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setMethodOfEntry("N");
+			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
+			PropertySegment property4 = new PropertySegment();
+			copy4.addProperty(property);
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000010000);
+			property.setNumberOfStolenMotorVehicles(1);
+			//Incident Number blank
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.setIncidentDate(null);
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.setExceptionalClearanceCode(null);
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getProperties().get(0).setTypeOfPropertyLoss(null);
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getProperties().get(0).setPropertyDescription(0, null);
+			copy5.setIncidentNumber(null);
+			//Valid Offense Segment for an incident including Property Loss
+			//Burglary, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			copy5.getOffenses().get(0).setUcrOffenseCode("220");
+			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy5.getOffenses().get(0).setLocationType("20");
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setMethodOfEntry("N");
+			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
+			PropertySegment property5 = new PropertySegment();
+			copy5.addProperty(property);
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000010000);
+			property.setNumberOfStolenMotorVehicles(1);
 			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
+			
 			
 			return incidents;
 		});
@@ -1171,32 +1252,48 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setCityIndicator("ZZ12");
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			OffenseSegment firstOffense = new OffenseSegment();
-			firstOffense.setUcrOffenseCode("XXX");
+			copy4.getProperties().get(0).setTypeOfPropertyLoss("9");
+			//Specification does not show a separate 301 null for null property loss. 
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			OffenseSegment biasOffense = new OffenseSegment();
-			biasOffense.setBiasMotivation(0, "10");
+			copy5.getProperties().get(0).setTypeOfPropertyLoss(null);
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			OffenseSegment offenseLocation = new OffenseSegment();
-			offenseLocation.setLocationType("99");
+			copy6.getProperties().get(0).setPropertyDescription(0, null);
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("9");
-			//Data Element 16 Value of PropertySegment does not have separate rules for valid and blank.
+			copy7.getProperties().get(0).setPropertyDescription(0, "00");
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
-			typeOfPropertyLoss2.setTypeOfPropertyLoss("02");
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "03");
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0, 0000000500);
+			copy8.getProperties().get(0).setValueOfProperty(0, null);
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
-			typeOfPropertyLoss3.setTypeOfPropertyLoss("02");
-			PropertySegment propertyDescription3 = new PropertySegment();
-			propertyDescription3.setPropertyDescription(0, "03");
-			PropertySegment valueOfProperty2 = new PropertySegment();
-			valueOfProperty2.setValueOfProperty(0, null);
+			copy9.getProperties().get(0).setValueOfProperty(0, 0000000500);
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
+			copy10.getProperties().get(0).setDateRecovered(0, null);
+			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
+			copy11.getProperties().get(0).setDateRecovered(0, (Date.from(LocalDateTime.of(20160, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			//Data Element 17 DateRecovered cannot be blank. 
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
 			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
@@ -1303,7 +1400,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
 			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
 			PropertySegment dateRecovered = new PropertySegment();
-			dateRecovered.setDateRecovered(0, (Date.from(LocalDate.of(2017, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+			dateRecovered.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Date Recovered is earlier than incident
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
