@@ -1,17 +1,18 @@
 package org.search.nibrs.validation.zeroreport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.model.ZeroReport;
+import org.search.nibrs.model.GroupAIncidentReport;
 
 public class GroupAReportValidator {
 	
-	public List<NIBRSError> validate(ZeroReport zeroReport,
-			List<NIBRSError> nibrsErrorList){
+	public List<NIBRSError> validate(GroupAIncidentReport groupAIncidentReport){
 				
-				
-		return nibrsErrorList;
+		List<NIBRSError> errorsList = new ArrayList<NIBRSError>();
+		
+		return errorsList;
 	}
 
 }
