@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ReportSource;
 
 /**
  * Abstract class of objects representing types of "reports" in NIBRS...  Group A incident reports, Group B arrest reports, and Zero Reports.
@@ -25,6 +26,7 @@ public abstract class AbstractReport {
 	private char reportActionType;
 	private boolean hasUpstreamErrors;
 	private List<ArresteeSegment> arresteeSegmentList;
+	private ReportSource source;
 	
 	public AbstractReport() {
 		removeArrestees();
@@ -39,6 +41,7 @@ public abstract class AbstractReport {
 		this.reportActionType = r.reportActionType;
 		this.hasUpstreamErrors = r.hasUpstreamErrors;
 		arresteeSegmentList = CopyUtils.copyList(r.arresteeSegmentList);
+		this.source = new ReportSource(r.source);
 	}
 	
 	public abstract String getUniqueReportDescription();
@@ -116,6 +119,12 @@ public abstract class AbstractReport {
 	public List<ArresteeSegment> getArrestees() {
 		return Collections.unmodifiableList(arresteeSegmentList);
 	}
+	public ReportSource getSource() {
+		return source;
+	}
+	public void setSource(ReportSource source) {
+		this.source = source;
+	}
 
 	@Override
 	public String toString() {
@@ -147,5 +156,5 @@ public abstract class AbstractReport {
 	public boolean equals(Object obj) {
 		return obj != null && obj.hashCode() == hashCode();
 	}
-	
+
 }
