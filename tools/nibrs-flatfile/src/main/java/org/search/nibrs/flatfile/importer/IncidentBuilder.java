@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.flatfile.util.*;
 import org.search.nibrs.model.*;
 
@@ -52,7 +53,7 @@ public class IncidentBuilder {
 	 * @return a list of errors encountered, if any
 	 * @throws IOException exception encountered in addressing the Reader
 	 */
-	public List<NIBRSError> buildIncidents(Reader reader) throws IOException {
+	public List<NIBRSError> buildIncidents(Reader reader, String readerLocationName) throws IOException {
 
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 
@@ -79,7 +80,7 @@ public class IncidentBuilder {
 				char level = s.getSegmentLevel();
 				if (level == '0' || level == '1' || level == '7') {
 					handleNewReport(currentReport);
-					currentReport = buildReport(errorList, s);
+					currentReport = buildReport(errorList, s, readerLocationName);
 				} else {
 					int errorListSize = errorList.size();
 					addSegmentToIncident((GroupAIncidentReport) currentReport, s, errorList);
@@ -101,7 +102,7 @@ public class IncidentBuilder {
 
 	}
 
-	public AbstractReport buildReport(List<NIBRSError> errorList, Segment s) {
+	public AbstractReport buildReport(List<NIBRSError> errorList, Segment s, String readerLocationName) {
 		int errorListSize = errorList.size();
 		AbstractReport ret = null;
 		char level = s.getSegmentLevel();
@@ -115,6 +116,10 @@ public class IncidentBuilder {
 		if (errorList.size() > errorListSize) {
 			ret.setHasUpstreamErrors(true);
 		}
+		ReportSource source = new ReportSource();
+		source.setSourceLocation(String.valueOf(s.getLineNumber()));
+		source.setSourceName(readerLocationName);
+		ret.setSource(source);
 		return ret;
 	}
 
@@ -131,7 +136,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Zero AbstractReport segments must be length 43)");
@@ -170,7 +175,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Group B Arrestee segments must be length 66)");
@@ -230,7 +235,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Administrative segments must be either length 87 or 88)");
@@ -247,7 +252,7 @@ public class IncidentBuilder {
 		} catch (NumberFormatException nfe) {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setRuleDescription(errorMessage);
 			e.setValue(sv);
 			e.setSegmentType(s.getSegmentType());
@@ -278,7 +283,7 @@ public class IncidentBuilder {
 		default:
 			NIBRSError error = new NIBRSError();
 			error.setContext(s.getLineNumber());
-			error.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			error.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			error.setRuleNumber(51);
 			error.setRuleDescription("Segment Level must contain data values 0–7.");
 			error.setValue(segmentType);
@@ -310,7 +315,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (Arrestee segments must be length 110)");
@@ -335,7 +340,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (OffenderSegment segments must be length 45 (with no offender ethnicity) or 46 (with ethnicity))");
@@ -387,7 +392,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (VictimSegment segments must be length 129 (without LEOKA elements) or 141 (with LEOKA elements))");
@@ -435,7 +440,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (PropertySegment segments must be length 307)");
@@ -477,7 +482,7 @@ public class IncidentBuilder {
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
-			e.setSegmentUniqueIdentifier(s.getSegmentUniqueIdentifier());
+			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setRuleDescription("Invalid segment length (OffenseSegment segments must be length 63 (with only one bias motivation) or 71 (with five)");

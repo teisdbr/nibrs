@@ -89,7 +89,7 @@ public class TestIncidentBuilderOldFormat
         incidentListener = new DefaultReportListener();
         IncidentBuilder incidentBuilder = new IncidentBuilder();
         incidentBuilder.addIncidentListener(incidentListener);
-        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader);
+        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader, getClass().getName());
         for (NIBRSError e : errorList) {
         	LOG.info(e.getRuleDescription());
         }
@@ -102,6 +102,7 @@ public class TestIncidentBuilderOldFormat
     	assertEquals("TN0380100", report.getOri());
     	assertEquals('0', report.getAdminSegmentLevel());
     	assertEquals('I', report.getReportActionType());
+    	assertEquals(getClass().getName(), report.getSource().getSourceName());
     }
     
     @Test

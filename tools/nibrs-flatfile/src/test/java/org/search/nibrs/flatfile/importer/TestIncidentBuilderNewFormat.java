@@ -10,6 +10,8 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.importer.DefaultReportListener;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.flatfile.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.*;
 
 /**
@@ -18,6 +20,9 @@ import org.junit.*;
  */
 public class TestIncidentBuilderNewFormat
 {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(TestIncidentBuilderNewFormat.class);
 	
     private static final String TESTDATA_NEWFORMAT =
         "00881I022003    TN006000002-000895   20020102 10N                                      N\n" +
@@ -84,7 +89,7 @@ public class TestIncidentBuilderNewFormat
         incidentListener = new DefaultReportListener();
         IncidentBuilder incidentBuilder = new IncidentBuilder();
         incidentBuilder.addIncidentListener(incidentListener);
-        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader);
+        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader, getClass().getName());
         assertEquals(0, errorList.size());
     }
     
@@ -107,6 +112,8 @@ public class TestIncidentBuilderNewFormat
         assertEquals(1, incident.getArresteeCount());
         assertFalse(incident.getHasUpstreamErrors());
         assertTrue(incident.includesLeoka());
+        assertEquals(getClass().getName(), incident.getSource().getSourceName());
+        assertEquals("1", incident.getSource().getSourceLocation());
     }
     
     @Test
@@ -196,7 +203,8 @@ public class TestIncidentBuilderNewFormat
     @Test
     public void testComplexIncidentVictim()
     {
-        VictimSegment victim = (VictimSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(7)).victimIterator().next();
+        GroupAIncidentReport groupAIncidentReport = (GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(7);
+		VictimSegment victim = (VictimSegment) groupAIncidentReport.victimIterator().next();
         assertEquals("13A", victim.getUcrOffenseCodeConnection(0));
         assertEquals("23H", victim.getUcrOffenseCodeConnection(1));
         assertEquals("290", victim.getUcrOffenseCodeConnection(2));
@@ -204,6 +212,7 @@ public class TestIncidentBuilderNewFormat
         assertEquals("N", victim.getTypeOfInjury(0));
         assertEquals(new Integer(1), victim.getOffenderNumberRelated(0));
         assertEquals("BG", victim.getVictimOffenderRelationship(0));
+        assertEquals("44", groupAIncidentReport.getSource().getSourceLocation());
     }
     
     @Test
