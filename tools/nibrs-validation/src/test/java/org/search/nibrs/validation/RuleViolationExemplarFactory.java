@@ -1144,12 +1144,10 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.setExceptionalClearanceCode(null);
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss(null);
+			copy7.getProperties().get(0).setTypeOfPropertyLoss(null);
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, null);
-
+			copy8.getProperties().get(0).setPropertyDescription(0, null);
+			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -1158,6 +1156,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
+			
 			return incidents;
 		});
 
