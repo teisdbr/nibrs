@@ -194,7 +194,7 @@ public class TestIncidentBuilderErrors {
 		Reader testdataReader = new BufferedReader(new StringReader(testData));
         IncidentBuilder incidentBuilder = new IncidentBuilder();
         incidentBuilder.addIncidentListener(incidentListener);
-        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader);
+        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader, getClass().getName());
 		return errorList;
 	}
     
