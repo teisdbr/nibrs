@@ -1472,6 +1472,8 @@ public class RuleViolationExemplarFactory {
 			property15.setTypeOfPropertyLoss("6");
 			property15.setPropertyDescription(0, "10");
 			property15.setSuspectedDrugType(0, null);
+			property15.setEstimatedDrugQuantity(0, 1.0);
+			property15.setTypeDrugMeasurement(0, "OZ");
 			property15.setValueOfProperty(0, 000010000);
 			property15.setNumberOfRecoveredMotorVehicles(null);
 			property15.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
@@ -1488,13 +1490,47 @@ public class RuleViolationExemplarFactory {
 			property16.setTypeOfPropertyLoss("6");
 			property16.setPropertyDescription(0, "10");
 			property16.setSuspectedDrugType(0, "Z");
+			property16.setEstimatedDrugQuantity(0, 1.0);
+			property16.setTypeDrugMeasurement(0, "OZ");
 			property16.setValueOfProperty(0, 000010000);
 			property16.setNumberOfRecoveredMotorVehicles(null);
 			property16.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			
-			
-			
-			
+			//Estimated Drug Quantity cannot be blank
+			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
+			copy17.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy17.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy17.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy17.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy17.getOffenses().get(0).setLocationType("20");
+			copy17.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy17.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property17 = new PropertySegment();
+			property17.setTypeOfPropertyLoss("6");
+			property17.setPropertyDescription(0, "10");
+			property17.setSuspectedDrugType(0, "Z");
+			property17.setEstimatedDrugQuantity(0, null);
+			property17.setTypeDrugMeasurement(0, "OZ");
+			property17.setValueOfProperty(0, 000010000);
+			property17.setNumberOfRecoveredMotorVehicles(null);
+			property17.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			//Estimated Drug Quantity must be valid.
+			GroupAIncidentReport copy18 = new GroupAIncidentReport(copy);
+			copy18.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy18.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy18.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy18.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy18.getOffenses().get(0).setLocationType("20");
+			copy18.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy18.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property18 = new PropertySegment();
+			property18.setTypeOfPropertyLoss("6");
+			property18.setPropertyDescription(0, "10");
+			property18.setSuspectedDrugType(0, "Z");
+			property18.setEstimatedDrugQuantity(0, 9999999999.0);
+			property18.setTypeDrugMeasurement(0, "OZ");
+			property18.setValueOfProperty(0, 000010000);
+			property18.setNumberOfRecoveredMotorVehicles(null);
+			property18.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 					
 			
