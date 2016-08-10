@@ -1475,7 +1475,6 @@ public class RuleViolationExemplarFactory {
 			property15.setEstimatedDrugQuantity(0, 1.0);
 			property15.setTypeDrugMeasurement(0, "OZ");
 			property15.setValueOfProperty(0, 000010000);
-			property15.setNumberOfRecoveredMotorVehicles(null);
 			property15.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Suspected Drug type must be valid
 			GroupAIncidentReport copy16 = new GroupAIncidentReport(copy);
@@ -1493,7 +1492,6 @@ public class RuleViolationExemplarFactory {
 			property16.setEstimatedDrugQuantity(0, 1.0);
 			property16.setTypeDrugMeasurement(0, "OZ");
 			property16.setValueOfProperty(0, 000010000);
-			property16.setNumberOfRecoveredMotorVehicles(null);
 			property16.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Estimated Drug Quantity cannot be blank
 			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
@@ -1511,7 +1509,6 @@ public class RuleViolationExemplarFactory {
 			property17.setEstimatedDrugQuantity(0, null);
 			property17.setTypeDrugMeasurement(0, "OZ");
 			property17.setValueOfProperty(0, 000010000);
-			property17.setNumberOfRecoveredMotorVehicles(null);
 			property17.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Estimated Drug Quantity must be valid.
 			GroupAIncidentReport copy18 = new GroupAIncidentReport(copy);
@@ -1529,9 +1526,41 @@ public class RuleViolationExemplarFactory {
 			property18.setEstimatedDrugQuantity(0, 9999999999.0);
 			property18.setTypeDrugMeasurement(0, "OZ");
 			property18.setValueOfProperty(0, 000010000);
-			property18.setNumberOfRecoveredMotorVehicles(null);
 			property18.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			
+			//Drug Measurement cannot be blank.
+			GroupAIncidentReport copy19 = new GroupAIncidentReport(copy);
+			copy19.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy19.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy19.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy19.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy19.getOffenses().get(0).setLocationType("20");
+			copy19.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy19.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property19 = new PropertySegment();
+			property19.setTypeOfPropertyLoss("6");
+			property19.setPropertyDescription(0, "10");
+			property19.setSuspectedDrugType(0, "Z");
+			property19.setEstimatedDrugQuantity(0, 9999999999.0);
+			property19.setTypeDrugMeasurement(0, null);
+			property19.setValueOfProperty(0, 000010000);
+			property19.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			//Drug Measurement must be valid.
+			GroupAIncidentReport copy20 = new GroupAIncidentReport(copy);
+			copy20.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy20.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy20.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy20.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy20.getOffenses().get(0).setLocationType("20");
+			copy20.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy20.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property20 = new PropertySegment();
+			property20.setTypeOfPropertyLoss("6");
+			property20.setPropertyDescription(0, "10");
+			property20.setSuspectedDrugType(0, "Z");
+			property20.setEstimatedDrugQuantity(0, 9999999999.0);
+			property20.setTypeDrugMeasurement(0, "ZZ");
+			property20.setValueOfProperty(0, 000010000);
+			property20.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 					
 			
 			
@@ -1551,6 +1580,10 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy14);
 			incidents.add(copy15);
 			incidents.add(copy16);
+			incidents.add(copy17);
+			incidents.add(copy18);
+			incidents.add(copy19);
+			incidents.add(copy20);
 			copy.addProperty(property);
 			copy2.addProperty(property2);
 			copy3.addProperty(property3);
@@ -1567,6 +1600,10 @@ public class RuleViolationExemplarFactory {
 			copy14.addProperty(property14);
 			copy15.addProperty(property15);
 			copy16.addProperty(property16);
+			copy17.addProperty(property17);
+			copy18.addProperty(property18);
+			copy19.addProperty(property19);
+			copy20.addProperty(property20);
 			
 			return incidents;
 			
