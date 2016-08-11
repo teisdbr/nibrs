@@ -2034,7 +2034,7 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("2");
+			property.setTypeOfPropertyLoss("7");
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, 10000);
 			
@@ -2046,7 +2046,7 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(359, incident -> {
-			// (PropertySegment Description) Must be one of the following
+			// (Property Description) Must be one of the following
 			//03=Automobiles
 			//05=Buses
 			//24=Other Motor Vehicles
@@ -2064,8 +2064,9 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("2");
+			property.setTypeOfPropertyLoss("7");
 			property.setPropertyDescription(0, "01");
+			property.setNumberOfStolenMotorVehicles(1);
 			property.setValueOfProperty(0, 10000);
 			
 			incidents.add(copy);
@@ -2080,20 +2081,62 @@ public class RuleViolationExemplarFactory {
 			//(Type PropertySegment Loss/Etc.) 5=Recovered was not entered, and/or Data Element 6 
 			//(UCR OffenseSegment Code) of 240=Motor Vehicle Theft was not entered, and/or Data Element 7 
 			//(OffenseSegment Attempted/Completed) was A=Attempted.
-			
-			//UCR OffenseSegment Code not = 240
+			//
+			//Property Loss Type not Recovered
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment ucrOffenseCode = new OffenseSegment();
-			ucrOffenseCode.setUcrOffenseCode("13A");
-			OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
-			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("5");
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "03");
-			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
-			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("2");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 10000);
+			property.setNumberOfRecoveredMotorVehicles(1);
+			//UCR OffenseSegment Code not = 240
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("220");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("6");
+			property2.setPropertyDescription(0, "03");
+			property2.setValueOfProperty(0, 10000);
+			property2.setNumberOfRecoveredMotorVehicles(1);
+			//Offense Attempted/Completed not completed
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getOffenses().get(0).setUcrOffenseCode("240");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("A");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property3 = new PropertySegment();
+			property3.setTypeOfPropertyLoss("6");
+			property3.setPropertyDescription(0, "03");
+			property3.setValueOfProperty(0, 10000);
+			property3.setNumberOfRecoveredMotorVehicles(1);
+			
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			copy.addProperty(property);
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
+		
+			return incidents;
+			
+		});
 			//Type of PropertySegment Loss not Recovered
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			OffenseSegment ucrOffenseCode2 = new OffenseSegment();
