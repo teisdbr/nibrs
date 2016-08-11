@@ -1810,8 +1810,19 @@ public class RuleViolationExemplarFactory {
 			//A warning message is always produced when the value is $1,000,000 or greater. 
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0, 001000000);
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 010000000);
+			property.setNumberOfStolenMotorVehicles(1);
 			
 			incidents.add(copy);
 			return incidents;
