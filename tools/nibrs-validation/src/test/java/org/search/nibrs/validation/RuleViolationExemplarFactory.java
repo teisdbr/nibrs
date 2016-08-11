@@ -1877,7 +1877,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
 			property.setPropertyDescription(0, "88");
-			property.setValueOfProperty(0, 000000000);
+			property.setValueOfProperty(0, 10000);
 			property.setNumberOfStolenMotorVehicles(1);
 			
 			
@@ -1889,7 +1889,7 @@ public class RuleViolationExemplarFactory {
 
 			
 		groupATweakerMap.put(354, incident -> {
-			// (Property Description) Data Element 16 (Value of PropertySegment) contains a value,
+			// (Property Description) Data Element 16 (Value of Property) contains a value,
 			// but Data Element 15 (Property Description) was not entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -1902,9 +1902,8 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
-			property.setValueOfProperty(0, 000000000);
+			property.setValueOfProperty(0, 10000);
 			property.setNumberOfStolenMotorVehicles(1);
-			
 			
 			incidents.add(copy);
 			copy.addProperty(property);
@@ -1913,15 +1912,27 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(355, incident -> {
-			// (Type Of PropertySegment Loss) must be 5=Recovered for Data Element 17 (Date Recovered) to be entered.
+			// (Type Of Property Loss) must be 5=Recovered for Data Element 17 (Date Recovered) to be entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
-			PropertySegment dateRecovered = new PropertySegment();
-			dateRecovered.setDateRecovered(0,(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
-		
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "88");
+			property.setValueOfProperty(0, 000000000);
+			property.setNumberOfStolenMotorVehicles(1);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			
+			
 			incidents.add(copy);
+			copy.addProperty(property);
+			
 			return incidents;
 		});
 		
