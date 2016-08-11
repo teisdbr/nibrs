@@ -1722,7 +1722,7 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy.getOffenses().get(0).setLocationType("");
+			copy.getOffenses().get(0).setLocationType("20");
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
@@ -1732,8 +1732,14 @@ public class RuleViolationExemplarFactory {
 			property.setSuspectedDrugType(1, "B");
 			property.setSuspectedDrugType(2, "B");
 			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(1, 1.0);
+			property.setEstimatedDrugQuantity(2, 1.0);
 			property.setTypeDrugMeasurement(0, "OZ");
+			property.setTypeDrugMeasurement(1, "OZ");
+			property.setTypeDrugMeasurement(2, "OZ");
 			property.setValueOfProperty(0, 000010000);
+			property.setValueOfProperty(1, 000010000);
+			property.setValueOfProperty(2, 000010000);
 			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//There are two exceptions to this rule:
 			//When a data value is entered in both Drug Type 1 and Drug Type 2, but different measurement categories are 
@@ -1742,19 +1748,55 @@ public class RuleViolationExemplarFactory {
 			//(Type Drug Measurement) must be two different measurement categories 
 			//(i.e., grams and liters) and not grams and pounds (same weight category).
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
+			copy2.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("6");
+			property2.setPropertyDescription(0, "10");
+			property2.setSuspectedDrugType(0, "A");
+			property2.setSuspectedDrugType(1, "A");
+			property2.setEstimatedDrugQuantity(0, 1.0);
+			property2.setEstimatedDrugQuantity(0, 2.0);
+			property2.setTypeDrugMeasurement(0, "OZ");
+			property2.setTypeDrugMeasurement(1, "OZ");
+			property2.setValueOfProperty(0, 000010000);
+			property2.setValueOfProperty(1, 000010000);
+			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			//When the data value is U=Unknown; it can be entered only once.
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
+			copy3.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property3 = new PropertySegment();
+			property3.setTypeOfPropertyLoss("6");
+			property3.setPropertyDescription(0, "10");
+			property3.setSuspectedDrugType(0, "U");
+			property3.setSuspectedDrugType(1, "A");
+			property3.setEstimatedDrugQuantity(0, 1.0);
+			property3.setEstimatedDrugQuantity(0, 2.0);
+			property3.setTypeDrugMeasurement(0, "OZ");
+			property3.setTypeDrugMeasurement(1, "GM");
+			property3.setValueOfProperty(0, 000010000);
+			property3.setValueOfProperty(1, 000010000);
+			property3.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			
-			
-			
-			
-			
-			//typeDrugMeasurement.setTypeDrugMeasurement(0, value); // doesn't compile
 			
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
 			copy.addProperty(property);
-			
-		
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
 			
 			return incidents;
 		});
