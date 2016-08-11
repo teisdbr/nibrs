@@ -2,6 +2,7 @@ package org.search.nibrs.common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.model.codes.NibrsErrorCode;
 
 /**
  * A class for objects that represent an error encountered in processing NIBRS data.
@@ -18,7 +19,8 @@ public class NIBRSError {
 	private String reportUniqueIdentifier;
 	private Object value;
 	private char segmentType;
-	private String withinSegmentIdentifier;
+	private String withinSegmentIdentifier;	
+	private NibrsErrorCode nibrsErrorCode;
 	
 	public NIBRSError() {
 	}
@@ -31,6 +33,7 @@ public class NIBRSError {
 		this.value = e.value;
 		this.segmentType = e.segmentType;
 		this.withinSegmentIdentifier = e.withinSegmentIdentifier;
+		this.nibrsErrorCode = e.nibrsErrorCode;
 	}
 	
 	/**
@@ -108,6 +111,16 @@ public class NIBRSError {
 	public void setWithinSegmentIdentifier(String withinSegmentIdentifier) {
 		this.withinSegmentIdentifier = withinSegmentIdentifier;
 	}
+	
+	
+	public NibrsErrorCode getNibrsErrorCode() {
+		return nibrsErrorCode;
+	}
+
+	public void setNibrsErrorCode(NibrsErrorCode nibrsErrorCode) {
+		this.nibrsErrorCode = nibrsErrorCode;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
