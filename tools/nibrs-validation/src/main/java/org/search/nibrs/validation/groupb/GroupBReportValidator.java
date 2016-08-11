@@ -1,4 +1,4 @@
-package org.search.nibrs.validation.zeroreport;
+package org.search.nibrs.validation.groupb;
 
 import java.util.ArrayList;
 import java.util.List;

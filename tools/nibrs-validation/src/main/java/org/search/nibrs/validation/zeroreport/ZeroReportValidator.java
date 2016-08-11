@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ZeroReport;
+import org.search.nibrs.model.codes.NibrsErrorCode;
 
 
 public class ZeroReportValidator {
@@ -14,13 +15,13 @@ public class ZeroReportValidator {
 				
 		List<NIBRSError> errorsList = new ArrayList<NIBRSError>();
 		
-		validate12Zeros(zeroReport, errorsList);
+		_015_validate12Zeros(zeroReport, errorsList);
 				
 		return errorsList;
 	}
 	
 	
-	NIBRSError validate12Zeros(ZeroReport zeroReport, List<NIBRSError> nibrsErrorList){
+	NIBRSError _015_validate12Zeros(ZeroReport zeroReport, List<NIBRSError> nibrsErrorList){
 				
 		NIBRSError rNibrsError = null;
 		
@@ -30,13 +31,13 @@ public class ZeroReportValidator {
 			
 			rNibrsError = new NIBRSError();
 			
-			// TODO confirm(don't specify message?)
-			rNibrsError.setRuleNumber(015);
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._015);
 			
 			nibrsErrorList.add(rNibrsError);
 		}
 		
 		return rNibrsError;
 	}	
+	
 	
 }
