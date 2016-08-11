@@ -1505,7 +1505,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property17 = new PropertySegment();
 			property17.setTypeOfPropertyLoss("6");
 			property17.setPropertyDescription(0, "10");
-			property17.setSuspectedDrugType(0, "Z");
+			property17.setSuspectedDrugType(0, "A");
 			property17.setEstimatedDrugQuantity(0, null);
 			property17.setTypeDrugMeasurement(0, "OZ");
 			property17.setValueOfProperty(0, 000010000);
@@ -1522,7 +1522,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property18 = new PropertySegment();
 			property18.setTypeOfPropertyLoss("6");
 			property18.setPropertyDescription(0, "10");
-			property18.setSuspectedDrugType(0, "Z");
+			property18.setSuspectedDrugType(0, "A");
 			property18.setEstimatedDrugQuantity(0, 9999999999.0);
 			property18.setTypeDrugMeasurement(0, "OZ");
 			property18.setValueOfProperty(0, 000010000);
@@ -1539,8 +1539,8 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property19 = new PropertySegment();
 			property19.setTypeOfPropertyLoss("6");
 			property19.setPropertyDescription(0, "10");
-			property19.setSuspectedDrugType(0, "Z");
-			property19.setEstimatedDrugQuantity(0, 9999999999.0);
+			property19.setSuspectedDrugType(0, "A");
+			property19.setEstimatedDrugQuantity(0, 1.0);
 			property19.setTypeDrugMeasurement(0, null);
 			property19.setValueOfProperty(0, 000010000);
 			property19.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
@@ -1556,8 +1556,8 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property20 = new PropertySegment();
 			property20.setTypeOfPropertyLoss("6");
 			property20.setPropertyDescription(0, "10");
-			property20.setSuspectedDrugType(0, "Z");
-			property20.setEstimatedDrugQuantity(0, 9999999999.0);
+			property20.setSuspectedDrugType(0, "A");
+			property20.setEstimatedDrugQuantity(0, 1.0);
 			property20.setTypeDrugMeasurement(0, "ZZ");
 			property20.setValueOfProperty(0, 000010000);
 			property20.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
@@ -1718,17 +1718,23 @@ public class RuleViolationExemplarFactory {
 			//When more than one code is entered, none can be duplicate codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment ucrOffenseCode = new OffenseSegment();
-			ucrOffenseCode.setUcrOffenseCode("35A");
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("6");
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "10");
-			PropertySegment suspectedDrugType = new PropertySegment();
-			suspectedDrugType.setSuspectedDrugType(0, "A");
-			PropertySegment suspectedDrugType2 = new PropertySegment();
-			suspectedDrugType2.setSuspectedDrugType(0, "A");
-				
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setSuspectedDrugType(0, "A");
+			property.setSuspectedDrugType(1, "B");
+			property.setSuspectedDrugType(2, "B");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "OZ");
+			property.setValueOfProperty(0, 000010000);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//There are two exceptions to this rule:
 			//When a data value is entered in both Drug Type 1 and Drug Type 2, but different measurement categories are 
 			//entered in Data Element 22 (Type Drug Measurement); this is allowed. For example, when A=Crack Cocaine
@@ -1736,21 +1742,17 @@ public class RuleViolationExemplarFactory {
 			//(Type Drug Measurement) must be two different measurement categories 
 			//(i.e., grams and liters) and not grams and pounds (same weight category).
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			OffenseSegment ucrOffenseCode2 = new OffenseSegment();
-			ucrOffenseCode2.setUcrOffenseCode("35A");
-			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
-			typeOfPropertyLoss2.setTypeOfPropertyLoss("6");
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, "10");
-			PropertySegment suspectedDrugType3 = new PropertySegment();
-			suspectedDrugType3.setSuspectedDrugType(0, "A");
-			PropertySegment suspectedDrugType4 = new PropertySegment();
-			suspectedDrugType4.setSuspectedDrugType(0, "A");
-			PropertySegment typeDrugMeasurement = new PropertySegment();
+			
+			
+			
+			
+			
+			
 			//typeDrugMeasurement.setTypeDrugMeasurement(0, value); // doesn't compile
 			
 			incidents.add(copy);
 			incidents.add(copy2);
+			copy.addProperty(property);
 			
 		
 			
