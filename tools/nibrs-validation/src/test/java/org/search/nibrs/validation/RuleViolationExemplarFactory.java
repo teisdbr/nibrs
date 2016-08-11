@@ -1474,7 +1474,7 @@ public class RuleViolationExemplarFactory {
 			property15.setSuspectedDrugType(0, null);
 			property15.setEstimatedDrugQuantity(0, 1.0);
 			property15.setTypeDrugMeasurement(0, "OZ");
-			property15.setValueOfProperty(0, 000010000);
+			property15.setValueOfProperty(0, null);
 			property15.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Suspected Drug type must be valid
 			GroupAIncidentReport copy16 = new GroupAIncidentReport(copy);
@@ -1491,7 +1491,7 @@ public class RuleViolationExemplarFactory {
 			property16.setSuspectedDrugType(0, "Z");
 			property16.setEstimatedDrugQuantity(0, 1.0);
 			property16.setTypeDrugMeasurement(0, "OZ");
-			property16.setValueOfProperty(0, 000010000);
+			property16.setValueOfProperty(0, null);
 			property16.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Estimated Drug Quantity cannot be blank
 			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
@@ -1508,7 +1508,7 @@ public class RuleViolationExemplarFactory {
 			property17.setSuspectedDrugType(0, "A");
 			property17.setEstimatedDrugQuantity(0, null);
 			property17.setTypeDrugMeasurement(0, "OZ");
-			property17.setValueOfProperty(0, 000010000);
+			property17.setValueOfProperty(0, null);
 			property17.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Estimated Drug Quantity must be valid.
 			GroupAIncidentReport copy18 = new GroupAIncidentReport(copy);
@@ -1525,7 +1525,7 @@ public class RuleViolationExemplarFactory {
 			property18.setSuspectedDrugType(0, "A");
 			property18.setEstimatedDrugQuantity(0, 9999999999.0);
 			property18.setTypeDrugMeasurement(0, "OZ");
-			property18.setValueOfProperty(0, 000010000);
+			property18.setValueOfProperty(0, null);
 			property18.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Drug Measurement cannot be blank.
 			GroupAIncidentReport copy19 = new GroupAIncidentReport(copy);
@@ -1542,7 +1542,7 @@ public class RuleViolationExemplarFactory {
 			property19.setSuspectedDrugType(0, "A");
 			property19.setEstimatedDrugQuantity(0, 1.0);
 			property19.setTypeDrugMeasurement(0, null);
-			property19.setValueOfProperty(0, 000010000);
+			property19.setValueOfProperty(0, null);
 			property19.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Drug Measurement must be valid.
 			GroupAIncidentReport copy20 = new GroupAIncidentReport(copy);
@@ -1559,7 +1559,7 @@ public class RuleViolationExemplarFactory {
 			property20.setSuspectedDrugType(0, "A");
 			property20.setEstimatedDrugQuantity(0, 1.0);
 			property20.setTypeDrugMeasurement(0, "ZZ");
-			property20.setValueOfProperty(0, 000010000);
+			property20.setValueOfProperty(0, null);
 			property20.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 					
 			
@@ -1737,9 +1737,9 @@ public class RuleViolationExemplarFactory {
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setTypeDrugMeasurement(1, "OZ");
 			property.setTypeDrugMeasurement(2, "OZ");
-			property.setValueOfProperty(0, 000010000);
-			property.setValueOfProperty(1, 000010000);
-			property.setValueOfProperty(2, 000010000);
+			property.setValueOfProperty(0, null);
+			property.setValueOfProperty(1, null);
+			property.setValueOfProperty(2, null);
 			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//There are two exceptions to this rule:
 			//When a data value is entered in both Drug Type 1 and Drug Type 2, but different measurement categories are 
@@ -1764,8 +1764,8 @@ public class RuleViolationExemplarFactory {
 			property2.setEstimatedDrugQuantity(0, 2.0);
 			property2.setTypeDrugMeasurement(0, "OZ");
 			property2.setTypeDrugMeasurement(1, "OZ");
-			property2.setValueOfProperty(0, 000010000);
-			property2.setValueOfProperty(1, 000010000);
+			property2.setValueOfProperty(0, null);
+			property2.setValueOfProperty(1, null);
 			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//When the data value is U=Unknown; it can be entered only once.
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
@@ -1782,11 +1782,11 @@ public class RuleViolationExemplarFactory {
 			property3.setSuspectedDrugType(0, "U");
 			property3.setSuspectedDrugType(1, "A");
 			property3.setEstimatedDrugQuantity(0, 1.0);
-			property3.setEstimatedDrugQuantity(0, 2.0);
+			property3.setEstimatedDrugQuantity(1, 2.0);
 			property3.setTypeDrugMeasurement(0, "OZ");
 			property3.setTypeDrugMeasurement(1, "GM");
-			property3.setValueOfProperty(0, 000010000);
-			property3.setValueOfProperty(1, 000010000);
+			property3.setValueOfProperty(0, null);
+			property3.setValueOfProperty(1, null);
 			property3.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			
@@ -2242,8 +2242,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property6 = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
 			
-			
-			
+				
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -2256,77 +2255,132 @@ public class RuleViolationExemplarFactory {
 			copy4.addProperty(property4);
 			copy5.addProperty(property5);
 			copy6.addProperty(property6);
-					
-			
+								
 			return incidents;
 		});
 		
-		
 		groupATweakerMap.put(375, incident -> {
-			// (PropertySegment Description) At least one Data Element 15 (PropertySegment Description) code must
-			//be entered when Data Element 14 (Type PropertySegment Loss/Etc.) contains PropertySegment Segment(s) for:
-			//		2=Burned
-			//		3=Counterfeited/Forged
-			//		4=Destroyed/Damaged/Vandalized
-			//		5=Recovered
-			//		6=Seized
-			//		7=Stolen/Etc.
+			// to - do what's the difference between 372 and 375?
+			//(Property Description) At least one Data Element 15 (Property Description) code 
+			//must be entered when Data Element 14 (Type Property Loss/Etc.) contains Property Segment(s) for:
+			//2=Burned
+			//3=Counterfeited/Forged
+			//4=Destroyed/Damaged/Vandalized
+			//5=Recovered
+			//6=Seized
+			//7=Stolen/Etc.
+			//
+			//2=Burned
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, null);
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("2");
+			//3=Counterfeited/Forged
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, null);
-			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
-			typeOfPropertyLoss2.setTypeOfPropertyLoss("3");
+			copy2.getOffenses().get(0).setUcrOffenseCode("240");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("3");
+			//4=Destroyed/Damaged/Vandalized
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription3 = new PropertySegment();
-			propertyDescription3.setPropertyDescription(0, null);
-			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
-			typeOfPropertyLoss3.setTypeOfPropertyLoss("4");
+			copy3.getOffenses().get(0).setUcrOffenseCode("240");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property3 = new PropertySegment();
+			property3.setTypeOfPropertyLoss("4");
+			//5=Recovered
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription4 = new PropertySegment();
-			propertyDescription4.setPropertyDescription(0, null);
-			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
-			typeOfPropertyLoss4.setTypeOfPropertyLoss("5");
+			copy4.getOffenses().get(0).setUcrOffenseCode("240");
+			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy4.getOffenses().get(0).setLocationType("20");
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property4 = new PropertySegment();
+			property4.setTypeOfPropertyLoss("5");
+			//6=Seized
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription5 = new PropertySegment();
-			propertyDescription5.setPropertyDescription(0, null);
-			PropertySegment typeOfPropertyLoss5 = new PropertySegment();
-			typeOfPropertyLoss5.setTypeOfPropertyLoss("6");
+			copy5.getOffenses().get(0).setUcrOffenseCode("240");
+			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy5.getOffenses().get(0).setLocationType("20");
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property5 = new PropertySegment();
+			property5.setTypeOfPropertyLoss("6");
+			//7=Stolen
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription6 = new PropertySegment();
-			propertyDescription6.setPropertyDescription(0, null);
-			PropertySegment typeOfPropertyLoss6 = new PropertySegment();
-			typeOfPropertyLoss6.setTypeOfPropertyLoss("7");
+			copy6.getOffenses().get(0).setUcrOffenseCode("240");
+			copy6.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy6.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy6.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy6.getOffenses().get(0).setLocationType("20");
+			copy6.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy6.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property6 = new PropertySegment();
+			property.setTypeOfPropertyLoss("7");
 			
+				
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
-			
+			copy.addProperty(property);
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
+			copy4.addProperty(property4);
+			copy5.addProperty(property5);
+			copy6.addProperty(property6);
+								
 			return incidents;
 		});
+		
+		
+		
 	
 		groupATweakerMap.put(383, incident -> {
 			//(Value of PropertySegment) has a value other than zero entered. 
 			//Since Data Element 15 (PropertySegment Description) code is 10=Drugs/Narcotics and the only Crime Against PropertySegment 
 			//offense submitted is a 35A=Drug/Narcotic Violations, Data Element 16 (Value of PropertySegment) must be blank.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment offense = new OffenseSegment();
-			offense.setUcrOffenseCode("35A");
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "10");
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0, 000000500);
+			GroupAIncidentReport copy = new GroupAIncidentReport(copy);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setSuspectedDrugType(1, "A");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "OZ");
+			property.setValueOfProperty(0, 000010000);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			incidents.add(copy);
+			copy.addProperty(property);
 						
 			return incidents;
 		});
