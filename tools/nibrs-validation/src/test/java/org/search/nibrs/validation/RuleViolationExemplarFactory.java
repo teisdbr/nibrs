@@ -2469,7 +2469,7 @@ public class RuleViolationExemplarFactory {
 			
 			
 			groupATweakerMap.put(389, incident -> {
-				//(Number of Recovered Stolen Motor Vehicles) More than one vehicle code was entered in 
+				//(Number of Recovered Motor Vehicles) More than one vehicle code was entered in 
 				//Data Element 15 (PropertySegment Description), but the number recovered in Data Element 18 
 				//(Number of Recovered Motor Vehicles) is less than this number. 
 				//For example, if vehicle codes of 03=Automobiles and 05=Buses were entered as being recovered, 
@@ -2478,21 +2478,24 @@ public class RuleViolationExemplarFactory {
 				
 				List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-				OffenseSegment ucrOffenseCode = new OffenseSegment();
-				ucrOffenseCode.setUcrOffenseCode("240");
-				OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
-				offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-				PropertySegment typeOfPropertyLoss = new PropertySegment();
-				typeOfPropertyLoss.setTypeOfPropertyLoss("5");
-				PropertySegment propertyDescription = new PropertySegment();
-				propertyDescription.setPropertyDescription(0, "03");
-				PropertySegment propertyDescription2 = new PropertySegment();
-				propertyDescription2.setPropertyDescription(0, "05");
-				PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
-				numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
-			
+				copy.getOffenses().get(0).setUcrOffenseCode("240");
+				copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+				copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+				copy.getOffenses().get(0).setBiasMotivation(0, "88");
+				copy.getOffenses().get(0).setLocationType("20");
+				copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+				copy.getOffenses().get(0).setMethodOfEntry("N");
+				PropertySegment property = new PropertySegment();
+				property.setTypeOfPropertyLoss("5");
+				property.setPropertyDescription(0, "03");
+				property.setValueOfProperty(0, 000010000);
+				property.setPropertyDescription(1, "05");
+				property.setValueOfProperty(1, 000020000);
+				property.setNumberOfRecoveredMotorVehicles(1);
+				property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+						
 				incidents.add(copy);
-			
+				copy.addProperty(property);
 				return incidents;
 				
 			});
