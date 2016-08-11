@@ -2107,7 +2107,7 @@ public class RuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
-			property2.setTypeOfPropertyLoss("6");
+			property2.setTypeOfPropertyLoss("5");
 			property2.setPropertyDescription(0, "03");
 			property2.setValueOfProperty(0, 10000);
 			property2.setNumberOfRecoveredMotorVehicles(1);
@@ -2121,7 +2121,7 @@ public class RuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy3.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property3 = new PropertySegment();
-			property3.setTypeOfPropertyLoss("6");
+			property3.setTypeOfPropertyLoss("5");
 			property3.setPropertyDescription(0, "03");
 			property3.setValueOfProperty(0, 10000);
 			property3.setNumberOfRecoveredMotorVehicles(1);
@@ -2137,39 +2137,7 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 		});
-			//Type of PropertySegment Loss not Recovered
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			OffenseSegment ucrOffenseCode2 = new OffenseSegment();
-			ucrOffenseCode2.setUcrOffenseCode("240");
-			OffenseSegment offenseAttemptedCompleted2 = new OffenseSegment();
-			offenseAttemptedCompleted2.setOffenseAttemptedCompleted("C");
-			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
-			typeOfPropertyLoss2.setTypeOfPropertyLoss("2");
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, "03");
-			PropertySegment numberOfRecoveredMotorVehicles2 = new PropertySegment();
-			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
-			//OffenseSegment Attempted/Completed not = C
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			OffenseSegment ucrOffenseCode3 = new OffenseSegment();
-			ucrOffenseCode3.setUcrOffenseCode("240");
-			OffenseSegment offenseAttemptedCompleted3 = new OffenseSegment();
-			offenseAttemptedCompleted3.setOffenseAttemptedCompleted("A");
-			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
-			typeOfPropertyLoss3.setTypeOfPropertyLoss("5");
-			PropertySegment propertyDescription3 = new PropertySegment();
-			propertyDescription3.setPropertyDescription(0, "03");
-			PropertySegment numberOfRecoveredMotorVehicles3 = new PropertySegment();
-			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
 			
-			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			
-			return incidents;
-						
-			
-		});
 		
 		groupATweakerMap.put(361, incident -> {
 			//((Number of Recovered Motor Vehicles) Entry must be made when Data Element 6 
@@ -2178,17 +2146,18 @@ public class RuleViolationExemplarFactory {
 			//(PropertySegment Description) contains a vehicle code.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment ucrOffenseCode = new OffenseSegment();
-			ucrOffenseCode.setUcrOffenseCode("240");
-			OffenseSegment offenseAttemptedCompleted = new OffenseSegment();
-			offenseAttemptedCompleted.setOffenseAttemptedCompleted("C");
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("5");
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "03");
-			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
-			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(null);
-			
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("5");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 10000);
+						
 			incidents.add(copy);
 			
 			return incidents;
