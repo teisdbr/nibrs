@@ -1817,7 +1817,6 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setLocationType("20");
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy.getOffenses().get(0).setMethodOfEntry("N");
-			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
 			property.setPropertyDescription(0, "03");
@@ -1825,6 +1824,7 @@ public class RuleViolationExemplarFactory {
 			property.setNumberOfStolenMotorVehicles(1);
 			
 			incidents.add(copy);
+			copy.addProperty(property);
 			return incidents;
 		});
 
@@ -1833,47 +1833,30 @@ public class RuleViolationExemplarFactory {
 			//Mandatory zero
 			//09=Credit/Debit Cards
 			//22=Non-negotiable Instruments
-			//48=Documents�Personal or Business
+			//48=Documents Personal or Business
 			//65=Identity Documents
-			//66=Identity�Intangible
+			//66=Identity Intangible
 			//Optional zero
 			//77=Other
-			//99=(blank)�this data value is not currently used by the FBI
+			//99=(blank)this data value is not currently used by the FBI
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0, 000000500);
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "09");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			PropertySegment valueOfProperty2 = new PropertySegment();
-			valueOfProperty2.setValueOfProperty(0, 000000500);
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, "22");
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			PropertySegment valueOfProperty3 = new PropertySegment();
-			valueOfProperty3.setValueOfProperty(0, 000000500);
-			PropertySegment propertyDescription3 = new PropertySegment();
-			propertyDescription3.setPropertyDescription(0, "48");
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			PropertySegment valueOfProperty4 = new PropertySegment();
-			valueOfProperty4.setValueOfProperty(0, 000000500);
-			PropertySegment propertyDescription4 = new PropertySegment();
-			propertyDescription4.setPropertyDescription(0, "65");
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			PropertySegment valueOfProperty5 = new PropertySegment();
-			valueOfProperty5.setValueOfProperty(0, 000000500);
-			PropertySegment propertyDescription5 = new PropertySegment();
-			propertyDescription5.setPropertyDescription(0, "66");
-
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000000000);
+			property.setNumberOfStolenMotorVehicles(1);
 			
 			
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			
+			copy.addProperty(property);
 			
 			return incidents;
 		});
