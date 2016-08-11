@@ -1862,16 +1862,28 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(353, incident -> {
-			//(Value of PropertySegment) is 88=Pending Inventory, but Data Element 16 (Value of PropertySegment) is not $1. 
+			//(Value of PropertySegment) is 88=Pending Inventory, but Data Element 16 
+			//(Value of PropertySegment) is not $1. 
 			//Determine which of the data elements was entered incorrectly.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "88");
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0,000000001);
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "88");
+			property.setValueOfProperty(0, 000000000);
+			property.setNumberOfStolenMotorVehicles(1);
+			
 			
 			incidents.add(copy);
+			copy.addProperty(property);
+			
 			return incidents;
 		});
 
