@@ -2173,129 +2173,74 @@ public class RuleViolationExemplarFactory {
 			//6=Seized
 			//7=Stolen/Etc.
 			//Data Elements 15 through 22 must have applicable entries in the segment.
-			
+			//
 			//2=Burned
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("2");
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, null);
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0, null);
-			PropertySegment dateRecovered = new PropertySegment();
-			dateRecovered.setDateRecovered(0, null);
-			PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
-			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(2);
-			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
-			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment suspectedDrugType = new PropertySegment();
-			suspectedDrugType.setSuspectedDrugType(0, null);
-			PropertySegment estimatedDrugQuantity = new PropertySegment();
-			estimatedDrugQuantity.setEstimatedDrugQuantity(0, null);
-			PropertySegment typeDrugMeasurement = new PropertySegment();
-			typeDrugMeasurement.setTypeDrugMeasurement(0, null);
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("2");
 			//3=Counterfeited/Forged
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
-			typeOfPropertyLoss2.setTypeOfPropertyLoss("3");
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, null);
-			PropertySegment valueOfProperty2 = new PropertySegment();
-			valueOfProperty2.setValueOfProperty(0, null);
-			PropertySegment dateRecovered2 = new PropertySegment();
-			dateRecovered2.setDateRecovered(0, null);
-			PropertySegment numberOfStolenMotorVehicles2 = new PropertySegment();
-			numberOfStolenMotorVehicles2.setNumberOfStolenMotorVehicles(2);
-			PropertySegment numberOfRecoveredMotorVehicles2 = new PropertySegment();
-			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment suspectedDrugType2 = new PropertySegment();
-			suspectedDrugType2.setSuspectedDrugType(0, null);
-			PropertySegment estimatedDrugQuantity2 = new PropertySegment();
-			estimatedDrugQuantity2.setEstimatedDrugQuantity(0, null);
-			PropertySegment typeDrugMeasurement2 = new PropertySegment();
-			typeDrugMeasurement2.setTypeDrugMeasurement(0, null);
+			copy2.getOffenses().get(0).setUcrOffenseCode("240");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("3");
 			//4=Destroyed/Damaged/Vandalized
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
-			typeOfPropertyLoss3.setTypeOfPropertyLoss("4");
-			PropertySegment propertyDescription3 = new PropertySegment();
-			propertyDescription3.setPropertyDescription(0, null);
-			PropertySegment valueOfProperty3 = new PropertySegment();
-			valueOfProperty3.setValueOfProperty(0, null);
-			PropertySegment dateRecovered3 = new PropertySegment();
-			dateRecovered3.setDateRecovered(0, null);
-			PropertySegment numberOfStolenMotorVehicles3 = new PropertySegment();
-			numberOfStolenMotorVehicles3.setNumberOfStolenMotorVehicles(2);
-			PropertySegment numberOfRecoveredMotorVehicles3 = new PropertySegment();
-			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment suspectedDrugType3 = new PropertySegment();
-			suspectedDrugType3.setSuspectedDrugType(0, null);
-			PropertySegment estimatedDrugQuantity3 = new PropertySegment();
-			estimatedDrugQuantity3.setEstimatedDrugQuantity(0, null);
-			PropertySegment typeDrugMeasurement3 = new PropertySegment();
-			typeDrugMeasurement3.setTypeDrugMeasurement(0, null);
+			copy3.getOffenses().get(0).setUcrOffenseCode("240");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property3 = new PropertySegment();
+			property3.setTypeOfPropertyLoss("4");
 			//5=Recovered
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
-			typeOfPropertyLoss4.setTypeOfPropertyLoss("5");
-			PropertySegment propertyDescription4 = new PropertySegment();
-			propertyDescription4.setPropertyDescription(0, null);
-			PropertySegment valueOfProperty4 = new PropertySegment();
-			valueOfProperty4.setValueOfProperty(0, null);
-			PropertySegment dateRecovered4 = new PropertySegment();
-			dateRecovered4.setDateRecovered(0, null);
-			PropertySegment numberOfStolenMotorVehicles4 = new PropertySegment();
-			numberOfStolenMotorVehicles4.setNumberOfStolenMotorVehicles(null);
-			PropertySegment numberOfRecoveredMotorVehicles4 = new PropertySegment();
-			numberOfRecoveredMotorVehicles4.setNumberOfRecoveredMotorVehicles(null);
-			PropertySegment suspectedDrugType4 = new PropertySegment();
-			suspectedDrugType4.setSuspectedDrugType(0, null);
-			PropertySegment estimatedDrugQuantity4 = new PropertySegment();
-			estimatedDrugQuantity4.setEstimatedDrugQuantity(0, null);
-			PropertySegment typeDrugMeasurement4 = new PropertySegment();
-			typeDrugMeasurement4.setTypeDrugMeasurement(0, null);
+			copy4.getOffenses().get(0).setUcrOffenseCode("240");
+			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy4.getOffenses().get(0).setLocationType("20");
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property4 = new PropertySegment();
+			property4.setTypeOfPropertyLoss("5");
 			//6=Seized
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss5 = new PropertySegment();
-			typeOfPropertyLoss5.setTypeOfPropertyLoss("5");
-			PropertySegment propertyDescription5 = new PropertySegment();
-			propertyDescription5.setPropertyDescription(0, null);
-			PropertySegment valueOfProperty5 = new PropertySegment();
-			valueOfProperty5.setValueOfProperty(0, null);
-			PropertySegment dateRecovered5 = new PropertySegment();
-			dateRecovered5.setDateRecovered(0, null);
-			PropertySegment numberOfStolenMotorVehicles5 = new PropertySegment();
-			numberOfStolenMotorVehicles5.setNumberOfStolenMotorVehicles(null);
-			PropertySegment numberOfRecoveredMotorVehicles5 = new PropertySegment();
-			numberOfRecoveredMotorVehicles5.setNumberOfRecoveredMotorVehicles(null);
-			PropertySegment suspectedDrugType5 = new PropertySegment();
-			suspectedDrugType5.setSuspectedDrugType(0, null);
-			PropertySegment estimatedDrugQuantity5 = new PropertySegment();
-			estimatedDrugQuantity5.setEstimatedDrugQuantity(0, null);
-			PropertySegment typeDrugMeasurement5 = new PropertySegment();
-			typeDrugMeasurement5.setTypeDrugMeasurement(0, null);
-			//6=Stolen, Etc.
+			copy5.getOffenses().get(0).setUcrOffenseCode("240");
+			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy5.getOffenses().get(0).setLocationType("20");
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property5 = new PropertySegment();
+			property5.setTypeOfPropertyLoss("6");
+			//7=Stolen
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss6 = new PropertySegment();
-			typeOfPropertyLoss6.setTypeOfPropertyLoss("5");
-			PropertySegment propertyDescription6 = new PropertySegment();
-			propertyDescription6.setPropertyDescription(0, null);
-			PropertySegment valueOfProperty6 = new PropertySegment();
-			valueOfProperty6.setValueOfProperty(0, null);
-			PropertySegment dateRecovered6 = new PropertySegment();
-			dateRecovered6.setDateRecovered(0, null);
-			PropertySegment numberOfStolenMotorVehicles6 = new PropertySegment();
-			numberOfStolenMotorVehicles6.setNumberOfStolenMotorVehicles(null);
-			PropertySegment numberOfRecoveredMotorVehicles6 = new PropertySegment();
-			numberOfRecoveredMotorVehicles6.setNumberOfRecoveredMotorVehicles(null);
-			PropertySegment suspectedDrugType6 = new PropertySegment();
-			suspectedDrugType6.setSuspectedDrugType(0, null);
-			PropertySegment estimatedDrugQuantity6 = new PropertySegment();
-			estimatedDrugQuantity6.setEstimatedDrugQuantity(0, null);
-			PropertySegment typeDrugMeasurement6 = new PropertySegment();
-			typeDrugMeasurement6.setTypeDrugMeasurement(0, null);
-			
+			copy6.getOffenses().get(0).setUcrOffenseCode("240");
+			copy6.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy6.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy6.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy6.getOffenses().get(0).setLocationType("20");
+			copy6.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy6.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property6 = new PropertySegment();
+			property.setTypeOfPropertyLoss("7");
 			
 			
 			
@@ -2305,6 +2250,13 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
+			copy.addProperty(property);
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
+			copy4.addProperty(property4);
+			copy5.addProperty(property5);
+			copy6.addProperty(property6);
+					
 			
 			return incidents;
 		});
