@@ -1621,72 +1621,94 @@ public class RuleViolationExemplarFactory {
 			//Date is later than tape submission
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment typeOfPropertyLoss = new PropertySegment();
-			typeOfPropertyLoss.setTypeOfPropertyLoss("05");
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "03");
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0, 000000500);
-			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
-			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment dateRecovered = new PropertySegment();
-			dateRecovered.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			//Date Recovered is earlier than incident
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss2 = new PropertySegment();
-			typeOfPropertyLoss2.setTypeOfPropertyLoss("05");
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, "03");
-			PropertySegment valueOfProperty2 = new PropertySegment();
-			valueOfProperty2.setValueOfProperty(0, 000000500);
-			PropertySegment numberOfRecoveredMotorVehicles2 = new PropertySegment();
-			numberOfRecoveredMotorVehicles2.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment dateRecovered2 = new PropertySegment();
-			dateRecovered2.setDateRecovered(0, (Date.from(LocalDate.of(2015, 4, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
-			//Invalid Date Recovered Month
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss3 = new PropertySegment();
-			typeOfPropertyLoss3.setTypeOfPropertyLoss("05");
-			PropertySegment propertyDescription3 = new PropertySegment();
-			propertyDescription3.setPropertyDescription(0, "03");
-			PropertySegment valueOfProperty3 = new PropertySegment();
-			valueOfProperty3.setValueOfProperty(0, 000000500);
-			PropertySegment numberOfRecoveredMotorVehicles3 = new PropertySegment();
-			numberOfRecoveredMotorVehicles3.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment dateRecovered3 = new PropertySegment();
-			dateRecovered3.setDateRecovered(0, (Date.from(LocalDate.of(2015, 13, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
-			//Invalid Date Recovered Days for month of May
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss4 = new PropertySegment();
-			typeOfPropertyLoss4.setTypeOfPropertyLoss("05");
-			PropertySegment propertyDescription4 = new PropertySegment();
-			propertyDescription4.setPropertyDescription(0, "03");
-			PropertySegment valueOfProperty4 = new PropertySegment();
-			valueOfProperty4.setValueOfProperty(0, 000000500);
-			PropertySegment numberOfRecoveredMotorVehicles4 = new PropertySegment();
-			numberOfRecoveredMotorVehicles4.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment dateRecovered4 = new PropertySegment();
-			dateRecovered4.setDateRecovered(0, (Date.from(LocalDate.of(2015, 5, 32).atStartOfDay(ZoneId.systemDefault()).toInstant())));
-			//Year Does not include century
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			PropertySegment typeOfPropertyLoss5 = new PropertySegment();
-			typeOfPropertyLoss5.setTypeOfPropertyLoss("05");
-			PropertySegment propertyDescription5 = new PropertySegment();
-			propertyDescription5.setPropertyDescription(0, "03");
-			PropertySegment valueOfProperty5 = new PropertySegment();
-			valueOfProperty5.setValueOfProperty(0, 000000500);
-			PropertySegment numberOfRecoveredMotorVehicles5 = new PropertySegment();
-			numberOfRecoveredMotorVehicles5.setNumberOfRecoveredMotorVehicles(1);
-			PropertySegment dateRecovered5 = new PropertySegment();
-			dateRecovered5.setDateRecovered(0, (Date.from(LocalDate.of(15, 5, 13).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("5");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000010000);
+			property.setNumberOfRecoveredMotorVehicles(1);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2017, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			//Date is earlier than incident
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("240");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("5");
+			property2.setPropertyDescription(0, "03");
+			property2.setValueOfProperty(0, 000010000);
+			property2.setNumberOfRecoveredMotorVehicles(1);
+			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(2015, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			//Invalid Year
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getOffenses().get(0).setUcrOffenseCode("240");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property3 = new PropertySegment();
+			property3.setTypeOfPropertyLoss("5");
+			property3.setPropertyDescription(0, "03");
+			property3.setValueOfProperty(0, 000010000);
+			property3.setNumberOfRecoveredMotorVehicles(1);
+			property3.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			//Invalid Month
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4.getOffenses().get(0).setUcrOffenseCode("240");
+			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy4.getOffenses().get(0).setLocationType("20");
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property4 = new PropertySegment();
+			property4.setTypeOfPropertyLoss("5");
+			property4.setPropertyDescription(0, "03");
+			property4.setValueOfProperty(0, 000010000);
+			property4.setNumberOfRecoveredMotorVehicles(1);
+			property4.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 13, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			//Invalid days in month
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			copy5.getOffenses().get(0).setUcrOffenseCode("240");
+			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy5.getOffenses().get(0).setLocationType("20");
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property5 = new PropertySegment();
+			property5.setTypeOfPropertyLoss("5");
+			property5.setPropertyDescription(0, "03");
+			property5.setValueOfProperty(0, 000010000);
+			property5.setNumberOfRecoveredMotorVehicles(1);
+			property5.setDateRecovered(0, (Date.from(LocalDateTime.of(2017, 5, 32, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
-					
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
+			copy.addProperty(property);
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
+			copy4.addProperty(property4);
+			copy5.addProperty(property5);
+			
+			
 			
 			return incidents;
 		});
