@@ -2056,18 +2056,23 @@ public class RuleViolationExemplarFactory {
 			//contain a data value other than 00=Unknown:
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "01");
-			PropertySegment numberOfStolenMotorVehicles = new PropertySegment();
-			numberOfStolenMotorVehicles.setNumberOfStolenMotorVehicles(2);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, "01");
-			PropertySegment numberOfRecoveredMotorVehicles = new PropertySegment();
-			numberOfRecoveredMotorVehicles.setNumberOfRecoveredMotorVehicles(2);
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("2");
+			property.setPropertyDescription(0, "01");
+			property.setValueOfProperty(0, 10000);
+			
 			incidents.add(copy);
-			incidents.add(copy2);
+			copy.addProperty(property);
+		
 			return incidents;
+			
 		});
 		
 		groupATweakerMap.put(360, incident -> {
