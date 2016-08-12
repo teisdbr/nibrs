@@ -327,9 +327,7 @@ public class RuleViolationExemplarFactory {
 			//Data Element 9
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
 			copy9.getOffenses().get(0).setLocationType(null);
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			
+						
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -339,7 +337,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy7);
 			incidents.add(copy8);
 			incidents.add(copy9);
-			incidents.add(copy10);
+			
 						
 			return incidents;
 		});
@@ -4382,37 +4380,81 @@ public class RuleViolationExemplarFactory {
 			//66=Identity�Intangible
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription = new PropertySegment();
-			propertyDescription.setPropertyDescription(0, "09");
-			PropertySegment valueOfProperty = new PropertySegment();
-			valueOfProperty.setValueOfProperty(0,000000500);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, "09");
+			property.setValueOfProperty(0, 000010000);
+			//
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription2 = new PropertySegment();
-			propertyDescription2.setPropertyDescription(0, "22");
-			PropertySegment valueOfProperty2 = new PropertySegment();
-			valueOfProperty2.setValueOfProperty(0,000000500);
+			copy2.getOffenses().get(0).setUcrOffenseCode("220");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("7");
+			property2.setPropertyDescription(0, "22");
+			property2.setValueOfProperty(0, 000010000);
+			//
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription3 = new PropertySegment();
-			propertyDescription3.setPropertyDescription(0, "48");
-			PropertySegment valueOfProperty3 = new PropertySegment();
-			valueOfProperty3.setValueOfProperty(0,000000500);
+			copy3.getOffenses().get(0).setUcrOffenseCode("220");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property3 = new PropertySegment();
+			property3.setTypeOfPropertyLoss("7");
+			property3.setPropertyDescription(0, "48");
+			property3.setValueOfProperty(0, 000010000);
+			//
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription4 = new PropertySegment();
-			propertyDescription4.setPropertyDescription(0, "65");
-			PropertySegment valueOfProperty4 = new PropertySegment();
-			valueOfProperty4.setValueOfProperty(0,000000500);
+			copy4.getOffenses().get(0).setUcrOffenseCode("220");
+			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy4.getOffenses().get(0).setLocationType("20");
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property4 = new PropertySegment();
+			property4.setTypeOfPropertyLoss("7");
+			property4.setPropertyDescription(0, "65");
+			property4.setValueOfProperty(0, 000010000);
+			//
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			PropertySegment propertyDescription5 = new PropertySegment();
-			propertyDescription5.setPropertyDescription(0, "66");
-			PropertySegment valueOfProperty5 = new PropertySegment();
-			valueOfProperty5.setValueOfProperty(0,000000500);
-			
+			copy5.getOffenses().get(0).setUcrOffenseCode("220");
+			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy5.getOffenses().get(0).setLocationType("20");
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property5 = new PropertySegment();
+			property5.setTypeOfPropertyLoss("7");
+			property5.setPropertyDescription(0, "65");
+			property5.setValueOfProperty(0, 000010000);
+						
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
 			incidents.add(copy5);
-			
+			copy.addProperty(property);
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
+			copy4.addProperty(property4);
+			copy5.addProperty(property5);
+						
 			return incidents;
 		});
 		
