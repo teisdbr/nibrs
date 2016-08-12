@@ -2901,170 +2901,358 @@ public class RuleViolationExemplarFactory {
 			property34.setTypeOfPropertyLoss("7");
 			property34.setPropertyDescription(0, "28");
 			property34.setValueOfProperty(0, 000010000);
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			//Structures - Single Occupancy Dwelling
-			GroupAIncidentReport copy33 = new GroupAIncidentReport(incident);
-			OffenseSegment offense33 = new OffenseSegment();
-			offense33.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription33 = new PropertySegment();
-			propertyDescription33.setPropertyDescription(0, "29");
-			GroupAIncidentReport copy34 = new GroupAIncidentReport(incident);
-			OffenseSegment offense34 = new OffenseSegment();
-			offense34.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription34 = new PropertySegment();
-			propertyDescription34.setPropertyDescription(0, "29");
-			//Structures - Other Dwellings
 			GroupAIncidentReport copy35 = new GroupAIncidentReport(incident);
-			OffenseSegment offense35 = new OffenseSegment();
-			offense35.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription35 = new PropertySegment();
-			propertyDescription35.setPropertyDescription(0, "30");
-			GroupAIncidentReport copy36 = new GroupAIncidentReport(incident);
-			OffenseSegment offense36 = new OffenseSegment();
-			offense36.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription36 = new PropertySegment();
-			propertyDescription36.setPropertyDescription(0, "30");
-			//Structures - Commercial Business
+			copy35.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy35.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy35.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy35.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy35.getOffenses().get(0).setLocationType("20");
+			copy35.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy35.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property35 = new PropertySegment();
+			property35.setTypeOfPropertyLoss("7");
+			property35.setPropertyDescription(0, "29");
+			property35.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy36 = new GroupAIncidentReport(incident);			
+			copy36.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy36.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy36.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy36.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy36.getOffenses().get(0).setLocationType("20");
+			copy36.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy36.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property36= new PropertySegment();
+			property36.setTypeOfPropertyLoss("7");
+			property36.setPropertyDescription(0, "29");
+			property36.setValueOfProperty(0, 000010000);
+			//Structures - Other Dwellings
 			GroupAIncidentReport copy37 = new GroupAIncidentReport(incident);
-			OffenseSegment offense37 = new OffenseSegment();
-			offense37.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription37 = new PropertySegment();
-			propertyDescription37.setPropertyDescription(0, "31");
-			GroupAIncidentReport copy38 = new GroupAIncidentReport(incident);
-			OffenseSegment offense38 = new OffenseSegment();
-			offense38.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription38 = new PropertySegment();
-			propertyDescription38.setPropertyDescription(0, "31");
-			//Structures - Industrial/Manufacturing
+			copy37.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy37.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy37.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy37.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy37.getOffenses().get(0).setLocationType("20");
+			copy37.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy37.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property37 = new PropertySegment();
+			property37.setTypeOfPropertyLoss("7");
+			property37.setPropertyDescription(0, "30");
+			property37.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy38 = new GroupAIncidentReport(incident);			
+			copy38.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy38.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy38.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy38.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy38.getOffenses().get(0).setLocationType("20");
+			copy38.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy38.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property38= new PropertySegment();
+			property38.setTypeOfPropertyLoss("7");
+			property38.setPropertyDescription(0, "30");
+			property38.setValueOfProperty(0, 000010000);
+			//Structures - Commercial Business
 			GroupAIncidentReport copy39 = new GroupAIncidentReport(incident);
-			OffenseSegment offense39 = new OffenseSegment();
-			offense39.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription39 = new PropertySegment();
-			propertyDescription39.setPropertyDescription(0, "32");
-			GroupAIncidentReport copy40 = new GroupAIncidentReport(incident);
-			OffenseSegment offense40 = new OffenseSegment();
-			offense40.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription40 = new PropertySegment();
-			propertyDescription40.setPropertyDescription(0, "32");
-			//Structures - Public/Community
+			copy39.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy39.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy39.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy39.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy39.getOffenses().get(0).setLocationType("20");
+			copy39.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy39.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property39 = new PropertySegment();
+			property39.setTypeOfPropertyLoss("7");
+			property39.setPropertyDescription(0, "31");
+			property39.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy40 = new GroupAIncidentReport(incident);			
+			copy40.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy40.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy40.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy40.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy40.getOffenses().get(0).setLocationType("20");
+			copy40.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy40.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property40= new PropertySegment();
+			property40.setTypeOfPropertyLoss("7");
+			property40.setPropertyDescription(0, "31");
+			property40.setValueOfProperty(0, 000010000);
+			//Structures - Industrial/Manufacturing
 			GroupAIncidentReport copy41 = new GroupAIncidentReport(incident);
-			OffenseSegment offense41 = new OffenseSegment();
-			offense41.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription41 = new PropertySegment();
-			propertyDescription41.setPropertyDescription(0, "33");
-			GroupAIncidentReport copy42 = new GroupAIncidentReport(incident);
-			OffenseSegment offense42 = new OffenseSegment();
-			offense42.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription42 = new PropertySegment();
-			propertyDescription42.setPropertyDescription(0, "33");
-			//Structures - Storage
+			copy41.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy41.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy41.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy41.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy41.getOffenses().get(0).setLocationType("20");
+			copy41.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy41.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property41 = new PropertySegment();
+			property41.setTypeOfPropertyLoss("7");
+			property41.setPropertyDescription(0, "32");
+			property41.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy42 = new GroupAIncidentReport(incident);			
+			copy42.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy42.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy42.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy42.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy42.getOffenses().get(0).setLocationType("20");
+			copy42.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy42.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property42= new PropertySegment();
+			property42.setTypeOfPropertyLoss("7");
+			property42.setPropertyDescription(0, "32");
+			property42.setValueOfProperty(0, 000010000);
+			//Structures - Public/Community
 			GroupAIncidentReport copy43 = new GroupAIncidentReport(incident);
-			OffenseSegment offense43 = new OffenseSegment();
-			offense43.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription43 = new PropertySegment();
-			propertyDescription43.setPropertyDescription(0, "34");
-			GroupAIncidentReport copy44 = new GroupAIncidentReport(incident);
-			OffenseSegment offense44 = new OffenseSegment();
-			offense44.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription44 = new PropertySegment();
-			propertyDescription44.setPropertyDescription(0, "34");
-			//Structures - Other
+			copy43.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy43.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy43.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy43.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy43.getOffenses().get(0).setLocationType("20");
+			copy43.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy43.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property43 = new PropertySegment();
+			property43.setTypeOfPropertyLoss("7");
+			property43.setPropertyDescription(0, "33");
+			property43.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy44 = new GroupAIncidentReport(incident);			
+			copy44.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy44.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy44.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy44.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy44.getOffenses().get(0).setLocationType("20");
+			copy44.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy44.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property44= new PropertySegment();
+			property44.setTypeOfPropertyLoss("7");
+			property44.setPropertyDescription(0, "33");
+			property44.setValueOfProperty(0, 000010000);
+			//Structures - Storage
 			GroupAIncidentReport copy45 = new GroupAIncidentReport(incident);
-			OffenseSegment offense45 = new OffenseSegment();
-			offense45.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription45 = new PropertySegment();
-			propertyDescription45.setPropertyDescription(0, "35");
-			GroupAIncidentReport copy46 = new GroupAIncidentReport(incident);
-			OffenseSegment offense46 = new OffenseSegment();
-			offense46.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription46 = new PropertySegment();
-			propertyDescription46.setPropertyDescription(0, "35");
-			//Trucks
+			copy45.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy45.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy45.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy45.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy45.getOffenses().get(0).setLocationType("20");
+			copy45.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy45.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property45 = new PropertySegment();
+			property45.setTypeOfPropertyLoss("7");
+			property45.setPropertyDescription(0, "34");
+			property45.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy46 = new GroupAIncidentReport(incident);			
+			copy46.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy46.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy46.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy46.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy46.getOffenses().get(0).setLocationType("20");
+			copy46.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy46.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property46= new PropertySegment();
+			property46.setTypeOfPropertyLoss("7");
+			property46.setPropertyDescription(0, "34");
+			property46.setValueOfProperty(0, 000010000);
+			//Structures - Other
 			GroupAIncidentReport copy47 = new GroupAIncidentReport(incident);
-			OffenseSegment offense47 = new OffenseSegment();
-			offense47.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription47 = new PropertySegment();
-			propertyDescription47.setPropertyDescription(0, "37");
-			GroupAIncidentReport copy48 = new GroupAIncidentReport(incident);
-			OffenseSegment offense48 = new OffenseSegment();
-			offense48.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription48 = new PropertySegment();
-			propertyDescription48.setPropertyDescription(0, "37");
-			//Watercraft
+			copy47.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy47.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy47.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy47.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy47.getOffenses().get(0).setLocationType("20");
+			copy47.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy47.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property47 = new PropertySegment();
+			property47.setTypeOfPropertyLoss("7");
+			property47.setPropertyDescription(0, "35");
+			property47.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy48 = new GroupAIncidentReport(incident);			
+			copy48.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy48.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy48.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy48.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy48.getOffenses().get(0).setLocationType("20");
+			copy48.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy48.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property48= new PropertySegment();
+			property48.setTypeOfPropertyLoss("7");
+			property48.setPropertyDescription(0, "35");
+			property48.setValueOfProperty(0, 000010000);
+			//Trucks
 			GroupAIncidentReport copy49 = new GroupAIncidentReport(incident);
-			OffenseSegment offense49 = new OffenseSegment();
-			offense49.setUcrOffenseCode("23A");
-			PropertySegment propertyDescription49 = new PropertySegment();
-			propertyDescription49.setPropertyDescription(0, "39");
-			GroupAIncidentReport copy50 = new GroupAIncidentReport(incident);
-			OffenseSegment offense50 = new OffenseSegment();
-			offense50.setUcrOffenseCode("23B");
-			PropertySegment propertyDescription50 = new PropertySegment();
-			propertyDescription50.setPropertyDescription(0, "39");
-			//PropertySegment descriptions that cannot be shoplifted due to other UCR definitions 
-			//(aircraft, vehicles, structures, a person�s identity, watercraft, etc.) are illogical with 23C=Shoplifting
+			copy49.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy49.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy49.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy49.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy49.getOffenses().get(0).setLocationType("20");
+			copy49.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy49.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property49 = new PropertySegment();
+			property49.setTypeOfPropertyLoss("7");
+			property49.setPropertyDescription(0, "37");
+			property49.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy50 = new GroupAIncidentReport(incident);			
+			copy50.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy50.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy50.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy50.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy50.getOffenses().get(0).setLocationType("20");
+			copy50.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy50.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property50= new PropertySegment();
+			property50.setTypeOfPropertyLoss("7");
+			property50.setPropertyDescription(0, "37");
+			property50.setValueOfProperty(0, 000010000);
+			//Watercraft
 			GroupAIncidentReport copy51 = new GroupAIncidentReport(incident);
-			OffenseSegment offense51 = new OffenseSegment();
-			offense51.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription51 = new PropertySegment();
-			propertyDescription51.setPropertyDescription(0, "01");
-			//Automobiles
-			GroupAIncidentReport copy52 = new GroupAIncidentReport(incident);
-			OffenseSegment offense52 = new OffenseSegment();
-			offense52.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription52 = new PropertySegment();
-			propertyDescription52.setPropertyDescription(0, "03");
-			//Buses
+			copy51.getOffenses().get(0).setUcrOffenseCode("23A");
+			copy51.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy51.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy51.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy51.getOffenses().get(0).setLocationType("20");
+			copy51.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy51.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property51 = new PropertySegment();
+			property51.setTypeOfPropertyLoss("7");
+			property51.setPropertyDescription(0, "39");
+			property51.setValueOfProperty(0, 000010000);
+			GroupAIncidentReport copy52 = new GroupAIncidentReport(incident);			
+			copy52.getOffenses().get(0).setUcrOffenseCode("23B");
+			copy52.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy52.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy52.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy52.getOffenses().get(0).setLocationType("20");
+			copy52.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy52.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property52= new PropertySegment();
+			property52.setTypeOfPropertyLoss("7");
+			property52.setPropertyDescription(0, "39");
+			property52.setValueOfProperty(0, 000010000);
+			//PropertySegment descriptions that cannot be shoplifted due to other UCR definitions 
+			//(aircraft, vehicles, structures, a persons identity, watercraft, etc.) are 
+			//illogical with 23C=Shoplifting
+			//
+			//Aircraft
 			GroupAIncidentReport copy53 = new GroupAIncidentReport(incident);
-			OffenseSegment offense53 = new OffenseSegment();
-			offense53.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription53 = new PropertySegment();
-			propertyDescription53.setPropertyDescription(0, "05");
-			//Farm Equipment
+			copy53.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy53.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy53.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy53.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy53.getOffenses().get(0).setLocationType("20");
+			copy53.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy53.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property53 = new PropertySegment();
+			property53.setTypeOfPropertyLoss("7");
+			property53.setPropertyDescription(0, "01");
+			property53.setValueOfProperty(0, 000010000);
+			//Automobiles
 			GroupAIncidentReport copy54 = new GroupAIncidentReport(incident);
-			OffenseSegment offense54 = new OffenseSegment();
-			offense54.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription54 = new PropertySegment();
-			propertyDescription54.setPropertyDescription(0, "12");
-			//Heavy Contruction/Industrial Equipment
+			copy54.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy54.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy54.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy54.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy54.getOffenses().get(0).setLocationType("20");
+			copy54.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy54.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property54 = new PropertySegment();
+			property54.setTypeOfPropertyLoss("7");
+			property54.setPropertyDescription(0, "03");
+			property54.setValueOfProperty(0, 000010000);
+			//Buses
 			GroupAIncidentReport copy55 = new GroupAIncidentReport(incident);
-			OffenseSegment offense55 = new OffenseSegment();
-			offense55.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription55 = new PropertySegment();
-			propertyDescription55.setPropertyDescription(0, "15");
-			//Livestock
+			copy55.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy55.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy55.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy55.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy55.getOffenses().get(0).setLocationType("20");
+			copy55.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy55.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property55 = new PropertySegment();
+			property55.setTypeOfPropertyLoss("7");
+			property55.setPropertyDescription(0, "05");
+			property55.setValueOfProperty(0, 000010000);
+			//Farm Equipment
 			GroupAIncidentReport copy56 = new GroupAIncidentReport(incident);
-			OffenseSegment offense56 = new OffenseSegment();
-			offense56.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription56 = new PropertySegment();
-			propertyDescription56.setPropertyDescription(0, "18");
-			//Other Motor Vehicles
+			copy56.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy56.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy56.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy56.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy56.getOffenses().get(0).setLocationType("20");
+			copy56.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy56.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property56 = new PropertySegment();
+			property56.setTypeOfPropertyLoss("7");
+			property56.setPropertyDescription(0, "12");
+			property56.setValueOfProperty(0, 000010000);
+			//Heavy Contruction/Industrial Equipment
 			GroupAIncidentReport copy57 = new GroupAIncidentReport(incident);
-			OffenseSegment offense57 = new OffenseSegment();
-			offense57.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription57 = new PropertySegment();
-			propertyDescription57.setPropertyDescription(0, "24");
-			//Recreational Vehicles
+			copy57.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy57.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy57.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy57.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy57.getOffenses().get(0).setLocationType("20");
+			copy57.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy57.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property57 = new PropertySegment();
+			property57.setTypeOfPropertyLoss("7");
+			property57.setPropertyDescription(0, "15");
+			property57.setValueOfProperty(0, 000010000);
+			//Livestock
 			GroupAIncidentReport copy58 = new GroupAIncidentReport(incident);
-			OffenseSegment offense58 = new OffenseSegment();
-			offense58.setUcrOffenseCode("23C");
-			PropertySegment propertyDescription58 = new PropertySegment();
-			propertyDescription58.setPropertyDescription(0, "28");
+			copy58.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy58.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy58.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy58.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy58.getOffenses().get(0).setLocationType("20");
+			copy58.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy58.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property58 = new PropertySegment();
+			property58.setTypeOfPropertyLoss("7");
+			property58.setPropertyDescription(0, "18");
+			property58.setValueOfProperty(0, 000010000);
+			//Other Motor Vehicles
+			GroupAIncidentReport copy59 = new GroupAIncidentReport(incident);
+			copy59.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy59.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy59.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy59.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy59.getOffenses().get(0).setLocationType("20");
+			copy59.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy59.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property59 = new PropertySegment();
+			property59.setTypeOfPropertyLoss("7");
+			property59.setPropertyDescription(0, "24");
+			property59.setValueOfProperty(0, 000010000);
+			//Recreational Vehicles
+			GroupAIncidentReport copy60 = new GroupAIncidentReport(incident);
+			copy60.getOffenses().get(0).setUcrOffenseCode("23C");
+			copy60.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy60.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy60.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy60.getOffenses().get(0).setLocationType("20");
+			copy60.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy60.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property60 = new PropertySegment();
+			property60.setTypeOfPropertyLoss("7");
+			property60.setPropertyDescription(0, "28");
+			property60.setValueOfProperty(0, 000010000);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			//Structures - Single Occupancy Dwellings
 			GroupAIncidentReport copy59 = new GroupAIncidentReport(incident);
 			OffenseSegment offense59 = new OffenseSegment();
