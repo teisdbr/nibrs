@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.NibrsErrorCode;
 
 
@@ -23,6 +24,35 @@ public class GroupAReportValidator {
 	}
 
 	
+	
+	
+	NIBRSError _201_offenseRequiredField(GroupAIncidentReport groupAIncidentReport,
+			List<NIBRSError> nibrsErrorList){
+		
+		NIBRSError rNibrsError = null;
+		
+		List<OffenseSegment> offenseSegmentList = groupAIncidentReport.getOffenses();
+		
+		for(OffenseSegment offenseSegment : offenseSegmentList){
+		
+			// TODO enum
+			String ucrOffenseCode =  offenseSegment.getUcrOffenseCode();
+			boolean hasUcrOffenseCode = StringUtils.isNotEmpty(ucrOffenseCode);
+
+			// TODO enum
+			String sOffenseAttemptedCompletedCode = offenseSegment.getOffenseAttemptedCompleted();			
+			boolean hasOffenseAttemptedCompleted = StringUtils.isNotEmpty(sOffenseAttemptedCompletedCode);
+						
+			//note: not possible to know which index should be null checked
+			String offenderSuspectedOfUsing = offenseSegment.getOffendersSuspectedOfUsing(-1);
+			
+			boolean hasOffenderSuspsectedOfUsing = StringUtils.isNotEmpty(offenderSuspectedOfUsing);						
+		}
+				
+		return null;
+	}
+	
+	
 	NIBRSError _101_adminMandatoryField(GroupAIncidentReport groupAIncidentReport,
 			List<NIBRSError> nibrsErrorList){
 		
@@ -36,7 +66,12 @@ public class GroupAReportValidator {
 		
 		String clearedExceptionally = groupAIncidentReport.getExceptionalClearanceCode();
 		
+		//TODO change method to return Integer so it can be null checked
+//		int monthOfSubmision = groupAIncidentReport.getMonthOfTape();
 		
+		//TODO change method to return Integer so it can be null checked
+//		int yearOfSubmission = groupAIncidentReport.getYearOfTape();
+						
 		boolean missingOri = StringUtils.isEmpty(ori);
 		
 		boolean missingIncidentNumber = StringUtils.isEmpty(incidentNumber);								
@@ -48,7 +83,7 @@ public class GroupAReportValidator {
 				
 		boolean missingRequiredField = missingOri || missingIncidentNumber 
 				|| missingIncidentDate || missingClearedExceptionallyCode;
-							
+													
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
