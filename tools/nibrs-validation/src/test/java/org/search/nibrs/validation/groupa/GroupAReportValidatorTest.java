@@ -61,7 +61,7 @@ public class GroupAReportValidatorTest {
 			Assert.assertEquals(NibrsErrorCode._201, _201Error.getNibrsErrorCode());						
 		}	
 		
-		Assert.assertEquals(10, nibrsErrorList.size());		
+		Assert.assertEquals(9, nibrsErrorList.size());		
 	}
 
 }

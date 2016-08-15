@@ -50,7 +50,6 @@ public class GroupAReportValidator {
 		boolean hasOffenderSuspsectedOfUsing = false;		
 		boolean hasBiasMotivation = false;
 		boolean hasLocationType = false;				
-		boolean hasCriminalActivityInfo = false;
 		
 		List<OffenseSegment> offenseSegmentList = groupAIncidentReport.getOffenses();
 		
@@ -114,8 +113,7 @@ public class GroupAReportValidator {
 				|| !hasOffenseAttemptedCompleted
 				|| !hasOffenderSuspsectedOfUsing
 				|| !hasBiasMotivation
-				|| !hasLocationType
-				|| !hasCriminalActivityInfo;
+				|| !hasLocationType;
 		
 		if(missingRequiredField){
 			
