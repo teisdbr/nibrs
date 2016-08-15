@@ -1816,7 +1816,13 @@ public class RuleViolationExemplarFactory {
 			property.setValueOfProperty(0, 000000000);
 			property.setNumberOfRecoveredMotorVehicles(1);
 			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 4, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			
+			//**** CANNOT TEST FOR THE FOLLOWING CONDITION ****
+			//The date property is recovered cannot be before the date it is stolen.
+			//The exception to this rule is when recovered property is reported for a pre-NIBRS incident. 
+			//In this case, Segment Level 3 (Property Segment) will contain A=Add, 
+			//but the data value in Data Element 2 (Incident Number) will not match an incident already 
+			//on file in the national UCR database. The segment will be processed, 
+			//but used only for SRS purposes and will not be included in the agency’s NIBRS figures.
 			
 			incidents.add(copy);
 			copy.addProperty(property);
@@ -1882,6 +1888,47 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(352, incident -> {
+			//(Suspected Drug Type) When this error occurs, data were found in one or more of the 
+			//referenced data elements. These data elements must be blank based on other data element 
+			//values that prohibit data being entered in these data elements. 
+			//For example, if Data Element 14 (Type property Loss/Etc.) is 8=Unknown, 
+			//Data Elements 15 through 22 must be blank. 
+			//If it is 1=None and offense is 35A, then Data Elements 15 through 19 and 
+			//21 through 22 must be blank. If it is 1=None and offense is not 35A, 
+			//then Data Elements 15 through 22 must be blank. 
+			//The exception to this rule is when Data Element 6 (UCR Offense Code) is 
+			//35A=Drug/ Narcotic Violations and Data Element 14 (Type Property Loss/Etc.) 
+			//is 1=None; Data Element 20 (Suspected Drug Type) must be entered.
+			//
+			//Data Element 14 (Type property Loss/Etc.) is 8=Unknown, 
+			//Data Elements 15 through 22 must be blank. 
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("8");
+			property.setPropertyDescription(0, null);
+			property.setSuspectedDrugType(1, "A");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "OZ");
+			property.setValueOfProperty(0, null);
+			property.set
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			
+			incidents.add(copy);
+			copy.addProperty(property);
+						
+			return incidents;
+		});
+		
+		
 		groupATweakerMap.put(353, incident -> {
 			//(Value of Property) is 88=Pending Inventory, but Data Element 16 
 			//(Value of Property) is not $1. 
@@ -2406,6 +2453,7 @@ public class RuleViolationExemplarFactory {
 						
 			return incidents;
 		});
+		
 			groupATweakerMap.put(387, incident -> {
 			//(PropertySegment Description) To ensure that 35A-35B Drug/Narcotic Offenses-Drug Equipment 
 			//Violations are properly reported, Data Element 15 (PropertySegment Description) of 11=Drug/Narcotic Equipment 
