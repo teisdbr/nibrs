@@ -108,6 +108,26 @@ public class GroupAReportValidatorTest {
 		Assert.assertEquals(7, nibrsErrorList.size());			
 	}	
 	
+	//TODO enable when passing
+	@Ignore
+	public void _501_propertySegmentRequiredField(){
+		
+		List<GroupAIncidentReport> groupAIncidentList = ruleFactory.getGroupAIncidentsThatViolateRule(501);
+
+		List<NIBRSError> nibrsErrorList = new ArrayList<NIBRSError>();
+		
+		for(GroupAIncidentReport groupAIncidentReport : groupAIncidentList){
+			
+			NIBRSError _501Error = groupAValidator._501_offenderSegmentRequiredField(groupAIncidentReport, 
+					nibrsErrorList);
+							
+			Assert.assertNotNull(_501Error);
+			
+			Assert.assertEquals(NibrsErrorCode._051, _501Error.getNibrsErrorCode());						
+		}	
+		
+		Assert.assertEquals(5, nibrsErrorList.size());			
+	}		
 	
 }
 

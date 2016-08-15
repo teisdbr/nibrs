@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NibrsErrorCode;
@@ -28,6 +29,62 @@ public class GroupAReportValidator {
 		return errorsList;
 	}
 
+	
+	NIBRSError _501_offenderSegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
+			List<NIBRSError> nibrsErrorList){
+		
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		boolean missingMonthOfSubmision = monthOfSubmision == null;
+										
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		
+		boolean missingYearOfSubmission = yearOfSubmission == null;				
+						
+		String sOri = groupAIncidentReport.getOri();
+		
+		boolean missingOri = StringUtils.isEmpty(sOri);
+		
+		String incidentNumber = groupAIncidentReport.getIncidentNumber();
+		
+		boolean missingIncidentNumber = StringUtils.isEmpty(incidentNumber);		
+		
+		boolean missingOffenderSeqNumber = false;
+		
+		List<OffenderSegment> offenderSegmentList = groupAIncidentReport.getOffenders();
+		
+		for(OffenderSegment iOffenderSegment : offenderSegmentList){
+			
+			Integer offenderSeqNumber = iOffenderSegment.getOffenderSequenceNumber();
+			
+			if(offenderSeqNumber == null){
+				
+				missingOffenderSeqNumber = true;
+			}
+		}
+		
+		boolean missingRequiredField = 
+				 missingMonthOfSubmision  
+				|| missingYearOfSubmission
+				|| missingOri
+				|| missingIncidentNumber
+				|| missingOffenderSeqNumber;
+				
+		NIBRSError rNibrsError = null;
+				
+		if(missingRequiredField){
+			
+			rNibrsError = new NIBRSError();			
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._501);			
+			rNibrsError.setSegmentType('5');			
+			rNibrsError.setContext(groupAIncidentReport.getSource());	
+			
+			nibrsErrorList.add(rNibrsError);			
+		}		
+		
+		return rNibrsError;
+	}
+	
 	
 	NIBRSError _401_victimSegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
 			List<NIBRSError> nibrsErrorList){
