@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NibrsErrorCode;
 
 
@@ -27,6 +28,88 @@ public class GroupAReportValidator {
 		return errorsList;
 	}
 
+	
+	NIBRSError _401_victimSegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
+			List<NIBRSError> nibrsErrorList){
+				
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		boolean missingMonthOfSubmision = monthOfSubmision == null;
+										
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		
+		boolean missingYearOfSubmission = yearOfSubmission == null;				
+						
+		String sOri = groupAIncidentReport.getOri();
+		
+		boolean missingOri = StringUtils.isEmpty(sOri);
+		
+		String incidentNumber = groupAIncidentReport.getIncidentNumber();
+		
+		boolean missingIncidentNumber = StringUtils.isEmpty(incidentNumber);			
+		
+		boolean missingUrcOffenseCodeConnection = false;
+		
+		List<VictimSegment> victimSegmentList = groupAIncidentReport.getVictims();
+		
+		boolean missingVictimSequenceNumber = false;
+		
+		boolean missingTypeOfVictim = false;
+		
+		for(VictimSegment iVictimSegment : victimSegmentList){
+			
+			Integer victimSequenceNumber = iVictimSegment.getVictimSequenceNumber();
+			
+			if(victimSequenceNumber == null){
+				
+				missingVictimSequenceNumber = true;
+			}	
+				
+			// depends on declared length of array used by getUcrOffenseCodeConnection(i)
+			for(int i=0; i < 10; i++){
+							
+				String ucrOffenseCodeConnection = iVictimSegment.getUcrOffenseCodeConnection(i);
+				
+				if(StringUtils.isEmpty(ucrOffenseCodeConnection)){
+					
+					missingUrcOffenseCodeConnection = true;
+				}
+				
+			}
+									
+			String typeOfVictim = iVictimSegment.getTypeOfVictim();
+			
+			if(StringUtils.isEmpty(typeOfVictim)){
+				
+				missingTypeOfVictim = true;
+			}
+		}
+		
+		boolean missingRequiredField = 
+				 missingMonthOfSubmision  
+				|| missingYearOfSubmission
+				|| missingOri
+				|| missingIncidentNumber
+				|| missingVictimSequenceNumber 
+				|| missingUrcOffenseCodeConnection
+				|| missingTypeOfVictim;
+				
+		NIBRSError rNibrsError = null;
+				
+		if(missingRequiredField){
+			
+			rNibrsError = new NIBRSError();			
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._401);			
+			rNibrsError.setSegmentType('4');			
+			rNibrsError.setContext(groupAIncidentReport.getSource());	
+			
+			nibrsErrorList.add(rNibrsError);			
+		}		
+		
+		return rNibrsError;
+	}
+	
+	
 	
 	NIBRSError _301_propertySegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
 			List<NIBRSError> nibrsErrorList){
