@@ -22,9 +22,54 @@ public class GroupAReportValidator {
 		
 		_201_offenseRequiredField(groupAIncidentReport, errorsList);
 		
+		_301_propertySegmentRequiredField(groupAIncidentReport, errorsList);
+		
 		return errorsList;
 	}
 
+	
+	NIBRSError _301_propertySegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
+			List<NIBRSError> nibrsErrorList){
+	
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		boolean hasMonthOfSubmision = monthOfSubmision != null;
+										
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		
+		boolean hasYearOfSubmission = yearOfSubmission != null;				
+						
+		String sOri = groupAIncidentReport.getOri();
+		
+		boolean hasOri = StringUtils.isNotEmpty(sOri);
+		
+		String incidentNumber = groupAIncidentReport.getIncidentNumber();
+		
+		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);		
+				
+		boolean missingRequiredField = 
+				!hasMonthOfSubmision
+				|| !hasYearOfSubmission
+				|| !hasOri
+				|| !hasIncidentNumber;
+				
+		NIBRSError rNibrsError = null;
+				
+		if(missingRequiredField){
+			
+			rNibrsError = new NIBRSError();			
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._301);			
+			rNibrsError.setSegmentType('3');			
+			rNibrsError.setContext(groupAIncidentReport.getSource());	
+			
+			nibrsErrorList.add(rNibrsError);			
+		}
+				
+		return rNibrsError;
+	}
+	
+	
+	
 	
 	NIBRSError _201_offenseRequiredField(GroupAIncidentReport groupAIncidentReport,
 			List<NIBRSError> nibrsErrorList){
@@ -36,15 +81,17 @@ public class GroupAReportValidator {
 		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
 		
 		boolean hasMonthOfSubmision = monthOfSubmision != null;
+		
 		boolean hasYearOfSubmission = yearOfSubmission != null;
 				
 		String sOri = groupAIncidentReport.getOri();
+		
 		boolean hasOri = StringUtils.isNotEmpty(sOri);
 		
 		String incidentNumber = groupAIncidentReport.getIncidentNumber();
-		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);
 		
-					
+		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);
+							
 		boolean missingAUcrOffenseCode = false;
 		
 		boolean missingAnOffenderSuspsectedOfUsing = false;		
