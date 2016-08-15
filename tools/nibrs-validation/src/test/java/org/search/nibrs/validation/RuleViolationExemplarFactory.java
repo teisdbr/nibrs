@@ -1915,9 +1915,6 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("8");
 			property.setPropertyDescription(0, null);
-			//property.setSuspectedDrugType(1, "A");
-			//property.setEstimatedDrugQuantity(0, 1.0);
-			//property.setTypeDrugMeasurement(0, "OZ");
 			property.setValueOfProperty(0, null);
 			property.setDateRecovered(0, null);
 			property.setNumberOfStolenMotorVehicles(null);
@@ -1928,50 +1925,77 @@ public class RuleViolationExemplarFactory {
 			
 			//If it is 1=None and offense is 35A, then Data Elements 15 through 19 and 
 			//21 through 22 must be blank.
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("1");
-			property.setPropertyDescription(0, null);
-			property.setValueOfProperty(0, null);
-			property.setDateRecovered(0, null);
-			property.setNumberOfStolenMotorVehicles(null);
-			property.setNumberOfRecoveredMotorVehicles(null);
-			property.setSuspectedDrugType(1, "A");
-			property.setEstimatedDrugQuantity(0, 1.0);
-			property.setTypeDrugMeasurement(0, "OZ");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("1");
+			property2.setPropertyDescription(0, null);
+			property2.setValueOfProperty(0, null);
+			property2.setDateRecovered(0, null);
+			property2.setNumberOfStolenMotorVehicles(null);
+			property2.setNumberOfRecoveredMotorVehicles(null);
+			property2.setSuspectedDrugType(1, "A");
+			property2.setEstimatedDrugQuantity(0, 1.0);
+			property2.setTypeDrugMeasurement(0, "OZ");
 			
 			//If it is 1=None and offense is not 35A, 
 			//then Data Elements 15 through 22 must be blank. 
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("240");
-			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("1");
-			property.setPropertyDescription(0, null);
-			property.setValueOfProperty(0, null);
-			property.setDateRecovered(0, null);
-			property.setNumberOfStolenMotorVehicles(null);
-			property.setNumberOfRecoveredMotorVehicles(null);
-			property.setSuspectedDrugType(1, "A");
-			property.setEstimatedDrugQuantity(0, 1.0);
-			property.setTypeDrugMeasurement(0, "OZ");
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getOffenses().get(0).setUcrOffenseCode("240");
+			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy3.getOffenses().get(0).setLocationType("20");
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property3 = new PropertySegment();
+			property3.setTypeOfPropertyLoss("1");
+			property3.setPropertyDescription(0, null);
+			property3.setValueOfProperty(0, null);
+			property3.setDateRecovered(0, null);
+			property3.setNumberOfStolenMotorVehicles(null);
+			property3.setNumberOfRecoveredMotorVehicles(null);
+			property3.setSuspectedDrugType(1, "A");
+			property3.setEstimatedDrugQuantity(0, 1.0);
+			property3.setTypeDrugMeasurement(0, "OZ");
 			
+			//The exception to this rule is when Data Element 6 (UCR Offense Code) is 
+			//35A=Drug/ Narcotic Violations and Data Element 14 (Type Property Loss/Etc.) 
+			//is 1=None; Data Element 20 (Suspected Drug Type) must be entered.
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy4.getOffenses().get(0).setLocationType("20");
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property4 = new PropertySegment();
+			property4.setTypeOfPropertyLoss("1");
+			property4.setPropertyDescription(0, null);
+			property4.setValueOfProperty(0, null);
+			property4.setDateRecovered(0, null);
+			property4.setNumberOfStolenMotorVehicles(null);
+			property4.setNumberOfRecoveredMotorVehicles(null);
+			property4.setSuspectedDrugType(1, null);
+			property4.setEstimatedDrugQuantity(0, 1.0);
+			property4.setTypeDrugMeasurement(0, "OZ");
 			
 			
 			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
 			copy.addProperty(property);
+			copy.addProperty(property2);
+			copy.addProperty(property3);
+			copy.addProperty(property4);
 			
 			return incidents;
 		});
