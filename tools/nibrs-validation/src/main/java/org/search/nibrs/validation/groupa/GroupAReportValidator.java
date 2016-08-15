@@ -7,7 +7,9 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NibrsErrorCode;
 
 
@@ -22,9 +24,192 @@ public class GroupAReportValidator {
 		
 		_201_offenseRequiredField(groupAIncidentReport, errorsList);
 		
+		_301_propertySegmentRequiredField(groupAIncidentReport, errorsList);
+		
 		return errorsList;
 	}
 
+	
+	NIBRSError _501_offenderSegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
+			List<NIBRSError> nibrsErrorList){
+		
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		boolean missingMonthOfSubmision = monthOfSubmision == null;
+										
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		
+		boolean missingYearOfSubmission = yearOfSubmission == null;				
+						
+		String sOri = groupAIncidentReport.getOri();
+		
+		boolean missingOri = StringUtils.isEmpty(sOri);
+		
+		String incidentNumber = groupAIncidentReport.getIncidentNumber();
+		
+		boolean missingIncidentNumber = StringUtils.isEmpty(incidentNumber);		
+		
+		boolean missingOffenderSeqNumber = false;
+		
+		List<OffenderSegment> offenderSegmentList = groupAIncidentReport.getOffenders();
+		
+		for(OffenderSegment iOffenderSegment : offenderSegmentList){
+			
+			Integer offenderSeqNumber = iOffenderSegment.getOffenderSequenceNumber();
+			
+			if(offenderSeqNumber == null){
+				
+				missingOffenderSeqNumber = true;
+			}
+		}
+		
+		boolean missingRequiredField = 
+				 missingMonthOfSubmision  
+				|| missingYearOfSubmission
+				|| missingOri
+				|| missingIncidentNumber
+				|| missingOffenderSeqNumber;
+				
+		NIBRSError rNibrsError = null;
+				
+		if(missingRequiredField){
+			
+			rNibrsError = new NIBRSError();			
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._501);			
+			rNibrsError.setSegmentType('5');			
+			rNibrsError.setContext(groupAIncidentReport.getSource());	
+			
+			nibrsErrorList.add(rNibrsError);			
+		}		
+		
+		return rNibrsError;
+	}
+	
+	
+	NIBRSError _401_victimSegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
+			List<NIBRSError> nibrsErrorList){
+				
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		boolean missingMonthOfSubmision = monthOfSubmision == null;
+										
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		
+		boolean missingYearOfSubmission = yearOfSubmission == null;				
+						
+		String sOri = groupAIncidentReport.getOri();
+		
+		boolean missingOri = StringUtils.isEmpty(sOri);
+		
+		String incidentNumber = groupAIncidentReport.getIncidentNumber();
+		
+		boolean missingIncidentNumber = StringUtils.isEmpty(incidentNumber);			
+		
+		boolean missingUrcOffenseCodeConnection = false;
+		
+		List<VictimSegment> victimSegmentList = groupAIncidentReport.getVictims();
+		
+		boolean missingVictimSequenceNumber = false;
+		
+		boolean missingTypeOfVictim = false;
+		
+		for(VictimSegment iVictimSegment : victimSegmentList){
+			
+			Integer victimSequenceNumber = iVictimSegment.getVictimSequenceNumber();
+			
+			if(victimSequenceNumber == null){
+				
+				missingVictimSequenceNumber = true;
+			}	
+				
+			// depends on declared length of array used by getUcrOffenseCodeConnection(i)
+			for(int i=0; i < 10; i++){
+							
+				String ucrOffenseCodeConnection = iVictimSegment.getUcrOffenseCodeConnection(i);
+				
+				if(StringUtils.isEmpty(ucrOffenseCodeConnection)){
+					
+					missingUrcOffenseCodeConnection = true;
+				}
+				
+			}
+									
+			String typeOfVictim = iVictimSegment.getTypeOfVictim();
+			
+			if(StringUtils.isEmpty(typeOfVictim)){
+				
+				missingTypeOfVictim = true;
+			}
+		}
+		
+		boolean missingRequiredField = 
+				 missingMonthOfSubmision  
+				|| missingYearOfSubmission
+				|| missingOri
+				|| missingIncidentNumber
+				|| missingVictimSequenceNumber 
+				|| missingUrcOffenseCodeConnection
+				|| missingTypeOfVictim;
+				
+		NIBRSError rNibrsError = null;
+				
+		if(missingRequiredField){
+			
+			rNibrsError = new NIBRSError();			
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._401);			
+			rNibrsError.setSegmentType('4');			
+			rNibrsError.setContext(groupAIncidentReport.getSource());	
+			
+			nibrsErrorList.add(rNibrsError);			
+		}		
+		
+		return rNibrsError;
+	}
+	
+	
+	
+	NIBRSError _301_propertySegmentRequiredField(GroupAIncidentReport groupAIncidentReport,
+			List<NIBRSError> nibrsErrorList){
+	
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		boolean hasMonthOfSubmision = monthOfSubmision != null;
+										
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		
+		boolean hasYearOfSubmission = yearOfSubmission != null;				
+						
+		String sOri = groupAIncidentReport.getOri();
+		
+		boolean hasOri = StringUtils.isNotEmpty(sOri);
+		
+		String incidentNumber = groupAIncidentReport.getIncidentNumber();
+		
+		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);		
+				
+		boolean missingRequiredField = 
+				!hasMonthOfSubmision
+				|| !hasYearOfSubmission
+				|| !hasOri
+				|| !hasIncidentNumber;
+				
+		NIBRSError rNibrsError = null;
+				
+		if(missingRequiredField){
+			
+			rNibrsError = new NIBRSError();			
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._301);			
+			rNibrsError.setSegmentType('3');			
+			rNibrsError.setContext(groupAIncidentReport.getSource());	
+			
+			nibrsErrorList.add(rNibrsError);			
+		}
+				
+		return rNibrsError;
+	}
+	
+	
+	
 	
 	NIBRSError _201_offenseRequiredField(GroupAIncidentReport groupAIncidentReport,
 			List<NIBRSError> nibrsErrorList){
@@ -36,15 +221,17 @@ public class GroupAReportValidator {
 		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
 		
 		boolean hasMonthOfSubmision = monthOfSubmision != null;
+		
 		boolean hasYearOfSubmission = yearOfSubmission != null;
 				
 		String sOri = groupAIncidentReport.getOri();
+		
 		boolean hasOri = StringUtils.isNotEmpty(sOri);
 		
 		String incidentNumber = groupAIncidentReport.getIncidentNumber();
-		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);
 		
-					
+		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);
+							
 		boolean missingAUcrOffenseCode = false;
 		
 		boolean missingAnOffenderSuspsectedOfUsing = false;		
