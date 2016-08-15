@@ -35,56 +35,65 @@ public class GroupAReportValidator {
 		
 		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
 		
-		boolean hasmonthOfSubmision = monthOfSubmision != null;
-		boolean hasyearOfSubmission = yearOfSubmission != null;
-		
-		
+		boolean hasMonthOfSubmision = monthOfSubmision != null;
+		boolean hasYearOfSubmission = yearOfSubmission != null;
+				
 		String sOri = groupAIncidentReport.getOri();
 		boolean hasOri = StringUtils.isNotEmpty(sOri);
 		
 		String incidentNumber = groupAIncidentReport.getIncidentNumber();
 		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);
 		
-		boolean hasUcrOffenseCode = false;		
-		boolean hasOffenseAttemptedCompleted = false;
-		boolean hasOffenderSuspsectedOfUsing = false;		
-		boolean hasBiasMotivation = false;
-		boolean hasLocationType = false;				
+					
+		boolean missingAUcrOffenseCode = false;
+		
+		boolean missingAnOffenderSuspsectedOfUsing = false;		
+		
+		boolean missingABiasMotivation = false;
+		
+		boolean missingALocationType = false;				
+				
+		boolean missingAnOffenseAttemptedCompleted = false;
 		
 		List<OffenseSegment> offenseSegmentList = groupAIncidentReport.getOffenses();
-		
-		for(OffenseSegment offenseSegment : offenseSegmentList){
-		
-			String ucrOffenseCode =  offenseSegment.getUcrOffenseCode();
-			hasUcrOffenseCode = StringUtils.isNotEmpty(ucrOffenseCode);
-
-			String sOffenseAttemptedCompletedCode = offenseSegment.getOffenseAttemptedCompleted();			
-			hasOffenseAttemptedCompleted = StringUtils.isNotEmpty(sOffenseAttemptedCompletedCode);
 								
-			hasOffenderSuspsectedOfUsing = false;
+		for(OffenseSegment offenseSegment : offenseSegmentList){
+					
+			String sUcrOffneseCode = offenseSegment.getUcrOffenseCode();
 			
+			if(StringUtils.isEmpty(sUcrOffneseCode)){
+				
+				missingAUcrOffenseCode = true;
+			}
+				
+			String sOffenseAttemptedCompletedCode = offenseSegment.getOffenseAttemptedCompleted();
+			
+			if(StringUtils.isEmpty(sOffenseAttemptedCompletedCode)){
+			
+				missingAnOffenseAttemptedCompleted = true;
+			}
+														
 			// 3 depends on knowing size of array used by getOffendersSuspectedOfUsing(i)
 			for(int i=0; i < 3; i++){
 			
 				String iOffenderSuspectedOfUsing = offenseSegment.getOffendersSuspectedOfUsing(i);	
 				
-				if(StringUtils.isNotEmpty(iOffenderSuspectedOfUsing)){
-					hasOffenderSuspsectedOfUsing = true;
+				if(StringUtils.isEmpty(iOffenderSuspectedOfUsing)){
+					
+					missingAnOffenderSuspsectedOfUsing = true;
 					
 					break;
 				}				
 			}
-						
-			hasBiasMotivation = false;
-			
+									
 			// 5 depends on knowing array declaration length used by offenseSegment.getBiasMotivation(i)
 			for(int i=0; i < 5; i++){
 				
 				String biasMotivation = offenseSegment.getBiasMotivation(i);
 				
-				if(StringUtils.isNotEmpty(biasMotivation)){
+				if(StringUtils.isEmpty(biasMotivation)){
 					
-					hasBiasMotivation = true;
+					missingABiasMotivation = true;
 					
 					break;
 				}
@@ -92,28 +101,23 @@ public class GroupAReportValidator {
 			
 			String locationType = offenseSegment.getLocationType();
 			
-			hasLocationType = StringUtils.isNotEmpty(locationType);		
-			
-			// 3 depends on knowing array declaration length used by offenseSegment.getTypeOfCriminalActivity(i)
-			for(int i=0; i < 3; i++){
-			
-				String crimActivityType = offenseSegment.getTypeOfCriminalActivity(i);
+			if(StringUtils.isEmpty(locationType)){
 				
-				StringUtils.isNotEmpty(crimActivityType);
+				missingALocationType = true;
 			}
-									
+																	
 		}
 		
 		boolean missingRequiredField = 
 				!hasOri 
 				|| !hasIncidentNumber
-				|| !hasmonthOfSubmision
-				|| !hasyearOfSubmission
-				|| !hasUcrOffenseCode
-				|| !hasOffenseAttemptedCompleted
-				|| !hasOffenderSuspsectedOfUsing
-				|| !hasBiasMotivation
-				|| !hasLocationType;
+				|| !hasMonthOfSubmision
+				|| !hasYearOfSubmission
+				|| missingAUcrOffenseCode
+				|| missingAnOffenseAttemptedCompleted
+				|| missingAnOffenderSuspsectedOfUsing
+				|| missingABiasMotivation
+				|| missingALocationType;
 		
 		if(missingRequiredField){
 			
