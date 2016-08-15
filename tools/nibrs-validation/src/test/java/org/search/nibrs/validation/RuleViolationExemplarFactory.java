@@ -1738,7 +1738,7 @@ public class RuleViolationExemplarFactory {
 			property.setValueOfProperty(0, null);
 			property.setValueOfProperty(1, null);
 			property.setValueOfProperty(2, null);
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//There are two exceptions to this rule:
 			//When a data value is entered in both Drug Type 1 and Drug Type 2, but different measurement categories are 
 			//entered in Data Element 22 (Type Drug Measurement); this is allowed. For example, when A=Crack Cocaine
@@ -1764,7 +1764,7 @@ public class RuleViolationExemplarFactory {
 			property2.setTypeDrugMeasurement(1, "OZ");
 			property2.setValueOfProperty(0, null);
 			property2.setValueOfProperty(1, null);
-			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//When the data value is U=Unknown; it can be entered only once.
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.getOffenses().get(0).setUcrOffenseCode("35A");
@@ -1785,7 +1785,7 @@ public class RuleViolationExemplarFactory {
 			property3.setTypeDrugMeasurement(1, "GM");
 			property3.setValueOfProperty(0, null);
 			property3.setValueOfProperty(1, null);
-			property3.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property3.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			
 			
@@ -1799,7 +1799,30 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 			
+		groupATweakerMap.put(320, incident -> {
+			// (Date Recovered) cannot be earlier than the date entered in Data Element 3 (Incident Date)
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("5);
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 000000000);
+			property.setNumberOfRecoveredMotorVehicles(1);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 4, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
+			
+			incidents.add(copy);
+			copy.addProperty(property);
+			
+			return incidents;
+		});
 		
 		groupATweakerMap.put(342, incident -> {
 			//(Value of PropertySegment) When referenced data element contains a value that exceeds an FBI-assigned 
@@ -1925,7 +1948,7 @@ public class RuleViolationExemplarFactory {
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, 000000000);
 			property.setNumberOfStolenMotorVehicles(1);
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			
 			incidents.add(copy);
