@@ -1915,16 +1915,64 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("8");
 			property.setPropertyDescription(0, null);
+			//property.setSuspectedDrugType(1, "A");
+			//property.setEstimatedDrugQuantity(0, 1.0);
+			//property.setTypeDrugMeasurement(0, "OZ");
+			property.setValueOfProperty(0, null);
+			property.setDateRecovered(0, null);
+			property.setNumberOfStolenMotorVehicles(null);
+			property.setNumberOfRecoveredMotorVehicles(null);
+			property.setSuspectedDrugType(0, null);
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, null);
+			
+			//If it is 1=None and offense is 35A, then Data Elements 15 through 19 and 
+			//21 through 22 must be blank.
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("1");
+			property.setPropertyDescription(0, null);
+			property.setValueOfProperty(0, null);
+			property.setDateRecovered(0, null);
+			property.setNumberOfStolenMotorVehicles(null);
+			property.setNumberOfRecoveredMotorVehicles(null);
 			property.setSuspectedDrugType(1, "A");
 			property.setEstimatedDrugQuantity(0, 1.0);
 			property.setTypeDrugMeasurement(0, "OZ");
+			
+			//If it is 1=None and offense is not 35A, 
+			//then Data Elements 15 through 22 must be blank. 
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("240");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("1");
+			property.setPropertyDescription(0, null);
 			property.setValueOfProperty(0, null);
-			property.set
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, null);
+			property.setNumberOfStolenMotorVehicles(null);
+			property.setNumberOfRecoveredMotorVehicles(null);
+			property.setSuspectedDrugType(1, "A");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "OZ");
+			
+			
 			
 			incidents.add(copy);
 			copy.addProperty(property);
-						
+			
 			return incidents;
 		});
 		
