@@ -1889,6 +1889,7 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(352, incident -> {
+			//to-do: many permutations of the 15-22 blank rule.
 			//(Suspected Drug Type) When this error occurs, data were found in one or more of the 
 			//referenced data elements. These data elements must be blank based on other data element 
 			//values that prohibit data being entered in these data elements. 
@@ -4614,11 +4615,32 @@ public class RuleViolationExemplarFactory {
 			copy3.setOri(null);
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
+			copy5.getVictims().get(0).setVictimSequenceNumber(null);
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
+			copy6.getVictims().get(0).setUcrOffenseCodeConnection(0, null);
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
+			copy7.getVictims().get(0).setTypeOfVictim(null);
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
+			copy8.getVictims().get(0).setVictimSequenceNumber(000);
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
+			copy9.getVictims().get(0).setUcrOffenseCodeConnection(0, "999");
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
+			copy10.getVictims().get(0).setTypeOfVictim("Z")
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			
+			
 			
 			return incidents;
 		});
