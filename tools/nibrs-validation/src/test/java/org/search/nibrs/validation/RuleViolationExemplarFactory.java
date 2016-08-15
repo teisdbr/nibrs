@@ -1691,7 +1691,7 @@ public class RuleViolationExemplarFactory {
 			property5.setPropertyDescription(0, "03");
 			property5.setValueOfProperty(0, 000010000);
 			property5.setNumberOfRecoveredMotorVehicles(1);
-			property5.setDateRecovered(0, (Date.from(LocalDateTime.of(2017, 5, 32, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property5.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 32, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			
 			
@@ -2519,7 +2519,7 @@ public class RuleViolationExemplarFactory {
 			property.setEstimatedDrugQuantity(0, 1.0);
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setValueOfProperty(0, 000010000);
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			incidents.add(copy);
 			copy.addProperty(property);
@@ -2548,7 +2548,7 @@ public class RuleViolationExemplarFactory {
 			property.setEstimatedDrugQuantity(0, 1.0);
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setValueOfProperty(0, null);
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//35B with Property Description Drugs/Narcotic
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getOffenses().get(0).setUcrOffenseCode("35B");
@@ -2565,7 +2565,7 @@ public class RuleViolationExemplarFactory {
 			property2.setEstimatedDrugQuantity(0, 1.0);
 			property2.setTypeDrugMeasurement(0, "OZ");
 			property2.setValueOfProperty(0, null);
-			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 					
 			incidents.add(copy);
@@ -2634,7 +2634,7 @@ public class RuleViolationExemplarFactory {
 				property.setPropertyDescription(1, "05");
 				property.setValueOfProperty(1, 000020000);
 				property.setNumberOfRecoveredMotorVehicles(1);
-				property.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+				property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 						
 				incidents.add(copy);
 				copy.addProperty(property);
@@ -4640,11 +4640,47 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy9);
 			incidents.add(copy10);
 			
-			
-			
+				
 			return incidents;
 		});
 
+		groupATweakerMap.put(406, incident -> {
+			//to-do Not sure if another Offense segment is needed
+			//(Victim Connected to UCR Offense Code) The referenced data element in 
+			//error is one that contains multiple data values. When more than one code is 
+			//entered, none can be duplicate codes.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
+			
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		groupATweakerMap.put(501, incident -> {
 			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 5 is mandatory & must be present.
