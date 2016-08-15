@@ -70,7 +70,7 @@ public abstract class AbstractReport {
 	    this.cityIndicator = cityIndicator;
 	}
 
-	public int getMonthOfTape() {
+	public Integer getMonthOfTape() {
 	    return monthOfTape;
 	}
 
@@ -86,7 +86,7 @@ public abstract class AbstractReport {
 	    this.ori = ori;
 	}
 
-	public int getYearOfTape() {
+	public Integer getYearOfTape() {
 	    return yearOfTape;
 	}
 
