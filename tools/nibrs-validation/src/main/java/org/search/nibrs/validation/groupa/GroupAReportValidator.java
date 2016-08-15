@@ -20,36 +20,114 @@ public class GroupAReportValidator {
 		
 		_101_adminMandatoryField(groupAIncidentReport, errorsList);
 		
+		_201_offenseRequiredField(groupAIncidentReport, errorsList);
+		
 		return errorsList;
 	}
 
-	
-	
 	
 	NIBRSError _201_offenseRequiredField(GroupAIncidentReport groupAIncidentReport,
 			List<NIBRSError> nibrsErrorList){
 		
 		NIBRSError rNibrsError = null;
 		
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		
+		boolean hasmonthOfSubmision = monthOfSubmision != null;
+		boolean hasyearOfSubmission = yearOfSubmission != null;
+		
+		
+		String sOri = groupAIncidentReport.getOri();
+		boolean hasOri = StringUtils.isNotEmpty(sOri);
+		
+		String incidentNumber = groupAIncidentReport.getIncidentNumber();
+		boolean hasIncidentNumber = StringUtils.isNotEmpty(incidentNumber);
+		
+		boolean hasUcrOffenseCode = false;		
+		boolean hasOffenseAttemptedCompleted = false;
+		boolean hasOffenderSuspsectedOfUsing = false;		
+		boolean hasBiasMotivation = false;
+		boolean hasLocationType = false;				
+		boolean hasCriminalActivityInfo = false;
+		
 		List<OffenseSegment> offenseSegmentList = groupAIncidentReport.getOffenses();
 		
 		for(OffenseSegment offenseSegment : offenseSegmentList){
 		
-			// TODO enum
 			String ucrOffenseCode =  offenseSegment.getUcrOffenseCode();
-			boolean hasUcrOffenseCode = StringUtils.isNotEmpty(ucrOffenseCode);
+			hasUcrOffenseCode = StringUtils.isNotEmpty(ucrOffenseCode);
 
-			// TODO enum
 			String sOffenseAttemptedCompletedCode = offenseSegment.getOffenseAttemptedCompleted();			
-			boolean hasOffenseAttemptedCompleted = StringUtils.isNotEmpty(sOffenseAttemptedCompletedCode);
-						
-			//note: not possible to know which index should be null checked
-			String offenderSuspectedOfUsing = offenseSegment.getOffendersSuspectedOfUsing(-1);
+			hasOffenseAttemptedCompleted = StringUtils.isNotEmpty(sOffenseAttemptedCompletedCode);
+								
+			hasOffenderSuspsectedOfUsing = false;
 			
-			boolean hasOffenderSuspsectedOfUsing = StringUtils.isNotEmpty(offenderSuspectedOfUsing);						
+			// 3 depends on knowing size of array used by getOffendersSuspectedOfUsing(i)
+			for(int i=0; i < 3; i++){
+			
+				String iOffenderSuspectedOfUsing = offenseSegment.getOffendersSuspectedOfUsing(i);	
+				
+				if(StringUtils.isNotEmpty(iOffenderSuspectedOfUsing)){
+					hasOffenderSuspsectedOfUsing = true;
+					
+					break;
+				}				
+			}
+						
+			hasBiasMotivation = false;
+			
+			// 5 depends on knowing array declaration length used by offenseSegment.getBiasMotivation(i)
+			for(int i=0; i < 5; i++){
+				
+				String biasMotivation = offenseSegment.getBiasMotivation(i);
+				
+				if(StringUtils.isNotEmpty(biasMotivation)){
+					
+					hasBiasMotivation = true;
+					
+					break;
+				}
+			}
+			
+			String locationType = offenseSegment.getLocationType();
+			
+			hasLocationType = StringUtils.isNotEmpty(locationType);		
+			
+			// 3 depends on knowing array declaration length used by offenseSegment.getTypeOfCriminalActivity(i)
+			for(int i=0; i < 3; i++){
+			
+				String crimActivityType = offenseSegment.getTypeOfCriminalActivity(i);
+				
+				StringUtils.isNotEmpty(crimActivityType);
+			}
+									
+		}
+		
+		boolean missingRequiredField = 
+				!hasOri 
+				|| !hasIncidentNumber
+				|| !hasmonthOfSubmision
+				|| !hasyearOfSubmission
+				|| !hasUcrOffenseCode
+				|| !hasOffenseAttemptedCompleted
+				|| !hasOffenderSuspsectedOfUsing
+				|| !hasBiasMotivation
+				|| !hasLocationType
+				|| !hasCriminalActivityInfo;
+		
+		if(missingRequiredField){
+			
+			rNibrsError = new NIBRSError();			
+			rNibrsError.setNibrsErrorCode(NibrsErrorCode._201);			
+			rNibrsError.setSegmentType('2');			
+			rNibrsError.setContext(groupAIncidentReport.getSource());	
+			
+			nibrsErrorList.add(rNibrsError);			
 		}
 				
-		return null;
+		return rNibrsError;
 	}
 	
 	
@@ -66,12 +144,13 @@ public class GroupAReportValidator {
 		
 		String clearedExceptionally = groupAIncidentReport.getExceptionalClearanceCode();
 		
-		//TODO change method to return Integer so it can be null checked
-//		int monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		Date exceptionalClearanceDate = groupAIncidentReport.getExceptionalClearanceDate();
 		
-		//TODO change method to return Integer so it can be null checked
-//		int yearOfSubmission = groupAIncidentReport.getYearOfTape();
+		Integer monthOfSubmision = groupAIncidentReport.getMonthOfTape();
+		
+		Integer yearOfSubmission = groupAIncidentReport.getYearOfTape();
 						
+		
 		boolean missingOri = StringUtils.isEmpty(ori);
 		
 		boolean missingIncidentNumber = StringUtils.isEmpty(incidentNumber);								
@@ -81,8 +160,16 @@ public class GroupAReportValidator {
 		boolean missingClearedExceptionallyCode = 
 				StringUtils.isEmpty(clearedExceptionally);
 				
+		boolean missingMonthOfSubmission = monthOfSubmision == null;
+		
+		boolean missingYearOfSubmission = yearOfSubmission == null;
+		
+		boolean missingExceptionalClearanceDate = exceptionalClearanceDate == null;
+		
 		boolean missingRequiredField = missingOri || missingIncidentNumber 
-				|| missingIncidentDate || missingClearedExceptionallyCode;
+				|| missingIncidentDate || missingClearedExceptionallyCode
+				|| missingMonthOfSubmission || missingYearOfSubmission 
+				|| missingExceptionalClearanceDate;
 													
 		if(missingRequiredField){
 			
