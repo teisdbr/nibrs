@@ -4701,7 +4701,7 @@ public class RuleViolationExemplarFactory {
 			//(Type of Victim) is not S=Society.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode(ucrOffenseCode"720");
+			copy.getOffenses().get(0).setUcrOffenseCode("720");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "720");
 			copy.getVictims().get(0).setTypeOfVictim("B");
 			
@@ -4711,6 +4711,20 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(467, incident -> {
+			//UCR code contains a Crime Against Property, but Data Element 25 
+			//(Type of Victim) is S=Society. This is not an allowable code for Crime Against Property offenses.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "200");
+			copy.getVictims().get(0).setTypeOfVictim("S");
+			
+			incidents.add(copy);
+			
+			return incidents;
+					
+		});
 		
 		
 		
