@@ -4666,8 +4666,22 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 			
-		}
+		});
 		
+		groupATweakerMap.put(461, incident -> {
+			//(Type of Victim) cannot have a value of S=Society/Public when the 
+			//offense is 220=Burglary/Breaking and Entering.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getVictims().get(0).setTypeOfVictim("S");
+			
+			incidents.add(copy);
+			
+			return incidents;
+		
+			
+		}
 		
 		groupATweakerMap.put(478, incident -> {
 		
