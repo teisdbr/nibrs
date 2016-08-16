@@ -4645,15 +4645,22 @@ public class RuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(406, incident -> {
-			//to-do Not sure if another Offense segment is needed
 			//(Victim Connected to UCR Offense Code) The referenced data element in 
 			//error is one that contains multiple data values. When more than one code is 
 			//entered, none can be duplicate codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenseSegment offense = new OffenseSegment();
+			offense.setUcrOffenseCode("120");
+			offense.setOffenseAttemptedCompleted("C");
+			offense.setBiasMotivation(position,"88");
+			offense.setLocationType("20");
+			offense.setNumberOfPremisesEntered(null);
+			offense.setMethodOfEntry("N");
+			offense.setTypeOfWeaponForceInvolved(0, "99");
+			offense.getOffendersSuspectedOfUsing(0, "N");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
-			
-			
+						
 			incidents.add(copy);
 			
 			return incidents;
@@ -4662,7 +4669,7 @@ public class RuleViolationExemplarFactory {
 		}
 		
 		
-		
+		groupATweakerMap.put(478, incident -> {
 		
 		
 		
