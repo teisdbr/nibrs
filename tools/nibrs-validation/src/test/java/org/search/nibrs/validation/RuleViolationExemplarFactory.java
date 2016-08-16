@@ -4644,6 +4644,21 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(404, incident -> {
+			//To-do, waiting on response from Becki
+			//The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			//List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//(Type of Officer Activity/Circumstance)
+			// copy = new GroupAIncidentReport(incident);
+			//copy.getVictims()
+		});
+		
+		
+		
+		
+		
+		
 		groupATweakerMap.put(406, incident -> {
 			//(Victim Connected to UCR Offense Code) The referenced data element in 
 			//error is one that contains multiple data values. When more than one code is 
@@ -4668,6 +4683,60 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		
+		groupATweakerMap.put(454, incident -> {
+			//(Type of Officer Activity/Circumstance), Data Element 25B (Officer Assignment Type), 
+			//Data Element 26 (Age of Victim), Data Element 27 (Sex of Victim), and 
+			//Data Element 28 (Race of Victim) must be entered when 
+			//Data Element 25 (Type of Victim) is L=Law Enforcement Officer.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			//Officer Assignment Type is null
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfOfficerActivityCircumstance(null);
+			copy.getVictims().get(0).setOfficerAssignmentType("K");
+			copy.getVictims().get(0).setTypeOfVictim("L");
+			//Officer Assignment Type is null
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
+			copy2.getVictims().get(0).setOfficerAssignmentType(null);
+			copy2.getVictims().get(0).setTypeOfVictim("L");
+			//Age is null
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
+			copy3.getVictims().get(0).setOfficerAssignmentType("K");
+			copy3.getVictims().get(0).setAgeString(null);
+			copy3.getVictims().get(0).setTypeOfVictim("L");
+			//Sex is null
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
+			copy4.getVictims().get(0).setOfficerAssignmentType("K");
+			copy4.getVictims().get(0).setSex(null);
+			copy4.getVictims().get(0).setTypeOfVictim("L");
+			//Race is null
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			copy5.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
+			copy5.getVictims().get(0).setOfficerAssignmentType("K");
+			copy5.getVictims().get(0).setRace(null);
+			copy5.getVictims().get(0).setTypeOfVictim("L");
+			
+			
+				
+					
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			
+			return incidents;
+			
+			
+		});
+		
+			
+			
+			
+			
 		groupATweakerMap.put(461, incident -> {
 			//(Type of Victim) cannot have a value of S=Society/Public when the 
 			//offense is 220=Burglary/Breaking and Entering.
@@ -4747,10 +4816,7 @@ public class RuleViolationExemplarFactory {
 		
 		
 		
-		groupATweakerMap.put(478, incident -> {
-		
-		
-		
+			
 		
 		
 		
@@ -4809,6 +4875,6 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
-	}
+	
 
-}
+
