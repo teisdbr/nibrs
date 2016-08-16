@@ -4679,10 +4679,22 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy);
 			
 			return incidents;
+					
+		});
 		
+		groupATweakerMap.put(464, incident -> {
+			//UCR Code contains a Crime Against Person, but Data Element 25 
+			//(Type of Victim) is not I=Individual or L=Law Enforcement Officer when Data Element 24 
+			//(Victim Connected to UCR Offense Code) contains a Crime Against Person.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfVictim("B");
 			
-		}
-		
+			incidents.add(copy);
+			
+			return incidents;
+					
+		});
 		groupATweakerMap.put(478, incident -> {
 		
 		
