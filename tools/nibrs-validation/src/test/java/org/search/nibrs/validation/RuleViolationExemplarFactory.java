@@ -1,6 +1,5 @@
 package org.search.nibrs.validation;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -17,9 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.OffenseCode;
-import org.search.nibrs.model.PropertySegment;
 
 /**
  * Class that manages a set of "edits" to baseline incidents. These edits create "exemplars" of NIBRS rules violations that can be used to unit test the validation logic in the precert tool.
@@ -1811,7 +1810,7 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("5);
+			property.setTypeOfPropertyLoss("5");
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, 000000000);
 			property.setNumberOfRecoveredMotorVehicles(1);
@@ -1822,7 +1821,7 @@ public class RuleViolationExemplarFactory {
 			//In this case, Segment Level 3 (Property Segment) will contain A=Add, 
 			//but the data value in Data Element 2 (Incident Number) will not match an incident already 
 			//on file in the national UCR database. The segment will be processed, 
-			//but used only for SRS purposes and will not be included in the agency’s NIBRS figures.
+			//but used only for SRS purposes and will not be included in the agencyï¿½s NIBRS figures.
 			
 			incidents.add(copy);
 			copy.addProperty(property);
@@ -4626,7 +4625,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
 			copy9.getVictims().get(0).setUcrOffenseCodeConnection(0, "999");
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getVictims().get(0).setTypeOfVictim("Z")
+			copy10.getVictims().get(0).setTypeOfVictim("Z");
 			
 			
 			incidents.add(copy);
@@ -4659,7 +4658,7 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 			
-		}
+		});
 		
 		
 		
