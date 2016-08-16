@@ -4726,6 +4726,24 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(482, incident -> {
+			//(Type of Victim) cannot be L=Law Enforcement Officer unless Data Element 24 
+			//(Victim Connected to UCR Offense Code) is one of the following:
+			//      09A=Murder & Non-negligent Manslaughter
+			//		13A=Aggravated Assault
+			//		13B=Simple Assault
+			//		13C=Intimidation
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "200");
+			copy.getVictims().get(0).setTypeOfVictim("L");
+			
+			incidents.add(copy);
+			
+			return incidents;
+					
+		});
 		
 		
 		
