@@ -4695,6 +4695,26 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 					
 		});
+		
+		groupATweakerMap.put(465, incident -> {
+			//UCR Code contains a Crime Against Society, but Data Element 25 
+			//(Type of Victim) is not S=Society.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode(ucrOffenseCode"720");
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "720");
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			
+			incidents.add(copy);
+			
+			return incidents;
+					
+		});
+		
+		
+		
+		
+		
 		groupATweakerMap.put(478, incident -> {
 		
 		
