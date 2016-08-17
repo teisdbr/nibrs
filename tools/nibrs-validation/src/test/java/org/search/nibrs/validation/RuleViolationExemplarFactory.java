@@ -4732,10 +4732,7 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
-			
-			
-			
-			
+		
 		groupATweakerMap.put(461, incident -> {
 			//(Type of Victim) cannot have a value of S=Society/Public when the 
 			//offense is 220=Burglary/Breaking and Entering.
