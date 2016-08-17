@@ -1,6 +1,5 @@
 package org.search.nibrs.validation;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -17,9 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.OffenseCode;
-import org.search.nibrs.model.PropertySegment;
 
 /**
  * Class that manages a set of "edits" to baseline incidents. These edits create "exemplars" of NIBRS rules violations that can be used to unit test the validation logic in the precert tool.
@@ -1811,7 +1810,7 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("5);
+			property.setTypeOfPropertyLoss("5");
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, 000000000);
 			property.setNumberOfRecoveredMotorVehicles(1);
@@ -1822,7 +1821,7 @@ public class RuleViolationExemplarFactory {
 			//In this case, Segment Level 3 (Property Segment) will contain A=Add, 
 			//but the data value in Data Element 2 (Incident Number) will not match an incident already 
 			//on file in the national UCR database. The segment will be processed, 
-			//but used only for SRS purposes and will not be included in the agency’s NIBRS figures.
+			//but used only for SRS purposes and will not be included in the agencyï¿½s NIBRS figures.
 			
 			incidents.add(copy);
 			copy.addProperty(property);
@@ -4626,7 +4625,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
 			copy9.getVictims().get(0).setUcrOffenseCodeConnection(0, "999");
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getVictims().get(0).setTypeOfVictim("Z")
+			copy10.getVictims().get(0).setTypeOfVictim("Z");
 			
 			
 			incidents.add(copy);
@@ -4644,38 +4643,16 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
-		groupATweakerMap.put(404, incident -> {
-			//To-do, waiting on response from Becki
-			//The referenced data element in a Group A Incident Report 
-			//must be populated with a valid data value and cannot be blank.
-			//List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			//(Type of Officer Activity/Circumstance)
-			// copy = new GroupAIncidentReport(incident);
-			//copy.getVictims()
-		});
-		
-		
-		
-		
-		
-		
 		groupATweakerMap.put(406, incident -> {
+			//to-do Not sure if another Offense segment is needed
 			//(Victim Connected to UCR Offense Code) The referenced data element in 
 			//error is one that contains multiple data values. When more than one code is 
 			//entered, none can be duplicate codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment offense = new OffenseSegment();
-			offense.setUcrOffenseCode("120");
-			offense.setOffenseAttemptedCompleted("C");
-			offense.setBiasMotivation(position,"88");
-			offense.setLocationType("20");
-			offense.setNumberOfPremisesEntered(null);
-			offense.setMethodOfEntry("N");
-			offense.setTypeOfWeaponForceInvolved(0, "99");
-			offense.getOffendersSuspectedOfUsing(0, "N");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
-						
+			
+			
 			incidents.add(copy);
 			
 			return incidents;
@@ -4684,139 +4661,10 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		
-		groupATweakerMap.put(454, incident -> {
-			//(Type of Officer Activity/Circumstance), Data Element 25B (Officer Assignment Type), 
-			//Data Element 26 (Age of Victim), Data Element 27 (Sex of Victim), and 
-			//Data Element 28 (Race of Victim) must be entered when 
-			//Data Element 25 (Type of Victim) is L=Law Enforcement Officer.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			//Officer Assignment Type is null
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setTypeOfOfficerActivityCircumstance(null);
-			copy.getVictims().get(0).setOfficerAssignmentType("K");
-			copy.getVictims().get(0).setTypeOfVictim("L");
-			//Officer Assignment Type is null
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
-			copy2.getVictims().get(0).setOfficerAssignmentType(null);
-			copy2.getVictims().get(0).setTypeOfVictim("L");
-			//Age is null
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
-			copy3.getVictims().get(0).setOfficerAssignmentType("K");
-			copy3.getVictims().get(0).setAgeString(null);
-			copy3.getVictims().get(0).setTypeOfVictim("L");
-			//Sex is null
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
-			copy4.getVictims().get(0).setOfficerAssignmentType("K");
-			copy4.getVictims().get(0).setSex(null);
-			copy4.getVictims().get(0).setTypeOfVictim("L");
-			//Race is null
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			copy5.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
-			copy5.getVictims().get(0).setOfficerAssignmentType("K");
-			copy5.getVictims().get(0).setRace(null);
-			copy5.getVictims().get(0).setTypeOfVictim("L");
-			
-			
-				
-					
-			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			
-			return incidents;
-			
-			
-		});
-		
-			
-			
-			
-			
-		groupATweakerMap.put(461, incident -> {
-			//(Type of Victim) cannot have a value of S=Society/Public when the 
-			//offense is 220=Burglary/Breaking and Entering.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("220");
-			copy.getVictims().get(0).setTypeOfVictim("S");
-			
-			incidents.add(copy);
-			
-			return incidents;
-					
-		});
-		
-		groupATweakerMap.put(464, incident -> {
-			//UCR Code contains a Crime Against Person, but Data Element 25 
-			//(Type of Victim) is not I=Individual or L=Law Enforcement Officer when Data Element 24 
-			//(Victim Connected to UCR Offense Code) contains a Crime Against Person.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setTypeOfVictim("B");
-			
-			incidents.add(copy);
-			
-			return incidents;
-					
-		});
-		
-		groupATweakerMap.put(465, incident -> {
-			//UCR Code contains a Crime Against Society, but Data Element 25 
-			//(Type of Victim) is not S=Society.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("720");
-			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "720");
-			copy.getVictims().get(0).setTypeOfVictim("B");
-			
-			incidents.add(copy);
-			
-			return incidents;
-					
-		});
-		
-		groupATweakerMap.put(467, incident -> {
-			//UCR code contains a Crime Against Property, but Data Element 25 
-			//(Type of Victim) is S=Society. This is not an allowable code for Crime Against Property offenses.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("200");
-			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "200");
-			copy.getVictims().get(0).setTypeOfVictim("S");
-			
-			incidents.add(copy);
-			
-			return incidents;
-					
-		});
-		
-		groupATweakerMap.put(482, incident -> {
-			//(Type of Victim) cannot be L=Law Enforcement Officer unless Data Element 24 
-			//(Victim Connected to UCR Offense Code) is one of the following:
-			//      09A=Murder & Non-negligent Manslaughter
-			//		13A=Aggravated Assault
-			//		13B=Simple Assault
-			//		13C=Intimidation
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("200");
-			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "200");
-			copy.getVictims().get(0).setTypeOfVictim("L");
-			
-			incidents.add(copy);
-			
-			return incidents;
-					
-		});
 		
 		
 		
-			
+		
 		
 		
 		
@@ -4875,6 +4723,6 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
-	
+	}
 
-
+}
