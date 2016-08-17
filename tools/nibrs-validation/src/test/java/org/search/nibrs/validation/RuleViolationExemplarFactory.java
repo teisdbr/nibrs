@@ -4719,7 +4719,6 @@ public class RuleViolationExemplarFactory {
 			copy5.getVictims().get(0).setTypeOfVictim("L");
 			
 			
-				
 					
 			incidents.add(copy);
 			incidents.add(copy2);
