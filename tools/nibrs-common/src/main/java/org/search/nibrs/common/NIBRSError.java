@@ -113,7 +113,7 @@ public class NIBRSError {
 	}
 	
 	
-	public NIBRSErrorCode getNibrsErrorCode() {
+	public NIBRSErrorCode getNIBRSErrorCode() {
 		return nibrsErrorCode;
 	}
 

@@ -22,7 +22,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.setIncidentNumber("");
 		NIBRSError e = rule115.apply(report, report.getSource());
 		assertNotNull(e);
-		assertEquals(NIBRSErrorCode._115, e.getNibrsErrorCode());
+		assertEquals(NIBRSErrorCode._115, e.getNIBRSErrorCode());
 		assertEquals('1', e.getSegmentType());
 		assertEquals(report.getIncidentNumber(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
