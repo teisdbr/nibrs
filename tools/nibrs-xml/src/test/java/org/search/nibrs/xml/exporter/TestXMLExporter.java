@@ -276,7 +276,6 @@ public class TestXMLExporter {
 		incident.setMonthOfTape(5);
 		incident.setOri("WA1234567");
 		incident.setReportActionType('I');
-		incident.setAdminSegmentLevel('0');
 		return incident;
 	}
 
@@ -289,7 +288,6 @@ public class TestXMLExporter {
 		incident.setOri("WA123456789");
 		
 		incident.setReportActionType('I');
-		incident.setAdminSegmentLevel('7');
 		
 		ArresteeSegment arrestee = new ArresteeSegment();
 		incident.addArrestee(arrestee);

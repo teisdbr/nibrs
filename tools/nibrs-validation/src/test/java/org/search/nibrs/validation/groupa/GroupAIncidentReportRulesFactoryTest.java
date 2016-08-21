@@ -20,26 +20,26 @@ public class GroupAIncidentReportRulesFactoryTest {
 		Rule<GroupAIncidentReport> rule115 = rulesFactory.getRule115();
 		GroupAIncidentReport report = buildBaseReport();
 		report.setIncidentNumber("");
-		NIBRSError e = rule115.apply(report, report.getSource());
+		NIBRSError e = rule115.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._115, e.getNIBRSErrorCode());
 		assertEquals('1', e.getSegmentType());
 		assertEquals(report.getIncidentNumber(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 		report.setIncidentNumber("A");
-		assertNotNull(rule115.apply(report, report.getSource()));
+		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber("A B         ");
-		assertNotNull(rule115.apply(report, report.getSource()));
+		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber(" AB         ");
-		assertNotNull(rule115.apply(report, report.getSource()));
+		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber("AB         ");
-		assertNotNull(rule115.apply(report, report.getSource()));
+		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber("AB           ");
-		assertNotNull(rule115.apply(report, report.getSource()));
+		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber("AB          ");
-		assertNull(rule115.apply(report, report.getSource()));
+		assertNull(rule115.apply(report));
 		report.setIncidentNumber("ABBBBBBBBBBB");
-		assertNull(rule115.apply(report, report.getSource()));
+		assertNull(rule115.apply(report));
 	}
 
 	@Test

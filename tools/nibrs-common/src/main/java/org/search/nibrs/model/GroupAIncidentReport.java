@@ -34,7 +34,7 @@ public class GroupAIncidentReport extends AbstractReport
 
 	public GroupAIncidentReport()
     {
-		super();
+		super('1');
         removeOffenses();
         removeProperties();
         removeVictims();
@@ -52,9 +52,19 @@ public class GroupAIncidentReport extends AbstractReport
 		this.cargoTheftIndicator = r.cargoTheftIndicator;
 		this.includesLeoka = r.includesLeoka;
 		offenseSegmentList = CopyUtils.copyList(r.offenseSegmentList);
+		setParentReportOnChildSegments(offenseSegmentList);
 		propertySegmentList = CopyUtils.copyList(r.propertySegmentList);
+		setParentReportOnChildSegments(propertySegmentList);
 		victimSegmentList = CopyUtils.copyList(r.victimSegmentList);
+		setParentReportOnChildSegments(victimSegmentList);
 		offenderSegmentList = CopyUtils.copyList(r.offenderSegmentList);
+		setParentReportOnChildSegments(offenderSegmentList);
+	}
+	
+	private final void setParentReportOnChildSegments(List<? extends AbstractSegment> segments) {
+		for (AbstractSegment s : segments) {
+			s.setParentReport(this);
+		}
 	}
 	
 	public OffenderSegment getOffenderForSequenceNumber(Integer sequenceNumber) {

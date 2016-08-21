@@ -35,6 +35,7 @@ public class VictimSegment extends AbstractPersonSegment
         typeOfInjury = new String[5];
         offenderNumberRelated = new Integer[10];
         victimOffenderRelationship = new String[10];
+        segmentType = '4';
     }
     
     public VictimSegment(VictimSegment v) {
@@ -55,7 +56,7 @@ public class VictimSegment extends AbstractPersonSegment
     	typeOfInjury = CopyUtils.copyArray(v.typeOfInjury);
     	offenderNumberRelated = CopyUtils.copyArray(v.offenderNumberRelated);
     	victimOffenderRelationship = CopyUtils.copyArray(v.victimOffenderRelationship);
-    	
+        segmentType = '4';
     }
 
     public String getTypeOfOfficerActivityCircumstance() {
@@ -235,6 +236,11 @@ public class VictimSegment extends AbstractPersonSegment
 				+ typeOfOfficerActivityCircumstance + ", officerAssignmentType=" + officerAssignmentType + ", officerOtherJurisdictionORI=" + officerOtherJurisdictionORI
 				+ ", populatedAggravatedAssaultHomicideCircumstancesCount=" + populatedAggravatedAssaultHomicideCircumstancesCount + ", populatedTypeOfInjuryCount=" + populatedTypeOfInjuryCount
 				+ ", populatedUcrOffenseCodeConnectionCount=" + populatedUcrOffenseCodeConnectionCount + ", populatedOffenderNumberRelatedCount=" + populatedOffenderNumberRelatedCount + "]";
+	}
+
+	@Override
+	protected Object getWithinSegmentIdentifier() {
+		return victimSequenceNumber;
 	}
 
 }

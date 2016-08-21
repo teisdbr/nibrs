@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Representation of an OffenseSegment reported within an Incident in a NIBRS report.
  *  
  */
-public class OffenseSegment
+public class OffenseSegment extends AbstractSegment
 {
 
 	private String ucrOffenseCode;
@@ -26,15 +26,17 @@ public class OffenseSegment
 
     public OffenseSegment()
     {
+    	super();
         offendersSuspectedOfUsing = new String[3];
         typeOfCriminalActivity = new String[3];
         typeOfWeaponForceInvolved = new String[3];
         automaticWeaponIndicator = new String[3];
         biasMotivation = new String[5];
+        segmentType = '2';
     }
     
     public OffenseSegment(OffenseSegment o) {
-    	this();
+    	super(o);
     	this.ucrOffenseCode = o.ucrOffenseCode;
     	this.offenseAttemptedCompleted = o.offenseAttemptedCompleted;
     	this.locationType = o.locationType;
@@ -49,6 +51,7 @@ public class OffenseSegment
     	typeOfWeaponForceInvolved = CopyUtils.copyArray(o.typeOfWeaponForceInvolved);
     	automaticWeaponIndicator = CopyUtils.copyArray(o.automaticWeaponIndicator);
     	biasMotivation = CopyUtils.copyArray(o.biasMotivation);
+        segmentType = '2';
     }
     
     public int getPopulatedOffendersSuspectedOfUsingCount() {
@@ -219,6 +222,11 @@ public class OffenseSegment
 				+ Arrays.toString(automaticWeaponIndicator) + ", biasMotivation=" + Arrays.toString(biasMotivation) + ", populatedBiasMotivationCount=" + populatedBiasMotivationCount
 				+ ", populatedTypeOfWeaponForceInvolvedCount=" + populatedTypeOfWeaponForceInvolvedCount + ", populatedTypeOfCriminalActivityCount=" + populatedTypeOfCriminalActivityCount
 				+ ", populatedOffendersSuspectedOfUsingCount=" + populatedOffendersSuspectedOfUsingCount + "]";
+	}
+
+	@Override
+	protected Object getWithinSegmentIdentifier() {
+		return ucrOffenseCode;
 	}
 
 }

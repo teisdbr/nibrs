@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
  * Abstract class of objects that represent People in NIBRS (offenders, victims, and arrestees).
  *
  */
-public abstract class AbstractPersonSegment {
+public abstract class AbstractPersonSegment extends AbstractSegment {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(AbstractPersonSegment.class);
@@ -18,10 +18,11 @@ public abstract class AbstractPersonSegment {
 	private String ethnicity;
 
 	public AbstractPersonSegment() {
+		super();
 	}
 	
 	public AbstractPersonSegment(AbstractPersonSegment p) {
-		this();
+		super(p);
 		age = p.age ==  null ? null : new NIBRSAge(p.age);
 		sex = p.sex;
 		race = p.race;

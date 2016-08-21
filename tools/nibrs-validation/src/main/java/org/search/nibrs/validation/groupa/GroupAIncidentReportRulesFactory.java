@@ -28,14 +28,11 @@ public class GroupAIncidentReportRulesFactory {
 				subject -> {
 					return subject.getIncidentNumber();
 				},
-				(value, reportSource) -> {
+				(value, target) -> {
 					NIBRSError ret = null;
 					if (value == null || value.length() != 12 || !p.matcher(value).matches()) {
-						ret = new NIBRSError();
-						ret.setContext(reportSource);
+						ret = target.getErrorTemplate();
 						ret.setNibrsErrorCode(NIBRSErrorCode._115);
-						ret.setSegmentType('1');
-						ret.setValue(value);
 					}
 					return ret;
 				});

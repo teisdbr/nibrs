@@ -19,7 +19,7 @@ public class NIBRSError {
 	private String reportUniqueIdentifier;
 	private Object value;
 	private char segmentType;
-	private String withinSegmentIdentifier;	
+	private Object withinSegmentIdentifier;	
 	private NIBRSErrorCode nibrsErrorCode;
 	
 	public NIBRSError() {
@@ -105,11 +105,11 @@ public class NIBRSError {
 	 * return '200' to identify the second of these offense segments.
 	 * @return
 	 */
-	public String getWithinSegmentIdentifier() {
+	public Object getWithinSegmentIdentifier() {
 		return withinSegmentIdentifier;
 	}
-	public void setWithinSegmentIdentifier(String withinSegmentIdentifier) {
-		this.withinSegmentIdentifier = withinSegmentIdentifier;
+	public void setWithinSegmentIdentifier(Object object) {
+		this.withinSegmentIdentifier = object;
 	}
 	
 	

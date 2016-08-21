@@ -20,7 +20,7 @@ public class GroupAIncidentReportValidatorTest {
 	private RuleViolationExemplarFactory exemplarFactory;
 	
 	@Before
-	public void init(){
+	public void init() {
 		validator = new GroupAIncidentReportValidator();
 		exemplarFactory = RuleViolationExemplarFactory.getInstance();
 	}

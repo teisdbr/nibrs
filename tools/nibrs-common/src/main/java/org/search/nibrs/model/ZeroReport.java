@@ -7,6 +7,7 @@ package org.search.nibrs.model;
 public class ZeroReport extends AbstractReport {
 
 	public ZeroReport() {
+        super('0');
 	}
 	
 	public ZeroReport(ZeroReport z) {

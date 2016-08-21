@@ -4,10 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ValidationTarget;
 
 public class StringValueRuleTest {
 	
-	public class TestSubject {
+	public static final class TestSubject implements ValidationTarget {
 		
 		private String valueToTest;
 
@@ -19,6 +20,11 @@ public class StringValueRuleTest {
 			return valueToTest;
 		}
 
+		@Override
+		public NIBRSError getErrorTemplate() {
+			return new NIBRSError();
+		}
+
 	}
 	
 	@Test
@@ -26,10 +32,10 @@ public class StringValueRuleTest {
 		
 		StringValueRule<TestSubject> rule = new StringValueRule<TestSubject>(
 				subject -> {return subject.getValueToTest();},
-				(value, reportSource) -> {return "A".equals(value) ? null : new NIBRSError();});
+				(value, subject) -> {return "A".equals(value) ? null : new NIBRSError();});
 		
-		assertNull(rule.apply(new TestSubject("A"), null));
-		assertNotNull(rule.apply(new TestSubject("B"), null));
+		assertNull(rule.apply(new TestSubject("A")));
+		assertNotNull(rule.apply(new TestSubject("B")));
 		
 	}
 	
@@ -38,10 +44,10 @@ public class StringValueRuleTest {
 		
 		StringValueRule<TestSubject> rule = new StringValueRule<TestSubject>(
 				subject -> {return subject.getValueToTest();},
-				(value, reportSource) -> {return value != null ? null : new NIBRSError();});
+				(value, subject) -> {return value != null ? null : new NIBRSError();});
 		
-		assertNull(rule.apply(new TestSubject("A"), null));
-		assertNotNull(rule.apply(new TestSubject(null), null));
+		assertNull(rule.apply(new TestSubject("A")));
+		assertNotNull(rule.apply(new TestSubject(null)));
 
 		
 	}

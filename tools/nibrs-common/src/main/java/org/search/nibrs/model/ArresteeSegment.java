@@ -48,6 +48,16 @@ public class ArresteeSegment extends AbstractPersonSegment
     }
     
     @Override
+    protected void setParentReport(AbstractReport parentReport) {
+    	super.setParentReport(parentReport);
+    	if (parentReport instanceof GroupBIncidentReport) {
+    		segmentType = '7';
+    	} else {
+    		segmentType = '6';
+    	}
+    }
+    
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
@@ -153,5 +163,10 @@ public class ArresteeSegment extends AbstractPersonSegment
     {
         this.ucrArrestOffenseCode = ucrArrestOffenseCode;
     }
+
+	@Override
+	protected Object getWithinSegmentIdentifier() {
+		return arresteeSequenceNumber;
+	}
 
 }

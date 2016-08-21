@@ -28,7 +28,7 @@ public class GroupAIncidentReportValidator {
 		List<NIBRSError> ret = new ArrayList<NIBRSError>();
 		
 		for (Rule<GroupAIncidentReport> r : incidentReportRules) {
-			NIBRSError e = r.apply(groupAIncidentReport, groupAIncidentReport.getSource());
+			NIBRSError e = r.apply(groupAIncidentReport);
 			if (e != null) {
 				ret.add(e);
 			}

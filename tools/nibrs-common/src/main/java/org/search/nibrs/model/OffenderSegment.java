@@ -12,12 +12,14 @@ public class OffenderSegment extends AbstractPersonSegment
     
     public OffenderSegment() {
     	super();
+    	segmentType = '5';
     }
     
     public OffenderSegment(OffenderSegment o) {
     	super(o);
     	offenderSequenceNumber = o.offenderSequenceNumber;
     	reportedUnknown = o.reportedUnknown;
+    	segmentType = '5';
     }
     
     public boolean getReportedUnknown() {
@@ -53,6 +55,11 @@ public class OffenderSegment extends AbstractPersonSegment
 	@Override
 	public String toString() {
 		return "OffenderSegment [" + super.toString() + ", offenderSequenceNumber=" + offenderSequenceNumber + ", reportedUnknown=" + reportedUnknown + "]";
+	}
+
+	@Override
+	protected Object getWithinSegmentIdentifier() {
+		return offenderSequenceNumber;
 	}
     
 }

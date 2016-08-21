@@ -126,7 +126,6 @@ public class IncidentBuilder {
 	private ZeroReport buildZeroReport(Segment s, List<NIBRSError> errorList) {
 		ZeroReport ret = new ZeroReport();
 		ret.setOri(s.getOri());
-		ret.setAdminSegmentLevel(s.getSegmentLevel());
 		ret.setReportActionType(s.getActionType());
 		int length = s.getSegmentLength();
 		if (length == 43) {
@@ -150,7 +149,6 @@ public class IncidentBuilder {
 		ArresteeSegment arrestee = new ArresteeSegment();
 		String segmentData = s.getData();
 		ret.setOri(s.getOri());
-		ret.setAdminSegmentLevel(s.getSegmentLevel());
 		ret.setReportActionType(s.getActionType());
 		int length = s.getSegmentLength();
 		if (length == 66) {
@@ -200,7 +198,6 @@ public class IncidentBuilder {
 		GroupAIncidentReport newIncident = new GroupAIncidentReport();
 		newIncident.setIncidentNumber(s.getSegmentUniqueIdentifier());
 		newIncident.setOri(s.getOri());
-		newIncident.setAdminSegmentLevel(s.getSegmentLevel());
 		newIncident.setReportActionType(s.getActionType());
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();

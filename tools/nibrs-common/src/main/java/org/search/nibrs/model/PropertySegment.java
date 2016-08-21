@@ -7,7 +7,7 @@ import java.util.Date;
  * Representation of an article of property reported within an Incident in a NIBRS report.
  *
  */
-public class PropertySegment
+public class PropertySegment extends AbstractSegment
 {
     
 	private String typeOfPropertyLoss;
@@ -24,16 +24,18 @@ public class PropertySegment
 
     public PropertySegment()
     {
+    	super();
         propertyDescription = new String[10];
         valueOfProperty = new Integer[10];
         dateRecovered = new Date[10];
         suspectedDrugType = new String[3];
         estimatedDrugQuantity = new Double[3];
         typeDrugMeasurement = new String[3];
+        segmentType = '3';
     }
     
     public PropertySegment(PropertySegment p) {
-    	this();
+    	super(p);
     	typeOfPropertyLoss = p.typeOfPropertyLoss;
     	numberOfRecoveredMotorVehicles = p.numberOfRecoveredMotorVehicles;
     	numberOfStolenMotorVehicles = p.numberOfStolenMotorVehicles;
@@ -45,6 +47,7 @@ public class PropertySegment
     	suspectedDrugType = CopyUtils.copyArray(p.suspectedDrugType);
     	estimatedDrugQuantity = CopyUtils.copyArray(p.estimatedDrugQuantity);
     	typeDrugMeasurement = CopyUtils.copyArray(p.typeDrugMeasurement);
+        segmentType = '3';
     }
     
     public int getPopulatedSuspectedDrugTypeCount() {
@@ -187,6 +190,11 @@ public class PropertySegment
 	@Override
 	public boolean equals(Object obj) {
 		return obj != null && obj.hashCode() == hashCode();
+	}
+
+	@Override
+	protected Object getWithinSegmentIdentifier() {
+		return typeOfPropertyLoss;
 	}
 
 }
