@@ -11,12 +11,36 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NibrsErrorCode;
-
+import org.search.nibrs.validation.rules.Rule;
 
 public class GroupAReportValidator {
-
 	
-	public List<NIBRSError> validate(GroupAIncidentReport groupAIncidentReport){
+	// todo: rename this class to GroupAIncidentReportValidator
+	
+	private List<Rule<GroupAIncidentReport>> incidentReportRules = new ArrayList<>();
+	
+	public GroupAReportValidator() {
+		
+		incidentReportRules = new GroupAIncidentReportRulesFactory().getRulesList();
+		
+	}
+
+	public List<NIBRSError> validate(GroupAIncidentReport groupAIncidentReport) {
+		
+		List<NIBRSError> ret = new ArrayList<NIBRSError>();
+		
+		for (Rule<GroupAIncidentReport> r : incidentReportRules) {
+			NIBRSError e = r.apply(groupAIncidentReport, groupAIncidentReport.getSource());
+			if (e != null) {
+				ret.add(e);
+			}
+		}
+		
+		return ret;
+		
+	}
+	
+	public List<NIBRSError> xvalidate(GroupAIncidentReport groupAIncidentReport){
 				
 		List<NIBRSError> errorsList = new ArrayList<NIBRSError>();
 		
