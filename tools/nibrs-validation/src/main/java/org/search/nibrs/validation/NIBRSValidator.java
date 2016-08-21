@@ -11,7 +11,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.ZeroReport;
-import org.search.nibrs.validation.groupa.GroupAReportValidator;
+import org.search.nibrs.validation.groupa.GroupAIncidentReportValidator;
 import org.search.nibrs.validation.groupb.GroupBReportValidator;
 import org.search.nibrs.validation.zeroreport.ZeroReportValidator;
 
@@ -78,7 +78,7 @@ public class NIBRSValidator {
 			
 			GroupAIncidentReport groupAIncidentReport = (GroupAIncidentReport)report;
 			
-			GroupAReportValidator groupAValidator = new GroupAReportValidator();
+			GroupAIncidentReportValidator groupAValidator = new GroupAIncidentReportValidator();
 			
 			groupAValidator.validate(groupAIncidentReport);			
 			

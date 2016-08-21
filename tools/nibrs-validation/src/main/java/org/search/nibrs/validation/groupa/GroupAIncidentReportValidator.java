@@ -13,13 +13,11 @@ import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NibrsErrorCode;
 import org.search.nibrs.validation.rules.Rule;
 
-public class GroupAReportValidator {
-	
-	// todo: rename this class to GroupAIncidentReportValidator
+public class GroupAIncidentReportValidator {
 	
 	private List<Rule<GroupAIncidentReport>> incidentReportRules = new ArrayList<>();
 	
-	public GroupAReportValidator() {
+	public GroupAIncidentReportValidator() {
 		
 		incidentReportRules = new GroupAIncidentReportRulesFactory().getRulesList();
 		

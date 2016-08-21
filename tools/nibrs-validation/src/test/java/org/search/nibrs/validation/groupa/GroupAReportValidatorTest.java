@@ -14,14 +14,14 @@ import org.search.nibrs.validation.RuleViolationExemplarFactory;
 
 public class GroupAReportValidatorTest {
 		
-	private GroupAReportValidator groupAValidator;
+	private GroupAIncidentReportValidator groupAValidator;
 	
 	RuleViolationExemplarFactory ruleFactory;// = RuleViolationExemplarFactory.getInstance();
 	
 	@Before
 	public void init(){
 		
-		groupAValidator = new GroupAReportValidator();
+		groupAValidator = new GroupAIncidentReportValidator();
 		
 		ruleFactory = RuleViolationExemplarFactory.getInstance();
 	}
