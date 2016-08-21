@@ -1,6 +1,6 @@
 package org.search.nibrs.model.codes;
 
-public enum NibrsErrorCode {
+public enum NIBRSErrorCode {
 	
 	_015("015","Structure Check","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit found embedded blanks between the first and last significant characters."),
 	_016("016","Structure Check","MUST BE LEFT-JUSTIFIED— BLANK DETECTED IN FIRST POSITION","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit found a blank in the first position. It must begin in position 1 and must also contain 12 zeros."),
@@ -254,22 +254,16 @@ public enum NibrsErrorCode {
 	_094_ZeroReport("094","Zero Report Segment","ZERO REPORT MONTH/YEAR EXCEEDED MONTH/YEAR OF SUBMISSION","Zero Report Month and Zero Report Year must be earlier than Month of Submission and Year of Submission.");
 		
 	public String code;
-	
 	public String type;
-	
 	public String message;
-	
 	public String description;
 	
 	
-	private NibrsErrorCode(String code, String type, String message, String description){
-		
+	private NIBRSErrorCode(String code, String type, String message, String description) {
 		this.code = code;
-		
 		this.type = type;
-		
 		this.message = message;
-		
 		this.description = description;
 	}
+	
 }

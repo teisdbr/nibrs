@@ -10,7 +10,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
-import org.search.nibrs.model.codes.NibrsErrorCode;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class GroupAIncidentReportValidator {
@@ -97,7 +97,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NibrsErrorCode._501);			
+			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._501);			
 			rNibrsError.setSegmentType('5');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -178,7 +178,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NibrsErrorCode._401);			
+			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._401);			
 			rNibrsError.setSegmentType('4');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -220,7 +220,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NibrsErrorCode._301);			
+			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._301);			
 			rNibrsError.setSegmentType('3');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -331,7 +331,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NibrsErrorCode._201);			
+			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._201);			
 			rNibrsError.setSegmentType('2');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -385,7 +385,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NibrsErrorCode._101);			
+			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._101);			
 			rNibrsError.setSegmentType('1');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			

@@ -2,7 +2,7 @@ package org.search.nibrs.common;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.search.nibrs.model.codes.NibrsErrorCode;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
  * A class for objects that represent an error encountered in processing NIBRS data.
@@ -20,7 +20,7 @@ public class NIBRSError {
 	private Object value;
 	private char segmentType;
 	private String withinSegmentIdentifier;	
-	private NibrsErrorCode nibrsErrorCode;
+	private NIBRSErrorCode nibrsErrorCode;
 	
 	public NIBRSError() {
 	}
@@ -113,11 +113,11 @@ public class NIBRSError {
 	}
 	
 	
-	public NibrsErrorCode getNibrsErrorCode() {
+	public NIBRSErrorCode getNibrsErrorCode() {
 		return nibrsErrorCode;
 	}
 
-	public void setNibrsErrorCode(NibrsErrorCode nibrsErrorCode) {
+	public void setNibrsErrorCode(NIBRSErrorCode nibrsErrorCode) {
 		this.nibrsErrorCode = nibrsErrorCode;
 	}
 

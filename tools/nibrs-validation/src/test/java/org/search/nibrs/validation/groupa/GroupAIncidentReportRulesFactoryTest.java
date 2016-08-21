@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.codes.NibrsErrorCode;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class GroupAIncidentReportRulesFactoryTest {
@@ -22,7 +22,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.setIncidentNumber("");
 		NIBRSError e = rule115.apply(report, report.getSource());
 		assertNotNull(e);
-		assertEquals(NibrsErrorCode._115, e.getNibrsErrorCode());
+		assertEquals(NIBRSErrorCode._115, e.getNibrsErrorCode());
 		assertEquals('1', e.getSegmentType());
 		assertEquals(report.getIncidentNumber(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());

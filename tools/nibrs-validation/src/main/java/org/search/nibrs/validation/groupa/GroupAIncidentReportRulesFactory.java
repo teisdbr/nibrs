@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.codes.NibrsErrorCode;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.StringValueRule;
 
@@ -33,7 +33,7 @@ public class GroupAIncidentReportRulesFactory {
 					if (value == null || value.length() != 12 || !p.matcher(value).matches()) {
 						ret = new NIBRSError();
 						ret.setContext(reportSource);
-						ret.setNibrsErrorCode(NibrsErrorCode._115);
+						ret.setNibrsErrorCode(NIBRSErrorCode._115);
 						ret.setSegmentType('1');
 						ret.setValue(value);
 					}

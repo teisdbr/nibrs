@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ZeroReport;
-import org.search.nibrs.model.codes.NibrsErrorCode;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 
 public class ZeroReportValidator {
@@ -31,7 +31,7 @@ public class ZeroReportValidator {
 			
 			rNibrsError = new NIBRSError();
 			
-			rNibrsError.setNibrsErrorCode(NibrsErrorCode._015);
+			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._015);
 			
 			nibrsErrorList.add(rNibrsError);
 		}

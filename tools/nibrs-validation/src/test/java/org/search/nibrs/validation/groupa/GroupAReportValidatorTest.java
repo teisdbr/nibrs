@@ -9,7 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.codes.NibrsErrorCode;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.RuleViolationExemplarFactory;
 
 public class GroupAReportValidatorTest {
@@ -39,7 +39,7 @@ public class GroupAReportValidatorTest {
 			
 			Assert.assertNotNull(_101Error);
 			
-			Assert.assertEquals(NibrsErrorCode._101, _101Error.getNibrsErrorCode());
+			Assert.assertEquals(NIBRSErrorCode._101, _101Error.getNibrsErrorCode());
 		}
 		
 		Assert.assertEquals(7, nibrsErrorList.size());
@@ -59,7 +59,7 @@ public class GroupAReportValidatorTest {
 							
 			Assert.assertNotNull(_201Error);
 			
-			Assert.assertEquals(NibrsErrorCode._201, _201Error.getNibrsErrorCode());						
+			Assert.assertEquals(NIBRSErrorCode._201, _201Error.getNibrsErrorCode());						
 		}	
 		
 		Assert.assertEquals(9, nibrsErrorList.size());		
@@ -81,7 +81,7 @@ public class GroupAReportValidatorTest {
 							
 			Assert.assertNotNull(_301Error);
 			
-			Assert.assertEquals(NibrsErrorCode._301, _301Error.getNibrsErrorCode());						
+			Assert.assertEquals(NIBRSErrorCode._301, _301Error.getNibrsErrorCode());						
 		}	
 		
 		Assert.assertEquals(4, nibrsErrorList.size());			
@@ -102,7 +102,7 @@ public class GroupAReportValidatorTest {
 							
 			Assert.assertNotNull(_401Error);
 			
-			Assert.assertEquals(NibrsErrorCode._401, _401Error.getNibrsErrorCode());						
+			Assert.assertEquals(NIBRSErrorCode._401, _401Error.getNibrsErrorCode());						
 		}	
 		
 		Assert.assertEquals(7, nibrsErrorList.size());			
@@ -123,7 +123,7 @@ public class GroupAReportValidatorTest {
 							
 			Assert.assertNotNull(_501Error);
 			
-			Assert.assertEquals(NibrsErrorCode._051, _501Error.getNibrsErrorCode());						
+			Assert.assertEquals(NIBRSErrorCode._051, _501Error.getNibrsErrorCode());						
 		}	
 		
 		Assert.assertEquals(5, nibrsErrorList.size());			
