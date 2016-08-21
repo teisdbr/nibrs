@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -15,6 +17,9 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.RuleViolationExemplarFactory;
 
 public class GroupAIncidentReportValidatorTest {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReportValidatorTest.class);
 		
 	private GroupAIncidentReportValidator validator;
 	private RuleViolationExemplarFactory exemplarFactory;
@@ -37,6 +42,18 @@ public class GroupAIncidentReportValidatorTest {
 	}
 		
 	@Test
+	public void testRule101() {
+		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(101);
+		for (GroupAIncidentReport r : exemplars) {
+			List<NIBRSError> errorList = validator.validate(r);
+			assertEquals(1, errorList.size());
+			NIBRSError e = errorList.get(0);
+			assertEquals(NIBRSErrorCode._101, e.getNIBRSErrorCode());
+		}
+	}
+		
+	@Test
+	@Ignore
 	public void _101_adminMandatoryFieldTest(){
 									
 		List<GroupAIncidentReport> groupAIncidentList = exemplarFactory.getGroupAIncidentsThatViolateRule(101);

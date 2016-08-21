@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.StringValueRule;
 
@@ -20,6 +21,16 @@ public class GroupAIncidentReportRulesFactory {
 	
 	public GroupAIncidentReportRulesFactory() {
 		rulesList.add(getRule115());
+		rulesList.add(getRule101("ori", "1"));
+		rulesList.add(getRule101("incidentNumber", "2"));
+		rulesList.add(getRule101("yearOfTape", "Year of Tape"));
+		rulesList.add(getRule101("monthOfTape", "Month of Tape"));
+		rulesList.add(getRule101("incidentDate", "3"));
+		rulesList.add(getRule101("exceptionalClearanceCode", "4"));
+	}
+	
+	Rule<GroupAIncidentReport> getRule101(String propertyName, String dataElementIdentifier) {
+		return new NotBlankRule<>(propertyName, dataElementIdentifier, GroupAIncidentReport.class, NIBRSErrorCode._101);
 	}
 
 	Rule<GroupAIncidentReport> getRule115() {
@@ -30,9 +41,10 @@ public class GroupAIncidentReportRulesFactory {
 				},
 				(value, target) -> {
 					NIBRSError ret = null;
-					if (value == null || value.length() != 12 || !p.matcher(value).matches()) {
+					if (value != null && (value.length() != 12 || !p.matcher(value).matches())) {
 						ret = target.getErrorTemplate();
 						ret.setNibrsErrorCode(NIBRSErrorCode._115);
+						ret.setDataElementIdentifier("2");
 					}
 					return ret;
 				});

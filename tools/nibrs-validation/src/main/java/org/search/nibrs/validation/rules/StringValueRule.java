@@ -31,7 +31,9 @@ public class StringValueRule<T extends ValidationTarget> implements Rule<T> {
 	public NIBRSError apply(T subject) {
 		String valueToTest = stringProvider.apply(subject);
 		NIBRSError error = test.apply(valueToTest, subject);
-		error.setValue(valueToTest);
+		if (error != null) {
+			error.setValue(valueToTest);
+		}
 		return error;
 	}
 

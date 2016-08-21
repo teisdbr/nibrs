@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 public class NotBlankRuleTest {
 	
@@ -46,18 +47,18 @@ public class NotBlankRuleTest {
 		
 		TestSubject subject = new TestSubject();
 		
-		NotBlankRule<TestSubject> rule = new NotBlankRule<>("v1", TestSubject.class);
+		NotBlankRule<TestSubject> rule = new NotBlankRule<>("v1", "1", TestSubject.class, NIBRSErrorCode._101);
 		assertNotNull(rule.apply(subject));
-		rule = new NotBlankRule<>("v3", TestSubject.class);
+		rule = new NotBlankRule<>("v3", "3", TestSubject.class, NIBRSErrorCode._101);
 		assertNotNull(rule.apply(subject));
 		
-		rule = new NotBlankRule<>("v2", TestSubject.class);
+		rule = new NotBlankRule<>("v2", "2", TestSubject.class, NIBRSErrorCode._101);
 		assertNull(rule.apply(subject));
-		rule = new NotBlankRule<>("v1", TestSubject.class);
+		rule = new NotBlankRule<>("v1", "1", TestSubject.class, NIBRSErrorCode._101);
 		subject.v1 = 5;
 		assertNull(rule.apply(subject));
 		subject.v3 = "foo";
-		rule = new NotBlankRule<>("v3", TestSubject.class);
+		rule = new NotBlankRule<>("v3", "3", TestSubject.class, NIBRSErrorCode._101);
 		assertNull(rule.apply(subject));
 		
 	}
@@ -66,7 +67,7 @@ public class NotBlankRuleTest {
 	public void testNonExistentProperty() {
 		expectedException.expect(RuntimeException.class);
 		expectedException.expectMessage("No property named v4 found");
-		new NotBlankRule<>("v4", TestSubject.class);
+		new NotBlankRule<>("v4", "4", TestSubject.class, NIBRSErrorCode._101);
 	}
 
 }

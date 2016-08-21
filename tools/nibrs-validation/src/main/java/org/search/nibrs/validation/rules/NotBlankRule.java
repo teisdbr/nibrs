@@ -7,6 +7,7 @@ import java.beans.PropertyDescriptor;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
  * A rule implementation that tests whether a subject property is non-null. 
@@ -16,8 +17,10 @@ import org.search.nibrs.common.ValidationTarget;
 public class NotBlankRule<T extends ValidationTarget> implements Rule<T> {
 	
 	private PropertyDescriptor property;
+	private String dataElementIdentifier;
+	private NIBRSErrorCode errorCode;
 	
-	public NotBlankRule(String propertyName, Class<T> subjectClass) {
+	public NotBlankRule(String propertyName, String dataElementIdentifier, Class<T> subjectClass, NIBRSErrorCode errorCode) {
 		try {
 			BeanInfo beanInfo = Introspector.getBeanInfo(subjectClass);
 			PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
@@ -34,6 +37,8 @@ public class NotBlankRule<T extends ValidationTarget> implements Rule<T> {
 			// this really should never happen...
 			throw new RuntimeException(e);
 		}
+		this.dataElementIdentifier = dataElementIdentifier;
+		this.errorCode = errorCode;
 	}
 
 	@Override
@@ -44,6 +49,8 @@ public class NotBlankRule<T extends ValidationTarget> implements Rule<T> {
 			 if (isBlank(value)) {
 				 ret = subject.getErrorTemplate();
 				 ret.setValue(value);
+				 ret.setDataElementIdentifier(dataElementIdentifier);
+				 ret.setNibrsErrorCode(errorCode);
 			 }
 		} catch (ReflectiveOperationException e) {
 			// this really should never happen...
