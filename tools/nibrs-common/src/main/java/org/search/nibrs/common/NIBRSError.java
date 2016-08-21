@@ -19,7 +19,8 @@ public class NIBRSError {
 	private String reportUniqueIdentifier;
 	private Object value;
 	private char segmentType;
-	private Object withinSegmentIdentifier;	
+	private Object withinSegmentIdentifier;
+	private String dataElementIdentifier;
 	private NIBRSErrorCode nibrsErrorCode;
 	
 	public NIBRSError() {
@@ -34,8 +35,16 @@ public class NIBRSError {
 		this.segmentType = e.segmentType;
 		this.withinSegmentIdentifier = e.withinSegmentIdentifier;
 		this.nibrsErrorCode = e.nibrsErrorCode;
+		this.dataElementIdentifier = e.dataElementIdentifier;
 	}
 	
+	@Override
+	public String toString() {
+		return "NIBRSError [context=" + context + ", ruleNumber=" + ruleNumber + ", ruleDescription=" + ruleDescription + ", reportUniqueIdentifier=" + reportUniqueIdentifier + ", value=" + value
+				+ ", segmentType=" + segmentType + ", withinSegmentIdentifier=" + withinSegmentIdentifier + ", dataElementIdentifier=" + dataElementIdentifier + ", nibrsErrorCode=" + nibrsErrorCode
+				+ "]";
+	}
+
 	/**
 	 * The text of the rule, as provided by the FBI.
 	 * @return the rule text
@@ -112,15 +121,29 @@ public class NIBRSError {
 		this.withinSegmentIdentifier = object;
 	}
 	
-	
+	/**
+	 * The code for the error
+	 * @return the enum value of the error code
+	 */
 	public NIBRSErrorCode getNIBRSErrorCode() {
 		return nibrsErrorCode;
 	}
-
 	public void setNibrsErrorCode(NIBRSErrorCode nibrsErrorCode) {
 		this.nibrsErrorCode = nibrsErrorCode;
 	}
 
+	/**
+	 * The identifier for the data element whose value is in error.  If this error addresses an entire segment or report, then
+	 * the data element identifier is null.
+	 * @return the identifier of the data element in error, or null (if error applies to an entire segment or report)
+	 */
+	public String getDataElementIdentifier() {
+		return dataElementIdentifier;
+	}
+	public void setDataElementIdentifier(String dataElementIdentifier) {
+		this.dataElementIdentifier = dataElementIdentifier;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,11 +155,12 @@ public class NIBRSError {
 		result = prime * result + ((reportUniqueIdentifier == null) ? 0 : reportUniqueIdentifier.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		result = prime * result + ((withinSegmentIdentifier == null) ? 0 : withinSegmentIdentifier.hashCode());
+		result = prime * result + ((dataElementIdentifier == null) ? 0 : dataElementIdentifier.hashCode());
 		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
 		return obj != null && obj.hashCode() == hashCode();
 	}
-	
+
 }
