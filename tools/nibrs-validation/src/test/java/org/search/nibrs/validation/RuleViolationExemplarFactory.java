@@ -166,7 +166,7 @@ public class RuleViolationExemplarFactory {
 			// (Incident Number) can only have character combinations of A through Z, 0 through 9,
 			// hyphens, and/or blanks. For example, 89-123-SC is valid, but 89+123*SC is invalid.
 			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
-			ret.setIncidentNumber("89+123*SC");
+			ret.setIncidentNumber("89+123*SC   ");
 			return Collections.singletonList(ret);
 		});
 

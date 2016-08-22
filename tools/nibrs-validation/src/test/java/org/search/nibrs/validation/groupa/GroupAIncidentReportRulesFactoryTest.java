@@ -181,6 +181,22 @@ public class GroupAIncidentReportRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule117() {
+		Rule<GroupAIncidentReport> rule117 = rulesFactory.getRule117();
+		GroupAIncidentReport report = buildBaseReport();
+		report.setIncidentNumber("11-123-SC");
+		NIBRSError e = rule117.apply(report);
+		assertNull(e);
+		report.setIncidentNumber("11+123*SC");
+		e = rule117.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._117, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getIncidentNumber(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+	}
+	
+	@Test
 	public void testRule152() {
 		Rule<GroupAIncidentReport> rule152 = rulesFactory.getRule152();
 		GroupAIncidentReport report = buildBaseReport();
@@ -199,6 +215,20 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(report.getSource(), e.getContext());
 	}
 
+	@Test
+	public void testRule117Regex() {
+		Pattern p = GroupAIncidentReportRulesFactory.getRule117Regex();
+		assertTrue(p.matcher("A").matches());
+		assertTrue(p.matcher("AB").matches());
+		assertTrue(p.matcher("AB1").matches());
+		assertTrue(p.matcher("AB12").matches());
+		assertTrue(p.matcher("AB12-").matches());
+		assertTrue(p.matcher("11-123-SC").matches());
+		assertFalse(p.matcher("a").matches());
+		assertFalse(p.matcher("A B").matches());
+		assertFalse(p.matcher("11+123*SC").matches());
+	}
+	
 	private GroupAIncidentReport buildBaseReport() {
 		GroupAIncidentReport report;
 		report = new GroupAIncidentReport();

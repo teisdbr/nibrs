@@ -42,23 +42,38 @@ public class GroupAIncidentReportValidatorTest {
 
 	@Test
 	public void testRule115() {
-		testRule(NIBRSErrorCode._115, 115);
+		testRule(NIBRSErrorCode._115, 115, 2);
 		// note that rule 116 is a duplicate of 115 (essentially) so we implement them both with 115
-		testRule(NIBRSErrorCode._115, 116);
+		testRule(NIBRSErrorCode._115, 116, 2);
 	}
 		
+	@Test
+	public void testRule117() {
+		testRule(NIBRSErrorCode._117, 117);
+	}
+
 	@Test
 	public void testRule152() {
 		testRule(NIBRSErrorCode._152, 152);
 	}
-
+	
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
+		testRule(ruleCode, ruleNumber, 1);
+	}
+
+	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber, int errorsProduced) {
 		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(ruleNumber);
 		for (GroupAIncidentReport r : exemplars) {
 			List<NIBRSError> errorList = validator.validate(r);
-			assertEquals(1, errorList.size());
-			NIBRSError e = errorList.get(0);
-			assertEquals(ruleCode, e.getNIBRSErrorCode());
+			assertEquals(errorsProduced, errorList.size());
+			boolean found = false;
+			for (NIBRSError e : errorList) {
+				if (ruleCode == e.getNIBRSErrorCode()) {
+					found = true;
+					break;
+				}
+			}
+			assertTrue(found);
 		}
 	}
 		

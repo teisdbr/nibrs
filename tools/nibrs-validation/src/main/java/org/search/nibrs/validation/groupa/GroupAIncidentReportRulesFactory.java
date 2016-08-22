@@ -35,26 +35,29 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule104("monthOfTape"));
 		rulesList.add(getRule104("cargoTheftIndicator"));
 		rulesList.add(getRule115());
-		//rulesList.add(getRule117());
+		rulesList.add(getRule117());
 		rulesList.add(getRule152());
 	}
 	
 	Rule<GroupAIncidentReport> getRule117() {
-		return new StringValueRule<>(
+		Pattern p = getRule117Regex();
+		Rule<GroupAIncidentReport> rule117 = new StringValueRule<>(
 				subject -> {
 					return subject.getIncidentNumber();
-				}, 
+				},
 				(value, target) -> {
-					NIBRSError e = null;
-					if (value != null && (!value.equals("R"))) {
-						e = target.getErrorTemplate();
-						e.setNIBRSErrorCode(NIBRSErrorCode._117);
-						e.setDataElementIdentifier("3");
-						e.setValue(value);
+					NIBRSError ret = null;
+					if (value != null && !p.matcher(value).matches()) {
+						ret = target.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._117);
+						ret.setDataElementIdentifier("2");
+						ret.setValue(value);
 					}
-					return e;
+					return ret;
 				});
+		return rule117;
 	}
+
 
 	Rule<GroupAIncidentReport> getRule104(String propertyName) {
 		Rule<GroupAIncidentReport> ret = null;
@@ -157,6 +160,10 @@ public class GroupAIncidentReportRulesFactory {
 
 	static Pattern getRule115Regex() {
 		return Pattern.compile("^[^ ]+[ ]*$");
+	}
+	
+	static Pattern getRule117Regex() {
+		return Pattern.compile("[A-Z0-9\\-]+");
 	}
 
 	/**
