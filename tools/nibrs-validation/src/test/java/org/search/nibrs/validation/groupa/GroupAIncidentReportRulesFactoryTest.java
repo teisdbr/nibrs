@@ -8,7 +8,9 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class GroupAIncidentReportRulesFactoryTest {
@@ -193,6 +195,27 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._117, e.getNIBRSErrorCode());
 		assertEquals('1', e.getSegmentType());
 		assertEquals(report.getIncidentNumber(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+	}
+	
+	@Test
+	public void testRule119() {
+		Rule<GroupAIncidentReport> rule119 = rulesFactory.getRule119();
+		GroupAIncidentReport report = buildBaseReport();
+		report.setCargoTheftIndicator(null);
+		OffenseSegment o = new OffenseSegment();
+		report.addOffense(o);
+		o.setUcrOffenseCode(OffenseCode._35A.code);
+		NIBRSError e = rule119.apply(report);
+		assertNull(e);
+		o = new OffenseSegment();
+		report.addOffense(o);
+		o.setUcrOffenseCode(OffenseCode._120.code);
+		e = rule119.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._119, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getCargoTheftIndicator(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
 	

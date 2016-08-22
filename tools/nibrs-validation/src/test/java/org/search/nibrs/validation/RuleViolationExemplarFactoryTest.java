@@ -36,13 +36,12 @@ public class RuleViolationExemplarFactoryTest {
 		assertTrue(incidentNumberValue.trim().contains(" "));
 		List<AbstractReport> incidents = new ArrayList<AbstractReport>();
 		incidents.addAll(exemplarFactory.getGroupAIncidentsThatViolateRule(119));
-		assertEquals(2, incidents.size());
+		assertEquals(1, incidents.size());
 		report = new NIBRSSubmission();
 		report.addReports(incidents);
 		d = new XMLExporter().convertNIBRSSubmissionToDocument(report, new ArrayList<NIBRSError>());
 		//XmlUtils.printNode(d, System.out);
-		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport/j:OffenseSegment[nibrs:OffenseUCRCode='13A']"));
-		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport/j:OffenseSegment[nibrs:OffenseUCRCode='13B']"));
+		assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport/j:OffenseSegment[nibrs:OffenseUCRCode='120']"));
 	}
 	
 	@Test

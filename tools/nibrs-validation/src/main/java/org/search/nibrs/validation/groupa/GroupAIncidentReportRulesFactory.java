@@ -2,14 +2,18 @@ package org.search.nibrs.validation.groupa;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
 import org.search.nibrs.validation.rules.Rule;
@@ -22,8 +26,24 @@ import org.search.nibrs.validation.rules.ValidValueListRule;
 public class GroupAIncidentReportRulesFactory {
 	
 	private List<Rule<GroupAIncidentReport>> rulesList = new ArrayList<>();
+	private Set<String> cargoTheftOffenses = new HashSet<>();
 	
 	public GroupAIncidentReportRulesFactory() {
+		
+		cargoTheftOffenses.add(OffenseCode._120.code);
+		cargoTheftOffenses.add(OffenseCode._210.code);
+		cargoTheftOffenses.add(OffenseCode._220.code);
+		cargoTheftOffenses.add(OffenseCode._23D.code);
+		cargoTheftOffenses.add(OffenseCode._23F.code);
+		cargoTheftOffenses.add(OffenseCode._23H.code);
+		cargoTheftOffenses.add(OffenseCode._240.code);
+		cargoTheftOffenses.add(OffenseCode._26A.code);
+		cargoTheftOffenses.add(OffenseCode._26B.code);
+		cargoTheftOffenses.add(OffenseCode._26C.code);
+		cargoTheftOffenses.add(OffenseCode._26E.code);
+		cargoTheftOffenses.add(OffenseCode._510.code);
+		cargoTheftOffenses.add(OffenseCode._270.code);
+		
 		rulesList.add(getRule101("ori", "1"));
 		rulesList.add(getRule101("incidentNumber", "2"));
 		rulesList.add(getRule101("yearOfTape", "Year of Tape"));
@@ -36,7 +56,36 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule104("cargoTheftIndicator"));
 		rulesList.add(getRule115());
 		rulesList.add(getRule117());
+		rulesList.add(getRule119());
 		rulesList.add(getRule152());
+	}
+	
+	Rule<GroupAIncidentReport> getRule119() {
+		
+		Rule<GroupAIncidentReport> ret = new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				List<OffenseSegment> offenses = subject.getOffenses();
+				boolean cargoTheftIncident = false;
+				for (OffenseSegment o : offenses) {
+					if (cargoTheftOffenses.contains(o.getUcrOffenseCode())) {
+						cargoTheftIncident = true;
+						break;
+					}
+				}
+				NIBRSError ret = null;
+				if (cargoTheftIncident && subject.getCargoTheftIndicator() == null) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(null);
+					ret.setDataElementIdentifier("2A");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._119);
+				}
+				return ret;
+			}
+		};
+		
+		return ret;
+		
 	}
 	
 	Rule<GroupAIncidentReport> getRule117() {

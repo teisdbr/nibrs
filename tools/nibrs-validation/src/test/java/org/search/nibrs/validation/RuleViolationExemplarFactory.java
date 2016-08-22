@@ -175,11 +175,9 @@ public class RuleViolationExemplarFactory {
 			// Data Element 6 (UCR OffenseSegment Code) contains a Cargo Theft-related offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setCargoTheftIndicator("Y");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy.setCargoTheftIndicator(null);
+			copy.getOffenses().get(0).setUcrOffenseCode("120");
 			incidents.add(copy);
-			incidents.add(copy2);
 			return incidents;
 		});
 
