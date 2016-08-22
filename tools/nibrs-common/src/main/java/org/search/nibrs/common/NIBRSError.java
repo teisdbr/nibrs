@@ -14,8 +14,6 @@ public class NIBRSError {
 	private static final Logger LOG = LogManager.getLogger(NIBRSError.class);
 	
 	private Object context;
-	private Integer ruleNumber;
-	private String ruleDescription;
 	private String reportUniqueIdentifier;
 	private Object value;
 	private char segmentType;
@@ -28,8 +26,6 @@ public class NIBRSError {
 	
 	public NIBRSError(NIBRSError e) {
 		this.context = e.context;
-		this.ruleNumber = e.ruleNumber;
-		this.ruleDescription = e.ruleDescription;
 		this.reportUniqueIdentifier = e.reportUniqueIdentifier;
 		this.value = e.value;
 		this.segmentType = e.segmentType;
@@ -40,9 +36,23 @@ public class NIBRSError {
 	
 	@Override
 	public String toString() {
-		return "NIBRSError [context=" + context + ", ruleNumber=" + ruleNumber + ", ruleDescription=" + ruleDescription + ", reportUniqueIdentifier=" + reportUniqueIdentifier + ", value=" + value
+		return "NIBRSError [context=" + context + ", ruleNumber=" + getRuleNumber() + ", ruleDescription=" + getShortenedRuleDescription() + ", reportUniqueIdentifier=" + reportUniqueIdentifier + ", value=" + value
 				+ ", segmentType=" + segmentType + ", withinSegmentIdentifier=" + withinSegmentIdentifier + ", dataElementIdentifier=" + dataElementIdentifier + ", nibrsErrorCode=" + nibrsErrorCode
 				+ "]";
+	}
+
+	/**
+	 * Get a shortened version of the error description, suitable for display in constrained UIs, etc.
+	 * @return the first fifteen characters of the rule description, followed by an ellipsis
+	 */
+	public String getShortenedRuleDescription() {
+		String ruleDescription = getRuleDescription();
+		String ret = ruleDescription;
+		if (ret != null && ret.length() > 15) {
+			StringBuffer sb = new StringBuffer(ret.substring(0, 15));
+			ret = sb.append("...").toString();
+		}
+		return ret;
 	}
 
 	/**
@@ -50,11 +60,9 @@ public class NIBRSError {
 	 * @return the rule text
 	 */
 	public String getRuleDescription() {
-		return ruleDescription;
+		return nibrsErrorCode.description;
 	}
-	public void setRuleDescription(String ruleDescription) {
-		this.ruleDescription = ruleDescription;
-	}
+	
 	/**
 	 * An object representing the "context" of where the error occurred.  The intent of this property is to help a human user find
 	 * the offending record/data in question so they can pursue a correction.
@@ -70,11 +78,8 @@ public class NIBRSError {
 	 * The rule number from the FBI NIBRS specification.
 	 * @return the rule number
 	 */
-	public Integer getRuleNumber() {
-		return ruleNumber;
-	}
-	public void setRuleNumber(Integer ruleNumber) {
-		this.ruleNumber = ruleNumber;
+	public String getRuleNumber() {
+		return nibrsErrorCode.code;
 	}
 	/**
 	 * A value that uniquely identifies the Report in which the error occurred.  For example, this will be the incident number
@@ -128,7 +133,7 @@ public class NIBRSError {
 	public NIBRSErrorCode getNIBRSErrorCode() {
 		return nibrsErrorCode;
 	}
-	public void setNibrsErrorCode(NIBRSErrorCode nibrsErrorCode) {
+	public void setNIBRSErrorCode(NIBRSErrorCode nibrsErrorCode) {
 		this.nibrsErrorCode = nibrsErrorCode;
 	}
 
@@ -149,8 +154,7 @@ public class NIBRSError {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((context == null) ? 0 : context.hashCode());
-		result = prime * result + ((ruleDescription == null) ? 0 : ruleDescription.hashCode());
-		result = prime * result + ((ruleNumber == null) ? 0 : ruleNumber.hashCode());
+		result = prime * result + ((nibrsErrorCode == null) ? 0 : nibrsErrorCode.hashCode());
 		result = prime * result + segmentType;
 		result = prime * result + ((reportUniqueIdentifier == null) ? 0 : reportUniqueIdentifier.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());

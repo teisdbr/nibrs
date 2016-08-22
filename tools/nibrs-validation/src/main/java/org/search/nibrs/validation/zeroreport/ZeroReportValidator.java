@@ -31,7 +31,7 @@ public class ZeroReportValidator {
 			
 			rNibrsError = new NIBRSError();
 			
-			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._015);
+			rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._015);
 			
 			nibrsErrorList.add(rNibrsError);
 		}

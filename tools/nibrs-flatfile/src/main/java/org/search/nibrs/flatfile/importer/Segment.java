@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.util.*;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
  * Representation of a single line in a NIBRS report file.
@@ -39,7 +40,8 @@ public class Segment
         if (data == null || data.length() < 37) {
         	e = new NIBRSError();
         	e.setContext(lineNumber);
-        	e.setRuleDescription("Segment less than 37 characters.  Cannot read header information");
+        	e.setNIBRSErrorCode(NIBRSErrorCode._001);
+        	e.setDataElementIdentifier("Segment Length");
         	if (data != null) {
         		e.setValue(data.length());
         	}
@@ -60,14 +62,16 @@ public class Segment
 	        } catch (NumberFormatException nfe) {
 	        	e = new NIBRSError();
 	        	e.setContext(lineNumber);
-				e.setRuleDescription("Non-numeric segment length field");
+	        	e.setNIBRSErrorCode(NIBRSErrorCode._001);
+	        	e.setDataElementIdentifier("Segment Length");
 	        	e.setValue(sv);
 	        	ret.add(e);
 	        }
 	        if (i != data.length()) {
 	        	e = new NIBRSError();
 	        	e.setContext(lineNumber);
-	        	e.setRuleDescription("Specified segment length of " + i + " does not equal actual length");
+	        	e.setNIBRSErrorCode(NIBRSErrorCode._001);
+	        	e.setDataElementIdentifier("Segment Length");
 	        	e.setValue(data.length());
 	        	e.setSegmentType(segmentType);
 	        	ret.add(e);

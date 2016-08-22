@@ -48,7 +48,7 @@ public class GroupAIncidentReportRulesFactory {
 						NIBRSError e = null;
 						if (value != null && (!value.equals("R"))) {
 							e = target.getErrorTemplate();
-							e.setNibrsErrorCode(NIBRSErrorCode._104);
+							e.setNIBRSErrorCode(NIBRSErrorCode._104);
 							e.setDataElementIdentifier("3");
 						}
 						return e;
@@ -62,7 +62,7 @@ public class GroupAIncidentReportRulesFactory {
 						NIBRSError e = null;
 						if (value != null && 1991 > value.intValue()) {
 							e = target.getErrorTemplate();
-							e.setNibrsErrorCode(NIBRSErrorCode._104);
+							e.setNIBRSErrorCode(NIBRSErrorCode._104);
 							e.setDataElementIdentifier("Year of Tape");
 						}
 						return e;
@@ -76,7 +76,7 @@ public class GroupAIncidentReportRulesFactory {
 						NIBRSError e = null;
 						if (value != null && (1 > value.intValue() || 12 < value.intValue())) {
 							e = target.getErrorTemplate();
-							e.setNibrsErrorCode(NIBRSErrorCode._104);
+							e.setNIBRSErrorCode(NIBRSErrorCode._104);
 							e.setDataElementIdentifier("Month of Tape");
 						}
 						return e;
@@ -90,7 +90,7 @@ public class GroupAIncidentReportRulesFactory {
 						NIBRSError e = null;
 						if (value != null && (0 > value.intValue() || 23 < value.intValue())) {
 							e = target.getErrorTemplate();
-							e.setNibrsErrorCode(NIBRSErrorCode._104);
+							e.setNIBRSErrorCode(NIBRSErrorCode._104);
 							e.setDataElementIdentifier("3");
 						}
 						return e;
@@ -115,7 +115,7 @@ public class GroupAIncidentReportRulesFactory {
 					NIBRSError ret = null;
 					if (value != null && (value.length() != 12 || !p.matcher(value).matches())) {
 						ret = target.getErrorTemplate();
-						ret.setNibrsErrorCode(NIBRSErrorCode._115);
+						ret.setNIBRSErrorCode(NIBRSErrorCode._115);
 						ret.setDataElementIdentifier("2");
 					}
 					return ret;

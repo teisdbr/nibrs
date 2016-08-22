@@ -3,6 +3,7 @@ package org.search.nibrs.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
  * The class of objects representing an expression of a person's age in NIBRS.  An age expression can be a non-numeric code (e.g., for newborns), a single
@@ -39,7 +40,7 @@ public class NIBRSAge {
 		this.error = error;
 	}
 	
-	public void setAgeString(String ageString) {
+	void setAgeString(String ageString, char segmentContext) {
 		if (ageString != null) {
 			String ageStringTrim = ageString.trim();
 			if (ageStringTrim.length() == 4) {
@@ -48,14 +49,14 @@ public class NIBRSAge {
 				} catch (NumberFormatException nfe) {
 					error = new NIBRSError();
 					error.setValue(ageString);
-					error.setRuleDescription("Invalid age string");
+					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
 				}
 				try {
 					ageMax = Integer.parseInt(ageStringTrim.substring(2, 4));
 				} catch (NumberFormatException nfe) {
 					error = new NIBRSError();
 					error.setValue(ageString);
-					error.setRuleDescription("Invalid age string");
+					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "09"));
 				}
 			} else {
 				if ("NN".equals(ageStringTrim) || "NB".equals(ageStringTrim) || "BB".equals(ageStringTrim) || "00".equals(ageStringTrim)) {
@@ -67,7 +68,7 @@ public class NIBRSAge {
 					} catch (NumberFormatException nfe) {
 						error = new NIBRSError();
 						error.setValue(ageString);
-						error.setRuleDescription("Invalid age string");
+						error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
 					}
 				}
 			}

@@ -50,7 +50,7 @@ public abstract class AbstractBeanPropertyRule<T extends ValidationTarget> imple
 				ret = subject.getErrorTemplate();
 				ret.setValue(value);
 				ret.setDataElementIdentifier(dataElementIdentifier);
-				ret.setNibrsErrorCode(errorCode);
+				ret.setNIBRSErrorCode(errorCode);
 			}
 		} catch (ReflectiveOperationException e) {
 			// this really should never happen...

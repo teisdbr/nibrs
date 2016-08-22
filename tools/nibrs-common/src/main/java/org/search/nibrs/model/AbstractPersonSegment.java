@@ -51,7 +51,7 @@ public abstract class AbstractPersonSegment extends AbstractSegment {
 
 	public void setAgeString(String ageString) {
 	    age = new NIBRSAge();
-	    age.setAgeString(ageString);
+	    age.setAgeString(ageString, segmentType);
 	}
 
 	public String getEthnicity() {

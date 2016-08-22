@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 public class TestIncidentBuilderErrors {
 	
@@ -33,7 +34,7 @@ public class TestIncidentBuilderErrors {
 
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
-        assertEquals(new Integer(51), e.getRuleNumber());
+        assertEquals(NIBRSErrorCode._051, e.getNIBRSErrorCode());
         assertEquals('8', e.getValue());
         assertEquals(5, e.getContext());
         

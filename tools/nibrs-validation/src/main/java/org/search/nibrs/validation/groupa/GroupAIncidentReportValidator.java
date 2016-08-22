@@ -97,7 +97,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._501);			
+			rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._501);			
 			rNibrsError.setSegmentType('5');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -178,7 +178,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._401);			
+			rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._401);			
 			rNibrsError.setSegmentType('4');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -220,7 +220,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._301);			
+			rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._301);			
 			rNibrsError.setSegmentType('3');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -331,7 +331,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._201);			
+			rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._201);			
 			rNibrsError.setSegmentType('2');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			
@@ -385,7 +385,7 @@ public class GroupAIncidentReportValidator {
 		if(missingRequiredField){
 			
 			rNibrsError = new NIBRSError();			
-			rNibrsError.setNibrsErrorCode(NIBRSErrorCode._101);			
+			rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._101);			
 			rNibrsError.setSegmentType('1');			
 			rNibrsError.setContext(groupAIncidentReport.getSource());	
 			

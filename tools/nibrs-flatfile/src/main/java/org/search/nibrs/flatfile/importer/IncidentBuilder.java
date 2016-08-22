@@ -9,6 +9,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.flatfile.util.*;
 import org.search.nibrs.model.*;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
  * Builder class that constructs incidents from a stream of NIBRS report data.
@@ -129,8 +130,8 @@ public class IncidentBuilder {
 		ret.setReportActionType(s.getActionType());
 		int length = s.getSegmentLength();
 		if (length == 43) {
-			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
-			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
+			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, NIBRSErrorCode._001));
+			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, NIBRSErrorCode._001));
 			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, s.getData()));
 		} else {
 			NIBRSError e = new NIBRSError();
@@ -138,7 +139,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Zero AbstractReport segments must be length 43)");
+			e.setNIBRSErrorCode(NIBRSErrorCode._001);
 			errorList.add(e);
 		}
 		return ret;
@@ -152,8 +153,8 @@ public class IncidentBuilder {
 		ret.setReportActionType(s.getActionType());
 		int length = s.getSegmentLength();
 		if (length == 66) {
-			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
-			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
+			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, NIBRSErrorCode._701));
+			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, NIBRSErrorCode._701));
 			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
 			arrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
 			arrestee.setArrestTransactionNumber(StringUtils.getStringBetween(26, 37, segmentData));
@@ -176,7 +177,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Group B Arrestee segments must be length 66)");
+			e.setNIBRSErrorCode(NIBRSErrorCode._701);
 			errorList.add(e);
 		}
 		
@@ -202,13 +203,13 @@ public class IncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 87 || length == 88) {
-			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, "Month of Submission must be a number"));
-			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, "Year of Submission must be a number"));
+			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, NIBRSErrorCode._101));
+			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, NIBRSErrorCode._101));
 			newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
-			int incidentYear = getIntValueFromSegment(s, 38, 41, errorList, "Incident Year must be a number");
-			int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, errorList, "Incident Month must be a number");
+			int incidentYear = getIntValueFromSegment(s, 38, 41, errorList, NIBRSErrorCode._105);
+			int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, errorList, NIBRSErrorCode._105);
 			int incidentMonth = DateUtils.convertMonthValue(incidentMonthOrig);
-			int incidentDay = getIntValueFromSegment(s, 44, 45, errorList, "Incident Day must be a number");
+			int incidentDay = getIntValueFromSegment(s, 44, 45, errorList, NIBRSErrorCode._105);
 			newIncident.setIncidentDate(DateUtils.makeDate(incidentYear, incidentMonth, incidentDay));
 			newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
 			String hourString = StringUtils.getStringBetween(47, 48, segmentData);
@@ -218,10 +219,10 @@ public class IncidentBuilder {
 			newIncident.setExceptionalClearanceCode(StringUtils.getStringBetween(49, 49, segmentData));
 			String clearanceYearString = StringUtils.getStringBetween(50, 53, segmentData);
 			if (clearanceYearString != null) {
-				int clearanceYear = getIntValueFromSegment(s, 50, 53, errorList, "Clearance Year must be a number");
-				int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, errorList, "Clearance Month must be a number");
+				int clearanceYear = getIntValueFromSegment(s, 50, 53, errorList, NIBRSErrorCode._105);
+				int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, errorList, NIBRSErrorCode._105);
 				int clearanceMonth = DateUtils.convertMonthValue(clearanceMonthOrig);
-				int clearanceDay = getIntValueFromSegment(s, 56, 57, errorList, "Clearance Day must be a number");
+				int clearanceDay = getIntValueFromSegment(s, 56, 57, errorList, NIBRSErrorCode._105);
 				newIncident.setExceptionalClearanceDate(DateUtils.makeDate(clearanceYear, clearanceMonth, clearanceDay));
 			}
 			boolean cargoTheft = length == 88;
@@ -235,13 +236,13 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Administrative segments must be either length 87 or 88)");
+			e.setNIBRSErrorCode(NIBRSErrorCode._101);
 			errorList.add(e);
 		}
 		return newIncident;
 	}
 
-	private Integer getIntValueFromSegment(Segment s, int startPos, int endPos, List<NIBRSError> errorList, String errorMessage) {
+	private Integer getIntValueFromSegment(Segment s, int startPos, int endPos, List<NIBRSError> errorList, NIBRSErrorCode errorCode) {
 		String sv = StringUtils.getStringBetween(startPos, endPos, s.getData());
 		Integer i = null;
 		try {
@@ -250,7 +251,7 @@ public class IncidentBuilder {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getLineNumber());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-			e.setRuleDescription(errorMessage);
+			e.setNIBRSErrorCode(errorCode);
 			e.setValue(sv);
 			e.setSegmentType(s.getSegmentType());
 			errorList.add(e);
@@ -281,8 +282,7 @@ public class IncidentBuilder {
 			NIBRSError error = new NIBRSError();
 			error.setContext(s.getLineNumber());
 			error.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-			error.setRuleNumber(51);
-			error.setRuleDescription("Segment Level must contain data values 0–7.");
+			error.setNIBRSErrorCode(NIBRSErrorCode._051);
 			error.setValue(segmentType);
 			errorList.add(error);
 		}
@@ -315,7 +315,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (Arrestee segments must be length 110)");
+			e.setNIBRSErrorCode(NIBRSErrorCode._601);
 			errorList.add(e);
 		}
 		return newArrestee;
@@ -340,7 +340,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (OffenderSegment segments must be length 45 (with no offender ethnicity) or 46 (with ethnicity))");
+			e.setNIBRSErrorCode(NIBRSErrorCode._301);
 			errorList.add(e);
 		}
 		return newOffender;
@@ -392,7 +392,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (VictimSegment segments must be length 129 (without LEOKA elements) or 141 (with LEOKA elements))");
+			e.setNIBRSErrorCode(NIBRSErrorCode._501);
 			errorList.add(e);
 		}
 
@@ -440,7 +440,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (PropertySegment segments must be length 307)");
+			e.setNIBRSErrorCode(NIBRSErrorCode._401);
 			errorList.add(e);
 		}
 
@@ -482,7 +482,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setRuleDescription("Invalid segment length (OffenseSegment segments must be length 63 (with only one bias motivation) or 71 (with five)");
+			e.setNIBRSErrorCode(NIBRSErrorCode._201);
 			errorList.add(e);
 		}
 

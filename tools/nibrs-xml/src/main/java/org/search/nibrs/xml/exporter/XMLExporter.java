@@ -33,6 +33,7 @@ import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.xml.NibrsNamespaceContext;
 import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.search.nibrs.xml.XmlUtils;
@@ -493,7 +494,7 @@ public class XMLExporter {
 							XmlUtils.appendChildElement(e, Namespace.cjis, "ItemStatusCode").setTextContent(mappedLossType);
 						} else {
 							NIBRSError error = new NIBRSError();
-							error.setRuleDescription("Invalid item status");
+							error.setNIBRSErrorCode(NIBRSErrorCode._404);
 							error.setValue(typeOfPropertyLoss);
 							errorList.add(error);
 						}
