@@ -100,38 +100,20 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(1054);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setMonthOfTape(14);
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri("WA1234");
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber("12345");
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.setIncidentDate(Date.from(LocalDateTime.of(1054, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.setExceptionalClearanceCode("X");
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.setCityIndicator("ZZ12");
-			// ReportDateIndicator should be set to "R" if unknown.
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.setIncidentDate(null);
-			copy8.setReportDateIndicator("S");
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			// (Incident Hour) The referenced data element must contain a valid data value when it is entered.
-			copy9.setIncidentDate(Date.from(LocalDateTime.of(2016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-			// (Incident Hour)) The referenced data element must contain a valid data value when it is entered.
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
+			copy = new GroupAIncidentReport(incident);
+			copy.setMonthOfTape(14);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.setIncidentHour(24);
+			incidents.add(copy);
+			// ReportDateIndicator should be set to "R" if unknown.
+			copy = new GroupAIncidentReport(incident);
+			copy.setReportDateIndicator("S");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.setCargoTheftIndicator("X");
+			incidents.add(copy);
 			return incidents;
 
 		});
@@ -188,7 +170,7 @@ public class RuleViolationExemplarFactory {
 			// Data Element 6 (UCR OffenseSegment Code) contains a Cargo Theft-related offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setCargoTheftIndicator(true);
+			copy.setCargoTheftIndicator("Y");
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy.getOffenses().get(0).setUcrOffenseCode("13B");
 			incidents.add(copy);

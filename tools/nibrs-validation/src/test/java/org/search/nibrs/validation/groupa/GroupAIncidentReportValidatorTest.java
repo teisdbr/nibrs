@@ -53,6 +53,17 @@ public class GroupAIncidentReportValidatorTest {
 	}
 		
 	@Test
+	public void testRule104() {
+		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(104);
+		for (GroupAIncidentReport r : exemplars) {
+			List<NIBRSError> errorList = validator.validate(r);
+			assertEquals(1, errorList.size());
+			NIBRSError e = errorList.get(0);
+			assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
+		}
+	}
+		
+	@Test
 	@Ignore
 	public void _101_adminMandatoryFieldTest(){
 									

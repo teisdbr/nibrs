@@ -20,7 +20,7 @@ public class StringValueRule<T extends ValidationTarget> implements Rule<T> {
 	/**
 	 * Create an instance of the rule
 	 * @param stringProvider lambda function that takes a subject and returns a string
-	 * @param test lambda function that takes a string and error source (context) and returns a NIBRSError (or null if the string passes the test)
+	 * @param test lambda function that takes a string and validation target and returns a NIBRSError (or null if the string passes the test)
 	 */
 	public StringValueRule(Function<T, String> stringProvider, BiFunction<String, ValidationTarget, NIBRSError> test) {
 		this.stringProvider = stringProvider;
