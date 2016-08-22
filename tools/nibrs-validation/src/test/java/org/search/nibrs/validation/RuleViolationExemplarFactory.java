@@ -1115,7 +1115,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(null);
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy.getOffenses().get(0).setUcrOffenseCode("240");
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
@@ -1133,7 +1133,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setMonthOfTape(null);
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy2.getOffenses().get(0).setUcrOffenseCode("220");
 			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
@@ -1151,7 +1151,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setCityIndicator(null);
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy3.getOffenses().get(0).setUcrOffenseCode("220");
 			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
@@ -1169,7 +1169,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setOri(null);
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy4.getOffenses().get(0).setUcrOffenseCode("220");
 			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
@@ -1187,7 +1187,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
 			copy5.setIncidentNumber(null);
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy5.getOffenses().get(0).setUcrOffenseCode("220");
 			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
@@ -1226,7 +1226,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setOri("1234567890123");
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy.getOffenses().get(0).setUcrOffenseCode("240");
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
@@ -1244,7 +1244,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy2.setOri("ZZ123456789");
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy2.getOffenses().get(0).setUcrOffenseCode("240");
 			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
@@ -1262,7 +1262,7 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.setCityIndicator("ZZ12");
 			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivation, Residence Location, 1 Premise, No forced entry
+			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
 			copy3.getOffenses().get(0).setUcrOffenseCode("240");
 			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");

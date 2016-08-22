@@ -1,6 +1,7 @@
 package org.search.nibrs.model.codes;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -83,6 +84,14 @@ public enum OffenseCode {
 	
 	public static final Set<OffenseCode> asSet() {
 		return EnumSet.allOf(OffenseCode.class);
+	}
+
+	public static final Set<String> codeSet() {
+		Set<String> ret = new HashSet<>();
+		for (OffenseCode v : values()) {
+			ret.add(v.code);
+		}
+		return ret;
 	}
 
 }

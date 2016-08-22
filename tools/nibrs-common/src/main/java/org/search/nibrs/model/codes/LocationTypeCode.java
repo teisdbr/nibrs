@@ -1,6 +1,7 @@
 package org.search.nibrs.model.codes;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -67,6 +68,14 @@ public enum LocationTypeCode {
 
 	public static final Set<LocationTypeCode> asSet() {
 		return EnumSet.allOf(LocationTypeCode.class);
+	}
+
+	public static final Set<String> codeSet() {
+		Set<String> ret = new HashSet<>();
+		for (LocationTypeCode v : values()) {
+			ret.add(v.code);
+		}
+		return ret;
 	}
 
 }

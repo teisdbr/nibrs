@@ -1,6 +1,13 @@
 package org.search.nibrs.model.codes;
 
-public enum BiasMotivation {
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Code enum for bias motivation (Data element 8A)
+ */
+public enum BiasMotivationCode {
 	
 	_11("11" , "Anti-White"),
 	_12("12" , "Anti-Black or African American"),
@@ -39,15 +46,24 @@ public enum BiasMotivation {
 	_88("88","None (no bias)"),
 	_99("99","Unknown (offender’s motivation not known)");
 		
-	private BiasMotivation(String code, String description){
-		
+	private BiasMotivationCode(String code, String description){
 		this.code = code;
-		
 		this.description = description;
 	}
 	
-	private String code;
+	public String code;
+	public String description;
+
+	public static final Set<BiasMotivationCode> asSet() {
+		return EnumSet.allOf(BiasMotivationCode.class);
+	}
 	
-	private String description;
+	public static final Set<String> codeSet() {
+		Set<String> ret = new HashSet<>();
+		for (BiasMotivationCode v : values()) {
+			ret.add(v.code);
+		}
+		return ret;
+	}
 
 }

@@ -4,6 +4,9 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Code enum for cargo theft indicator (Data Element 2A)
+ */
 public enum CargoTheftIndicatorCode {
 	
 	Y("Y" , "Yes"),
