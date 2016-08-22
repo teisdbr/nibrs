@@ -31,11 +31,6 @@ public class GroupAIncidentReportValidatorTest {
 	}
 	
 	@Test
-	public void testRule115() {
-		testRule(NIBRSErrorCode._115, 115);
-	}
-		
-	@Test
 	public void testRule101() {
 		testRule(NIBRSErrorCode._101, 101);
 	}
@@ -45,6 +40,11 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._104, 104);
 	}
 
+	@Test
+	public void testRule115() {
+		testRule(NIBRSErrorCode._115, 115);
+	}
+		
 	@Test
 	public void testRule152() {
 		testRule(NIBRSErrorCode._152, 152);
