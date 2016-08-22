@@ -111,9 +111,6 @@ public class RuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			copy.setMonthOfTape(14);
 			incidents.add(copy);
-			copy = new GroupAIncidentReport(incident);
-			copy.setIncidentHour(24);
-			incidents.add(copy);
 			// ReportDateIndicator should be set to "R" if unknown.
 			copy = new GroupAIncidentReport(incident);
 			copy.setReportDateIndicator("S");
@@ -203,7 +200,8 @@ public class RuleViolationExemplarFactory {
 			// 1 minute past midnight.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 00, 0, 00).atZone(ZoneId.systemDefault()).toInstant()));
+			copy = new GroupAIncidentReport(incident);
+			copy.setIncidentHour(24);
 			incidents.add(copy);
 			return incidents;
 		});

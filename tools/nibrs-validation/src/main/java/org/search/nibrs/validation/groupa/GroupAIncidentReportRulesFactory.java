@@ -35,8 +35,8 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule104("reportDateIndicator"));
 		rulesList.add(getRule104("yearOfTape"));
 		rulesList.add(getRule104("monthOfTape"));
-		rulesList.add(getRule104("incidentHour"));
 		rulesList.add(getRule104("cargoTheftIndicator"));
+		rulesList.add(getRule152());
 	}
 	
 	Rule<GroupAIncidentReport> getRule104(String propertyName) {
@@ -83,20 +83,6 @@ public class GroupAIncidentReportRulesFactory {
 						}
 						return e;
 					});
-		} else if ("incidentHour".equals(propertyName)) {
-			ret = new NumericValueRule<>(
-					subject -> {
-						return subject.getIncidentHour();
-					},
-					(value, target) -> {
-						NIBRSError e = null;
-						if (value != null && (0 > value.intValue() || 23 < value.intValue())) {
-							e = target.getErrorTemplate();
-							e.setNIBRSErrorCode(NIBRSErrorCode._104);
-							e.setDataElementIdentifier("3");
-						}
-						return e;
-					});
 		} else if ("cargoTheftIndicator".equals(propertyName)) {
 			ret = new ValidValueListRule<GroupAIncidentReport>(propertyName, "2A", GroupAIncidentReport.class, NIBRSErrorCode._104, CargoTheftIndicatorCode.codeSet()) {
 				protected boolean ignore(GroupAIncidentReport r) {
@@ -105,6 +91,20 @@ public class GroupAIncidentReportRulesFactory {
 			};
 		}
 		return ret;
+	}
+	
+	Rule<GroupAIncidentReport> getRule152() {
+		return new NumericValueRule<>(subject -> {
+			return subject.getIncidentHour();
+		} , (value, target) -> {
+			NIBRSError e = null;
+			if (value != null && (0 > value.intValue() || 23 < value.intValue())) {
+				e = target.getErrorTemplate();
+				e.setNIBRSErrorCode(NIBRSErrorCode._152);
+				e.setDataElementIdentifier("3");
+			}
+			return e;
+		});
 	}
 	
 	Rule<GroupAIncidentReport> getRule101(String propertyName, String dataElementIdentifier) {

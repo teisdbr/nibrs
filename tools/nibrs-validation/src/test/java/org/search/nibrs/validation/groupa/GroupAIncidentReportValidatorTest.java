@@ -32,34 +32,31 @@ public class GroupAIncidentReportValidatorTest {
 	
 	@Test
 	public void testRule115() {
-		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(115);
-		for (GroupAIncidentReport r : exemplars) {
-			List<NIBRSError> errorList = validator.validate(r);
-			assertEquals(1, errorList.size());
-			NIBRSError e = errorList.get(0);
-			assertEquals(NIBRSErrorCode._115, e.getNIBRSErrorCode());
-		}
+		testRule(NIBRSErrorCode._115, 115);
 	}
 		
 	@Test
 	public void testRule101() {
-		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(101);
-		for (GroupAIncidentReport r : exemplars) {
-			List<NIBRSError> errorList = validator.validate(r);
-			assertEquals(1, errorList.size());
-			NIBRSError e = errorList.get(0);
-			assertEquals(NIBRSErrorCode._101, e.getNIBRSErrorCode());
-		}
+		testRule(NIBRSErrorCode._101, 101);
 	}
 		
 	@Test
 	public void testRule104() {
-		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(104);
+		testRule(NIBRSErrorCode._104, 104);
+	}
+
+	@Test
+	public void testRule152() {
+		testRule(NIBRSErrorCode._152, 152);
+	}
+
+	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
+		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(ruleNumber);
 		for (GroupAIncidentReport r : exemplars) {
 			List<NIBRSError> errorList = validator.validate(r);
 			assertEquals(1, errorList.size());
 			NIBRSError e = errorList.get(0);
-			assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
+			assertEquals(ruleCode, e.getNIBRSErrorCode());
 		}
 	}
 		
