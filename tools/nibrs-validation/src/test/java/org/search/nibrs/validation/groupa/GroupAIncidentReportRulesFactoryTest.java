@@ -53,6 +53,97 @@ public class GroupAIncidentReportRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule104ForCargoTheftIndicator() {
+		
+		Rule<GroupAIncidentReport> rule104 = rulesFactory.getRule104("cargoTheftIndicator");
+		GroupAIncidentReport report = buildBaseReport();
+		
+		report.setIncludesCargoTheft(false);
+		report.setCargoTheftIndicator(null);
+		NIBRSError e = rule104.apply(report);
+		assertNull(e);
+		
+		report.setIncludesCargoTheft(true);
+		report.setCargoTheftIndicator("Y");
+		e = rule104.apply(report);
+		assertNull(e);
+		
+		report.setCargoTheftIndicator("X");
+		e = rule104.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getCargoTheftIndicator(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+		
+		report.setCargoTheftIndicator(null);
+		e = rule104.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getCargoTheftIndicator(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+		
+	}
+	
+	@Test
+	public void testRule104ForMonthOfTape() {
+		Rule<GroupAIncidentReport> rule104 = rulesFactory.getRule104("monthOfTape");
+		GroupAIncidentReport report = buildBaseReport();
+		report.setMonthOfTape(3);
+		NIBRSError e = rule104.apply(report);
+		assertNull(e);
+		report.setMonthOfTape(null);
+		e = rule104.apply(report);
+		assertNull(e);
+		report.setMonthOfTape(15);
+		e = rule104.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getMonthOfTape(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+	}
+	
+	@Test
+	public void testRule104ForYearOfTape() {
+		Rule<GroupAIncidentReport> rule104 = rulesFactory.getRule104("yearOfTape");
+		GroupAIncidentReport report = buildBaseReport();
+		report.setYearOfTape(2012);
+		NIBRSError e = rule104.apply(report);
+		assertNull(e);
+		report.setYearOfTape(null);
+		e = rule104.apply(report);
+		assertNull(e);
+		report.setYearOfTape(1925);
+		e = rule104.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getYearOfTape(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+	}
+	
+	@Test
+	public void testRule104ForReportDateIndicator() {
+		Rule<GroupAIncidentReport> rule104 = rulesFactory.getRule104("reportDateIndicator");
+		GroupAIncidentReport report = buildBaseReport();
+		report.setReportDateIndicator("R");
+		NIBRSError e = rule104.apply(report);
+		assertNull(e);
+		report.setReportDateIndicator(null);
+		e = rule104.apply(report);
+		assertNull(e);
+		report.setReportDateIndicator("X");
+		e = rule104.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getReportDateIndicator(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+	}
+	
+	@Test
 	public void testRule115() {
 		Rule<GroupAIncidentReport> rule115 = rulesFactory.getRule115();
 		GroupAIncidentReport report = buildBaseReport();
@@ -87,6 +178,25 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertTrue(p.matcher("ABCCCCCCCCCC").matches());
 		assertFalse(p.matcher("").matches());
 		assertFalse(p.matcher("           ").matches());
+	}
+	
+	@Test
+	public void testRule152() {
+		Rule<GroupAIncidentReport> rule152 = rulesFactory.getRule152();
+		GroupAIncidentReport report = buildBaseReport();
+		report.setIncidentHour(2);
+		NIBRSError e = rule152.apply(report);
+		assertNull(e);
+		report.setIncidentHour(null);
+		e = rule152.apply(report);
+		assertNull(e);
+		report.setIncidentHour(30);
+		e = rule152.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._152, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getIncidentHour(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
 	}
 
 	private GroupAIncidentReport buildBaseReport() {

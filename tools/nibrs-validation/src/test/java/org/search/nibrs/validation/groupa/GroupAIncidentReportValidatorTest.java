@@ -43,6 +43,8 @@ public class GroupAIncidentReportValidatorTest {
 	@Test
 	public void testRule115() {
 		testRule(NIBRSErrorCode._115, 115);
+		// note that rule 116 is a duplicate of 115 (essentially) so we implement them both with 115
+		testRule(NIBRSErrorCode._115, 116);
 	}
 		
 	@Test
