@@ -227,7 +227,7 @@ public class IncidentBuilder {
 			boolean cargoTheft = length == 88;
 			if (cargoTheft) {
 				String cargoTheftYN = StringUtils.getStringBetween(88, 88, segmentData);
-				newIncident.setCargoTheftIndicator("Y".equals(cargoTheftYN));
+				newIncident.setCargoTheftIndicator(cargoTheftYN);
 			}
 		} else {
 			NIBRSError e = new NIBRSError();

@@ -134,8 +134,8 @@ public class TestXMLExporter {
 		assertEquals("GROUP A INCIDENT REPORT", XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nibrs:ReportHeader/nibrs:NIBRSReportCategoryCode"));
 		assertEquals(baseIncident.getIncidentNumber(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Incident/nc:ActivityIdentification/nc:IdentificationID"));
 		assertEquals(baseIncident.getExceptionalClearanceCode(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Incident/j:IncidentAugmentation/j:IncidentExceptionalClearanceCode"));
-		assertEquals(baseIncident.getReportDateIndicator(), new Boolean(XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Incident/cjis:IncidentAugmentation/cjis:IncidentReportDateIndicator")));
-		assertEquals(baseIncident.getCargoTheftIndicator(), new Boolean(XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Incident/cjis:IncidentAugmentation/j:OffenseCargoTheftIndicator")));
+		assertNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Incident/cjis:IncidentAugmentation/cjis:IncidentReportDateIndicator"));
+		assertEquals(baseIncident.getCargoTheftIndicator(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Incident/cjis:IncidentAugmentation/j:OffenseCargoTheftIndicator"));
 		
 		for (OffenseSegment o : baseIncident.getOffenses()) {
 			String ucrCode = o.getUcrOffenseCode();
@@ -314,7 +314,7 @@ public class TestXMLExporter {
 		incident.setIncidentDate(XMLExporter.DATETIME_FORMAT.parse("2016-05-12T10:07:46.342-0500"));
 		incident.setExceptionalClearanceCode("N");
 		incident.setReportActionType('I');
-		incident.setCargoTheftIndicator(false);
+		incident.setCargoTheftIndicator("N");
 		
 		OffenseSegment o = new OffenseSegment();
 		incident.addOffense(o);

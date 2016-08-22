@@ -597,7 +597,7 @@ public class XMLExporter {
 			e.setTextContent(DATETIME_FORMAT.format(incidentDate));
 		}
 		Element augElement = XmlUtils.appendChildElement(incidentElement, Namespace.cjis, "IncidentAugmentation");
-		appendElementAndValueIfNotNull(augElement, Namespace.cjis, "IncidentReportDateIndicator", String.valueOf(incident.getReportDateIndicator()));
+		appendElementAndValueIfNotNull(augElement, Namespace.cjis, "IncidentReportDateIndicator", incident.getReportDateIndicator());
 		appendElementAndValueIfNotNull(augElement, Namespace.j, "OffenseCargoTheftIndicator", String.valueOf(incident.getCargoTheftIndicator()));
 		augElement = XmlUtils.appendChildElement(incidentElement, Namespace.j, "IncidentAugmentation");
 		appendElementAndValueIfNotNull(augElement, Namespace.j, "IncidentExceptionalClearanceCode", incident.getExceptionalClearanceCode());

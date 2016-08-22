@@ -21,11 +21,11 @@ public class GroupAIncidentReport extends AbstractReport
 	
 	private String incidentNumber;
     private Date incidentDate;
-    private String reportDateIndicatorS;
+    private String reportDateIndicator;
     private Integer incidentHour;
     private String exceptionalClearanceCode;
     private Date exceptionalClearanceDate;
-    private Boolean cargoTheftIndicator;
+    private String cargoTheftIndicator;
     private List<OffenseSegment> offenseSegmentList;
     private List<PropertySegment> propertySegmentList;
     private List<VictimSegment> victimSegmentList;
@@ -45,7 +45,7 @@ public class GroupAIncidentReport extends AbstractReport
 		super(r);
 		this.incidentNumber = r.incidentNumber;
 		this.incidentDate = r.incidentDate;
-		this.reportDateIndicatorS = r.reportDateIndicatorS;
+		this.reportDateIndicator = r.reportDateIndicator;
 		this.incidentHour = r.incidentHour;
 		this.exceptionalClearanceCode = r.exceptionalClearanceCode;
 		this.exceptionalClearanceDate = r.exceptionalClearanceDate;
@@ -129,11 +129,11 @@ public class GroupAIncidentReport extends AbstractReport
 		offenseSegmentList = new ArrayList<OffenseSegment>();
 	}
     
-    public Boolean getCargoTheftIndicator() {
+    public String getCargoTheftIndicator() {
 		return cargoTheftIndicator;
 	}
 
-	public void setCargoTheftIndicator(Boolean cargoTheftIndicator) {
+	public void setCargoTheftIndicator(String cargoTheftIndicator) {
 		this.cargoTheftIndicator = cargoTheftIndicator;
 	}
 
@@ -253,13 +253,13 @@ public class GroupAIncidentReport extends AbstractReport
     {
         this.incidentNumber = incidentNumber;
     }
-    public boolean getReportDateIndicator()
+    public String getReportDateIndicator()
     {
-        return "R".equals(reportDateIndicatorS);
+        return reportDateIndicator;
     }
     public void setReportDateIndicator(String reportDateIndicator)
     {
-        this.reportDateIndicatorS = reportDateIndicator;
+        this.reportDateIndicator = reportDateIndicator;
     }
 
 	@Override
@@ -276,7 +276,7 @@ public class GroupAIncidentReport extends AbstractReport
 		result = prime * result + ((offenderSegmentList == null) ? 0 : offenderSegmentList.hashCode());
 		result = prime * result + ((offenseSegmentList == null) ? 0 : offenseSegmentList.hashCode());
 		result = prime * result + ((propertySegmentList == null) ? 0 : propertySegmentList.hashCode());
-		result = prime * result + ((reportDateIndicatorS == null) ? 0 : reportDateIndicatorS.hashCode());
+		result = prime * result + ((reportDateIndicator == null) ? 0 : reportDateIndicator.hashCode());
 		result = prime * result + ((victimSegmentList == null) ? 0 : victimSegmentList.hashCode());
 		return result;
 	}
@@ -291,7 +291,7 @@ public class GroupAIncidentReport extends AbstractReport
 		StringBuffer sb = new StringBuffer(1024);
 		sb.append("GroupAIncidentReport:\n");
 		sb.append(super.toString());
-		sb.append("[incidentNumber=" + incidentNumber + ", incidentDate=" + incidentDate + ", reportDateIndicatorS=" + reportDateIndicatorS + ", incidentHour=" + incidentHour
+		sb.append("[incidentNumber=" + incidentNumber + ", incidentDate=" + incidentDate + ", reportDateIndicator=" + reportDateIndicator + ", incidentHour=" + incidentHour
 				+ ", exceptionalClearanceCode=" + exceptionalClearanceCode + ", exceptionalClearanceDate=" + exceptionalClearanceDate + ", cargoTheftIndicator=" + cargoTheftIndicator + ", includesLeoka=" + includesLeoka);
 		sb.append("\n").append(offenseSegmentList.size() + " OffenseSegment Segments:\n");
 		for (OffenseSegment o : offenseSegmentList) {

@@ -102,7 +102,7 @@ public class TestIncidentBuilderNewFormat
         assertEquals("02-000895", incident.getIncidentNumber());
         assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate());
         assertEquals(new Integer(10), incident.getIncidentHour());
-        assertFalse(incident.getReportDateIndicator());
+        assertNull(incident.getReportDateIndicator());
         assertEquals("N", incident.getExceptionalClearanceCode());
         assertNull(incident.getExceptionalClearanceDate());
         assertEquals(1, incident.getOffenseCount());
@@ -132,9 +132,9 @@ public class TestIncidentBuilderNewFormat
     public void testCargoTheftIndicator() {
     	List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
         GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
-        assertFalse(incident.getCargoTheftIndicator());
+        assertEquals("N", incident.getCargoTheftIndicator());
         incident = (GroupAIncidentReport) incidentList.get(1);
-        assertTrue(incident.getCargoTheftIndicator());
+        assertEquals("Y", incident.getCargoTheftIndicator());
         incident = (GroupAIncidentReport) incidentList.get(2);
         assertNull(incident.getCargoTheftIndicator());
     }
