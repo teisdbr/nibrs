@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
+import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
@@ -113,6 +114,9 @@ public class GroupAIncidentReportRulesFactory {
 					return !r.includesCargoTheft();
 				}
 			};
+		} else if ("exceptionalClearanceCode".equals(propertyName)) {
+			return new ValidValueListRule<GroupAIncidentReport>(propertyName, dataElementIdentifier, GroupAIncidentReport.class,
+					NIBRSErrorCode._101, ClearedExceptionallyCode.codeSet(), false);
 		}
 		return new NotBlankRule<>(propertyName, dataElementIdentifier, GroupAIncidentReport.class, NIBRSErrorCode._101);
 	}

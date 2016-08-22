@@ -40,6 +40,16 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule101.apply(report);
 		assertNull(e);
 		
+		rule101 = rulesFactory.getRule101("exceptionalClearanceCode", "4");
+		report = buildBaseReport();
+		report.setExceptionalClearanceCode("K");
+		e = rule101.apply(report);
+		assertNotNull(e);
+		assertEquals("4", e.getDataElementIdentifier());
+		report.setExceptionalClearanceCode("A");
+		e = rule101.apply(report);
+		assertNull(e);
+		
 	}
 	
 	@Test

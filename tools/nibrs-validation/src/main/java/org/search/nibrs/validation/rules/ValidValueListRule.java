@@ -13,15 +13,20 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 public class ValidValueListRule<T extends ValidationTarget> extends AbstractBeanPropertyRule<T> {
 	
 	private Set<String> allowedValueSet;
+	private boolean nullAllowed;
 
-	public ValidValueListRule(String propertyName, String dataElementIdentifier, Class<T> subjectClass, NIBRSErrorCode errorCode, Set<String> allowedValueSet) {
+	public ValidValueListRule(String propertyName, String dataElementIdentifier, Class<T> subjectClass, NIBRSErrorCode errorCode, Set<String> allowedValueSet, boolean nullAllowed) {
 		super(propertyName, dataElementIdentifier, subjectClass, errorCode);
 		this.allowedValueSet = allowedValueSet;
+		this.nullAllowed = nullAllowed;
+	}
+	public ValidValueListRule(String propertyName, String dataElementIdentifier, Class<T> subjectClass, NIBRSErrorCode errorCode, Set<String> allowedValueSet) {
+		this(propertyName, dataElementIdentifier, subjectClass,  errorCode, allowedValueSet, true);
 	}
 
 	@Override
 	protected boolean propertyViolatesRule(Object value) {
-		return value != null && !allowedValueSet.contains(value);
+		return (!nullAllowed && value == null) || (value != null && !allowedValueSet.contains(value));
 	}
 
 }
