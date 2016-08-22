@@ -90,6 +90,10 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
+			copy = new GroupAIncidentReport(incident);
+			copy.setCargoTheftIndicator(null);
+			copy.setIncludesCargoTheft(true);
+			incidents.add(copy);
 			return incidents;
 
 		});
@@ -113,6 +117,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
 			copy.setCargoTheftIndicator("X");
+			copy.setIncludesCargoTheft(true);
 			incidents.add(copy);
 			return incidents;
 

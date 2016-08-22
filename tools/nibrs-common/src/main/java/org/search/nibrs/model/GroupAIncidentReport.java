@@ -31,6 +31,7 @@ public class GroupAIncidentReport extends AbstractReport
     private List<VictimSegment> victimSegmentList;
     private List<OffenderSegment> offenderSegmentList;
     private boolean includesLeoka = false;
+    private boolean includesCargoTheft = false;
 
 	public GroupAIncidentReport()
     {
@@ -81,6 +82,14 @@ public class GroupAIncidentReport extends AbstractReport
 		return ret;
 	}
     
+	public boolean includesCargoTheft() {
+		return includesCargoTheft;
+	}
+
+	public void setIncludesCargoTheft(boolean includesCargoTheft) {
+		this.includesCargoTheft = includesCargoTheft;
+	}
+
     public boolean includesLeoka() {
 		return includesLeoka;
 	}

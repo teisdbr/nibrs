@@ -30,6 +30,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule101("monthOfTape", "Month of Tape"));
 		rulesList.add(getRule101("incidentDate", "3"));
 		rulesList.add(getRule101("exceptionalClearanceCode", "4"));
+		rulesList.add(getRule101("cargoTheftIndicator", "2A"));
 		rulesList.add(getRule104("reportDateIndicator"));
 		rulesList.add(getRule104("yearOfTape"));
 		rulesList.add(getRule104("monthOfTape"));
@@ -96,12 +97,23 @@ public class GroupAIncidentReportRulesFactory {
 						return e;
 					});
 		} else if ("cargoTheftIndicator".equals(propertyName)) {
-			ret = new ValidValueListRule<>(propertyName, "2A", GroupAIncidentReport.class, NIBRSErrorCode._104, CargoTheftIndicatorCode.codeSet());
+			ret = new ValidValueListRule<GroupAIncidentReport>(propertyName, "2A", GroupAIncidentReport.class, NIBRSErrorCode._104, CargoTheftIndicatorCode.codeSet()) {
+				protected boolean ignore(GroupAIncidentReport r) {
+					return !r.includesCargoTheft();
+				}
+			};
 		}
 		return ret;
 	}
 	
 	Rule<GroupAIncidentReport> getRule101(String propertyName, String dataElementIdentifier) {
+		if ("cargoTheftIndicator".equals(propertyName)) {
+			return new NotBlankRule<GroupAIncidentReport>(propertyName, dataElementIdentifier, GroupAIncidentReport.class, NIBRSErrorCode._101) {
+				protected boolean ignore(GroupAIncidentReport r) {
+					return !r.includesCargoTheft();
+				}
+			};
+		}
 		return new NotBlankRule<>(propertyName, dataElementIdentifier, GroupAIncidentReport.class, NIBRSErrorCode._101);
 	}
 

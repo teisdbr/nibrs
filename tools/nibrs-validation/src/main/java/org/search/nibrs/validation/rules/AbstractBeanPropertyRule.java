@@ -44,19 +44,28 @@ public abstract class AbstractBeanPropertyRule<T extends ValidationTarget> imple
 	@Override
 	public final NIBRSError apply(T subject) {
 		NIBRSError ret = null;
-		try {
-			Object value = property.getReadMethod().invoke(subject, new Object[0]);
-			if (propertyViolatesRule(value)) {
-				ret = subject.getErrorTemplate();
-				ret.setValue(value);
-				ret.setDataElementIdentifier(dataElementIdentifier);
-				ret.setNIBRSErrorCode(errorCode);
+		if (!ignore(subject)) {
+			try {
+				Object value = property.getReadMethod().invoke(subject, new Object[0]);
+				if (propertyViolatesRule(value)) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(value);
+					ret.setDataElementIdentifier(dataElementIdentifier);
+					ret.setNIBRSErrorCode(errorCode);
+				}
+			} catch (ReflectiveOperationException e) {
+				// this really should never happen...
+				throw new RuntimeException(e);
 			}
-		} catch (ReflectiveOperationException e) {
-			// this really should never happen...
-			throw new RuntimeException(e);
 		}
 		return ret;
+	}
+	
+	/**
+	 * Templated method that derived types can override to determine if the rule should be ignored for a particular incident.
+	 */
+	protected boolean ignore(T subject) {
+		return false;
 	}
 	
 	/**

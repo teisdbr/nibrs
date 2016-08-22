@@ -229,6 +229,7 @@ public class IncidentBuilder {
 			if (cargoTheft) {
 				String cargoTheftYN = StringUtils.getStringBetween(88, 88, segmentData);
 				newIncident.setCargoTheftIndicator(cargoTheftYN);
+				newIncident.setIncludesCargoTheft(true);
 			}
 		} else {
 			NIBRSError e = new NIBRSError();
