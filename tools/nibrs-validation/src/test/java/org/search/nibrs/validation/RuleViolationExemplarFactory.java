@@ -2279,6 +2279,8 @@ public class RuleViolationExemplarFactory {
 			property.setValueOfProperty(0, 10000);
 						
 			incidents.add(copy);
+			copy.addProperty(property);
+			
 			
 			return incidents;
 			
@@ -2288,6 +2290,8 @@ public class RuleViolationExemplarFactory {
 			//(Estimated Drug Quantity) Since Data Element 20 (Suspected Drug Type) 
 			//contains X=Over 3 Drug Types, Data Element 21 (Estimated Quantity) and 22 
 			//(Type Measurement) must be blank
+			//
+			//EstimatedDrugQuantity not blank
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("35A");
@@ -2304,9 +2308,30 @@ public class RuleViolationExemplarFactory {
 			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			property.setSuspectedDrugType(0, "X");
 			property.setEstimatedDrugQuantity(0, 1.0);
-			property.setTypeDrugMeasurement(0, "OZ");
+			property.setTypeDrugMeasurement(0, null);
+			//TypeDrugMeasurement not blank
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("6");
+			property2.setPropertyDescription(0, "10");
+			property2.setValueOfProperty(0, 10000);
+			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property2.setSuspectedDrugType(0, "X");
+			property2.setEstimatedDrugQuantity(0, null);
+			property2.setTypeDrugMeasurement(0, "OZ");
 			
 			incidents.add(copy);
+			incidents.add(copy2);
+			copy.addProperty(property);
+			copy2.addProperty(property2);
+			
 			return incidents;
 			
 		});
@@ -2588,6 +2613,7 @@ public class RuleViolationExemplarFactory {
 			property.setTypeDrugMeasurement(0, "XX");
 			
 			incidents.add(copy);
+			copy.addProperty(property);
 			return incidents;
 			
 		});
