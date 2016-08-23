@@ -111,6 +111,7 @@ public abstract class AbstractReport implements ValidationTarget {
 	}
 	public void addArrestee(ArresteeSegment arrestee) {
 	    arresteeSegmentList.add(arrestee);
+	    arrestee.setParentReport(this);
 	}
 	public int getArresteeCount() {
 	    return arresteeSegmentList.size();
