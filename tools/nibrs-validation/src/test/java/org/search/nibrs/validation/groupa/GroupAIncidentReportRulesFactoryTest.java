@@ -2,6 +2,7 @@ package org.search.nibrs.validation.groupa;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
@@ -250,6 +251,32 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertFalse(p.matcher("a").matches());
 		assertFalse(p.matcher("A B").matches());
 		assertFalse(p.matcher("11+123*SC").matches());
+	}
+	
+	@Test
+	public void testRule170() {
+		Rule<GroupAIncidentReport> rule170 = rulesFactory.getRule170();
+		GroupAIncidentReport report = buildBaseReport();
+		report.setYearOfTape(2015);
+		report.setMonthOfTape(12);
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, 2015);
+		c.set(Calendar.MONTH, Calendar.JANUARY);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		report.setIncidentDate(null);
+		NIBRSError e = rule170.apply(report);
+		assertNull(e);
+		report.setIncidentDate(c.getTime());
+		e = rule170.apply(report);
+		assertNull(e);
+		c.set(Calendar.YEAR, 2016);
+		report.setIncidentDate(c.getTime());
+		e = rule170.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._170, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getIncidentDate(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
 	}
 	
 	private GroupAIncidentReport buildBaseReport() {

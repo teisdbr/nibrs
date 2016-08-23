@@ -1,7 +1,10 @@
 package org.search.nibrs.validation.groupa;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +61,44 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule117());
 		rulesList.add(getRule119());
 		rulesList.add(getRule152());
+		rulesList.add(getRule170());
+	}
+	
+	Rule<GroupAIncidentReport> getRule170() {
+		
+		Rule<GroupAIncidentReport> ret = new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				Integer month = subject.getMonthOfTape();
+				Integer year = subject.getYearOfTape();
+				if (month != null && month > 0 && month < 13 && year != null) {
+					if (month == 12) {
+						month = 1;
+						year++;
+					} else {
+						month++;
+					}
+					LocalDate submissionDate = LocalDate.of(year, month, 1).minusDays(1);
+					Date incidentDate = subject.getIncidentDate();
+					if (incidentDate != null) {
+						Calendar c = Calendar.getInstance();
+						c.setTime(incidentDate);
+						LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+						if (incidentLocalDate.isAfter(submissionDate)) {
+							ret = subject.getErrorTemplate();
+							ret.setDataElementIdentifier("3");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._170);
+							ret.setValue(incidentDate);
+						}
+					}
+				}
+				return ret;
+			}
+		};
+		
+		return ret;
+		
 	}
 	
 	Rule<GroupAIncidentReport> getRule119() {

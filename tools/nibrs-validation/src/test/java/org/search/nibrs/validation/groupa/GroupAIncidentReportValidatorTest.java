@@ -42,9 +42,9 @@ public class GroupAIncidentReportValidatorTest {
 
 	@Test
 	public void testRule115() {
-		testRule(NIBRSErrorCode._115, 115, 2);
+		testRule(NIBRSErrorCode._115, 115);
 		// note that rule 116 is a duplicate of 115 (essentially) so we implement them both with 115
-		testRule(NIBRSErrorCode._115, 116, 2);
+		testRule(NIBRSErrorCode._115, 116);
 	}
 		
 	@Test
@@ -62,15 +62,15 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._152, 152);
 	}
 	
-	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
-		testRule(ruleCode, ruleNumber, 1);
+	@Test
+	public void testRule170() {
+		testRule(NIBRSErrorCode._170, 170);
 	}
-
-	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber, int errorsProduced) {
+	
+	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
 		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(ruleNumber);
 		for (GroupAIncidentReport r : exemplars) {
 			List<NIBRSError> errorList = validator.validate(r);
-			assertEquals(errorsProduced, errorList.size());
 			boolean found = false;
 			for (NIBRSError e : errorList) {
 				if (ruleCode == e.getNIBRSErrorCode()) {
