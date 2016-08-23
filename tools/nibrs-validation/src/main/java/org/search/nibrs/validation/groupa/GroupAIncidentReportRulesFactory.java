@@ -91,9 +91,26 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule117());
 		rulesList.add(getRule119());
 		rulesList.add(getRule152());
+		rulesList.add(getRule153());
 		rulesList.add(getRule170());
 		rulesList.add(getRule171());
 		rulesList.add(getRule172());
+	}
+	
+	Rule<GroupAIncidentReport> getRule153() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				if (subject.getExceptionalClearanceDate() != null && "N".equals(subject.getExceptionalClearanceCode())) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(subject.getExceptionalClearanceCode());
+					ret.setDataElementIdentifier("4");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._153);
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule172() {

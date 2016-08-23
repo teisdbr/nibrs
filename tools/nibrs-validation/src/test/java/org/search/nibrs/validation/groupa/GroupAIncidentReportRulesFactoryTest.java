@@ -331,6 +331,26 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(report.getSource(), e.getContext());
 	}
 	
+	@Test
+	public void testRule153() {
+		Rule<GroupAIncidentReport> rule153 = rulesFactory.getRule153();
+		GroupAIncidentReport report = buildBaseReport();
+		report.setExceptionalClearanceCode("N");
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.YEAR, 2015);
+		c.set(Calendar.MONTH, Calendar.MARCH);
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		report.setExceptionalClearanceDate(null);
+		assertNull(rule153.apply(report));
+		report.setExceptionalClearanceDate(c.getTime());
+		NIBRSError e = rule153.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._153, e.getNIBRSErrorCode());
+		assertEquals('1', e.getSegmentType());
+		assertEquals(report.getExceptionalClearanceCode(), e.getValue());
+		assertEquals(report.getSource(), e.getContext());
+	}
+	
 	private GroupAIncidentReport buildBaseReport() {
 		GroupAIncidentReport report;
 		report = new GroupAIncidentReport();
