@@ -60,6 +60,7 @@ public class GroupAIncidentReportRulesFactory {
 
 	private List<Rule<GroupAIncidentReport>> rulesList = new ArrayList<>();
 	private Set<String> cargoTheftOffenses = new HashSet<>();
+	private Set<String> trueExceptionalClearanceCodes = new HashSet<>();
 	
 	public GroupAIncidentReportRulesFactory() {
 		
@@ -77,6 +78,9 @@ public class GroupAIncidentReportRulesFactory {
 		cargoTheftOffenses.add(OffenseCode._510.code);
 		cargoTheftOffenses.add(OffenseCode._270.code);
 		
+		trueExceptionalClearanceCodes = ClearedExceptionallyCode.codeSet();
+		trueExceptionalClearanceCodes.remove(ClearedExceptionallyCode.N.code);
+		
 		rulesList.add(getRule101("ori", "1"));
 		rulesList.add(getRule101("incidentNumber", "2"));
 		rulesList.add(getRule101("yearOfTape", "Year of Tape"));
@@ -93,6 +97,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule152());
 		rulesList.add(getRule153());
 		rulesList.add(getRule155());
+		rulesList.add(getRule156());
 		rulesList.add(getRule170());
 		rulesList.add(getRule171());
 		rulesList.add(getRule172());
@@ -117,6 +122,22 @@ public class GroupAIncidentReportRulesFactory {
 						ret.setDataElementIdentifier("5");
 						ret.setNIBRSErrorCode(NIBRSErrorCode._155);
 					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<GroupAIncidentReport> getRule156() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				if (subject.getExceptionalClearanceDate() == null && trueExceptionalClearanceCodes.contains(subject.getExceptionalClearanceCode())) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(subject.getExceptionalClearanceCode());
+					ret.setDataElementIdentifier("5");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._156);
 				}
 				return ret;
 			}
