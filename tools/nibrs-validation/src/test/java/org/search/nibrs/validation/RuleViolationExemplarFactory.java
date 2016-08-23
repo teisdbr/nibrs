@@ -2563,6 +2563,35 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(384 , incident -> {
+			//Data Element 21 (Estimated Drug Quantity) must be 000000001000=None (i.e., 1) 
+			//when Data Element 22 (Type Drug Measurement) is XX=Not Reported 
+			//indicating the drugs were sent to a laboratory for analysis. 
+			//When the drug analysis is received by the LEA, Data Element 21 and 
+			//Data Element 22 should be updated with the correct data values.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setValueOfProperty(0, 10000);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setSuspectedDrugType(0, "B");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "XX");
+			
+			incidents.add(copy);
+			return incidents;
+			
+		});
+		
 			groupATweakerMap.put(387, incident -> {
 			//(PropertySegment Description) To ensure that 35A-35B Drug/Narcotic Offenses-Drug Equipment 
 			//Violations are properly reported, Data Element 15 (PropertySegment Description) of 11=Drug/Narcotic Equipment 
