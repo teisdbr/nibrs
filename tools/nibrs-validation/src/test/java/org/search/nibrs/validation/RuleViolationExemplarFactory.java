@@ -2298,7 +2298,7 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("1");
+			property.setTypeOfPropertyLoss("6");
 			property.setPropertyDescription(0, "10");
 			property.setValueOfProperty(0, 10000);
 			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
@@ -2311,6 +2311,34 @@ public class RuleViolationExemplarFactory {
 			
 		});
 			
+		groupATweakerMap.put(364 , incident -> {
+			//(Estimated Drug Quantity) When Data Element 6 (UCR Offense Code) is 
+			//35A=Drug/Narcotic Violations, 14 (Type Property Loss/Etc.) is 6=Seized, 
+			//15 (Type Property Description) is 10=Drugs, and Data Element 20 
+			//(Suspected Drug Type) is entered, both Data Element 21 (Estimated Quantity) and 22 
+			//(Type Measurement) must also be entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setValueOfProperty(0, 10000);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setSuspectedDrugType(0, "B");
+			property.setEstimatedDrugQuantity(0, null);
+			property.setTypeDrugMeasurement(0, null);
+			
+			incidents.add(copy);
+			return incidents;
+			
+		});
 			
 		
 		groupATweakerMap.put(372, incident -> {
