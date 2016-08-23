@@ -285,42 +285,34 @@ public class RuleViolationExemplarFactory {
 			// Segment 2 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setMonthOfTape(null);
-			//Data Element 1
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri(null);
-			//Data  Element 2
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber(null);
 			//Data Element 6
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.getOffenses().get(0).setUcrOffenseCode(null);
-			//Data Element 7
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.getOffenses().get(0).setOffenseAttemptedCompleted(null);
-			//Data Element 8
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
-			//Data Element 8A
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getOffenses().get(0).setBiasMotivation(0, null);
-			//Data Element 9
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			copy9.getOffenses().get(0).setLocationType(null);
-						
+			copy.getOffenses().get(0).setUcrOffenseCode(null);
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			
+			//Data Element 7
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted(null);
+			incidents.add(copy);
+			//Data Element 8
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
+			incidents.add(copy);
+			//Data Element 8A
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setBiasMotivation(0, null);
+			incidents.add(copy);
+			//Data Element 9
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setLocationType(null);
+			incidents.add(copy);
 						
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode(null);
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted(null);
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
+			copy.getOffenses().get(0).setBiasMotivation(0, null);
+			copy.getOffenses().get(0).setLocationType(null);
+			incidents.add(copy);
+
 			return incidents;
 		});
 
