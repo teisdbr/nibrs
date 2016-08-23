@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
@@ -28,6 +30,9 @@ import org.search.nibrs.validation.rules.ValidValueListRule;
  */
 public class GroupAIncidentReportRulesFactory {
 	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReportRulesFactory.class);
+	
 	private static abstract class IncidentDateRule implements Rule<GroupAIncidentReport> {
 		@Override
 		public NIBRSError apply(GroupAIncidentReport subject) {
@@ -43,9 +48,7 @@ public class GroupAIncidentReportRulesFactory {
 				}
 				Date incidentDate = subject.getIncidentDate();
 				if (incidentDate != null) {
-					NIBRSError errorTemplate = subject.getErrorTemplate();
-					NIBRSError e = compareIncidentDateToTape(month, year, incidentDate, errorTemplate);
-					ret = e;
+					ret = compareIncidentDateToTape(month, year, incidentDate, subject.getErrorTemplate());
 				}
 			}
 			return ret;
@@ -90,6 +93,28 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule152());
 		rulesList.add(getRule170());
 		rulesList.add(getRule171());
+		rulesList.add(getRule172());
+	}
+	
+	Rule<GroupAIncidentReport> getRule172() {
+		
+		return new IncidentDateRule() {
+			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate) {
+				LocalDate fbiNIBRSStartDate = LocalDate.of(1991, 1, 1);
+				Calendar c = Calendar.getInstance();
+				c.setTime(incidentDate);
+				LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+				NIBRSError e = null;
+				if (incidentLocalDate.isBefore(fbiNIBRSStartDate)) {
+					e = errorTemplate;
+					e.setDataElementIdentifier("3");
+					e.setNIBRSErrorCode(NIBRSErrorCode._172);
+					e.setValue(incidentDate);
+				}
+				return e;
+			}
+		};
+		
 	}
 	
 	Rule<GroupAIncidentReport> getRule171() {
