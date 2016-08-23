@@ -28,6 +28,33 @@ import org.search.nibrs.validation.rules.ValidValueListRule;
  */
 public class GroupAIncidentReportRulesFactory {
 	
+	private static abstract class IncidentDateRule implements Rule<GroupAIncidentReport> {
+		@Override
+		public NIBRSError apply(GroupAIncidentReport subject) {
+			NIBRSError ret = null;
+			Integer month = subject.getMonthOfTape();
+			Integer year = subject.getYearOfTape();
+			if (month != null && month > 0 && month < 13 && year != null) {
+				if (month == 12) {
+					month = 1;
+					year++;
+				} else {
+					month++;
+				}
+				Date incidentDate = subject.getIncidentDate();
+				if (incidentDate != null) {
+					NIBRSError errorTemplate = subject.getErrorTemplate();
+					NIBRSError e = compareIncidentDateToTape(month, year, incidentDate, errorTemplate);
+					ret = e;
+				}
+			}
+			return ret;
+		}
+
+		protected abstract NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate);
+		
+	}
+
 	private List<Rule<GroupAIncidentReport>> rulesList = new ArrayList<>();
 	private Set<String> cargoTheftOffenses = new HashSet<>();
 	
@@ -62,42 +89,48 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule119());
 		rulesList.add(getRule152());
 		rulesList.add(getRule170());
+		rulesList.add(getRule171());
+	}
+	
+	Rule<GroupAIncidentReport> getRule171() {
+		
+		return new IncidentDateRule() {
+			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate) {
+				LocalDate priorYearStartDate = LocalDate.of(year-1, 1, 1);
+				Calendar c = Calendar.getInstance();
+				c.setTime(incidentDate);
+				LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+				NIBRSError e = null;
+				if (incidentLocalDate.isBefore(priorYearStartDate)) {
+					e = errorTemplate;
+					e.setDataElementIdentifier("3");
+					e.setNIBRSErrorCode(NIBRSErrorCode._171);
+					e.setValue(incidentDate);
+				}
+				return e;
+			}
+		};
+		
 	}
 	
 	Rule<GroupAIncidentReport> getRule170() {
 		
-		Rule<GroupAIncidentReport> ret = new Rule<GroupAIncidentReport>() {
-			@Override
-			public NIBRSError apply(GroupAIncidentReport subject) {
-				NIBRSError ret = null;
-				Integer month = subject.getMonthOfTape();
-				Integer year = subject.getYearOfTape();
-				if (month != null && month > 0 && month < 13 && year != null) {
-					if (month == 12) {
-						month = 1;
-						year++;
-					} else {
-						month++;
-					}
-					LocalDate submissionDate = LocalDate.of(year, month, 1).minusDays(1);
-					Date incidentDate = subject.getIncidentDate();
-					if (incidentDate != null) {
-						Calendar c = Calendar.getInstance();
-						c.setTime(incidentDate);
-						LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-						if (incidentLocalDate.isAfter(submissionDate)) {
-							ret = subject.getErrorTemplate();
-							ret.setDataElementIdentifier("3");
-							ret.setNIBRSErrorCode(NIBRSErrorCode._170);
-							ret.setValue(incidentDate);
-						}
-					}
+		return new IncidentDateRule() {
+			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate) {
+				LocalDate submissionDate = LocalDate.of(year, month, 1).minusDays(1);
+				Calendar c = Calendar.getInstance();
+				c.setTime(incidentDate);
+				LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+				NIBRSError e = null;
+				if (incidentLocalDate.isAfter(submissionDate)) {
+					e = errorTemplate;
+					e.setDataElementIdentifier("3");
+					e.setNIBRSErrorCode(NIBRSErrorCode._170);
+					e.setValue(incidentDate);
 				}
-				return ret;
+				return e;
 			}
 		};
-		
-		return ret;
 		
 	}
 	
