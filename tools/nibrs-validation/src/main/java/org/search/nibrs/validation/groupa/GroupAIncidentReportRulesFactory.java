@@ -92,9 +92,35 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule119());
 		rulesList.add(getRule152());
 		rulesList.add(getRule153());
+		rulesList.add(getRule155());
 		rulesList.add(getRule170());
 		rulesList.add(getRule171());
 		rulesList.add(getRule172());
+	}
+	
+	Rule<GroupAIncidentReport> getRule155() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				Date exceptionalClearanceDate = subject.getExceptionalClearanceDate();
+				Date incidentDate = subject.getIncidentDate();
+				if (exceptionalClearanceDate != null && incidentDate != null) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(incidentDate);
+					LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+					c.setTime(exceptionalClearanceDate);
+					LocalDate exceptionalClearanceLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+					if (exceptionalClearanceLocalDate.isBefore(incidentLocalDate)) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(subject.getExceptionalClearanceDate());
+						ret.setDataElementIdentifier("5");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._155);
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule153() {
