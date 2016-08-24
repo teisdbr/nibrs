@@ -645,8 +645,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy28);
 			incidents.add(copy29);
 			incidents.add(copy30);
-			
-					
+				
 			return incidents;
 
 		});
@@ -1618,7 +1617,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("5");
 			property2.setPropertyDescription(0, "03");
-			property2.setValueOfProperty(0, 000010000);
+			property2.setValueOfProperty(0, 10000);
 			property2.setNumberOfRecoveredMotorVehicles(1);
 			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(2015, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Invalid Year
@@ -1633,7 +1632,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property3 = new PropertySegment();
 			property3.setTypeOfPropertyLoss("5");
 			property3.setPropertyDescription(0, "03");
-			property3.setValueOfProperty(0, 000010000);
+			property3.setValueOfProperty(0, 10000);
 			property3.setNumberOfRecoveredMotorVehicles(1);
 			property3.setDateRecovered(0, (Date.from(LocalDateTime.of(16, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Invalid Month
@@ -1648,7 +1647,7 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property4 = new PropertySegment();
 			property4.setTypeOfPropertyLoss("5");
 			property4.setPropertyDescription(0, "03");
-			property4.setValueOfProperty(0, 000010000);
+			property4.setValueOfProperty(0, 10000);
 			property4.setNumberOfRecoveredMotorVehicles(1);
 			property4.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 13, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Invalid days in month
@@ -1663,10 +1662,9 @@ public class RuleViolationExemplarFactory {
 			PropertySegment property5 = new PropertySegment();
 			property5.setTypeOfPropertyLoss("5");
 			property5.setPropertyDescription(0, "03");
-			property5.setValueOfProperty(0, 000010000);
+			property5.setValueOfProperty(0, 100000);
 			property5.setNumberOfRecoveredMotorVehicles(1);
 			property5.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 32, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			
 			
 			
 			incidents.add(copy);
@@ -1679,7 +1677,6 @@ public class RuleViolationExemplarFactory {
 			copy3.addProperty(property3);
 			copy4.addProperty(property4);
 			copy5.addProperty(property5);
-			
 			
 			
 			return incidents;
@@ -2004,7 +2001,7 @@ public class RuleViolationExemplarFactory {
 
 			
 		groupATweakerMap.put(354, incident -> {
-			// (Property Description) Data Element 16 (Value of Property) contains a value,
+			// Data Element 16 (Value of Property) contains a value,
 			// but Data Element 15 (Property Description) was not entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -2274,10 +2271,92 @@ public class RuleViolationExemplarFactory {
 			property.setValueOfProperty(0, 10000);
 						
 			incidents.add(copy);
+			copy.addProperty(property);
+			
 			
 			return incidents;
 			
 		});
+		
+		groupATweakerMap.put(363 , incident -> {
+			//(Estimated Drug Quantity) Since Data Element 20 (Suspected Drug Type) 
+			//contains X=Over 3 Drug Types, Data Element 21 (Estimated Quantity) and 22 
+			//(Type Measurement) must be blank
+			//
+			//EstimatedDrugQuantity not blank
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setValueOfProperty(0, 10000);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setSuspectedDrugType(0, "X");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, null);
+			//TypeDrugMeasurement not blank
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy2.getOffenses().get(0).setLocationType("20");
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property2 = new PropertySegment();
+			property2.setTypeOfPropertyLoss("6");
+			property2.setPropertyDescription(0, "10");
+			property2.setValueOfProperty(0, 10000);
+			property2.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property2.setSuspectedDrugType(0, "X");
+			property2.setEstimatedDrugQuantity(0, null);
+			property2.setTypeDrugMeasurement(0, "OZ");
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			copy.addProperty(property);
+			copy2.addProperty(property2);
+			
+			return incidents;
+			
+		});
+			
+		groupATweakerMap.put(364 , incident -> {
+			//(Estimated Drug Quantity) When Data Element 6 (UCR Offense Code) is 
+			//35A=Drug/Narcotic Violations, 14 (Type Property Loss/Etc.) is 6=Seized, 
+			//15 (Type Property Description) is 10=Drugs, and Data Element 20 
+			//(Suspected Drug Type) is entered, both Data Element 21 (Estimated Quantity) and 22 
+			//(Type Measurement) must also be entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setValueOfProperty(0, 10000);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setSuspectedDrugType(0, "B");
+			property.setEstimatedDrugQuantity(0, null);
+			property.setTypeDrugMeasurement(0, null);
+			
+			incidents.add(copy);
+			return incidents;
+			
+		});
+			
 		
 		groupATweakerMap.put(372, incident -> {
 			//(Type of PropertySegment Loss) is 
@@ -2499,6 +2578,36 @@ public class RuleViolationExemplarFactory {
 			copy.addProperty(property);
 						
 			return incidents;
+		});
+		
+		groupATweakerMap.put(384 , incident -> {
+			//Data Element 21 (Estimated Drug Quantity) must be 000000001000=None (i.e., 1) 
+			//when Data Element 22 (Type Drug Measurement) is XX=Not Reported 
+			//indicating the drugs were sent to a laboratory for analysis. 
+			//When the drug analysis is received by the LEA, Data Element 21 and 
+			//Data Element 22 should be updated with the correct data values.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setValueOfProperty(0, 10000);
+			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 11, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setSuspectedDrugType(0, "B");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "XX");
+			
+			incidents.add(copy);
+			copy.addProperty(property);
+			return incidents;
+			
 		});
 		
 			groupATweakerMap.put(387, incident -> {
