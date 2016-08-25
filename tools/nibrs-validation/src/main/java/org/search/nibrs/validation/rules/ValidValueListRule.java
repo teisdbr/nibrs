@@ -2,6 +2,8 @@ package org.search.nibrs.validation.rules;
 
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
@@ -11,6 +13,9 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  * @param <T> The class of subjects to which this rule applies
  */
 public class ValidValueListRule<T extends ValidationTarget> extends AbstractBeanPropertyRule<T> {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(ValidValueListRule.class);
 	
 	private Set<String> allowedValueSet;
 	private boolean nullAllowed;
@@ -26,7 +31,24 @@ public class ValidValueListRule<T extends ValidationTarget> extends AbstractBean
 
 	@Override
 	protected boolean propertyViolatesRule(Object value) {
-		return (!nullAllowed && value == null) || (value != null && !allowedValueSet.contains(value));
+		boolean ret = false;
+		if (!nullAllowed && value == null) {
+			ret = true;
+		} else if (value != null) {
+			if (value.getClass().isArray()) {
+				boolean allNull = true;
+				for (Object o : (Object[]) value) {
+					if (o != null) {
+						ret |= !allowedValueSet.contains(o);
+						allNull = false;
+					}
+				}
+				ret |= (!nullAllowed && allNull);
+			} else {
+				ret = !allowedValueSet.contains(value);
+			}
+		}
+		return ret;
 	}
-
+	
 }
