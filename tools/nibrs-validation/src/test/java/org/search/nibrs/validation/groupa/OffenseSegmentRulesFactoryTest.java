@@ -2,6 +2,8 @@ package org.search.nibrs.validation.groupa;
 
 import static org.junit.Assert.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
@@ -18,6 +20,9 @@ import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class OffenseSegmentRulesFactoryTest {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(OffenseSegmentRulesFactoryTest.class);
 	
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
 	
@@ -130,6 +135,7 @@ public class OffenseSegmentRulesFactoryTest {
 		assertEquals('2', e.getSegmentType());
 		assertEquals("10", e.getDataElementIdentifier());
 		assertEquals(500, e.getValue());
+		assertEquals(o.getUcrOffenseCode(), e.getWithinSegmentIdentifier());
 
 	}
 	
@@ -158,7 +164,7 @@ public class OffenseSegmentRulesFactoryTest {
 		o.setOffendersSuspectedOfUsing(0, "XXX");
 		e = rule201.apply(o);
 		assertNotNull(e);
-		
+
 	}
 
 	@Test
@@ -175,12 +181,14 @@ public class OffenseSegmentRulesFactoryTest {
 		assertEquals("6", e.getDataElementIdentifier());
 		assertEquals(null, e.getValue());
 		assertEquals(report.getSource(), e.getContext());
+		assertEquals(o.getUcrOffenseCode(), e.getWithinSegmentIdentifier());
 		o.setUcrOffenseCode(OffenseCode._09A.code);
 		e = rule201.apply(o);
 		assertNull(e);
 		o.setUcrOffenseCode("XXX");
 		e = rule201.apply(o);
 		assertNotNull(e);
+		assertEquals(o.getUcrOffenseCode(), e.getWithinSegmentIdentifier());
 		
 	}
 
@@ -198,6 +206,7 @@ public class OffenseSegmentRulesFactoryTest {
 		assertEquals("7", e.getDataElementIdentifier());
 		assertEquals(null, e.getValue());
 		assertEquals(report.getSource(), e.getContext());
+		assertEquals(o.getUcrOffenseCode(), e.getWithinSegmentIdentifier());
 		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.A.code);
 		e = rule201.apply(o);
 		assertNull(e);
@@ -266,6 +275,7 @@ public class OffenseSegmentRulesFactoryTest {
 		source.setSourceName(getClass().getName());
 		report.setSource(source);
 		OffenseSegment o = new OffenseSegment();
+		o.setUcrOffenseCode(OffenseCode._09A.code);
 		report.addOffense(o);
 		return o;
 	}
