@@ -5015,6 +5015,18 @@ public class RuleViolationExemplarFactory {
 				
 			});
 		
+		groupATweakerMap.put(422, incident -> {
+			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
+			//component must be less than the second age.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAgeString("0025");
+				
+			incidents.add(copy);
+				
+			return incidents;
+				
+			});
 		
 		
 		groupATweakerMap.put(406, incident -> {
