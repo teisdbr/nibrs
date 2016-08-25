@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.validation.rules.Rule;
 
 /**
@@ -14,11 +15,11 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportValidator {
 	
 	private List<Rule<GroupAIncidentReport>> incidentReportRules = new ArrayList<>();
+	private List<Rule<OffenseSegment>> offenseSegmentRules = new ArrayList<>();
 	
 	public GroupAIncidentReportValidator() {
-		
 		incidentReportRules = new GroupAIncidentReportRulesFactory().getRulesList();
-		
+		offenseSegmentRules = new OffenseSegmentRulesFactory().getRulesList();
 	}
 
 	public List<NIBRSError> validate(GroupAIncidentReport groupAIncidentReport) {
@@ -29,6 +30,15 @@ public class GroupAIncidentReportValidator {
 			NIBRSError e = r.apply(groupAIncidentReport);
 			if (e != null) {
 				ret.add(e);
+			}
+		}
+		
+		for (Rule<OffenseSegment> r : offenseSegmentRules) {
+			for (OffenseSegment os : groupAIncidentReport.getOffenses()) {
+				NIBRSError e = r.apply(os);
+				if (e != null) {
+					ret.add(e);
+				}
 			}
 		}
 		

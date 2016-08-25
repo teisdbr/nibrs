@@ -285,42 +285,37 @@ public class RuleViolationExemplarFactory {
 			// Segment 2 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setMonthOfTape(null);
-			//Data Element 1
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri(null);
-			//Data  Element 2
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber(null);
-			//Data Element 6
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.getOffenses().get(0).setUcrOffenseCode(null);
-			//Data Element 7
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.getOffenses().get(0).setOffenseAttemptedCompleted(null);
-			//Data Element 8
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
-			//Data Element 8A
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getOffenses().get(0).setBiasMotivation(0, null);
-			//Data Element 9
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			copy9.getOffenses().get(0).setLocationType(null);
-						
+			copy.getOffenses().get(0).setUcrOffenseCode("XXX");
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			
+			copy = new GroupAIncidentReport(incident);
+			//Data Element 6
+			copy.getOffenses().get(0).setUcrOffenseCode(null);
+			incidents.add(copy);
+			//Data Element 7
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted(null);
+			incidents.add(copy);
+			//Data Element 8
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
+			incidents.add(copy);
+			//Data Element 8A
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setBiasMotivation(0, null);
+			incidents.add(copy);
+			//Data Element 9
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setLocationType(null);
+			incidents.add(copy);
 						
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode(null);
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted(null);
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, null);
+			copy.getOffenses().get(0).setBiasMotivation(0, null);
+			copy.getOffenses().get(0).setLocationType(null);
+			incidents.add(copy);
+
 			return incidents;
 		});
 
@@ -329,40 +324,29 @@ public class RuleViolationExemplarFactory {
 			// be populated with a valid data value.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setOri("1234567890123");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setOri("ZZ123456789");
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setCityIndicator("ZZ12");
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.getOffenses().get(0).setUcrOffenseCode("XXX");
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.getOffenses().get(0).setBiasMotivation(0, "10");
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.getOffenses().get(0).setLocationType("99");
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getOffenses().get(0).setNumberOfPremisesEntered(100);
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getOffenses().get(0).setMethodOfEntry(null);
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			copy9.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "10");
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			copy11.getOffenses().get(0).setAutomaticWeaponIndicator(0, "B");
-			
+			copy.getOffenses().get(0).setBiasMotivation(0, "10");
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setLocationType("99");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setMethodOfEntry("X");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "XX");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "10");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setAutomaticWeaponIndicator(0, "B");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(100);
+			incidents.add(copy);
+			
 			return incidents;
+			
 		});
 
 		groupATweakerMap.put(206, incident -> {
@@ -374,24 +358,26 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "A");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(1, "C");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(2, "C");
-			//Data Element 8A
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenses().get(0).setBiasMotivation(0, "15");
-			copy2.getOffenses().get(0).setBiasMotivation(0, "26");
-			copy2.getOffenses().get(0).setBiasMotivation(0, "26");
-			//Data Element 12
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3.getOffenses().get(0).setTypeOfCriminalActivity(1, "J");
-			copy3.getOffenses().get(0).setTypeOfCriminalActivity(2, "P");
-			//Data Element 13
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
-			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "11");
-			
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
+			//Data Element 8A
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setBiasMotivation(0, "15");
+			copy.getOffenses().get(0).setBiasMotivation(1, "26");
+			copy.getOffenses().get(0).setBiasMotivation(2, "26");
+			incidents.add(copy);
+			//Data Element 12
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(1, "J");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(2, "P");
+			incidents.add(copy);
+			//Data Element 13
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "11");
+			copy.getOffenses().get(0).setBiasMotivation(0, "15");
+			copy.getOffenses().get(0).setBiasMotivation(1, "26");
+			copy.getOffenses().get(0).setBiasMotivation(2, "26");
+			incidents.add(copy);
 			
 			return incidents;
 
@@ -405,23 +391,48 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "A");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(1, "N");
-			//Data Element 8A
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenses().get(0).setBiasMotivation(0, "15");
-			copy2.getOffenses().get(0).setBiasMotivation(1, "88");
-			//Data Element 12
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
-			copy3.getOffenses().get(0).setTypeOfCriminalActivity(1, "N");
-			//Data Element 13
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
-			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "99");
-			
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
+			//Data Element 8A
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setBiasMotivation(0, "15");
+			copy.getOffenses().get(0).setBiasMotivation(1, "88");
+			incidents.add(copy);
+			//Data Element 12
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(1, "N");
+			incidents.add(copy);
+			//Data Element 13
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "99");
+			incidents.add(copy);
+			
+			return incidents;
+
+		});
+		
+		groupATweakerMap.put(219, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09B");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "B");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09B");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "C");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(1, "J");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("250");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("720");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
+			incidents.add(copy);
+			
 			return incidents;
 
 		});
@@ -463,31 +474,6 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
 			copy8.getOffenses().get(0).setUcrOffenseCode("720");
 			copy8.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			//TypeOfCriminalActivity must be valid
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
-			copy9.getOffenses().get(0).setUcrOffenseCode("250");
-			copy9.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
-			copy10.getOffenses().get(0).setUcrOffenseCode("280");
-			copy10.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
-			copy11.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy11.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
-			copy12.getOffenses().get(0).setUcrOffenseCode("35B");
-			copy12.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
-			copy13.getOffenses().get(0).setUcrOffenseCode("39C");
-			copy13.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
-			copy14.getOffenses().get(0).setUcrOffenseCode("370");
-			copy14.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
-			copy15.getOffenses().get(0).setUcrOffenseCode("520");
-			copy15.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy16 = new GroupAIncidentReport(incident);
-			copy16.getOffenses().get(0).setUcrOffenseCode("720");
-			copy16.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
 						
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -497,14 +483,6 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
-			incidents.add(copy12);
-			incidents.add(copy13);
-			incidents.add(copy14);
-			incidents.add(copy15);
-			incidents.add(copy16);
 			
 			return incidents;
 

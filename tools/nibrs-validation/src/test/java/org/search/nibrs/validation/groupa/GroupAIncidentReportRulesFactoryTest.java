@@ -396,8 +396,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 	}
 	
 	private GroupAIncidentReport buildBaseReport() {
-		GroupAIncidentReport report;
-		report = new GroupAIncidentReport();
+		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();
 		source.setSourceLocation(getClass().getName());
 		source.setSourceName(getClass().getName());

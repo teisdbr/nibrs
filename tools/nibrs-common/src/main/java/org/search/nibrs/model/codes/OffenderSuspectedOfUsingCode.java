@@ -1,5 +1,6 @@
 package org.search.nibrs.model.codes;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +33,10 @@ public enum OffenderSuspectedOfUsingCode {
 			ret.add(v.code);
 		}
 		return ret;
+	}
+
+	public static final Set<String> noneOrUnknownValueCodeSet() {
+		return Collections.singleton(N.code);
 	}
 
 }

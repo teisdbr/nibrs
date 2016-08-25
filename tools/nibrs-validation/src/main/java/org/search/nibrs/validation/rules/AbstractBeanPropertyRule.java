@@ -5,6 +5,8 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -15,6 +17,9 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  * @param <T> The class of subjects to which this rule applies
  */
 public abstract class AbstractBeanPropertyRule<T extends ValidationTarget> implements Rule<T> {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LogManager.getLogger(AbstractBeanPropertyRule.class);
 	
 	protected PropertyDescriptor property;
 	protected String dataElementIdentifier;

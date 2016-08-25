@@ -1,5 +1,7 @@
 package org.search.nibrs.common;
 
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -36,7 +38,8 @@ public class NIBRSError {
 	
 	@Override
 	public String toString() {
-		return "NIBRSError [context=" + context + ", ruleNumber=" + getRuleNumber() + ", ruleDescription=" + getShortenedRuleDescription() + ", reportUniqueIdentifier=" + reportUniqueIdentifier + ", value=" + value
+		return "NIBRSError [context=" + context + ", ruleNumber=" + getRuleNumber() + ", ruleDescription=" + getShortenedRuleDescription() + ", reportUniqueIdentifier=" + reportUniqueIdentifier +
+				", value=" + (value != null && value.getClass().isArray() ? Arrays.toString((Object[]) value) : value)
 				+ ", segmentType=" + segmentType + ", withinSegmentIdentifier=" + withinSegmentIdentifier + ", dataElementIdentifier=" + dataElementIdentifier + ", nibrsErrorCode=" + nibrsErrorCode
 				+ "]";
 	}

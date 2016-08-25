@@ -1,15 +1,12 @@
 package org.search.nibrs.validation.groupa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -90,6 +87,36 @@ public class GroupAIncidentReportValidatorTest {
 	@Test
 	public void testRule172() {
 		testRule(NIBRSErrorCode._172, 172);
+	}
+	
+	@Test
+	public void testRule201() {
+		testRule(NIBRSErrorCode._201, 201);
+	}
+	
+	@Test
+	public void testRule204() {
+		testRule(NIBRSErrorCode._204, 204);
+	}
+	
+	@Test
+	public void testRule206() {
+		testRule(NIBRSErrorCode._206, 206);
+	}
+	
+	@Test
+	public void testRule207() {
+		testRule(NIBRSErrorCode._207, 207);
+	}
+	
+	@Test
+	public void testRule219() {
+		testRule(NIBRSErrorCode._219, 219);
+	}
+	
+	@Test
+	public void testRule220() {
+		testRule(NIBRSErrorCode._220, 220);
 	}
 	
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {

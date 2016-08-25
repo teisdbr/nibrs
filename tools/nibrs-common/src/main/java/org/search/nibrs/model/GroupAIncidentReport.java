@@ -149,6 +149,7 @@ public class GroupAIncidentReport extends AbstractReport
 	public void addOffense(OffenseSegment offense)
     {
         offenseSegmentList.add(offense);
+        offense.setParentReport(this);
     }
     
     public int getOffenseCount()
@@ -168,6 +169,7 @@ public class GroupAIncidentReport extends AbstractReport
     public void addProperty(PropertySegment property)
     {
         propertySegmentList.add(property);
+        property.setParentReport(this);
     }
     
     public int getPropertyCount()
@@ -187,6 +189,7 @@ public class GroupAIncidentReport extends AbstractReport
 	public void addVictim(VictimSegment victim)
     {
         victimSegmentList.add(victim);
+        victim.setParentReport(this);
     }
     
     public int getVictimCount()
@@ -206,6 +209,7 @@ public class GroupAIncidentReport extends AbstractReport
     public void addOffender(OffenderSegment offender)
     {
         offenderSegmentList.add(offender);
+        offender.setParentReport(this);
     }
     
     public int getOffenderCount()

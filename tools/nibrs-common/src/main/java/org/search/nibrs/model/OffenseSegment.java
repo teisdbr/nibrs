@@ -78,6 +78,10 @@ public class OffenseSegment extends AbstractSegment
     {
         return automaticWeaponIndicator[position];
     }
+    
+    public String[] getAutomaticWeaponIndicator() {
+    	return automaticWeaponIndicator;
+    }
 
     public void setAutomaticWeaponIndicator(int position, String value)
     {
@@ -87,6 +91,10 @@ public class OffenseSegment extends AbstractSegment
     public String getTypeOfWeaponForceInvolved(int position)
     {
         return typeOfWeaponForceInvolved[position];
+    }
+    
+    public String[] getTypeOfWeaponForceInvolved() {
+    	return typeOfWeaponForceInvolved;
     }
 
     public void setTypeOfWeaponForceInvolved(int position, String value)
@@ -99,6 +107,10 @@ public class OffenseSegment extends AbstractSegment
     {
         return typeOfCriminalActivity[position];
     }
+    
+    public String[] getTypeOfCriminalActivity() {
+    	return typeOfCriminalActivity;
+    }
 
     public void setTypeOfCriminalActivity(int position, String value)
     {
@@ -110,6 +122,10 @@ public class OffenseSegment extends AbstractSegment
     {
         return offendersSuspectedOfUsing[position];
     }
+    
+    public String[] getOffendersSuspectedOfUsing() {
+    	return offendersSuspectedOfUsing;
+    }
 
     public void setOffendersSuspectedOfUsing(int position, String value)
     {
@@ -120,6 +136,10 @@ public class OffenseSegment extends AbstractSegment
     public String getBiasMotivation(int position)
     {
         return biasMotivation[position];
+    }
+    
+    public String[] getBiasMotivation() {
+    	return biasMotivation;
     }
 
     public void setBiasMotivation(int position, String value)
