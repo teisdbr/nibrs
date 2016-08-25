@@ -17,6 +17,7 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenderSuspectedOfUsingCode;
 import org.search.nibrs.model.codes.OffenseAttemptedCompletedCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.TypeOfCriminalActivityCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class OffenseSegmentRulesFactoryTest {
@@ -25,6 +26,30 @@ public class OffenseSegmentRulesFactoryTest {
 	private static final Logger LOG = LogManager.getLogger(OffenseSegmentRulesFactoryTest.class);
 	
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
+	
+	@Test
+	public void testRule219() {
+		
+		Rule<OffenseSegment> rule = rulesFactory.getRule219();
+		OffenseSegment o = buildBaseSegment();
+		o.setTypeOfCriminalActivity(0, null);
+		o.setTypeOfCriminalActivity(1, null);
+		o.setTypeOfCriminalActivity(2, null);
+		assertNull(rule.apply(o));
+		
+		o.setTypeOfCriminalActivity(0, TypeOfCriminalActivityCode.B.code);
+		o.setUcrOffenseCode(OffenseCode._09A.code);
+		NIBRSError e = rule.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._219, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("12", e.getDataElementIdentifier());
+		assertEquals(TypeOfCriminalActivityCode.B.code, e.getValue());
+		
+		o.setUcrOffenseCode(OffenseCode._250.code);
+		assertNull(rule.apply(o));
+
+	}
 	
 	@Test
 	public void testRule207() {

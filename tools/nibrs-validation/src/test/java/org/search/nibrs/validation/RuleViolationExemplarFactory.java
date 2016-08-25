@@ -411,6 +411,31 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 
 		});
+		
+		groupATweakerMap.put(219, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09B");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "B");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09B");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "C");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(1, "J");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("250");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("720");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
+			incidents.add(copy);
+			
+			return incidents;
+
+		});
 
 		groupATweakerMap.put(220, incident -> {
 			// Data Element 12 (Type Criminal Activity/Gang Information) Must be populated with a valid data value and cannot be 

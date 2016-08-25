@@ -1,7 +1,9 @@
 package org.search.nibrs.validation.groupa;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -59,6 +61,97 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule207("offendersSuspectedOfUsing", "8", OffenderSuspectedOfUsingCode.noneOrUnknownValueCodeSet()));
 		rulesList.add(getRule207("biasMotivation", "8A", BiasMotivationCode.noneOrUnknownValueCodeSet()));
 		
+		rulesList.add(getRule219());
+		
+	}
+	
+	private static final class Rule219 implements Rule<OffenseSegment> {
+		
+		private Set<String> activitySet1 = new HashSet<>();
+		private Set<String> activitySet2 = new HashSet<>();
+		private Set<String> activitySet3 = new HashSet<>();
+		private Set<String> offenseSet1 = new HashSet<>();
+		private Set<String> offenseSet2 = new HashSet<>();
+		private Set<String> offenseSet3 = new HashSet<>();
+		
+		public Rule219() {
+			
+			activitySet1.addAll(Arrays.asList(new String[] {
+				TypeOfCriminalActivityCode.B.code,
+				TypeOfCriminalActivityCode.C.code,
+				TypeOfCriminalActivityCode.D.code,
+				TypeOfCriminalActivityCode.E.code,
+				TypeOfCriminalActivityCode.O.code,
+				TypeOfCriminalActivityCode.P.code,
+				TypeOfCriminalActivityCode.T.code,
+				TypeOfCriminalActivityCode.U.code
+			}));
+			
+			offenseSet1.addAll(Arrays.asList(new String[] {
+				OffenseCode._250.code,
+				OffenseCode._280.code,
+				OffenseCode._35A.code,
+				OffenseCode._35B.code,
+				OffenseCode._39C.code,
+				OffenseCode._370.code,
+				OffenseCode._520.code
+			}));
+			
+			activitySet2.addAll(Arrays.asList(new String[] {
+				TypeOfCriminalActivityCode.J.code,
+				TypeOfCriminalActivityCode.G.code,
+				TypeOfCriminalActivityCode.N.code
+			}));
+			
+			offenseSet2.addAll(Arrays.asList(new String[] {
+				OffenseCode._09B.code,
+				OffenseCode._100.code,
+				OffenseCode._11A.code,
+				OffenseCode._11B.code,
+				OffenseCode._11C.code,
+				OffenseCode._11D.code,
+				OffenseCode._120.code,
+				OffenseCode._13A.code,
+				OffenseCode._13B.code,
+				OffenseCode._13C.code
+			}));
+			
+			activitySet3.addAll(Arrays.asList(new String[] {
+				TypeOfCriminalActivityCode.A.code,
+				TypeOfCriminalActivityCode.F.code,
+				TypeOfCriminalActivityCode.I.code,
+				TypeOfCriminalActivityCode.S.code
+			}));
+			
+			offenseSet3.addAll(Arrays.asList(new String[] {
+					OffenseCode._720.code
+			}));
+			
+		}
+
+		@Override
+		public NIBRSError apply(OffenseSegment subject) {
+			NIBRSError ret = null;
+			String offenseCode = subject.getUcrOffenseCode();
+			for (String typeOfCriminalActivity : subject.getTypeOfCriminalActivity()) {
+				if (typeOfCriminalActivity != null) {
+					if (activitySet1.contains(typeOfCriminalActivity) && !offenseSet1.contains(offenseCode) ||
+							activitySet2.contains(typeOfCriminalActivity) && !offenseSet2.contains(offenseCode) ||
+							activitySet3.contains(typeOfCriminalActivity) && !offenseSet3.contains(offenseCode)) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(typeOfCriminalActivity);
+						ret.setDataElementIdentifier("12");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._219);
+					}
+				}
+			}
+			return ret;
+		}
+
+	}
+	
+	Rule<OffenseSegment> getRule219() {
+		return new Rule219();
 	}
 	
 	Rule<OffenseSegment> getRule207(String propertyName, String dataElementIdentifier, Set<String> exclusiveValueSet) {
