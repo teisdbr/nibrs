@@ -18,6 +18,7 @@ import org.search.nibrs.model.codes.OffenderSuspectedOfUsingCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfCriminalActivityCode;
 import org.search.nibrs.model.codes.TypeOfWeaponForceCode;
+import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
@@ -47,6 +48,15 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule204ForValueList("automaticWeaponIndicator", "13", AutomaticWeaponIndicatorCode.codeSet()));
 		rulesList.add(getRule204ForPremisesEntered());
 		
+		rulesList.add(getRule206("typeOfCriminalActivity", "12"));
+		rulesList.add(getRule206("typeOfWeaponForceInvolved", "13"));
+		rulesList.add(getRule206("offendersSuspectedOfUsing", "8"));
+		rulesList.add(getRule206("biasMotivation", "8A"));
+		
+	}
+	
+	Rule<OffenseSegment> getRule206(String propertyName, String dataElementIdentifier) {
+		return new DuplicateCodedValueRule<>(propertyName, dataElementIdentifier, OffenseSegment.class, NIBRSErrorCode._206);
 	}
 	
 	Rule<OffenseSegment> getRule201ForUCROffenseCode() {

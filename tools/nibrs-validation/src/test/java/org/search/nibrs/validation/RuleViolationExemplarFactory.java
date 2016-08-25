@@ -358,24 +358,26 @@ public class RuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "A");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(1, "C");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(2, "C");
-			//Data Element 8A
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenses().get(0).setBiasMotivation(0, "15");
-			copy2.getOffenses().get(0).setBiasMotivation(0, "26");
-			copy2.getOffenses().get(0).setBiasMotivation(0, "26");
-			//Data Element 12
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3.getOffenses().get(0).setTypeOfCriminalActivity(1, "J");
-			copy3.getOffenses().get(0).setTypeOfCriminalActivity(2, "P");
-			//Data Element 13
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
-			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "11");
-			
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
+			//Data Element 8A
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setBiasMotivation(0, "15");
+			copy.getOffenses().get(0).setBiasMotivation(1, "26");
+			copy.getOffenses().get(0).setBiasMotivation(2, "26");
+			incidents.add(copy);
+			//Data Element 12
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(1, "J");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(2, "P");
+			incidents.add(copy);
+			//Data Element 13
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "11");
+			copy.getOffenses().get(0).setBiasMotivation(0, "15");
+			copy.getOffenses().get(0).setBiasMotivation(1, "26");
+			copy.getOffenses().get(0).setBiasMotivation(2, "26");
+			incidents.add(copy);
 			
 			return incidents;
 

@@ -22,6 +22,29 @@ public class OffenseSegmentRulesFactoryTest {
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
 	
 	@Test
+	public void testRule206() {
+		
+		Rule<OffenseSegment> rule206 = rulesFactory.getRule206("biasMotivation", "8A");
+		OffenseSegment o = buildBaseSegment();
+		o.setBiasMotivation(0, null);
+		NIBRSError e = rule206.apply(o);
+		assertNull(e);
+		o.setBiasMotivation(0, BiasMotivationCode._11.code);
+		e = rule206.apply(o);
+		assertNull(e);
+		o.setBiasMotivation(1, BiasMotivationCode._12.code);
+		e = rule206.apply(o);
+		assertNull(e);
+		o.setBiasMotivation(2, BiasMotivationCode._12.code);
+		e = rule206.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._206, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("8A", e.getDataElementIdentifier());
+
+	}
+	
+	@Test
 	public void testRule204() {
 		
 		Rule<OffenseSegment> rule204 = rulesFactory.getRule204ForValueList("biasMotivation", "8A", BiasMotivationCode.codeSet());
