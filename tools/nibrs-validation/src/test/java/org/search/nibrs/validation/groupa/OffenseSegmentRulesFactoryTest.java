@@ -21,9 +21,37 @@ public class OffenseSegmentRulesFactoryTest {
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
 	
 	@Test
-	public void testRule201() {
+	public void testRule201ForOffendersSuspectedOfUsing() {
 		
-		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForSingleStringProperty("ucrOffenseCode", "6");
+		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForOffendersSuspectedOfUsing();
+		OffenseSegment o = buildBaseSegment();
+		AbstractReport report = o.getParentReport();
+		o.setOffendersSuspectedOfUsing(0, null);
+		o.setOffendersSuspectedOfUsing(1, null);
+		o.setOffendersSuspectedOfUsing(2, null);
+		NIBRSError e = rule201.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._201, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("8", e.getDataElementIdentifier());
+		String[] value = (String[]) e.getValue();
+		assertEquals(3, value.length);
+		assertEquals(report.getSource(), e.getContext());
+		o.setOffendersSuspectedOfUsing(0, OffenderSuspectedOfUsingCode.A.code);
+		o.setOffendersSuspectedOfUsing(1, null);
+		o.setOffendersSuspectedOfUsing(2, null);
+		e = rule201.apply(o);
+		assertNull(e);
+		o.setOffendersSuspectedOfUsing(0, "XXX");
+		e = rule201.apply(o);
+		assertNotNull(e);
+		
+	}
+
+	@Test
+	public void testRule201ForOffenseCode() {
+		
+		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForUCROffenseCode();
 		OffenseSegment o = buildBaseSegment();
 		AbstractReport report = o.getParentReport();
 		o.setUcrOffenseCode(null);
@@ -37,10 +65,20 @@ public class OffenseSegmentRulesFactoryTest {
 		o.setUcrOffenseCode(OffenseCode._09A.code);
 		e = rule201.apply(o);
 		assertNull(e);
-
-		rule201 = rulesFactory.getRule201ForSingleStringProperty("offenseAttemptedCompleted", "7");
-		o.setOffenseAttemptedCompleted(null);
+		o.setUcrOffenseCode("XXX");
 		e = rule201.apply(o);
+		assertNotNull(e);
+		
+	}
+
+	@Test
+	public void testRule201() {
+			
+		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForSingleStringProperty("offenseAttemptedCompleted", "7");
+		OffenseSegment o = buildBaseSegment();
+		AbstractReport report = o.getParentReport();
+		o.setOffenseAttemptedCompleted(null);
+		NIBRSError e = rule201.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._201, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
