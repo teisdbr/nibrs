@@ -4989,6 +4989,31 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		
+		groupATweakerMap.put(406, incident -> {
+			//(Victim Connected to UCR Offense Code) The referenced data element in 
+			//error is one that contains multiple data values. When more than one code is 
+			//entered, none can be duplicate codes.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenseSegment offense = new OffenseSegment();
+			offense.setUcrOffenseCode("120");
+			offense.setOffenseAttemptedCompleted("C");
+			offense.setBiasMotivation(0,"88");
+			offense.setLocationType("20");
+			offense.setNumberOfPremisesEntered(null);
+			offense.setMethodOfEntry("N");
+			offense.setTypeOfWeaponForceInvolved(0, "99");
+			offense.setOffendersSuspectedOfUsing(0, "N");
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
+						
+			incidents.add(copy);
+			
+			return incidents;
+			
+			
+		});
+		
 		groupATweakerMap.put(409, incident -> {
 			//(Age of Victim) contains more than two characters indicating a possible 
 			//age-range was being attempted. If so, the field must contain numeric entry of four digits.
@@ -5040,30 +5065,19 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 				
 			});
-		groupATweakerMap.put(406, incident -> {
-			//(Victim Connected to UCR Offense Code) The referenced data element in 
-			//error is one that contains multiple data values. When more than one code is 
-			//entered, none can be duplicate codes.
+		
+		groupATweakerMap.put(453, incident -> {
+			//(Age of Victim) The Data Element associated with this error must be 
+			//present when Data Element 25 (Type of Victim) is I=Individual.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			OffenseSegment offense = new OffenseSegment();
-			offense.setUcrOffenseCode("120");
-			offense.setOffenseAttemptedCompleted("C");
-			offense.setBiasMotivation(0,"88");
-			offense.setLocationType("20");
-			offense.setNumberOfPremisesEntered(null);
-			offense.setMethodOfEntry("N");
-			offense.setTypeOfWeaponForceInvolved(0, "99");
-			offense.setOffendersSuspectedOfUsing(0, "N");
-			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
+			copy.getVictims().get(0).setAgeString(null);
 						
 			incidents.add(copy);
 			
 			return incidents;
-			
-			
-		});
 		
+		});		
 		
 		groupATweakerMap.put(454, incident -> {
 			//(Type of Officer Activity/Circumstance), Data Element 25B (Officer Assignment Type), 
@@ -5099,7 +5113,7 @@ public class RuleViolationExemplarFactory {
 			copy5.getVictims().get(0).setOfficerAssignmentType("K");
 			copy5.getVictims().get(0).setRace(null);
 			copy5.getVictims().get(0).setTypeOfVictim("L");
-			
+				
 			
 					
 			incidents.add(copy);
@@ -5113,6 +5127,20 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(458, incident -> {
+			//The Data Element associated with this error cannot be entered 
+			//when Data Element 25 (Type of Victim) is not I=Individual or 
+			//L=Law Enforcement Officer when Data Element 24 (Victim Connected to 
+			//UCR Offense Code) contains a Crime Against Person.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(461, incident -> {
 			//(Type of Victim) cannot have a value of S=Society/Public when the 
