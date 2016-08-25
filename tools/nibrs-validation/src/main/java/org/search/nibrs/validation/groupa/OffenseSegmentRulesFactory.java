@@ -33,38 +33,6 @@ public class OffenseSegmentRulesFactory {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(OffenseSegmentRulesFactory.class);
 	
-	private List<Rule<OffenseSegment>> rulesList = new ArrayList<>();
-	
-	public OffenseSegmentRulesFactory() {
-		
-		rulesList.add(getRule201ForUCROffenseCode());
-		rulesList.add(getRule201ForOffendersSuspectedOfUsing());
-		rulesList.add(getRule201ForSingleStringProperty("offenseAttemptedCompleted", "7"));
-		rulesList.add(getRule201ForSingleStringProperty("locationType", "9"));
-		rulesList.add(getRule201ForStringArrayProperty("biasMotivation", "8A"));
-		
-		rulesList.add(getRule204ForValueList("biasMotivation", "8A", BiasMotivationCode.codeSet()));
-		rulesList.add(getRule204ForValueList("locationType", "9", LocationTypeCode.codeSet()));
-		rulesList.add(getRule204ForValueList("methodOfEntry", "11", MethodOfEntryCode.codeSet()));
-		rulesList.add(getRule204ForValueList("typeOfCriminalActivity", "12", TypeOfCriminalActivityCode.codeSet()));
-		rulesList.add(getRule204ForValueList("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.codeSet()));
-		rulesList.add(getRule204ForValueList("automaticWeaponIndicator", "13", AutomaticWeaponIndicatorCode.codeSet()));
-		rulesList.add(getRule204ForPremisesEntered());
-		
-		rulesList.add(getRule206("typeOfCriminalActivity", "12"));
-		rulesList.add(getRule206("typeOfWeaponForceInvolved", "13"));
-		rulesList.add(getRule206("offendersSuspectedOfUsing", "8"));
-		rulesList.add(getRule206("biasMotivation", "8A"));
-		
-		rulesList.add(getRule207("typeOfCriminalActivity", "12", TypeOfCriminalActivityCode.noneOrUnknownValueCodeSet()));
-		rulesList.add(getRule207("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.noneOrUnknownValueCodeSet()));
-		rulesList.add(getRule207("offendersSuspectedOfUsing", "8", OffenderSuspectedOfUsingCode.noneOrUnknownValueCodeSet()));
-		rulesList.add(getRule207("biasMotivation", "8A", BiasMotivationCode.noneOrUnknownValueCodeSet()));
-		
-		rulesList.add(getRule219());
-		
-	}
-	
 	private static final class Rule219 implements Rule<OffenseSegment> {
 		
 		private Set<String> activitySet1 = new HashSet<>();
@@ -148,6 +116,60 @@ public class OffenseSegmentRulesFactory {
 			return ret;
 		}
 
+	}
+	
+	private List<Rule<OffenseSegment>> rulesList = new ArrayList<>();
+	
+	public OffenseSegmentRulesFactory() {
+		
+		rulesList.add(getRule201ForUCROffenseCode());
+		rulesList.add(getRule201ForOffendersSuspectedOfUsing());
+		rulesList.add(getRule201ForSingleStringProperty("offenseAttemptedCompleted", "7"));
+		rulesList.add(getRule201ForSingleStringProperty("locationType", "9"));
+		rulesList.add(getRule201ForStringArrayProperty("biasMotivation", "8A"));
+		
+		rulesList.add(getRule204ForValueList("biasMotivation", "8A", BiasMotivationCode.codeSet()));
+		rulesList.add(getRule204ForValueList("locationType", "9", LocationTypeCode.codeSet()));
+		rulesList.add(getRule204ForValueList("methodOfEntry", "11", MethodOfEntryCode.codeSet()));
+		rulesList.add(getRule204ForValueList("typeOfCriminalActivity", "12", TypeOfCriminalActivityCode.codeSet()));
+		rulesList.add(getRule204ForValueList("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.codeSet()));
+		rulesList.add(getRule204ForValueList("automaticWeaponIndicator", "13", AutomaticWeaponIndicatorCode.codeSet()));
+		rulesList.add(getRule204ForPremisesEntered());
+		
+		rulesList.add(getRule206("typeOfCriminalActivity", "12"));
+		rulesList.add(getRule206("typeOfWeaponForceInvolved", "13"));
+		rulesList.add(getRule206("offendersSuspectedOfUsing", "8"));
+		rulesList.add(getRule206("biasMotivation", "8A"));
+		
+		rulesList.add(getRule207("typeOfCriminalActivity", "12", TypeOfCriminalActivityCode.noneOrUnknownValueCodeSet()));
+		rulesList.add(getRule207("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.noneOrUnknownValueCodeSet()));
+		rulesList.add(getRule207("offendersSuspectedOfUsing", "8", OffenderSuspectedOfUsingCode.noneOrUnknownValueCodeSet()));
+		rulesList.add(getRule207("biasMotivation", "8A", BiasMotivationCode.noneOrUnknownValueCodeSet()));
+		
+		rulesList.add(getRule219());
+		rulesList.add(getRule220());
+		
+	}
+	
+	Rule<OffenseSegment> getRule220() {
+		return new NotAllBlankRule<OffenseSegment>("typeOfCriminalActivity", "12", OffenseSegment.class, NIBRSErrorCode._220) {
+			@Override
+			public boolean ignore(OffenseSegment o) {
+				Set<String> applicableOffenses = new HashSet<>();
+				applicableOffenses.addAll(Arrays.asList(new String[] {
+					OffenseCode._250.code,
+					OffenseCode._280.code,
+					OffenseCode._35A.code,
+					OffenseCode._35B.code,
+					OffenseCode._39C.code,
+					OffenseCode._370.code,
+					OffenseCode._520.code,
+					OffenseCode._720.code
+				}));
+				String offenseCode = o.getUcrOffenseCode();
+				return offenseCode == null || !applicableOffenses.contains(offenseCode);
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule219() {

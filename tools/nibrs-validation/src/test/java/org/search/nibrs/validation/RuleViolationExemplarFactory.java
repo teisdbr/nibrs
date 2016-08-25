@@ -474,31 +474,6 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
 			copy8.getOffenses().get(0).setUcrOffenseCode("720");
 			copy8.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			//TypeOfCriminalActivity must be valid
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
-			copy9.getOffenses().get(0).setUcrOffenseCode("250");
-			copy9.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
-			copy10.getOffenses().get(0).setUcrOffenseCode("280");
-			copy10.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
-			copy11.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy11.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
-			copy12.getOffenses().get(0).setUcrOffenseCode("35B");
-			copy12.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
-			copy13.getOffenses().get(0).setUcrOffenseCode("39C");
-			copy13.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
-			copy14.getOffenses().get(0).setUcrOffenseCode("370");
-			copy14.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy15 = new GroupAIncidentReport(incident);
-			copy15.getOffenses().get(0).setUcrOffenseCode("520");
-			copy15.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
-			GroupAIncidentReport copy16 = new GroupAIncidentReport(incident);
-			copy16.getOffenses().get(0).setUcrOffenseCode("720");
-			copy16.getOffenses().get(0).setTypeOfCriminalActivity(0, "Z");
 						
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -508,14 +483,6 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
-			incidents.add(copy12);
-			incidents.add(copy13);
-			incidents.add(copy14);
-			incidents.add(copy15);
-			incidents.add(copy16);
 			
 			return incidents;
 
