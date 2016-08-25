@@ -4975,18 +4975,45 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 		});
 
-		//groupATweakerMap.put(404, incident -> {
+		groupATweakerMap.put(404, incident -> {
 			//To-do, waiting on response from Becki
 			//The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
-			//List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			//(Type of Officer Activity/Circumstance)
-			// copy = new GroupAIncidentReport(incident);
-			//copy.getVictims()
-		//});
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAgeString(null);
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
+		groupATweakerMap.put(409, incident -> {
+			//(Age of Victim) contains more than two characters indicating a possible 
+			//age-range was being attempted. If so, the field must contain numeric entry of four digits.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAgeString("253");
+				
+			incidents.add(copy);
+				
+			return incidents;
+				
+			});
 		
-		
+		groupATweakerMap.put(409, incident -> {
+			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
+			//component must be less than the second age.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAgeString("3025");
+				
+			incidents.add(copy);
+				
+			return incidents;
+				
+			});
 		
 		
 		
