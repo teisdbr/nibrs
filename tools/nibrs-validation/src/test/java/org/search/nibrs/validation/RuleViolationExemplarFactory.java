@@ -285,6 +285,9 @@ public class RuleViolationExemplarFactory {
 			// Segment 2 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("XXX");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
 			//Data Element 6
 			copy.getOffenses().get(0).setUcrOffenseCode(null);
 			incidents.add(copy);
@@ -321,40 +324,29 @@ public class RuleViolationExemplarFactory {
 			// be populated with a valid data value.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setOri("1234567890123");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setOri("ZZ123456789");
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setCityIndicator("ZZ12");
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.getOffenses().get(0).setUcrOffenseCode("XXX");
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.getOffenses().get(0).setBiasMotivation(0, "10");
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.getOffenses().get(0).setLocationType("99");
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getOffenses().get(0).setNumberOfPremisesEntered(100);
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getOffenses().get(0).setMethodOfEntry(null);
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			copy9.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "10");
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			copy11.getOffenses().get(0).setAutomaticWeaponIndicator(0, "B");
-			
+			copy.getOffenses().get(0).setBiasMotivation(0, "10");
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setLocationType("99");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setMethodOfEntry("X");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "XX");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "10");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setAutomaticWeaponIndicator(0, "B");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(100);
+			incidents.add(copy);
+			
 			return incidents;
+			
 		});
 
 		groupATweakerMap.put(206, incident -> {

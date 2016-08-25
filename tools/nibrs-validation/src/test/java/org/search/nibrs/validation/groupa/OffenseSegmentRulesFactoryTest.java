@@ -10,6 +10,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.LocationTypeCode;
+import org.search.nibrs.model.codes.MethodOfEntryCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenderSuspectedOfUsingCode;
 import org.search.nibrs.model.codes.OffenseAttemptedCompletedCode;
@@ -19,6 +20,72 @@ import org.search.nibrs.validation.rules.Rule;
 public class OffenseSegmentRulesFactoryTest {
 	
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
+	
+	@Test
+	public void testRule204() {
+		
+		Rule<OffenseSegment> rule204 = rulesFactory.getRule204ForValueList("biasMotivation", "8A", BiasMotivationCode.codeSet());
+		OffenseSegment o = buildBaseSegment();
+		o.setBiasMotivation(0, null);
+		NIBRSError e = rule204.apply(o);
+		assertNull(e);
+		o.setBiasMotivation(0, BiasMotivationCode._11.code);
+		e = rule204.apply(o);
+		assertNull(e);
+		o.setBiasMotivation(0, "XXX");
+		e = rule204.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("8A", e.getDataElementIdentifier());
+		
+		rule204 = rulesFactory.getRule204ForValueList("methodOfEntry", "11", MethodOfEntryCode.codeSet());
+		o = buildBaseSegment();
+		o.setMethodOfEntry(null);
+		e = rule204.apply(o);
+		assertNull(e);
+		o.setMethodOfEntry(MethodOfEntryCode.F.code);
+		e = rule204.apply(o);
+		assertNull(e);
+		o.setMethodOfEntry("XXX");
+		e = rule204.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("11", e.getDataElementIdentifier());
+
+		rule204 = rulesFactory.getRule204ForValueList("locationType", "9", LocationTypeCode.codeSet());
+		o = buildBaseSegment();
+		o.setLocationType(null);
+		e = rule204.apply(o);
+		assertNull(e);
+		o.setLocationType(LocationTypeCode._01.code);
+		e = rule204.apply(o);
+		assertNull(e);
+		o.setLocationType("XXX");
+		e = rule204.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("9", e.getDataElementIdentifier());
+
+		rule204 = rulesFactory.getRule204ForPremisesEntered();
+		o = buildBaseSegment();
+		o.setNumberOfPremisesEntered(null);
+		e = rule204.apply(o);
+		assertNull(e);
+		o.setNumberOfPremisesEntered(5);
+		e = rule204.apply(o);
+		assertNull(e);
+		o.setNumberOfPremisesEntered(500);
+		e = rule204.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("10", e.getDataElementIdentifier());
+		assertEquals(500, e.getValue());
+
+	}
 	
 	@Test
 	public void testRule201ForOffendersSuspectedOfUsing() {
