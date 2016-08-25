@@ -2,6 +2,9 @@ package org.search.nibrs.validation.rules;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -9,7 +12,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
-public class DuplicateCodedValueRuleTest {
+public class ExclusiveCodedValueRuleTest {
 	
 	@Rule
 	public final ExpectedException expectedException = ExpectedException.none();
@@ -38,7 +41,9 @@ public class DuplicateCodedValueRuleTest {
 	@Test
 	public void test() {
 		
-		DuplicateCodedValueRule<TestSubject> rule = new DuplicateCodedValueRule<>("s", "s", TestSubject.class, NIBRSErrorCode._101);
+		Set<String> evs = new HashSet<String>();
+		evs.add("X");
+		ExclusiveCodedValueRule<TestSubject> rule = new ExclusiveCodedValueRule<>("s", "s", TestSubject.class, NIBRSErrorCode._001, evs);
 		
 		TestSubject subject = new TestSubject();
 		subject.setS(null);
@@ -49,14 +54,17 @@ public class DuplicateCodedValueRuleTest {
 		assertNull(rule.apply(subject));
 		subject.setS(new String[] {"A"});
 		assertNull(rule.apply(subject));
-		subject.setS(new String[] {"A", "B"});
+		subject.setS(new String[] {"A","B"});
 		assertNull(rule.apply(subject));
-		subject.setS(new String[] {"A", "B", "A"});
+		subject.setS(new String[] {"X"});
+		assertNull(rule.apply(subject));
+		subject.setS(new String[] {"X","A"});
 		NIBRSError e = rule.apply(subject);
 		assertNotNull(e);
-		assertEquals(NIBRSErrorCode._101, e.getNIBRSErrorCode());
-		assertEquals("s", e.getDataElementIdentifier());
-
+		subject.setS(new String[] {"A","X"});
+		e = rule.apply(subject);
+		assertNotNull(e);
+		
 	}
 	
 	@Test
@@ -68,4 +76,6 @@ public class DuplicateCodedValueRuleTest {
 		new DuplicateCodedValueRule<>("nonArrayProperty", "nonArrayProperty", TestSubject.class, NIBRSErrorCode._101).apply(subject);
 	}
 	
+
+
 }

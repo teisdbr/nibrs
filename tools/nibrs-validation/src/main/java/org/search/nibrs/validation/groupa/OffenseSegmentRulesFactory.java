@@ -19,6 +19,7 @@ import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfCriminalActivityCode;
 import org.search.nibrs.model.codes.TypeOfWeaponForceCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
+import org.search.nibrs.validation.rules.ExclusiveCodedValueRule;
 import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
@@ -53,6 +54,15 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule206("offendersSuspectedOfUsing", "8"));
 		rulesList.add(getRule206("biasMotivation", "8A"));
 		
+		rulesList.add(getRule207("typeOfCriminalActivity", "12", TypeOfCriminalActivityCode.noneOrUnknownValueCodeSet()));
+		rulesList.add(getRule207("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.noneOrUnknownValueCodeSet()));
+		rulesList.add(getRule207("offendersSuspectedOfUsing", "8", OffenderSuspectedOfUsingCode.noneOrUnknownValueCodeSet()));
+		rulesList.add(getRule207("biasMotivation", "8A", BiasMotivationCode.noneOrUnknownValueCodeSet()));
+		
+	}
+	
+	Rule<OffenseSegment> getRule207(String propertyName, String dataElementIdentifier, Set<String> exclusiveValueSet) {
+		return new ExclusiveCodedValueRule<>(propertyName, dataElementIdentifier, OffenseSegment.class, NIBRSErrorCode._207, exclusiveValueSet);
 	}
 	
 	Rule<OffenseSegment> getRule206(String propertyName, String dataElementIdentifier) {

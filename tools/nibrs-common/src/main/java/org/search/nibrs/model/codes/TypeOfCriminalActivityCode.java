@@ -1,5 +1,6 @@
 package org.search.nibrs.model.codes;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +23,8 @@ public enum TypeOfCriminalActivityCode {
 	T("T", "Transporting/Transmitting/Importing"),
 	U("U", "Using/Consuming"),
 	J("J", "Juvenile Gang"),
-	G("G", "Other Gang N=None/Unknown");
+	G("G", "Other Gang"),
+	N("N", "None/Unknown");
 		
 	private TypeOfCriminalActivityCode(String code, String description) {
 		this.code = code;
@@ -42,6 +44,10 @@ public enum TypeOfCriminalActivityCode {
 			ret.add(v.code);
 		}
 		return ret;
+	}
+	
+	public static final Set<String> noneOrUnknownValueCodeSet() {
+		return Collections.singleton(N.code);
 	}
 
 }

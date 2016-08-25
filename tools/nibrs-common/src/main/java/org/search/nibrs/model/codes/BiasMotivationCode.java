@@ -65,5 +65,12 @@ public enum BiasMotivationCode {
 		}
 		return ret;
 	}
+	
+	public static final Set<String> noneOrUnknownValueCodeSet() {
+		Set<String> ret = new HashSet<>();
+		ret.add(_88.code);
+		ret.add(_99.code);
+		return ret;
+	}
 
 }
