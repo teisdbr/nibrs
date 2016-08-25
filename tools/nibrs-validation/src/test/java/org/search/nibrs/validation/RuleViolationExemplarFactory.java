@@ -5028,7 +5028,18 @@ public class RuleViolationExemplarFactory {
 				
 			});
 		
-		
+		groupATweakerMap.put(450, incident -> {
+			//(Age of Victim) contains a relationship of SE=Spouse. When this is so, the //
+			//age of the victim cannot be less than 10 years.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAgeString("09");
+				
+			incidents.add(copy);
+				
+			return incidents;
+				
+			});
 		groupATweakerMap.put(406, incident -> {
 			//(Victim Connected to UCR Offense Code) The referenced data element in 
 			//error is one that contains multiple data values. When more than one code is 
