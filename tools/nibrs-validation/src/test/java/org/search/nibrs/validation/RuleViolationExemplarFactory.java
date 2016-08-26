@@ -5130,6 +5130,25 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		groupATweakerMap.put(463, incident -> {
+			//(Aggravated Assault/Homicide Circumstances) When a Justifiable Homicide 
+			//is reported, Data Element 31 (Aggravated Assault/Homicide Circumstances) 
+			//can only have codes of 20=Criminal Killed by Private Citizen or 
+			//21=Criminal Killed by Police Officer. In this case, a code other than the two mentioned was entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "30");
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
+		
 		groupATweakerMap.put(464, incident -> {
 			//UCR Code contains a Crime Against Person, but Data Element 25 
 			//(Type of Victim) is not I=Individual or L=Law Enforcement Officer when Data Element 24 
