@@ -312,63 +312,78 @@ public class OffenseSegmentRulesFactoryTest {
 	}
 	
 	@Test
-	public void testRule204() {
+	public void testRule204_biasMotivation() {
 		
-		Rule<OffenseSegment> rule204 = rulesFactory.getRule204ForValueList("biasMotivation", "8A", BiasMotivationCode.codeSet());
+		Rule<OffenseSegment> rule = rulesFactory.getRule204ForValueList("biasMotivation", "8A", BiasMotivationCode.codeSet());
 		OffenseSegment o = buildBaseSegment();
 		o.setBiasMotivation(0, null);
-		NIBRSError e = rule204.apply(o);
+		NIBRSError e = rule.apply(o);
 		assertNull(e);
 		o.setBiasMotivation(0, BiasMotivationCode._11.code);
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNull(e);
 		o.setBiasMotivation(0, "XXX");
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
 		assertEquals("8A", e.getDataElementIdentifier());
 		
-		rule204 = rulesFactory.getRule204ForValueList("methodOfEntry", "11", MethodOfEntryCode.codeSet());
-		o = buildBaseSegment();
+	}
+		
+	@Test
+	public void testRule204_methodOfEntry() {
+			
+		Rule<OffenseSegment> rule = rulesFactory.getRule204ForValueList("methodOfEntry", "11", MethodOfEntryCode.codeSet());
+		OffenseSegment o = buildBaseSegment();
 		o.setMethodOfEntry(null);
-		e = rule204.apply(o);
+		NIBRSError e = rule.apply(o);
 		assertNull(e);
 		o.setMethodOfEntry(MethodOfEntryCode.F.code);
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNull(e);
 		o.setMethodOfEntry("XXX");
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
 		assertEquals("11", e.getDataElementIdentifier());
+		
+	}
+	
+	@Test
+	public void testRule204_locationType() {
 
-		rule204 = rulesFactory.getRule204ForValueList("locationType", "9", LocationTypeCode.codeSet());
-		o = buildBaseSegment();
+		Rule<OffenseSegment> rule = rulesFactory.getRule204ForValueList("locationType", "9", LocationTypeCode.codeSet());
+		OffenseSegment o = buildBaseSegment();
 		o.setLocationType(null);
-		e = rule204.apply(o);
+		NIBRSError e = rule.apply(o);
 		assertNull(e);
 		o.setLocationType(LocationTypeCode._01.code);
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNull(e);
 		o.setLocationType("XXX");
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
 		assertEquals("9", e.getDataElementIdentifier());
+		
+	}
 
-		rule204 = rulesFactory.getRule204ForPremisesEntered();
-		o = buildBaseSegment();
+	@Test
+	public void testRule204_numberOfPremisesEntered() {
+
+		Rule<OffenseSegment> rule = rulesFactory.getRule204ForPremisesEntered();
+		OffenseSegment o = buildBaseSegment();
 		o.setNumberOfPremisesEntered(null);
-		e = rule204.apply(o);
+		NIBRSError e = rule.apply(o);
 		assertNull(e);
 		o.setNumberOfPremisesEntered(5);
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNull(e);
 		o.setNumberOfPremisesEntered(500);
-		e = rule204.apply(o);
+		e = rule.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
@@ -432,7 +447,7 @@ public class OffenseSegmentRulesFactoryTest {
 	}
 
 	@Test
-	public void testRule201() {
+	public void testRule201_offenseAttemptedCompleted() {
 			
 		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForSingleStringProperty("offenseAttemptedCompleted", "7");
 		OffenseSegment o = buildBaseSegment();
@@ -450,9 +465,16 @@ public class OffenseSegmentRulesFactoryTest {
 		e = rule201.apply(o);
 		assertNull(e);
 		
-		rule201 = rulesFactory.getRule201ForSingleStringProperty("locationType", "9");
+	}
+	
+	@Test
+	public void testRule201_locationType() {
+			
+		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForSingleStringProperty("locationType", "9");
+		OffenseSegment o = buildBaseSegment();
+		AbstractReport report = o.getParentReport();
 		o.setLocationType(null);
-		e = rule201.apply(o);
+		NIBRSError e = rule201.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._201, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
@@ -463,9 +485,16 @@ public class OffenseSegmentRulesFactoryTest {
 		e = rule201.apply(o);
 		assertNull(e);
 		
-		rule201 = rulesFactory.getRule201ForStringArrayProperty("offendersSuspectedOfUsing", "8");
+	}
+		
+	@Test
+	public void testRule201_offendersSuspectedOfUsing() {
+			
+		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForStringArrayProperty("offendersSuspectedOfUsing", "8");
+		OffenseSegment o = buildBaseSegment();
+		AbstractReport report = o.getParentReport();
 		o.setOffendersSuspectedOfUsing(0, null);
-		e = rule201.apply(o);
+		NIBRSError e = rule201.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._201, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
@@ -476,9 +505,16 @@ public class OffenseSegmentRulesFactoryTest {
 		e = rule201.apply(o);
 		assertNull(e);
 		
-		rule201 = rulesFactory.getRule201ForStringArrayProperty("biasMotivation", "8A");
+	}
+		
+	@Test
+	public void testRule201_biasMotivation() {
+			
+		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForStringArrayProperty("biasMotivation", "8A");
+		OffenseSegment o = buildBaseSegment();
+		AbstractReport report = o.getParentReport();
 		o.setBiasMotivation(0, null);
-		e = rule201.apply(o);
+		NIBRSError e = rule201.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._201, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
