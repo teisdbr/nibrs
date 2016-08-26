@@ -95,5 +95,16 @@ public enum OffenseCode {
 		}
 		return ret;
 	}
+	
+	public static final OffenseCode forCode(String code) {
+		OffenseCode ret = null;
+		for(OffenseCode c : asSet()) {
+			if (c.code.equals(code)) {
+				ret = c;
+				break;
+			}
+		}
+		return ret;
+	}
 
 }

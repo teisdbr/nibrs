@@ -158,7 +158,25 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule256());
 		rulesList.add(getRule257());
 		rulesList.add(getRule258());
+		rulesList.add(getRule264());
 		
+	}
+	
+	Rule<OffenseSegment> getRule264() {
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				OffenseCode code = OffenseCode.forCode(subject.getUcrOffenseCode());
+				if (code != null && !code.group.equals("A")) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(code);
+					ret.setDataElementIdentifier("6");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._264);
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule258() {
