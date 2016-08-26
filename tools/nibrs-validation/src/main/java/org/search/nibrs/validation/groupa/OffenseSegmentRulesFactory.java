@@ -17,6 +17,7 @@ import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.MethodOfEntryCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenderSuspectedOfUsingCode;
+import org.search.nibrs.model.codes.OffenseAttemptedCompletedCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfCriminalActivityCode;
 import org.search.nibrs.model.codes.TypeOfWeaponForceCode;
@@ -148,7 +149,68 @@ public class OffenseSegmentRulesFactory {
 		
 		rulesList.add(getRule219());
 		rulesList.add(getRule220());
+		rulesList.add(getRule221());
+		rulesList.add(getRule251());
+		rulesList.add(getRule252());
+		rulesList.add(getRule253());
 		
+	}
+	
+	Rule<OffenseSegment> getRule253() {
+		return new NotBlankRule<OffenseSegment>("methodOfEntry", "11", OffenseSegment.class, NIBRSErrorCode._253) {
+			@Override
+			public boolean ignore(OffenseSegment o) {
+				return o != null && !OffenseCode._220.code.equals(o.getUcrOffenseCode());
+			}
+		};
+	}
+	
+	Rule<OffenseSegment> getRule252() {
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				if (subject.getNumberOfPremisesEntered() != null) {
+					String offenseCode = subject.getUcrOffenseCode();
+					String locationType = subject.getLocationType();
+					if (!(OffenseCode._220.code.equals(offenseCode) && (LocationTypeCode._14.code.equals(locationType) || LocationTypeCode._19.code.equals(locationType)))) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(subject.getNumberOfPremisesEntered());
+						ret.setDataElementIdentifier("10");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._252);
+					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<OffenseSegment> getRule221() {
+		return new NotAllBlankRule<OffenseSegment>("typeOfWeaponForceInvolved", "13", OffenseSegment.class, NIBRSErrorCode._221) {
+			@Override
+			public boolean ignore(OffenseSegment o) {
+				Set<String> applicableOffenses = new HashSet<>();
+				applicableOffenses.addAll(Arrays.asList(new String[] {
+					OffenseCode._09A.code,
+					OffenseCode._09B.code,
+					OffenseCode._09C.code,
+					OffenseCode._100.code,
+					OffenseCode._11A.code,
+					OffenseCode._11B.code,
+					OffenseCode._11C.code,
+					OffenseCode._11D.code,
+					OffenseCode._120.code,
+					OffenseCode._13A.code,
+					OffenseCode._13B.code,
+					OffenseCode._210.code,
+					OffenseCode._520.code,
+					OffenseCode._64A.code,
+					OffenseCode._64B.code,
+				}));
+				String offenseCode = o.getUcrOffenseCode();
+				return offenseCode == null || !applicableOffenses.contains(offenseCode);
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule220() {
@@ -204,6 +266,10 @@ public class OffenseSegmentRulesFactory {
 	
 	Rule<OffenseSegment> getRule204ForValueList(String propertyName, String dataElementIdentifier, Set<String> allowedValueSet) {
 		return new ValidValueListRule<>(propertyName, dataElementIdentifier, OffenseSegment.class, NIBRSErrorCode._204, allowedValueSet);
+	}
+	
+	Rule<OffenseSegment> getRule251() {
+		return new ValidValueListRule<>("offenseAttemptedCompleted", "7", OffenseSegment.class, NIBRSErrorCode._251, OffenseAttemptedCompletedCode.codeSet(), true);
 	}
 	
 	Rule<OffenseSegment> getRule204ForPremisesEntered() {
