@@ -160,7 +160,34 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule258());
 		rulesList.add(getRule264());
 		rulesList.add(getRule265());
+		rulesList.add(getRule267());
 		
+	}
+	
+	Rule<OffenseSegment> getRule267() {
+		final Set<String> homicideCodes = new HashSet<>();
+		homicideCodes.add(OffenseCode._09A.code);
+		homicideCodes.add(OffenseCode._09B.code);
+		homicideCodes.add(OffenseCode._09C.code);
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				String offenseCode = subject.getUcrOffenseCode();
+				if (homicideCodes.contains(offenseCode)) {
+					String[] ww = subject.getTypeOfWeaponForceInvolved();
+					for (String w : ww) {
+						if (TypeOfWeaponForceCode._99.code.equals(w)) {
+							ret = subject.getErrorTemplate();
+							ret.setValue(w);
+							ret.setDataElementIdentifier("13");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._267);
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule265() {
