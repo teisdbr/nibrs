@@ -4927,8 +4927,16 @@ public class RuleViolationExemplarFactory {
 			offense.setTypeOfWeaponForceInvolved(0, "99");
 			offense.setOffendersSuspectedOfUsing(0, "N");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
+			//(Aggravated Assault/Homicide Circumstances The referenced data element 
+			//in error is one that contains multiple data values. When more than one 
+			//code is entered, none can be duplicate codes.
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "13A");
+			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "13A");
 						
 			incidents.add(copy);
+			copy.addOffense(offense);
+			
 			
 			return incidents;
 			
@@ -4995,9 +5003,13 @@ public class RuleViolationExemplarFactory {
 			copy.getVictims().get(0).setAgeString(null);
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getVictims().get(0).setSex(null);			
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getVictims().get(0).setRace(null);	
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
 			
 			return incidents;
 		
@@ -5052,6 +5064,7 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(458, incident -> {
+			//Possible to-do: Might need to make separate scenarios for each person element
 			//The Data Element associated with this error cannot be entered 
 			//when Data Element 25 (Type of Victim) is not I=Individual or 
 			//L=Law Enforcement Officer when Data Element 24 (Victim Connected to 
@@ -5059,6 +5072,8 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("B");
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).set
 			
 			
 			incidents.add(copy);
