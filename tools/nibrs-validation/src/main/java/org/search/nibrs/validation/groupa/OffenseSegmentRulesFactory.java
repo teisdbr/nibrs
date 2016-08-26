@@ -152,7 +152,17 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule221());
 		rulesList.add(getRule251());
 		rulesList.add(getRule252());
+		rulesList.add(getRule253());
 		
+	}
+	
+	Rule<OffenseSegment> getRule253() {
+		return new NotBlankRule<OffenseSegment>("methodOfEntry", "11", OffenseSegment.class, NIBRSErrorCode._253) {
+			@Override
+			public boolean ignore(OffenseSegment o) {
+				return o != null && !OffenseCode._220.code.equals(o.getUcrOffenseCode());
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule252() {

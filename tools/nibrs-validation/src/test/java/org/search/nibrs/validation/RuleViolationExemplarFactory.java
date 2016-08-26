@@ -622,10 +622,8 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			copy.getOffenses().get(0).setMethodOfEntry(null);
-			
 			incidents.add(copy);
 			return incidents;
-
 		});
 
 		groupATweakerMap.put(254, incident -> {
