@@ -4950,7 +4950,7 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
-			incidents.add(copy4)
+			incidents.add(copy4);
 			copy.addOffense(offense);
 			
 			
@@ -5147,6 +5147,22 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(459, incident -> {
+			//The Data Element associated with this error cannot be entered 
+			//when Data Element 25 (Type of Victim) is not I=Individual or 
+			//L=Law Enforcement Officer when Data Element 24 (Victim Connected to 
+			//UCR Offense Code) contains a Crime Against Person.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
 		groupATweakerMap.put(461, incident -> {
 			//(Type of Victim) cannot have a value of S=Society/Public when the 
 			//offense is 220=Burglary/Breaking and Entering.
