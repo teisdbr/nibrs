@@ -169,7 +169,30 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule265());
 		rulesList.add(getRule267());
 		rulesList.add(getRule269());
+		rulesList.add(getRule270());
 		
+	}
+	
+	Rule<OffenseSegment> getRule270() {
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				String offenseCode = subject.getUcrOffenseCode();
+				if (OffenseCode._09C.code.equals(offenseCode)) {
+					String[] biasMotivations = subject.getBiasMotivation();
+					for (String b : biasMotivations) {
+						if (b != null && !BiasMotivationCode._88.code.equals(b)) {
+							ret = subject.getErrorTemplate();
+							ret.setDataElementIdentifier("8A");
+							ret.setValue(b);
+							ret.setNIBRSErrorCode(NIBRSErrorCode._270);
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule269() {
