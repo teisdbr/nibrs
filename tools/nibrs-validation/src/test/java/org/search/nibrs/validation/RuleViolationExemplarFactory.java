@@ -5131,6 +5131,7 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("B");
+			copy.getVictims().get(0).setTypeOfInjury(0, "B");
 			
 			incidents.add(copy);
 			
@@ -5268,13 +5269,27 @@ public class RuleViolationExemplarFactory {
 			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
 			
 			incidents.add(copy);
+						
+			return incidents;
+			
+		});
+		
+		groupATweakerMap.put(479, incident -> {
+			//A Simple Assault (13B) was committed against a victim, but the 
+			//victim had major injuries/trauma entered for Data Element 33 (Type Injury). 
+			//Either the offense should have been classified as an Aggravated Assault (13A) 
+			//or the victim’s injury should not have been entered as major.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy.getVictims().get(0).setTypeOfInjury(0, "O");
+			
+			incidents.add(copy);
 			
 			
 			return incidents;
 			
 		});
-		
-		
 		groupATweakerMap.put(481, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
 			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.
