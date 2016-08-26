@@ -4937,17 +4937,32 @@ public class RuleViolationExemplarFactory {
 			//in error is one that contains multiple data values. When more than one 
 			//code is entered, none can be duplicate codes.
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "13A");
-			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "13A");
-						
+			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "02");
+			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "02");
+			//(Type Injury) The referenced data element in error is one that 
+			//contains multiple data values. When more than one code is entered, none can be duplicate codes.			
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getVictims().get(0).setTypeOfInjury(0, "B");
+			copy3.getVictims().get(0).setTypeOfInjury(1, "B");
+			//(Offender Number to be Related) The referenced data element in error 
+			//is one that contains multiple data values. When more than one code 
+			//is entered, none can be duplicate codes.
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4.getVictims().get(0).setOffenderNumberRelated(1, 1);
+			
+			
+			
+			
 			incidents.add(copy);
 			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
 			copy.addOffense(offense);
 			
 			
 			
 			return incidents;
-			
+				
 			
 		});
 		
@@ -5071,6 +5086,37 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(455, incident -> {
+			//Aggravated Assault Homicide Circumstances contains: 20=Criminal Killed by Private Citizen
+			//Or 21=Criminal Killed by Police Officer, but Data Element 32 (Additional Justifiable Homicide Circumstances) was not entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "20");
+			copy.getVictims().get(0).setAdditionalJustifiableHomicideCircumstances(null);
+						
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
+		groupATweakerMap.put(457, incident -> {
+			//Aggravated Assault Homicide Circumstances was entered, but Data Element 31 
+			//Aggravated Assault/Homicide Circumstances) does not reflect a justifiable homicide circumstance.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "34");
+			copy.getVictims().get(0).setAdditionalJustifiableHomicideCircumstances("C");
+						
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(456, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) was entered with two entries, 
@@ -5091,7 +5137,6 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(458, incident -> {
-			//Possible to-do: Might need to make separate scenarios for each person element
 			//The Data Element associated with this error cannot be entered 
 			//when Data Element 25 (Type of Victim) is not I=Individual or 
 			//L=Law Enforcement Officer when Data Element 24 (Victim Connected to 
@@ -5099,8 +5144,23 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("B");
-			//GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			//copy.getVictims().get(0).set
+			copy.getVictims().get(0).setTypeOfInjury(0, "B");
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
+		groupATweakerMap.put(459, incident -> {
+			//The Data Element associated with this error cannot be entered 
+			//when Data Element 25 (Type of Victim) is not I=Individual or 
+			//L=Law Enforcement Officer when Data Element 24 (Victim Connected to 
+			//UCR Offense Code) contains a Crime Against Person.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			
 			
 			incidents.add(copy);
@@ -5109,6 +5169,25 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		groupATweakerMap.put(460, incident -> {
+			//Corresponding Data Element 35 (Relationship of Victim to Offenders) 
+			//data must be entered when Data Element 34 (Offender Numbers To Be Related) 
+			//is entered with a value greater than 00.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, null);
+			
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
+		
+		
 		
 		groupATweakerMap.put(461, incident -> {
 			//(Type of Victim) cannot have a value of S=Society/Public when the 
@@ -5123,6 +5202,41 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 					
 		});
+		
+		groupATweakerMap.put(462, incident -> {
+			//(Aggravated Assault/Homicide Circumstances) An Offense Segment (Level 2) 
+			//was submitted for 13A=Aggravated Assault. Accordingly, Data Element 31 
+			//(Aggravated Assault/Homicide Circumstances) can only have codes of 01 through 06 and 08 through 10. 
+			//All other codes, including 07=Mercy Killing, are not valid because they do not relate to an aggravated assault
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "30");
+			
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
+		groupATweakerMap.put(463, incident -> {
+			//(Aggravated Assault/Homicide Circumstances) When a Justifiable Homicide 
+			//is reported, Data Element 31 (Aggravated Assault/Homicide Circumstances) 
+			//can only have codes of 20=Criminal Killed by Private Citizen or 
+			//21=Criminal Killed by Police Officer. In this case, a code other than the two mentioned was entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "30");
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
 		
 		groupATweakerMap.put(464, incident -> {
 			//UCR Code contains a Crime Against Person, but Data Element 25 
@@ -5170,6 +5284,21 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(468, incident -> {
+			//Relationship of Victim to Offender) cannot be entered when Data Element 34 
+			//(Offender Number to be Related) is zero. Zero means that the number of 
+			//offenders is unknown; therefore, the relationship cannot be entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setOffenderNumberRelated(0, 0);
+			
+					
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
+		
 		groupATweakerMap.put(469, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
 			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.
@@ -5191,6 +5320,58 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(472, incident -> {
+			//(Relationship of Victim to Offender) has a relationship to the offender
+			//that is not logical. In this case, the offender was entered with unknown 
+			//values for age, sex, and race. Under these circumstances, the relationship 
+			//must be entered as RU=Relationship Unknown.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("00");
+			copy.getOffenders().get(0).setSex("U");
+			copy.getOffenders().get(0).setRace("U");
+						
+					
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
+		
+		
+		groupATweakerMap.put(477, incident -> {
+			//(Aggravated Assault/Homicide Circumstances) A victim segment was 
+			//submitted with Data Element 24 (Victim Connected to UCR Offense Code) 
+			//having an offense that does not have a permitted code for 
+			//Data Element 31 (Aggravated Assault/Homicide Circumstances). 
+			//Only those circumstances listed in Volume 1, section VI, are valid for the particular offense.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
+			
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
+		
+		groupATweakerMap.put(479, incident -> {
+			//A Simple Assault (13B) was committed against a victim, but the 
+			//victim had major injuries/trauma entered for Data Element 33 (Type Injury). 
+			//Either the offense should have been classified as an Aggravated Assault (13A) 
+			//or the victim�s injury should not have been entered as major.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy.getVictims().get(0).setTypeOfInjury(0, "O");
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
 		groupATweakerMap.put(481, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
 			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.
