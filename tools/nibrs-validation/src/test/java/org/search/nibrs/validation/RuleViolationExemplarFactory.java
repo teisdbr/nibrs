@@ -5163,6 +5163,26 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		groupATweakerMap.put(460, incident -> {
+			//Corresponding Data Element 35 (Relationship of Victim to Offenders) 
+			//data must be entered when Data Element 34 (Offender Numbers To Be Related) 
+			//is entered with a value greater than 00.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, null);
+			
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
+		
+		
+		
 		groupATweakerMap.put(461, incident -> {
 			//(Type of Victim) cannot have a value of S=Society/Public when the 
 			//offense is 220=Burglary/Breaking and Entering.
