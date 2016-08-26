@@ -5278,6 +5278,21 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(468, incident -> {
+			//Relationship of Victim to Offender) cannot be entered when Data Element 34 
+			//(Offender Number to be Related) is zero. Zero means that the number of 
+			//offenders is unknown; therefore, the relationship cannot be entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setOffenderNumberRelated(0, 0);
+			
+					
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
+		
 		groupATweakerMap.put(469, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
 			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.
