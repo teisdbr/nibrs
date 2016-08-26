@@ -10,6 +10,7 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.MethodOfEntryCode;
@@ -27,6 +28,31 @@ public class OffenseSegmentRulesFactoryTest {
 	private static final Logger LOG = LogManager.getLogger(OffenseSegmentRulesFactoryTest.class);
 	
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
+	
+	@Test
+	public void testRule255() {
+		Rule<OffenseSegment> rule = rulesFactory.getRule255();
+		OffenseSegment o = buildBaseSegment();
+		o.setAutomaticWeaponIndicator(0, null);
+		o.setAutomaticWeaponIndicator(1, null);
+		o.setAutomaticWeaponIndicator(2, null);
+		NIBRSError e = rule.apply(o);
+		assertNull(e);
+		o.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode._blank.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setAutomaticWeaponIndicator(0, "XXX");
+		e = rule.apply(o);
+		assertNotNull(e);
+		assertEquals('2', e.getSegmentType());
+		assertEquals("13", e.getDataElementIdentifier());
+		assertArrayEquals(new String[] {"XXX", null, null}, (String[]) e.getValue());
+		o.setAutomaticWeaponIndicator(0, "XXX");
+		o.setAutomaticWeaponIndicator(1, AutomaticWeaponIndicatorCode._blank.code);
+		e = rule.apply(o);
+		assertNotNull(e);
+		assertArrayEquals(new String[] {"XXX", AutomaticWeaponIndicatorCode._blank.code, null}, (String[]) e.getValue());
+	}
 	
 	@Test
 	public void testRule254() {

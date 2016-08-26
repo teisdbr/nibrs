@@ -154,7 +154,12 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule252());
 		rulesList.add(getRule253());
 		rulesList.add(getRule254());
+		rulesList.add(getRule255());
 		
+	}
+	
+	Rule<OffenseSegment> getRule255() {
+		return new ValidValueListRule<>("automaticWeaponIndicator", "13", OffenseSegment.class, NIBRSErrorCode._255, AutomaticWeaponIndicatorCode.codeSet());
 	}
 	
 	Rule<OffenseSegment> getRule254() {
