@@ -4933,8 +4933,16 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "02");
 			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "02");
-						
+			//(Type Injury) The referenced data element in error is one that 
+			//contains multiple data values. When more than one code is entered, none can be duplicate codes.			
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getVictims().get(0).setTypeOfInjury(0, "B");
+			copy3.getVictims().get(0).setTypeOfInjury(1, "B");
+			
+			
+			
 			incidents.add(copy);
+			incidents.add(copy2);
 			incidents.add(copy2);
 			copy.addOffense(offense);
 			
@@ -5083,7 +5091,7 @@ public class RuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(457, incident -> {
 			//Aggravated Assault Homicide Circumstances was entered, but Data Element 31 
-			//(Aggravated Assault/Homicide Circumstances) does not reflect a justifiable homicide circumstance.
+			//Aggravated Assault/Homicide Circumstances) does not reflect a justifiable homicide circumstance.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("09C");
