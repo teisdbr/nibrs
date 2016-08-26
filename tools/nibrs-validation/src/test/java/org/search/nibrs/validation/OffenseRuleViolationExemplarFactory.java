@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.TypeOfWeaponForceCode;
 
 final class OffenseRuleViolationExemplarFactory {
 	
@@ -639,62 +641,28 @@ final class OffenseRuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(265, incident -> {
+			
 			// (Type Weapon/Force Involved) If an OffenseSegment Segment (Level 2) was submitted for 13B=Simple Assault,
 			// Data Element 13 (Type Weapon/Force Involved) can only have codes of 40=Personal Weapons,
 			// 90=Other, 95=Unknown, and 99=None. All other codes are not valid because they do not relate to a simple assault.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy2.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "12");
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy3.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "13");
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy4.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "14");
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			copy5.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy5.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "15");
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			copy6.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy6.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "20");
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			copy7.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy7.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "30");
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
-			copy8.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy8.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "50");
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
-			copy9.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy9.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "60");
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
-			copy10.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy10.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "65");
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
-			copy11.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy11.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "70");
-			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
-			copy12.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy12.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "80");
 			
+			Set<String> simpleAssaultDisallowedCodes = TypeOfWeaponForceCode.codeSet();
+			simpleAssaultDisallowedCodes.remove(TypeOfWeaponForceCode._40.code);
+			simpleAssaultDisallowedCodes.remove(TypeOfWeaponForceCode._90.code);
+			simpleAssaultDisallowedCodes.remove(TypeOfWeaponForceCode._95.code);
+			simpleAssaultDisallowedCodes.remove(TypeOfWeaponForceCode._99.code);
 			
-			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
-			incidents.add(copy12);
+			for (String code : simpleAssaultDisallowedCodes) {
+				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+				copy.getOffenses().get(0).setUcrOffenseCode("13B");
+				copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, code);
+				incidents.add(copy);
+			}
 			
 			return incidents;
+			
 		});
 
 		groupATweakerMap.put(266, incident -> {

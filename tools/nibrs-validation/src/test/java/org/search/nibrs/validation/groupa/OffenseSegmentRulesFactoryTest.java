@@ -30,6 +30,35 @@ public class OffenseSegmentRulesFactoryTest {
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
 	
 	@Test
+	public void testRule265() {
+		Rule<OffenseSegment> rule = rulesFactory.getRule265();
+		OffenseSegment o = buildBaseSegment();
+		o.setUcrOffenseCode(null);
+		o.setTypeOfWeaponForceInvolved(0, null);
+		o.setTypeOfWeaponForceInvolved(1, null);
+		o.setTypeOfWeaponForceInvolved(2, null);
+		NIBRSError e = rule.apply(o);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._13A.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._13A.code);
+		o.setTypeOfWeaponForceInvolved(0, TypeOfWeaponForceCode._11.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._13B.code);
+		o.setTypeOfWeaponForceInvolved(0, TypeOfWeaponForceCode._40.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setTypeOfWeaponForceInvolved(0, TypeOfWeaponForceCode._11.code);
+		e = rule.apply(o);
+		assertNotNull(e);
+		assertEquals('2', e.getSegmentType());
+		assertEquals("13", e.getDataElementIdentifier());
+		assertEquals(TypeOfWeaponForceCode._11.code, e.getValue());
+	}
+	
+	@Test
 	public void testRule264() {
 		Rule<OffenseSegment> rule = rulesFactory.getRule264();
 		OffenseSegment o = buildBaseSegment();
