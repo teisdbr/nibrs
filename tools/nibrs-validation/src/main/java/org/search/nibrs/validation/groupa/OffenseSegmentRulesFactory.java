@@ -120,8 +120,15 @@ public class OffenseSegmentRulesFactory {
 	}
 	
 	private List<Rule<OffenseSegment>> rulesList = new ArrayList<>();
+	private Set<String> firearmCodes = new HashSet<>();
 	
 	public OffenseSegmentRulesFactory() {
+		
+		firearmCodes.add(TypeOfWeaponForceCode._11.code);
+		firearmCodes.add(TypeOfWeaponForceCode._12.code);
+		firearmCodes.add(TypeOfWeaponForceCode._13.code);
+		firearmCodes.add(TypeOfWeaponForceCode._14.code);
+		firearmCodes.add(TypeOfWeaponForceCode._15.code);
 		
 		rulesList.add(getRule201ForUCROffenseCode());
 		rulesList.add(getRule201ForOffendersSuspectedOfUsing());
@@ -161,7 +168,30 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule264());
 		rulesList.add(getRule265());
 		rulesList.add(getRule267());
+		rulesList.add(getRule269());
 		
+	}
+	
+	Rule<OffenseSegment> getRule269() {
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				String offenseCode = subject.getUcrOffenseCode();
+				if (OffenseCode._13B.code.equals(offenseCode)) {
+					String[] ww = subject.getTypeOfWeaponForceInvolved();
+					for (String w : ww) {
+						if (firearmCodes.contains(w)) {
+							ret = subject.getErrorTemplate();
+							ret.setValue(w);
+							ret.setDataElementIdentifier("13");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._269);
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule267() {
@@ -235,12 +265,6 @@ public class OffenseSegmentRulesFactory {
 	}
 	
 	Rule<OffenseSegment> getRule258() {
-		final Set<String> firearmCode = new HashSet<>();
-		firearmCode.add(TypeOfWeaponForceCode._11.code);
-		firearmCode.add(TypeOfWeaponForceCode._12.code);
-		firearmCode.add(TypeOfWeaponForceCode._13.code);
-		firearmCode.add(TypeOfWeaponForceCode._14.code);
-		firearmCode.add(TypeOfWeaponForceCode._15.code);
 		return new Rule<OffenseSegment>() {
 			@Override
 			public NIBRSError apply(OffenseSegment subject) {
@@ -248,7 +272,7 @@ public class OffenseSegmentRulesFactory {
 				String[] awi = subject.getAutomaticWeaponIndicator();
 				for (int i=0;i < awi.length && ret == null;i++) {
 					String weapon = subject.getTypeOfWeaponForceInvolved(i);
-					if (AutomaticWeaponIndicatorCode.A.code.equals(awi[i]) && weapon != null && !firearmCode.contains(weapon)) {
+					if (AutomaticWeaponIndicatorCode.A.code.equals(awi[i]) && weapon != null && !firearmCodes.contains(weapon)) {
 						ret = subject.getErrorTemplate();
 						ret.setValue(weapon);
 						ret.setDataElementIdentifier("13");
