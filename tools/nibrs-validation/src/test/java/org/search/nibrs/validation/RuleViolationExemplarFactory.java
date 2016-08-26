@@ -5066,11 +5066,12 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(455, incident -> {
-			//(Additional Justifiable Homicide Circumstances) contains: 20=Criminal Killed by Private Citizen
+			//Aggravated Assault Homicide Circumstances contains: 20=Criminal Killed by Private Citizen
 			//Or 21=Criminal Killed by Police Officer, but Data Element 32 (Additional Justifiable Homicide Circumstances) was not entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "20");
 			copy.getVictims().get(0).setAdditionalJustifiableHomicideCircumstances(null);
 						
 			incidents.add(copy);
@@ -5080,6 +5081,21 @@ public class RuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(457, incident -> {
+			//Aggravated Assault Homicide Circumstances was entered, but Data Element 31 
+			//(Aggravated Assault/Homicide Circumstances) does not reflect a justifiable homicide circumstance.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "34");
+			copy.getVictims().get(0).setAdditionalJustifiableHomicideCircumstances("C");
+						
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(456, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) was entered with two entries, 
