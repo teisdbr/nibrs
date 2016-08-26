@@ -157,7 +157,34 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule255());
 		rulesList.add(getRule256());
 		rulesList.add(getRule257());
+		rulesList.add(getRule258());
 		
+	}
+	
+	Rule<OffenseSegment> getRule258() {
+		final Set<String> firearmCode = new HashSet<>();
+		firearmCode.add(TypeOfWeaponForceCode._11.code);
+		firearmCode.add(TypeOfWeaponForceCode._12.code);
+		firearmCode.add(TypeOfWeaponForceCode._13.code);
+		firearmCode.add(TypeOfWeaponForceCode._14.code);
+		firearmCode.add(TypeOfWeaponForceCode._15.code);
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				String[] awi = subject.getAutomaticWeaponIndicator();
+				for (int i=0;i < awi.length && ret == null;i++) {
+					String weapon = subject.getTypeOfWeaponForceInvolved(i);
+					if (AutomaticWeaponIndicatorCode.A.code.equals(awi[i]) && weapon != null && !firearmCode.contains(weapon)) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(weapon);
+						ret.setDataElementIdentifier("13");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._258);
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule257() {

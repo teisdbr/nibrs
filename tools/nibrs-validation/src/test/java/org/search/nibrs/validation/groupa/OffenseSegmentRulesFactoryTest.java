@@ -30,6 +30,41 @@ public class OffenseSegmentRulesFactoryTest {
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
 	
 	@Test
+	public void testRule258() {
+		Rule<OffenseSegment> rule = rulesFactory.getRule258();
+		OffenseSegment o = buildBaseSegment();
+		o.setAutomaticWeaponIndicator(0, null);
+		o.setAutomaticWeaponIndicator(1, null);
+		o.setAutomaticWeaponIndicator(2, null);
+		o.setTypeOfWeaponForceInvolved(0, null);
+		o.setTypeOfWeaponForceInvolved(1, null);
+		o.setTypeOfWeaponForceInvolved(2, null);
+		NIBRSError e = rule.apply(o);
+		assertNull(e);
+		o.setTypeOfWeaponForceInvolved(0, TypeOfWeaponForceCode._20.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode._blank.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setTypeOfWeaponForceInvolved(0, TypeOfWeaponForceCode._11.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode._blank.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode.A.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setTypeOfWeaponForceInvolved(0, TypeOfWeaponForceCode._20.code);
+		e = rule.apply(o);
+		assertNotNull(e);
+		assertEquals('2', e.getSegmentType());
+		assertEquals("13", e.getDataElementIdentifier());
+		assertEquals(TypeOfWeaponForceCode._20.code, e.getValue());
+	}
+	
+	@Test
 	public void testRule257() {
 		Rule<OffenseSegment> rule = rulesFactory.getRule257();
 		OffenseSegment o = buildBaseSegment();
