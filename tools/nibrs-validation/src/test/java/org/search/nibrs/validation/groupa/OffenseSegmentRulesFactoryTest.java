@@ -29,6 +29,31 @@ public class OffenseSegmentRulesFactoryTest {
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
 	
 	@Test
+	public void testRule252() {
+		Rule<OffenseSegment> rule = rulesFactory.getRule252();
+		OffenseSegment o = buildBaseSegment();
+		o.setNumberOfPremisesEntered(null);
+		NIBRSError e = rule.apply(o);
+		assertNull(e);
+		o.setNumberOfPremisesEntered(2);
+		o.setUcrOffenseCode(OffenseCode._220.code);
+		o.setLocationType(LocationTypeCode._14.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._09A.code);
+		e = rule.apply(o);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._252, e.getNIBRSErrorCode());
+		assertEquals('2', e.getSegmentType());
+		assertEquals("10", e.getDataElementIdentifier());
+		assertEquals(2, e.getValue());
+		o.setUcrOffenseCode(OffenseCode._220.code);
+		o.setLocationType(LocationTypeCode._01.code);
+		e = rule.apply(o);
+		assertNotNull(e);
+	}
+	
+	@Test
 	public void testRule251() {
 		Rule<OffenseSegment> rule = rulesFactory.getRule251();
 		OffenseSegment o = buildBaseSegment();

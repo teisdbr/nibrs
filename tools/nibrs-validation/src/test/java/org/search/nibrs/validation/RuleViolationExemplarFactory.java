@@ -588,7 +588,7 @@ public class RuleViolationExemplarFactory {
 					offense.setNumberOfPremisesEntered(2);
 					offense.setLocationType(ltc.code);
 					offense.setUcrOffenseCode(oc.code);
-					incident.addOffense(offense);
+					copy.addOffense(offense);
 					incidents.add(copy);
 				}
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -596,7 +596,7 @@ public class RuleViolationExemplarFactory {
 				offense.setNumberOfPremisesEntered(2);
 				offense.setLocationType(LocationTypeCode._14.code);
 				offense.setUcrOffenseCode(oc.code);
-				incident.addOffense(offense);
+				copy.addOffense(offense);
 				incidents.add(copy);
 			}
 
@@ -606,7 +606,7 @@ public class RuleViolationExemplarFactory {
 				offense.setNumberOfPremisesEntered(2);
 				offense.setLocationType(ltc.code);
 				offense.setUcrOffenseCode(OffenseCode._220.code);
-				incident.addOffense(offense);
+				copy.addOffense(offense);
 				incidents.add(copy);
 			}
 
