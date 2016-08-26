@@ -4935,7 +4935,9 @@ public class RuleViolationExemplarFactory {
 			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "13A");
 						
 			incidents.add(copy);
+			incidents.add(copy2);
 			copy.addOffense(offense);
+			
 			
 			
 			return incidents;
@@ -5058,6 +5060,25 @@ public class RuleViolationExemplarFactory {
 			incidents.add(copy4);
 			incidents.add(copy5);
 			
+			return incidents;
+			
+			
+		});
+		
+		
+		groupATweakerMap.put(456, incident -> {
+			//(Aggravated Assault/Homicide Circumstances) was entered with two entries, 
+			//but was rejected for one of the following reasons:
+			//1) Value 10=Unknown Circumstances is mutually exclusive with any other value. 
+			//2) More than one category (i.e., Aggravated Assault, Negligent Manslaughter, etc.) was entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "10");
+			
+			incidents.add(copy);
+			
+				
 			return incidents;
 			
 			
