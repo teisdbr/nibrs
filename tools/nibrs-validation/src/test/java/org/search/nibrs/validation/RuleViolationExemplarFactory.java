@@ -5216,6 +5216,26 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		
+		groupATweakerMap.put(477, incident -> {
+			//(Aggravated Assault/Homicide Circumstances) A victim segment was 
+			//submitted with Data Element 24 (Victim Connected to UCR Offense Code) 
+			//having an offense that does not have a permitted code for 
+			//Data Element 31 (Aggravated Assault/Homicide Circumstances). 
+			//Only those circumstances listed in Volume 1, section VI, are valid for the particular offense.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
+		
+		
 		groupATweakerMap.put(481, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
 			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.
