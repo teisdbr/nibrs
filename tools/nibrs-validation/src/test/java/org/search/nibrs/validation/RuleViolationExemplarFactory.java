@@ -5314,6 +5314,24 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(472, incident -> {
+			//(Relationship of Victim to Offender) has a relationship to the offender
+			//that is not logical. In this case, the offender was entered with unknown 
+			//values for age, sex, and race. Under these circumstances, the relationship 
+			//must be entered as RU=Relationship Unknown.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("00");
+			copy.getOffenders().get(0).setSex("U");
+			copy.getOffenders().get(0).setRace("U");
+						
+					
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
+		
 		
 		groupATweakerMap.put(477, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) A victim segment was 
