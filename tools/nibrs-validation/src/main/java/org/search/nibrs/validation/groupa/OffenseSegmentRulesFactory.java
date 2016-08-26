@@ -148,7 +148,36 @@ public class OffenseSegmentRulesFactory {
 		
 		rulesList.add(getRule219());
 		rulesList.add(getRule220());
+		rulesList.add(getRule221());
 		
+	}
+	
+	Rule<OffenseSegment> getRule221() {
+		return new NotAllBlankRule<OffenseSegment>("typeOfWeaponForceInvolved", "13", OffenseSegment.class, NIBRSErrorCode._221) {
+			@Override
+			public boolean ignore(OffenseSegment o) {
+				Set<String> applicableOffenses = new HashSet<>();
+				applicableOffenses.addAll(Arrays.asList(new String[] {
+					OffenseCode._09A.code,
+					OffenseCode._09B.code,
+					OffenseCode._09C.code,
+					OffenseCode._100.code,
+					OffenseCode._11A.code,
+					OffenseCode._11B.code,
+					OffenseCode._11C.code,
+					OffenseCode._11D.code,
+					OffenseCode._120.code,
+					OffenseCode._13A.code,
+					OffenseCode._13B.code,
+					OffenseCode._210.code,
+					OffenseCode._520.code,
+					OffenseCode._64A.code,
+					OffenseCode._64B.code,
+				}));
+				String offenseCode = o.getUcrOffenseCode();
+				return offenseCode == null || !applicableOffenses.contains(offenseCode);
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule220() {
