@@ -17,6 +17,7 @@ import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.MethodOfEntryCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenderSuspectedOfUsingCode;
+import org.search.nibrs.model.codes.OffenseAttemptedCompletedCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfCriminalActivityCode;
 import org.search.nibrs.model.codes.TypeOfWeaponForceCode;
@@ -149,6 +150,7 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule219());
 		rulesList.add(getRule220());
 		rulesList.add(getRule221());
+		rulesList.add(getRule251());
 		
 	}
 	
@@ -233,6 +235,10 @@ public class OffenseSegmentRulesFactory {
 	
 	Rule<OffenseSegment> getRule204ForValueList(String propertyName, String dataElementIdentifier, Set<String> allowedValueSet) {
 		return new ValidValueListRule<>(propertyName, dataElementIdentifier, OffenseSegment.class, NIBRSErrorCode._204, allowedValueSet);
+	}
+	
+	Rule<OffenseSegment> getRule251() {
+		return new ValidValueListRule<>("offenseAttemptedCompleted", "7", OffenseSegment.class, NIBRSErrorCode._251, OffenseAttemptedCompletedCode.codeSet(), true);
 	}
 	
 	Rule<OffenseSegment> getRule204ForPremisesEntered() {

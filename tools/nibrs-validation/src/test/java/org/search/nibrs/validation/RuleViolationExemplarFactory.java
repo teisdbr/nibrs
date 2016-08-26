@@ -560,7 +560,6 @@ public class RuleViolationExemplarFactory {
 
 		});
 
-	
 		groupATweakerMap.put(251, incident -> {
 			// (OffenseSegment Attempted/Completed) Must be a valid code of A=Attempted or C=Completed.
 			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
