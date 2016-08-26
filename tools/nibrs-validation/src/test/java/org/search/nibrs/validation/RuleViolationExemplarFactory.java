@@ -4993,8 +4993,11 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setAgeString(null);
-						
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getVictims().get(0).setSex(null);			
+			
 			incidents.add(copy);
+			incidents.add(copy2);
 			
 			return incidents;
 		
