@@ -153,7 +153,25 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule251());
 		rulesList.add(getRule252());
 		rulesList.add(getRule253());
+		rulesList.add(getRule254());
 		
+	}
+	
+	Rule<OffenseSegment> getRule254() {
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				String offenseCode = subject.getUcrOffenseCode();
+				if (subject.getMethodOfEntry() != null && offenseCode != null && !OffenseCode._220.code.equals(offenseCode)) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(subject.getMethodOfEntry());
+					ret.setDataElementIdentifier("11");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._254);
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule253() {

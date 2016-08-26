@@ -5093,8 +5093,8 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("B");
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).set
+			//GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			//copy.getVictims().get(0).set
 			
 			
 			incidents.add(copy);
@@ -5222,7 +5222,7 @@ public class RuleViolationExemplarFactory {
 	
 		groupATweakerMap.put(483, incident -> {
 			//(Type of Officer Activity/Circumstance) Data Element 25B (Officer Assignment Type), 
-			//Data Element 25C (Officer–ORI Other Jurisdiction), Data Element 26 (Age of Victim), 
+			//Data Element 25C (Officerï¿½ORI Other Jurisdiction), Data Element 26 (Age of Victim), 
 			//Data Element 27 (Sex of Victim), Data Element 28 (Race of Victim), 
 			//Data Element 29 (Ethnicity of Victim), Data Element 30 (Resident Status of Victim), and 
 			//Data Element 34 (Offender Number to be Related) can only be entered when 
