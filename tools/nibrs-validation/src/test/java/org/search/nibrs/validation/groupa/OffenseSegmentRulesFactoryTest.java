@@ -30,6 +30,30 @@ public class OffenseSegmentRulesFactoryTest {
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
 	
 	@Test
+	public void testRule256() {
+		Rule<OffenseSegment> rule = rulesFactory.getRule256();
+		OffenseSegment o = buildBaseSegment();
+		o.setOffenseAttemptedCompleted(null);
+		o.setUcrOffenseCode(null);
+		NIBRSError e = rule.apply(o);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._100.code);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.A.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._09A.code);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
+		e = rule.apply(o);
+		assertNull(e);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.A.code);
+		e = rule.apply(o);
+		assertNotNull(e);
+		assertEquals('2', e.getSegmentType());
+		assertEquals("7", e.getDataElementIdentifier());
+		assertEquals(OffenseAttemptedCompletedCode.A.code, e.getValue());
+	}
+	
+	@Test
 	public void testRule255() {
 		Rule<OffenseSegment> rule = rulesFactory.getRule255();
 		OffenseSegment o = buildBaseSegment();

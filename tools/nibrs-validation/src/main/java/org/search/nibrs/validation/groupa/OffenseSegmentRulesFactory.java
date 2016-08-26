@@ -155,7 +155,34 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule253());
 		rulesList.add(getRule254());
 		rulesList.add(getRule255());
+		rulesList.add(getRule256());
 		
+	}
+	
+	Rule<OffenseSegment> getRule256() {
+		final Set<String> assaultOrHomicideCodeSet = new HashSet<>();
+		assaultOrHomicideCodeSet.add(OffenseCode._09A.code);
+		assaultOrHomicideCodeSet.add(OffenseCode._09B.code);
+		assaultOrHomicideCodeSet.add(OffenseCode._09C.code);
+		assaultOrHomicideCodeSet.add(OffenseCode._13A.code);
+		assaultOrHomicideCodeSet.add(OffenseCode._13B.code);
+		assaultOrHomicideCodeSet.add(OffenseCode._13C.code);
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError ret = null;
+				String offenseCode = subject.getUcrOffenseCode();
+				String attemptedCompletedCode = subject.getOffenseAttemptedCompleted();
+				if (attemptedCompletedCode != null && !OffenseAttemptedCompletedCode.C.code.equals(attemptedCompletedCode) && 
+						offenseCode != null && assaultOrHomicideCodeSet.contains(offenseCode)) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(attemptedCompletedCode);
+					ret.setDataElementIdentifier("7");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._256);
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule255() {
