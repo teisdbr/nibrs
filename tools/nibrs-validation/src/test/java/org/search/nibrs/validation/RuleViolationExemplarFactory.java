@@ -5060,7 +5060,9 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("B");
 			
+			
 			incidents.add(copy);
+			
 			
 			return incidents;
 			
@@ -5126,6 +5128,26 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(469, incident -> {
+			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
+			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("36B");
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "36B");
+			copy.getVictims().get(0).setSex("U");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("11A");
+			copy2.getVictims().get(0).setUcrOffenseCodeConnection(0, "11A");
+			copy2.getVictims().get(0).setSex("U");
+			
+					
+			incidents.add(copy);
+			incidents.add(copy2);
+			
+			return incidents;
+					
+		});
 		
 		groupATweakerMap.put(481, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
@@ -5141,6 +5163,7 @@ public class RuleViolationExemplarFactory {
 			return incidents;
 					
 		});
+		
 		groupATweakerMap.put(482, incident -> {
 			//(Type of Victim) cannot be L=Law Enforcement Officer unless Data Element 24 
 			//(Victim Connected to UCR Offense Code) is one of the following:
