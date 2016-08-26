@@ -4931,8 +4931,8 @@ public class RuleViolationExemplarFactory {
 			//in error is one that contains multiple data values. When more than one 
 			//code is entered, none can be duplicate codes.
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "13A");
-			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "13A");
+			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "02");
+			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "02");
 						
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -4941,7 +4941,7 @@ public class RuleViolationExemplarFactory {
 			
 			
 			return incidents;
-			
+				
 			
 		});
 		
@@ -5085,7 +5085,6 @@ public class RuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(458, incident -> {
-			//Possible to-do: Might need to make separate scenarios for each person element
 			//The Data Element associated with this error cannot be entered 
 			//when Data Element 25 (Type of Victim) is not I=Individual or 
 			//L=Law Enforcement Officer when Data Element 24 (Victim Connected to 
@@ -5093,9 +5092,6 @@ public class RuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("B");
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).set
-			
 			
 			incidents.add(copy);
 			
@@ -5118,6 +5114,22 @@ public class RuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(462, incident -> {
+			//(Aggravated Assault/Homicide Circumstances) An Offense Segment (Level 2) 
+			//was submitted for 13A=Aggravated Assault. Accordingly, Data Element 31 
+			//(Aggravated Assault/Homicide Circumstances) can only have codes of 01 through 06 and 08 through 10. 
+			//All other codes, including 07=Mercy Killing, are not valid because they do not relate to an aggravated assault
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "30");
+			
+			
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});
 		groupATweakerMap.put(464, incident -> {
 			//UCR Code contains a Crime Against Person, but Data Element 25 
 			//(Type of Victim) is not I=Individual or L=Law Enforcement Officer when Data Element 24 
