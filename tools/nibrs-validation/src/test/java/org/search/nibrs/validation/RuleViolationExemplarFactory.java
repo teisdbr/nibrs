@@ -4938,12 +4938,19 @@ public class RuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
 			copy3.getVictims().get(0).setTypeOfInjury(0, "B");
 			copy3.getVictims().get(0).setTypeOfInjury(1, "B");
+			//(Offender Number to be Related) The referenced data element in error 
+			//is one that contains multiple data values. When more than one code 
+			//is entered, none can be duplicate codes.
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4.getVictims().get(0).setOffenderNumberRelated(1, 1);
+			
 			
 			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
-			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4)
 			copy.addOffense(offense);
 			
 			
