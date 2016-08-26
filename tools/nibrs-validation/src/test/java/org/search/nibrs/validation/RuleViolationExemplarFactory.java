@@ -5143,7 +5143,26 @@ public class RuleViolationExemplarFactory {
 					
 		});
 	
-		
+		groupATweakerMap.put(483, incident -> {
+			//(Type of Officer Activity/Circumstance) Data Element 25B (Officer Assignment Type), 
+			//Data Element 25C (Officer–ORI Other Jurisdiction), Data Element 26 (Age of Victim), 
+			//Data Element 27 (Sex of Victim), Data Element 28 (Race of Victim), 
+			//Data Element 29 (Ethnicity of Victim), Data Element 30 (Resident Status of Victim), and 
+			//Data Element 34 (Offender Number to be Related) can only be entered when 
+			//Data Element 25 (Type of Victim) is I=Individual or L=Law Enforcement Officer.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			copy.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
+			copy.getVictims().get(0).setOfficerAssignmentType("G");
+			copy.getVictims().get(0).setOfficerOtherJurisdictionORI("321456789");
+						
+			incidents.add(copy);
+						
+			
+			return incidents;
+					
+		});
 		
 		groupATweakerMap.put(501, incident -> {
 			// The referenced data element in a Group A Incident AbstractReport
