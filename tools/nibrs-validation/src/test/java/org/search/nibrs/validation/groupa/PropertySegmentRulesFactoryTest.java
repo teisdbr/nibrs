@@ -65,8 +65,16 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule320() {
+		testThatRecoveredDateLaterThanIncidentDate(rulesFactory.getRule320(), NIBRSErrorCode._320);
+	}
+	
+	@Test
 	public void testRule305_forIncidentDate() {
-		Rule<PropertySegment> rule = rulesFactory.getRule305();
+		testThatRecoveredDateLaterThanIncidentDate(rulesFactory.getRule305(), NIBRSErrorCode._305);
+	}
+
+	private NIBRSError testThatRecoveredDateLaterThanIncidentDate(Rule<PropertySegment> rule, NIBRSErrorCode errorCode) {
 		PropertySegment p = buildBaseSegment();
 		GroupAIncidentReport parent = (GroupAIncidentReport) p.getParentReport();
 		parent.setIncidentDate(null);
@@ -89,11 +97,12 @@ public class PropertySegmentRulesFactoryTest {
 		assertEquals('3', e.getSegmentType());
 		assertEquals("17", e.getDataElementIdentifier());
 		assertEquals(c.getTime(), e.getValue());
-		assertEquals(NIBRSErrorCode._305, e.getNIBRSErrorCode());
+		assertEquals(errorCode, e.getNIBRSErrorCode());
 		c.set(2016, Calendar.JANUARY, 10);
 		p.setDateRecovered(1, c.getTime());
 		e = rule.apply(p);
 		assertNotNull(e);
+		return e;
 	}
 	
 	@Test

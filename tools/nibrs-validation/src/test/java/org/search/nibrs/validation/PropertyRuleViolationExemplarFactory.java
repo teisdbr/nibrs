@@ -275,20 +275,29 @@ final class PropertyRuleViolationExemplarFactory {
 		groupATweakerMap.put(320, incident -> {
 			// (Date Recovered) cannot be earlier than the date entered in Data Element 3 (Incident Date)
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("240");
-			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("5");
-			property.setPropertyDescription(0, "03");
-			property.setValueOfProperty(0, 000000000);
-			property.setNumberOfRecoveredMotorVehicles(1);
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 4, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			GroupAIncidentReport mvTheftIncident = new GroupAIncidentReport(incident);
+			OffenseSegment offenseSegment = mvTheftIncident.getOffenses().get(0);
+			offenseSegment.setUcrOffenseCode("240");
+			offenseSegment.setOffenseAttemptedCompleted("C");
+			offenseSegment.setOffendersSuspectedOfUsing(0, "N");
+			offenseSegment.setBiasMotivation(0, "88");
+			offenseSegment.setLocationType("20");
+			offenseSegment.setNumberOfPremisesEntered(1);
+			offenseSegment.setMethodOfEntry("N");
+			mvTheftIncident.removeProperties();
+			PropertySegment propertySegment = new PropertySegment();
+			mvTheftIncident.addProperty(propertySegment);
+			propertySegment.setTypeOfPropertyLoss("7");
+			propertySegment.setPropertyDescription(0, "03");
+			propertySegment.setValueOfProperty(0, 10000);
+			propertySegment.setNumberOfStolenMotorVehicles(1);
+			propertySegment.setNumberOfRecoveredMotorVehicles(1);
+			
+			Calendar c = Calendar.getInstance();
+			c.set(2017, Calendar.JUNE, 28);
+			propertySegment.setDateRecovered(0, (Date.from(LocalDateTime.of(2015, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			incidents.add(mvTheftIncident);
+			
 			//**** CANNOT TEST FOR THE FOLLOWING CONDITION ****
 			//The date property is recovered cannot be before the date it is stolen.
 			//The exception to this rule is when recovered property is reported for a pre-NIBRS incident. 
@@ -296,9 +305,6 @@ final class PropertyRuleViolationExemplarFactory {
 			//but the data value in Data Element 2 (Incident Number) will not match an incident already 
 			//on file in the national UCR database. The segment will be processed, 
 			//but used only for SRS purposes and will not be included in the agency�s NIBRS figures.
-			
-			incidents.add(copy);
-			copy.addProperty(property);
 			
 			return incidents;
 		});

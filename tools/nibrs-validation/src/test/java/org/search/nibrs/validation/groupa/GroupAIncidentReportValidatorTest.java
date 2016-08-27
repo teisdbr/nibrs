@@ -204,6 +204,11 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._306, 306);
 	}
 	
+	@Test
+	public void testRule320() {
+		testRule(NIBRSErrorCode._320, 320);
+	}
+	
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
 		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(ruleNumber);
 		for (GroupAIncidentReport r : exemplars) {
