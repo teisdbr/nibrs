@@ -1,7 +1,9 @@
 package org.search.nibrs.validation.groupa;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -9,7 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
-import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
@@ -37,7 +39,52 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule304ForRecoveredMotorVehicleCount());
 		rulesList.add(getRule304ForDrugQuantity());
 		rulesList.add(getRule304ForPropertyValue());
+		rulesList.add(getRule305());
 		
+	}
+	
+	Rule<PropertySegment> getRule305() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				GroupAIncidentReport parentIncident = (GroupAIncidentReport) subject.getParentReport();
+				Date incidentDate = parentIncident.getIncidentDate();
+				Integer monthOfTape = parentIncident.getMonthOfTape();
+				Integer yearOfTape = parentIncident.getYearOfTape();
+				Calendar c = Calendar.getInstance();
+				for (int i=0;i < 10;i++) {
+					Date recoveredDate = subject.getDateRecovered(i);
+					if (recoveredDate != null) {
+						if (incidentDate != null && recoveredDate.before(incidentDate)) {
+							ret = subject.getErrorTemplate();
+							ret.setDataElementIdentifier("17");
+							ret.setValue(recoveredDate);
+							ret.setNIBRSErrorCode(NIBRSErrorCode._305);
+						} else if (monthOfTape != null && yearOfTape != null) {
+							int y = yearOfTape.intValue();
+							int m = monthOfTape.intValue();
+							if (m == 12) {
+								y++;
+								m = 1;
+							} else {
+								m++;
+							}
+							c.set(y, m-1, 1);
+							c.add(Calendar.DAY_OF_MONTH, -1);
+							Date submissionDate = c.getTime();
+							if (recoveredDate.after(submissionDate)) {
+								ret = subject.getErrorTemplate();
+								ret.setDataElementIdentifier("17");
+								ret.setValue(recoveredDate);
+								ret.setNIBRSErrorCode(NIBRSErrorCode._305);
+							}
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule304ForPropertyValue() {

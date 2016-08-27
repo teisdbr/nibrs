@@ -2,6 +2,8 @@ package org.search.nibrs.validation.groupa;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -29,6 +31,69 @@ public class PropertySegmentRulesFactoryTest {
 			ret[i] = values[i];
 		}
 		return ret;
+	}
+	
+	@Test
+	public void testRule305_forIncidentDate() {
+		Rule<PropertySegment> rule = rulesFactory.getRule305();
+		PropertySegment p = buildBaseSegment();
+		GroupAIncidentReport parent = (GroupAIncidentReport) p.getParentReport();
+		parent.setIncidentDate(null);
+		for (int i=0;i < 10;i++) {
+			p.setDateRecovered(i, null);
+		}
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		Calendar c = Calendar.getInstance();
+		c.set(2016, Calendar.JANUARY, 2);
+		parent.setIncidentDate(c.getTime());
+		c.set(2016, Calendar.JANUARY, 2);
+		p.setDateRecovered(0, c.getTime());
+		e = rule.apply(p);
+		assertNull(e);
+		c.set(2016, Calendar.JANUARY, 1);
+		p.setDateRecovered(0, c.getTime());
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("17", e.getDataElementIdentifier());
+		assertEquals(c.getTime(), e.getValue());
+		c.set(2016, Calendar.JANUARY, 10);
+		p.setDateRecovered(1, c.getTime());
+		e = rule.apply(p);
+		assertNotNull(e);
+	}
+	
+	@Test
+	public void testRule305_forSubmissionDate() {
+		Rule<PropertySegment> rule = rulesFactory.getRule305();
+		PropertySegment p = buildBaseSegment();
+		GroupAIncidentReport parent = (GroupAIncidentReport) p.getParentReport();
+		parent.setYearOfTape(null);
+		parent.setMonthOfTape(null);
+		for (int i=0;i < 10;i++) {
+			p.setDateRecovered(i, null);
+		}
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		Calendar c = Calendar.getInstance();
+		c.set(2016, Calendar.JANUARY, 1);
+		p.setDateRecovered(0, c.getTime());
+		parent.setYearOfTape(2016);
+		parent.setMonthOfTape(1);
+		e = rule.apply(p);
+		assertNull(e);
+		c.set(2016, Calendar.FEBRUARY, 1);
+		p.setDateRecovered(0, c.getTime());
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("17", e.getDataElementIdentifier());
+		assertEquals(c.getTime(), e.getValue());
+		c.set(2016, Calendar.JANUARY, 1);
+		p.setDateRecovered(1, c.getTime());
+		e = rule.apply(p);
+		assertNotNull(e);
 	}
 	
 	@Test
