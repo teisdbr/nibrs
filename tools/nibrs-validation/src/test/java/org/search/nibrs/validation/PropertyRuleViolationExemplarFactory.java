@@ -12,6 +12,7 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 
 final class PropertyRuleViolationExemplarFactory {
@@ -151,356 +152,100 @@ final class PropertyRuleViolationExemplarFactory {
 			copy4.addProperty(property4);
 			copy5.addProperty(property5);
 			
-			
 			return incidents;
 		});
 
 		groupATweakerMap.put(304, incident -> {
+			
 			// The referenced data element in a Group A Incident AbstractReport Segment 3 must
 			// be populated with a valid data value.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			//Invalid ORI
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setOri("1234567890123");
-			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
-			copy.getOffenses().get(0).setUcrOffenseCode("240");
-			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy.getOffenses().get(0).setMethodOfEntry("N");
-			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
-			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("7");
-			property.setPropertyDescription(0, "03");
-			property.setValueOfProperty(0, 000010000);
-			property.setNumberOfStolenMotorVehicles(1);
-			//Invalid ORI State Code
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setOri("ZZ123456789");
-			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
-			copy2.getOffenses().get(0).setUcrOffenseCode("240");
-			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy2.getOffenses().get(0).setMethodOfEntry("N");
-			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
-			PropertySegment property2 = new PropertySegment();
-			property2.setTypeOfPropertyLoss("7");
-			property2.setPropertyDescription(0, "03");
-			property2.setValueOfProperty(0, 000010000);
-			property2.setNumberOfStolenMotorVehicles(1);
-			//Invalid City Indicator
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setCityIndicator("ZZ12");
-			//Valid Offense Segment for an incident including Property Loss
-			//Motor Vehicle Theft, Completed, OffenderSuspectedOfUsing N/A, No BiasMotivationCode, Residence Location, 1 Premise, No forced entry
-			copy3.getOffenses().get(0).setUcrOffenseCode("240");
-			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy3.getOffenses().get(0).setMethodOfEntry("N");
-			//Valid Property Segment: Stolen, Automobiles(1) Value $10,000, 
-			PropertySegment property3 = new PropertySegment();
-			property3.setTypeOfPropertyLoss("7");
-			property3.setPropertyDescription(0, "03");
-			property3.setValueOfProperty(0, 000010000);
-			property3.setNumberOfStolenMotorVehicles(1);
+			
+			// Set up some reusable incidents
+			
+			GroupAIncidentReport mvTheftIncident = new GroupAIncidentReport(incident);
+			OffenseSegment offenseSegment = mvTheftIncident.getOffenses().get(0);
+			offenseSegment.setUcrOffenseCode("240");
+			offenseSegment.setOffenseAttemptedCompleted("C");
+			offenseSegment.setOffendersSuspectedOfUsing(0, "N");
+			offenseSegment.setBiasMotivation(0, "88");
+			offenseSegment.setLocationType("20");
+			offenseSegment.setNumberOfPremisesEntered(1);
+			offenseSegment.setMethodOfEntry("N");
+			mvTheftIncident.removeProperties();
+			PropertySegment propertySegment = new PropertySegment();
+			mvTheftIncident.addProperty(propertySegment);
+			propertySegment.setTypeOfPropertyLoss("7");
+			propertySegment.setPropertyDescription(0, "03");
+			propertySegment.setValueOfProperty(0, 000010000);
+			propertySegment.setNumberOfStolenMotorVehicles(1);
+			
+			GroupAIncidentReport drugIncident = new GroupAIncidentReport(incident);
+			offenseSegment = mvTheftIncident.getOffenses().get(0);
+			offenseSegment.setUcrOffenseCode("35A");
+			offenseSegment.setOffenseAttemptedCompleted("C");
+			offenseSegment.setOffendersSuspectedOfUsing(0, "N");
+			offenseSegment.setBiasMotivation(0, "88");
+			offenseSegment.setLocationType("20");
+			offenseSegment.setNumberOfPremisesEntered(1);
+			offenseSegment.setMethodOfEntry("N");
+			drugIncident.removeProperties();
+			propertySegment = new PropertySegment();
+			drugIncident.addProperty(propertySegment);
+			propertySegment.setTypeOfPropertyLoss("6");
+			propertySegment.setPropertyDescription(0, "10");
+			propertySegment.setSuspectedDrugType(0, "A");
+			propertySegment.setEstimatedDrugQuantity(0, 1.0);
+			propertySegment.setTypeDrugMeasurement(0, "OZ");
+			propertySegment.setValueOfProperty(0, null);
+			
 			//Invalid TypeOfPropertyLoss
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.getOffenses().get(0).setUcrOffenseCode("240");
-			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy4.getOffenses().get(0).setLocationType("20");
-			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy4.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property4 = new PropertySegment();
-			property4.setTypeOfPropertyLoss("9");
-			property4.setPropertyDescription(0, "03");
-			property4.setValueOfProperty(0, 000010000);
-			property4.setNumberOfStolenMotorVehicles(1);
-			//Null TypeOfPropertyLoss
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.getOffenses().get(0).setUcrOffenseCode("240");
-			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy5.getOffenses().get(0).setLocationType("20");
-			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy5.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property5 = new PropertySegment();
-			property5.setTypeOfPropertyLoss(null);
-			property5.setPropertyDescription(0, "03");
-			property5.setValueOfProperty(0, 000010000);
-			property5.setNumberOfStolenMotorVehicles(1);
-			//Invalid PropertyDescription
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.getOffenses().get(0).setUcrOffenseCode("240");
-			copy6.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy6.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy6.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy6.getOffenses().get(0).setLocationType("20");
-			copy6.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy6.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property6 = new PropertySegment();
-			property6.setTypeOfPropertyLoss("7");
-			property6.setPropertyDescription(0, "00");
-			property6.setValueOfProperty(0, 000010000);
-			property6.setNumberOfStolenMotorVehicles(1);
-			//Null PropertyDescription
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getOffenses().get(0).setUcrOffenseCode("240");
-			copy7.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy7.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy7.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy7.getOffenses().get(0).setLocationType("20");
-			copy7.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy7.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property7 = new PropertySegment();
-			property7.setTypeOfPropertyLoss("7");
-			property7.setPropertyDescription(0, null);
-			property7.setValueOfProperty(0, 000010000);
-			property7.setNumberOfStolenMotorVehicles(1);
-			//Null ValueOfProperty
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getOffenses().get(0).setUcrOffenseCode("240");
-			copy8.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy8.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy8.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy8.getOffenses().get(0).setLocationType("20");
-			copy8.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy8.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property8 = new PropertySegment();
-			property8.setTypeOfPropertyLoss("7");
-			property8.setPropertyDescription(0, "03");
-			property8.setValueOfProperty(0, null);
-			property8.setNumberOfStolenMotorVehicles(1);
-			//Invalid ValueOfProperty
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			copy9.getOffenses().get(0).setUcrOffenseCode("240");
-			copy9.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy9.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy9.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy9.getOffenses().get(0).setLocationType("20");
-			copy9.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy9.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property9 = new PropertySegment();
-			property9.setTypeOfPropertyLoss("7");
-			property9.setPropertyDescription(0, "03");
-			property9.setValueOfProperty(0, 0000010000);
-			property9.setNumberOfStolenMotorVehicles(1);
-			//Invalid NumberOfStolenMotorVehicles
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getOffenses().get(0).setUcrOffenseCode("240");
-			copy10.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy10.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy10.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy10.getOffenses().get(0).setLocationType("20");
-			copy10.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy10.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property10 = new PropertySegment();
-			property10.setTypeOfPropertyLoss("7");
-			property10.setPropertyDescription(0, "03");
-			property10.setValueOfProperty(0, 000010000);
-			property10.setNumberOfStolenMotorVehicles(0);
-			property10.setDateRecovered(0, null);
-			//Null Date Recovered
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			copy11.getOffenses().get(0).setUcrOffenseCode("240");
-			copy11.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy11.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy11.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy11.getOffenses().get(0).setLocationType("20");
-			copy11.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy11.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property11 = new PropertySegment();
-			property11.setTypeOfPropertyLoss("5");
-			property11.setPropertyDescription(0, "03");
-			property11.setValueOfProperty(0, 000010000);
-			property11.setNumberOfRecoveredMotorVehicles(1);
-			property11.setDateRecovered(0, null);
-			//Invalid Date Recovered
-			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
-			copy12.getOffenses().get(0).setUcrOffenseCode("240");
-			copy12.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy12.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy12.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy12.getOffenses().get(0).setLocationType("20");
-			copy12.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy12.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property12 = new PropertySegment();
-			property12.setTypeOfPropertyLoss("5");
-			property12.setPropertyDescription(0, "03");
-			property12.setValueOfProperty(0, 000010000);
-			property12.setNumberOfRecoveredMotorVehicles(1);
-			property12.setDateRecovered(0, (Date.from(LocalDateTime.of(20160, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			//Invalid NumberOfRecoveredMotorVehicles
-			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
-			copy13.getOffenses().get(0).setUcrOffenseCode("240");
-			copy13.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy13.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy13.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy13.getOffenses().get(0).setLocationType("20");
-			copy13.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy13.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property13 = new PropertySegment();
-			property13.setTypeOfPropertyLoss("5");
-			property13.setPropertyDescription(0, "03");
-			property13.setValueOfProperty(0, 000010000);
-			property13.setNumberOfRecoveredMotorVehicles(0);
-			property13.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			//Null NumberOfRecoveredMotorVehicles
-			GroupAIncidentReport copy14 = new GroupAIncidentReport(copy);
-			copy14.getOffenses().get(0).setUcrOffenseCode("240");
-			copy14.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy14.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy14.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy14.getOffenses().get(0).setLocationType("20");
-			copy14.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy14.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property14 = new PropertySegment();
-			property14.setTypeOfPropertyLoss("5");
-			property14.setPropertyDescription(0, "03");
-			property14.setValueOfProperty(0, 000010000);
-			property14.setNumberOfRecoveredMotorVehicles(null);
-			property14.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			//Suspected Drug Type cannot be blank
-			GroupAIncidentReport copy15 = new GroupAIncidentReport(copy);
-			copy15.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy15.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy15.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy15.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy15.getOffenses().get(0).setLocationType("20");
-			copy15.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy15.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property15 = new PropertySegment();
-			property15.setTypeOfPropertyLoss("6");
-			property15.setPropertyDescription(0, "10");
-			property15.setSuspectedDrugType(0, null);
-			property15.setEstimatedDrugQuantity(0, 1.0);
-			property15.setTypeDrugMeasurement(0, "OZ");
-			property15.setValueOfProperty(0, null);
-			//Suspected Drug type must be valid
-			GroupAIncidentReport copy16 = new GroupAIncidentReport(copy);
-			copy16.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy16.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy16.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy16.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy16.getOffenses().get(0).setLocationType("20");
-			PropertySegment property16 = new PropertySegment();
-			property16.setTypeOfPropertyLoss("6");
-			property16.setPropertyDescription(0, "10");
-			property16.setSuspectedDrugType(0, "Z");
-			property16.setEstimatedDrugQuantity(0, 1.0);
-			property16.setTypeDrugMeasurement(0, "OZ");
-			property16.setValueOfProperty(0, null);
-			//Estimated Drug Quantity cannot be blank
-			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
-			copy17.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy17.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy17.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy17.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy17.getOffenses().get(0).setLocationType("20");
-			PropertySegment property17 = new PropertySegment();
-			property17.setTypeOfPropertyLoss("6");
-			property17.setPropertyDescription(0, "10");
-			property17.setSuspectedDrugType(0, "A");
-			property17.setEstimatedDrugQuantity(0, null);
-			property17.setTypeDrugMeasurement(0, "OZ");
-			property17.setValueOfProperty(0, null);
-			//Estimated Drug Quantity must be valid.
-			GroupAIncidentReport copy18 = new GroupAIncidentReport(copy);
-			copy18.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy18.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy18.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy18.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy18.getOffenses().get(0).setLocationType("20");
-			PropertySegment property18 = new PropertySegment();
-			property18.setTypeOfPropertyLoss("6");
-			property18.setPropertyDescription(0, "10");
-			property18.setSuspectedDrugType(0, "A");
-			property18.setEstimatedDrugQuantity(0, 9999999999.0);
-			property18.setTypeDrugMeasurement(0, "OZ");
-			property18.setValueOfProperty(0, null);
-			//Drug Measurement cannot be blank.
-			GroupAIncidentReport copy19 = new GroupAIncidentReport(copy);
-			copy19.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy19.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy19.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy19.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy19.getOffenses().get(0).setLocationType("20");
-			PropertySegment property19 = new PropertySegment();
-			property19.setTypeOfPropertyLoss("6");
-			property19.setPropertyDescription(0, "10");
-			property19.setSuspectedDrugType(0, "A");
-			property19.setEstimatedDrugQuantity(0, 1.0);
-			property19.setTypeDrugMeasurement(0, null);
-			property19.setValueOfProperty(0, null);
-			//Drug Measurement must be valid.
-			GroupAIncidentReport copy20 = new GroupAIncidentReport(copy);
-			copy20.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy20.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy20.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy20.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy20.getOffenses().get(0).setLocationType("20");
-			PropertySegment property20 = new PropertySegment();
-			property20.setTypeOfPropertyLoss("6");
-			property20.setPropertyDescription(0, "10");
-			property20.setSuspectedDrugType(0, "A");
-			property20.setEstimatedDrugQuantity(0, 1.0);
-			property20.setTypeDrugMeasurement(0, "ZZ");
-			property20.setValueOfProperty(0, null);
-			
-			
-			
+			GroupAIncidentReport copy = new GroupAIncidentReport(mvTheftIncident);
+			copy.getProperties().get(0).setTypeOfPropertyLoss("9");
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
-			incidents.add(copy12);
-			incidents.add(copy13);
-			incidents.add(copy14);
-			incidents.add(copy15);
-			incidents.add(copy16);
-			incidents.add(copy17);
-			incidents.add(copy18);
-			incidents.add(copy19);
-			incidents.add(copy20);
-			copy.addProperty(property);
-			copy2.addProperty(property2);
-			copy3.addProperty(property3);
-			copy4.addProperty(property4);
-			copy5.addProperty(property5);
-			copy6.addProperty(property6);
-			copy7.addProperty(property7);
-			copy8.addProperty(property8);
-			copy9.addProperty(property9);
-			copy10.addProperty(property10);
-			copy11.addProperty(property11);
-			copy12.addProperty(property12);
-			copy13.addProperty(property13);
-			copy14.addProperty(property14);
-			copy15.addProperty(property15);
-			copy16.addProperty(property16);
-			copy17.addProperty(property17);
-			copy18.addProperty(property18);
-			copy19.addProperty(property19);
-			copy20.addProperty(property20);
+			
+			//Null TypeOfPropertyLoss
+			copy = new GroupAIncidentReport(mvTheftIncident);
+			copy.getProperties().get(0).setTypeOfPropertyLoss(null);
+			incidents.add(copy);
+			
+			//Invalid PropertyDescription
+			copy = new GroupAIncidentReport(mvTheftIncident);
+			copy.getProperties().get(0).setPropertyDescription(0, "00");
+			incidents.add(copy);
+			
+			//Invalid ValueOfProperty
+			copy = new GroupAIncidentReport(mvTheftIncident);
+			// $1,000,000,000 is out of bounds
+			copy.getProperties().get(0).setValueOfProperty(0, 1000000000);
+			incidents.add(copy);
+			
+			//Invalid NumberOfStolenMotorVehicles
+			copy = new GroupAIncidentReport(mvTheftIncident);
+			copy.getProperties().get(0).setNumberOfStolenMotorVehicles(2000);
+			incidents.add(copy);
+			
+			//Invalid NumberOfRecoveredMotorVehicles
+			copy = new GroupAIncidentReport(mvTheftIncident);
+			copy.getProperties().get(0).setNumberOfStolenMotorVehicles(2);
+			copy.getProperties().get(0).setNumberOfRecoveredMotorVehicles(2000);
+			incidents.add(copy);
+			
+			//Suspected Drug type must be valid
+			copy = new GroupAIncidentReport(drugIncident);
+			copy.getProperties().get(0).setSuspectedDrugType(0, "Z");
+			incidents.add(copy);
+
+			//Estimated Drug Quantity must be valid.
+			copy = new GroupAIncidentReport(drugIncident);
+			copy.getProperties().get(0).setEstimatedDrugQuantity(0, 9999999999.0);
+			incidents.add(copy);
+			
+			//Drug Measurement must be valid.
+			copy = new GroupAIncidentReport(drugIncident);
+			copy.getProperties().get(0).setTypeDrugMeasurement(0, "ZZ");
+			incidents.add(copy);
 			
 			return incidents;
 			

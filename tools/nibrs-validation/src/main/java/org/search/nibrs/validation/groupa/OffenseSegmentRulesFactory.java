@@ -510,7 +510,7 @@ public class OffenseSegmentRulesFactory {
 	}
 	
 	/**
-	 * Get the list of rules for the administrative segment.
+	 * Get the list of rules for the offense segment.
 	 * @return the list of rules
 	 */
 	public List<Rule<OffenseSegment>> getRulesList() {
