@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +42,44 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule304ForDrugQuantity());
 		rulesList.add(getRule304ForPropertyValue());
 		rulesList.add(getRule305());
+		rulesList.add(getRule306());
 		
+	}
+	
+	Rule<PropertySegment> getRule306() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				String[] suspectedDrugType = subject.getSuspectedDrugType();
+				String[] typeDrugMeasurement = subject.getTypeDrugMeasurement();
+				if (suspectedDrugType != null && typeDrugMeasurement != null && suspectedDrugType.length == typeDrugMeasurement.length) {
+					Map<String, String> typeToMeasureMap = new HashMap<>();
+					for (int i=0;i < suspectedDrugType.length;i++) {
+						String t = suspectedDrugType[i];
+						String m = typeDrugMeasurement[i];
+						if (t != null && m != null) {
+							if (typeToMeasureMap.keySet().contains(t) && m.equals(typeToMeasureMap.get(t))) {
+								ret = subject.getErrorTemplate();
+								ret.setDataElementIdentifier("20");
+								ret.setValue(t);
+								ret.setNIBRSErrorCode(NIBRSErrorCode._306);
+								break;
+							}
+						}
+						typeToMeasureMap.put(t, m);
+						if (typeToMeasureMap.size() > 1 && typeToMeasureMap.keySet().contains(SuspectedDrugTypeCode._U.code)) {
+							ret = subject.getErrorTemplate();
+							ret.setDataElementIdentifier("20");
+							ret.setValue(t);
+							ret.setNIBRSErrorCode(NIBRSErrorCode._306);
+							break;
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule305() {

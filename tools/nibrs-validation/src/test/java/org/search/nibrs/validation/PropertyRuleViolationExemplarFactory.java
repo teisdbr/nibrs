@@ -205,6 +205,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
 			PropertySegment property = new PropertySegment();
+			copy.addProperty(property);
 			property.setTypeOfPropertyLoss("6");
 			property.setPropertyDescription(0, "10");
 			property.setSuspectedDrugType(0, "A");
@@ -219,19 +220,22 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setValueOfProperty(0, null);
 			property.setValueOfProperty(1, null);
 			property.setValueOfProperty(2, null);
+			incidents.add(copy);
+			
 			//There are two exceptions to this rule:
 			//When a data value is entered in both Drug Type 1 and Drug Type 2, but different measurement categories are 
 			//entered in Data Element 22 (Type Drug Measurement); this is allowed. For example, when A=Crack Cocaine
 			//is entered in Drug Type 1 and it is also entered in Drug Type 2, Data Element 22 
 			//(Type Drug Measurement) must be two different measurement categories 
 			//(i.e., grams and liters) and not grams and pounds (same weight category).
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getOffenses().get(0).setUcrOffenseCode("35A");
 			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
 			PropertySegment property2 = new PropertySegment();
+			copy2.addProperty(property2);
 			property2.setTypeOfPropertyLoss("6");
 			property2.setPropertyDescription(0, "10");
 			property2.setSuspectedDrugType(0, "A");
@@ -242,14 +246,17 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setTypeDrugMeasurement(1, "OZ");
 			property2.setValueOfProperty(0, null);
 			property2.setValueOfProperty(1, null);
+			incidents.add(copy2);
+
 			//When the data value is U=Unknown; it can be entered only once.
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
 			copy3.getOffenses().get(0).setUcrOffenseCode("35A");
 			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy3.getOffenses().get(0).setLocationType("20");
 			PropertySegment property3 = new PropertySegment();
+			copy3.addProperty(property3);
 			property3.setTypeOfPropertyLoss("6");
 			property3.setPropertyDescription(0, "10");
 			property3.setSuspectedDrugType(0, "U");
@@ -260,13 +267,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setTypeDrugMeasurement(1, "GM");
 			property3.setValueOfProperty(0, null);
 			property3.setValueOfProperty(1, null);
-						
-			incidents.add(copy);
-			incidents.add(copy2);
 			incidents.add(copy3);
-			copy.addProperty(property);
-			copy2.addProperty(property2);
-			copy3.addProperty(property3);
 			
 			return incidents;
 		});

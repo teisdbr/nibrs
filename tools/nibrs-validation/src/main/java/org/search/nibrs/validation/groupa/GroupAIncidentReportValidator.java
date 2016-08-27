@@ -46,8 +46,8 @@ public class GroupAIncidentReportValidator {
 		}
 		
 		for (Rule<PropertySegment> r : propertySegmentRules) {
-			for (PropertySegment os : groupAIncidentReport.getProperties()) {
-				NIBRSError e = r.apply(os);
+			for (PropertySegment ps : groupAIncidentReport.getProperties()) {
+				NIBRSError e = r.apply(ps);
 				if (e != null) {
 					ret.add(e);
 				}

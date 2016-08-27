@@ -34,6 +34,37 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule306() {
+		Rule<PropertySegment> rule = rulesFactory.getRule306();
+		PropertySegment p = buildBaseSegment();
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		p.setTypeDrugMeasurement(0, TypeOfDrugMeasurementCode._DU.code);
+		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._B.code);
+		p.setTypeDrugMeasurement(1, TypeOfDrugMeasurementCode._DU.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._A.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("20", e.getDataElementIdentifier());
+		assertEquals(SuspectedDrugTypeCode._A.code, e.getValue());
+		assertEquals(NIBRSErrorCode._306, e.getNIBRSErrorCode());
+		p.setTypeDrugMeasurement(1, TypeOfDrugMeasurementCode._FO.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._U.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._U.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+	}
+	
+	@Test
 	public void testRule305_forIncidentDate() {
 		Rule<PropertySegment> rule = rulesFactory.getRule305();
 		PropertySegment p = buildBaseSegment();
@@ -58,6 +89,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertEquals('3', e.getSegmentType());
 		assertEquals("17", e.getDataElementIdentifier());
 		assertEquals(c.getTime(), e.getValue());
+		assertEquals(NIBRSErrorCode._305, e.getNIBRSErrorCode());
 		c.set(2016, Calendar.JANUARY, 10);
 		p.setDateRecovered(1, c.getTime());
 		e = rule.apply(p);
@@ -90,6 +122,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertEquals('3', e.getSegmentType());
 		assertEquals("17", e.getDataElementIdentifier());
 		assertEquals(c.getTime(), e.getValue());
+		assertEquals(NIBRSErrorCode._305, e.getNIBRSErrorCode());
 		c.set(2016, Calendar.JANUARY, 1);
 		p.setDateRecovered(1, c.getTime());
 		e = rule.apply(p);
