@@ -88,8 +88,40 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule355());
 		rulesList.add(getRule357());
 		rulesList.add(getRule358());
+		rulesList.add(getRule359());
 		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule359() {
+		Set<String> allowedPropertyDescriptions = new HashSet<>();
+		allowedPropertyDescriptions.add(PropertyDescriptionCode._03.code);
+		allowedPropertyDescriptions.add(PropertyDescriptionCode._05.code);
+		allowedPropertyDescriptions.add(PropertyDescriptionCode._24.code);
+		allowedPropertyDescriptions.add(PropertyDescriptionCode._28.code);
+		allowedPropertyDescriptions.add(PropertyDescriptionCode._37.code);
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				Integer smv = subject.getNumberOfStolenMotorVehicles();
+				Integer rmv = subject.getNumberOfRecoveredMotorVehicles();
+				if ((smv != null && smv > 0) || (rmv != null && rmv > 0)) {
+					boolean found = false;
+					for (int i=0;i < 10 && !found;i++) {
+						String pd = subject.getPropertyDescription(i);
+						found = pd != null && allowedPropertyDescriptions.contains(pd);
+					}
+					if (!found) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(null);
+						ret.setNIBRSErrorCode(NIBRSErrorCode._359);
+						ret.setDataElementIdentifier("15");
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule358() {

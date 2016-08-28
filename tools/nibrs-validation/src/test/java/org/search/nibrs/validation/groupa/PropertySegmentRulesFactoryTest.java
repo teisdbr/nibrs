@@ -38,6 +38,43 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule359() {
+		Rule<PropertySegment> rule = rulesFactory.getRule359();
+		PropertySegment p = buildBaseSegment();
+		p.setNumberOfRecoveredMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(null);
+		setAllNull(p.getPropertyDescription());
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setNumberOfStolenMotorVehicles(0);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setNumberOfRecoveredMotorVehicles(0);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setNumberOfStolenMotorVehicles(1);
+		p.setPropertyDescription(0, null);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._359, e.getNIBRSErrorCode());
+		assertEquals("15", e.getDataElementIdentifier());
+		assertEquals(null, e.getValue());
+		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfRecoveredMotorVehicles(1);
+		e = rule.apply(p);
+		assertNotNull(e);
+		p.setPropertyDescription(0, PropertyDescriptionCode._03.code);
+		e = rule.apply(p);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule358() {
 		Rule<PropertySegment> rule = rulesFactory.getRule358();
 		PropertySegment p = buildBaseSegment();
