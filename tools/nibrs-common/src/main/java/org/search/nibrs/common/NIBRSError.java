@@ -22,8 +22,10 @@ public class NIBRSError {
 	private Object withinSegmentIdentifier;
 	private String dataElementIdentifier;
 	private NIBRSErrorCode nibrsErrorCode;
+	private boolean warning;
 	
 	public NIBRSError() {
+		warning = false;
 	}
 	
 	public NIBRSError(NIBRSError e) {
@@ -34,6 +36,7 @@ public class NIBRSError {
 		this.withinSegmentIdentifier = e.withinSegmentIdentifier;
 		this.nibrsErrorCode = e.nibrsErrorCode;
 		this.dataElementIdentifier = e.dataElementIdentifier;
+		this.warning = e.warning;
 	}
 	
 	@Override
@@ -41,7 +44,7 @@ public class NIBRSError {
 		return "NIBRSError [context=" + context + ", ruleNumber=" + getRuleNumber() + ", ruleDescription=" + getShortenedRuleDescription() + ", reportUniqueIdentifier=" + reportUniqueIdentifier +
 				", value=" + (value != null && value.getClass().isArray() ? Arrays.toString((Object[]) value) : value)
 				+ ", segmentType=" + segmentType + ", withinSegmentIdentifier=" + withinSegmentIdentifier + ", dataElementIdentifier=" + dataElementIdentifier + ", nibrsErrorCode=" + nibrsErrorCode
-				+ "]";
+				+ ", warning=" + warning + "]";
 	}
 
 	/**
@@ -152,6 +155,18 @@ public class NIBRSError {
 		this.dataElementIdentifier = dataElementIdentifier;
 	}
 	
+	/**
+	 * Whether this error is a warning only.
+	 * @return whether it's a warning
+	 */
+	public boolean isWarning() {
+		return warning;
+	}
+
+	public void setWarning(boolean warning) {
+		this.warning = warning;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
