@@ -550,7 +550,6 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setNumberOfStolenMotorVehicles(1);
 			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
-			
 			incidents.add(copy);
 			copy.addProperty(property);
 			

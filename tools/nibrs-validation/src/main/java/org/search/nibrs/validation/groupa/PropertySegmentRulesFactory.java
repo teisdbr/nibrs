@@ -59,8 +59,30 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule352());
 		rulesList.add(getRule353());
 		rulesList.add(getRule354());
+		rulesList.add(getRule355());
 		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule355() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
+				if (typeOfPropertyLoss != null && !TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) {
+					for (int i=0;i < 10;i++) {
+						if (subject.getDateRecovered(i) != null) {
+							ret = subject.getErrorTemplate();
+							ret.setDataElementIdentifier("17");
+							ret.setValue(subject.getDateRecovered(i));
+							ret.setNIBRSErrorCode(NIBRSErrorCode._355);
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule354() {
