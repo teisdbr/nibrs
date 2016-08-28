@@ -18,6 +18,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseAttemptedCompletedCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.SuspectedDrugTypeCode;
@@ -60,8 +61,40 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule353());
 		rulesList.add(getRule354());
 		rulesList.add(getRule355());
+		rulesList.add(getRule357());
 		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule357() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				Integer smv = subject.getNumberOfStolenMotorVehicles();
+				if (smv != null) {
+					boolean smvOffenseInvolved = false;
+					boolean offenseAttempted = false;
+					for (OffenseSegment os : ((GroupAIncidentReport) subject.getParentReport()).getOffenses()) {
+						if (OffenseCode._240.code.equals(os.getUcrOffenseCode())) {
+							smvOffenseInvolved = true;
+						}
+						if (OffenseAttemptedCompletedCode.A.code.equals(os.getOffenseAttemptedCompleted())) {
+							offenseAttempted = true;
+						}
+					}
+					String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
+					if ((typeOfPropertyLoss != null && !TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLoss)) ||
+							!smvOffenseInvolved || offenseAttempted) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(smv);
+						ret.setNIBRSErrorCode(NIBRSErrorCode._357);
+						ret.setDataElementIdentifier("18");
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule355() {
