@@ -15,8 +15,10 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.SuspectedDrugTypeCode;
 import org.search.nibrs.model.codes.TypeOfDrugMeasurementCode;
@@ -54,8 +56,72 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule320());
 		rulesList.add(getRule342());
 		rulesList.add(getRule351());
+		rulesList.add(getRule352());
 		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule352() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				String loss = subject.getTypeOfPropertyLoss();
+				boolean drugOffenseInvolved = false;
+				for (OffenseSegment os : ((GroupAIncidentReport) subject.getParentReport()).getOffenses()) {
+					if (OffenseCode._35A.code.equals(os.getUcrOffenseCode())) {
+						drugOffenseInvolved = true;
+					}
+				}
+				Object value = null;
+				if ((TypeOfPropertyLossCode._8.code.equals(loss) || (TypeOfPropertyLossCode._1.code.equals(loss) && !drugOffenseInvolved)) &&
+						!(allNull(subject.getPropertyDescription()) &&
+								allNull(subject.getValueOfProperty()) &&
+								allNull(subject.getDateRecovered()) &&
+								(subject.getNumberOfRecoveredMotorVehicles() == null) &&
+								(subject.getNumberOfStolenMotorVehicles() == null) &&
+								allNull(subject.getSuspectedDrugType()) &&
+								allNull(subject.getEstimatedDrugQuantity()) &&
+								allNull(subject.getTypeDrugMeasurement())
+								)) {
+					value = loss; // not the best, but will work for now
+				} else if (TypeOfPropertyLossCode._1.code.equals(loss) && drugOffenseInvolved &&
+						!(allNull(subject.getPropertyDescription()) &&
+								allNull(subject.getValueOfProperty()) &&
+								allNull(subject.getDateRecovered()) &&
+								(subject.getNumberOfRecoveredMotorVehicles() == null) &&
+								(subject.getNumberOfStolenMotorVehicles() == null) &&
+								notAllNull(subject.getSuspectedDrugType())
+								)) {
+					value = loss;
+				}
+				if (value != null) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(value);
+					ret.setNIBRSErrorCode(NIBRSErrorCode._352);
+					ret.setDataElementIdentifier("14");
+				}
+				return ret;
+			}
+		};
+	}
+	
+	private static final boolean notAllNull(Object[] array) {
+		for (Object o : array) {
+			if (o != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private static final boolean allNull(Object[] array) {
+		for (Object o : array) {
+			if (o != null) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	Rule<PropertySegment> getRule391() {

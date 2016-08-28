@@ -3,6 +3,7 @@ package org.search.nibrs.validation.groupa;
 import static org.junit.Assert.*;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,8 +11,10 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.SuspectedDrugTypeCode;
 import org.search.nibrs.model.codes.TypeOfDrugMeasurementCode;
@@ -31,6 +34,118 @@ public class PropertySegmentRulesFactoryTest {
 			ret[i] = values[i];
 		}
 		return ret;
+	}
+	
+	@Test
+	public void testRule352() {
+		
+		PropertySegment p = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
+		OffenseSegment o = new OffenseSegment();
+		incident.addOffense(o);
+		o.setUcrOffenseCode(OffenseCode._09A.code);
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._8.code);
+		
+		setAllNull(p.getPropertyDescription());
+		setAllNull(p.getValueOfProperty());
+		setAllNull(p.getDateRecovered());
+		p.setNumberOfRecoveredMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(null);
+		setAllNull(p.getSuspectedDrugType());
+		setAllNull(p.getEstimatedDrugQuantity());
+		setAllNull(p.getTypeDrugMeasurement());
+
+		testRule252Common(p, TypeOfPropertyLossCode._8.code);
+		testRule352DrugElements(p);
+		
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._1.code);
+		
+		setAllNull(p.getPropertyDescription());
+		setAllNull(p.getValueOfProperty());
+		setAllNull(p.getDateRecovered());
+		p.setNumberOfRecoveredMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(null);
+		setAllNull(p.getSuspectedDrugType());
+		setAllNull(p.getEstimatedDrugQuantity());
+		setAllNull(p.getTypeDrugMeasurement());
+
+		
+		testRule252Common(p, TypeOfPropertyLossCode._1.code);
+		testRule352DrugElements(p);
+		
+		setAllNull(p.getPropertyDescription());
+		setAllNull(p.getValueOfProperty());
+		setAllNull(p.getDateRecovered());
+		p.setNumberOfRecoveredMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(null);
+		setAllNull(p.getSuspectedDrugType());
+		setAllNull(p.getEstimatedDrugQuantity());
+		setAllNull(p.getTypeDrugMeasurement());
+
+		o.setUcrOffenseCode(OffenseCode._35A.code);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		testRule252Common(p, TypeOfPropertyLossCode._1.code);
+		
+		p.setSuspectedDrugType(0, null);
+		Rule<PropertySegment> rule = rulesFactory.getRule352();
+		NIBRSError e = rule.apply(p);
+		assertNotNull(e);
+		
+	}
+
+	private void testRule352DrugElements(PropertySegment p) {
+		
+		Rule<PropertySegment> rule = rulesFactory.getRule352();
+		
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		NIBRSError e = rule.apply(p);
+		assertNotNull(e);
+		
+		p.setSuspectedDrugType(0, null);
+		p.setEstimatedDrugQuantity(0, 10.0);
+		e = rule.apply(p);
+		assertNotNull(e);
+		
+		p.setEstimatedDrugQuantity(0, null);
+		p.setTypeDrugMeasurement(0, TypeOfDrugMeasurementCode._DU.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		
+		p.setTypeDrugMeasurement(0, null);
+		
+	}
+
+	private void testRule252Common(PropertySegment p, String expectedErrorValue) {
+		
+		Rule<PropertySegment> rule = rulesFactory.getRule352();
+		
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		
+		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(expectedErrorValue, e.getValue());
+		assertEquals(NIBRSErrorCode._352, e.getNIBRSErrorCode());
+		assertEquals("14", e.getDataElementIdentifier());
+		
+		p.setPropertyDescription(0, null);
+		p.setValueOfProperty(0, 10);
+		e = rule.apply(p);
+		assertNotNull(e);
+		
+		p.setValueOfProperty(0, null);
+		p.setDateRecovered(0, new Date());
+		e = rule.apply(p);
+		assertNotNull(e);
+		p.setDateRecovered(0, null);
+		
+	}
+	
+	private static final void setAllNull(Object[] array) {
+		for (int i=0;i < array.length;i++) {
+			array[i] = null;
+		}
 	}
 	
 	@Test

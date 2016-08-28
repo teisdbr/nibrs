@@ -54,7 +54,16 @@ public class PropertySegment extends AbstractSegment
 	public Integer[] getValueOfProperty() {
 		return valueOfProperty;
 	}
-    public String[] getTypeDrugMeasurement() {
+	
+    public Double[] getEstimatedDrugQuantity() {
+		return estimatedDrugQuantity;
+	}
+
+	public Date[] getDateRecovered() {
+		return dateRecovered;
+	}
+
+	public String[] getTypeDrugMeasurement() {
 		return typeDrugMeasurement;
 	}
 	public String[] getPropertyDescription() {
