@@ -19,6 +19,7 @@ public class PropertySegment extends AbstractSegment
     private String[] suspectedDrugType;
     private Double[] estimatedDrugQuantity;
     private String[] typeDrugMeasurement;
+
 	private int populatedPropertyDescriptionCount;
     private int populatedSuspectedDrugTypeCount;
 
@@ -50,6 +51,9 @@ public class PropertySegment extends AbstractSegment
         segmentType = '3';
     }
     
+	public Integer[] getValueOfProperty() {
+		return valueOfProperty;
+	}
     public String[] getTypeDrugMeasurement() {
 		return typeDrugMeasurement;
 	}

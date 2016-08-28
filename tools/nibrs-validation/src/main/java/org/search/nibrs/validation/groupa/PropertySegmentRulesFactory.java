@@ -44,7 +44,31 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule305());
 		rulesList.add(getRule306());
 		rulesList.add(getRule320());
+		rulesList.add(getRule342());
 		
+	}
+	
+	Rule<PropertySegment> getRule342() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				Integer[] value = subject.getValueOfProperty();
+				if (value != null) {
+					for (int i=0;i < value.length;i++) {
+						// since we don't have the "FBI assigned threshold", we just compare it to $1000000
+						if (value[i] != null && 1000000 < value[i].intValue()) {
+							ret = subject.getErrorTemplate();
+							ret.setWarning(true);
+							ret.setNIBRSErrorCode(NIBRSErrorCode._342);
+							ret.setValue(value[i]);
+							ret.setDataElementIdentifier("16");
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule306() {

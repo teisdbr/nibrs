@@ -326,7 +326,7 @@ final class PropertyRuleViolationExemplarFactory {
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
 			property.setPropertyDescription(0, "03");
-			property.setValueOfProperty(0, 010000000);
+			property.setValueOfProperty(0, 10000000);
 			property.setNumberOfStolenMotorVehicles(1);
 			
 			incidents.add(copy);
