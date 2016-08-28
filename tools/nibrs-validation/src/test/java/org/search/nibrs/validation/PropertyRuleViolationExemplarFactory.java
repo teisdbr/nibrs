@@ -522,6 +522,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
+			property.setPropertyDescription(0, null);
 			property.setValueOfProperty(0, 10000);
 			property.setNumberOfStolenMotorVehicles(1);
 			
