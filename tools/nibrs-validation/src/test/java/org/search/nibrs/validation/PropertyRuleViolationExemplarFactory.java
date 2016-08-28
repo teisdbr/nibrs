@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
@@ -3349,6 +3351,14 @@ final class PropertyRuleViolationExemplarFactory {
 			//65=Identity Documents
 			//66=Identity�Intangible
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			Set<String> descriptionValues = new HashSet<>();
+			descriptionValues.add("09");
+			descriptionValues.add("22");
+			descriptionValues.add("48");
+			descriptionValues.add("65");
+			descriptionValues.add("66");
+			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
@@ -3359,73 +3369,18 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
-			property.setPropertyDescription(0, "09");
 			property.setValueOfProperty(0, 000010000);
-			//
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenses().get(0).setUcrOffenseCode("220");
-			copy2.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy2.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property2 = new PropertySegment();
-			property2.setTypeOfPropertyLoss("7");
-			property2.setPropertyDescription(0, "22");
-			property2.setValueOfProperty(0, 000010000);
-			//
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3.getOffenses().get(0).setUcrOffenseCode("220");
-			copy3.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy3.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property3 = new PropertySegment();
-			property3.setTypeOfPropertyLoss("7");
-			property3.setPropertyDescription(0, "48");
-			property3.setValueOfProperty(0, 000010000);
-			//
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getOffenses().get(0).setUcrOffenseCode("220");
-			copy4.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy4.getOffenses().get(0).setLocationType("20");
-			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy4.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property4 = new PropertySegment();
-			property4.setTypeOfPropertyLoss("7");
-			property4.setPropertyDescription(0, "65");
-			property4.setValueOfProperty(0, 000010000);
-			//
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			copy5.getOffenses().get(0).setUcrOffenseCode("220");
-			copy5.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy5.getOffenses().get(0).setLocationType("20");
-			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
-			copy5.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property5 = new PropertySegment();
-			property5.setTypeOfPropertyLoss("7");
-			property5.setPropertyDescription(0, "65");
-			property5.setValueOfProperty(0, 000010000);
-						
-			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
 			copy.addProperty(property);
-			copy2.addProperty(property2);
-			copy3.addProperty(property3);
-			copy4.addProperty(property4);
-			copy5.addProperty(property5);
-						
+			
+			for (String s : descriptionValues) {
+				copy = new GroupAIncidentReport(copy);
+				property = copy.getProperties().get(0);
+				property.setPropertyDescription(0, s);
+				incidents.add(copy);
+			}
+			
 			return incidents;
+			
 		});
 		
 		groupATweakerMap.put(392, incident -> {

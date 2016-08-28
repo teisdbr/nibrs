@@ -34,6 +34,66 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule391() {
+		Rule<PropertySegment> rule = rulesFactory.getRule391();
+		PropertySegment p = buildBaseSegment();
+		for (int i=0;i < 10;i++) {
+			p.setValueOfProperty(i, null);
+		}
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setValueOfProperty(0, 10);
+		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setPropertyDescription(0, PropertyDescriptionCode._09.code);
+		p.setValueOfProperty(0, 0);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setValueOfProperty(0, 10);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("16", e.getDataElementIdentifier());
+		assertEquals(10, e.getValue());
+		assertEquals(NIBRSErrorCode._391, e.getNIBRSErrorCode());
+		p.setPropertyDescription(1, PropertyDescriptionCode._99.code);
+		p.setValueOfProperty(1, 0);
+		e = rule.apply(p);
+		assertNotNull(e);
+	}
+	
+	@Test
+	public void testRule351() {
+		Rule<PropertySegment> rule = rulesFactory.getRule351();
+		PropertySegment p = buildBaseSegment();
+		for (int i=0;i < 10;i++) {
+			p.setValueOfProperty(i, null);
+		}
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setValueOfProperty(0, 0);
+		p.setPropertyDescription(0, PropertyDescriptionCode._09.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
+		p.setValueOfProperty(0, 10);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setValueOfProperty(0, 0);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("16", e.getDataElementIdentifier());
+		assertEquals(0, e.getValue());
+		assertEquals(NIBRSErrorCode._351, e.getNIBRSErrorCode());
+		p.setPropertyDescription(1, PropertyDescriptionCode._99.code);
+		p.setValueOfProperty(1, 0);
+		e = rule.apply(p);
+		assertNotNull(e);
+	}
+	
+	@Test
 	public void testRule342() {
 		Rule<PropertySegment> rule = rulesFactory.getRule342();
 		PropertySegment p = buildBaseSegment();

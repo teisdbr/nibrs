@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,8 +31,15 @@ public class PropertySegmentRulesFactory {
 	private static final Logger LOG = LogManager.getLogger(PropertySegmentRulesFactory.class);
 	
 	private List<Rule<PropertySegment>> rulesList = new ArrayList<>();
+	private Set<String> zeroValuePropertyDescriptions = new HashSet<>();
 	
 	public PropertySegmentRulesFactory() {
+		
+		zeroValuePropertyDescriptions.add(PropertyDescriptionCode._09.code);
+		zeroValuePropertyDescriptions.add(PropertyDescriptionCode._22.code);
+		zeroValuePropertyDescriptions.add(PropertyDescriptionCode._48.code);
+		zeroValuePropertyDescriptions.add(PropertyDescriptionCode._65.code);
+		zeroValuePropertyDescriptions.add(PropertyDescriptionCode._66.code);
 		
 		rulesList.add(getRule304ForTypePropertyLoss());
 		rulesList.add(getRule304ForListBoundElement("propertyDescription", "15", PropertyDescriptionCode.codeSet()));
@@ -45,7 +53,53 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule306());
 		rulesList.add(getRule320());
 		rulesList.add(getRule342());
+		rulesList.add(getRule351());
+		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule391() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				for (int i=0;i < 10;i++) {
+					Integer valueOfProperty = subject.getValueOfProperty(i);
+					String propertyDescription = subject.getPropertyDescription(i);
+					if (valueOfProperty != null && valueOfProperty != 0 && zeroValuePropertyDescriptions.contains(propertyDescription)) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._391);
+						ret.setValue(valueOfProperty);
+						ret.setDataElementIdentifier("16");
+					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule351() {
+		Set<String> allowedZeroValue = new HashSet<>();
+		allowedZeroValue.addAll(zeroValuePropertyDescriptions);
+		allowedZeroValue.add(PropertyDescriptionCode._77.code);
+		allowedZeroValue.add(PropertyDescriptionCode._99.code);
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				for (int i=0;i < 10;i++) {
+					Integer valueOfProperty = subject.getValueOfProperty(i);
+					String propertyDescription = subject.getPropertyDescription(i);
+					if (valueOfProperty != null && valueOfProperty == 0 && !allowedZeroValue.contains(propertyDescription)) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._351);
+						ret.setValue(valueOfProperty);
+						ret.setDataElementIdentifier("16");
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule342() {
