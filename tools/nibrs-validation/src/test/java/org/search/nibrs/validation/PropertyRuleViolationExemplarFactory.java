@@ -657,7 +657,8 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("7");
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, 10000);
-			
+			property.setNumberOfStolenMotorVehicles(null);
+
 			incidents.add(copy);
 			copy.addProperty(property);
 		
