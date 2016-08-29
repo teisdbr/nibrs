@@ -82,10 +82,23 @@ final class OffenderRuleViolationExemplarFactory {
 			
 			return incidents;
 			
-		});
+		});	
+			
+		groupATweakerMap.put(509, incident -> {
+			//(Age of Offender) contains more than two characters indicating a 
+			//possible age-range is being attempted. If so, the field must contain a 
+			//numeric entry of four digits.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("132");
 			
 			
-		}
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});		
+		
 		
 		
 		
@@ -106,6 +119,5 @@ final class OffenderRuleViolationExemplarFactory {
 		});
 		
 		
-	}
-	
+	}	
 }
