@@ -141,7 +141,7 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 			
-		groupATweakerMap.put(550,incident -> {
+		groupATweakerMap.put(552,incident -> {
 			//(Age of Offender Data Element 38 (Sex of Offender), and Data Element 39 
 			//(Race of Offender) cannot be entered when Data Element 36 
 			//(Offender Sequence Number) is 00=Unknown.
@@ -155,7 +155,49 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
-		
+		groupATweakerMap.put(554,incident -> {
+			//(Age of Offender) has a relationship that is inconsistent with the 
+			//offender’s age. The age of the victim and/or offender must reflect 
+			//the implied relationship. For example, if the relationship of the victim 
+			//to offender is PA=Parent, then the victim’s age must be greater than 
+			//the offender’s age. The following relationships must be consistent with 
+			//the victim’s age in relation to the offender’s age:
+			//Relationship Victim’s Age Is:
+			//CH=Victim was Child Younger
+			//PA=Victim was Parent Older
+			//GP=Victim was Grandparent Older
+			//GC=Victim was Grandchild Younger
+			//
+			//Victim is parent - Offender Age must be younger than victim age.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "PA");
+			copy.getVictims().get(0).setAgeString("10");
+			copy.getOffenders().get(0).setAgeString("30");
+			incidents.add(copy);
+			//Victim is child - offender Age must be older.
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "CH");
+			copy.getVictims().get(0).setAgeString("30");
+			copy.getOffenders().get(0).setAgeString("10");
+			incidents.add(copy);
+			//Victim is grandparent - offender must be younger
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "GP");
+			copy.getVictims().get(0).setAgeString("50");
+			copy.getOffenders().get(0).setAgeString("60");
+			incidents.add(copy);
+			//Victim is grandchild - offender must be older
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "GC");
+			copy.getVictims().get(0).setAgeString("50");
+			copy.getOffenders().get(0).setAgeString("40");
+			incidents.add(copy);
+									
+					
+			return incidents;
+			
+		});		
 		
 		
 		
