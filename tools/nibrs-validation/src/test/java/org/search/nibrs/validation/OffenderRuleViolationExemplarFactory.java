@@ -127,6 +127,30 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
+		groupATweakerMap.put(550,incident -> {
+			//(Age of Offender) cannot be less than 10 years old when 
+			//Data Element 35 (Relationship of Victim to Offender) 
+			//contains a relationship of SE=Spouse.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("09");
+			
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});		
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("0020");
+			
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});		
 		groupATweakerMap.put(557, incident -> {
 			//(Offender Sequence Number) contains 00 indicating that nothing is 
 			//known about the offender(s) regarding number and any identifying information. 
