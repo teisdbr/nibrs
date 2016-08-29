@@ -174,6 +174,9 @@ final class OffenderRuleViolationExemplarFactory {
 			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
 			copy.getOffenders().get(0).setSex(null);
 			incidents.add(copy);
+			
+			return incidents;
+			
 		});		
 		
 		groupATweakerMap.put(554,incident -> {
@@ -294,6 +297,21 @@ final class OffenderRuleViolationExemplarFactory {
 		
 		});
 		
-		
+		groupATweakerMap.put(572,incident -> {
+			//Data Element 37 (Age of Offender) If Data Element 37 (Age of Offender) is 
+			//00=Unknown, Data Element 38 (Sex of Offender) is U=Unknown, and 
+			//Data Element 39 (Race of Offender) is U=Unknown then Data Element 35 
+			//(Relationship of Victim to Offender) must be RU=Relationship Unknown.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("00");
+			copy.getOffenders().get(0).setSex("U");
+			copy.getOffenders().get(0).setRace("U");
+			incidents.add(copy);
+			
+			
+			return incidents;
+			
+		});		
 	}	
 }
