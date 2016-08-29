@@ -71,6 +71,25 @@ final class OffenderRuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(504, incident -> {
+			//(Age of Offender) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString(null);
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
+			
+			
+		}
+		
+		
+		
+		
 		groupATweakerMap.put(557, incident -> {
 			//(Offender Sequence Number) contains 00 indicating that nothing is 
 			//known about the offender(s) regarding number and any identifying information. 
