@@ -143,8 +143,34 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule364forType());
 		rulesList.add(getRule364forQuantity());
 		rulesList.add(getRule364forMeasurement());
+		rulesList.add(getRule367());
 		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule367() {
+		Set<String> allowedCodes = new HashSet<>();
+		allowedCodes.add(SuspectedDrugTypeCode._E.code);
+		allowedCodes.add(SuspectedDrugTypeCode._G.code);
+		allowedCodes.add(SuspectedDrugTypeCode._K.code);
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				for (int i=0;i < 3;i++) {
+					String drugType = subject.getSuspectedDrugType(i);
+					String measurement = subject.getTypeDrugMeasurement(i);
+					if (TypeOfDrugMeasurementCode._NP.code.equals(measurement) && !allowedCodes.contains(drugType)) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._367);
+						ret.setValue(drugType);
+						ret.setDataElementIdentifier("22");
+						break;
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule364forMeasurement() {

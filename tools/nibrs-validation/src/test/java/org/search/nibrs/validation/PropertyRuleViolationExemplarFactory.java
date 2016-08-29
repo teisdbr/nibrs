@@ -1110,22 +1110,23 @@ final class PropertyRuleViolationExemplarFactory {
 			incidents.add(copy14);
 			
 			copy.addProperty(property);
-			copy.addProperty(property2);
-			copy.addProperty(property3);
-			copy.addProperty(property4);
-			copy.addProperty(property5);
-			copy.addProperty(property6);
-			copy.addProperty(property7);
-			copy.addProperty(property8);
-			copy.addProperty(property9);
-			copy.addProperty(property10);
-			copy.addProperty(property11);
-			copy.addProperty(property12);
-			copy.addProperty(property13);
-			copy.addProperty(property14);
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
+			copy4.addProperty(property4);
+			copy5.addProperty(property5);
+			copy6.addProperty(property6);
+			copy7.addProperty(property7);
+			copy8.addProperty(property8);
+			copy9.addProperty(property9);
+			copy10.addProperty(property10);
+			copy11.addProperty(property11);
+			copy12.addProperty(property12);
+			copy13.addProperty(property13);
+			copy14.addProperty(property14);
 			
 			return incidents;
 		});	
+		
 		groupATweakerMap.put(372, incident -> {
 			//(Type of PropertySegment Loss) is 
 			//2=Burned
