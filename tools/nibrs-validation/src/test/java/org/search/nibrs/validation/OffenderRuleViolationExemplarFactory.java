@@ -88,7 +88,11 @@ final class OffenderRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setRace(null);
 			incidents.add(copy);
-			
+			//(Ethnicity of Offender) The referenced data element in a Group A Incident 
+			//Report must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setEthnicity(null);
+			incidents.add(copy);
 			
 			
 			return incidents;
