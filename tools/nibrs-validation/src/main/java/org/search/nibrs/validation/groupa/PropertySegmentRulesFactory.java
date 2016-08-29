@@ -95,8 +95,49 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule359());
 		rulesList.add(getRule360());
 		rulesList.add(getRule361());
+		rulesList.add(getRule362());
+		rulesList.add(getRule363forQuantity());
+		rulesList.add(getRule363forMeasurement());
 		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule363forMeasurement() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				for (int i=0;i < 3;i++) {
+					if (SuspectedDrugTypeCode._X.code.equals(subject.getSuspectedDrugType(i)) && subject.getTypeDrugMeasurement(i) != null) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._363);
+						ret.setValue(subject.getTypeDrugMeasurement(i));
+						ret.setDataElementIdentifier("22");
+						break;
+					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule363forQuantity() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				for (int i=0;i < 3;i++) {
+					if (SuspectedDrugTypeCode._X.code.equals(subject.getSuspectedDrugType(i)) && subject.getEstimatedDrugQuantity(i) != null) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._363);
+						ret.setValue(subject.getEstimatedDrugQuantity(i));
+						ret.setDataElementIdentifier("21");
+						break;
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<PropertySegment> getRule362() {

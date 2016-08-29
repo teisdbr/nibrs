@@ -38,6 +38,52 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule363ForMeasurement() {
+		Rule<PropertySegment> rule = rulesFactory.getRule363forMeasurement();
+		PropertySegment p = buildBaseSegment();
+		setAllNull(p.getSuspectedDrugType());
+		setAllNull(p.getEstimatedDrugQuantity());
+		setAllNull(p.getTypeDrugMeasurement());
+		NIBRSError e;
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._B.code);
+		p.setSuspectedDrugType(2, SuspectedDrugTypeCode._X.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setTypeDrugMeasurement(2, TypeOfDrugMeasurementCode._DU.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._363, e.getNIBRSErrorCode());
+		assertEquals("22", e.getDataElementIdentifier());
+		assertEquals(TypeOfDrugMeasurementCode._DU.code, e.getValue());
+	}
+	
+	@Test
+	public void testRule363ForQuantity() {
+		Rule<PropertySegment> rule = rulesFactory.getRule363forQuantity();
+		PropertySegment p = buildBaseSegment();
+		setAllNull(p.getSuspectedDrugType());
+		setAllNull(p.getEstimatedDrugQuantity());
+		setAllNull(p.getTypeDrugMeasurement());
+		NIBRSError e;
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._B.code);
+		p.setSuspectedDrugType(2, SuspectedDrugTypeCode._X.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setEstimatedDrugQuantity(2, 10.0);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._363, e.getNIBRSErrorCode());
+		assertEquals("21", e.getDataElementIdentifier());
+		assertEquals(10.0, e.getValue());
+	}
+	
+	@Test
 	public void testRule362() {
 		Rule<PropertySegment> rule = rulesFactory.getRule362();
 		PropertySegment p = buildBaseSegment();
