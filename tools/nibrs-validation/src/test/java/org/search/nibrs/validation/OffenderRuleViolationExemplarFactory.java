@@ -77,7 +77,11 @@ final class OffenderRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setAgeString(null);
-			
+			incidents.add(copy);
+			//(Sex of Offender) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setSex(null);
 			incidents.add(copy);
 			
 			return incidents;
