@@ -199,7 +199,17 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
-		
+		groupATweakerMap.put(556,incident -> {
+			//(Age of Offender) must contain numeric entry of 00 through 99.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(100);
+									
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});		
 		
 		groupATweakerMap.put(557, incident -> {
 			//(Offender Sequence Number) contains 00 indicating that nothing is 
