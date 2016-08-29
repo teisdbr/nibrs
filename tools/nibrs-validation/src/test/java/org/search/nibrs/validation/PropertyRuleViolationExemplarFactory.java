@@ -782,7 +782,6 @@ final class PropertyRuleViolationExemplarFactory {
 			incidents.add(copy);
 			copy.addProperty(property);
 			
-			
 			return incidents;
 			
 		});

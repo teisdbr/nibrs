@@ -31,27 +31,31 @@ import org.search.nibrs.validation.rules.ValidValueListRule;
 public class PropertySegmentRulesFactory {
 	
 	private static abstract class StolenMotorVehiclesRule implements Rule<PropertySegment> {
+		private boolean stolenMode = false;
+		public StolenMotorVehiclesRule(boolean stolenMode) {
+			this.stolenMode = stolenMode;
+		}
 		@Override
 		public NIBRSError apply(PropertySegment subject) {
 			NIBRSError ret = null;
-			Integer smv = subject.getNumberOfStolenMotorVehicles();
-			boolean smvNull = (smv == null);
-			boolean smvOffenseInvolved = false;
+			Integer smv = stolenMode ? subject.getNumberOfStolenMotorVehicles() : subject.getNumberOfRecoveredMotorVehicles();
+			boolean nmvNull = (smv == null);
+			boolean mvOffenseInvolved = false;
 			boolean offenseAttempted = false;
 			for (OffenseSegment os : ((GroupAIncidentReport) subject.getParentReport()).getOffenses()) {
 				if (OffenseCode._240.code.equals(os.getUcrOffenseCode())) {
-					smvOffenseInvolved = true;
+					mvOffenseInvolved = true;
 				}
 				if (OffenseAttemptedCompletedCode.A.code.equals(os.getOffenseAttemptedCompleted())) {
 					offenseAttempted = true;
 				}
 			}
 			String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
-			ret = evaluateRule(smvNull, smvOffenseInvolved, offenseAttempted, typeOfPropertyLoss, subject);
+			ret = evaluateRule(nmvNull, mvOffenseInvolved, offenseAttempted, typeOfPropertyLoss, subject);
 			return ret;
 		}
 		
-		protected abstract NIBRSError evaluateRule(boolean smvNull, boolean smvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject);
+		protected abstract NIBRSError evaluateRule(boolean nmvNull, boolean smvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject);
 
 	}
 
@@ -89,6 +93,8 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule357());
 		rulesList.add(getRule358());
 		rulesList.add(getRule359());
+		rulesList.add(getRule360());
+		rulesList.add(getRule361());
 		rulesList.add(getRule391());
 		
 	}
@@ -124,11 +130,26 @@ public class PropertySegmentRulesFactory {
 		};
 	}
 	
-	Rule<PropertySegment> getRule358() {
-		return new StolenMotorVehiclesRule() {
-			protected NIBRSError evaluateRule(boolean smvNull, boolean smvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
+	Rule<PropertySegment> getRule361() {
+		return new StolenMotorVehiclesRule(true) {
+			protected NIBRSError evaluateRule(boolean nmvNull, boolean mvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
 				NIBRSError ret = null;
-				if (smvNull && ((typeOfPropertyLoss != null && TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLoss)) && smvOffenseInvolved && !offenseAttempted)) {
+				if (nmvNull && ((typeOfPropertyLoss != null && TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) && mvOffenseInvolved && !offenseAttempted)) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(subject.getNumberOfStolenMotorVehicles());
+					ret.setNIBRSErrorCode(NIBRSErrorCode._361);
+					ret.setDataElementIdentifier("19");
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule358() {
+		return new StolenMotorVehiclesRule(true) {
+			protected NIBRSError evaluateRule(boolean nmvNull, boolean mvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
+				NIBRSError ret = null;
+				if (nmvNull && ((typeOfPropertyLoss != null && TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLoss)) && mvOffenseInvolved && !offenseAttempted)) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getNumberOfStolenMotorVehicles());
 					ret.setNIBRSErrorCode(NIBRSErrorCode._358);
@@ -139,11 +160,26 @@ public class PropertySegmentRulesFactory {
 		};
 	}
 	
-	Rule<PropertySegment> getRule357() {
-		return new StolenMotorVehiclesRule() {
-			protected NIBRSError evaluateRule(boolean smvNull, boolean smvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
+	Rule<PropertySegment> getRule360() {
+		return new StolenMotorVehiclesRule(false) {
+			protected NIBRSError evaluateRule(boolean nmvNull, boolean mvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
 				NIBRSError ret = null;
-				if (!smvNull && ((typeOfPropertyLoss != null && !TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLoss)) || !smvOffenseInvolved || offenseAttempted)) {
+				if (!nmvNull && ((typeOfPropertyLoss != null && !TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) || !mvOffenseInvolved || offenseAttempted)) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(subject.getNumberOfRecoveredMotorVehicles());
+					ret.setNIBRSErrorCode(NIBRSErrorCode._360);
+					ret.setDataElementIdentifier("19");
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule357() {
+		return new StolenMotorVehiclesRule(true) {
+			protected NIBRSError evaluateRule(boolean nmvNull, boolean mvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
+				NIBRSError ret = null;
+				if (!nmvNull && ((typeOfPropertyLoss != null && !TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLoss)) || !mvOffenseInvolved || offenseAttempted)) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getNumberOfStolenMotorVehicles());
 					ret.setNIBRSErrorCode(NIBRSErrorCode._357);

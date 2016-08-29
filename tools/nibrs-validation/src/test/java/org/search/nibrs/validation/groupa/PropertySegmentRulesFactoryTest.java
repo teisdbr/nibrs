@@ -75,6 +75,43 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule361() {
+		Rule<PropertySegment> rule = rulesFactory.getRule361();
+		PropertySegment p = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
+		OffenseSegment o = new OffenseSegment();
+		incident.addOffense(o);
+		o.setUcrOffenseCode(null);
+		o.setOffenseAttemptedCompleted(null);
+		p.setNumberOfRecoveredMotorVehicles(null);
+		p.setTypeOfPropertyLoss(null);
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setNumberOfRecoveredMotorVehicles(null);
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._1.code);
+		o.setUcrOffenseCode(OffenseCode._240.code);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
+		o.setUcrOffenseCode(OffenseCode._09A.code);
+		e = rule.apply(p);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._240.code);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.A.code);
+		e = rule.apply(p);
+		assertNull(e);
+		
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._361, e.getNIBRSErrorCode());
+		assertEquals("19", e.getDataElementIdentifier());
+		assertEquals(null, e.getValue());
+		
+	}
+	
+	@Test
 	public void testRule358() {
 		Rule<PropertySegment> rule = rulesFactory.getRule358();
 		PropertySegment p = buildBaseSegment();
@@ -109,6 +146,42 @@ public class PropertySegmentRulesFactoryTest {
 		assertEquals("18", e.getDataElementIdentifier());
 		assertEquals(null, e.getValue());
 		
+	}
+	
+	@Test
+	public void testRule360() {
+		Rule<PropertySegment> rule = rulesFactory.getRule360();
+		PropertySegment p = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
+		OffenseSegment o = new OffenseSegment();
+		incident.addOffense(o);
+		o.setUcrOffenseCode(null);
+		o.setOffenseAttemptedCompleted(null);
+		p.setNumberOfRecoveredMotorVehicles(null);
+		p.setTypeOfPropertyLoss(null);
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setNumberOfRecoveredMotorVehicles(1);
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._1.code);
+		o.setUcrOffenseCode(OffenseCode._240.code);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._360, e.getNIBRSErrorCode());
+		assertEquals("19", e.getDataElementIdentifier());
+		assertEquals(1, e.getValue());
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
+		o.setUcrOffenseCode(OffenseCode._09A.code);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		o.setUcrOffenseCode(OffenseCode._240.code);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.A.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
+		e = rule.apply(p);
+		assertNull(e);
 	}
 	
 	@Test
