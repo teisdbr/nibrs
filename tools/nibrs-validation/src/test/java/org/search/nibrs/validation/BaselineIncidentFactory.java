@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
@@ -28,17 +27,10 @@ final class BaselineIncidentFactory {
 	static GroupAIncidentReport getBaselineIncident() {
 		
 		GroupAIncidentReport incident = new GroupAIncidentReport();
-		
-		ReportSource source = new ReportSource();
-		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-		source.setSourceLocation(trace[1].toString());
-		source.setSourceName(BaselineIncidentFactory.class.getName());
-		incident.setSource(source);
-		
 		incident.setYearOfTape(2016);
 		incident.setMonthOfTape(5);
 		incident.setOri("WA123456789");
-		incident.setIncidentNumber("111111111111");
+		incident.setIncidentNumber("54236732");
 		incident.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 		incident.setExceptionalClearanceCode("A");
 		incident.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
@@ -58,17 +50,17 @@ final class BaselineIncidentFactory {
 		o.setNumberOfPremisesEntered(null);
 		o.setAutomaticWeaponIndicator(0, " ");
 		
-		PropertySegment property = new PropertySegment();
-		incident.addProperty(property);
-		property.setTypeOfPropertyLoss("1");
-		property.setPropertyDescription(0, "99");
-		property.setValueOfProperty(0, 000000001);
-		property.setDateRecovered(0, null);
-		property.setNumberOfStolenMotorVehicles(null);
-		property.setNumberOfRecoveredMotorVehicles(null);
-		property.setSuspectedDrugType(0, null);
-		property.setEstimatedDrugQuantity(0, null);
-		property.setTypeDrugMeasurement(0, null);
+		//PropertySegment property = new PropertySegment();
+		//incident.addProperty(property);
+		//property.setTypeOfPropertyLoss("1");
+		//property.setPropertyDescription(0, "99");
+		//property.setValueOfProperty(0, 000000001);
+		//property.setDateRecovered(0, null);
+		//property.setNumberOfStolenMotorVehicles(null);
+		//property.setNumberOfRecoveredMotorVehicles(null);
+		//property.setSuspectedDrugType(0, null);
+		//property.setEstimatedDrugQuantity(0, null);
+		//property.setTypeDrugMeasurement(0, null);
 
 		
 		VictimSegment v = new VictimSegment();
@@ -91,6 +83,7 @@ final class BaselineIncidentFactory {
 		offender.setAgeString("22");
 		offender.setRace("W");
 		offender.setSex("M");
+		offender.setEthnicity("H");
 		
 		ArresteeSegment arrestee = new ArresteeSegment();
 		incident.addArrestee(arrestee);
