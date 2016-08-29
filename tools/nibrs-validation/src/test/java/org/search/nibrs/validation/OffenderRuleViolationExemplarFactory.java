@@ -165,6 +165,53 @@ final class OffenderRuleViolationExemplarFactory {
 		});		
 		
 		groupATweakerMap.put(554,incident -> {
+			//(Sex of Offender) has a relationship that is inconsistent with the 
+			//offender’s sex. The sex of the victim and/or offender must reflect 
+			//the implied relationship. For example, if the relationship of the 
+			//to offender is Homosexual Relationship, then the victim’s sex must be the same 
+			//as the offender’s sex. The following relationships must reflect either the Same 
+			//or Different sex codes depending upon this relationship:
+			//Relationship Sex Code
+			//
+			//BG=Victim was Boyfriend/Girlfriend Different
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "BG");
+			copy.getVictims().get(0).setSex("F");
+			copy.getOffenders().get(0).setSex("F");
+			incidents.add(copy);
+			//XS=Victim was Ex-Spouse Different
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "XS");
+			copy.getVictims().get(0).setSex("F");
+			copy.getOffenders().get(0).setSex("F");
+			incidents.add(copy);
+			//SE=Victim was Spouse Different
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "SE");
+			copy.getVictims().get(0).setSex("F");
+			copy.getOffenders().get(0).setSex("F");
+			incidents.add(copy);
+			//CS=Victim was Common-Law Spouse Different
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "CS");
+			copy.getVictims().get(0).setSex("F");
+			copy.getOffenders().get(0).setSex("F");
+			incidents.add(copy);
+			//HR=Homosexual Relationship Same
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "HR");
+			copy.getVictims().get(0).setSex("M");
+			copy.getOffenders().get(0).setSex("F");
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});		
+			
+		
+		
+		groupATweakerMap.put(554,incident -> {
 			//(Age of Offender) has a relationship that is inconsistent with the 
 			//offender’s age. The age of the victim and/or offender must reflect 
 			//the implied relationship. For example, if the relationship of the victim 
