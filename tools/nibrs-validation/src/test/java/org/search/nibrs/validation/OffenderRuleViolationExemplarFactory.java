@@ -99,7 +99,7 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
-		groupATweakerMap.put(509, incident -> {
+		groupATweakerMap.put(510,incident -> {
 			//(Age of Offender) was entered as an age-range. Accordingly, the 
 			//rst age component must be less than the second age.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
@@ -113,7 +113,19 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
-		
+		groupATweakerMap.put(522,incident -> {
+			//(Age of Offender) was entered as an age-range. Therefore, 
+			//the first age component cannot be 00 (unknown).
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("0020");
+			
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});		
 		
 		groupATweakerMap.put(557, incident -> {
 			//(Offender Sequence Number) contains 00 indicating that nothing is 
