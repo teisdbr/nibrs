@@ -152,7 +152,12 @@ final class OffenderRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
-									
+			incidents.add(copy);
+			//(Sex of Offender) Data Element 38 (Sex of Offender), and Data Element 39 
+			//(Race of Offender) cannot be entered when Data Element 36 
+			//(Offender Sequence Number) is 00=Unknown.						
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
 			incidents.add(copy);
 			
 			return incidents;
