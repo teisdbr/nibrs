@@ -38,6 +38,31 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule362() {
+		Rule<PropertySegment> rule = rulesFactory.getRule362();
+		PropertySegment p = buildBaseSegment();
+		setAllNull(p.getSuspectedDrugType());
+		NIBRSError e;
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._B.code);
+		p.setSuspectedDrugType(2, SuspectedDrugTypeCode._X.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._X.code);
+		p.setSuspectedDrugType(2, SuspectedDrugTypeCode._B.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(2, null);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._362, e.getNIBRSErrorCode());
+		assertEquals("20", e.getDataElementIdentifier());
+		assertArrayEquals(new String[] {SuspectedDrugTypeCode._A.code, SuspectedDrugTypeCode._X.code, null}, (String[]) e.getValue());
+	}
+	
+	@Test
 	public void testRule359() {
 		Rule<PropertySegment> rule = rulesFactory.getRule359();
 		PropertySegment p = buildBaseSegment();

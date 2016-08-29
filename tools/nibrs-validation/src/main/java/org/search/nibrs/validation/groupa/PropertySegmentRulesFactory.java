@@ -99,6 +99,34 @@ public class PropertySegmentRulesFactory {
 		
 	}
 	
+	Rule<PropertySegment> getRule362() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				String[] suspectedDrugTypes = subject.getSuspectedDrugType();
+				int notNullCount = 0;
+				boolean xEntered = false;
+				for (int i=0;i < suspectedDrugTypes.length;i++) {
+					String suspectedDrugType = subject.getSuspectedDrugType(i);
+					if (suspectedDrugType != null) {
+						notNullCount++;
+						if (SuspectedDrugTypeCode._X.code.equals(suspectedDrugType)) {
+							xEntered = true;
+						}
+					}
+				}
+				if (xEntered && notNullCount != 3) {
+					ret = subject.getErrorTemplate();
+					ret.setNIBRSErrorCode(NIBRSErrorCode._362);
+					ret.setValue(suspectedDrugTypes);
+					ret.setDataElementIdentifier("20");
+				}
+				return ret;
+			}
+		};
+	}
+	
 	Rule<PropertySegment> getRule359() {
 		Set<String> allowedPropertyDescriptions = new HashSet<>();
 		allowedPropertyDescriptions.add(PropertyDescriptionCode._03.code);

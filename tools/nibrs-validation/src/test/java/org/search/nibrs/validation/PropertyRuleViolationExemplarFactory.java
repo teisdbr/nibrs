@@ -786,6 +786,27 @@ final class PropertyRuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(362, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			PropertySegment property = new PropertySegment();
+			copy.removeProperties();
+			copy.addProperty(property);
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setValueOfProperty(0, 10000);
+			property.setSuspectedDrugType(0, "A");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "OZ");
+			property.setPropertyDescription(1, "10");
+			property.setSuspectedDrugType(1, "X");
+			return incidents;
+		});
 		
 		groupATweakerMap.put(363 , incident -> {
 			//(Estimated Drug Quantity) Since Data Element 20 (Suspected Drug Type) 
