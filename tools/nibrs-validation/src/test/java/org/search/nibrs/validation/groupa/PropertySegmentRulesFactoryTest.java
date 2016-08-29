@@ -38,6 +38,48 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule364ForMeasurement() {
+		testRule364_common(rulesFactory.getRule364forMeasurement(), "22");
+	}
+
+	@Test
+	public void testRule364ForQuantity() {
+		testRule364_common(rulesFactory.getRule364forQuantity(), "21");
+	}
+
+	@Test
+	public void testRule364ForType() {
+		testRule364_common(rulesFactory.getRule364forType(), "20");
+	}
+
+	private void testRule364_common(Rule<PropertySegment> rule, String expectedDataElementIdentifier) {
+		PropertySegment p = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
+		OffenseSegment o = new OffenseSegment();
+		incident.addOffense(o);
+		o.setUcrOffenseCode(null);
+		p.setTypeOfPropertyLoss(null);
+		setAllNull(p.getSuspectedDrugType());
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		o.setUcrOffenseCode(OffenseCode._35A.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._6.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setPropertyDescription(0, PropertyDescriptionCode._10.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._364, e.getNIBRSErrorCode());
+		assertEquals(expectedDataElementIdentifier, e.getDataElementIdentifier());
+		assertNull(e.getValue());
+		p.setPropertyDescription(1, PropertyDescriptionCode._01.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+	}
+	
+	@Test
 	public void testRule363ForMeasurement() {
 		Rule<PropertySegment> rule = rulesFactory.getRule363forMeasurement();
 		PropertySegment p = buildBaseSegment();

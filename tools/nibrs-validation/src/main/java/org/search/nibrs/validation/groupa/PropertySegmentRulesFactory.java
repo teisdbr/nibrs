@@ -58,6 +58,48 @@ public class PropertySegmentRulesFactory {
 		protected abstract NIBRSError evaluateRule(boolean nmvNull, boolean smvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject);
 
 	}
+	
+	private static abstract class Rule364 implements Rule<PropertySegment> {
+		private String dataElementIdentifier;
+		public Rule364(String dataElementIdentifier) {
+			this.dataElementIdentifier = dataElementIdentifier;
+		}
+		@Override
+		public NIBRSError apply(PropertySegment subject) {
+			NIBRSError ret = null;
+			GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
+			boolean drugOffense = false;
+			for (OffenseSegment os : parent.getOffenses()) {
+				if (OffenseCode._35A.code.equals(os.getUcrOffenseCode())) {
+					drugOffense = true;
+					break;
+				}
+			}
+			String typePropertyLoss = subject.getTypeOfPropertyLoss();
+			if (drugOffense && typePropertyLoss != null && TypeOfPropertyLossCode._6.code.equals(typePropertyLoss)) {
+				if (evaluateProperty(subject)) {
+					ret = subject.getErrorTemplate();
+					ret.setNIBRSErrorCode(NIBRSErrorCode._364);
+					ret.setValue(null);
+					ret.setDataElementIdentifier(dataElementIdentifier);
+				}
+			}
+			return ret;
+		}
+		private boolean evaluateProperty(PropertySegment segment) {
+			boolean ret = false;
+			for (int i=0;i < 10;i++) {
+				if (PropertyDescriptionCode._10.code.equals(segment.getPropertyDescription(i))) {
+					if (allNull(getDrugElementArray(segment))) {
+						ret = true;
+						break;
+					}
+				}
+			}
+			return ret;
+		}
+		protected abstract Object[] getDrugElementArray(PropertySegment segment);
+	}
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(PropertySegmentRulesFactory.class);
@@ -98,8 +140,41 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule362());
 		rulesList.add(getRule363forQuantity());
 		rulesList.add(getRule363forMeasurement());
+		rulesList.add(getRule364forType());
+		rulesList.add(getRule364forQuantity());
+		rulesList.add(getRule364forMeasurement());
 		rulesList.add(getRule391());
 		
+	}
+	
+	Rule<PropertySegment> getRule364forMeasurement() {
+		return new Rule364("22") {
+			@Override
+			protected Object[] getDrugElementArray(PropertySegment segment) {
+				return segment.getTypeDrugMeasurement();
+			}
+
+		};
+	}
+	
+	Rule<PropertySegment> getRule364forQuantity() {
+		return new Rule364("21") {
+			@Override
+			protected Object[] getDrugElementArray(PropertySegment segment) {
+				return segment.getEstimatedDrugQuantity();
+			}
+
+		};
+	}
+	
+	Rule<PropertySegment> getRule364forType() {
+		return new Rule364("20") {
+			@Override
+			protected String[] getDrugElementArray(PropertySegment segment) {
+				return segment.getSuspectedDrugType();
+			}
+
+		};
 	}
 	
 	Rule<PropertySegment> getRule363forMeasurement() {
