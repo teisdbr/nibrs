@@ -165,10 +165,15 @@ final class OffenderRuleViolationExemplarFactory {
 			//(Offender Sequence Number) is 00=Unknown.						
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setRace(null);
 			incidents.add(copy);
-			
-			return incidents;
-			
+			//(Race of Offender) Data Element 38 (Sex of Offender), and 
+			//Data Element 39 (Race of Offender) cannot be entered when Data Element 36 
+			//(Offender Sequence Number) is 00=unknown.
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setSex(null);
+			incidents.add(copy);
 		});		
 		
 		groupATweakerMap.put(554,incident -> {
