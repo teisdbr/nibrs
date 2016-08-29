@@ -170,6 +170,7 @@ final class OffenderRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
 			copy.getOffenders().get(0).setRace(null);
+			copy.getOffenders().get(0).setEthnicity(null);
 			incidents.add(copy);
 			//(Race of Offender) Data Element 38 (Sex of Offender), and 
 			//Data Element 39 (Race of Offender) cannot be entered when Data Element 36 
@@ -177,7 +178,18 @@ final class OffenderRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
 			copy.getOffenders().get(0).setSex(null);
+			copy.getOffenders().get(0).setEthnicity(null);
 			incidents.add(copy);
+			//(Ethnicity of Offender) Data Element 38 (Sex of Offender), and 
+			//Data Element 39 (Race of Offender) cannot be entered when 
+			//Data Element 36 (Offender Sequence Number) is 00=Unknown.	
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setSex(null);
+			copy.getOffenders().get(0).setRace(null);
+			incidents.add(copy);
+			
+			
 			
 			return incidents;
 			
