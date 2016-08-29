@@ -1,5 +1,16 @@
 package org.search.nibrs.validation;
-
+//The Offender Segment is used to describe the offenders in the incident 
+//(e.g., their age, sex, race, and ethnicity). An Offender Segment should be 
+//submitted for each of the offenders (up to 99) involved in the incident. 
+//There must be at least one Offender Segment in each incident report.
+//When nothing is known about the offender, then 00=Unknown Offender should be 
+//entered in Data Element 36 (Offender Sequence Number) and 
+//Data Elements 37 through 39 should be left blank. For example, when a corpse 
+//is found in a ditch and there were no eyewitnesses or other information 
+//that would provide data about possible offenders, 00=Unknown Offender should be entered. 
+//However, when witnesses report five offenders were running from the scene, 
+//and their age, sex, or race are not known, five Offender Segments should be submitted 
+//	indicating the appropriate data elements are unknown.
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +71,22 @@ final class OffenderRuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		groupATweakerMap.put(557, incident -> {
+			//(Offender Sequence Number) contains 00 indicating that nothing is 
+			//known about the offender(s) regarding number and any identifying information. 
+			//In order to exceptionally clear the incident, the value cannot be 00. 
+			//The incident was submitted with Data Element 4 (Cleared Exceptionally) having a value of A through E.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			
+			incidents.add(copy);
+			
+			return incidents;
+		
+		});
+		
+		
 	}
 	
 }
