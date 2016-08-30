@@ -67,6 +67,23 @@ final class ArresteeRuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(617, incident -> {
+			//(Arrest Transaction Number) Must contain a valid character combination of the following:
+			//A–Z (capital letters only)
+			//0–9
+			//Hyphen
+			//Example: 11-123-SC is valid, but 11+123*SC is not valid
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArrestTransactionNumber("11+123*SC");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
+		
+		
 	}
 	
 }
