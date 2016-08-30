@@ -58,6 +58,10 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy5.getArrestees().get(0).setArresteeSequenceNumber(null);
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.getArrestees().get(0).setArrestTransactionNumber(null);
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
+			copy7.getArrestees().get(0).setTypeOfArrest("A");
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
+			copy8.getArrestees().get(0).setTypeOfArrest(null);
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -65,7 +69,8 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy4);
 			incidents.add(copy5);
 			incidents.add(copy6);
-			
+			incidents.add(copy7);
+			incidents.add(copy8);
 			
 			return incidents;
 		});
