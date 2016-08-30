@@ -194,7 +194,7 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
-		groupATweakerMap.put(554,incident -> {
+		groupATweakerMap.put(553,incident -> {
 			//(Sex of Offender) has a relationship that is inconsistent with the 
 			//offender’s sex. The sex of the victim and/or offender must reflect 
 			//the implied relationship. For example, if the relationship of the 
