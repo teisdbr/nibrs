@@ -116,6 +116,18 @@ final class ArresteeRuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		groupATweakerMap.put(670, incident -> {
+			//(UCR Arrest Offense Code) was entered with 09C=Justifiable Homicide. This is not a valid arrest offense
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setUcrArrestOffenseCode("09C");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 	}
 	
 }
