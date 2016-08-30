@@ -222,7 +222,7 @@ final class VictimRuleViolationExemplarFactory {
 			//Data Element 28 (Race of Victim) must be entered when 
 			//Data Element 25 (Type of Victim) is L=Law Enforcement Officer.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			//Officer Assignment Type is null
+			//Type of Officer Activity/Circumstance is null
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfOfficerActivityCircumstance(null);
 			copy.getVictims().get(0).setOfficerAssignmentType("K");
@@ -251,7 +251,6 @@ final class VictimRuleViolationExemplarFactory {
 			copy5.getVictims().get(0).setRace(null);
 			copy5.getVictims().get(0).setTypeOfVictim("L");
 				
-			
 					
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -275,7 +274,6 @@ final class VictimRuleViolationExemplarFactory {
 						
 			incidents.add(copy);
 			
-			
 			return incidents;
 			
 		});
@@ -290,8 +288,7 @@ final class VictimRuleViolationExemplarFactory {
 			copy.getVictims().get(0).setAdditionalJustifiableHomicideCircumstances("C");
 						
 			incidents.add(copy);
-			
-			
+					
 			return incidents;
 			
 		});
@@ -308,7 +305,6 @@ final class VictimRuleViolationExemplarFactory {
 			
 			incidents.add(copy);
 			
-				
 			return incidents;
 			
 			
@@ -326,7 +322,6 @@ final class VictimRuleViolationExemplarFactory {
 			
 			incidents.add(copy);
 			
-			
 			return incidents;
 			
 		});
@@ -340,9 +335,7 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			
-			
 			incidents.add(copy);
-			
 			
 			return incidents;
 			
@@ -356,15 +349,11 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, null);
 			
-			
 			incidents.add(copy);
-			
 			
 			return incidents;
 			
 		});
-		
-		
 		
 		
 		groupATweakerMap.put(461, incident -> {
@@ -390,10 +379,8 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "30");
 			
-			
 			incidents.add(copy);
-			
-			
+					
 			return incidents;
 			
 		});
@@ -409,7 +396,6 @@ final class VictimRuleViolationExemplarFactory {
 			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "30");
 			
 			incidents.add(copy);
-			
 			
 			return incidents;
 			
@@ -545,8 +531,7 @@ final class VictimRuleViolationExemplarFactory {
 			copy.getVictims().get(0).setTypeOfInjury(0, "O");
 			
 			incidents.add(copy);
-			
-			
+						
 			return incidents;
 			
 		});
