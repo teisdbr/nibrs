@@ -97,6 +97,21 @@ final class ArresteeRuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+		groupATweakerMap.put(606, incident -> {
+			//(Arrestee Was Armed With) The referenced data element in error is one
+			//that contains multiple data values. When more than one code is entered, none can be duplicate codes.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, "12");
+			copy.getArrestees().get(0).setArresteeArmedWith(1, "12");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
+		
+		
 		groupATweakerMap.put(617, incident -> {
 			//(Arrest Transaction Number) Must contain a valid character combination of the following:
 			//A–Z (capital letters only)
