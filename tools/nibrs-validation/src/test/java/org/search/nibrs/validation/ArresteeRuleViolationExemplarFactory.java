@@ -1,6 +1,9 @@
 package org.search.nibrs.validation;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +86,19 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
-		
+		groupATweakerMap.put(665, incident -> {
+			//(Arrest Date) cannot be earlier than Data Element 3 (Incident Date/Hour). 
+			//A person cannot be arrested before the incident occurred.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArrestDate(Date.from(LocalDateTime.of(2016, 4, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 	}
 	
 }
