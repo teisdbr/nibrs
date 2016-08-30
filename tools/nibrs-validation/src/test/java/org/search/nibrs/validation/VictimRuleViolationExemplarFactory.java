@@ -104,13 +104,14 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenseSegment offense = new OffenseSegment();
 			offense.setUcrOffenseCode("120");
+			offense.setTypeOfCriminalActivity(1, "J");
 			offense.setOffenseAttemptedCompleted("C");
-			offense.setBiasMotivation(0,"88");
-			offense.setLocationType("20");
+			offense.setTypeOfWeaponForceInvolved(1, "99");
+			offense.setOffendersSuspectedOfUsing(1, "N");
+			offense.setBiasMotivation(1, "15");
+			offense.setLocationType("15");
 			offense.setNumberOfPremisesEntered(null);
-			offense.setMethodOfEntry("N");
-			offense.setTypeOfWeaponForceInvolved(0, "99");
-			offense.setOffendersSuspectedOfUsing(0, "N");
+			offense.setAutomaticWeaponIndicator(0, " ");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
 			//(Aggravated Assault/Homicide Circumstances The referenced data element 
 			//in error is one that contains multiple data values. When more than one 
@@ -128,8 +129,6 @@ final class VictimRuleViolationExemplarFactory {
 			//is entered, none can be duplicate codes.
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
 			copy4.getVictims().get(0).setOffenderNumberRelated(1, 1);
-			
-			
 			
 			
 			incidents.add(copy);
