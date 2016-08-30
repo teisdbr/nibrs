@@ -58,10 +58,19 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy5.getArrestees().get(0).setArresteeSequenceNumber(null);
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
 			copy6.getArrestees().get(0).setArrestTransactionNumber(null);
+			//(Type of Arrest) The referenced data element in a Group A Incident Report
+			//must be populated with a valid data value and cannot be blank.
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
 			copy7.getArrestees().get(0).setTypeOfArrest("A");
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
 			copy8.getArrestees().get(0).setTypeOfArrest(null);
+			//(UCR Arrest Offense Code) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
+			copy9.getArrestees().get(0).setUcrArrestOffenseCode("A");
+			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
+			copy10.getArrestees().get(0).setUcrArrestOffenseCode(null);
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -71,6 +80,9 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
+			incidents.add(copy9);
+			incidents.add(copy10);
+			
 			
 			return incidents;
 		});
