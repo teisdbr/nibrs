@@ -213,20 +213,14 @@ final class OffenderRuleViolationExemplarFactory {
 			//XS=Victim was Ex-Spouse Different
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "XS");
-			copy.getVictims().get(0).setSex("F");
-			copy.getOffenders().get(0).setSex("F");
 			incidents.add(copy);
 			//SE=Victim was Spouse Different
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "SE");
-			copy.getVictims().get(0).setSex("F");
-			copy.getOffenders().get(0).setSex("F");
 			incidents.add(copy);
 			//CS=Victim was Common-Law Spouse Different
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "CS");
-			copy.getVictims().get(0).setSex("F");
-			copy.getOffenders().get(0).setSex("F");
 			incidents.add(copy);
 			//HR=Homosexual Relationship Same
 			copy = new GroupAIncidentReport(incident);
