@@ -426,7 +426,6 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("X");
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("09A");
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("A");
 			incidents.add(copy);
 			return incidents;
@@ -440,14 +439,11 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			copy.getOffenses().get(0).setLocationType("14");
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenses().get(0).setUcrOffenseCode("220");
-			copy2.getOffenses().get(0).setLocationType("19");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(null);
-			
-					
 			incidents.add(copy);
-			incidents.add(copy2);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setLocationType("19");
+								
+			incidents.add(copy);
 			
 			return incidents;
 
