@@ -179,6 +179,7 @@ final class OffenseRuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(219, incident -> {
+			//TO-DO Incomplete scenarios.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -219,36 +220,36 @@ final class OffenseRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("250");
 			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenses().get(0).setUcrOffenseCode("280");
-			copy2.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy3.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getOffenses().get(0).setUcrOffenseCode("35B");
-			copy4.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
-			copy5.getOffenses().get(0).setUcrOffenseCode("39C");
-			copy5.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
-			copy6.getOffenses().get(0).setUcrOffenseCode("370");
-			copy6.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
-			copy7.getOffenses().get(0).setUcrOffenseCode("520");
-			copy7.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
-			copy8.getOffenses().get(0).setUcrOffenseCode("720");
-			copy8.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
-						
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("280");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35A");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35B");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("39C");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("370");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("520");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("720");
+			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, null);
+			incidents.add(copy);
+			
 			
 			return incidents;
 
