@@ -80,19 +80,22 @@ final class OffenderRuleViolationExemplarFactory {
 			incidents.add(copy);
 			//(Sex of Offender) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
-			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setSex(null);
-			incidents.add(copy);
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenders().get(0).setSex(null);
+			incidents.add(copy2);
 			//(Race of Offender) The referenced data element in a Group A Incident 
 			//Report must be populated with a valid data value and cannot be blank.
-			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setRace(null);
-			incidents.add(copy);
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3 = new GroupAIncidentReport(incident);
+			copy3.getOffenders().get(0).setRace(null);
+			incidents.add(copy3);
 			//(Ethnicity of Offender) The referenced data element in a Group A Incident 
 			//Report must be populated with a valid data value and cannot be blank.
-			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setEthnicity(null);
-			incidents.add(copy);
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4 = new GroupAIncidentReport(incident);
+			copy4.getOffenders().get(0).setEthnicity(null);
+			incidents.add(copy4);
 			
 			
 			return incidents;
@@ -168,25 +171,21 @@ final class OffenderRuleViolationExemplarFactory {
 			//(Race of Offender) cannot be entered when Data Element 36 
 			//(Offender Sequence Number) is 00=Unknown.						
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
 			copy.getOffenders().get(0).setRace(null);
-			copy.getOffenders().get(0).setEthnicity(null);
 			incidents.add(copy);
 			//(Race of Offender) Data Element 38 (Sex of Offender), and 
 			//Data Element 39 (Race of Offender) cannot be entered when Data Element 36 
 			//(Offender Sequence Number) is 00=unknown.
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
 			copy.getOffenders().get(0).setSex(null);
-			copy.getOffenders().get(0).setEthnicity(null);
+			copy.getOffenders().get(0).setRace("W");
 			incidents.add(copy);
 			//(Ethnicity of Offender) Data Element 38 (Sex of Offender), and 
 			//Data Element 39 (Race of Offender) cannot be entered when 
 			//Data Element 36 (Offender Sequence Number) is 00=Unknown.	
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
-			copy.getOffenders().get(0).setSex(null);
-			copy.getOffenders().get(0).setRace(null);
+			copy.getOffenders().get(0).setSex("F");
+			copy.getOffenders().get(0).setEthnicity(null);
 			incidents.add(copy);
 			
 			
