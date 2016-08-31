@@ -260,12 +260,34 @@ final class ArresteeRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setAgeString("0025");
+			
 			incidents.add(copy);
 					
 			return incidents;
 					
 		});
-				
+			
+		groupATweakerMap.put(640, incident -> {
+			//(Disposition of Arrestee Under 18) was not entered, but Data Element 47 
+			//(Age of Arrestee) indicates an age-range for a juvenile. The low age is a 
+			//juvenile and the high age is an adult, but the average age is a juvenile.
+			//Note: When an age-range is not entered and the age is a juvenile, then the 
+			//disposition must be entered. These circumstances were flagged by the computer 
+			//as a possible discrepancy between age and disposition and should be checked for 
+			//possible correction by the participant.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("0826");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		
+		});
+		
+		
+		
 		groupATweakerMap.put(641, incident -> {
 			//(Age of Arrestee) was entered with a value of 99 which means the 
 			//arrestee is over 98 years old. The submitter should verify that 
