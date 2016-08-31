@@ -309,6 +309,25 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
+		
+		groupATweakerMap.put(667, incident -> {
+			//(Sex of Arrestee) does not contain a valid code of M=Male or F=Female. 
+			//Note: U=Unknown (if entered) is not a valid sex for an arrestee.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setSex("A");
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
+			copy2.getArrestees().get(0).setSex("U");
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			return incidents;
+			
+		});
+			
+			
+			
+			
 		groupATweakerMap.put(670, incident -> {
 			//(UCR Arrest Offense Code) was entered with 09C=Justifiable Homicide. This is not a valid arrest offense
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
