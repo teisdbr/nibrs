@@ -79,8 +79,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
 			copy13.getArrestees().get(0).setArrestDate(null);
 			
-			
-			
+				
 			
 			incidents.add(copy);
 			incidents.add(copy2);
