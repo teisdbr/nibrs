@@ -172,6 +172,25 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(609, incident -> {
+			//(Age of Arrestee) contains more than two characters indicating 
+			//a possible age-range is being attempted. If so, the field must 
+			//contain a numeric entry of four digits.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("022");
+			incidents.add(copy);
+					
+			return incidents;
+					
+		});
+			
+			
+			
+			
+			
+		}
+		
 		groupATweakerMap.put(617, incident -> {
 			//(Arrest Transaction Number) Must contain a valid character combination of the following:
 			//A–Z (capital letters only)
