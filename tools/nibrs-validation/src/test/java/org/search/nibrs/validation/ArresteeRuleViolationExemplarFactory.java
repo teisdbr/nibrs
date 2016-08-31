@@ -76,6 +76,8 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy11.getArrestees().get(0).setArresteeArmedWith(0, null);
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
 			copy12.getArrestees().get(0).setArresteeArmedWith(0,"00");
+			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
+			copy13.getArrestees().get(0).setArrestDate(null);
 			
 			
 			
@@ -95,6 +97,22 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 			
 			return incidents;
+		});
+		
+		groupATweakerMap.put(605, incident -> {
+			//The date cannot be later than that entered within the Month of Electronic submission 
+			//and Year of Electronic submission fields on the data record. For example, 
+			//if Month of Electronic submission and Year of Electronic submission are 06/1999, 
+			//the arrest date cannot contain any date 07/01/1999 or later.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
 		});
 		
 		groupATweakerMap.put(606, incident -> {
