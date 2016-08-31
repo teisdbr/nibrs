@@ -97,6 +97,14 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy18.getArrestees().get(0).setSex(null);
 			GroupAIncidentReport copy19 = new GroupAIncidentReport(copy);
 			copy19.getArrestees().get(0).setSex("A");
+			//(Race of Arrestee) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy20 = new GroupAIncidentReport(copy);
+			copy20.getArrestees().get(0).setRace(null);
+			GroupAIncidentReport copy21 = new GroupAIncidentReport(copy);
+			copy21.getArrestees().get(0).setRace("X");
+			
+			
 			
 			
 			incidents.add(copy);
