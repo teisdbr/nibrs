@@ -200,7 +200,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 			
 			
-		}
+	
 		
 		groupATweakerMap.put(617, incident -> {
 			//(Arrest Transaction Number) Must contain a valid character combination of the following:
@@ -217,6 +217,20 @@ final class ArresteeRuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		groupATweakerMap.put(622, incident -> {
+			//(Age of Arrestee) was entered as an age-range. 
+			//Therefore, the first age component cannot be 00 (unknown).
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("0025");
+			incidents.add(copy);
+					
+			return incidents;
+					
+		});
+				
+		
 		
 		
 		groupATweakerMap.put(654, incident -> {
