@@ -76,13 +76,16 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy11.getArrestees().get(0).setArresteeArmedWith(0, null);
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
 			copy12.getArrestees().get(0).setArresteeArmedWith(0,"00");
-			//Arrest cannot be blank
+			//Arrest Date cannot be blank
 			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
 			copy13.getArrestees().get(0).setArrestDate(null);
 			//(Multiple Arrestee Segments Indicator) The referenced data element in a 
 			//A Incident Report must be populated with a valid data value and cannot be blank.
 			GroupAIncidentReport copy14 = new GroupAIncidentReport(copy);
 			copy14.getArrestees().get(0).setMultipleArresteeSegmentsIndicator(null);
+			GroupAIncidentReport copy15 = new GroupAIncidentReport(copy);
+			copy15.getArrestees().get(0).setMultipleArresteeSegmentsIndicator("A");
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -98,6 +101,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy12);
 			incidents.add(copy13);
 			incidents.add(copy14);
+			incidents.add(copy15	);
 			
 			return incidents;
 		});
@@ -132,6 +136,19 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(607, incident -> {
+			//(Arrestee Was Armed With) The referenced data element in error is one
+			//that contains multiple data values. When more than one code is entered, none can be duplicate codes.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, "01");
+			copy.getArrestees().get(0).setArresteeArmedWith(1, "12");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(617, incident -> {
 			//(Arrest Transaction Number) Must contain a valid character combination of the following:
