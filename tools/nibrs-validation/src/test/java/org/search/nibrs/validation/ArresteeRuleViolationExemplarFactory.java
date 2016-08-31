@@ -91,6 +91,13 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy16.getArrestees().get(0).setAgeString(null);
 			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
 			copy17.getArrestees().get(0).setAgeString("AA");
+			//(Sex of Arrestee) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy18 = new GroupAIncidentReport(copy);
+			copy18.getArrestees().get(0).setSex(null);
+			GroupAIncidentReport copy19 = new GroupAIncidentReport(copy);
+			copy19.getArrestees().get(0).setSex("A");
+			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -107,6 +114,10 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy13);
 			incidents.add(copy14);
 			incidents.add(copy15);
+			incidents.add(copy16);
+			incidents.add(copy17);
+			incidents.add(copy18);
+			incidents.add(copy19);
 			
 			return incidents;
 		});
