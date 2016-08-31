@@ -106,7 +106,6 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 			
 			
-			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -126,6 +125,10 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy17);
 			incidents.add(copy18);
 			incidents.add(copy19);
+			incidents.add(copy20);
+			incidents.add(copy21);
+			incidents.add(copy22);
+			incidents.add(copy23);
 			
 			return incidents;
 		});
@@ -141,6 +144,18 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(copy);
 			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "X");
 			incidents.add(copy);
+			//(Ethnicity of Arrestee) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
+			copy2.getArrestees().get(0).setEthnicity(null);
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
+			copy3.getArrestees().get(0).setEthnicity("X");
+			
+			
+			incidents.add(copy2);
+			incidents.add(copy3);
+			
+			
 			
 			return incidents;
 		});
