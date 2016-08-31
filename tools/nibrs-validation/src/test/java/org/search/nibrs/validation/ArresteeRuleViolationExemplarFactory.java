@@ -85,7 +85,12 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy14.getArrestees().get(0).setMultipleArresteeSegmentsIndicator(null);
 			GroupAIncidentReport copy15 = new GroupAIncidentReport(copy);
 			copy15.getArrestees().get(0).setMultipleArresteeSegmentsIndicator("A");
-			
+			//(Age of Arrestee) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy16 = new GroupAIncidentReport(copy);
+			copy16.getArrestees().get(0).setAgeString(null);
+			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
+			copy17.getArrestees().get(0).setAgeString("AA");
 			
 			incidents.add(copy);
 			incidents.add(copy2);
