@@ -315,6 +315,21 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});	
 		
+		groupATweakerMap.put(653, incident -> {
+			//(Disposition of Arrestee Under 18) was entered, but Data Element 47 
+			//(Age of Arrestee) is 18 or greater. Whenever an arrestee’s age indicates an adult, 
+			//the juvenile disposition cannot be entered because it does not apply.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("18");
+			copy.getArrestees().get(0).setDispositionOfArresteeUnder18("H");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});	
+		
 		groupATweakerMap.put(654, incident -> {
 			//This case may be duplicative of the same element in Rule 604.
 			//(Automatic Weapon Indicator) does not have A=Automatic or a blank in the third position of field.
