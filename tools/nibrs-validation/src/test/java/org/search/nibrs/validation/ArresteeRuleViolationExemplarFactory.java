@@ -230,7 +230,18 @@ final class ArresteeRuleViolationExemplarFactory {
 					
 		});
 				
-		
+		groupATweakerMap.put(641, incident -> {
+			//(Age of Arrestee) was entered with a value of 99 which means the 
+			//arrestee is over 98 years old. The submitter should verify that 
+			//99=Over 98 Years Old is not being confused the with 00=Unknown.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("99");
+			incidents.add(copy);
+					
+			return incidents;
+					
+		});
 		
 		
 		groupATweakerMap.put(654, incident -> {
