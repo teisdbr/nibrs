@@ -114,6 +114,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy.getArrestees().get(0).setArresteeArmedWith(0, "11");
 			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, null);
 			incidents.add(copy);
+			copy = new GroupAIncidentReport(copy);
 			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "X");
 			incidents.add(copy);
 			
@@ -184,12 +185,41 @@ final class ArresteeRuleViolationExemplarFactory {
 		
 		
 		groupATweakerMap.put(654, incident -> {
+			//This case may be duplicative of the same element in Rule 604.
 			//(Automatic Weapon Indicator) does not have A=Automatic or a blank in the third position of field.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setArresteeArmedWith(0, "11");
 			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "X");
 			incidents.add(copy);
+			
+			return incidents;
+		});
+		
+		
+		groupATweakerMap.put(655, incident -> {
+			//(Automatic Weapon Indicator) In Data Element 46 (Arrestee Was Armed With), 
+			//A=Automatic is the third character of code. It is valid only with codes:
+			//11=Firearm (Type Not Stated)
+			//12=Handgun
+			//13=Rifle
+			//14=Shotgun
+			//15=Other Firearm
+			//A weapon code other than those mentioned was entered with the automatic indicator. 
+			//An automatic weapon is, by definition, a firearm.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, "01");
+			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "A");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(copy);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, "16");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(copy);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, "17");
+			incidents.add(copy);
+			
+			
 			
 			return incidents;
 		});
