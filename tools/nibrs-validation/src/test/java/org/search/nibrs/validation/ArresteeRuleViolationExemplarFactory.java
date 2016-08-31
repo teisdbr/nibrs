@@ -185,7 +185,18 @@ final class ArresteeRuleViolationExemplarFactory {
 					
 		});
 			
-			
+		groupATweakerMap.put(610, incident -> {
+			//(Age of Arrestee) was entered as an age-range. Accordingly, 
+			//the first age component must be less than the second age.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("3025");
+			incidents.add(copy);
+					
+			return incidents;
+					
+		});
+				
 			
 			
 			
