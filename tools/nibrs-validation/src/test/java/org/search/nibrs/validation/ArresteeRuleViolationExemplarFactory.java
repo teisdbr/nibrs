@@ -182,6 +182,18 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
+		
+		groupATweakerMap.put(654, incident -> {
+			//(Automatic Weapon Indicator) does not have A=Automatic or a blank in the third position of field.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, "11");
+			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "X");
+			incidents.add(copy);
+			
+			return incidents;
+		});
+		
 		groupATweakerMap.put(665, incident -> {
 			//(Arrest Date) cannot be earlier than Data Element 3 (Incident Date/Hour). 
 			//A person cannot be arrested before the incident occurred.
