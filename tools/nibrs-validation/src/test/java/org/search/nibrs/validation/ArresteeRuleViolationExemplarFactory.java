@@ -101,10 +101,26 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy12);
 			incidents.add(copy13);
 			incidents.add(copy14);
-			incidents.add(copy15	);
+			incidents.add(copy15);
 			
 			return incidents;
 		});
+		
+		groupATweakerMap.put(604, incident -> {
+			//(Automatic Weapon Indicator) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, "11");
+			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, null);
+			incidents.add(copy);
+			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "X");
+			incidents.add(copy);
+			
+			return incidents;
+		});
+		
+		
 		
 		groupATweakerMap.put(605, incident -> {
 			//The date cannot be later than that entered within the Month of Electronic submission 
