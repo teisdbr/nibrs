@@ -76,10 +76,13 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy11.getArrestees().get(0).setArresteeArmedWith(0, null);
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
 			copy12.getArrestees().get(0).setArresteeArmedWith(0,"00");
+			//Arrest cannot be blank
 			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
 			copy13.getArrestees().get(0).setArrestDate(null);
-			
-				
+			//(Multiple Arrestee Segments Indicator) The referenced data element in a 
+			//A Incident Report must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy14 = new GroupAIncidentReport(copy);
+			copy14.getArrestees().get(0).setMultipleArresteeSegmentsIndicator(null);
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -93,7 +96,8 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy10);
 			incidents.add(copy11);
 			incidents.add(copy12);
-			
+			incidents.add(copy13);
+			incidents.add(copy14);
 			
 			return incidents;
 		});
