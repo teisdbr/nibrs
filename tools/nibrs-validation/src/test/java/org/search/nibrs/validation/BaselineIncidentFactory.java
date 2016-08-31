@@ -96,6 +96,7 @@ final class BaselineIncidentFactory {
 		arrestee.setUcrArrestOffenseCode("13A");
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");
+		arrestee.setArresteeArmedWith(0,"01");
 		
 		return incident;
 		
