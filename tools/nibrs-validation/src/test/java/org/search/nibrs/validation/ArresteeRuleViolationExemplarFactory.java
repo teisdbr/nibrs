@@ -150,13 +150,15 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy2.getArrestees().get(0).setEthnicity(null);
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
 			copy3.getArrestees().get(0).setEthnicity("X");
-			
+			//(Resident Status of Arrestee) The referenced data element in a 
+			//Group A Incident Report must be populated with a valid data value and cannot be blank.
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
+			copy4.getArrestees().get(0).setResidentStatusOfArrestee("X");
 			
 			incidents.add(copy2);
 			incidents.add(copy3);
-			
-			
-			
+			incidents.add(copy4);
+						
 			return incidents;
 		});
 		
