@@ -284,7 +284,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			return incidents;
 			
 		
-		});
+		});	
 		
 		
 		
@@ -301,6 +301,19 @@ final class ArresteeRuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(652, incident -> {
+			//(Disposition of Arrestee Under 18) was not entered, but Data Element 47 
+			//(Age of Arrestee) is under 18. Whenever an arrestee’s age indicates a juvenile, 
+			//the disposition must be entered.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("16");
+			
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});	
 		
 		groupATweakerMap.put(654, incident -> {
 			//This case may be duplicative of the same element in Rule 604.
