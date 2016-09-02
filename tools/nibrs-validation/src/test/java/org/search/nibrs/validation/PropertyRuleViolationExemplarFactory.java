@@ -1128,6 +1128,8 @@ final class PropertyRuleViolationExemplarFactory {
 		});	
 		
 		groupATweakerMap.put(372, incident -> {
+			//Rule is staged while 
+			//awaiting response from Becki on validation for applicable entries' 
 			//(Type of PropertySegment Loss) is 
 			//2=Burned
 			//3=Counterfeited/Forged
