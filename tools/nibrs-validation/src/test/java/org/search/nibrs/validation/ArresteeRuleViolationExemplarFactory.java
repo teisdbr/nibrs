@@ -267,6 +267,10 @@ final class ArresteeRuleViolationExemplarFactory {
 					
 		});
 			
+		//TO-DO groupATweakerMap.put(623, incident -> {
+			//Clearance Indicator and Clearance Offense Code must be 
+			//blank when Segment Action Type on Level 6 (Arrestee Segment) is I=Incident.
+		
 		groupATweakerMap.put(640, incident -> {
 			//(Disposition of Arrestee Under 18) was not entered, but Data Element 47 
 			//(Age of Arrestee) indicates an age-range for a juvenile. The low age is a 
@@ -401,7 +405,9 @@ final class ArresteeRuleViolationExemplarFactory {
 		});
 			
 			
-			
+		//TO-DO groupATweakerMap.put(668, incident -> {
+			//Clearance Indicator cannot contain Y=Yes for more than one 
+			//Segment Level 6 (Arrestee Segment) submitted for an incident.
 			
 		groupATweakerMap.put(670, incident -> {
 			//(UCR Arrest Offense Code) was entered with 09C=Justifiable Homicide. This is not a valid arrest offense
@@ -414,6 +420,11 @@ final class ArresteeRuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		//TO-DO groupATweakerMap.put(671, incident -> {
+		//The referenced data element in a Group A Incident Report must 
+		//be populated with a valid data value and cannot be blank.
+		
 	}
 	
 }
