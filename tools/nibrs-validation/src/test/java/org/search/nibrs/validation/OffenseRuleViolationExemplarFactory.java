@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfWeaponForceCode;
@@ -748,6 +749,95 @@ final class OffenseRuleViolationExemplarFactory {
 
 		});
 
+		groupATweakerMap.put(268, incident -> {
+			//(Offense Segment) Cannot be submitted with a data value for a 
+			//motor vehicle in Data Element 15 (Property Description) when Data Element 6 
+			//(UCR Offense Code) contains an offense of (23A–23H)=Larceny/Theft Offenses; 
+			//stolen vehicles cannot be reported for a larceny
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("23A");
+			PropertySegment property = new PropertySegment();
+			copy.addProperty(property);
+			property.setTypeOfPropertyLoss("07");
+			property.setPropertyDescription(0, "03");
+			property.setValueOfProperty(0, 10000);
+			//23B
+			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
+			copy2.getOffenses().get(0).setUcrOffenseCode("23B");
+			PropertySegment property2 = new PropertySegment();
+			copy2.addProperty(property);
+			property2.setTypeOfPropertyLoss("07");
+			property2.setPropertyDescription(0, "03");
+			property2.setValueOfProperty(0, 10000);
+			//23C
+			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
+			copy3.getOffenses().get(0).setUcrOffenseCode("23C");
+			PropertySegment property3 = new PropertySegment();
+			copy3.addProperty(property);
+			property3.setTypeOfPropertyLoss("07");
+			property3.setPropertyDescription(0, "03");
+			property3.setValueOfProperty(0, 10000);
+			//23D
+			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
+			copy4.getOffenses().get(0).setUcrOffenseCode("23D");
+			PropertySegment property4 = new PropertySegment();
+			copy4.addProperty(property);
+			property4.setTypeOfPropertyLoss("07");
+			property4.setPropertyDescription(0, "03");
+			property4.setValueOfProperty(0, 10000);
+			//23E
+			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
+			copy5.getOffenses().get(0).setUcrOffenseCode("23E");
+			PropertySegment property5 = new PropertySegment();
+			copy5.addProperty(property);
+			property5.setTypeOfPropertyLoss("07");
+			property5.setPropertyDescription(0, "03");
+			property5.setValueOfProperty(0, 10000);
+			//23F
+			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
+			copy6.getOffenses().get(0).setUcrOffenseCode("23F");
+			PropertySegment property6 = new PropertySegment();
+			copy6.addProperty(property);
+			property6.setTypeOfPropertyLoss("07");
+			property6.setPropertyDescription(0, "03");
+			property6.setValueOfProperty(0, 10000);
+			//23G
+			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
+			copy7.getOffenses().get(0).setUcrOffenseCode("23G");
+			PropertySegment property7 = new PropertySegment();
+			copy7.addProperty(property);
+			property7.setTypeOfPropertyLoss("07");
+			property7.setPropertyDescription(0, "03");
+			property7.setValueOfProperty(0, 10000);
+			//23H
+			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
+			copy8.getOffenses().get(0).setUcrOffenseCode("23H");
+			PropertySegment property8 = new PropertySegment();
+			copy8.addProperty(property);
+			property8.setTypeOfPropertyLoss("07");
+			property8.setPropertyDescription(0, "03");
+			property8.setValueOfProperty(0, 10000);
+			
+			
+			
+			incidents.add(copy);
+			incidents.add(copy2);
+			incidents.add(copy3);
+			incidents.add(copy4);
+			incidents.add(copy5);
+			incidents.add(copy6);
+			incidents.add(copy7);
+			incidents.add(copy8);
+			
+					
+			return incidents;
+			
+			
+		});
+		
+		
+		
 		groupATweakerMap.put(269, incident -> {
 			// (Type Weapon/Force Involved) If Data Element 6 (UCR OffenseSegment Code) is 13B=Simple Assault and the
 			// weapon involved is 11=Firearm, 12=Handgun, 13=Rifle, 14=Shotgun, or 15=Other Firearm, then the offense
