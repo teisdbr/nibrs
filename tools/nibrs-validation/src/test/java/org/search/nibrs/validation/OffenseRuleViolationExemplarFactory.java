@@ -151,24 +151,24 @@ final class OffenseRuleViolationExemplarFactory {
 
 		groupATweakerMap.put(207, incident -> {
 			// The referenced data element in error is one that contains multiple
-			// data values. However "N" is mutually exclusive with other codes.
+			// data values. However values are mutually exclusive with other codes.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			//Data Element 8
+			//Data Element 8 Offender Suspected of Using "N" is exclusive of other values
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "A");
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(1, "N");
 			incidents.add(copy);
-			//Data Element 8A
+			//Data Element 8A Bias Motivation "88" is exclusive of other values
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setBiasMotivation(0, "15");
 			copy.getOffenses().get(0).setBiasMotivation(1, "88");
 			incidents.add(copy);
-			//Data Element 12
+			//Data Element 12 Type of Criminal Activity "N" is exclusive of other values
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "J");
 			copy.getOffenses().get(0).setTypeOfCriminalActivity(1, "N");
 			incidents.add(copy);
-			//Data Element 13
+			//Data Element 13 Type of Weapon Force Involved "99" is exclusive of other values
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "11");
 			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(1, "99");
@@ -423,12 +423,53 @@ final class OffenseRuleViolationExemplarFactory {
 			// Assault.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			//Homicide Offenses
 			copy.getOffenses().get(0).setUcrOffenseCode("09A");
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("X");
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09A");
 			copy.getOffenses().get(0).setOffenseAttemptedCompleted("A");
 			incidents.add(copy);
+			copy.getOffenses().get(0).setUcrOffenseCode("09B");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09B");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("A");
+			incidents.add(copy);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("A");
+			incidents.add(copy);
+			//Assault Charges
+			copy.getOffenses().get(0).setUcrOffenseCode("13A");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("13AA");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("A");
+			incidents.add(copy);
+			copy.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("13B");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("A");
+			incidents.add(copy);
+			copy.getOffenses().get(0).setUcrOffenseCode("13C");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("X");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("13C");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("A");
+			incidents.add(copy);
+
+		
+			
 			return incidents;
 		});
 
@@ -442,7 +483,9 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setNumberOfPremisesEntered(null);
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			copy.getOffenses().get(0).setLocationType("19");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(null);
 								
 			incidents.add(copy);
 			
@@ -691,14 +734,24 @@ final class OffenseRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("09A");
 			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "99");
-			
 			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09B");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "99");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "99");
+			incidents.add(copy);
+
 			
 			return incidents;
 
 		});
 
-		groupATweakerMap.put(269, incident -> {
+		groupATweakerMap.put(;
+		
+		269, incident -> {
 			// (Type Weapon/Force Involved) If Data Element 6 (UCR OffenseSegment Code) is 13B=Simple Assault and the
 			// weapon involved is 11=Firearm, 12=Handgun, 13=Rifle, 14=Shotgun, or 15=Other Firearm, then the offense
 			// should instead be classified as 13A=Aggravated Assault.
