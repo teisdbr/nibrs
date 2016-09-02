@@ -137,12 +137,16 @@ final class VictimRuleViolationExemplarFactory {
 			incidents.add(copy4);
 			copy.addOffense(offense);
 			
-			
-			
+					
 			return incidents;
 				
 			
 		});
+		
+		//TO-DO groupATweakerMap.put(407, incident -> {
+		//(Type Injury) Can have multiple data values and was entered with 
+		//multiple values. However, the entry shown between the brackets in [value] 
+		//above cannot be entered with any other data value.
 		
 		groupATweakerMap.put(409, incident -> {
 			//(Age of Victim) contains more than two characters indicating a possible 
@@ -169,6 +173,13 @@ final class VictimRuleViolationExemplarFactory {
 			return incidents;
 				
 			});
+		
+		//TO-DO groupATweakerMap.put(419, incident -> {
+		//(Aggravated Assault/Homicide Circumstances) Circumstances) can only be 
+		//entered when one or more of the offenses in Data Element 24 (Victim Connected to UCR Offense Code) are:
+		//large set of permutations
+		
+		
 		
 		groupATweakerMap.put(422, incident -> {
 			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
@@ -484,6 +495,11 @@ final class VictimRuleViolationExemplarFactory {
 					
 		});
 		
+		//TO-DO groupATweakerMap.put(471, incident -> {
+		//(Offender Number to be Related) has relationships of VO=Victim Was Offender 
+		//that point to multiple offenders, which is an impossible situation. 
+		//A single victim cannot be two offenders.
+		
 		groupATweakerMap.put(472, incident -> {
 			//(Relationship of Victim to Offender) has a relationship to the offender
 			//that is not logical. In this case, the offender was entered with unknown 
@@ -502,6 +518,11 @@ final class VictimRuleViolationExemplarFactory {
 			
 		});
 		
+		//TO-DO groupATweakerMap.put(475, incident -> {
+			//(Offender Number to be Related) A victim can only have one
+			//spousal relationship. In this instance, the victim has a relationship of 
+			//SE=Spouse to two or more offenders.
+		
 		
 		groupATweakerMap.put(477, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) A victim segment was 
@@ -519,6 +540,15 @@ final class VictimRuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		
+		//TO-DO groupATweakerMap.put(478, incident -> {
+		//Data Element 24 (Victim Connected to UCR Offense Code) 
+		//Mutually Exclusive offenses are ones that cannot occur to the same 
+		//victim by UCR definitions. A Lesser Included offense is one that 
+		//is an element of another offense and should not be reported as having 
+		//happened to the victim along with the other offense. 
+		//Lesser Included and Mutually Exclusive offenses are defined as follows:
 		
 		groupATweakerMap.put(479, incident -> {
 			//A Simple Assault (13B) was committed against a victim, but the 
