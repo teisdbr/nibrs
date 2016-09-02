@@ -181,8 +181,31 @@ final class OffenseRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(219, incident -> {
 			//TO-DO Incomplete scenarios.
+			//(Type Criminal Activity/Gang Information) Type criminal activity codes of “B”, “C”, “D”, “E”, “O”, “P”, “T”,
+			//or “U” can only be entered when the UCR Offense Code is:
+			//250=Counterfeiting/Forgery
+			//280=Stolen Property Offenses
+			//35A=Drug/Narcotic Violations
+			//35B=Drug Equipment Violations
+			//39C=Gambling Equipment Violations
+			//370=Pornography/Obscene Material
+			//520=Weapon Law Violations
+			//(Type Criminal Activity/Gang Information) Gang information codes of “J”, “G”, and “N” can only be entered
+			//when the UCR Offense Code is:09A=Murder and Non-negligent Manslaughter
+			//09B=Negligent Manslaughter
+			//100=Kidnapping/Abduction
+			//11A=Rape
+			//11B=Sodomy
+			//11C=Sexual Assault With An Object
+			//11D=Fondling
+			//120=Robbery
+			//13A=Aggravated Assault
+			//13B=Simple Assault
+			//13C=Intimidation
+			//(Type Criminal Activity/Gang Information) Criminal Activity codes of 
+			//“A”, “F”, “I”, and “S” can only be entered when the UCR Offense Code is:
+			//720=Animal Cruelty
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("09B");
 			copy.getOffenses().get(0).setTypeOfCriminalActivity(0, "B");
