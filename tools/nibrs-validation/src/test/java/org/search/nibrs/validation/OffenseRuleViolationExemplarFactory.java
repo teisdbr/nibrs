@@ -743,15 +743,12 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setUcrOffenseCode("09C");
 			copy.getOffenses().get(0).setTypeOfWeaponForceInvolved(0, "99");
 			incidents.add(copy);
-
 			
 			return incidents;
 
 		});
 
-		groupATweakerMap.put(;
-		
-		269, incident -> {
+		groupATweakerMap.put(269, incident -> {
 			// (Type Weapon/Force Involved) If Data Element 6 (UCR OffenseSegment Code) is 13B=Simple Assault and the
 			// weapon involved is 11=Firearm, 12=Handgun, 13=Rifle, 14=Shotgun, or 15=Other Firearm, then the offense
 			// should instead be classified as 13A=Aggravated Assault.
