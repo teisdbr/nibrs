@@ -4,4 +4,6 @@
 **/.project
 **/.DS_Store
 
-.Rproj.user
+**/.Rproj.user
+**/man/
+**/*.RData
