@@ -112,14 +112,18 @@ class AdministrativeRuleViolationExemplarFactory {
 			// days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx).
 			// In addition, days cannot exceed maximum for the month (e.g., June cannot have 31days).
 			// Also, the date cannot exceed the current date.
+			//
+			//Invalid Year of Tape
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setYearOfTape(0120);
 			copy.setMonthOfTape(5);
+			//Invalid Month of Tape
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy.setYearOfTape(2016);
 			copy.setMonthOfTape(13);
 			copy.setIncidentDate(Date.from(LocalDateTime.of(2016, 6, 31, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			//Invalid Exceptional Clearance date
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(3016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
@@ -164,6 +168,23 @@ class AdministrativeRuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		//TO-DO Rule 122
+		//Data Element 2A (Cargo Theft) can be Y=Yes only when Data Element 6 
+		//(UCR Offense Code) includes at least one of the following:
+		//120=Robbery
+		//		210=Extortion/Blackmail
+		//		220=Burglary/Breaking & Entering
+		//		23D=Theft From Building
+		//		23F=Theft From Motor Vehicle
+		//		24H=All Other Larceny
+		//		240=Motor Vehicle Theft
+		//		26A=False Pretenses/Swindle/Confidence Game
+		//		26B=Credit Card/Automated Teller Machine Fraud
+		//		26C=Impersonation
+		//		26E=Wire Fraud
+		//		270=Embezzlement
+		//		510=Bribery
+		
 		groupATweakerMap.put(151, incident -> {
 			// This field must be blank if the incident date is known. If the incident date is unknown,
 			// then the report date would be entered instead and must be indicated with an "R" in the AbstractReport

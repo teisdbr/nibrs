@@ -194,6 +194,12 @@ final class VictimRuleViolationExemplarFactory {
 				
 			});
 		
+		
+			//TO-DO Rule 449 
+			//Data Element 26 (Age of Victim) cannot be less than 18 years old when 
+			//Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse.
+		
+		
 		groupATweakerMap.put(450, incident -> {
 			//(Age of Victim) contains a relationship of SE=Spouse. When this is so, the //
 			//age of the victim cannot be less than 10 years.
@@ -206,6 +212,13 @@ final class VictimRuleViolationExemplarFactory {
 			return incidents;
 				
 			});
+		
+		//TO-DO Rule 451
+		//When a Group “A” Incident Report is submitted, the individual segments 
+		//comprising the incident cannot contain duplicates. In this case, two victim 
+		//segments were submitted having the same entry in Data Element 23 (Victim Sequence Number).
+		
+		
 		
 		groupATweakerMap.put(453, incident -> {
 			//(Age of Victim) The Data Element associated with this error must be 
@@ -289,20 +302,7 @@ final class VictimRuleViolationExemplarFactory {
 			
 		});
 		
-		groupATweakerMap.put(457, incident -> {
-			//Aggravated Assault Homicide Circumstances was entered, but Data Element 31 
-			//Aggravated Assault/Homicide Circumstances) does not reflect a justifiable homicide circumstance.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("09C");
-			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "34");
-			copy.getVictims().get(0).setAdditionalJustifiableHomicideCircumstances("C");
-						
-			incidents.add(copy);
-					
-			return incidents;
-			
-		});
+		
 		
 		groupATweakerMap.put(456, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) was entered with two entries, 
@@ -320,6 +320,22 @@ final class VictimRuleViolationExemplarFactory {
 			
 			
 		});
+		
+		groupATweakerMap.put(457, incident -> {
+			//Aggravated Assault Homicide Circumstances was entered, but Data Element 31 
+			//Aggravated Assault/Homicide Circumstances) does not reflect a justifiable homicide circumstance.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "34");
+			copy.getVictims().get(0).setAdditionalJustifiableHomicideCircumstances("C");
+						
+			incidents.add(copy);
+					
+			return incidents;
+			
+		});
+		
 		
 		groupATweakerMap.put(458, incident -> {
 			//The Data Element associated with this error cannot be entered 
@@ -443,6 +459,15 @@ final class VictimRuleViolationExemplarFactory {
 					
 		});
 		
+		//TO-DO Rule 466
+		//Each UCR Offense Code entered into Data Element 24
+		//(Victim Connected to UCR Offense Codes) must have the 
+		//Offense Segment for the value. In this case, the victim was
+		//connected to offenses that were not submitted as Offense Segments. 
+		//A victim cannot be connected to an offense when the offense itself is not present.
+		
+		
+		
 		groupATweakerMap.put(467, incident -> {
 			//UCR code contains a Crime Against Property, but Data Element 25 
 			//(Type of Victim) is S=Society. This is not an allowable code for Crime Against Property offenses.
@@ -495,6 +520,18 @@ final class VictimRuleViolationExemplarFactory {
 					
 		});
 		
+		//TO-DO groupATweakerMap.put(470, incident -> {
+		//Data Element 35 (Relationship of Victim to Offenders) has a relationship of 
+		//VO=Victim Was Offender. When this code is entered, a minimum of two victim 
+		//and two offender segments must be submitted. In this case, only one victim 
+		//and/or one offender segment was submitted. The entry of VO on one or more of
+		//the victims indicates situations such as brawls and domestic disputes. 
+		//In the vast majority of cases, each victim is also the offender; therefore, 
+		//every victim record would contain a VO code. However, there may be some 
+		//situations where only one of the victims is also the offender, but where 
+		//the other victim(s) is not also the offender(s).
+		
+		
 		//TO-DO groupATweakerMap.put(471, incident -> {
 		//(Offender Number to be Related) has relationships of VO=Victim Was Offender 
 		//that point to multiple offenders, which is an impossible situation. 
@@ -518,11 +555,21 @@ final class VictimRuleViolationExemplarFactory {
 			
 		});
 		
+		//TO-DO groupATweakerMap.put(474, incident -> {
+		//Segment Level 4 (Victim Segment) cannot be submitted multiple times with 
+		//VO=Victim Was Offender in Data Element 35 (Relationship of Victim to Offender)
+		//when Data Element 34 (Offender Number to be Related) contains the same data value (indicating the same offender).
+		
+		
 		//TO-DO groupATweakerMap.put(475, incident -> {
 			//(Offender Number to be Related) A victim can only have one
 			//spousal relationship. In this instance, the victim has a relationship of 
 			//SE=Spouse to two or more offenders.
 		
+		
+		//TO-DO groupATweakerMap.put(476, incident -> {
+		//An offender can only have one spousal relationship. In this instance, 
+		//two or more victims have a relationship of SE=Spouse to the same offender.
 		
 		groupATweakerMap.put(477, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) A victim segment was 
@@ -565,6 +612,15 @@ final class VictimRuleViolationExemplarFactory {
 			return incidents;
 			
 		});
+		
+		//TO-DO Rule 480 
+		//Data Element 31 (Aggravated Assault/Homicide Circumstances) has 
+		//08=Other Felony Involved but the incident has only one offense. 
+		//For this code to be used, there must be an Other Felony. Either 
+		//multiple entries for Data Element 6 (UCR Offense Code) should have 
+		//been submitted, or multiple individual victims should have been submitted for the incident report
+		
+		
 		groupATweakerMap.put(481, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
 			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.

@@ -47,6 +47,13 @@ final class PropertyRuleViolationExemplarFactory {
 
 	private void populateGroupAExemplarMap() {
 		
+		//TO-DO Rule 302 Estimated Quantity
+		//Must be numeric entry with zero left-fill. If Data Element 21 
+		//(Estimated Quantity) has the error, note that any decimal 
+		//fractional quantity must be expressed in thousandths as three numeric digits. 
+		//If no fractional quantity was involved, then all zeros should be entered.
+		
+		
 		groupATweakerMap.put(304, incident -> {
 			
 			// The referenced data element in a Group A Incident AbstractReport Segment 3 must
@@ -336,6 +343,15 @@ final class PropertyRuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		
+		//TO-DO Rule 343
+		//This warning is generated when a 280 Stolen Property Offense and a 
+		//240 Motor Vehicle Theft are submitted that contain questionable property 
+		//reporting. When the incident contains a recovered vehicle but does 
+		//not also have a stolen vehicle, this warning message is created.
+		//The incident should be reviewed and if there was indeed a stolen vehicle, 
+		//the incident should be resubmitted reflecting both stolen and recovered vehicles.
+		
 		groupATweakerMap.put(351, incident -> {
 			// Value of PropertySegment) cannot be zero unless Data Element 15 (PropertySegment Description) is:
 			//Mandatory zero
@@ -898,6 +914,20 @@ final class PropertyRuleViolationExemplarFactory {
 			
 		});
 			
+		//TO-DO Rule 365
+		//Data Element 20 (Suspected Drug Type) was entered, but one or more 
+		//required data elements were not entered. Data Element 6 (UCR Offense Code)
+		//must be 35A=Drug/Narcotic Violations, Data Element 14 (Type Property Loss/Etc.) 
+		//must be 6=Seized, and Data Element 15 (Property Description) must be 10=Drugs/Narcotics.
+		//There could be multiple underlying reasons causing this error to be detected. 
+		//One of them might be that Data Element 20 (Suspected Drug Type) was entered by mistake.
+		//Perhaps the code entered in Data Element 15 (Property Description) should have been 01=Aircraft, 
+		//but by entering the code as 10=Drugs/Narcotics, someone thought that Data Element 20 must be entered, etc.
+		
+		//TO-DO Rule 366
+		//Data Element 21 (Estimated Quantity) was entered, but 20 (Suspected Drug Type)
+		//and/or 22 (Type Measurement) were not entered; both must be entered.
+		
 		groupATweakerMap.put(367, incident -> {
 			//(Type Measurement) Data Element 22 (Type Measurement) was entered with 
 			//NP in combination with an illogical drug type. Based upon the various ways a 
@@ -1127,6 +1157,12 @@ final class PropertyRuleViolationExemplarFactory {
 			return incidents;
 		});	
 		
+		
+		//TO-DO Rule 368
+		//Data Element 22 (Type Measurement) was entered, but 20
+		//(Suspected Drug Type) and/or 21 (Estimated Quantity) were not entered; both must be entered.
+		
+		
 		groupATweakerMap.put(372, incident -> {
 			//Rule is staged while 
 			//awaiting response from Becki on validation for applicable entries' 
@@ -1320,9 +1356,19 @@ final class PropertyRuleViolationExemplarFactory {
 			return incidents;
 		});
 		
-		
+		//TO-DO Rule 376
+		//When a Group “A” Incident Report is submitted, the individual segments
+		//comprising the incident cannot contain duplicates. Example, two property segments
+		//cannot be submitted having the same entry in Data Element 14 (Type Property Loss/Etc.).
 		
 	
+		//TO-DO Rule 382
+		//Segment Level 3 (Property Segment) cannot be submitted with
+		//10=Drugs/Narcotics in Data Element 15 (Property Description) and 
+		//blanks in Data Element 16 (Value of Property) unless 
+		//	Data Element 6 (UCR Offense Code) is 35A=Drug/Narcotic Violations
+		
+		
 		groupATweakerMap.put(383, incident -> {
 			//(Value of PropertySegment) has a value other than zero entered. 
 			//Since Data Element 15 (PropertySegment Description) code is 10=Drugs/Narcotics and the only Crime Against PropertySegment 
@@ -3434,33 +3480,7 @@ final class PropertyRuleViolationExemplarFactory {
 			return incidents;
 		});	
 		
-		groupATweakerMap.put(392, incident -> {
-			//(Suspected Drug Type) An offense of 35A Drug/Narcotic Violations and Data Element 14 
-			//(Type Property Loss/Etc.) with 1=None were entered but Data Element 20 
-			//(Suspected Drug Type) was not submitted. Since a drug seizure did not occur, 
-			//the suspected drug type must also be entered. (This error was formerly error number 341, a warning message.)
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("35A");
-			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
-			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
-			copy.getOffenses().get(0).setBiasMotivation(0, "88");
-			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setMethodOfEntry("N");
-			PropertySegment property = new PropertySegment();
-			property.setTypeOfPropertyLoss("1");
-			property.setPropertyDescription(0, "10");
-			property.setSuspectedDrugType(0, null);
-			property.setEstimatedDrugQuantity(0, 1.0);
-			property.setTypeDrugMeasurement(0, "OZ");
-			property.setValueOfProperty(0, 10000);
-			
-			
-			incidents.add(copy);
-			copy.addProperty(property);
-						
-			return incidents;
-		});	
+		
 		
 	}
 	

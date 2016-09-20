@@ -71,6 +71,10 @@ final class OffenderRuleViolationExemplarFactory {
 			return incidents;
 		});
 
+		//TO-DO Rule 502
+		//Data Element 36 (Offender Sequence Number) must contain numeric entry (00 through 99) with zero left-fill.
+		
+		
 		groupATweakerMap.put(504, incident -> {
 			//(Age of Offender) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
@@ -145,6 +149,12 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
+		
+		//TO-DO Rule 549 
+		//Data Element 37 (Age of Offender) cannot be less than 18 years old 
+		//when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse.
+		
+		
 		groupATweakerMap.put(550,incident -> {
 			//(Age of Offender) cannot be less than 10 years old when 
 			//Data Element 35 (Relationship of Victim to Offender) 
@@ -159,6 +169,13 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 			
+		
+		//TO-DO Rule 551
+		//When a Group “A” Incident Report is submitted, the individual 
+		//segments comprising the incident cannot contain duplicates. 
+		//In this case, two Offender Segments were submitted having the same entry in Data Element 36 (Offender Sequence Number)
+		
+		
 		groupATweakerMap.put(552,incident -> {
 			//(Age of Offender Data Element 38 (Sex of Offender), and Data Element 39 
 			//(Race of Offender) cannot be entered when Data Element 36 
@@ -279,6 +296,14 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
+		
+		
+		//TO-DO Rule 555
+		//When multiple Offender Segments are submitted, none can contain a 
+		//00=Unknown value because the presence of 00 indicates that the number of 
+		//offenders is unknown. In this case, multiple offenders were submitted,
+		//but one of the segments contains the 00=Unknown value.
+		
 		groupATweakerMap.put(556,incident -> {
 			//(Age of Offender) must contain numeric entry of 00 through 99.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
@@ -306,6 +331,25 @@ final class OffenderRuleViolationExemplarFactory {
 		
 		});
 		
+		
+		//TO-DO Rule 558 
+		//None of the Offender Segments contain all known values for Age, Sex, 
+		//and Race. When an Incident is cleared exceptionally (Data Element 4 
+		//contains an A through E), one offender must have all known values.
+		
+		//TO-DO Rule 559
+		//The incident was submitted with Data Element 6 (UCR Offense Code)
+		//value of 09C=Justifiable Homicide, but unknown information was submitted
+		//for all the offender(s). At least one of the offenders must have known
+		//information for Age, Sex, and Race.
+		
+		//TO-DO Rule 560
+		//Segment Level 5 (Offender Segment) must contain a data value for 
+		//at least one offender in Data Element 38 (Sex of Offender) that is 
+		//not the same sex that is entered in Data Element 27 (Sex of Victim) when Data Element 6 (UCR Offense Code) is 11A=Rape.
+		
+		
+						
 		groupATweakerMap.put(572,incident -> {
 			//Data Element 37 (Age of Offender) If Data Element 37 (Age of Offender) is 
 			//00=Unknown, Data Element 38 (Sex of Offender) is U=Unknown, and 
@@ -321,6 +365,11 @@ final class OffenderRuleViolationExemplarFactory {
 			
 			return incidents;
 			
-		});		
+		});	
+		
+			
+		
+		
+		
 	}	
 }
