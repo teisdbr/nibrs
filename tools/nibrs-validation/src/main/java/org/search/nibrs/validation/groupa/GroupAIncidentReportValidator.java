@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.validation.rules.Rule;
 
 /**
@@ -16,13 +19,31 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportValidator {
 	
 	private List<Rule<GroupAIncidentReport>> incidentReportRules = new ArrayList<>();
+	
 	private List<Rule<OffenseSegment>> offenseSegmentRules = new ArrayList<>();
+	
 	private List<Rule<PropertySegment>> propertySegmentRules = new ArrayList<>();
 	
+	private List<Rule<VictimSegment>> victimSegmentRuleList;
+	
+	private List<Rule<OffenderSegment>> offenderSegmentRuleList;
+	
+	private List<Rule<ArresteeSegment>> arresteeSegmentRuleList;
+	
+	
 	public GroupAIncidentReportValidator() {
+		
 		incidentReportRules = new GroupAIncidentReportRulesFactory().getRulesList();
+		
 		offenseSegmentRules = new OffenseSegmentRulesFactory().getRulesList();
+		
 		propertySegmentRules = new PropertySegmentRulesFactory().getRulesList();
+				
+		victimSegmentRuleList = VictimSegmentRulesFactory.instance().getRulesList();
+		
+		offenderSegmentRuleList = OffenderSegmentRulesFactory.instance().getRulesList();
+		
+		arresteeSegmentRuleList = ArresteeSegmentRulesFactory.instance().getRulesList();
 	}
 
 	public List<NIBRSError> validate(GroupAIncidentReport groupAIncidentReport) {
