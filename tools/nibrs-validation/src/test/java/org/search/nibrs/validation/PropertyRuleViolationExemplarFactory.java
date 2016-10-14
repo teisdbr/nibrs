@@ -313,7 +313,7 @@ final class PropertyRuleViolationExemplarFactory {
 			//In this case, Segment Level 3 (Property Segment) will contain A=Add, 
 			//but the data value in Data Element 2 (Incident Number) will not match an incident already 
 			//on file in the national UCR database. The segment will be processed, 
-			//but used only for SRS purposes and will not be included in the agencyï¿½s NIBRS figures.
+			//but used only for SRS purposes and will not be included in the agencys NIBRS figures.
 			
 			return incidents;
 		});
@@ -1357,7 +1357,7 @@ final class PropertyRuleViolationExemplarFactory {
 		});
 		
 		//TO-DO Rule 376
-		//When a Group “A” Incident Report is submitted, the individual segments
+		//When a Group A Incident Report is submitted, the individual segments
 		//comprising the incident cannot contain duplicates. Example, two property segments
 		//cannot be submitted having the same entry in Data Element 14 (Type Property Loss/Etc.).
 		
@@ -3417,9 +3417,9 @@ final class PropertyRuleViolationExemplarFactory {
 			//(Value of PropertySegment) must be zero when Data Element 15 (PropertySegment Description) is:
 			//09=Credit/Debit Cards
 			//22=Non-negotiable Instruments
-			//48=Documentsï¿½Personal or Business
+			//48=DocumentsPersonal or Business
 			//65=Identity Documents
-			//66=Identityï¿½Intangible
+			//66=IdentityIntangible
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			
 			Set<String> descriptionValues = new HashSet<>();

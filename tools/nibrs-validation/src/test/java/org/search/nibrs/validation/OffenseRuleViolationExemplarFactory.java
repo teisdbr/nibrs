@@ -213,8 +213,8 @@ final class OffenseRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(219, incident -> {
 			//TO-DO Incomplete scenarios.
-			//(Type Criminal Activity/Gang Information) Type criminal activity codes of “B”, “C”, “D”, “E”, “O”, “P”, “T”,
-			//or “U” can only be entered when the UCR Offense Code is:
+			//(Type Criminal Activity/Gang Information) Type criminal activity codes of B, C, D, E, O, P, T,
+			//or U can only be entered when the UCR Offense Code is:
 			//250=Counterfeiting/Forgery
 			//280=Stolen Property Offenses
 			//35A=Drug/Narcotic Violations
@@ -222,7 +222,7 @@ final class OffenseRuleViolationExemplarFactory {
 			//39C=Gambling Equipment Violations
 			//370=Pornography/Obscene Material
 			//520=Weapon Law Violations
-			//(Type Criminal Activity/Gang Information) Gang information codes of “J”, “G”, and “N” can only be entered
+			//(Type Criminal Activity/Gang Information) Gang information codes of J, G, and N can only be entered
 			//when the UCR Offense Code is:09A=Murder and Non-negligent Manslaughter
 			//09B=Negligent Manslaughter
 			//100=Kidnapping/Abduction
@@ -235,7 +235,7 @@ final class OffenseRuleViolationExemplarFactory {
 			//13B=Simple Assault
 			//13C=Intimidation
 			//(Type Criminal Activity/Gang Information) Criminal Activity codes of 
-			//“A”, “F”, “I”, and “S” can only be entered when the UCR Offense Code is:
+			//A, F, I, and S can only be entered when the UCR Offense Code is:
 			//720=Animal Cruelty
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -807,7 +807,7 @@ final class OffenseRuleViolationExemplarFactory {
 		groupATweakerMap.put(268, incident -> {
 			//(Offense Segment) Cannot be submitted with a data value for a 
 			//motor vehicle in Data Element 15 (Property Description) when Data Element 6 
-			//(UCR Offense Code) contains an offense of (23A–23H)=Larceny/Theft Offenses; 
+			//(UCR Offense Code) contains an offense of (23A23H)=Larceny/Theft Offenses; 
 			//stolen vehicles cannot be reported for a larceny
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);

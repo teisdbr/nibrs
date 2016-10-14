@@ -171,7 +171,7 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		
 		//TO-DO Rule 551
-		//When a Group “A” Incident Report is submitted, the individual 
+		//When a Group A Incident Report is submitted, the individual 
 		//segments comprising the incident cannot contain duplicates. 
 		//In this case, two Offender Segments were submitted having the same entry in Data Element 36 (Offender Sequence Number)
 		
@@ -213,10 +213,10 @@ final class OffenderRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(553,incident -> {
 			//(Sex of Offender) has a relationship that is inconsistent with the 
-			//offender’s sex. The sex of the victim and/or offender must reflect 
+			//offenders sex. The sex of the victim and/or offender must reflect 
 			//the implied relationship. For example, if the relationship of the 
-			//to offender is Homosexual Relationship, then the victim’s sex must be the same 
-			//as the offender’s sex. The following relationships must reflect either the Same 
+			//to offender is Homosexual Relationship, then the victims sex must be the same 
+			//as the offenders sex. The following relationships must reflect either the Same 
 			//or Different sex codes depending upon this relationship:
 			//Relationship Sex Code
 			//
@@ -254,12 +254,12 @@ final class OffenderRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(554,incident -> {
 			//(Age of Offender) has a relationship that is inconsistent with the 
-			//offender’s age. The age of the victim and/or offender must reflect 
+			//offenders age. The age of the victim and/or offender must reflect 
 			//the implied relationship. For example, if the relationship of the victim 
-			//to offender is PA=Parent, then the victim’s age must be greater than 
-			//the offender’s age. The following relationships must be consistent with 
-			//the victim’s age in relation to the offender’s age:
-			//Relationship Victim’s Age Is:
+			//to offender is PA=Parent, then the victims age must be greater than 
+			//the offenders age. The following relationships must be consistent with 
+			//the victims age in relation to the offenders age:
+			//Relationship Victims Age Is:
 			//CH=Victim was Child Younger
 			//PA=Victim was Parent Older
 			//GP=Victim was Grandparent Older

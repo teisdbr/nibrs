@@ -214,7 +214,7 @@ final class VictimRuleViolationExemplarFactory {
 			});
 		
 		//TO-DO Rule 451
-		//When a Group “A” Incident Report is submitted, the individual segments 
+		//When a Group A Incident Report is submitted, the individual segments 
 		//comprising the incident cannot contain duplicates. In this case, two victim 
 		//segments were submitted having the same entry in Data Element 23 (Victim Sequence Number).
 		
@@ -601,7 +601,7 @@ final class VictimRuleViolationExemplarFactory {
 			//A Simple Assault (13B) was committed against a victim, but the 
 			//victim had major injuries/trauma entered for Data Element 33 (Type Injury). 
 			//Either the offense should have been classified as an Aggravated Assault (13A) 
-			//or the victimï¿½s injury should not have been entered as major.
+			//or the victims injury should not have been entered as major.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("13B");
@@ -658,7 +658,7 @@ final class VictimRuleViolationExemplarFactory {
 	
 		groupATweakerMap.put(483, incident -> {
 			//(Type of Officer Activity/Circumstance) Data Element 25B (Officer Assignment Type), 
-			//Data Element 25C (Officerï¿½ORI Other Jurisdiction), Data Element 26 (Age of Victim), 
+			//Data Element 25C (OfficerORI Other Jurisdiction), Data Element 26 (Age of Victim), 
 			//Data Element 27 (Sex of Victim), Data Element 28 (Race of Victim), 
 			//Data Element 29 (Ethnicity of Victim), Data Element 30 (Resident Status of Victim), and 
 			//Data Element 34 (Offender Number to be Related) can only be entered when 

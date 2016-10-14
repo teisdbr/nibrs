@@ -253,7 +253,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			// A Group A Incident AbstractReport was submitted with a date entered into Data Element 3 (Incident Date/Hour)
 			// that is earlier than January 1 of the previous year, using the Month of Tape and Year of Tape as a reference point,
 			// e.g., if the Month of Tape and Year of Tape contain a value of 01/1999, but the incident date is 12/25/1997, the incident will be rejected.
-			// Volume 2, section I, provides specifications concerning the FBI�s 2-year database.
+			// Volume 2, section I, provides specifications concerning the FBIs 2-year database.
 			// For example, the May 1999 electronic submission cannot contain incidents happening after this date.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);

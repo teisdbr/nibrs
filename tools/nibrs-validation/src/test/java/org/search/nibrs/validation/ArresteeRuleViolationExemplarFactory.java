@@ -127,8 +127,10 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy19);
 			incidents.add(copy20);
 			incidents.add(copy21);
-			incidents.add(copy22);
-			incidents.add(copy23);
+			
+			// TODO create and enable, if needed (for tests to pass)
+//			incidents.add(copy22);
+//			incidents.add(copy23);
 			
 			return incidents;
 		});
@@ -240,8 +242,8 @@ final class ArresteeRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(617, incident -> {
 			//(Arrest Transaction Number) Must contain a valid character combination of the following:
-			//A–Z (capital letters only)
-			//0–9
+			//AZ (capital letters only)
+			//09
 			//Hyphen
 			//Example: 11-123-SC is valid, but 11+123*SC is not valid
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
@@ -307,7 +309,7 @@ final class ArresteeRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(652, incident -> {
 			//(Disposition of Arrestee Under 18) was not entered, but Data Element 47 
-			//(Age of Arrestee) is under 18. Whenever an arrestee’s age indicates a juvenile, 
+			//(Age of Arrestee) is under 18. Whenever an arrestees age indicates a juvenile, 
 			//the disposition must be entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
@@ -321,7 +323,7 @@ final class ArresteeRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(653, incident -> {
 			//(Disposition of Arrestee Under 18) was entered, but Data Element 47 
-			//(Age of Arrestee) is 18 or greater. Whenever an arrestee’s age indicates an adult, 
+			//(Age of Arrestee) is 18 or greater. Whenever an arrestees age indicates an adult, 
 			//the juvenile disposition cannot be entered because it does not apply.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
