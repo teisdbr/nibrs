@@ -7,7 +7,10 @@ import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.RaceOfVictimCode;
+import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
+import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
@@ -39,15 +42,27 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(victimConnectedToUcrOffenseCode401Rule());
 		
 		rulesList.add(victimConnectedToUcrOffenseCodeDuplicateValues406Rule());
+				
+		rulesList.add(typeOfVictim401Rule());
+		
+		rulesList.add(typeOfOfficerActivityCircumstance404Rule());
+		
+		rulesList.add(officerAssignmentType404Rule());
+				
+		rulesList.add(officerOriOtherJurisdiction404Rule());
+		
+		rulesList.add(ageOfVictim404Rule());
+		
+		rulesList.add(sexOfVictim404Rule());		
+		
+		rulesList.add(raceOfVictim404Rule());		
 	}
 	
-	
-
+		
 	public List<Rule<VictimSegment>> getRulesList() {
 		return rulesList;
 	}
-	
-	
+		
 	public Rule<VictimSegment> victimSequenceNumber401Rule(){
 		
 		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
@@ -55,8 +70,7 @@ public class VictimSegmentRulesFactory {
 		
 		return notBlankRule;
 	}
-	
-	
+		
 	public Rule<VictimSegment> victimConnectedToUcrOffenseCode401Rule() {
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
@@ -72,16 +86,16 @@ public class VictimSegmentRulesFactory {
 		
 		return duplicateCodedValueRule;
 	}	
-	
-	
+		
 	// TODO victimConnectedToUcrOffenseCodeMutexOffences478	
 	
 	public Rule<VictimSegment> typeOfVictim401Rule(){
+								
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
+				TypeOfVictimCode.codeSet());
 		
-		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>("typeOfVictim", 
-				"25", VictimSegment.class, NIBRSErrorCode._401);
-				
-		return notBlankRule;
+		return validValueListRule;
 	}
 	
 	// TODO 461
@@ -99,7 +113,56 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 	
-				
+	// TODO 454
+	// TODO 483
+	
+	public Rule<VictimSegment> officerAssignmentType404Rule(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"officerAssignmentType", "25B", VictimSegment.class, NIBRSErrorCode._404, 
+				TypeOfOfficerActivityCircumstance.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	public Rule<VictimSegment> officerOriOtherJurisdiction404Rule(){
+
+		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
+				"officerOtherJurisdictionORI", "25C", VictimSegment.class, NIBRSErrorCode._404);
+		
+		//TODO validate values: A-Z, 0-9
+		
+		return notBlankRule;
+	}
+	
+	
+	public Rule<VictimSegment> ageOfVictim404Rule(){
+		
+		//TODO maybe use AgeOfVictimCode enum to validate values. range is tricky
+		
+		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
+				"age", "26", VictimSegment.class, NIBRSErrorCode._404);
+		
+		return notBlankRule;
+	}
+
+	public Rule<VictimSegment> sexOfVictim404Rule(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	
+	public Rule<VictimSegment> raceOfVictim404Rule(){
+	
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"race", "28", VictimSegment.class, NIBRSErrorCode._404, RaceOfVictimCode.codeSet());
+		
+		return validValueListRule;
+	}
+	
 }
 
 
