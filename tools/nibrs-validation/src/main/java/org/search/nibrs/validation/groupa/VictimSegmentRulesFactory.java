@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.RaceOfVictimCode;
+import org.search.nibrs.model.codes.ResidentStatusOfVictimCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
@@ -56,6 +58,10 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(sexOfVictim404Rule());		
 		
 		rulesList.add(raceOfVictim404Rule());		
+		
+		rulesList.add(ethnicityOfVictim404Rule());
+		
+		rulesList.add(residentStatusOfVictim404Rule());
 	}
 	
 		
@@ -159,6 +165,25 @@ public class VictimSegmentRulesFactory {
 	
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
 				"race", "28", VictimSegment.class, NIBRSErrorCode._404, RaceOfVictimCode.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	public Rule<VictimSegment> ethnicityOfVictim404Rule(){
+		
+		//TODO account for element being optional based on typeOfVicitmValue  
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"ethnicity", "29", VictimSegment.class, NIBRSErrorCode._404, EthnicityOfVictim.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	public Rule<VictimSegment> residentStatusOfVictim404Rule(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"residentStatusOfVictim", "30", VictimSegment.class, NIBRSErrorCode._404, 
+				ResidentStatusOfVictimCode.codeSet());
 		
 		return validValueListRule;
 	}
