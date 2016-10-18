@@ -28,7 +28,7 @@ public enum AgeOfVictimCode {
 	private String description;
 	
 	
-	public Set<String> codeSet(){
+	public static Set<String> codeSet(){
 		
 		Set<String> rCodeSet = new HashSet<>();
 		
