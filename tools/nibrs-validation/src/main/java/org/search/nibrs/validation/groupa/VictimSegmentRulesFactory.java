@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -65,7 +66,15 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(residentStatusOfVictim404Rule());
 		
-		rulesList.add(aggravatedAssaultHomicide404Rule());
+		rulesList.add(aggravatedAssaultHomicideNotBlank404Rule());
+		
+		rulesList.add(aggravatedAssaultHomicideNoDuplicates406Rule());
+		
+		rulesList.add(additionalJustifiableHomicideCircumstances404Rule());
+		
+		rulesList.add(typeInjuryNotAllBlank404Rule());
+		
+		rulesList.add(typeInjuryNoDuplicates406Rule());
 	}
 	
 		
@@ -192,7 +201,7 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 	
-	public Rule<VictimSegment> aggravatedAssaultHomicide404Rule(){
+	public Rule<VictimSegment> aggravatedAssaultHomicideNotBlank404Rule(){
 		
 		//TODO add condition on victimConnected-to-ucrOffense code
 		
@@ -202,12 +211,38 @@ public class VictimSegmentRulesFactory {
 		return notAllBlankRule;
 	}
 	
-	public Rule<VictimSegment> aggravatedAssaultHomicide406Rule(){
+	public Rule<VictimSegment> aggravatedAssaultHomicideNoDuplicates406Rule(){
 
 		DuplicateCodedValueRule<VictimSegment> duplicateValueRule = new DuplicateCodedValueRule<VictimSegment>(
 				"aggravatedAssaultHomicideCircumstances", "31", VictimSegment.class, NIBRSErrorCode._406);
 		
 		return duplicateValueRule;		
+	}
+	
+	public Rule<VictimSegment> additionalJustifiableHomicideCircumstances404Rule(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"additionalJustifiableHomicideCircumstances", "32", VictimSegment.class, 
+				NIBRSErrorCode._404, AdditionalJustifiableHomicideCircumstancesCode.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	
+	public Rule<VictimSegment> typeInjuryNotAllBlank404Rule(){
+		
+		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("typeOfInjury", 
+				"typeOfInjury", VictimSegment.class, NIBRSErrorCode._404);
+		
+		return notAllBlankRule;
+	}
+	
+	public Rule<VictimSegment> typeInjuryNoDuplicates406Rule(){
+		
+		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<VictimSegment>(
+				"typeOfInjury",	"33", VictimSegment.class, NIBRSErrorCode._406);
+		
+		return duplicateCodedValueRule;
 	}
 	
 }
