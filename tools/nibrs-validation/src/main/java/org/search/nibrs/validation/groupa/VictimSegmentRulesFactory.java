@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
@@ -14,6 +15,7 @@ import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
+import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
@@ -62,6 +64,8 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(ethnicityOfVictim404Rule());
 		
 		rulesList.add(residentStatusOfVictim404Rule());
+		
+		rulesList.add(aggravatedAssaultHomicide404Rule());
 	}
 	
 		
@@ -186,6 +190,24 @@ public class VictimSegmentRulesFactory {
 				ResidentStatusOfVictimCode.codeSet());
 		
 		return validValueListRule;
+	}
+	
+	public Rule<VictimSegment> aggravatedAssaultHomicide404Rule(){
+		
+		//TODO add condition on victimConnected-to-ucrOffense code
+		
+		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>(
+				"aggravatedAssaultHomicideCircumstances", "31", VictimSegment.class, NIBRSErrorCode._404);
+				
+		return notAllBlankRule;
+	}
+	
+	public Rule<VictimSegment> aggravatedAssaultHomicide406Rule(){
+
+		DuplicateCodedValueRule<VictimSegment> duplicateValueRule = new DuplicateCodedValueRule<VictimSegment>(
+				"aggravatedAssaultHomicideCircumstances", "31", VictimSegment.class, NIBRSErrorCode._406);
+		
+		return duplicateValueRule;		
 	}
 	
 }
