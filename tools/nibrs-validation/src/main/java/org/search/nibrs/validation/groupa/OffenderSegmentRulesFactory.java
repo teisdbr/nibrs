@@ -96,12 +96,3 @@ public class OffenderSegmentRulesFactory {
 
 
 
-
-
-
-
-
-
-
-
-
