@@ -11,7 +11,7 @@ import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.RaceOfVictimCode;
-import org.search.nibrs.model.codes.ResidentStatusOfVictimCode;
+import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
@@ -202,7 +202,7 @@ public class VictimSegmentRulesFactory {
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
 				"residentStatusOfVictim", "30", VictimSegment.class, NIBRSErrorCode._404, 
-				ResidentStatusOfVictimCode.codeSet());
+				ResidentStatusCode.codeSet());
 		
 		return validValueListRule;
 	}

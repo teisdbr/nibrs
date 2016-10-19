@@ -7,7 +7,7 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.EthnicityOfOffender;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
-import org.search.nibrs.model.codes.RaceOfOffender;
+import org.search.nibrs.model.codes.RaceOfOffenderCode;
 import org.search.nibrs.model.codes.SexOfOffenderCode;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
@@ -79,7 +79,7 @@ public class OffenderSegmentRulesFactory {
 	public Rule<OffenderSegment> raceOfOffenderValidValue504Rule(){
 		
 		ValidValueListRule<OffenderSegment> validValueListRule = new ValidValueListRule<OffenderSegment>("race", 
-				"39", OffenderSegment.class, NIBRSErrorCode._504, RaceOfOffender.codeSet());
+				"39", OffenderSegment.class, NIBRSErrorCode._504, RaceOfOffenderCode.codeSet());
 		
 		return validValueListRule;		
 	}

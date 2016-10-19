@@ -5,8 +5,12 @@ import java.util.List;
 
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
+import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.RaceOfArresteeCode;
+import org.search.nibrs.model.codes.ResidentStatusCode;
+import org.search.nibrs.model.codes.SexOfArresteeCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NotAllBlankRule;
@@ -42,6 +46,16 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
 		
 		rulesList.add(arresteeWasArmedWithNoDuplicates606Rule());
+		
+		rulesList.add(ageOfArresteeNotBlank601Rule());
+		
+		rulesList.add(sexOfArresteeNotBlank601Rule());
+		
+		rulesList.add(sexOfArresteeValidValue667Rule());
+		
+		rulesList.add(raceOfArresteeNotBlank601Rule());
+		
+		rulesList.add(ethnicityOfArresteeNotBlank604Rule());
 	}
 	
 	
@@ -107,7 +121,61 @@ public class ArresteeSegmentRulesFactory {
 		return duplicateValueRule;
 	}
 	
+	public Rule<ArresteeSegment> autoWeaponIndicatorNotBlank604Rule(){
+		//TODO depends on 3rd element
+		return null;
+	}
 	
+	public Rule<ArresteeSegment> ageOfArresteeNotBlank601Rule(){
+		
+		//TODO validate range
+		
+		NotBlankRule<ArresteeSegment> notBlankRule = new NotBlankRule<ArresteeSegment>("age", 
+				"47", ArresteeSegment.class, NIBRSErrorCode._601);
+		
+		return notBlankRule;
+	}
+	
+	public Rule<ArresteeSegment> sexOfArresteeNotBlank601Rule(){
+		
+		NotBlankRule<ArresteeSegment> notBlankRule = new NotBlankRule<ArresteeSegment>("sex", 
+				"49", ArresteeSegment.class, NIBRSErrorCode._601);
+		
+		return notBlankRule;
+	}
+	
+	public Rule<ArresteeSegment> sexOfArresteeValidValue667Rule(){
+		
+		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("sex", 
+		"49", ArresteeSegment.class, NIBRSErrorCode._667, SexOfArresteeCode.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	public Rule<ArresteeSegment> raceOfArresteeNotBlank601Rule(){
+		
+		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("race", 
+				"49", ArresteeSegment.class, NIBRSErrorCode._601, RaceOfArresteeCode.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	public Rule<ArresteeSegment> ethnicityOfArresteeNotBlank604Rule(){
+		
+		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("ethnicity", 
+				"50", ArresteeSegment.class, NIBRSErrorCode._604, EthnicityOfArrestee.codeSet());
+		
+		return validValueListRule;
+	}
+	
+	public Rule<ArresteeSegment> residentStatusOfArresteeNotBlank604Code(){
+		
+		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("residentStatusOfArrestee", 
+				"51", ArresteeSegment.class, NIBRSErrorCode._604, ResidentStatusCode.codeSet());
+		
+		return validValueListRule;
+		
+	}
 		
 	public static ArresteeSegmentRulesFactory instance(){
 		
