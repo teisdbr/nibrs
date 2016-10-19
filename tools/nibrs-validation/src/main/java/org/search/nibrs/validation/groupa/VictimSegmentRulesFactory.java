@@ -75,6 +75,12 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(typeInjuryNotAllBlank404Rule());
 		
 		rulesList.add(typeInjuryNoDuplicates406Rule());
+		
+		rulesList.add(offenderNumberToBeRelatedNotAllBlank404Rule());
+		
+		rulesList.add(offenderNumberToBeRelatedNotAllBlank404Rule());
+		
+		rulesList.add(relationshipOfVictimToOffenderNotAllBlank404Rule());
 	}
 	
 		
@@ -244,7 +250,31 @@ public class VictimSegmentRulesFactory {
 		
 		return duplicateCodedValueRule;
 	}
+		
+	public Rule<VictimSegment> offenderNumberToBeRelatedNotAllBlank404Rule(){
+		
+		//TODO add condition		
+		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("offenderNumberRelated", 
+				"34", VictimSegment.class, NIBRSErrorCode._404);
+		
+		return notAllBlankRule;
+	}
+	
+	public Rule<VictimSegment> offenderNumberToBeRelatedNoDuplicates406Rule(){
+		
+		DuplicateCodedValueRule<VictimSegment> noDuplicateRule = new DuplicateCodedValueRule<VictimSegment>("offenderNumberRelated", 
+				"34", VictimSegment.class, NIBRSErrorCode._406);
+		
+		return noDuplicateRule;
+	}
+	
+	public Rule<VictimSegment> relationshipOfVictimToOffenderNotAllBlank404Rule(){
+		
+		//TODO add condition
+		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("victimOffenderRelationship", 
+				"35", VictimSegment.class, NIBRSErrorCode._404);
+		
+		return notAllBlankRule;		
+	}
 	
 }
-
-
