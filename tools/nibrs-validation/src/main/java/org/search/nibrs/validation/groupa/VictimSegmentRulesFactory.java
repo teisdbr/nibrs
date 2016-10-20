@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
@@ -88,6 +90,8 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(typeOfVictimCrimeAgainstPropertyRule467());
 		
 		rulesList.add(typeOfVictimLawOfficerRule482());
+		
+		rulesList.add(typeOfficerActivityRequiredFieldsRule454());
 	}
 	
 		
@@ -329,6 +333,11 @@ public class VictimSegmentRulesFactory {
 	}
 	
 		
+	/**
+	 * (Type of Officer Activity/Circumstance) The referenced data element in a
+	 * Group A Incident Report must be populated with a valid data value and
+	 * cannot be blank.
+	 */
 	public Rule<VictimSegment> typeOfOfficerActivityCircumstance404Rule(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
@@ -338,7 +347,58 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 	
-	// TODO 454
+		
+	/**
+	 * (Type of Officer Activity/Circumstance), Data Element 25B (Officer
+	 * Assignment Type), Data Element 26 (Age of Victim), Data Element 27 (Sex
+	 * of Victim), and Data Element 28 (Race of Victim) must be entered when
+	 * Data Element 25 (Type of Victim) is L=Law Enforcement Officer.
+	 */
+	public Rule<VictimSegment> typeOfficerActivityRequiredFieldsRule454(){
+		
+		Rule<VictimSegment> typeOfficerReqFieldsRule = new Rule<VictimSegment>(){
+
+			NIBRSError rNibrsError = null;
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
+				
+				if(victimIsLawOfficer){
+										
+					String circumstance = victimSegment.getTypeOfOfficerActivityCircumstance();
+					
+					String assignmentType = victimSegment.getOfficerAssignmentType();
+					
+					NIBRSAge age = victimSegment.getAge();
+					
+					String victimSex = victimSegment.getSex();
+					
+					String victimRace = victimSegment.getRace();	
+					
+					if(StringUtils.isEmpty(circumstance) 
+							|| StringUtils.isEmpty(assignmentType)
+							|| age == null
+							|| StringUtils.isEmpty(victimSex)
+							|| StringUtils.isEmpty(victimRace)){
+						
+						rNibrsError = victimSegment.getErrorTemplate();
+						
+						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
+						rNibrsError.setDataElementIdentifier("25A");						
+					}					
+				}								
+				return rNibrsError;
+			}
+		};			
+		return typeOfficerReqFieldsRule;
+	}
+	
+	
+	
 	// TODO 483
 	
 	public Rule<VictimSegment> officerAssignmentType404Rule(){
