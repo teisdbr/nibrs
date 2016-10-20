@@ -92,6 +92,8 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(typeOfVictimLawOfficerRule482());
 		
 		rulesList.add(typeOfficerActivityRequiredFieldsRule454());
+		
+		rulesList.add(sexOfVictimForIndividual453Rule());
 	}
 	
 		
@@ -438,6 +440,35 @@ public class VictimSegmentRulesFactory {
 		
 		return validValueListRule;
 	}
+	
+	
+	public Rule<VictimSegment> sexOfVictimForIndividual453Rule(){
+		
+		Rule<VictimSegment> sexOfIndividualRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
+								
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
+				
+				boolean containsSexCode = StringUtils.isNotEmpty(victimSegment.getSex());
+				
+				if(isIndividual && !containsSexCode){
+					
+					rNibrsError = victimSegment.getErrorTemplate();
+					
+					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
+					rNibrsError.setDataElementIdentifier("27");
+				}								
+				return rNibrsError;
+			}						
+		}; 		
+		return sexOfIndividualRule;		
+	}	
 	
 	
 	public Rule<VictimSegment> raceOfVictim404Rule(){
