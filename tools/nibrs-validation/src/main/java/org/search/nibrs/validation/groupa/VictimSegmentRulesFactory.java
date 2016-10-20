@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
@@ -86,6 +84,10 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(relationshipOfVictimToOffenderNotAllBlank404Rule());
 		
 		rulesList.add(typeOfVictimCrimeAgainstSocietyRule465());
+		
+		rulesList.add(typeOfVictimCrimeAgainstPropertyRule467());
+		
+		rulesList.add(typeOfVictimLawOfficerRule482());
 	}
 	
 		
@@ -280,9 +282,52 @@ public class VictimSegmentRulesFactory {
 	}
 	
 	
+	/**
+	 * (Type of Victim) cannot be L=Law Enforcement Officer unless Data Element
+	 * 24 (Victim Connected to UCR Offense Code) is one of the following:
+	 * 09A=Murder & Non-negligent Manslaughter 13A=Aggravated Assault 13B=Simple
+	 * Assault 13C=Intimidation
+	 */
+	public Rule<VictimSegment> typeOfVictimLawOfficerRule482(){
+		
+		Rule<VictimSegment> typeVictimLawOfficerRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+				
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean isLawOfficerVictimType = TypeOfVictimCode.L.equals(sVictimType);
+				
+				if(isLawOfficerVictimType){
+					
+					List<String> lawOfficerVictimOffenseList = Arrays.asList(
+							OffenseCode._09A.code, OffenseCode._13A.code,
+							OffenseCode._13B.code, OffenseCode._13C.code);
+					
+					List<String> victimOffenseList = victimSegment.getUcrOffenseCodeList();					
+					
+					for(String victimOffense : victimOffenseList){
+						
+						if(!lawOfficerVictimOffenseList.contains(victimOffense)){
+							
+							rNIBRSError = victimSegment.getErrorTemplate();
+							
+							rNIBRSError.setDataElementIdentifier("25");
+							rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._482);
+						};
+					}					
+				}
+				
+				return rNIBRSError;
+			}			
+		};
+		
+		return typeVictimLawOfficerRule;
+	}
 	
-	
-	// TODO 482
 		
 	public Rule<VictimSegment> typeOfOfficerActivityCircumstance404Rule(){
 		
