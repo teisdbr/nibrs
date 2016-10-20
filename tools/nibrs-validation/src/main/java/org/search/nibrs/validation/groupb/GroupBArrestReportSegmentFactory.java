@@ -3,16 +3,16 @@ package org.search.nibrs.validation.groupb;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.GroupBIncidentReport;
 import org.search.nibrs.validation.rules.Rule;
 
 public class GroupBArrestReportSegmentFactory {
 
-	private List<Rule<PropertySegment>> rulesList;
+	private List<Rule<GroupBIncidentReport>> rulesList;
 
 	public GroupBArrestReportSegmentFactory() {
 	
-		rulesList = new ArrayList<Rule<PropertySegment>>();
+		rulesList = new ArrayList<Rule<GroupBIncidentReport>>();
 	}
 	
 	/**
@@ -20,7 +20,7 @@ public class GroupBArrestReportSegmentFactory {
 	 * 
 	 * @return the list of rules
 	 */
-	public List<Rule<PropertySegment>> getRulesList() {
+	public List<Rule<GroupBIncidentReport>> getRulesList() {
 		return rulesList;
 	}	
 }

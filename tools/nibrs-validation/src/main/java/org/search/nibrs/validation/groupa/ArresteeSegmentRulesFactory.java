@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.search.nibrs.model.ArresteeSegment;
-import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
+import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
@@ -56,6 +56,10 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(raceOfArresteeNotBlank601Rule());
 		
 		rulesList.add(ethnicityOfArresteeNotBlank604Rule());
+		
+		rulesList.add(residentStatusOfArresteeNotBlank604Code());
+		
+		rulesList.add(dispositionOfArresteeUnder18ValidValue604Rule());
 	}
 	
 	
@@ -173,10 +177,28 @@ public class ArresteeSegmentRulesFactory {
 		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("residentStatusOfArrestee", 
 				"51", ArresteeSegment.class, NIBRSErrorCode._604, ResidentStatusCode.codeSet());
 		
-		return validValueListRule;
-		
+		return validValueListRule;		
 	}
 		
+	
+	public Rule<ArresteeSegment> dispositionOfArresteeUnder18ValidValue604Rule(){
+		
+		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("dispositionOfArresteeUnder18", 
+				"52", ArresteeSegment.class, NIBRSErrorCode._604, DispositionOfArresteeUnder18Code.codeSet());
+		
+		return validValueListRule;
+	}
+	
+// TODO see why not in pojo	
+//	public Rule<ArresteeSegment> clearanceCodeValidValue604Rule(){
+//		
+//		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("TODO (not in pojo)", 
+//			/* unnumbered */ "", ArresteeSegment.class, NIBRSErrorCode._604, ClearanceCode.codeSet());
+//		
+//		return validValueListRule;
+//	}
+	
+	
 	public static ArresteeSegmentRulesFactory instance(){
 		
 		return new ArresteeSegmentRulesFactory();
