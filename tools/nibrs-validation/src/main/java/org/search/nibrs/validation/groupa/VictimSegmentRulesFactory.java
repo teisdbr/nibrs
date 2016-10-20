@@ -3,10 +3,11 @@ package org.search.nibrs.validation.groupa;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
-import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
@@ -44,9 +45,9 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(victimSequenceNumber401Rule());
 		
-		rulesList.add(victimConnectedToUcrOffenseCode401Rule());
+		rulesList.add(victimConnectedToUcrOffenseCodeNotAllBlank401Rule());
 		
-		rulesList.add(victimConnectedToUcrOffenseCodeDuplicateValues406Rule());
+		rulesList.add(victimConnectedToUcrOffenseCodeNoDuplicateValues406Rule());
 				
 		rulesList.add(typeOfVictim401Rule());
 		
@@ -88,23 +89,49 @@ public class VictimSegmentRulesFactory {
 		return rulesList;
 	}
 		
+	
+	// (Victim Sequence Number The referenced data element in a Group A Incident Report must 
+	// 	be populated with a valid data value and cannot be blank.
 	public Rule<VictimSegment> victimSequenceNumber401Rule(){
 		
-		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
-				"victimSequenceNumber", "23", VictimSegment.class, NIBRSErrorCode._401); 
-		
-		return notBlankRule;
+		Rule<VictimSegment> sequenceNumberNotEmptyRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment subject) {
+
+				Integer iSeqNum = subject.getVictimSequenceNumber();
+				
+				NIBRSError rSeqNumInvalidError = null;
+				
+				if(iSeqNum ==  null || !(iSeqNum >= 1 && iSeqNum <= 999) ){
+					
+					rSeqNumInvalidError = subject.getErrorTemplate();				
+					rSeqNumInvalidError.setNIBRSErrorCode(NIBRSErrorCode._401);					
+					rSeqNumInvalidError.setDataElementIdentifier("23");															
+				}
+				
+				return rSeqNumInvalidError;
+			}};		
+									
+		return sequenceNumberNotEmptyRule;
 	}
+	
+				
+	//	(Victim Connected to UCR Offense Code) The referenced data element in a Group A Incident Report 
+	//	must be populated with a valid data value and cannot be blank.
+	public Rule<VictimSegment> victimConnectedToUcrOffenseCodeNotAllBlank401Rule() {		
 		
-	public Rule<VictimSegment> victimConnectedToUcrOffenseCode401Rule() {
+		NotAllBlankRule<VictimSegment> ucrOffenseNotAllBlankRule = new NotAllBlankRule<VictimSegment>("ucrOffenseCodeConnection", 
+				"24", VictimSegment.class, NIBRSErrorCode._401);		
 		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"ucrOffenseCodeConnection", "24", VictimSegment.class, NIBRSErrorCode._401, OffenseCode.codeSet(), false);
-		
-		return validValueListRule;
+		return ucrOffenseNotAllBlankRule;
 	}	
 	
-	public Rule<VictimSegment> victimConnectedToUcrOffenseCodeDuplicateValues406Rule(){
+	
+	// (Victim Connected to UCR Offense Code) The referenced data element in
+	// error is one that contains multiple data values. When more than one code
+	// is entered, none can be duplicate codes.
+	public Rule<VictimSegment> victimConnectedToUcrOffenseCodeNoDuplicateValues406Rule(){
 		
 		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<>
 			("ucrOffenseCodeConnection", "24", VictimSegment.class, NIBRSErrorCode._406);
@@ -112,18 +139,54 @@ public class VictimSegmentRulesFactory {
 		return duplicateCodedValueRule;
 	}	
 		
-	// TODO victimConnectedToUcrOffenseCodeMutexOffences478	
 	
+	// TODO victimConnectedToUcrOffenseCodeMutexOffences478		
+		
+
+	// (Type of Victim) The referenced data element in a Group A Incident Report
+	// must be populated with a valid data value and cannot be blank.
 	public Rule<VictimSegment> typeOfVictim401Rule(){
 								
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+		ValidValueListRule<VictimSegment> typeOfVictimValidValue401Rule = new ValidValueListRule<VictimSegment>(
 				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
 				TypeOfVictimCode.codeSet());
 		
-		return validValueListRule;
+		return typeOfVictimValidValue401Rule;
 	}
 	
 	// TODO 461
+	
+	// (Type of Victim) cannot have a value of S=Society/Public when the offense
+	// is 220=Burglary/Breaking and Entering.
+	public Rule<VictimSegment> typeOfVictimBurglary461Rule(){
+		
+		Rule<VictimSegment> societyBurglaryRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+
+				NIBRSError rNibrsError = null;
+				
+				String sVictimType = victimSegment.getTypeOfVictim();
+													
+				List<String> ucrOffenseCodeList = victimSegment.getUcrOffenseCodeList();
+				
+				if(ucrOffenseCodeList.contains(OffenseCode._220.code)
+					&& TypeOfVictimCode.S.code.equals(sVictimType)){
+										
+					rNibrsError = victimSegment.getErrorTemplate();
+					
+					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._461);
+					rNibrsError.setDataElementIdentifier("25");					
+				}												
+				return rNibrsError;
+			}};
+		
+		return societyBurglaryRule;
+	}
+	
+
+	
 	// TODO 464
 	// TODO 465
 	// TODO 467 

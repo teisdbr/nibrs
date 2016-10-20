@@ -1,6 +1,9 @@
 package org.search.nibrs.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Representation of a VictimSegment reported within an Incident in a NIBRS report.  Note that we extend AbstractPersonSegment even though some types of victims are not people
@@ -146,6 +149,24 @@ public class VictimSegment extends AbstractPersonSegment
     {
         return ucrOffenseCodeConnection[position];
     }
+		
+	/**
+	 * @return
+	 * 		a read-only List
+	 */
+	public List<String> getUcrOffenseCodeList(){
+		
+		List<String> rUcrOffenseCodeList = new ArrayList<String>();
+		
+		for(int i=0; i< getPopulatedUcrOffenseCodeConnectionCount(); i++){
+		
+			String iUcrOffenseCode = ucrOffenseCodeConnection[i];
+			
+			rUcrOffenseCodeList.add(iUcrOffenseCode);
+		}		
+						
+		return Collections.unmodifiableList(rUcrOffenseCodeList);
+	}		
     
     public void setUcrOffenseCodeConnection(int position, String value)
     {

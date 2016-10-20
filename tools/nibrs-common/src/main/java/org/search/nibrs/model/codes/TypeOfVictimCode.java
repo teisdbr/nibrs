@@ -15,9 +15,9 @@ public enum TypeOfVictimCode {
 	S("S","Society/Public"),
 	U("U","Unknown");
 
-	private String code;
+	public String code;
 	
-	private String description;
+	public String description;
 	
 	private TypeOfVictimCode(String code, String description){
 		
