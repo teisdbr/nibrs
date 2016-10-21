@@ -101,6 +101,26 @@ public class VictimSegment extends AbstractPersonSegment
         return offenderNumberRelated[position];
     }
     
+    /**
+     * @return
+     * 	A read-only List
+     */
+    public List<Integer> getOffenderNumberRelatedList(){
+    	
+    	List<Integer> offenderNumberRelatedList = new ArrayList<Integer>();
+    	
+    	for(int i=0; i < populatedOffenderNumberRelatedCount; i++){
+    		
+    		Integer iOffenderNumberRelated = offenderNumberRelated[i];
+    		
+    		offenderNumberRelatedList.add(iOffenderNumberRelated);
+    	}   
+    	
+    	return Collections.unmodifiableList(offenderNumberRelatedList);
+    }
+    
+    
+    
     public void setOffenderNumberRelated(int position, Integer value)
     {
         offenderNumberRelated[position] = value;
