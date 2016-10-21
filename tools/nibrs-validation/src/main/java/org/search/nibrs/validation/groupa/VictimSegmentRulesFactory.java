@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.omg.IOP.Codec;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.VictimSegment;
@@ -94,6 +95,10 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(typeOfficerActivityRequiredFieldsRule454());
 		
 		rulesList.add(sexOfVictimForIndividual453Rule());
+		
+		rulesList.add(typeOfVictimNotPersonForPersonOffenseRule464());
+		
+		
 	}
 	
 		
@@ -199,7 +204,51 @@ public class VictimSegmentRulesFactory {
 	
 
 	
-	// TODO 464
+	/**
+	 * (Type of Victim) contains a Crime Against Person, but Data Element 25
+	 * (Type of Victim) is not I=Individual or L=Law Enforcement Officer when
+	 * Data Element 24 (Victim Connected to UCR Offense Code) contains a Crime
+	 * Against Person.
+	 */
+	public Rule<VictimSegment> typeOfVictimNotPersonForPersonOffenseRule464(){
+		
+		Rule<VictimSegment> personTypeRule = new Rule<VictimSegment>(){
+						
+			List<String> personCrimeList = Arrays.asList(OffenseCode._13A.code, OffenseCode._13B.code, OffenseCode._13C.code, 
+					OffenseCode._09A.code, OffenseCode._09B.code, OffenseCode._64A.code, OffenseCode._64B.code, OffenseCode._100.code,
+					OffenseCode._11A.code, OffenseCode._11B.code, OffenseCode._11C.code, OffenseCode._11D.code, OffenseCode._36A.code,
+					OffenseCode._36B.code);
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personCrimeList);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					
+					rNIBRSError.setDataElementIdentifier("25");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._464);
+				}
+												
+				return rNIBRSError;
+			}			
+		};		
+		return personTypeRule;		
+	}
+	
+	
+	
 	
 	/**
 	 * (Type of Victim) contains a Crime Against Society, but Data Element 25 (Type of Victim) is not S=Society.
@@ -312,25 +361,20 @@ public class VictimSegmentRulesFactory {
 					List<String> lawOfficerVictimOffenseList = Arrays.asList(
 							OffenseCode._09A.code, OffenseCode._13A.code,
 							OffenseCode._13B.code, OffenseCode._13C.code);
-					
-					List<String> victimOffenseList = victimSegment.getUcrOffenseCodeList();					
-					
-					for(String victimOffense : victimOffenseList){
+										
+					List<String> victimOffenseList = victimSegment.getUcrOffenseCodeList();		
+										
+					if(!lawOfficerVictimOffenseList.containsAll(victimOffenseList)){
+
+						rNIBRSError = victimSegment.getErrorTemplate();
 						
-						if(!lawOfficerVictimOffenseList.contains(victimOffense)){
-							
-							rNIBRSError = victimSegment.getErrorTemplate();
-							
-							rNIBRSError.setDataElementIdentifier("25");
-							rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._482);
-						};
-					}					
-				}
-				
+						rNIBRSError.setDataElementIdentifier("25");
+						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._482);
+					};															
+				}				
 				return rNIBRSError;
 			}			
-		};
-		
+		};		
 		return typeVictimLawOfficerRule;
 	}
 	
