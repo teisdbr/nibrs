@@ -14,6 +14,7 @@ import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.RaceOfVictimCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
@@ -61,7 +62,17 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(ageOfVictim404Rule());
 		
+		rulesList.add(ageRangeOrderRule410());
+		
+		rulesList.add(ageMin00Rule422());
+		
 		rulesList.add(ageEnteredForNonPersonRule458());
+		
+		rulesList.add(ageOfVictimSpouse10YearsOldRule450());
+		
+		rulesList.add(ageOfVictimRequiredForIndividualRule453());
+		
+		rulesList.add(ageOfVictimUnder18ForStatutoryRapeRule481());
 		
 		rulesList.add(sexOfVictim404Rule());		
 		
@@ -549,6 +560,156 @@ public class VictimSegmentRulesFactory {
 				"age", "26", VictimSegment.class, NIBRSErrorCode._404);
 		
 		return notBlankRule;
+	}
+	
+	
+	
+	public Rule<VictimSegment> ageRangeOrderRule410(){
+		
+		Rule<VictimSegment> ageRangeOrderRule = new Rule<VictimSegment>(){
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+
+				NIBRSAge nibrsAge = victimSegment.getAge();
+				
+				Integer ageMin = nibrsAge.getAgeMin();
+				Integer ageMax = nibrsAge.getAgeMax();
+				
+				if(ageMin != null && ageMax != null && ageMin > ageMax){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("26");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._410);					
+				}								
+				return rNIBRSError;
+			}
+		};
+		return ageRangeOrderRule;
+	}
+	
+	
+	public Rule<VictimSegment> ageMin00Rule422(){
+		
+		Rule<VictimSegment> ageMin00Rule = new Rule<VictimSegment>(){
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+
+				NIBRSAge nibrsAge = victimSegment.getAge();
+				
+				
+				if(nibrsAge.isAgeRange() && nibrsAge.getAgeMin() != null 
+						&& nibrsAge.getAgeMin() == 00){
+
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("26");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._422);
+				}																	
+				return rNIBRSError;
+			}
+		};
+		return ageMin00Rule;
+	}	
+	
+	
+	
+	
+	
+	public Rule<VictimSegment> ageOfVictimSpouse10YearsOldRule450(){
+		
+		Rule<VictimSegment> ageOfSpouse = new Rule<VictimSegment>(){
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+				
+				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
+				
+				if(relationshipList != null 
+						&& relationshipList.contains(RelationshipOfVictimToOffenderCode.SP.code)){
+				
+					NIBRSAge nibrsAge = victimSegment.getAge();
+					
+					Integer minAge = nibrsAge.getAgeMin();
+					
+					if(minAge != null && minAge < 10){
+
+						rNIBRSError = victimSegment.getErrorTemplate();					
+						rNIBRSError.setDataElementIdentifier("26");
+						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._450);
+					}									
+				}
+				return rNIBRSError;
+			}
+		};
+		return ageOfSpouse;
+	}
+	
+			
+	public Rule<VictimSegment> ageOfVictimRequiredForIndividualRule453(){
+		
+		Rule<VictimSegment> ageOfIndividualRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
+								
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
+				
+				NIBRSAge victimAge = victimSegment.getAge();
+				
+				if(isIndividual && victimAge == null){
+					
+					rNibrsError = victimSegment.getErrorTemplate();
+					
+					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
+					rNibrsError.setDataElementIdentifier("26");
+				}								
+				return rNibrsError;
+			}						
+		}; 		
+		return ageOfIndividualRule;		
+	}		
+	
+	
+	
+	public Rule<VictimSegment> ageOfVictimUnder18ForStatutoryRapeRule481(){
+		
+		Rule<VictimSegment> ageOfVictimUnder18ForRapeRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+								
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasStatRape = offenseList.contains(OffenseCode._36B);				
+				
+				NIBRSAge age = victimSegment.getAge();
+				
+				boolean ageLessThan18 = age != null && age.getAgeMax() < 18;
+				
+				if(hasStatRape && !ageLessThan18){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("26");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._481);
+				}				
+				
+				return rNIBRSError;
+			}						
+		};		
+		return ageOfVictimUnder18ForRapeRule;
 	}
 	
 	
