@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Representation of a VictimSegment reported within an Incident in a NIBRS report.  Note that we extend AbstractPersonSegment even though some types of victims are not people
  * (e.g., Business)...since NIBRS represents them all with the same data structure.
@@ -91,6 +93,24 @@ public class VictimSegment extends AbstractPersonSegment
         return victimOffenderRelationship[position];
     }
     
+        
+    public List<String> getVictimOffenderRelationshipList(){
+    	
+    	List<String> victimOffenderRelationshipList = new ArrayList<String>();
+    	    	
+    	for(int i=0; i< victimOffenderRelationship.length; i++){
+    		
+    		String iVictimOffenderRelationship = victimOffenderRelationship[i];
+    		
+    		if(StringUtils.isNotEmpty(iVictimOffenderRelationship)){
+    			
+    			victimOffenderRelationshipList.add(iVictimOffenderRelationship);
+    		}    		    		
+    	}      	
+    	return victimOffenderRelationshipList;
+    }        
+    
+    
     public void setVictimOffenderRelationship(int position, String value)
     {
         victimOffenderRelationship[position] = value;
@@ -139,6 +159,27 @@ public class VictimSegment extends AbstractPersonSegment
     {
         return typeOfInjury[position];
     }
+	
+	
+	/**
+	 * @return
+	 * 		A readonly list
+	 */
+	public List<String> getTypeOfInjuryList(){
+		
+		List<String> typeOfInjuryList = new ArrayList<String>();
+		
+		for(int i=0; i < populatedTypeOfInjuryCount; i++){
+		
+			String iTypeOfInjury = typeOfInjury[i];
+			
+			typeOfInjuryList.add(iTypeOfInjury);			
+		}	
+		
+		return Collections.unmodifiableList(typeOfInjuryList);
+	}
+	
+	
     
     public void setTypeOfInjury(int position, String value)
     {
