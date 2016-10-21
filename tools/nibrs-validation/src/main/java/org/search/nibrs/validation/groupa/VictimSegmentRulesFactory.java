@@ -74,7 +74,9 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(ageOfVictimUnder18ForStatutoryRapeRule481());
 		
-		rulesList.add(sexOfVictim404Rule());		
+		rulesList.add(sexOfVictim404Rule());	
+		
+		rulesList.add(sexOfVictimForRapeOffenseRule481());
 		
 		rulesList.add(sexEnteredForNonPersonRule458());		
 		
@@ -710,6 +712,39 @@ public class VictimSegmentRulesFactory {
 			}						
 		};		
 		return ageOfVictimUnder18ForRapeRule;
+	}
+	
+	
+	public Rule<VictimSegment> sexOfVictimForRapeOffenseRule481(){
+		
+		Rule<VictimSegment> sexOfVictimForStatutoryRapeRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+								
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasRapeOffense = offenseList.contains(OffenseCode._36B)
+						|| offenseList.contains(OffenseCode._11A);				
+				
+				String victimSexCode = victimSegment.getSex();
+				
+				boolean isMaleOrFemale = SexOfVictimCode.F.code.equals(victimSexCode)
+						|| SexOfVictimCode.M.code.equals(victimSexCode);
+																
+				if(hasRapeOffense && !isMaleOrFemale){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("27");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._469);
+				}				
+				
+				return rNIBRSError;
+			}						
+		};		
+		return sexOfVictimForStatutoryRapeRule;
 	}
 	
 	
