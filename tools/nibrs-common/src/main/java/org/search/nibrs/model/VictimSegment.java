@@ -192,6 +192,22 @@ public class VictimSegment extends AbstractPersonSegment
         return aggravatedAssaultHomicideCircumstances[position];
     }
     
+    
+    public List<String> getAggravatedAssaultHomicideCircumstancesList(){
+    	
+    	List<String> aggravatedAssaultHomicideCircumstancesList = new ArrayList<String>();
+    	
+    	for(int i=0; i< populatedAggravatedAssaultHomicideCircumstancesCount; i++){
+    		
+    		String aggAssaultCirc = aggravatedAssaultHomicideCircumstances[i];
+    		
+    		aggravatedAssaultHomicideCircumstancesList.add(aggAssaultCirc);
+    	}    	    	
+        return aggravatedAssaultHomicideCircumstancesList;
+    }    
+        
+    
+    
     public void setAggravatedAssaultHomicideCircumstances(int position, String value)
     {
         aggravatedAssaultHomicideCircumstances[position] = value;
