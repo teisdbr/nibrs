@@ -38,10 +38,21 @@ public class VictimSegmentRulesFactory {
 		return new VictimSegmentRulesFactory();
 	}
 	
-	private List<String> personOffenseList = Arrays.asList(OffenseCode._13A.code, OffenseCode._13B.code, OffenseCode._13C.code, 
+	private static final List<String> PERSON_OFFENSE_LIST = Arrays.asList(OffenseCode._13A.code, OffenseCode._13B.code, OffenseCode._13C.code, 
 			OffenseCode._09A.code, OffenseCode._09B.code, OffenseCode._64A.code, OffenseCode._64B.code, OffenseCode._100.code,
 			OffenseCode._11A.code, OffenseCode._11B.code, OffenseCode._11C.code, OffenseCode._11D.code, OffenseCode._36A.code,
 			OffenseCode._36B.code);
+	
+	private static final List<String> PROPERTY_CRIM_LIST = Arrays.asList(OffenseCode._200.code,
+			OffenseCode._510.code, OffenseCode._220.code, OffenseCode._250.code,
+			OffenseCode._290.code, OffenseCode._270.code, OffenseCode._210.code,
+			OffenseCode._26A.code, OffenseCode._26B.code, OffenseCode._26C.code,
+			OffenseCode._26D.code, OffenseCode._26E.code, OffenseCode._26F.code,
+			OffenseCode._26G.code, OffenseCode._23A.code, OffenseCode._23B.code,
+			OffenseCode._23C.code, OffenseCode._23D.code, OffenseCode._23E.code,
+			OffenseCode._23F.code, OffenseCode._23G.code, OffenseCode._23H.code,
+			OffenseCode._240.code, OffenseCode._120.code, OffenseCode._280.code					
+	);		
 	
 	private VictimSegmentRulesFactory() {
 		
@@ -52,87 +63,87 @@ public class VictimSegmentRulesFactory {
 	
 	private void initRules(List<Rule<VictimSegment>> rulesList){
 		
-		rulesList.add(victimSequenceNumber401Rule());
+		rulesList.add(getRule401ForSequenceNumber());
 		
-		rulesList.add(victimConnectedToUcrOffenseCodeNotAllBlank401Rule());
+		rulesList.add(getRule401ForVictimConnectedToUcrOffenseCode());
 		
-		rulesList.add(victimConnectedToUcrOffenseCodeNoDuplicateValues406Rule());
+		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
 				
-		rulesList.add(typeOfVictim401Rule());
+		rulesList.add(getRule401ForTypeOfVictim());
 		
-		rulesList.add(typeOfOfficerActivityCircumstance404Rule());
+		rulesList.add(getRule404ForTypeOfOfficerActivityCircumstance());
 		
-		rulesList.add(officerAssignmentType404Rule());
+		rulesList.add(getRule404ForOfficerAssignmentType());
 				
-		rulesList.add(officerOriOtherJurisdiction404Rule());
+		rulesList.add(getRule404ForOfficerOriOtherJurisdiction());
 		
-		rulesList.add(ageOfVictim404Rule());
+		rulesList.add(getRule404ForAgeOfVictim());
 		
-		rulesList.add(ageRangeOrderRule410());
+		rulesList.add(getRule410ForAgeOfVictim());
 		
-		rulesList.add(ageMin00Rule422());
+		rulesList.add(getRule422ForAgeOfVictim());
 		
-		rulesList.add(ageEnteredForNonPersonRule458());
+		rulesList.add(getRule458ForAgeOfVictim());
 		
-		rulesList.add(ageOfVictimSpouse10YearsOldRule450());
+		rulesList.add(getRule450ForAgeOfVictim());
 		
-		rulesList.add(ageOfVictimRequiredForIndividualRule453());
+		rulesList.add(getRule453ForAgeOfVictim());
 		
-		rulesList.add(ageOfVictimUnder18ForStatutoryRapeRule481());
+		rulesList.add(getRule481ForAgeOfVictim());
 		
-		rulesList.add(sexOfVictim404Rule());	
+		rulesList.add(getRule404ForSexOfVictim());	
 		
-		rulesList.add(sexOfVictimForRapeOffenseRule481());
+		rulesList.add(getRule469ForSexOfVictim());
 		
-		rulesList.add(sexEnteredForNonPersonRule458());		
+		rulesList.add(getRule458ForSexOfVictim());		
 		
-		rulesList.add(raceOfVictim404Rule());		
+		rulesList.add(getRule404ForRaceOfVictim());		
 		
-		rulesList.add(ethnicityOfVictim404Rule());
+		rulesList.add(getRule404ForEthnicityOfVictim());
 		
-		rulesList.add(ethnicityEnteredForNonPersonRule458());
+		rulesList.add(getRule458ForEthnicityOfVictim());
 		
-		rulesList.add(raceEnteredForNonPersonRule458());
+		rulesList.add(getRule458ForRaceOfVictim());
 		
-		rulesList.add(residentStatusOfVictim404Rule());
+		rulesList.add(getRule404ForResidentStatusOfVictim());
 		
-		rulesList.add(residentStatusEnteredForNonPersonRule458());
+		rulesList.add(getRule458ForResidentStatusOfVictim());
 		
-		rulesList.add(aggravatedAssaultHomicideNotBlank404Rule());
+		rulesList.add(getRule404ForAggravatedAssaultHomicideCircumstances());
 		
-		rulesList.add(aggravatedAssaultHomicideNoDuplicates406Rule());
+		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());
 		
-		rulesList.add(additionalJustifiableHomicideCircumstances404Rule());
+		rulesList.add(getRule404ForAdditionalJustifiablehomicideCircsumstances());
 		
-		rulesList.add(typeInjuryNotAllBlank404Rule());
+		rulesList.add(getRule404ForTypeOfInjury());
 		
-		rulesList.add(typeInjuryNoDuplicates406Rule());
+		rulesList.add(getRule406ForTypeOfInjury());
 		
-		rulesList.add(offenderNumberToBeRelatedNotAllBlank404Rule());
+		rulesList.add(getRule404OffenderNumberToBeRelated());
 		
-		rulesList.add(offenderNumberToBeRelatedNotAllBlank404Rule());
+		rulesList.add(getRule404OffenderNumberToBeRelated());
 		
-		rulesList.add(offenderNumberToBeRelatedForNonPersonRule458());
+		rulesList.add(getRule458ForOffenderNumberToBeRelated());
 		
-		rulesList.add(relationshipOfVictimToOffenderNotAllBlank404Rule());
+		rulesList.add(getRule404ForRelationshipOfVictimToOffender());
 		
-		rulesList.add(typeOfVictimCrimeAgainstSocietyRule465());
+		rulesList.add(geRule465ForTypeOfVictim());
 		
-		rulesList.add(typeOfVictimCrimeAgainstPropertyRule467());
+		rulesList.add(getRule467ForTypeOfVictim());
 		
-		rulesList.add(typeOfVictimLawOfficerRule482());
+		rulesList.add(getRule482ForTypeOfVictim());
 		
-		rulesList.add(typeOfficerActivityRequiredFieldsRule454());
+		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
 		
-		rulesList.add(sexOfVictimForIndividual453Rule());
+		rulesList.add(getRule453ForSexOfVictim());
 		
-		rulesList.add(typeOfVictimNotPersonForPersonOffenseRule464());
+		rulesList.add(getRule464ForTypeOfVictim());
 		
-		rulesList.add(officerActivityCircumstanceReqFieldsForPersonRule483());
+		rulesList.add(getRule483ForTypeOfOfficerActivity());
 		
-		rulesList.add(raceOfVictimForIndividualRule453());
+		rulesList.add(getRule453ForRaceOfVictim());
 		
-		rulesList.add(relationshipOfVictimToOffenderWithUnknownOffendersRule468());
+		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
 	}
 	
 		
@@ -143,7 +154,7 @@ public class VictimSegmentRulesFactory {
 	
 	// (Victim Sequence Number The referenced data element in a Group A Incident Report must 
 	// 	be populated with a valid data value and cannot be blank.
-	public Rule<VictimSegment> victimSequenceNumber401Rule(){
+	public Rule<VictimSegment> getRule401ForSequenceNumber(){
 		
 		Rule<VictimSegment> sequenceNumberNotEmptyRule = new Rule<VictimSegment>(){
 
@@ -167,10 +178,13 @@ public class VictimSegmentRulesFactory {
 		return sequenceNumberNotEmptyRule;
 	}
 	
-				
-	//	(Victim Connected to UCR Offense Code) The referenced data element in a Group A Incident Report 
-	//	must be populated with a valid data value and cannot be blank.
-	public Rule<VictimSegment> victimConnectedToUcrOffenseCodeNotAllBlank401Rule() {		
+					
+	/**
+	 * (Victim Connected to UCR Offense Code) The referenced data element in a
+	 * Group A Incident Report must be populated with a valid data value and
+	 * cannot be blank.
+	 */
+	public Rule<VictimSegment> getRule401ForVictimConnectedToUcrOffenseCode() {		
 		
 		NotAllBlankRule<VictimSegment> ucrOffenseNotAllBlankRule = new NotAllBlankRule<VictimSegment>("ucrOffenseCodeConnection", 
 				"24", VictimSegment.class, NIBRSErrorCode._401);		
@@ -179,10 +193,155 @@ public class VictimSegmentRulesFactory {
 	}	
 	
 	
+	// TODO victimConnectedToUcrOffenseCodeMutexOffences478		
+		
+	
+	// (Type of Victim) The referenced data element in a Group A Incident Report
+	// must be populated with a valid data value and cannot be blank.
+	public Rule<VictimSegment> getRule401ForTypeOfVictim(){
+								
+		ValidValueListRule<VictimSegment> typeOfVictimValidValue401Rule = new ValidValueListRule<VictimSegment>(
+				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
+				TypeOfVictimCode.codeSet());
+		
+		return typeOfVictimValidValue401Rule;
+	}
+
+	/**
+	 * (Type of Officer Activity/Circumstance) The referenced data element in a
+	 * Group A Incident Report must be populated with a valid data value and
+	 * cannot be blank.
+	 */
+	public Rule<VictimSegment> getRule404ForTypeOfOfficerActivityCircumstance(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, 
+				TypeOfOfficerActivityCircumstance.codeSet());
+		
+		return validValueListRule;
+	}
+
+
+	
+	public Rule<VictimSegment> getRule404ForSexOfVictim(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet());
+		
+		return validValueListRule;
+	}
+
+	public Rule<VictimSegment> getRule404ForOfficerOriOtherJurisdiction(){
+	
+		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
+				"officerOtherJurisdictionORI", "25C", VictimSegment.class, NIBRSErrorCode._404);
+		
+		//TODO validate values: A-Z, 0-9
+		
+		return notBlankRule;
+	}
+
+	public Rule<VictimSegment> getRule404ForOfficerAssignmentType(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"officerAssignmentType", "25B", VictimSegment.class, NIBRSErrorCode._404, 
+				TypeOfOfficerActivityCircumstance.codeSet());
+		
+		return validValueListRule;
+	}
+
+	
+	public Rule<VictimSegment> getRule404ForEthnicityOfVictim(){
+		
+		//TODO account for element being optional based on typeOfVicitmValue  
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"ethnicity", "29", VictimSegment.class, NIBRSErrorCode._404, EthnicityOfVictim.codeSet());
+		
+		return validValueListRule;
+	}
+
+	
+	public Rule<VictimSegment> getRule404ForTypeOfInjury(){
+		
+		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("typeOfInjury", 
+				"typeOfInjury", VictimSegment.class, NIBRSErrorCode._404);
+		
+		return notAllBlankRule;
+	}
+
+	
+	public Rule<VictimSegment> getRule404ForResidentStatusOfVictim(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"residentStatusOfVictim", "30", VictimSegment.class, NIBRSErrorCode._404, 
+				ResidentStatusCode.codeSet());
+		
+		return validValueListRule;
+	}
+
+	
+	public Rule<VictimSegment> getRule404OffenderNumberToBeRelated(){
+		
+		//TODO add condition		
+		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("offenderNumberRelated", 
+				"34", VictimSegment.class, NIBRSErrorCode._404);
+		
+		return notAllBlankRule;
+	}
+
+	/**
+	 * (Aggravated Assault/Homicide Circumstances) The referenced data element
+	 * in a Group A Incident Report must be populated with a valid data value
+	 * and cannot be blank.
+	 */
+	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("aggravatedAssaultHomicideCircumstances", 
+				"31", VictimSegment.class, NIBRSErrorCode._404, AggravatedAssaultHomicideCircumstancesCode.codeSet());
+		
+		return validValueListRule;
+	}
+
+	public Rule<VictimSegment> getRule404ForRelationshipOfVictimToOffender(){
+			
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("victimOffenderRelationship", 
+				"35", VictimSegment.class, NIBRSErrorCode._404, RelationshipOfVictimToOffenderCode.codeSet());
+		
+		return validValueListRule;		
+	}
+
+	public Rule<VictimSegment> getRule404ForAdditionalJustifiablehomicideCircsumstances(){
+		
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"additionalJustifiableHomicideCircumstances", "32", VictimSegment.class, 
+				NIBRSErrorCode._404, AdditionalJustifiableHomicideCircumstancesCode.codeSet());
+		
+		return validValueListRule;
+	}
+
+	public Rule<VictimSegment> getRule404ForRaceOfVictim(){
+	
+		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+				"race", "28", VictimSegment.class, NIBRSErrorCode._404, RaceOfVictimCode.codeSet());
+		
+		return validValueListRule;
+	}
+
+	public Rule<VictimSegment> getRule404ForAgeOfVictim(){
+		
+		//TODO maybe use AgeOfVictimCode enum to validate values. range is tricky
+		
+		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
+				"age", "26", VictimSegment.class, NIBRSErrorCode._404);
+		
+		return notBlankRule;
+	}
+
 	// (Victim Connected to UCR Offense Code) The referenced data element in
 	// error is one that contains multiple data values. When more than one code
 	// is entered, none can be duplicate codes.
-	public Rule<VictimSegment> victimConnectedToUcrOffenseCodeNoDuplicateValues406Rule(){
+	public Rule<VictimSegment> getRule406ForVictimConnectedToUcrOffenseCode(){
 		
 		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<>
 			("ucrOffenseCodeConnection", "24", VictimSegment.class, NIBRSErrorCode._406);
@@ -191,25 +350,681 @@ public class VictimSegmentRulesFactory {
 	}	
 		
 	
-	// TODO victimConnectedToUcrOffenseCodeMutexOffences478		
+	/**
+	 * (Aggravated Assault/Homicide Circumstances The referenced data element in
+	 * error is one that contains multiple data values. When more than one code
+	 * is entered, none can be duplicate codes.
+	 */
+	public Rule<VictimSegment> getRule406ForAggravatedAssaultHomicideCircumstances(){
+	
+		DuplicateCodedValueRule<VictimSegment> duplicateValueRule = new DuplicateCodedValueRule<VictimSegment>(
+				"aggravatedAssaultHomicideCircumstances", "31", VictimSegment.class, NIBRSErrorCode._406);
 		
-
-	// (Type of Victim) The referenced data element in a Group A Incident Report
-	// must be populated with a valid data value and cannot be blank.
-	public Rule<VictimSegment> typeOfVictim401Rule(){
-								
-		ValidValueListRule<VictimSegment> typeOfVictimValidValue401Rule = new ValidValueListRule<VictimSegment>(
-				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
-				TypeOfVictimCode.codeSet());
-		
-		return typeOfVictimValidValue401Rule;
+		return duplicateValueRule;		
 	}
+
+	public Rule<VictimSegment> getRule406OffenderNumberToBeRelated(){
+		
+		DuplicateCodedValueRule<VictimSegment> noDuplicateRule = new DuplicateCodedValueRule<VictimSegment>("offenderNumberRelated", 
+				"34", VictimSegment.class, NIBRSErrorCode._406);
+		
+		return noDuplicateRule;
+	}
+
+	public Rule<VictimSegment> getRule406ForTypeOfInjury(){
+		
+		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<VictimSegment>(
+				"typeOfInjury",	"33", VictimSegment.class, NIBRSErrorCode._406);
+		
+		return duplicateCodedValueRule;
+	}
+
+	public Rule<VictimSegment> getRule410ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageRangeOrderRule = new Rule<VictimSegment>(){
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
 	
-	// TODO 461
+				NIBRSAge nibrsAge = victimSegment.getAge();
+				
+				Integer ageMin = nibrsAge.getAgeMin();
+				Integer ageMax = nibrsAge.getAgeMax();
+				
+				if(ageMin != null && ageMax != null && ageMin > ageMax){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("26");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._410);					
+				}								
+				return rNIBRSError;
+			}
+		};
+		return ageRangeOrderRule;
+	}
+
 	
+	/**
+	 * Data Element 33 (Type Injury) can only be entered when one or more of the
+	 * offenses in Data Element 24 (Victim Connected to UCR Offense Code) are:
+	 * 100=Kidnapping/Abduction 11A=Rape 11B=Sodomy 11C=Sexual Assault With An
+	 * Object 11D=Fondling 120=Robbery 13A=Aggravated Assault 13B=Simple Assault
+	 * 210=Extortion/Blackmail 64A=Human Trafficking, Commercial Sex Acts
+	 * 64B=Human Trafficking, Involuntary Servitude
+	 */
+	public Rule<VictimSegment> getRule419ForTypeOfInjury(){
+		
+		Rule<VictimSegment> typeInjuryForNonPersonRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+								
+				List<String> offenseList =  victimSegment.getUcrOffenseCodeList();
+				
+				if(offenseList != null && !offenseList.isEmpty() 
+					&& !CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST)){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("33");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._419);
+				}
+				
+				return rNIBRSError;
+			}						
+		};		
+		return typeInjuryForNonPersonRule;
+	}
+
+	
+	/**
+	 * (Aggravated Assault/Homicide Circumstances) Circumstances) can only be
+	 * entered when one or more of the offenses in Data Element 24 (Victim
+	 * Connected to UCR Offense Code) are: 09A=Murder and Non-negligent
+	 * Manslaughter 09B=Negligent Manslaughter 09C=Justifiable Homicide
+	 * 13A=Aggravated Assault
+	 */
+	public Rule<VictimSegment> getRule419ForAggravatedAssaultHomicideCircumstances(){
+		
+		Rule<VictimSegment> assaultRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+	
+				NIBRSError rNIBRSError = null;
+								
+				List<String> assaultCircList = victimSegment.getAggravatedAssaultHomicideCircumstancesList();
+				
+				boolean hasAssaultEntered = assaultCircList != null && !assaultCircList.isEmpty();
+				
+				
+				List<String> ucrOffenseList = victimSegment.getUcrOffenseCodeList();
+				
+				List<String> offenseListForAssault = Arrays.asList(OffenseCode._09A.code,
+						OffenseCode._09B.code, OffenseCode._09C.code, OffenseCode._13A.code);
+				
+				boolean hasAssaultOffense = CollectionUtils.containsAny(ucrOffenseList, offenseListForAssault);
+				
+				if(hasAssaultEntered && !hasAssaultOffense){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._419);
+					rNIBRSError.setDataElementIdentifier("31");
+				}
+				
+				return rNIBRSError;
+			}						
+		};
+		return assaultRule;
+	}
+
+	
+	public Rule<VictimSegment> getRule422ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageMin00Rule = new Rule<VictimSegment>(){
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+	
+				NIBRSAge nibrsAge = victimSegment.getAge();
+								
+				if(nibrsAge.isAgeRange() && nibrsAge.getAgeMin() != null 
+						&& nibrsAge.getAgeMin() == 00){
+	
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("26");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._422);
+				}																	
+				return rNIBRSError;
+			}
+		};
+		return ageMin00Rule;
+	}
+
+	
+	public Rule<VictimSegment> getRule450ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageOfSpouse = new Rule<VictimSegment>(){
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+				
+				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
+				
+				if(relationshipList != null 
+						&& relationshipList.contains(RelationshipOfVictimToOffenderCode.SP.code)){
+				
+					NIBRSAge nibrsAge = victimSegment.getAge();
+					
+					Integer minAge = nibrsAge.getAgeMin();
+					
+					if(minAge != null && minAge < 10){
+	
+						rNIBRSError = victimSegment.getErrorTemplate();					
+						rNIBRSError.setDataElementIdentifier("26");
+						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._450);
+					}									
+				}
+				return rNIBRSError;
+			}
+		};
+		return ageOfSpouse;
+	}
+
+
+	
+	/**
+	 * (Race of Victim) The Data Element associated with this error must be
+	 * present when Data Element 25 (Type of Victim) is I=Individual.
+	 */
+	public Rule<VictimSegment> getRule453ForRaceOfVictim(){
+		
+		Rule<VictimSegment> raceForIndividualRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+	
+				NIBRSError rNIBRSError = null;
+				
+				String race = victimSegment.getRace();
+				
+				boolean hasRace = StringUtils.isNotEmpty(race);
+				
+				String typeOfVictim = victimSegment.getTypeOfVictim();
+				
+				boolean isIndivideual = TypeOfVictimCode.I.equals(typeOfVictim);
+				
+				if(isIndivideual && !hasRace){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._453);
+					rNIBRSError.setDataElementIdentifier("28");
+				}				
+				return rNIBRSError;
+			}			
+		};
+		return raceForIndividualRule;
+	}
+
+	
+	public Rule<VictimSegment> getRule453ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageOfIndividualRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
+								
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
+				
+				NIBRSAge victimAge = victimSegment.getAge();
+				
+				if(isIndividual && victimAge == null){
+					
+					rNibrsError = victimSegment.getErrorTemplate();
+					
+					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
+					rNibrsError.setDataElementIdentifier("26");
+				}								
+				return rNibrsError;
+			}						
+		}; 		
+		return ageOfIndividualRule;		
+	}
+
+	
+	public Rule<VictimSegment> getRule453ForSexOfVictim(){
+		
+		Rule<VictimSegment> sexOfIndividualRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
+								
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
+				
+				boolean containsSexCode = StringUtils.isNotEmpty(victimSegment.getSex());
+				
+				if(isIndividual && !containsSexCode){
+					
+					rNibrsError = victimSegment.getErrorTemplate();
+					
+					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
+					rNibrsError.setDataElementIdentifier("27");
+				}								
+				return rNibrsError;
+			}						
+		}; 		
+		return sexOfIndividualRule;		
+	}
+
+	/**
+	 * (Type of Officer Activity/Circumstance), Data Element 25B (Officer
+	 * Assignment Type), Data Element 26 (Age of Victim), Data Element 27 (Sex
+	 * of Victim), and Data Element 28 (Race of Victim) must be entered when
+	 * Data Element 25 (Type of Victim) is L=Law Enforcement Officer.
+	 */
+	public Rule<VictimSegment> getRule454ForTypeOfOfficerActivityCircumstance(){
+		
+		Rule<VictimSegment> typeOfficerReqFieldsRule = new Rule<VictimSegment>(){
+	
+			NIBRSError rNibrsError = null;
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+	
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
+				
+				if(victimIsLawOfficer){
+										
+					String circumstance = victimSegment.getTypeOfOfficerActivityCircumstance();
+					
+					String assignmentType = victimSegment.getOfficerAssignmentType();
+					
+					NIBRSAge age = victimSegment.getAge();
+					
+					String victimSex = victimSegment.getSex();
+					
+					String victimRace = victimSegment.getRace();	
+					
+					if(StringUtils.isEmpty(circumstance) 
+							|| StringUtils.isEmpty(assignmentType)
+							|| age == null
+							|| StringUtils.isEmpty(victimSex)
+							|| StringUtils.isEmpty(victimRace)){
+						
+						rNibrsError = victimSegment.getErrorTemplate();
+						
+						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
+						rNibrsError.setDataElementIdentifier("25A");						
+					}					
+				}								
+				return rNibrsError;
+			}
+		};			
+		return typeOfficerReqFieldsRule;
+	}
+
+	
+	/**
+	 * The Data Element associated with this error cannot be entered when Data
+	 * Element 25 (Type of Victim) is not I=Individual or L=Law Enforcement
+	 * Officer when Data Element 24 (Victim Connected to UCR Offense Code)
+	 * contains a Crime Against Person.
+	 */
+	public Rule<VictimSegment> getRule458ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+									
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);				
+				
+				NIBRSAge age = victimSegment.getAge();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && age != null){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("26");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				}
+															
+				return rNIBRSError;
+			}			
+		};		
+		return ageForNonPersonRule;		
+	}
+
+	/**
+	 * 29 (Ethnicity of Victim) The Data Element associated with this error
+	 * cannot be entered when Data Element 25 (Type of Victim) is not
+	 * I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim
+	 * Connected to UCR Offense Code) contains a Crime Against Person.
+	 */
+	public Rule<VictimSegment> getRule458ForEthnicityOfVictim(){
+		
+		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+									
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);				
+				
+				String ethnicity = victimSegment.getEthnicity();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(ethnicity)){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("29");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				}
+															
+				return rNIBRSError;
+			}			
+		};		
+		return ageForNonPersonRule;		
+	}
+
+	/**
+	 * (Sex of Victim) The Data Element associated with this error cannot be
+	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
+	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
+	 * Offense Code) contains a Crime Against Person.
+	 */
+	public Rule<VictimSegment> getRule458ForSexOfVictim(){
+		
+		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+									
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);				
+				
+				String sVictimSex = victimSegment.getSex();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(sVictimSex)){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("27");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				}
+															
+				return rNIBRSError;
+			}			
+		};		
+		return ageForNonPersonRule;		
+	}
+
+	/**
+	 * (Race of Victim) The Data Element associated with this error cannot be
+	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
+	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
+	 * Offense Code) contains a Crime Against Person.
+	 */
+	public Rule<VictimSegment> getRule458ForRaceOfVictim(){
+		
+		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+									
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);				
+				
+				String victimRace = victimSegment.getRace();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(victimRace)){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("28");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				}
+															
+				return rNIBRSError;
+			}			
+		};		
+		return ageForNonPersonRule;		
+	}
+
+	public Rule<VictimSegment> getRule458ForResidentStatusOfVictim(){
+		
+		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+									
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);				
+				
+				String residentStatus = victimSegment.getResidentStatusOfVictim();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(residentStatus)){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("30");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				}
+															
+				return rNIBRSError;
+			}			
+		};		
+		return ageForNonPersonRule;		
+	}
+
+	/**
+	 * (Type Injury) The Data Element associated with this error cannot be
+	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
+	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
+	 * Offense Code) contains a Crime Against Person.
+	 */
+	public Rule<VictimSegment> getRule458ForTypeOfInjury(){
+		
+		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+									
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);				
+				
+				List<String> typeOfInjuryList = victimSegment.getTypeOfInjuryList();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && (typeOfInjuryList != null && !typeOfInjuryList.isEmpty())){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("33");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				}															
+				return rNIBRSError;
+			}			
+		};		
+		return ageForNonPersonRule;		
+	}
+
+	public Rule<VictimSegment> getRule458ForOffenderNumberToBeRelated(){
+		
+		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+									
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+			
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
+								
+				String sVictimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
+						|| TypeOfVictimCode.L.code.equals(sVictimType);				
+				
+				List<Integer> offenderRelatedList = victimSegment.getOffenderNumberRelatedList();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && (offenderRelatedList != null && !offenderRelatedList.isEmpty())){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("34");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				}															
+				return rNIBRSError;
+			}			
+		};		
+		return ageForNonPersonRule;		
+	}
+
+	/**
+	 * (Offender Numbers To Be Related) was entered but should only be entered
+	 * if one or more of the offenses entered into Data Element 24 [Victim
+	 * Connected to UCR Offense Code(s)] is a Crime Against Person or is a
+	 * Robbery Offense (120). None of these types of offenses were entered.
+	 */
+	public Rule<VictimSegment> getRule459ForOffenderNumberToBeRelated(){
+		
+		Rule<VictimSegment> offenderNumPersonRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;				
+				
+				List<Integer> offenderNumberRelatedList = victimSegment.getOffenderNumberRelatedList();
+				
+				boolean hasOffenderNumberRelated = offenderNumberRelatedList != null && !offenderNumberRelatedList.isEmpty();
+				
+				if(hasOffenderNumberRelated){
+					
+					List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
+					
+					if(!CollectionUtils.containsAny(offenseCodeList, PERSON_OFFENSE_LIST)
+							&& !offenseCodeList.contains(OffenseCode._120)){
+						
+						rNIBRSError = victimSegment.getErrorTemplate();
+						rNIBRSError.setDataElementIdentifier("34");
+						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._459);
+					}										
+				}											
+				return rNIBRSError;
+			}			
+		};		
+		return offenderNumPersonRule;
+	}
+
+	/**
+	 * (Relationship of Victim to Offender) Corresponding Data Element 35
+	 * (Relationship of Victim to Offenders) data must be entered when Data
+	 * Element 34 (Offender Numbers To Be Related) is entered with a value
+	 * greater than 00.
+	 */
+	public Rule<VictimSegment> getRule460ForRelationshipOfVictimToOffender(){
+		
+		Rule<VictimSegment> relationshiOffenderRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+	
+				NIBRSError rNIBRSError = null;
+				
+				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
+								
+				List<Integer> offenderNumRelatedList = victimSegment.getOffenderNumberRelatedList();
+				
+				boolean hasValidOffenderNumRelated = false;
+				
+				for(Integer iOffenderNumRelatd : offenderNumRelatedList){
+				
+					if(iOffenderNumRelatd != null && iOffenderNumRelatd > 0){
+						
+						hasValidOffenderNumRelated = true;
+					}					
+				}
+				
+				boolean hasVictimOffenderRelationship = victimOffenderRelationshipList != null 
+						&& !victimOffenderRelationshipList.isEmpty();				
+								
+				if(hasVictimOffenderRelationship && !hasValidOffenderNumRelated){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("35");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._460);
+				}				
+				return rNIBRSError;
+			}
+			
+		};
+		return relationshiOffenderRule;
+	}
+
 	// (Type of Victim) cannot have a value of S=Society/Public when the offense
 	// is 220=Burglary/Breaking and Entering.
-	public Rule<VictimSegment> typeOfVictimBurglary461Rule(){
+	public Rule<VictimSegment> getRule461ForTypeOfVictim(){
 		
 		Rule<VictimSegment> societyBurglaryRule = new Rule<VictimSegment>(){
 
@@ -244,12 +1059,10 @@ public class VictimSegmentRulesFactory {
 	 * Data Element 24 (Victim Connected to UCR Offense Code) contains a Crime
 	 * Against Person.
 	 */
-	public Rule<VictimSegment> typeOfVictimNotPersonForPersonOffenseRule464(){
+	public Rule<VictimSegment> getRule464ForTypeOfVictim(){
 		
 		Rule<VictimSegment> personTypeRule = new Rule<VictimSegment>(){
-						
-
-			
+									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				
@@ -257,7 +1070,7 @@ public class VictimSegmentRulesFactory {
 			
 				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
 				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
+				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
 								
 				String sVictimType = victimSegment.getTypeOfVictim();
 				
@@ -284,7 +1097,7 @@ public class VictimSegmentRulesFactory {
 	/**
 	 * (Type of Victim) contains a Crime Against Society, but Data Element 25 (Type of Victim) is not S=Society.
 	 */
-	public Rule<VictimSegment> typeOfVictimCrimeAgainstSocietyRule465(){
+	public Rule<VictimSegment> geRule465ForTypeOfVictim(){
 				
 		Rule<VictimSegment> crimeSocietyRule = new Rule<VictimSegment>(){
 			
@@ -311,12 +1124,10 @@ public class VictimSegmentRulesFactory {
 					
 					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._465);
 					rNibrsError.setDataElementIdentifier("25");					
-				}
-				
+				}				
 				return rNibrsError;
 			}					
-		};
-						
+		};						
 		return crimeSocietyRule;
 	}
 	
@@ -327,21 +1138,10 @@ public class VictimSegmentRulesFactory {
 	 * (Type of Victim) is S=Society. This is not an allowable code for Crime
 	 * Against Property offenses.
 	 */
-	public Rule<VictimSegment> typeOfVictimCrimeAgainstPropertyRule467(){
+	public Rule<VictimSegment> getRule467ForTypeOfVictim(){
 		
 		Rule<VictimSegment> typeVictimPropertyOffenseRule = new Rule<VictimSegment>(){
-
-			List<String> propertyCrimeList = Arrays.asList(OffenseCode._200.code,
-					OffenseCode._510.code, OffenseCode._220.code, OffenseCode._250.code,
-					OffenseCode._290.code, OffenseCode._270.code, OffenseCode._210.code,
-					OffenseCode._26A.code, OffenseCode._26B.code, OffenseCode._26C.code,
-					OffenseCode._26D.code, OffenseCode._26E.code, OffenseCode._26F.code,
-					OffenseCode._26G.code, OffenseCode._23A.code, OffenseCode._23B.code,
-					OffenseCode._23C.code, OffenseCode._23D.code, OffenseCode._23E.code,
-					OffenseCode._23F.code, OffenseCode._23G.code, OffenseCode._23H.code,
-					OffenseCode._240.code, OffenseCode._120.code, OffenseCode._280.code					
-			);			
-			
+				
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 
@@ -349,7 +1149,7 @@ public class VictimSegmentRulesFactory {
 				
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
 				
-				boolean hasCrimeAgainstProperty = CollectionUtils.containsAny(offenseCodeList, propertyCrimeList);
+				boolean hasCrimeAgainstProperty = CollectionUtils.containsAny(offenseCodeList, PROPERTY_CRIM_LIST);
 				
 				String sVictimType = victimSegment.getTypeOfVictim();
 				
@@ -368,16 +1168,119 @@ public class VictimSegmentRulesFactory {
 	}
 	
 	
+	
+	
+	
+	
+	// TODO 483
+	
+	/**
+	 * (Relationship of Victim to Offender) cannot be entered when Data Element
+	 * 34 (Offender Number to be Related) is zero. Zero means that the number of
+	 * offenders is unknown; therefore, the relationship cannot be entered.
+	 */
+	public Rule<VictimSegment> getRule468ForRelationshipOfVictimToOffender(){
+		
+		Rule<VictimSegment> unknownOffendersRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+					
+				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
+								
+				List<Integer> offenderNumberRelatedList = victimSegment.getOffenderNumberRelatedList();
+				
+				if(offenderNumberRelatedList != null && offenderNumberRelatedList.contains(0)){
+					if(victimOffenderRelationshipList != null && !victimOffenderRelationshipList.isEmpty()){
+						
+						rNIBRSError = victimSegment.getErrorTemplate();
+						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._468);
+						rNIBRSError.setDataElementIdentifier("35");						
+					}					
+				}								
+				return rNIBRSError;
+			}			
+		};
+		return unknownOffendersRule; 		
+	}
+
+	public Rule<VictimSegment> getRule469ForSexOfVictim(){
+		
+		Rule<VictimSegment> sexOfVictimForStatutoryRapeRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+								
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasRapeOffense = offenseList.contains(OffenseCode._36B)
+						|| offenseList.contains(OffenseCode._11A);				
+				
+				String victimSexCode = victimSegment.getSex();
+				
+				boolean isMaleOrFemale = SexOfVictimCode.F.code.equals(victimSexCode)
+						|| SexOfVictimCode.M.code.equals(victimSexCode);
+																
+				if(hasRapeOffense && !isMaleOrFemale){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("27");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._469);
+				}				
+				
+				return rNIBRSError;
+			}						
+		};		
+		return sexOfVictimForStatutoryRapeRule;
+	}
+	
+	
+	
+	public Rule<VictimSegment> getRule481ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageOfVictimUnder18ForRapeRule = new Rule<VictimSegment>(){
+	
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+								
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				
+				boolean hasStatRape = offenseList.contains(OffenseCode._36B);				
+				
+				NIBRSAge age = victimSegment.getAge();
+				
+				boolean ageLessThan18 = age != null && age.getAgeMax() < 18;
+				
+				if(hasStatRape && !ageLessThan18){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();					
+					rNIBRSError.setDataElementIdentifier("26");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._481);
+				}				
+				
+				return rNIBRSError;
+			}						
+		};		
+		return ageOfVictimUnder18ForRapeRule;
+	}
+
+	
 	/**
 	 * (Type of Victim) cannot be L=Law Enforcement Officer unless Data Element
 	 * 24 (Victim Connected to UCR Offense Code) is one of the following:
 	 * 09A=Murder & Non-negligent Manslaughter 13A=Aggravated Assault 13B=Simple
 	 * Assault 13C=Intimidation
 	 */
-	public Rule<VictimSegment> typeOfVictimLawOfficerRule482(){
+	public Rule<VictimSegment> getRule482ForTypeOfVictim(){
 		
 		Rule<VictimSegment> typeVictimLawOfficerRule = new Rule<VictimSegment>(){
-
+	
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				
@@ -396,7 +1299,7 @@ public class VictimSegmentRulesFactory {
 					List<String> victimOffenseList = victimSegment.getUcrOffenseCodeList();		
 										
 					if(!lawOfficerVictimOffenseList.containsAll(victimOffenseList)){
-
+	
 						rNIBRSError = victimSegment.getErrorTemplate();
 						
 						rNIBRSError.setDataElementIdentifier("25");
@@ -409,71 +1312,7 @@ public class VictimSegmentRulesFactory {
 		return typeVictimLawOfficerRule;
 	}
 	
-		
-	/**
-	 * (Type of Officer Activity/Circumstance) The referenced data element in a
-	 * Group A Incident Report must be populated with a valid data value and
-	 * cannot be blank.
-	 */
-	public Rule<VictimSegment> typeOfOfficerActivityCircumstance404Rule(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, 
-				TypeOfOfficerActivityCircumstance.codeSet());
-		
-		return validValueListRule;
-	}
-	
-		
-	/**
-	 * (Type of Officer Activity/Circumstance), Data Element 25B (Officer
-	 * Assignment Type), Data Element 26 (Age of Victim), Data Element 27 (Sex
-	 * of Victim), and Data Element 28 (Race of Victim) must be entered when
-	 * Data Element 25 (Type of Victim) is L=Law Enforcement Officer.
-	 */
-	public Rule<VictimSegment> typeOfficerActivityRequiredFieldsRule454(){
-		
-		Rule<VictimSegment> typeOfficerReqFieldsRule = new Rule<VictimSegment>(){
 
-			NIBRSError rNibrsError = null;
-			
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
-				
-				if(victimIsLawOfficer){
-										
-					String circumstance = victimSegment.getTypeOfOfficerActivityCircumstance();
-					
-					String assignmentType = victimSegment.getOfficerAssignmentType();
-					
-					NIBRSAge age = victimSegment.getAge();
-					
-					String victimSex = victimSegment.getSex();
-					
-					String victimRace = victimSegment.getRace();	
-					
-					if(StringUtils.isEmpty(circumstance) 
-							|| StringUtils.isEmpty(assignmentType)
-							|| age == null
-							|| StringUtils.isEmpty(victimSex)
-							|| StringUtils.isEmpty(victimRace)){
-						
-						rNibrsError = victimSegment.getErrorTemplate();
-						
-						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
-						rNibrsError.setDataElementIdentifier("25A");						
-					}					
-				}								
-				return rNibrsError;
-			}
-		};			
-		return typeOfficerReqFieldsRule;
-	}
-	
 	/**
 	 * Type of Officer Activity/Circumstance) Data Element 25B (Officer
 	 * Assignment Type), Data Element 25C (Officer–ORI Other Jurisdiction), Data
@@ -483,15 +1322,15 @@ public class VictimSegmentRulesFactory {
 	 * be Related) can only be entered when Data Element 25 (Type of Victim) is
 	 * I=Individual or L=Law Enforcement Officer.
 	 */
-	public Rule<VictimSegment> officerActivityCircumstanceReqFieldsForPersonRule483(){
+	public Rule<VictimSegment> getRule483ForTypeOfOfficerActivity(){
 		
 		Rule<VictimSegment> personReqFieldsRule = new Rule<VictimSegment>(){
-
+	
 			NIBRSError nibrsError = null;
 			
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-
+	
 				String assignmentType = victimSegment.getOfficerAssignmentType();
 				
 				String ori = victimSegment.getOfficerOtherJurisdictionORI();
@@ -532,887 +1371,6 @@ public class VictimSegmentRulesFactory {
 		};		
 		return personReqFieldsRule;
 	}
-	
-	
-	
-	// TODO 483
-	
-	public Rule<VictimSegment> officerAssignmentType404Rule(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"officerAssignmentType", "25B", VictimSegment.class, NIBRSErrorCode._404, 
-				TypeOfOfficerActivityCircumstance.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	public Rule<VictimSegment> officerOriOtherJurisdiction404Rule(){
-
-		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
-				"officerOtherJurisdictionORI", "25C", VictimSegment.class, NIBRSErrorCode._404);
-		
-		//TODO validate values: A-Z, 0-9
-		
-		return notBlankRule;
-	}
-	
-	
-	public Rule<VictimSegment> ageOfVictim404Rule(){
-		
-		//TODO maybe use AgeOfVictimCode enum to validate values. range is tricky
-		
-		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
-				"age", "26", VictimSegment.class, NIBRSErrorCode._404);
-		
-		return notBlankRule;
-	}
-	
-	
-	
-	public Rule<VictimSegment> ageRangeOrderRule410(){
-		
-		Rule<VictimSegment> ageRangeOrderRule = new Rule<VictimSegment>(){
-			
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-
-				NIBRSAge nibrsAge = victimSegment.getAge();
-				
-				Integer ageMin = nibrsAge.getAgeMin();
-				Integer ageMax = nibrsAge.getAgeMax();
-				
-				if(ageMin != null && ageMax != null && ageMin > ageMax){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();					
-					rNIBRSError.setDataElementIdentifier("26");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._410);					
-				}								
-				return rNIBRSError;
-			}
-		};
-		return ageRangeOrderRule;
-	}
-	
-	
-	public Rule<VictimSegment> ageMin00Rule422(){
-		
-		Rule<VictimSegment> ageMin00Rule = new Rule<VictimSegment>(){
-			
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-
-				NIBRSAge nibrsAge = victimSegment.getAge();
-				
-				
-				if(nibrsAge.isAgeRange() && nibrsAge.getAgeMin() != null 
-						&& nibrsAge.getAgeMin() == 00){
-
-					rNIBRSError = victimSegment.getErrorTemplate();					
-					rNIBRSError.setDataElementIdentifier("26");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._422);
-				}																	
-				return rNIBRSError;
-			}
-		};
-		return ageMin00Rule;
-	}	
-	
-	
-	
-	
-	
-	public Rule<VictimSegment> ageOfVictimSpouse10YearsOldRule450(){
-		
-		Rule<VictimSegment> ageOfSpouse = new Rule<VictimSegment>(){
-			
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-				
-				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
-				
-				if(relationshipList != null 
-						&& relationshipList.contains(RelationshipOfVictimToOffenderCode.SP.code)){
-				
-					NIBRSAge nibrsAge = victimSegment.getAge();
-					
-					Integer minAge = nibrsAge.getAgeMin();
-					
-					if(minAge != null && minAge < 10){
-
-						rNIBRSError = victimSegment.getErrorTemplate();					
-						rNIBRSError.setDataElementIdentifier("26");
-						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._450);
-					}									
-				}
-				return rNIBRSError;
-			}
-		};
-		return ageOfSpouse;
-	}
-	
-			
-	public Rule<VictimSegment> ageOfVictimRequiredForIndividualRule453(){
-		
-		Rule<VictimSegment> ageOfIndividualRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
-								
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
-				
-				NIBRSAge victimAge = victimSegment.getAge();
-				
-				if(isIndividual && victimAge == null){
-					
-					rNibrsError = victimSegment.getErrorTemplate();
-					
-					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
-					rNibrsError.setDataElementIdentifier("26");
-				}								
-				return rNibrsError;
-			}						
-		}; 		
-		return ageOfIndividualRule;		
-	}		
-	
-	
-	
-	public Rule<VictimSegment> ageOfVictimUnder18ForStatutoryRapeRule481(){
-		
-		Rule<VictimSegment> ageOfVictimUnder18ForRapeRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-								
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasStatRape = offenseList.contains(OffenseCode._36B);				
-				
-				NIBRSAge age = victimSegment.getAge();
-				
-				boolean ageLessThan18 = age != null && age.getAgeMax() < 18;
-				
-				if(hasStatRape && !ageLessThan18){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();					
-					rNIBRSError.setDataElementIdentifier("26");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._481);
-				}				
-				
-				return rNIBRSError;
-			}						
-		};		
-		return ageOfVictimUnder18ForRapeRule;
-	}
-	
-	
-	public Rule<VictimSegment> sexOfVictimForRapeOffenseRule481(){
-		
-		Rule<VictimSegment> sexOfVictimForStatutoryRapeRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-								
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasRapeOffense = offenseList.contains(OffenseCode._36B)
-						|| offenseList.contains(OffenseCode._11A);				
-				
-				String victimSexCode = victimSegment.getSex();
-				
-				boolean isMaleOrFemale = SexOfVictimCode.F.code.equals(victimSexCode)
-						|| SexOfVictimCode.M.code.equals(victimSexCode);
-																
-				if(hasRapeOffense && !isMaleOrFemale){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();					
-					rNIBRSError.setDataElementIdentifier("27");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._469);
-				}				
-				
-				return rNIBRSError;
-			}						
-		};		
-		return sexOfVictimForStatutoryRapeRule;
-	}
-	
-	
-	
-	/**
-	 * The Data Element associated with this error cannot be entered when Data
-	 * Element 25 (Type of Victim) is not I=Individual or L=Law Enforcement
-	 * Officer when Data Element 24 (Victim Connected to UCR Offense Code)
-	 * contains a Crime Against Person.
-	 */
-	public Rule<VictimSegment> ageEnteredForNonPersonRule458(){
-		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				NIBRSAge age = victimSegment.getAge();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && age != null){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("26");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return ageForNonPersonRule;		
-	}		
-			
-	
-
-	public Rule<VictimSegment> sexOfVictim404Rule(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	
-	public Rule<VictimSegment> sexOfVictimForIndividual453Rule(){
-		
-		Rule<VictimSegment> sexOfIndividualRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
-								
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
-				
-				boolean containsSexCode = StringUtils.isNotEmpty(victimSegment.getSex());
-				
-				if(isIndividual && !containsSexCode){
-					
-					rNibrsError = victimSegment.getErrorTemplate();
-					
-					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
-					rNibrsError.setDataElementIdentifier("27");
-				}								
-				return rNibrsError;
-			}						
-		}; 		
-		return sexOfIndividualRule;		
-	}	
-	
-	
-	/**
-	 * (Sex of Victim) The Data Element associated with this error cannot be
-	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
-	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
-	 * Offense Code) contains a Crime Against Person.
-	 */
-	public Rule<VictimSegment> sexEnteredForNonPersonRule458(){
-		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String sVictimSex = victimSegment.getSex();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(sVictimSex)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("27");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return ageForNonPersonRule;		
-	}	
-	
-	
-	
-	
-	public Rule<VictimSegment> raceOfVictim404Rule(){
-	
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"race", "28", VictimSegment.class, NIBRSErrorCode._404, RaceOfVictimCode.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	
-	/**
-	 * (Race of Victim) The Data Element associated with this error must be
-	 * present when Data Element 25 (Type of Victim) is I=Individual.
-	 */
-	public Rule<VictimSegment> raceOfVictimForIndividualRule453(){
-		
-		Rule<VictimSegment> raceForIndividualRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-
-				NIBRSError rNIBRSError = null;
-				
-				String race = victimSegment.getRace();
-				
-				boolean hasRace = StringUtils.isNotEmpty(race);
-				
-				String typeOfVictim = victimSegment.getTypeOfVictim();
-				
-				boolean isIndivideual = TypeOfVictimCode.I.equals(typeOfVictim);
-				
-				if(isIndivideual && !hasRace){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._453);
-					rNIBRSError.setDataElementIdentifier("28");
-				}				
-				return rNIBRSError;
-			}			
-		};
-		return raceForIndividualRule;
-	}		
-	
-	
-	/**
-	 * (Race of Victim) The Data Element associated with this error cannot be
-	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
-	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
-	 * Offense Code) contains a Crime Against Person.
-	 */
-	public Rule<VictimSegment> raceEnteredForNonPersonRule458(){
-		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String victimRace = victimSegment.getRace();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(victimRace)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("28");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return ageForNonPersonRule;		
-	}		
-	
-	
-	
-	public Rule<VictimSegment> ethnicityOfVictim404Rule(){
-		
-		//TODO account for element being optional based on typeOfVicitmValue  
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"ethnicity", "29", VictimSegment.class, NIBRSErrorCode._404, EthnicityOfVictim.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	
-	
-	/**
-	 * 29 (Ethnicity of Victim) The Data Element associated with this error
-	 * cannot be entered when Data Element 25 (Type of Victim) is not
-	 * I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim
-	 * Connected to UCR Offense Code) contains a Crime Against Person.
-	 */
-	public Rule<VictimSegment> ethnicityEnteredForNonPersonRule458(){
-		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String ethnicity = victimSegment.getEthnicity();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(ethnicity)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("29");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return ageForNonPersonRule;		
-	}	
-	
-	
-	
-	public Rule<VictimSegment> residentStatusOfVictim404Rule(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"residentStatusOfVictim", "30", VictimSegment.class, NIBRSErrorCode._404, 
-				ResidentStatusCode.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	
-	public Rule<VictimSegment> residentStatusEnteredForNonPersonRule458(){
-		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String residentStatus = victimSegment.getResidentStatusOfVictim();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(residentStatus)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("30");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return ageForNonPersonRule;		
-	}		
-	
-	
-	
-	
-	/**
-	 * (Aggravated Assault/Homicide Circumstances) The referenced data element
-	 * in a Group A Incident Report must be populated with a valid data value
-	 * and cannot be blank.
-	 */
-	public Rule<VictimSegment> aggravatedAssaultHomicideNotBlank404Rule(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("aggravatedAssaultHomicideCircumstances", 
-				"31", VictimSegment.class, NIBRSErrorCode._404, AggravatedAssaultHomicideCircumstancesCode.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	/**
-	 * (Aggravated Assault/Homicide Circumstances The referenced data element in
-	 * error is one that contains multiple data values. When more than one code
-	 * is entered, none can be duplicate codes.
-	 */
-	public Rule<VictimSegment> aggravatedAssaultHomicideNoDuplicates406Rule(){
-
-		DuplicateCodedValueRule<VictimSegment> duplicateValueRule = new DuplicateCodedValueRule<VictimSegment>(
-				"aggravatedAssaultHomicideCircumstances", "31", VictimSegment.class, NIBRSErrorCode._406);
-		
-		return duplicateValueRule;		
-	}
-	
-	
-	/**
-	 * (Aggravated Assault/Homicide Circumstances) Circumstances) can only be
-	 * entered when one or more of the offenses in Data Element 24 (Victim
-	 * Connected to UCR Offense Code) are: 09A=Murder and Non-negligent
-	 * Manslaughter 09B=Negligent Manslaughter 09C=Justifiable Homicide
-	 * 13A=Aggravated Assault
-	 */
-	public Rule<VictimSegment> aggravatedAssaultHomicideCircForOffenseRule419(){
-		
-		Rule<VictimSegment> assaultRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-
-				NIBRSError rNIBRSError = null;
-								
-				List<String> assaultCircList = victimSegment.getAggravatedAssaultHomicideCircumstancesList();
-				
-				boolean hasAssaultEntered = assaultCircList != null && !assaultCircList.isEmpty();
-				
-				
-				List<String> ucrOffenseList = victimSegment.getUcrOffenseCodeList();
-				
-				List<String> offenseListForAssault = Arrays.asList(OffenseCode._09A.code,
-						OffenseCode._09B.code, OffenseCode._09C.code, OffenseCode._13A.code);
-				
-				boolean hasAssaultOffense = CollectionUtils.containsAny(ucrOffenseList, offenseListForAssault);
-				
-				if(hasAssaultEntered && !hasAssaultOffense){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._419);
-					rNIBRSError.setDataElementIdentifier("31");
-				}
-				
-				return rNIBRSError;
-			}						
-		};
-		return assaultRule;
-	}
-	
-	
-	
-	
-	public Rule<VictimSegment> additionalJustifiableHomicideCircumstances404Rule(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"additionalJustifiableHomicideCircumstances", "32", VictimSegment.class, 
-				NIBRSErrorCode._404, AdditionalJustifiableHomicideCircumstancesCode.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	
-	public Rule<VictimSegment> typeInjuryNotAllBlank404Rule(){
-		
-		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("typeOfInjury", 
-				"typeOfInjury", VictimSegment.class, NIBRSErrorCode._404);
-		
-		return notAllBlankRule;
-	}
-	
-	public Rule<VictimSegment> typeInjuryNoDuplicates406Rule(){
-		
-		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<VictimSegment>(
-				"typeOfInjury",	"33", VictimSegment.class, NIBRSErrorCode._406);
-		
-		return duplicateCodedValueRule;
-	}
-	
-	
-	
-	/**
-	 * Data Element 33 (Type Injury) can only be entered when one or more of the
-	 * offenses in Data Element 24 (Victim Connected to UCR Offense Code) are:
-	 * 100=Kidnapping/Abduction 11A=Rape 11B=Sodomy 11C=Sexual Assault With An
-	 * Object 11D=Fondling 120=Robbery 13A=Aggravated Assault 13B=Simple Assault
-	 * 210=Extortion/Blackmail 64A=Human Trafficking, Commercial Sex Acts
-	 * 64B=Human Trafficking, Involuntary Servitude
-	 */
-	public Rule<VictimSegment> typeOfInjuryEnteredForNonPersonOffense(){
-		
-		Rule<VictimSegment> typeInjuryForNonPersonRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-								
-				List<String> offenseList =  victimSegment.getUcrOffenseCodeList();
-				
-				if(offenseList != null && !offenseList.isEmpty() 
-					&& !CollectionUtils.containsAny(offenseList, personOffenseList)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("33");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._419);
-				}
-				
-				return rNIBRSError;
-			}						
-		};		
-		return typeInjuryForNonPersonRule;
-	}
-	
-	
-	
-	
-	
-	/**
-	 * (Type Injury) The Data Element associated with this error cannot be
-	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
-	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
-	 * Offense Code) contains a Crime Against Person.
-	 */
-	public Rule<VictimSegment> typeOfInjuryEnteredForNonPersonRule458(){
-		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				List<String> typeOfInjuryList = victimSegment.getTypeOfInjuryList();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && (typeOfInjuryList != null && !typeOfInjuryList.isEmpty())){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("33");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}															
-				return rNIBRSError;
-			}			
-		};		
-		return ageForNonPersonRule;		
-	}		
-	
-	
-	
-		
-	public Rule<VictimSegment> offenderNumberToBeRelatedNotAllBlank404Rule(){
-		
-		//TODO add condition		
-		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("offenderNumberRelated", 
-				"34", VictimSegment.class, NIBRSErrorCode._404);
-		
-		return notAllBlankRule;
-	}
-	
-	public Rule<VictimSegment> offenderNumberToBeRelatedNoDuplicates406Rule(){
-		
-		DuplicateCodedValueRule<VictimSegment> noDuplicateRule = new DuplicateCodedValueRule<VictimSegment>("offenderNumberRelated", 
-				"34", VictimSegment.class, NIBRSErrorCode._406);
-		
-		return noDuplicateRule;
-	}
-	
-	
-	
-	public Rule<VictimSegment> offenderNumberToBeRelatedForNonPersonRule458(){
-		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, personOffenseList);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				List<Integer> offenderRelatedList = victimSegment.getOffenderNumberRelatedList();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && (offenderRelatedList != null && !offenderRelatedList.isEmpty())){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("34");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}															
-				return rNIBRSError;
-			}			
-		};		
-		return ageForNonPersonRule;		
-	}		
-	
-	
-	/**
-	 * (Offender Numbers To Be Related) was entered but should only be entered
-	 * if one or more of the offenses entered into Data Element 24 [Victim
-	 * Connected to UCR Offense Code(s)] is a Crime Against Person or is a
-	 * Robbery Offense (120). None of these types of offenses were entered.
-	 */
-	public Rule<VictimSegment> offenderNumbersToBeRelatedEnteredWithoutPersonOffenseRule459(){
-		
-		Rule<VictimSegment> offenderNumPersonRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;				
-				
-				List<Integer> offenderNumberRelatedList = victimSegment.getOffenderNumberRelatedList();
-				
-				boolean hasOffenderNumberRelated = offenderNumberRelatedList != null && !offenderNumberRelatedList.isEmpty();
-				
-				if(hasOffenderNumberRelated){
-					
-					List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-					
-					if(!CollectionUtils.containsAny(offenseCodeList, personOffenseList)
-							&& !offenseCodeList.contains(OffenseCode._120)){
-						
-						rNIBRSError = victimSegment.getErrorTemplate();
-						rNIBRSError.setDataElementIdentifier("34");
-						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._459);
-					}										
-				}											
-				return rNIBRSError;
-			}			
-		};		
-		return offenderNumPersonRule;
-	}
-	
-			
-	public Rule<VictimSegment> relationshipOfVictimToOffenderNotAllBlank404Rule(){
-			
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("victimOffenderRelationship", 
-				"35", VictimSegment.class, NIBRSErrorCode._404, RelationshipOfVictimToOffenderCode.codeSet());
-		
-		return validValueListRule;		
-	}
-		
-	
-	
-	/**
-	 * (Relationship of Victim to Offender) Corresponding Data Element 35
-	 * (Relationship of Victim to Offenders) data must be entered when Data
-	 * Element 34 (Offender Numbers To Be Related) is entered with a value
-	 * greater than 00.
-	 */
-	public Rule<VictimSegment> relationshipOfVictimToOffenderWhenOffenderNumberRelatedRule460(){
-		
-		Rule<VictimSegment> relationshiOffenderRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-
-				NIBRSError rNIBRSError = null;
-				
-				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
-								
-				List<Integer> offenderNumRelatedList = victimSegment.getOffenderNumberRelatedList();
-				
-				boolean hasValidOffenderNumRelated = false;
-				
-				for(Integer iOffenderNumRelatd : offenderNumRelatedList){
-				
-					if(iOffenderNumRelatd != null && iOffenderNumRelatd > 0){
-						
-						hasValidOffenderNumRelated = true;
-					}					
-				}
-				
-				boolean hasVictimOffenderRelationship = victimOffenderRelationshipList != null 
-						&& !victimOffenderRelationshipList.isEmpty();				
-								
-				if(hasVictimOffenderRelationship && !hasValidOffenderNumRelated){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("35");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._460);
-				}				
-				return rNIBRSError;
-			}
-			
-		};
-		return relationshiOffenderRule;
-	}
-	
-	
-	
-	
-	/**
-	 * (Relationship of Victim to Offender) cannot be entered when Data Element
-	 * 34 (Offender Number to be Related) is zero. Zero means that the number of
-	 * offenders is unknown; therefore, the relationship cannot be entered.
-	 */
-	public Rule<VictimSegment> relationshipOfVictimToOffenderWithUnknownOffendersRule468(){
-		
-		Rule<VictimSegment> unknownOffendersRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-					
-				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
-								
-				List<Integer> offenderNumberRelatedList = victimSegment.getOffenderNumberRelatedList();
-				
-				if(offenderNumberRelatedList != null && offenderNumberRelatedList.contains(0)){
-					if(victimOffenderRelationshipList != null && !victimOffenderRelationshipList.isEmpty()){
-						
-						rNIBRSError = victimSegment.getErrorTemplate();
-						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._468);
-						rNIBRSError.setDataElementIdentifier("35");						
-					}					
-				}								
-				return rNIBRSError;
-			}			
-		};
-		return unknownOffendersRule; 		
-	}
-	
 	
 }
 
