@@ -13,17 +13,16 @@ import org.apache.commons.lang3.StringUtils;
  *
  */
 public class VictimSegment extends AbstractPersonSegment
-{
-    
-	private Integer victimSequenceNumber;
-    private String[] ucrOffenseCodeConnection;
-    private String typeOfVictim;
-    private String residentStatusOfVictim;
-    private String[] aggravatedAssaultHomicideCircumstances;
-    private String additionalJustifiableHomicideCircumstances;
-    private String[] typeOfInjury;
-    private Integer[] offenderNumberRelated;
-    private String[] victimOffenderRelationship;
+{    
+	private Integer victimSequenceNumber;    
+	private String[] ucrOffenseCodeConnection;    
+	private String typeOfVictim;    
+	private String residentStatusOfVictim;    
+    private String[] aggravatedAssaultHomicideCircumstances;    	
+	private String additionalJustifiableHomicideCircumstances;    
+	private String[] typeOfInjury;        
+    private Integer[] offenderNumberRelated;    
+	private String[] victimOffenderRelationship;
     private String typeOfOfficerActivityCircumstance;
     private String officerAssignmentType;
     private String officerOtherJurisdictionORI;
@@ -137,9 +136,7 @@ public class VictimSegment extends AbstractPersonSegment
     	}   
     	
     	return Collections.unmodifiableList(offenderNumberRelatedList);
-    }
-    
-    
+    }       
     
     public void setOffenderNumberRelated(int position, Integer value)
     {
@@ -179,8 +176,7 @@ public class VictimSegment extends AbstractPersonSegment
 		return Collections.unmodifiableList(typeOfInjuryList);
 	}
 	
-	
-    
+	    
     public void setTypeOfInjury(int position, String value)
     {
         typeOfInjury[position] = value;
@@ -203,9 +199,8 @@ public class VictimSegment extends AbstractPersonSegment
     		
     		aggravatedAssaultHomicideCircumstancesList.add(aggAssaultCirc);
     	}    	    	
-        return aggravatedAssaultHomicideCircumstancesList;
-    }    
-        
+        return Collections.unmodifiableList(aggravatedAssaultHomicideCircumstancesList);
+    }            
     
     
     public void setAggravatedAssaultHomicideCircumstances(int position, String value)
@@ -295,6 +290,47 @@ public class VictimSegment extends AbstractPersonSegment
 	
 	public boolean isLawEnforcementOfficer() {
 		return "L".equals(typeOfVictim);
+	}
+
+    public String[] getUcrOffenseCodeConnection() {
+		return ucrOffenseCodeConnection;
+	}
+
+	public void setUcrOffenseCodeConnection(String[] ucrOffenseCodeConnection) {
+		this.ucrOffenseCodeConnection = ucrOffenseCodeConnection;
+	}
+	
+    public String[] getAggravatedAssaultHomicideCircumstances() {
+		return aggravatedAssaultHomicideCircumstances;
+	}
+
+	public void setAggravatedAssaultHomicideCircumstances(
+			String[] aggravatedAssaultHomicideCircumstances) {
+		this.aggravatedAssaultHomicideCircumstances = aggravatedAssaultHomicideCircumstances;
+	}	
+	
+    public Integer[] getOffenderNumberRelated() {
+		return offenderNumberRelated;
+	}
+
+	public void setOffenderNumberRelated(Integer[] offenderNumberRelated) {
+		this.offenderNumberRelated = offenderNumberRelated;
+	}	
+		
+	public String[] getTypeOfInjury() {
+		return typeOfInjury;
+	}
+
+	public void setTypeOfInjury(String[] typeOfInjury) {
+		this.typeOfInjury = typeOfInjury;
+	}		
+
+	public String[] getVictimOffenderRelationship() {
+		return victimOffenderRelationship;
+	}
+
+	public void setVictimOffenderRelationship(String[] victimOffenderRelationship) {
+		this.victimOffenderRelationship = victimOffenderRelationship;
 	}
 
 	@Override
