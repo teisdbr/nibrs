@@ -43,7 +43,7 @@ public class VictimSegmentRulesFactory {
 			OffenseCode._11A.code, OffenseCode._11B.code, OffenseCode._11C.code, OffenseCode._11D.code, OffenseCode._36A.code,
 			OffenseCode._36B.code);
 	
-	private static final List<String> PROPERTY_CRIM_LIST = Arrays.asList(OffenseCode._200.code,
+	private static final List<String> PROPERTY_CRIME_LIST = Arrays.asList(OffenseCode._200.code,
 			OffenseCode._510.code, OffenseCode._220.code, OffenseCode._250.code,
 			OffenseCode._290.code, OffenseCode._270.code, OffenseCode._210.code,
 			OffenseCode._26A.code, OffenseCode._26B.code, OffenseCode._26C.code,
@@ -67,83 +67,82 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(getRule401ForVictimConnectedToUcrOffenseCode());
 		
-		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
-				
 		rulesList.add(getRule401ForTypeOfVictim());
 		
 		rulesList.add(getRule404ForTypeOfOfficerActivityCircumstance());
-		
+
 		rulesList.add(getRule404ForOfficerAssignmentType());
-				
+		
 		rulesList.add(getRule404ForOfficerOriOtherJurisdiction());
 		
-		rulesList.add(getRule404ForAgeOfVictim());
+		rulesList.add(getRule404ForAgeOfVictim());		
 		
+		rulesList.add(getRule404ForSexOfVictim());		
+
+		rulesList.add(getRule404ForRaceOfVictim());		
+		
+		rulesList.add(getRule404ForEthnicityOfVictim());		
+		
+		rulesList.add(getRule404ForResidentStatusOfVictim());		
+		
+		rulesList.add(getRule404ForAggravatedAssaultHomicideCircumstances());
+		
+		//TODO enable when passing
+//		rulesList.add(getRule404OffenderNumberToBeRelated());
+					
+		rulesList.add(getRule404ForTypeOfInjury());
+		
+		rulesList.add(getRule404ForRelationshipOfVictimToOffender());		
+		
+		rulesList.add(getRule404ForAdditionalJustifiablehomicideCircsumstances());
+		
+		rulesList.add(getRule406ForTypeOfInjury());		
+		
+		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
+		
+		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
+						
 		rulesList.add(getRule410ForAgeOfVictim());
 		
 		rulesList.add(getRule422ForAgeOfVictim());
 		
-		rulesList.add(getRule458ForAgeOfVictim());
-		
-		rulesList.add(getRule450ForAgeOfVictim());
-		
-		rulesList.add(getRule453ForAgeOfVictim());
-		
-		rulesList.add(getRule481ForAgeOfVictim());
-		
-		rulesList.add(getRule404ForSexOfVictim());	
+		rulesList.add(getRule450ForAgeOfVictim());				
 		
 		rulesList.add(getRule469ForSexOfVictim());
+						
+		rulesList.add(getRule453ForAgeOfVictim());
 		
-		rulesList.add(getRule458ForSexOfVictim());		
+		rulesList.add(getRule453ForSexOfVictim());
 		
-		rulesList.add(getRule404ForRaceOfVictim());		
+		rulesList.add(getRule453ForRaceOfVictim());
 		
-		rulesList.add(getRule404ForEthnicityOfVictim());
+		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
+						
+		rulesList.add(getRule464ForTypeOfVictim());
+
+		rulesList.add(geRule465ForTypeOfVictim());
+		
+		rulesList.add(getRule467ForTypeOfVictim());		
+		
+		rulesList.add(getRule458ForSexOfVictim());	
+						
+		rulesList.add(getRule458ForResidentStatusOfVictim());				
+		
+		rulesList.add(getRule458ForOffenderNumberToBeRelated());	
+		
+		rulesList.add(getRule458ForAgeOfVictim());
 		
 		rulesList.add(getRule458ForEthnicityOfVictim());
 		
 		rulesList.add(getRule458ForRaceOfVictim());
 		
-		rulesList.add(getRule404ForResidentStatusOfVictim());
+		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
 		
-		rulesList.add(getRule458ForResidentStatusOfVictim());
-		
-		rulesList.add(getRule404ForAggravatedAssaultHomicideCircumstances());
-		
-		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());
-		
-		rulesList.add(getRule404ForAdditionalJustifiablehomicideCircsumstances());
-		
-		rulesList.add(getRule404ForTypeOfInjury());
-		
-		rulesList.add(getRule406ForTypeOfInjury());
-		
-		rulesList.add(getRule404OffenderNumberToBeRelated());
-		
-		rulesList.add(getRule404OffenderNumberToBeRelated());
-		
-		rulesList.add(getRule458ForOffenderNumberToBeRelated());
-		
-		rulesList.add(getRule404ForRelationshipOfVictimToOffender());
-		
-		rulesList.add(geRule465ForTypeOfVictim());
-		
-		rulesList.add(getRule467ForTypeOfVictim());
+		rulesList.add(getRule481ForAgeOfVictim());		
 		
 		rulesList.add(getRule482ForTypeOfVictim());
 		
-		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
-		
-		rulesList.add(getRule453ForSexOfVictim());
-		
-		rulesList.add(getRule464ForTypeOfVictim());
-		
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
-		
-		rulesList.add(getRule453ForRaceOfVictim());
-		
-		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
 	}
 	
 		
@@ -330,6 +329,10 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
+	//TODO 
+//	java.lang.ClassCastException: [Ljava.lang.Integer; cannot be cast to [Ljava.lang.String;
+//	at org.search.nibrs.validation.rules.NotAllBlankRule.propertyViolatesRule(NotAllBlankRule.java:21)
+//	String[] s = (String[]) value;
 	
 	public Rule<VictimSegment> getRule404OffenderNumberToBeRelated(){
 		
@@ -1199,7 +1202,7 @@ public class VictimSegmentRulesFactory {
 				
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
 				
-				boolean hasCrimeAgainstProperty = CollectionUtils.containsAny(offenseCodeList, PROPERTY_CRIM_LIST);
+				boolean hasCrimeAgainstProperty = CollectionUtils.containsAny(offenseCodeList, PROPERTY_CRIME_LIST);
 				
 				String sVictimType = victimSegment.getTypeOfVictim();
 				
