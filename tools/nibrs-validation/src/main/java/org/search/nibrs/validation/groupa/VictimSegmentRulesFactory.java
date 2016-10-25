@@ -151,9 +151,11 @@ public class VictimSegmentRulesFactory {
 		return rulesList;
 	}
 		
-	
-	// (Victim Sequence Number The referenced data element in a Group A Incident Report must 
-	// 	be populated with a valid data value and cannot be blank.
+		
+	/**
+	 * (Victim Sequence Number The referenced data element in a Group A Incident
+	 * Report must be populated with a valid data value and cannot be blank.
+	 */
 	public Rule<VictimSegment> getRule401ForSequenceNumber(){
 		
 		Rule<VictimSegment> sequenceNumberNotEmptyRule = new Rule<VictimSegment>(){
@@ -165,13 +167,12 @@ public class VictimSegmentRulesFactory {
 				
 				NIBRSError rSeqNumInvalidError = null;
 				
-				if(iSeqNum ==  null || !(iSeqNum >= 1 && iSeqNum <= 999) ){
+				if(iSeqNum ==  null || iSeqNum < 1 || iSeqNum > 999){
 					
 					rSeqNumInvalidError = subject.getErrorTemplate();				
 					rSeqNumInvalidError.setNIBRSErrorCode(NIBRSErrorCode._401);					
 					rSeqNumInvalidError.setDataElementIdentifier("23");															
-				}
-				
+				}				
 				return rSeqNumInvalidError;
 			}};		
 									
@@ -186,6 +187,8 @@ public class VictimSegmentRulesFactory {
 	 */
 	public Rule<VictimSegment> getRule401ForVictimConnectedToUcrOffenseCode() {		
 		
+		// TODO confirm if value should be checked against OffenseCode enum
+		
 		NotAllBlankRule<VictimSegment> ucrOffenseNotAllBlankRule = new NotAllBlankRule<VictimSegment>("ucrOffenseCodeConnection", 
 				"24", VictimSegment.class, NIBRSErrorCode._401);		
 		
@@ -193,11 +196,10 @@ public class VictimSegmentRulesFactory {
 	}	
 	
 	
-	// TODO victimConnectedToUcrOffenseCodeMutexOffences478		
-		
-	
-	// (Type of Victim) The referenced data element in a Group A Incident Report
-	// must be populated with a valid data value and cannot be blank.
+	/**
+	 * (Type of Victim) The referenced data element in a Group A Incident Report
+	 * must be populated with a valid data value and cannot be blank.
+	 */
 	public Rule<VictimSegment> getRule401ForTypeOfVictim(){
 								
 		ValidValueListRule<VictimSegment> typeOfVictimValidValue401Rule = new ValidValueListRule<VictimSegment>(
@@ -222,7 +224,10 @@ public class VictimSegmentRulesFactory {
 	}
 
 
-	
+	/**
+	 * (Sex of Victim) The referenced data element in a Group A Incident Report
+	 * must be populated with a valid data value and cannot be blank.
+	 */
 	public Rule<VictimSegment> getRule404ForSexOfVictim(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
@@ -231,16 +236,57 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
+	/**
+	 * (Officer–ORI Other Jurisdiction) The referenced data element in a Group A
+	 * Incident Report must be populated with a valid data value and cannot be
+	 * blank.
+	 */
 	public Rule<VictimSegment> getRule404ForOfficerOriOtherJurisdiction(){
-	
-		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
-				"officerOtherJurisdictionORI", "25C", VictimSegment.class, NIBRSErrorCode._404);
-		
-		//TODO validate values: A-Z, 0-9
-		
-		return notBlankRule;
+						
+		Rule<VictimSegment> officerOriRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+								
+				String officerOri = victimSegment.getOfficerOtherJurisdictionORI();
+				
+				boolean oriValid = true;
+				
+				if(StringUtils.isNotEmpty(officerOri)){
+
+					if(StringUtils.isNumeric(officerOri)){
+						
+						int iOri = Integer.parseInt(officerOri);
+						
+						if(iOri < 0 || iOri > 9){
+							
+							oriValid = false;
+						}						
+					}else{
+						
+						oriValid = StringUtils.isAlpha(officerOri) && StringUtils.isAllUpperCase(officerOri);						
+					}					
+				}
+				
+				if(!oriValid){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("25C");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._404);
+				}								
+				return rNIBRSError;
+			}			
+		};		
+		return officerOriRule;						
 	}
 
+	/**
+	 * Officer Assignment Type) The referenced data element in a Group A
+	 * Incident Report must be populated with a valid data value and cannot be
+	 * blank.
+	 */
 	public Rule<VictimSegment> getRule404ForOfficerAssignmentType(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
@@ -251,6 +297,10 @@ public class VictimSegmentRulesFactory {
 	}
 
 	
+	/**
+	 * (Ethnicity of Victim) The referenced data element in a Group A Incident
+	 * Report must be populated with a valid data value and cannot be blank
+	 */
 	public Rule<VictimSegment> getRule404ForEthnicityOfVictim(){
 		
 		//TODO account for element being optional based on typeOfVicitmValue  
