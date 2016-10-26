@@ -291,6 +291,11 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._391, 391);
 	}
 	
+	@Test
+	public void testRule401(){
+		testRule(NIBRSErrorCode._401, 401);
+	}
+	
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
 		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(ruleNumber);
 		for (GroupAIncidentReport r : exemplars) {
@@ -301,6 +306,10 @@ public class GroupAIncidentReportValidatorTest {
 					found = true;
 					break;
 				}
+			}
+			
+			if(!found){
+				LOG.error("\n\n\n **** Didn't find for: " + r);
 			}
 			assertTrue(found);
 		}

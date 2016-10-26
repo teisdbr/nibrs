@@ -62,7 +62,7 @@ public class VictimSegmentRulesFactory {
 	}
 	
 	private void initRules(List<Rule<VictimSegment>> rulesList){
-		
+				
 		rulesList.add(getRule401ForSequenceNumber());
 		
 		rulesList.add(getRule401ForVictimConnectedToUcrOffenseCode());
@@ -149,8 +149,8 @@ public class VictimSegmentRulesFactory {
 	public List<Rule<VictimSegment>> getRulesList() {
 		return rulesList;
 	}
-		
-		
+	
+			
 	/**
 	 * (Victim Sequence Number The referenced data element in a Group A Incident
 	 * Report must be populated with a valid data value and cannot be blank.
@@ -186,12 +186,33 @@ public class VictimSegmentRulesFactory {
 	 */
 	public Rule<VictimSegment> getRule401ForVictimConnectedToUcrOffenseCode() {		
 		
-		// TODO confirm if value should be checked against OffenseCode enum
-		
-		NotAllBlankRule<VictimSegment> ucrOffenseNotAllBlankRule = new NotAllBlankRule<VictimSegment>("ucrOffenseCodeConnection", 
-				"24", VictimSegment.class, NIBRSErrorCode._401);		
-		
-		return ucrOffenseNotAllBlankRule;
+		Rule<VictimSegment> ucrRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNIBRSError = null;
+				
+				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
+												
+				if(offenseCodeList != null && !offenseCodeList.isEmpty()){
+
+					for(String iOffenseCode : offenseCodeList){
+						
+						if(!OffenseCode.codeSet().contains(iOffenseCode)){
+										
+							rNIBRSError = victimSegment.getErrorTemplate();							
+							rNIBRSError.setDataElementIdentifier("24");
+							rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._401);							
+							
+							break;
+						}												
+					}					
+				}								
+				return rNIBRSError;
+			}			
+		};				
+		return ucrRule;
 	}	
 	
 	
@@ -203,7 +224,7 @@ public class VictimSegmentRulesFactory {
 								
 		ValidValueListRule<VictimSegment> typeOfVictimValidValue401Rule = new ValidValueListRule<VictimSegment>(
 				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
-				TypeOfVictimCode.codeSet());
+				TypeOfVictimCode.codeSet(), false);
 		
 		return typeOfVictimValidValue401Rule;
 	}
