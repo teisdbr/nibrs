@@ -194,21 +194,28 @@ public class VictimSegmentRulesFactory {
 				NIBRSError rNIBRSError = null;
 				
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-												
+						
+				boolean hasError = false;
+				
 				if(offenseCodeList != null && !offenseCodeList.isEmpty()){
 
 					for(String iOffenseCode : offenseCodeList){
 						
 						if(!OffenseCode.codeSet().contains(iOffenseCode)){
 										
-							rNIBRSError = victimSegment.getErrorTemplate();							
-							rNIBRSError.setDataElementIdentifier("24");
-							rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._401);							
-							
+							hasError = true;							
 							break;
 						}												
 					}					
-				}								
+				}else{					
+					hasError = true;						
+				}
+				
+				if(hasError){
+					rNIBRSError = victimSegment.getErrorTemplate();							
+					rNIBRSError.setDataElementIdentifier("24");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._401);
+				}
 				return rNIBRSError;
 			}			
 		};				

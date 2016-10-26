@@ -48,6 +48,51 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());				
 	}
 	
+	
+	@Test
+	public void testRule401ForVictimConnectedToUcrOffenseCode(){
+		
+		Rule<VictimSegment> rule401 = victimRulesFactory.getRule401ForVictimConnectedToUcrOffenseCode();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setUcrOffenseCodeConnection(null);
+		
+		NIBRSError nibrsError = rule401.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		Assert.assertEquals("24", nibrsError.getDataElementIdentifier());		
+	}
+	
+	@Test
+	public void testRule401ForTypeOfVictim(){
+		
+		Rule<VictimSegment> rule401 = victimRulesFactory.getRule401ForTypeOfVictim();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// test null value
+		victimSegment.setTypeOfVictim(null);
+		
+		NIBRSError nibrsError = rule401.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		
+		// test invalid code
+		victimSegment.setTypeOfVictim("Z");
+		
+		nibrsError = rule401.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
 	private VictimSegment getBasicVictimSegment(){
 		
 		GroupAIncidentReport report = new GroupAIncidentReport();
