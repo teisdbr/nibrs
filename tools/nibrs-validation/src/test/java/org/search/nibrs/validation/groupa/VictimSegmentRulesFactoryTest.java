@@ -129,6 +129,21 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
+	@Test
+	public void testRule404ForResidentStatus(){
+		
+		Rule<VictimSegment> residentStatus404Rule = victimRulesFactory.getRule404ForResidentStatusOfVictim();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setResidentStatusOfVictim(null);
+		
+		NIBRSError nibrsError = residentStatus404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
 	
 	
 	private VictimSegment getBasicVictimSegment(){

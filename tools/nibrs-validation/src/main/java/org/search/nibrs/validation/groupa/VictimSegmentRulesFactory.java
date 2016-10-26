@@ -353,7 +353,7 @@ public class VictimSegmentRulesFactory {
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
 				"residentStatusOfVictim", "30", VictimSegment.class, NIBRSErrorCode._404, 
-				ResidentStatusCode.codeSet());
+				ResidentStatusCode.codeSet(), false);
 		
 		return validValueListRule;
 	}
