@@ -1253,11 +1253,6 @@ public class VictimSegmentRulesFactory {
 	
 	
 	
-	
-	
-	
-	// TODO 483
-	
 	/**
 	 * (Relationship of Victim to Offender) cannot be entered when Data Element
 	 * 34 (Offender Number to be Related) is zero. Zero means that the number of

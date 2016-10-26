@@ -144,7 +144,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
-	
+		
 	
 	private VictimSegment getBasicVictimSegment(){
 		

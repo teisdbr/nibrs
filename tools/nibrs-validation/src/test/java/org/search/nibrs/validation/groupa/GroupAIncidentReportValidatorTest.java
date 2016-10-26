@@ -220,8 +220,7 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._351, 351);
 	}
 	
-	//TODO enable when passing
-	@Ignore
+	@Test
 	public void testRule352() {
 		testRule(NIBRSErrorCode._352, 352);
 	}
@@ -295,6 +294,7 @@ public class GroupAIncidentReportValidatorTest {
 	public void testRule401(){
 		testRule(NIBRSErrorCode._401, 401);
 	}
+	
 	
 	//TODO enable when passing
 	@Ignore
