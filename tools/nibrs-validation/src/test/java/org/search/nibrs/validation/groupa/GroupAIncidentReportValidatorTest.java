@@ -296,6 +296,12 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._401, 401);
 	}
 	
+	//TODO enable when passing
+	@Ignore
+	public void testRule404(){
+		testRule(NIBRSErrorCode._404, 404);
+	}
+	
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
 		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(ruleNumber);
 		for (GroupAIncidentReport r : exemplars) {

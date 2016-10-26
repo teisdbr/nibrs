@@ -2,6 +2,7 @@ package org.search.nibrs.validation.groupa;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
@@ -91,6 +92,43 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
 	}
+	
+	
+	//TODO enable when passing
+	@Ignore
+	public void testRule404ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageRule404 = victimRulesFactory.getRule404ForAgeOfVictim();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setAgeString(null);
+		
+		NIBRSError nibrsError = ageRule404.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());	
+	}
+	
+	
+	@Test
+	public void testRule404ForEthnicityOfVictim(){
+		
+		Rule<VictimSegment> ethnicity404Rule = victimRulesFactory.getRule404ForEthnicityOfVictim();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setEthnicity(null);
+		
+		NIBRSError nibrsError = ethnicity404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
 	
 	
 	private VictimSegment getBasicVictimSegment(){

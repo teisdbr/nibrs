@@ -333,7 +333,8 @@ public class VictimSegmentRulesFactory {
 		//TODO account for element being optional based on typeOfVicitmValue  
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"ethnicity", "29", VictimSegment.class, NIBRSErrorCode._404, EthnicityOfVictim.codeSet());
+				"ethnicity", "29", VictimSegment.class, NIBRSErrorCode._404, 
+				EthnicityOfVictim.codeSet(), false);
 		
 		return validValueListRule;
 	}
@@ -574,7 +575,9 @@ public class VictimSegmentRulesFactory {
 	
 				NIBRSAge nibrsAge = victimSegment.getAge();
 								
-				if(nibrsAge.isAgeRange() && nibrsAge.getAgeMin() != null 
+				if(nibrsAge != null 
+						&& nibrsAge.isAgeRange()
+						&& nibrsAge.getAgeMin() != null 
 						&& nibrsAge.getAgeMin() == 00){
 	
 					rNIBRSError = victimSegment.getErrorTemplate();					
