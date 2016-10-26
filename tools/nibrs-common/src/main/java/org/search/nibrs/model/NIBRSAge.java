@@ -96,7 +96,17 @@ public class NIBRSAge {
 	}
 	
 	public boolean isAgeRange() {
-		return error == null && !isNonNumeric() && !ageMin.equals(ageMax);
+		
+		boolean isAgeRange = false;
+		
+		if(error == null && !isNonNumeric()){
+		
+			if(ageMin != null && ageMax != null){
+				
+				isAgeRange = !ageMin.equals(ageMax);
+			}
+		}		
+		return  isAgeRange;
 	}
 
 	@Override
