@@ -263,6 +263,32 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
+	@Test
+	public void testRule404ForRaceOfVictim(){
+		
+		Rule<VictimSegment> raceOfVictim404Rule = victimRulesFactory.getRule404ForRaceOfVictim();
+	
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setRace(null);
+		
+		NIBRSError nibrsError = raceOfVictim404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);	
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		
+		
+		victimSegment.setRace("Purple");
+		
+		nibrsError = raceOfVictim404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
 	
 	private VictimSegment getBasicVictimSegment(){
 		
