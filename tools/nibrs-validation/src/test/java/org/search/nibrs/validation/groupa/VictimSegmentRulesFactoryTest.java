@@ -358,6 +358,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		VictimSegment victimSegment = getBasicVictimSegment();
 		
+		// test duplicate codes
 		String[] aOffenseCodes = {OffenseCode._09A.code, OffenseCode._09A.code};
 		
 		victimSegment.setUcrOffenseCodeConnection(aOffenseCodes);
@@ -367,6 +368,15 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertNotNull(nibrsError);
 		
 		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		
+		// test different codes
+		String[] aOffenseCodesDifferent = {OffenseCode._09A.code, OffenseCode._09B.code};
+		
+		victimSegment.setUcrOffenseCodeConnection(aOffenseCodesDifferent);
+		
+		nibrsError = offenseCode401Rule.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);
 	}
 	
 	@Test
@@ -376,6 +386,7 @@ public class VictimSegmentRulesFactoryTest {
 
 		VictimSegment victimSegment = getBasicVictimSegment();
 		
+		// test duplicate codes
 		String[] aAssaultCodes = {AggravatedAssaultHomicideCircumstancesCode._01.code, 
 				AggravatedAssaultHomicideCircumstancesCode._01.code};
 		
@@ -386,6 +397,40 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertNotNull(nibrsError);
 		
 		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		
+		// test different codes
+		String[] aAssaultCodesDifferent = {AggravatedAssaultHomicideCircumstancesCode._01.code, 
+				AggravatedAssaultHomicideCircumstancesCode._02.code};
+		
+		victimSegment.setAggravatedAssaultHomicideCircumstances(aAssaultCodesDifferent);
+		
+		nibrsError = assault406Rule.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);
+	}
+	
+	@Test
+	public void getRule406OffenderNumberToBeRelated(){
+		
+		Rule<VictimSegment> offender406Rule = victimRulesFactory.getRule406OffenderNumberToBeRelated();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// test duplicate codes
+		victimSegment.setOffenderNumberRelated(new Integer[]{1,1});
+		
+		NIBRSError nibrsError = offender406Rule.apply(victimSegment);
+	
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		
+		// test different codes
+		victimSegment.setOffenderNumberRelated(new Integer[]{1,2});
+		
+		nibrsError = offender406Rule.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);		
 	}
 	
 	

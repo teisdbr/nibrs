@@ -441,9 +441,11 @@ public class VictimSegmentRulesFactory {
 		return notBlankRule;
 	}
 
-	// (Victim Connected to UCR Offense Code) The referenced data element in
-	// error is one that contains multiple data values. When more than one code
-	// is entered, none can be duplicate codes.
+	/**
+	 * (Victim Connected to UCR Offense Code) The referenced data element in
+	 * error is one that contains multiple data values. When more than one code
+	 * is entered, none can be duplicate codes.
+	 */
 	public Rule<VictimSegment> getRule406ForVictimConnectedToUcrOffenseCode(){
 		
 		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<>
@@ -466,6 +468,11 @@ public class VictimSegmentRulesFactory {
 		return duplicateValueRule;		
 	}
 
+	/**
+	 * (Offender Number to be Related) The referenced data element in error is
+	 * one that contains multiple data values. When more than one code is
+	 * entered, none can be duplicate codes.
+	 */
 	public Rule<VictimSegment> getRule406OffenderNumberToBeRelated(){
 		
 		DuplicateCodedValueRule<VictimSegment> noDuplicateRule = new DuplicateCodedValueRule<VictimSegment>("offenderNumberRelated", 
