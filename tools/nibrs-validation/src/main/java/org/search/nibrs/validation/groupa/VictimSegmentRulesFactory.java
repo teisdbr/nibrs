@@ -318,7 +318,7 @@ public class VictimSegmentRulesFactory {
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
 				"officerAssignmentType", "25B", VictimSegment.class, NIBRSErrorCode._404, 
-				TypeOfOfficerActivityCircumstance.codeSet());
+				TypeOfOfficerActivityCircumstance.codeSet(), false);
 		
 		return validValueListRule;
 	}
