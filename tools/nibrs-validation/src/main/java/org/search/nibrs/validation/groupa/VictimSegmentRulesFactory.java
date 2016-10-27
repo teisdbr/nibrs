@@ -258,7 +258,7 @@ public class VictimSegmentRulesFactory {
 	public Rule<VictimSegment> getRule404ForSexOfVictim(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet());
+				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet(), false);
 		
 		return validValueListRule;
 	}

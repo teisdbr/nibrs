@@ -237,6 +237,33 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
+	@Test
+	public void testRule404ForSexOfVictim(){
+		
+		Rule<VictimSegment> sexOfVictim404Rule = victimRulesFactory.getRule404ForSexOfVictim();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// test null value
+		victimSegment.setSex(null);
+		
+		NIBRSError nibrsError = sexOfVictim404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		
+		// test invalid value
+		victimSegment.setSex("Male");
+		
+		nibrsError = sexOfVictim404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
 	private VictimSegment getBasicVictimSegment(){
 		
 		GroupAIncidentReport report = new GroupAIncidentReport();
