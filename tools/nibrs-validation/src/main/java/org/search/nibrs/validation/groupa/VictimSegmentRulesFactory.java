@@ -358,18 +358,33 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-	//TODO 
-//	java.lang.ClassCastException: [Ljava.lang.Integer; cannot be cast to [Ljava.lang.String;
-//	at org.search.nibrs.validation.rules.NotAllBlankRule.propertyViolatesRule(NotAllBlankRule.java:21)
-//	String[] s = (String[]) value;
-	
+
+	/**
+	 * (Offender Number to be Related) The referenced data element in a Group A
+	 * Incident Report must be populated with a valid data value and cannot be
+	 * blank.
+	 */
 	public Rule<VictimSegment> getRule404OffenderNumberToBeRelated(){
-		
-		//TODO add condition		
-		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("offenderNumberRelated", 
-				"34", VictimSegment.class, NIBRSErrorCode._404);
-		
-		return notAllBlankRule;
+						
+		Rule<VictimSegment> offenderNotBlank404Rule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError nibrsError = null;
+
+				List<Integer> offenderNumList = victimSegment.getOffenderNumberRelatedList();
+				
+				if(offenderNumList == null || offenderNumList.isEmpty()){
+					
+					nibrsError = victimSegment.getErrorTemplate();					
+					nibrsError.setDataElementIdentifier("34");
+					nibrsError.setNIBRSErrorCode(NIBRSErrorCode._404);
+				}								
+				return nibrsError;
+			}			
+		};		
+		return offenderNotBlank404Rule;
 	}
 
 	/**
