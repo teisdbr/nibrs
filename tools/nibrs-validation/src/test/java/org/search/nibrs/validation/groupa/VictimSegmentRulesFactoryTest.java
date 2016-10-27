@@ -11,6 +11,7 @@ import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.TypeInjuryCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class VictimSegmentRulesFactoryTest {
@@ -433,6 +434,34 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertNull(nibrsError);		
 	}
 	
+	
+	@Test
+	public void testRule406ForTypeOfInjury(){
+	
+		Rule<VictimSegment> typeInjury406Rule = victimRulesFactory.getRule406ForTypeOfInjury();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// test duplicate codes
+		String[] aDuplicateInjuries = {TypeInjuryCode.B.code, TypeInjuryCode.B.code};
+		
+		victimSegment.setTypeOfInjury(aDuplicateInjuries);
+		
+		NIBRSError nibrsError = typeInjury406Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		
+		// test different codes
+		String[] aDifferentInjuries = {TypeInjuryCode.B.code, TypeInjuryCode.I.code};
+		
+		victimSegment.setTypeOfInjury(aDifferentInjuries);
+		
+		nibrsError = typeInjury406Rule.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);
+	}
 	
 	
 	

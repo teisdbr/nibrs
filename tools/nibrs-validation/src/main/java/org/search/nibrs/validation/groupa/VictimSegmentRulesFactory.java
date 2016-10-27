@@ -481,6 +481,11 @@ public class VictimSegmentRulesFactory {
 		return noDuplicateRule;
 	}
 
+	/**
+	 * (Type Injury) The referenced data element in error is one that contains
+	 * multiple data values. When more than one code is entered, none can be
+	 * duplicate codes.
+	 */
 	public Rule<VictimSegment> getRule406ForTypeOfInjury(){
 		
 		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<VictimSegment>(
@@ -489,6 +494,8 @@ public class VictimSegmentRulesFactory {
 		return duplicateCodedValueRule;
 	}
 
+	
+	
 	public Rule<VictimSegment> getRule410ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageRangeOrderRule = new Rule<VictimSegment>(){
