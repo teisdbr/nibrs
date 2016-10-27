@@ -9,6 +9,7 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class VictimSegmentRulesFactoryTest {
@@ -349,7 +350,23 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
-	
+	@Test
+	public void testRule406ForVictimConnectedToUcrOffenseCode(){
+		
+		Rule<VictimSegment> offenseCode401Rule = victimRulesFactory.getRule406ForVictimConnectedToUcrOffenseCode();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		String[] aOffenseCodes = {OffenseCode._09A.code, OffenseCode._09A.code};
+		
+		victimSegment.setUcrOffenseCodeConnection(aOffenseCodes);
+		
+		NIBRSError nibrsError = offenseCode401Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+	}
 	
 	
 	
