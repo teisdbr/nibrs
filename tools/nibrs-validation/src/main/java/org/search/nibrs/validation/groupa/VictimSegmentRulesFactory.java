@@ -94,7 +94,7 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(getRule404ForRelationshipOfVictimToOffender());		
 		
-		rulesList.add(getRule404ForAdditionalJustifiablehomicideCircsumstances());
+		rulesList.add(getRule404ForAdditionalJustifiableHomicideCircsumstances());
 		
 		rulesList.add(getRule406ForTypeOfInjury());		
 		
@@ -412,7 +412,7 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;		
 	}
 
-	public Rule<VictimSegment> getRule404ForAdditionalJustifiablehomicideCircsumstances(){
+	public Rule<VictimSegment> getRule404ForAdditionalJustifiableHomicideCircsumstances(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
 				"additionalJustifiableHomicideCircumstances", "32", VictimSegment.class, 

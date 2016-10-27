@@ -289,6 +289,22 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
+	@Test
+	public void testRule404ForAdditionalJustifiableHomicideCircsumstances(){
+		
+		Rule<VictimSegment> justifyHomicideRule = victimRulesFactory.getRule404ForAdditionalJustifiableHomicideCircsumstances();
+	
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setAdditionalJustifiableHomicideCircumstances(null);
+
+		NIBRSError nibrsError = justifyHomicideRule.apply(victimSegment);
+	
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
+	
 	
 	private VictimSegment getBasicVictimSegment(){
 		
