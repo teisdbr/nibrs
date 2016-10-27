@@ -27,9 +27,9 @@ public enum AggravatedAssaultHomicideCircumstancesCode {
 	_20("20","Criminal Killed by Private Citizen"),
 	_21("21","Criminal Killed by Police Officer");
 			
-	private String code;
+	public String code;
 	
-	private String description;
+	public String description;
 	
 	private AggravatedAssaultHomicideCircumstancesCode(String code, String description){
 		

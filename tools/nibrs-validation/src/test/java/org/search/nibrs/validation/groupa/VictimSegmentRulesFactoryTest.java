@@ -8,6 +8,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.validation.rules.Rule;
@@ -367,6 +368,26 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
 	}
+	
+	@Test
+	public void testRule406ForAggravatedAssaultHomicideCircumstances(){
+		
+		Rule<VictimSegment> assault406Rule = victimRulesFactory.getRule406ForAggravatedAssaultHomicideCircumstances();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		String[] aAssaultCodes = {AggravatedAssaultHomicideCircumstancesCode._01.code, 
+				AggravatedAssaultHomicideCircumstancesCode._01.code};
+		
+		victimSegment.setAggravatedAssaultHomicideCircumstances(aAssaultCodes);
+		
+		NIBRSError nibrsError = assault406Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+	}
+	
 	
 	
 	
