@@ -306,6 +306,25 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
+	@Test
+	public void testRule404ForTypeOfInjury(){
+		
+		Rule<VictimSegment> typeOfInjuryRule = victimRulesFactory.getRule404ForTypeOfInjury();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setTypeOfInjury(null);
+		
+		NIBRSError nibrsError = typeOfInjuryRule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
+	
+	
 	private VictimSegment getBasicVictimSegment(){
 		
 		GroupAIncidentReport report = new GroupAIncidentReport();
