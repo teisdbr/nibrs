@@ -295,6 +295,8 @@ public class VictimSegmentRulesFactory {
 						
 						oriValid = StringUtils.isAlpha(officerOri) && StringUtils.isAllUpperCase(officerOri);						
 					}					
+				}else{
+					oriValid = false;
 				}
 				
 				if(!oriValid){

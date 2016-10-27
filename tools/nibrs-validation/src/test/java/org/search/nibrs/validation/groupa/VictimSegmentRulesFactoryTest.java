@@ -220,6 +220,22 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
+	@Test
+	public void testRule404ForOfficerOriOtherJurisdiction(){
+		
+		Rule<VictimSegment> jurisdiction404Rule = victimRulesFactory.getRule404ForOfficerOriOtherJurisdiction();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setOfficerOtherJurisdictionORI(null);
+	
+		NIBRSError nibrsError = jurisdiction404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
+	
 	
 	private VictimSegment getBasicVictimSegment(){
 		
