@@ -187,6 +187,24 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
+	@Test
+	public void testRule404ForTypeOfficerActivityCircumstance(){
+		
+		Rule<VictimSegment> officerActivity404Rule = victimRulesFactory.getRule404ForTypeOfOfficerActivityCircumstance();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setTypeOfOfficerActivityCircumstance(null);
+		
+		NIBRSError nibrsError = officerActivity404Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
+	
 	
 	private VictimSegment getBasicVictimSegment(){
 		
