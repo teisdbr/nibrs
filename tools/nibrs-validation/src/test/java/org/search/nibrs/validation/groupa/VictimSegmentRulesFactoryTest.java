@@ -2,7 +2,6 @@ package org.search.nibrs.validation.groupa;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
@@ -111,6 +110,31 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertNotNull(nibrsError);
 		
 		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());	
+	}
+	
+	
+	@Test
+	public void testRule410ForAgeOfVictim(){
+		
+		Rule<VictimSegment> ageRule410 = victimRulesFactory.getRule410ForAgeOfVictim();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		//invalid age
+		victimSegment.setAgeString("3020");
+		
+		NIBRSError nibrsError = ageRule410.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+				
+		Assert.assertEquals(NIBRSErrorCode._410, nibrsError.getNIBRSErrorCode());
+		
+		// valid age
+		victimSegment.setAgeString("2030");
+		
+		nibrsError = ageRule410.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);				
 	}
 	
 	

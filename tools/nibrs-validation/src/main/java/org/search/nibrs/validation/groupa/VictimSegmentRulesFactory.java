@@ -23,7 +23,6 @@ import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NotAllBlankRule;
-import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
@@ -88,8 +87,7 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(getRule404ForAggravatedAssaultHomicideCircumstances());
 		
-		//TODO enable when passing
-//		rulesList.add(getRule404OffenderNumberToBeRelated());
+		rulesList.add(getRule404OffenderNumberToBeRelated());
 					
 		rulesList.add(getRule404ForTypeOfInjury());
 		
@@ -543,7 +541,10 @@ public class VictimSegmentRulesFactory {
 	}
 
 	
-	
+	/**
+	 * (Age of Victim) was entered as an age-range. Accordingly, the first age
+	 * component must be less than the second age.
+	 */
 	public Rule<VictimSegment> getRule410ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageRangeOrderRule = new Rule<VictimSegment>(){
