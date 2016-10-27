@@ -380,7 +380,8 @@ public class VictimSegmentRulesFactory {
 	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("aggravatedAssaultHomicideCircumstances", 
-				"31", VictimSegment.class, NIBRSErrorCode._404, AggravatedAssaultHomicideCircumstancesCode.codeSet());
+				"31", VictimSegment.class, NIBRSErrorCode._404, AggravatedAssaultHomicideCircumstancesCode.codeSet(),
+				false);
 		
 		return validValueListRule;
 	}
@@ -388,7 +389,8 @@ public class VictimSegmentRulesFactory {
 	public Rule<VictimSegment> getRule404ForRelationshipOfVictimToOffender(){
 			
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("victimOffenderRelationship", 
-				"35", VictimSegment.class, NIBRSErrorCode._404, RelationshipOfVictimToOffenderCode.codeSet());
+				"35", VictimSegment.class, NIBRSErrorCode._404, RelationshipOfVictimToOffenderCode.codeSet(),
+				false);
 		
 		return validValueListRule;		
 	}
@@ -397,7 +399,8 @@ public class VictimSegmentRulesFactory {
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
 				"additionalJustifiableHomicideCircumstances", "32", VictimSegment.class, 
-				NIBRSErrorCode._404, AdditionalJustifiableHomicideCircumstancesCode.codeSet());
+				NIBRSErrorCode._404, AdditionalJustifiableHomicideCircumstancesCode.codeSet(),
+				false);
 		
 		return validValueListRule;
 	}
@@ -405,7 +408,8 @@ public class VictimSegmentRulesFactory {
 	public Rule<VictimSegment> getRule404ForRaceOfVictim(){
 	
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"race", "28", VictimSegment.class, NIBRSErrorCode._404, RaceOfVictimCode.codeSet());
+				"race", "28", VictimSegment.class, NIBRSErrorCode._404, RaceOfVictimCode.codeSet(),
+				false);
 		
 		return validValueListRule;
 	}
