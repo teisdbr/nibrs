@@ -10,6 +10,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
+import org.search.nibrs.model.codes.AgeOfVictimCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -431,14 +432,61 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
+	
+	/**
+	 * (Age of Victim) The referenced data element in a Group A Incident Report
+	 * must be populated with a valid data value and cannot be blank.
+	 */
 	public Rule<VictimSegment> getRule404ForAgeOfVictim(){
-		
-		//TODO maybe use AgeOfVictimCode enum to validate values. range is tricky
-		
-		NotBlankRule<VictimSegment> notBlankRule = new NotBlankRule<VictimSegment>(
-				"age", "26", VictimSegment.class, NIBRSErrorCode._404);
-		
-		return notBlankRule;
+				
+		Rule<VictimSegment> ageRule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+
+				NIBRSError rNIBRSError = null;
+				
+				NIBRSAge nibrsAge = victimSegment.getAge();
+				
+				boolean hasValidValue = true;
+				
+				if(nibrsAge == null){
+					
+					hasValidValue = false;
+					
+				}else if(nibrsAge.getAgeMin() == null 
+						&& nibrsAge.getAgeMax() == null
+						&& StringUtils.isEmpty(nibrsAge.getNonNumericAge())){
+					
+					hasValidValue = false;
+					
+				}else if(nibrsAge.getAgeMin() != null
+						&& nibrsAge.getAgeMax() != null
+						&& nibrsAge.getAgeMin() > nibrsAge.getAgeMax()){
+					
+					hasValidValue = false;
+				
+				}else if(StringUtils.isNotEmpty(nibrsAge.getNonNumericAge())){
+					
+					String sAgeCode = nibrsAge.getNonNumericAge();
+					
+					if(!AgeOfVictimCode.codeSet().contains(sAgeCode)){
+					
+						hasValidValue = false;
+					}				
+				}
+				
+				if(!hasValidValue){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._404);
+					rNIBRSError.setDataElementIdentifier("26");
+				}								
+				return rNIBRSError;
+			}			
+		};
+						
+		return ageRule;
 	}
 
 	/**

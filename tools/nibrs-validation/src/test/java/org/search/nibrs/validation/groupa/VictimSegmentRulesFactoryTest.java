@@ -97,8 +97,7 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
-	//TODO enable when passing
-	@Ignore
+	@Test
 	public void testRule404ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageRule404 = victimRulesFactory.getRule404ForAgeOfVictim();

@@ -23,9 +23,10 @@ public enum AgeOfVictimCode {
 		this.description = description;
 	}
 	
-	private String code;
 	
-	private String description;
+	public String code;
+	
+	public String description;
 	
 	
 	public static Set<String> codeSet(){
