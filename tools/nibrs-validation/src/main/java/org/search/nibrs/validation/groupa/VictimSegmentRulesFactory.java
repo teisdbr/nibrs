@@ -687,7 +687,7 @@ public class VictimSegmentRulesFactory {
 				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
 				
 				if(relationshipList != null 
-						&& relationshipList.contains(RelationshipOfVictimToOffenderCode.SP.code)){
+						&& relationshipList.contains(RelationshipOfVictimToOffenderCode.SE.code)){
 				
 					NIBRSAge nibrsAge = victimSegment.getAge();
 					
