@@ -117,6 +117,8 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
 		
+		rulesList.add(getRule454ForSexOfVictim());
+		
 		rulesList.add(getRule454ForOfficerAssignmentType());
 						
 		rulesList.add(getRule464ForTypeOfVictim());
@@ -888,6 +890,43 @@ public class VictimSegmentRulesFactory {
 	}	
 	
 	
+	/**
+	 * (Sex of Victim) Data Element 25A (Type of Officer Activity/Circumstance),
+	 * Data Element 25B (Officer Assignment Type), Data Element 26 (Age of
+	 * Victim), Data Element 27 (Sex of Victim), and Data Element 28 (Race of
+	 * Victim) must be entered when Data Element 25 (Type of Victim) is L=Law
+	 * Enforcement Officer.
+	 */
+	public Rule<VictimSegment> getRule454ForSexOfVictim(){
+		
+		Rule<VictimSegment> sexOfVictim454Rule = new Rule<VictimSegment>(){
+							
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
+	
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
+				
+				if(victimIsLawOfficer){
+																				
+					String sexOfVictim = victimSegment.getSex();
+																
+					if(StringUtils.isEmpty(sexOfVictim)){
+						
+						rNibrsError = victimSegment.getErrorTemplate();
+						
+						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
+						rNibrsError.setDataElementIdentifier("27");						
+					}					
+				}								
+				return rNibrsError;
+			}
+		};			
+		return sexOfVictim454Rule;
+	}		
 	
 	
 	
