@@ -11,6 +11,7 @@ import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
+import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.Rule;
@@ -383,6 +384,35 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
+	
+	
+	@Test
+	public void testRule453ForSexOfVictim(){
+		
+		Rule<VictimSegment> rule453SexCode = victimRulesFactory.getRule453ForSexOfVictim();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+	
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
+		
+		// test required sex code missing
+		victimSegment.setSex(null);
+		
+		NIBRSError nibrsError = rule453SexCode.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+		
+		// test sex code valid
+		victimSegment.setSex(SexOfVictimCode.M.code);
+		
+		nibrsError = rule453SexCode.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);
+	}
+		
+	
 	
 	@Test
 	public void testRule404ForRaceOfVictim(){

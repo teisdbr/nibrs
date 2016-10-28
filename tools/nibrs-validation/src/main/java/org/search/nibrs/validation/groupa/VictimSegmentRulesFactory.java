@@ -784,6 +784,10 @@ public class VictimSegmentRulesFactory {
 	}
 
 	
+	/**
+	 * (Sex of Victim) The Data Element associated with this error must be
+	 * present when Data Element 25 (Type of Victim) is I=Individual.
+	 */
 	public Rule<VictimSegment> getRule453ForSexOfVictim(){
 		
 		Rule<VictimSegment> sexOfIndividualRule = new Rule<VictimSegment>(){
