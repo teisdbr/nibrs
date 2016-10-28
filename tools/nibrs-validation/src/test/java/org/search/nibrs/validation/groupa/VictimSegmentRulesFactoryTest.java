@@ -12,6 +12,7 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
+import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class VictimSegmentRulesFactoryTest {
@@ -199,6 +200,37 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertNull(nibrsError);
 	}
+	
+	
+	
+	@Test
+	public void testRule453ForAgeOfVictim(){
+		
+		Rule<VictimSegment> age453Rule = victimRulesFactory.getRule453ForAgeOfVictim();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
+		
+		// test missing age
+		victimSegment.setAgeString(null);
+		
+		NIBRSError nibrsError = age453Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+	
+		// test valid age
+		victimSegment.setAgeString("3033");
+		
+		nibrsError = age453Rule.apply(victimSegment);
+	
+		Assert.assertNull(nibrsError);
+	}
+	
+	
+	
 	
 	
 	@Test

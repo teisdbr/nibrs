@@ -742,6 +742,10 @@ public class VictimSegmentRulesFactory {
 	}
 
 	
+	/**
+	 * (Age of Victim) The Data Element associated with this error must be
+	 * present when Data Element 25 (Type of Victim) is I=Individual.
+	 */
 	public Rule<VictimSegment> getRule453ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageOfIndividualRule = new Rule<VictimSegment>(){
@@ -756,8 +760,17 @@ public class VictimSegmentRulesFactory {
 				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
 				
 				NIBRSAge victimAge = victimSegment.getAge();
+								
+				boolean hasNumericAge = victimAge != null 
+						&& victimAge.getAgeMin() != null
+						&& victimAge.getAgeMax() != null;
 				
-				if(isIndividual && victimAge == null){
+				boolean hasTextAgeCode = victimAge != null
+						&& StringUtils.isNotEmpty(victimAge.getNonNumericAge());
+				
+				boolean hasAge = hasNumericAge || hasTextAgeCode;
+												
+				if(isIndividual && !hasAge){
 					
 					rNibrsError = victimSegment.getErrorTemplate();
 					
