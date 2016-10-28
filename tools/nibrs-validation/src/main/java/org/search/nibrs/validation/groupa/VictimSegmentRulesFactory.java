@@ -116,6 +116,8 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule453ForRaceOfVictim());
 		
 		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
+		
+		rulesList.add(getRule454ForOfficerAssignmentType());
 						
 		rulesList.add(getRule464ForTypeOfVictim());
 
@@ -838,20 +840,8 @@ public class VictimSegmentRulesFactory {
 				if(victimIsLawOfficer){
 										
 					String circumstance = victimSegment.getTypeOfOfficerActivityCircumstance();
-					
-					String assignmentType = victimSegment.getOfficerAssignmentType();
-					
-					NIBRSAge age = victimSegment.getAge();
-					
-					String victimSex = victimSegment.getSex();
-					
-					String victimRace = victimSegment.getRace();	
-					
-					if(StringUtils.isEmpty(circumstance) 
-							|| StringUtils.isEmpty(assignmentType)
-							|| age == null
-							|| StringUtils.isEmpty(victimSex)
-							|| StringUtils.isEmpty(victimRace)){
+											
+					if(StringUtils.isEmpty(circumstance)){
 						
 						rNibrsError = victimSegment.getErrorTemplate();
 						
@@ -865,6 +855,41 @@ public class VictimSegmentRulesFactory {
 		return typeOfficerReqFieldsRule;
 	}
 
+	
+	public Rule<VictimSegment> getRule454ForOfficerAssignmentType(){
+		
+		Rule<VictimSegment> assignment454Rule = new Rule<VictimSegment>(){
+							
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
+	
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
+				
+				if(victimIsLawOfficer){
+																				
+					String assignmentType = victimSegment.getOfficerAssignmentType();
+																
+					if(StringUtils.isEmpty(assignmentType)){
+						
+						rNibrsError = victimSegment.getErrorTemplate();
+						
+						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
+						rNibrsError.setDataElementIdentifier("25B");						
+					}					
+				}								
+				return rNibrsError;
+			}
+		};			
+		return assignment454Rule;
+	}	
+	
+	
+	
+	
 	
 	/**
 	 * The Data Element associated with this error cannot be entered when Data

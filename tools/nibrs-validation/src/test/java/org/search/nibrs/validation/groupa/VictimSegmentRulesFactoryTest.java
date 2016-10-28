@@ -345,7 +345,8 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
+		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());		
+		Assert.assertEquals("25A", nibrsError.getDataElementIdentifier());
 		
 		// test a valid circumstance for law officer
 		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
@@ -358,6 +359,41 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertNull(nibrsError);				
 	}
+	
+	
+	@Test
+	public void testRule454ForOfficerAssignmentType(){
+		
+		Rule<VictimSegment> assignment454Rule = victimRulesFactory.getRule454ForOfficerAssignmentType();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setOfficerAssignmentType(null);
+		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.L.code);
+	
+		NIBRSError nibrsError = assignment454Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(victimSegment);
+		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
+		
+		Assert.assertEquals("25B", nibrsError.getDataElementIdentifier());
+				
+		// test a valid circumstance for law officer
+		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
+		victimSegment.setOfficerAssignmentType(OfficerAssignmentType.F.code);
+		victimSegment.setAgeString("3336");
+		victimSegment.setSex(SexOfVictimCode.M.code);
+		victimSegment.setRace(RaceOfVictimCode.A.code);
+		
+		nibrsError = assignment454Rule.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);				
+	}
+	
+	
+	
+	
 	
 	
 	
