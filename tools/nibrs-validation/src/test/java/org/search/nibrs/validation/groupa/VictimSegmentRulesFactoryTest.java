@@ -426,6 +426,40 @@ public class VictimSegmentRulesFactoryTest {
 	
 	
 	@Test
+	public void testRule454ForRaceOfVictim(){
+	
+		Rule<VictimSegment> raceOfVictim454Rule = victimRulesFactory.getRule454ForRaceOfVictim();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.L.code);
+		
+		victimSegment.setRace(null);
+		
+		NIBRSError nibrsError = raceOfVictim454Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
+		
+		Assert.assertEquals("28", nibrsError.getDataElementIdentifier());
+		
+		// test a valid circumstance for law officer
+		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
+		victimSegment.setOfficerAssignmentType(OfficerAssignmentType.F.code);
+		victimSegment.setAgeString("3336");
+		victimSegment.setSex(SexOfVictimCode.M.code);
+		victimSegment.setRace(RaceOfVictimCode.A.code);
+		
+		nibrsError = raceOfVictim454Rule.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);
+	}
+	
+	
+	
+	
+	@Test
 	public void testRule404ForOfficerAssignmentType(){
 		
 		Rule<VictimSegment> officerAssignment404Rule = victimRulesFactory.getRule404ForOfficerAssignmentType();

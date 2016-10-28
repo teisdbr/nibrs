@@ -929,6 +929,46 @@ public class VictimSegmentRulesFactory {
 	}		
 	
 	
+	/**
+	 * Data Element 25A (Type of Officer Activity/Circumstance), Data Element
+	 * 25B (Officer Assignment Type), Data Element 26 (Age of Victim), Data
+	 * Element 27 (Sex of Victim), and Data Element 28 (Race of Victim) must be
+	 * entered when Data Element 25 (Type of Victim) is L=Law Enforcement
+	 * Officer.
+	 */
+	public Rule<VictimSegment> getRule454ForRaceOfVictim(){
+		
+		Rule<VictimSegment> raceOfVictim454Rule = new Rule<VictimSegment>(){
+							
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
+	
+				String victimType = victimSegment.getTypeOfVictim();
+				
+				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
+				
+				if(victimIsLawOfficer){
+																				
+					String raceOfVictim = victimSegment.getRace();
+																
+					if(StringUtils.isEmpty(raceOfVictim)){
+						
+						rNibrsError = victimSegment.getErrorTemplate();
+						
+						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
+						rNibrsError.setDataElementIdentifier("28");						
+					}					
+				}								
+				return rNibrsError;
+			}
+		};			
+		return raceOfVictim454Rule;
+	}		
+	
+	
+	
 	
 	/**
 	 * The Data Element associated with this error cannot be entered when Data
