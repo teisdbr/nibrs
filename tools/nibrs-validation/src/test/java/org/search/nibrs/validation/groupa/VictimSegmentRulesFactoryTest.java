@@ -10,6 +10,7 @@ import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.RaceOfVictimCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
@@ -439,6 +440,34 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
+	
+	@Test
+	public void testRule453ForRaceOfVictim(){
+		
+		Rule<VictimSegment> race453Rule = victimRulesFactory.getRule453ForRaceOfVictim();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// race is required for Individuals
+		victimSegment.setTypeOfVictim(RaceOfVictimCode.I.code);
+		
+		victimSegment.setRace(null);
+		
+		NIBRSError nibrsError = race453Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+	
+		// race should not be required in this case
+		victimSegment.setTypeOfVictim(RaceOfVictimCode.P.code);
+		
+		nibrsError = race453Rule.apply(victimSegment);
+						
+		Assert.assertNull(nibrsError);
+	}
+	
+		
 	
 	@Test
 	public void testRule404ForAdditionalJustifiableHomicideCircsumstances(){

@@ -727,7 +727,7 @@ public class VictimSegmentRulesFactory {
 				
 				String typeOfVictim = victimSegment.getTypeOfVictim();
 				
-				boolean isIndivideual = TypeOfVictimCode.I.equals(typeOfVictim);
+				boolean isIndivideual = TypeOfVictimCode.I.code.equals(typeOfVictim);
 				
 				if(isIndivideual && !hasRace){
 					
