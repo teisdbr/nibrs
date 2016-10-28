@@ -825,11 +825,11 @@ public class VictimSegmentRulesFactory {
 	public Rule<VictimSegment> getRule454ForTypeOfOfficerActivityCircumstance(){
 		
 		Rule<VictimSegment> typeOfficerReqFieldsRule = new Rule<VictimSegment>(){
-	
-			NIBRSError rNibrsError = null;
-			
+							
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError rNibrsError = null;
 	
 				String victimType = victimSegment.getTypeOfVictim();
 				

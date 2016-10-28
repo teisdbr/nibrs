@@ -17,9 +17,9 @@ public enum TypeOfOfficerActivityCircumstance {
 	_10("10","Traffic Pursuits and Stops"),
 	_11("11","All Other");
 	
-	private String code;
+	public String code;
 	
-	private String description;
+	public String description;
 	
 	private TypeOfOfficerActivityCircumstance(String code, String description){
 		

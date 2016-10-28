@@ -13,9 +13,9 @@ public enum OfficerAssignmentType {
 	K("K","Other (Alone)"),
 	L("L","Other (Assisted)");
 
-	private String code;
+	public String code;
 	
-	private String description;	
+	public String description;	
 	
 	private OfficerAssignmentType(String code, String description) {
 	

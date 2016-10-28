@@ -10,10 +10,12 @@ import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.OfficerAssignmentType;
 import org.search.nibrs.model.codes.RaceOfVictimCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
+import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.Rule;
 
@@ -325,6 +327,39 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
+	
+	
+	@Test
+	public void testRule454ForTypeOfOfficerActivityCircumstance(){
+		
+		Rule<VictimSegment> activity454Rule = victimRulesFactory.getRule454ForTypeOfOfficerActivityCircumstance();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// test invalid circumstance for law officer
+		victimSegment.setTypeOfOfficerActivityCircumstance(null);
+		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.L.code);
+		
+		NIBRSError nibrsError = activity454Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
+		
+		// test a valid circumstance for law officer
+		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
+		victimSegment.setOfficerAssignmentType(OfficerAssignmentType.F.code);
+		victimSegment.setAgeString("3336");
+		victimSegment.setSex(SexOfVictimCode.M.code);
+		victimSegment.setRace(RaceOfVictimCode.A.code);
+		
+		nibrsError = activity454Rule.apply(victimSegment);
+		
+		Assert.assertNull(nibrsError);				
+	}
+	
+	
 	
 	@Test
 	public void testRule404ForOfficerAssignmentType(){
