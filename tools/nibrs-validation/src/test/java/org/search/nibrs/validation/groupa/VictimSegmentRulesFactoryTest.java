@@ -7,6 +7,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
@@ -640,6 +641,26 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	
+	@Test
+	public void testRule457ForAdditionalJustifiableHomicideCircsumstances(){
+	
+		Rule<VictimSegment> addnlInfoWithoutJustHomicideRule = victimRulesFactory
+				.getRule457ForAdditionalJustifiableHomicideCircsumstances();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, 
+				AggravatedAssaultHomicideCircumstancesCode._10.code);
+		
+		victimSegment.setAdditionalJustifiableHomicideCircumstances(
+				AdditionalJustifiableHomicideCircumstancesCode.A.code);
+		
+		NIBRSError nibrsError = addnlInfoWithoutJustHomicideRule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._457, nibrsError.getNIBRSErrorCode());
+	}
 	
 	
 	@Test
