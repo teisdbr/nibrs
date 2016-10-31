@@ -15,6 +15,7 @@ import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.OfficerAssignmentType;
 import org.search.nibrs.model.codes.RaceOfVictimCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
+import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
@@ -713,6 +714,29 @@ public class VictimSegmentRulesFactoryTest {
 		
 		Assert.assertNotNull(nibrsError);
 		
+		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
+	@Test
+	public void testRule458ForResidentStatusOfVictim(){
+		
+		Rule<VictimSegment> residentStatus458Rule = victimRulesFactory.getRule458ForResidentStatusOfVictim(); 	
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// crime against person
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		
+		// type victim not individual or law officer
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);		
+		
+		// not allowed for above conditions
+		victimSegment.setResidentStatusOfVictim(ResidentStatusCode.N.code);
+		
+		NIBRSError nibrsError = residentStatus458Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
 		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 	}
 	

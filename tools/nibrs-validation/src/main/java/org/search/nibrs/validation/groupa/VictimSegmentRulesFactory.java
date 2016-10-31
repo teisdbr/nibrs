@@ -1058,7 +1058,7 @@ public class VictimSegmentRulesFactory {
 	 */
 	public Rule<VictimSegment> getRule458ForAgeOfVictim(){
 		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+		Rule<VictimSegment> ageRule458 = new Rule<VictimSegment>(){
 									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -1086,7 +1086,7 @@ public class VictimSegmentRulesFactory {
 				return rNIBRSError;
 			}			
 		};		
-		return ageForNonPersonRule;		
+		return ageRule458;		
 	}
 
 	/**
@@ -1097,7 +1097,7 @@ public class VictimSegmentRulesFactory {
 	 */
 	public Rule<VictimSegment> getRule458ForEthnicityOfVictim(){
 		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+		Rule<VictimSegment> ethnicityRule458 = new Rule<VictimSegment>(){
 									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -1127,7 +1127,7 @@ public class VictimSegmentRulesFactory {
 				return rNIBRSError;
 			}			
 		};		
-		return ageForNonPersonRule;		
+		return ethnicityRule458;		
 	}
 
 	/**
@@ -1138,7 +1138,7 @@ public class VictimSegmentRulesFactory {
 	 */
 	public Rule<VictimSegment> getRule458ForSexOfVictim(){
 		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+		Rule<VictimSegment> sexOfVictimRule458 = new Rule<VictimSegment>(){
 									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -1166,7 +1166,7 @@ public class VictimSegmentRulesFactory {
 				return rNIBRSError;
 			}			
 		};		
-		return ageForNonPersonRule;		
+		return sexOfVictimRule458;		
 	}
 
 	/**
@@ -1177,7 +1177,7 @@ public class VictimSegmentRulesFactory {
 	 */
 	public Rule<VictimSegment> getRule458ForRaceOfVictim(){
 		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+		Rule<VictimSegment> raceRule458 = new Rule<VictimSegment>(){
 									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -1205,12 +1205,18 @@ public class VictimSegmentRulesFactory {
 				return rNIBRSError;
 			}			
 		};		
-		return ageForNonPersonRule;		
+		return raceRule458;		
 	}
 
+	/**
+	 * (Resident Status of Victim) The Data Element associated with this error
+	 * cannot be entered when Data Element 25 (Type of Victim) is not
+	 * I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim
+	 * Connected to UCR Offense Code) contains a Crime Against Person.
+	 */
 	public Rule<VictimSegment> getRule458ForResidentStatusOfVictim(){
 		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+		Rule<VictimSegment> residentStatusRule458 = new Rule<VictimSegment>(){
 									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -1228,7 +1234,9 @@ public class VictimSegmentRulesFactory {
 				
 				String residentStatus = victimSegment.getResidentStatusOfVictim();
 				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(residentStatus)){
+				boolean hasResidentStatus = StringUtils.isNotEmpty(residentStatus);
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && hasResidentStatus){
 					
 					rNIBRSError = victimSegment.getErrorTemplate();
 					rNIBRSError.setDataElementIdentifier("30");
@@ -1238,7 +1246,7 @@ public class VictimSegmentRulesFactory {
 				return rNIBRSError;
 			}			
 		};		
-		return ageForNonPersonRule;		
+		return residentStatusRule458;		
 	}
 
 	/**
@@ -1249,7 +1257,7 @@ public class VictimSegmentRulesFactory {
 	 */
 	public Rule<VictimSegment> getRule458ForTypeOfInjury(){
 		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+		Rule<VictimSegment> typeInjuryRule458 = new Rule<VictimSegment>(){
 									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -1278,12 +1286,12 @@ public class VictimSegmentRulesFactory {
 				return rNIBRSError;
 			}			
 		};		
-		return ageForNonPersonRule;		
+		return typeInjuryRule458;		
 	}
 
 	public Rule<VictimSegment> getRule458ForOffenderNumberToBeRelated(){
 		
-		Rule<VictimSegment> ageForNonPersonRule = new Rule<VictimSegment>(){
+		Rule<VictimSegment> offenderNumRelatedRule458 = new Rule<VictimSegment>(){
 									
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -1310,7 +1318,7 @@ public class VictimSegmentRulesFactory {
 				return rNIBRSError;
 			}			
 		};		
-		return ageForNonPersonRule;		
+		return offenderNumRelatedRule458;		
 	}
 
 	/**
