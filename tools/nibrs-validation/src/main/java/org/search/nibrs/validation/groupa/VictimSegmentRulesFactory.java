@@ -1289,6 +1289,12 @@ public class VictimSegmentRulesFactory {
 		return typeInjuryRule458;		
 	}
 
+	/**
+	 * (Offender Number to be Related) The Data Element associated with this
+	 * error cannot be entered when Data Element 25 (Type of Victim) is not
+	 * I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim
+	 * Connected to UCR Offense Code) contains a Crime Against Person.
+	 */
 	public Rule<VictimSegment> getRule458ForOffenderNumberToBeRelated(){
 		
 		Rule<VictimSegment> offenderNumRelatedRule458 = new Rule<VictimSegment>(){
@@ -1309,7 +1315,9 @@ public class VictimSegmentRulesFactory {
 				
 				List<Integer> offenderRelatedList = victimSegment.getOffenderNumberRelatedList();
 				
-				if(hasCrimeAgainstPerson && !victimIsPerson && (offenderRelatedList != null && !offenderRelatedList.isEmpty())){
+				boolean hasOffenderNumRelated = offenderRelatedList != null && !offenderRelatedList.isEmpty();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && (offenderRelatedList != null && hasOffenderNumRelated)){
 					
 					rNIBRSError = victimSegment.getErrorTemplate();
 					rNIBRSError.setDataElementIdentifier("34");

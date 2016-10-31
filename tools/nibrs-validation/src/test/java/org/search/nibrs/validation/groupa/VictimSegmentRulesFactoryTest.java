@@ -740,7 +740,27 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 	}
 	
+	@Test
+	public void testRule458ForOffenderNumberToBeRelated(){
 	
+		Rule<VictimSegment> offenderNum458Rule = victimRulesFactory.getRule458ForOffenderNumberToBeRelated();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+	
+		// crime against person
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		
+		// type victim not individual or law officer
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
+		
+		victimSegment.setOffenderNumberRelated(0, 1);
+		
+		NIBRSError nibrsError = offenderNum458Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+	}
 	
 	
 	@Test
