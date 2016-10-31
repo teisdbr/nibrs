@@ -662,6 +662,35 @@ public class VictimSegmentRulesFactoryTest {
 		Assert.assertEquals(NIBRSErrorCode._457, nibrsError.getNIBRSErrorCode());
 	}
 	
+		
+	@Test
+	public void testRule458ForTypeOfInjury(){
+		
+		Rule<VictimSegment>  typeInjury458Rule = victimRulesFactory.getRule458ForTypeOfInjury();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
+		
+		// test populated type of injury
+		victimSegment.setTypeOfInjury(0, TypeInjuryCode.B.code);
+		
+		NIBRSError nibrsError = typeInjury458Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+		
+		//TODO enable when set(null) supported
+		// test empty type of injury
+//		victimSegment.setTypeOfInjury(null);		
+//		nibrsError = typeInjury458Rule.apply(victimSegment);		
+//		Assert.assertNull(nibrsError);
+	}
+	
+	
 	
 	@Test
 	public void testRule404ForTypeOfInjury(){

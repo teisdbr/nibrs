@@ -505,7 +505,6 @@ public class VictimSegmentRulesFactory {
 		return addnlInfoWithoutJustHomicideRule;
 	}
 	
-
 	public Rule<VictimSegment> getRule404ForRaceOfVictim(){
 	
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
@@ -1266,7 +1265,9 @@ public class VictimSegmentRulesFactory {
 				
 				List<String> typeOfInjuryList = victimSegment.getTypeOfInjuryList();
 				
-				if(hasCrimeAgainstPerson && !victimIsPerson && (typeOfInjuryList != null && !typeOfInjuryList.isEmpty())){
+				boolean hasTypeOfInjury = typeOfInjuryList != null && !typeOfInjuryList.isEmpty();
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && hasTypeOfInjury){
 					
 					rNIBRSError = victimSegment.getErrorTemplate();
 					rNIBRSError.setDataElementIdentifier("33");
