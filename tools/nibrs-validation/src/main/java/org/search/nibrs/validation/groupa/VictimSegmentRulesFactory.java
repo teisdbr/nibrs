@@ -1115,7 +1115,9 @@ public class VictimSegmentRulesFactory {
 				
 				String ethnicity = victimSegment.getEthnicity();
 				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(ethnicity)){
+				boolean hasEthnicity = StringUtils.isNotEmpty(ethnicity);
+				
+				if(hasCrimeAgainstPerson && !victimIsPerson && hasEthnicity){
 					
 					rNIBRSError = victimSegment.getErrorTemplate();
 					rNIBRSError.setDataElementIdentifier("29");

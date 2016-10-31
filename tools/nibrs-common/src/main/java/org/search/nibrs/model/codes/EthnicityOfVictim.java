@@ -17,9 +17,9 @@ public enum EthnicityOfVictim {
 		this.description = description;
 	}
 	
-	private String code;
+	public String code;
 	
-	private String description;
+	public String description;
 	
 	public static Set<String> codeSet(){
 		

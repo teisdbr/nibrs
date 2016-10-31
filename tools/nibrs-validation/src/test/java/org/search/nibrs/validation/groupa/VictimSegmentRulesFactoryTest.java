@@ -9,6 +9,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
+import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.OfficerAssignmentType;
@@ -672,6 +673,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		
+		// type victim not individual or law officer
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
 		
 		// test populated type of injury
@@ -689,6 +691,31 @@ public class VictimSegmentRulesFactoryTest {
 //		nibrsError = typeInjury458Rule.apply(victimSegment);		
 //		Assert.assertNull(nibrsError);
 	}
+	
+	
+	@Test
+	public void testRule458ForEthnicityOfVictim(){
+		
+		Rule<VictimSegment> ethnicity458Rule = victimRulesFactory.getRule458ForEthnicityOfVictim();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+	
+		// crime against person
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		
+		// type victim not individual or law officer
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
+		
+		// not allowed for above conditions
+		victimSegment.setEthnicity(EthnicityOfVictim.H.code);
+		
+		NIBRSError nibrsError = ethnicity458Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+	}
+	
 	
 	
 	
