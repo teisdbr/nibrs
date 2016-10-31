@@ -1154,9 +1154,11 @@ public class VictimSegmentRulesFactory {
 				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
 						|| TypeOfVictimCode.L.code.equals(sVictimType);				
 				
-				String sVictimSex = victimSegment.getSex();
+				String sSexOfVictim = victimSegment.getSex();
 				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(sVictimSex)){
+				boolean isSexOfVictimEntered= StringUtils.isNotEmpty(sSexOfVictim);
+								
+				if(hasCrimeAgainstPerson && !victimIsPerson && isSexOfVictimEntered){
 					
 					rNIBRSError = victimSegment.getErrorTemplate();
 					rNIBRSError.setDataElementIdentifier("27");

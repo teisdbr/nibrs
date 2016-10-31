@@ -764,6 +764,31 @@ public class VictimSegmentRulesFactoryTest {
 	
 	
 	@Test
+	public void testRule458ForSexOfVictim(){
+		
+		Rule<VictimSegment> rule458SexOfVictim = victimRulesFactory.getRule458ForSexOfVictim();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+		
+		// crime against person
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);		
+	
+		// type victim not individual or law officer
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
+		
+		// not allowed to be populated when above conditions exist
+		victimSegment.setSex(SexOfVictimCode.M.code);
+		
+		NIBRSError nibrsError = rule458SexOfVictim.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+		Assert.assertEquals("27", nibrsError.getDataElementIdentifier());
+	}
+	
+	
+	@Test
 	public void testRule404ForTypeOfInjury(){
 		
 		Rule<VictimSegment> typeOfInjuryRule = victimRulesFactory.getRule404ForTypeOfInjury();
