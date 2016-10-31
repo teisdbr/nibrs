@@ -620,6 +620,29 @@ public class VictimSegmentRulesFactoryTest {
 	
 	
 	@Test
+	public void testRule455ForAdditionalJustifiableHomicideCircsumstances(){
+		
+		Rule<VictimSegment> addnlCir455Rule = victimRulesFactory
+				.getRule455ForAdditionalJustifiableHomicideCircsumstances();
+
+		VictimSegment victimSegment = getBasicVictimSegment();
+	
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, 
+				AggravatedAssaultHomicideCircumstancesCode._20.code);
+		
+		victimSegment.setAdditionalJustifiableHomicideCircumstances(null);
+		
+		NIBRSError nibrsError = addnlCir455Rule.apply(victimSegment);
+		
+		Assert.assertNotNull(nibrsError);
+		
+		Assert.assertEquals(NIBRSErrorCode._455, nibrsError.getNIBRSErrorCode());
+	}
+	
+	
+	
+	
+	@Test
 	public void testRule404ForTypeOfInjury(){
 		
 		Rule<VictimSegment> typeOfInjuryRule = victimRulesFactory.getRule404ForTypeOfInjury();

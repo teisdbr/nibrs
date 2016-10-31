@@ -95,6 +95,8 @@ public class VictimSegmentRulesFactory {
 		
 		rulesList.add(getRule404ForAdditionalJustifiableHomicideCircsumstances());
 		
+		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());		
+		
 		rulesList.add(getRule406ForTypeOfInjury());		
 		
 		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
@@ -424,6 +426,50 @@ public class VictimSegmentRulesFactory {
 		
 		return validValueListRule;
 	}
+	
+	
+	/**
+	 * (Additional Justifiable Homicide Circumstances) contains: 20=Criminal
+	 * Killed by Private Citizen Or 21=Criminal Killed by Police Officer, but
+	 * Data Element 32 (Additional Justifiable Homicide Circumstances) was not
+	 * entered. 455
+	 */
+	public Rule<VictimSegment> getRule455ForAdditionalJustifiableHomicideCircsumstances(){
+		
+		
+		
+		Rule<VictimSegment> homicide455Rule = new Rule<VictimSegment>(){
+
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+
+				NIBRSError rNIBRSError = null;
+								
+				List<String> assaultCircList = victimSegment.getAggravatedAssaultHomicideCircumstancesList();
+								
+				boolean isJustAssaultHomicide = assaultCircList != null
+						&& (assaultCircList.contains(AggravatedAssaultHomicideCircumstancesCode._20.code)
+							 || assaultCircList.contains(AggravatedAssaultHomicideCircumstancesCode._21.code) 
+							);
+								
+				String sAddnlHomicideCirc = victimSegment.getAdditionalJustifiableHomicideCircumstances();
+				
+				boolean hasAddnlHomicideCir = StringUtils.isNotEmpty(sAddnlHomicideCirc);
+				
+				if(isJustAssaultHomicide && !hasAddnlHomicideCir){
+					
+					rNIBRSError = victimSegment.getErrorTemplate();
+					rNIBRSError.setDataElementIdentifier("32");
+					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._455);
+				}				
+				return rNIBRSError;
+			}					
+		};		
+		return homicide455Rule;
+	}
+	
+	
+	
 
 	public Rule<VictimSegment> getRule404ForRaceOfVictim(){
 	
