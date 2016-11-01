@@ -433,14 +433,11 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("1");
-			property2.setPropertyDescription(0, null);
+			property2.setPropertyDescription(0, "03");
 			property2.setValueOfProperty(0, null);
 			property2.setDateRecovered(0, null);
 			property2.setNumberOfStolenMotorVehicles(null);
 			property2.setNumberOfRecoveredMotorVehicles(null);
-			property2.setSuspectedDrugType(1, "A");
-			property2.setEstimatedDrugQuantity(0, 1.0);
-			property2.setTypeDrugMeasurement(0, "OZ");
 			
 			//If it is 1=None and offense is not 35A, 
 			//then Data Elements 15 through 22 must be blank. 
@@ -489,9 +486,9 @@ final class PropertyRuleViolationExemplarFactory {
 			incidents.add(copy3);
 			incidents.add(copy4);
 			copy.addProperty(property);
-			copy.addProperty(property2);
-			copy.addProperty(property3);
-			copy.addProperty(property4);
+			copy2.addProperty(property2);
+			copy3.addProperty(property3);
+			copy4.addProperty(property4);
 			
 			return incidents;
 		});
