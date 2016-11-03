@@ -10,7 +10,6 @@ import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
-import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 
 /**
@@ -57,19 +56,6 @@ final class BaselineIncidentFactory {
 		o.setLocationType("15");
 		o.setNumberOfPremisesEntered(null);
 		o.setAutomaticWeaponIndicator(0, " ");
-		
-		//PropertySegment property = new PropertySegment();
-		//incident.addProperty(property);
-		//property.setTypeOfPropertyLoss("1");
-		//property.setPropertyDescription(0, "99");
-		//property.setValueOfProperty(0, 000000001);
-		//property.setDateRecovered(0, null);
-		//property.setNumberOfStolenMotorVehicles(null);
-		//property.setNumberOfRecoveredMotorVehicles(null);
-		//property.setSuspectedDrugType(0, null);
-		//property.setEstimatedDrugQuantity(0, null);
-		//property.setTypeDrugMeasurement(0, null);
-
 		
 		VictimSegment v = new VictimSegment();
 		incident.addVictim(v);
