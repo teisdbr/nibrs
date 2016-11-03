@@ -127,7 +127,8 @@ final class PropertyRuleViolationExemplarFactory {
 			
 			//Invalid NumberOfRecoveredMotorVehicles
 			copy = new GroupAIncidentReport(mvTheftIncident);
-			copy.getProperties().get(0).setNumberOfStolenMotorVehicles(2);
+			copy.getProperties().get(0).setNumberOfStolenMotorVehicles(0);
+			copy.getProperties().get(0).setTypeOfPropertyLoss("5");
 			copy.getProperties().get(0).setNumberOfRecoveredMotorVehicles(2000);
 			incidents.add(copy);
 			
