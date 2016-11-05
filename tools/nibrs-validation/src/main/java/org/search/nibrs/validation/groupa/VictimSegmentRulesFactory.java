@@ -2,12 +2,18 @@ package org.search.nibrs.validation.groupa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.AgeOfVictimCode;
@@ -51,6 +57,9 @@ public class VictimSegmentRulesFactory {
 			OffenseCode._23F.code, OffenseCode._23G.code, OffenseCode._23H.code,
 			OffenseCode._240.code, OffenseCode._120.code, OffenseCode._280.code					
 	);		
+	
+	private static final List<String> NULL_STRING_LIST = Arrays.asList(new String[] {null});
+	private static final List<Integer> NULL_INTEGER_LIST = Arrays.asList(new Integer[] {null});
 	
 	private VictimSegmentRulesFactory() {
 		rulesList = new ArrayList<Rule<VictimSegment>>();
@@ -104,7 +113,7 @@ public class VictimSegmentRulesFactory {
 	}
 		
 	public List<Rule<VictimSegment>> getRulesList() {
-		return rulesList;
+		return Collections.unmodifiableList(rulesList);
 	}
 			
 	Rule<VictimSegment> getRule401ForSequenceNumber() {
@@ -128,44 +137,89 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 	
-	public Rule<VictimSegment> getRule401ForVictimConnectedToUcrOffenseCode() {		
-		
-		Rule<VictimSegment> ucrRule = new Rule<VictimSegment>(){
+	Rule<VictimSegment> getRule401ForVictimConnectedToUcrOffenseCode() {
+		return new Rule<VictimSegment>() {
 
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-				
-				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-						
-				boolean hasError = false;
-				
-				if(offenseCodeList != null && !offenseCodeList.isEmpty()){
 
-					for(String iOffenseCode : offenseCodeList){
-						
-						if(!OffenseCode.codeSet().contains(iOffenseCode)){
-										
-							hasError = true;							
-							break;
-						}												
-					}					
-				}else{					
-					hasError = true;						
+				NIBRSError e = null;
+				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+				errorTemplate.setDataElementIdentifier("24");
+				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._401);
+
+				Set<String> offenseCodeSet = new HashSet<>();
+				offenseCodeSet.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseCodeSet.removeAll(NULL_STRING_LIST);
+
+				if (offenseCodeSet.isEmpty()) {
+					
+					e = errorTemplate;
+					e.setValue(null);
+					
+				} else {
+
+					GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
+					Set<String> incidentOffenseCodes = new HashSet<>();
+					for (OffenseSegment os : parent.getOffenses()) {
+						incidentOffenseCodes.add(os.getUcrOffenseCode());
+					}
+
+					offenseCodeSet.removeAll(incidentOffenseCodes);
+
+					if (!offenseCodeSet.isEmpty()) {
+						e = errorTemplate;
+						e.setValue(offenseCodeSet);
+					}
 				}
-				
-				if(hasError){
-					rNIBRSError = victimSegment.getErrorTemplate();							
-					rNIBRSError.setDataElementIdentifier("24");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._401);
-				}
-				return rNIBRSError;
-			}			
-		};				
-		return ucrRule;
+
+				return e;
+
+			}
+		};
 	}	
 	
+	Rule<VictimSegment> getRule404OffenderNumberToBeRelated() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError e = null;
+				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+				errorTemplate.setDataElementIdentifier("34");
+				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._404);
+
+				Set<Integer> offenderNumberSet = new HashSet<>();
+				offenderNumberSet.addAll(victimSegment.getOffenderNumberRelatedList());
+				offenderNumberSet.removeAll(NULL_INTEGER_LIST);
+
+				if (offenderNumberSet.isEmpty()) {
+					
+					e = errorTemplate;
+					e.setValue(null);
+					
+				} else {
+
+					GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
+					Set<Integer> offenderNumbers = new HashSet<>();
+					for (OffenderSegment os : parent.getOffenders()) {
+						offenderNumbers.add(os.getOffenderSequenceNumber());
+					}
+
+					offenderNumberSet.removeAll(offenderNumbers);
+
+					if (!offenderNumberSet.isEmpty()) {
+						e = errorTemplate;
+						e.setValue(offenderNumberSet);
+					}
+				}
+
+				return e;
+
+			}
+		};
+	}
+
 	public Rule<VictimSegment> getRule401ForTypeOfVictim(){
 		return new ValidValueListRule<VictimSegment>(
 				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
@@ -261,29 +315,6 @@ public class VictimSegmentRulesFactory {
 				ResidentStatusCode.codeSet(), false);
 		
 		return validValueListRule;
-	}
-
-	public Rule<VictimSegment> getRule404OffenderNumberToBeRelated(){
-						
-		Rule<VictimSegment> offenderNotBlank404Rule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError nibrsError = null;
-
-				List<Integer> offenderNumList = victimSegment.getOffenderNumberRelatedList();
-				
-				if(offenderNumList == null || offenderNumList.isEmpty()){
-					
-					nibrsError = victimSegment.getErrorTemplate();					
-					nibrsError.setDataElementIdentifier("34");
-					nibrsError.setNIBRSErrorCode(NIBRSErrorCode._404);
-				}								
-				return nibrsError;
-			}			
-		};		
-		return offenderNotBlank404Rule;
 	}
 
 	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances(){

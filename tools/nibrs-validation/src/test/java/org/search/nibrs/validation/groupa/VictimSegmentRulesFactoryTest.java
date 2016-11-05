@@ -1,11 +1,18 @@
 package org.search.nibrs.validation.groupa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
@@ -54,20 +61,35 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	@Test
-	public void testRule401ForVictimConnectedToUcrOffenseCode(){
+	public void testRule401ForVictimConnectedToUcrOffenseCode() {
 		
 		Rule<VictimSegment> rule401 = victimRulesFactory.getRule401ForVictimConnectedToUcrOffenseCode();
 		
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		victimSegment.setUcrOffenseCodeConnection(null);
+		OffenseSegment offenseSegment = ((GroupAIncidentReport) victimSegment.getParentReport()).getOffenses().get(0);
+		offenseSegment.setUcrOffenseCode(OffenseCode._09A.code);
 		
 		NIBRSError nibrsError = rule401.apply(victimSegment);
-		
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
-		assertEquals("24", nibrsError.getDataElementIdentifier());		
+		assertEquals("24", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+		
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09B.code);
+		nibrsError = rule401.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertEquals("24", nibrsError.getDataElementIdentifier());
+		
+		Set<String> compSet = new HashSet<>();
+		compSet.add(OffenseCode._09B.code);
+		
+		assertEquals(compSet, nibrsError.getValue());
+		
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		nibrsError = rule401.apply(victimSegment);
+		assertNull(nibrsError);
+
 	}
 	
 	@Test
@@ -228,10 +250,6 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 	}
 	
-	
-	
-	
-	
 	@Test
 	public void testRule404ForEthnicityOfVictim(){
 		
@@ -288,23 +306,27 @@ public class VictimSegmentRulesFactoryTest {
 		
 		VictimSegment victimSegment = getBasicVictimSegment();
 		
-		// test null array
-		victimSegment.setOffenderNumberRelated(null);
-		
 		NIBRSError nibrsError = offender404Rule.apply(victimSegment);
-		
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertNull(nibrsError.getValue());
 		
-		// test empty array
-		victimSegment.setOffenderNumberRelated(new Integer[]{});
+		OffenderSegment offenderSegment = ((GroupAIncidentReport) victimSegment.getParentReport()).getOffenders().get(0);
+		offenderSegment.setOffenderSequenceNumber(1);
+		
+		victimSegment.setOffenderNumberRelated(0, 2);
 		
 		nibrsError = offender404Rule.apply(victimSegment);
-				
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		Set<Integer> compSet = new HashSet<>();
+		compSet.add(2);
+		assertEquals(compSet, nibrsError.getValue());
+		
+		victimSegment.setOffenderNumberRelated(0, 1);
+		nibrsError = offender404Rule.apply(victimSegment);
+		assertNull(nibrsError);
+		
 	}
 	
 	@Test
@@ -974,6 +996,12 @@ public class VictimSegmentRulesFactoryTest {
 	
 		VictimSegment victimSegment = new VictimSegment();
 		report.addVictim(victimSegment);
+		
+		OffenseSegment offenseSegment = new OffenseSegment();
+		report.addOffense(offenseSegment);
+
+		OffenderSegment offenderSegment = new OffenderSegment();
+		report.addOffender(offenderSegment);
 		
 		return victimSegment;
 	}
