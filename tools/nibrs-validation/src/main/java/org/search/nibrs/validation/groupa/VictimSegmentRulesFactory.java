@@ -475,30 +475,29 @@ public class VictimSegmentRulesFactory {
 		return new DuplicateCodedValueRule<VictimSegment>("typeOfInjury", "33", VictimSegment.class, NIBRSErrorCode._406);
 	}
 
-	public Rule<VictimSegment> getRule410ForAgeOfVictim(){
-		
-		Rule<VictimSegment> ageRangeOrderRule = new Rule<VictimSegment>(){
-			
+	Rule<VictimSegment> getRule410ForAgeOfVictim() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-	
+
+				NIBRSError e = null;
 				NIBRSAge nibrsAge = victimSegment.getAge();
-				
-				Integer ageMin = nibrsAge.getAgeMin();
-				Integer ageMax = nibrsAge.getAgeMax();
-				
-				if(ageMin != null && ageMax != null && ageMin > ageMax){
+				if (nibrsAge.isAgeRange()) {
+
+					Integer ageMin = nibrsAge.getAgeMin();
+					Integer ageMax = nibrsAge.getAgeMax();
+
+					if (ageMin > ageMax) {
+						e = victimSegment.getErrorTemplate();
+						e.setDataElementIdentifier("26");
+						e.setNIBRSErrorCode(NIBRSErrorCode._410);
+						e.setValue(nibrsAge);
+					}
 					
-					rNIBRSError = victimSegment.getErrorTemplate();					
-					rNIBRSError.setDataElementIdentifier("26");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._410);					
-				}								
-				return rNIBRSError;
+				}
+				return e;
 			}
 		};
-		return ageRangeOrderRule;
 	}
 
 	public Rule<VictimSegment> getRule419ForTypeOfInjury(){
