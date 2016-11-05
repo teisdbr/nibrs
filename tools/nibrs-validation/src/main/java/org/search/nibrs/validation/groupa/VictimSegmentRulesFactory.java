@@ -114,29 +114,29 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule404ForTypeOfInjury());
 		rulesList.add(getRule404ForRelationshipOfVictimToOffender());		
 		rulesList.add(getRule404ForAdditionalJustifiableHomicideCircsumstances());
-		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());		
 		rulesList.add(getRule406ForTypeOfInjury());		
 		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
 		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
 		rulesList.add(getRule410ForAgeOfVictim());
 		rulesList.add(getRule422ForAgeOfVictim());
 		rulesList.add(getRule450ForAgeOfVictim());				
-		rulesList.add(getRule469ForSexOfVictim());
 		rulesList.add(getRule453ForAgeOfVictim());
 		rulesList.add(getRule453ForSexOfVictim());
 		rulesList.add(getRule453ForRaceOfVictim());
 		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
 		rulesList.add(getRule454ForSexOfVictim());
 		rulesList.add(getRule454ForOfficerAssignmentType());
-		rulesList.add(getRule464ForTypeOfVictim());
-		rulesList.add(getRule465ForTypeOfVictim());
-		rulesList.add(getRule467ForTypeOfVictim());		
+		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());		
 		rulesList.add(getRule458ForSexOfVictim());	
 		rulesList.add(getRule458ForResidentStatusOfVictim());				
 		rulesList.add(getRule458ForOffenderNumberToBeRelated());	
 		rulesList.add(getRule458ForAgeOfVictim());
 		rulesList.add(getRule458ForEthnicityOfVictim());
 		rulesList.add(getRule458ForRaceOfVictim());
+		rulesList.add(getRule464ForTypeOfVictim());
+		rulesList.add(getRule465ForTypeOfVictim());
+		rulesList.add(getRule467ForTypeOfVictim());		
+		rulesList.add(getRule469ForSexOfVictim());
 		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
@@ -458,37 +458,21 @@ public class VictimSegmentRulesFactory {
 		
 		return addnlInfoWithoutJustHomicideRule;
 	}
-	
-	public Rule<VictimSegment> getRule406ForVictimConnectedToUcrOffenseCode(){
-		
-		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<>
-			("ucrOffenseCodeConnection", "24", VictimSegment.class, NIBRSErrorCode._406);
-		
-		return duplicateCodedValueRule;
-	}	
-		
-	public Rule<VictimSegment> getRule406ForAggravatedAssaultHomicideCircumstances(){
-	
-		DuplicateCodedValueRule<VictimSegment> duplicateValueRule = new DuplicateCodedValueRule<VictimSegment>(
-				"aggravatedAssaultHomicideCircumstances", "31", VictimSegment.class, NIBRSErrorCode._406);
-		
-		return duplicateValueRule;		
+
+	Rule<VictimSegment> getRule406ForVictimConnectedToUcrOffenseCode() {
+		return new DuplicateCodedValueRule<>("ucrOffenseCodeConnection", "24", VictimSegment.class, NIBRSErrorCode._406);
 	}
 
-	public Rule<VictimSegment> getRule406OffenderNumberToBeRelated(){
-		
-		DuplicateCodedValueRule<VictimSegment> noDuplicateRule = new DuplicateCodedValueRule<VictimSegment>("offenderNumberRelated", 
-				"34", VictimSegment.class, NIBRSErrorCode._406);
-		
-		return noDuplicateRule;
+	Rule<VictimSegment> getRule406ForAggravatedAssaultHomicideCircumstances() {
+		return new DuplicateCodedValueRule<VictimSegment>("aggravatedAssaultHomicideCircumstances", "31", VictimSegment.class, NIBRSErrorCode._406);
 	}
 
-	public Rule<VictimSegment> getRule406ForTypeOfInjury(){
-		
-		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<VictimSegment>(
-				"typeOfInjury",	"33", VictimSegment.class, NIBRSErrorCode._406);
-		
-		return duplicateCodedValueRule;
+	Rule<VictimSegment> getRule406OffenderNumberToBeRelated() {
+		return new DuplicateCodedValueRule<VictimSegment>("offenderNumberRelated", "34", VictimSegment.class, NIBRSErrorCode._406);
+	}
+
+	Rule<VictimSegment> getRule406ForTypeOfInjury() {
+		return new DuplicateCodedValueRule<VictimSegment>("typeOfInjury", "33", VictimSegment.class, NIBRSErrorCode._406);
 	}
 
 	public Rule<VictimSegment> getRule410ForAgeOfVictim(){

@@ -850,115 +850,77 @@ public class VictimSegmentRulesFactoryTest {
 		
 	}
 	
-	
 	@Test
-	public void testRule406ForVictimConnectedToUcrOffenseCode(){
-		
+	public void testRule406ForVictimConnectedToUcrOffenseCode() {
+
 		Rule<VictimSegment> offenseCode401Rule = victimRulesFactory.getRule406ForVictimConnectedToUcrOffenseCode();
-		
+
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		// test duplicate codes
-		String[] aOffenseCodes = {OffenseCode._09A.code, OffenseCode._09A.code};
-		
-		victimSegment.setUcrOffenseCodeConnection(aOffenseCodes);
-		
+
+		victimSegment.setUcrOffenseCodeConnection(new String[] { OffenseCode._09A.code, OffenseCode._09A.code });
 		NIBRSError nibrsError = offenseCode401Rule.apply(victimSegment);
-		
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
-		
-		// test different codes
-		String[] aOffenseCodesDifferent = {OffenseCode._09A.code, OffenseCode._09B.code};
-		
-		victimSegment.setUcrOffenseCodeConnection(aOffenseCodesDifferent);
-		
+
+		victimSegment.setUcrOffenseCodeConnection(new String[] { OffenseCode._09A.code, OffenseCode._09B.code });
 		nibrsError = offenseCode401Rule.apply(victimSegment);
-		
 		assertNull(nibrsError);
+
 	}
-	
+
 	@Test
-	public void testRule406ForAggravatedAssaultHomicideCircumstances(){
-		
+	public void testRule406ForAggravatedAssaultHomicideCircumstances() {
+
 		Rule<VictimSegment> assault406Rule = victimRulesFactory.getRule406ForAggravatedAssaultHomicideCircumstances();
 
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		// test duplicate codes
-		String[] aAssaultCodes = {AggravatedAssaultHomicideCircumstancesCode._01.code, 
-				AggravatedAssaultHomicideCircumstancesCode._01.code};
-		
-		victimSegment.setAggravatedAssaultHomicideCircumstances(aAssaultCodes);
-		
+		victimSegment.setAggravatedAssaultHomicideCircumstances(new String[] {
+				AggravatedAssaultHomicideCircumstancesCode._01.code, AggravatedAssaultHomicideCircumstancesCode._01.code });
+
 		NIBRSError nibrsError = assault406Rule.apply(victimSegment);
-		
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
-		
-		// test different codes
-		String[] aAssaultCodesDifferent = {AggravatedAssaultHomicideCircumstancesCode._01.code, 
-				AggravatedAssaultHomicideCircumstancesCode._02.code};
-		
-		victimSegment.setAggravatedAssaultHomicideCircumstances(aAssaultCodesDifferent);
-		
+
+		victimSegment.setAggravatedAssaultHomicideCircumstances(new String[] {
+				AggravatedAssaultHomicideCircumstancesCode._01.code, AggravatedAssaultHomicideCircumstancesCode._02.code });
+
 		nibrsError = assault406Rule.apply(victimSegment);
-		
 		assertNull(nibrsError);
 	}
-	
+
 	@Test
-	public void testRule406OffenderNumberToBeRelated(){
-		
-		Rule<VictimSegment> offender406Rule = victimRulesFactory.getRule406OffenderNumberToBeRelated();
+	public void testRule406OffenderNumberToBeRelated() {
+
+		Rule<VictimSegment> rule = victimRulesFactory.getRule406OffenderNumberToBeRelated();
 
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		// test duplicate codes
-		victimSegment.setOffenderNumberRelated(new Integer[]{1,1});
-		
-		NIBRSError nibrsError = offender406Rule.apply(victimSegment);
-	
+		victimSegment.setOffenderNumberRelated(new Integer[] { 1, 1 });
+		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
-		
-		// test different codes
-		victimSegment.setOffenderNumberRelated(new Integer[]{1,2});
-		
-		nibrsError = offender406Rule.apply(victimSegment);
-		
-		assertNull(nibrsError);		
+		assertEquals("34", nibrsError.getDataElementIdentifier());
+
+		victimSegment.setOffenderNumberRelated(new Integer[] { 1, 2 });
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+
 	}
 	
-	
 	@Test
-	public void testRule406ForTypeOfInjury(){
+	public void testRule406ForTypeOfInjury() {
 	
-		Rule<VictimSegment> typeInjury406Rule = victimRulesFactory.getRule406ForTypeOfInjury();
+		Rule<VictimSegment> rule = victimRulesFactory.getRule406ForTypeOfInjury();
 
 		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setTypeOfInjury(new String[] {TypeInjuryCode.B.code, TypeInjuryCode.B.code});
 		
-		// test duplicate codes
-		String[] aDuplicateInjuries = {TypeInjuryCode.B.code, TypeInjuryCode.B.code};
-		
-		victimSegment.setTypeOfInjury(aDuplicateInjuries);
-		
-		NIBRSError nibrsError = typeInjury406Rule.apply(victimSegment);
-		
+		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		assertEquals("33", nibrsError.getDataElementIdentifier());
 		
-		// test different codes
-		String[] aDifferentInjuries = {TypeInjuryCode.B.code, TypeInjuryCode.I.code};
-		
-		victimSegment.setTypeOfInjury(aDifferentInjuries);
-		
-		nibrsError = typeInjury406Rule.apply(victimSegment);
-		
+		victimSegment.setTypeOfInjury(new String[] {TypeInjuryCode.B.code, TypeInjuryCode.I.code});
+		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 	}
 	
