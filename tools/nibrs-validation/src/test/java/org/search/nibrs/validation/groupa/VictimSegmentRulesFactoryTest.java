@@ -1,6 +1,6 @@
 package org.search.nibrs.validation.groupa;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
@@ -32,34 +32,26 @@ public class VictimSegmentRulesFactoryTest {
 		Rule<VictimSegment> rule401 = victimRulesFactory.getRule401ForSequenceNumber();
 		
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		// test value 0
 		victimSegment.setVictimSequenceNumber(0);
-		
 		NIBRSError nibrsError = rule401.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertEquals("23", nibrsError.getDataElementIdentifier());
+		assertEquals(0, nibrsError.getValue());
 		
-		Assert.assertNotNull(nibrsError);
-		
-		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
-		Assert.assertEquals("23", nibrsError.getDataElementIdentifier());
-		
-		// test value 1000
 		victimSegment.setVictimSequenceNumber(1000);
-		
 		nibrsError = rule401.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertEquals(1000, nibrsError.getValue());
 		
-		Assert.assertNotNull(nibrsError);
-		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
-		
-		//test null value
-		victimSegment.setVictimSequenceNumber(1000);
-		
+		victimSegment.setVictimSequenceNumber(null);
 		nibrsError = rule401.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertNull(nibrsError.getValue());
 		
-		Assert.assertNotNull(nibrsError);
-		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());				
 	}
-	
 	
 	@Test
 	public void testRule401ForVictimConnectedToUcrOffenseCode(){
@@ -72,10 +64,10 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = rule401.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
-		Assert.assertEquals("24", nibrsError.getDataElementIdentifier());		
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertEquals("24", nibrsError.getDataElementIdentifier());		
 	}
 	
 	@Test
@@ -90,18 +82,18 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = rule401.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
 		
 		// test invalid code
 		victimSegment.setTypeOfVictim("Z");
 		
 		nibrsError = rule401.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -116,9 +108,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = ageRule404.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());	
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());	
 	}
 	
 	
@@ -134,16 +126,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = ageRule410.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 				
-		Assert.assertEquals(NIBRSErrorCode._410, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._410, nibrsError.getNIBRSErrorCode());
 		
 		// valid age
 		victimSegment.setAgeString("2030");
 		
 		nibrsError = ageRule410.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);				
+		assertNull(nibrsError);				
 	}
 	
 	
@@ -159,16 +151,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = ageRule422.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._422, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._422, nibrsError.getNIBRSErrorCode());
 		
 		// test valid range
 		victimSegment.setAgeString("2030");
 		
 		nibrsError = ageRule422.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	
@@ -186,16 +178,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = rule450ageLess10.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._450, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._450, nibrsError.getNIBRSErrorCode());
 	
 		// test non-spouse relationship, younger than 10 = valid test
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
 	
 		nibrsError = rule450ageLess10.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 		
 		//test spouse relationship, 10 years old is old enough - valid 
 
@@ -205,7 +197,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = rule450ageLess10.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	
@@ -224,16 +216,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = age453Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
 	
 		// test valid age
 		victimSegment.setAgeString("3033");
 		
 		nibrsError = age453Rule.apply(victimSegment);
 	
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	
@@ -251,9 +243,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = ethnicity404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -268,9 +260,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = residentStatus404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	@Test
@@ -284,9 +276,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = assault404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());		
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());		
 	}
 	
 	@Test
@@ -301,18 +293,18 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = offender404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 		
 		// test empty array
 		victimSegment.setOffenderNumberRelated(new Integer[]{});
 		
 		nibrsError = offender404Rule.apply(victimSegment);
 				
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	@Test
@@ -326,9 +318,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = officerActivity404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -346,10 +338,10 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = activity454Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());		
-		Assert.assertEquals("25A", nibrsError.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());		
+		assertEquals("25A", nibrsError.getDataElementIdentifier());
 		
 		// test a valid circumstance for law officer
 		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
@@ -360,7 +352,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = activity454Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);				
+		assertNull(nibrsError);				
 	}
 	
 	
@@ -377,10 +369,10 @@ public class VictimSegmentRulesFactoryTest {
 	
 		NIBRSError nibrsError = assignment454Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(victimSegment);
-		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
+		assertNotNull(victimSegment);
+		assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
 		
-		Assert.assertEquals("25B", nibrsError.getDataElementIdentifier());
+		assertEquals("25B", nibrsError.getDataElementIdentifier());
 				
 		// test a valid circumstance for law officer
 		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
@@ -391,7 +383,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = assignment454Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);				
+		assertNull(nibrsError);				
 	}
 	
 	
@@ -408,10 +400,10 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = sexOfVictim454Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());		
-		Assert.assertEquals("27", nibrsError.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());		
+		assertEquals("27", nibrsError.getDataElementIdentifier());
 		
 		// test a valid circumstance for law officer
 		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
@@ -422,7 +414,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = sexOfVictim454Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	
@@ -441,11 +433,11 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = raceOfVictim454Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
 		
-		Assert.assertEquals("28", nibrsError.getDataElementIdentifier());
+		assertEquals("28", nibrsError.getDataElementIdentifier());
 		
 		// test a valid circumstance for law officer
 		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
@@ -456,7 +448,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = raceOfVictim454Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	
@@ -473,9 +465,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = officerAssignment404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -490,9 +482,9 @@ public class VictimSegmentRulesFactoryTest {
 	
 		NIBRSError nibrsError = jurisdiction404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -508,18 +500,18 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = sexOfVictim404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 		
 		// test invalid value
 		victimSegment.setSex("Male");
 		
 		nibrsError = sexOfVictim404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -537,16 +529,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = rule453SexCode.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
 		
 		// test sex code valid
 		victimSegment.setSex(SexOfVictimCode.M.code);
 		
 		nibrsError = rule453SexCode.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 		
 	
@@ -562,18 +554,18 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = raceOfVictim404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);	
+		assertNotNull(nibrsError);	
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 		
 		
 		victimSegment.setRace("Purple");
 		
 		nibrsError = raceOfVictim404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -591,16 +583,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = race453Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
 	
 		// race should not be required in this case
 		victimSegment.setTypeOfVictim(RaceOfVictimCode.P.code);
 		
 		nibrsError = race453Rule.apply(victimSegment);
 						
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 		
@@ -616,9 +608,9 @@ public class VictimSegmentRulesFactoryTest {
 
 		NIBRSError nibrsError = justifyHomicideRule.apply(victimSegment);
 	
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -637,9 +629,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = addnlCir455Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._455, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._455, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -659,9 +651,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = addnlInfoWithoutJustHomicideRule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._457, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._457, nibrsError.getNIBRSErrorCode());
 	}
 	
 		
@@ -682,15 +674,15 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = typeInjury458Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 		
 		//TODO enable when set(null) supported
 		// test empty type of injury
 //		victimSegment.setTypeOfInjury(null);		
 //		nibrsError = typeInjury458Rule.apply(victimSegment);		
-//		Assert.assertNull(nibrsError);
+//		assertNull(nibrsError);
 	}
 	
 	
@@ -712,9 +704,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = ethnicity458Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -736,8 +728,8 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = residentStatus458Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
-		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 	}
 	
 	@Test
@@ -757,9 +749,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = offenderNum458Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -781,10 +773,10 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = rule458SexOfVictim.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
-		Assert.assertEquals("27", nibrsError.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
+		assertEquals("27", nibrsError.getDataElementIdentifier());
 	}
 	
 	
@@ -799,9 +791,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = typeOfInjuryRule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 		
 	@Test
@@ -815,9 +807,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = relationshipToOffender404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 		
 		
 		
@@ -825,9 +817,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = relationshipToOffender404Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 	}
 	
 	
@@ -845,9 +837,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = offenseCode401Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
 		
 		// test different codes
 		String[] aOffenseCodesDifferent = {OffenseCode._09A.code, OffenseCode._09B.code};
@@ -856,7 +848,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = offenseCode401Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	@Test
@@ -874,9 +866,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = assault406Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
 		
 		// test different codes
 		String[] aAssaultCodesDifferent = {AggravatedAssaultHomicideCircumstancesCode._01.code, 
@@ -886,7 +878,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = assault406Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	@Test
@@ -901,16 +893,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = offender406Rule.apply(victimSegment);
 	
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
 		
 		// test different codes
 		victimSegment.setOffenderNumberRelated(new Integer[]{1,2});
 		
 		nibrsError = offender406Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);		
+		assertNull(nibrsError);		
 	}
 	
 	
@@ -928,9 +920,9 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = typeInjury406Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
-		Assert.assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
 		
 		// test different codes
 		String[] aDifferentInjuries = {TypeInjuryCode.B.code, TypeInjuryCode.I.code};
@@ -939,7 +931,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 		nibrsError = typeInjury406Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	
@@ -958,16 +950,16 @@ public class VictimSegmentRulesFactoryTest {
 		
 		NIBRSError nibrsError = assault419Rule.apply(victimSegment);
 		
-		Assert.assertNotNull(nibrsError);
+		assertNotNull(nibrsError);
 		
 		// test a valid offense code for the assault circumstances
-		Assert.assertEquals(NIBRSErrorCode._419, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._419, nibrsError.getNIBRSErrorCode());
 		
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 				
 		nibrsError = assault419Rule.apply(victimSegment);
 		
-		Assert.assertNull(nibrsError);		
+		assertNull(nibrsError);		
 	}
 	
 	

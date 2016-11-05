@@ -107,27 +107,25 @@ public class VictimSegmentRulesFactory {
 		return rulesList;
 	}
 			
-	public Rule<VictimSegment> getRule401ForSequenceNumber(){
-		
-		Rule<VictimSegment> sequenceNumberNotEmptyRule = new Rule<VictimSegment>(){
-
+	Rule<VictimSegment> getRule401ForSequenceNumber() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment subject) {
 
-				Integer iSeqNum = subject.getVictimSequenceNumber();
+				Integer victimSequenceNumber = subject.getVictimSequenceNumber();
+				NIBRSError e = null;
 				
-				NIBRSError rSeqNumInvalidError = null;
+				if(victimSequenceNumber ==  null || victimSequenceNumber < 1 || victimSequenceNumber > 999) {
+					e = subject.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._401);
+					e.setDataElementIdentifier("23");
+					e.setValue(victimSequenceNumber);
+				}	
 				
-				if(iSeqNum ==  null || iSeqNum < 1 || iSeqNum > 999){
-					
-					rSeqNumInvalidError = subject.getErrorTemplate();				
-					rSeqNumInvalidError.setNIBRSErrorCode(NIBRSErrorCode._401);					
-					rSeqNumInvalidError.setDataElementIdentifier("23");															
-				}				
-				return rSeqNumInvalidError;
-			}};		
-									
-		return sequenceNumberNotEmptyRule;
+				return e;
+				
+			}
+		};
 	}
 	
 	public Rule<VictimSegment> getRule401ForVictimConnectedToUcrOffenseCode() {		
