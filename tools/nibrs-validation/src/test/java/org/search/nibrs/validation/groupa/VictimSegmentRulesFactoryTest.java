@@ -645,27 +645,21 @@ public class VictimSegmentRulesFactoryTest {
 	}
 
 	@Test
-	public void testRule457ForAdditionalJustifiableHomicideCircsumstances(){
-	
-		Rule<VictimSegment> addnlInfoWithoutJustHomicideRule = victimRulesFactory
-				.getRule457ForAdditionalJustifiableHomicideCircsumstances();
-		
+	public void testRule457ForAdditionalJustifiableHomicideCircsumstances() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule457ForAdditionalJustifiableHomicideCircsumstances();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		victimSegment.setAggravatedAssaultHomicideCircumstances(0, 
-				AggravatedAssaultHomicideCircumstancesCode._10.code);
-		
-		victimSegment.setAdditionalJustifiableHomicideCircumstances(
-				AdditionalJustifiableHomicideCircumstancesCode.A.code);
-		
-		NIBRSError nibrsError = addnlInfoWithoutJustHomicideRule.apply(victimSegment);
-		
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._10.code);
+		victimSegment.setAdditionalJustifiableHomicideCircumstances(AdditionalJustifiableHomicideCircumstancesCode.A.code);
+		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._457, nibrsError.getNIBRSErrorCode());
+		assertEquals("32", nibrsError.getDataElementIdentifier());
+		assertEquals(AdditionalJustifiableHomicideCircumstancesCode.A.code, nibrsError.getValue());
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._20.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 	}
-	
-		
+
 	@Test
 	public void testRule458ForTypeOfInjury(){
 		
