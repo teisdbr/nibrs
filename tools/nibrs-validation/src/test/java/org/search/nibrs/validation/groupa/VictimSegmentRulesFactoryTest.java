@@ -121,18 +121,10 @@ public class VictimSegmentRulesFactoryTest {
 	
 	@Test
 	public void testRule404ForAgeOfVictim(){
-		
 		Rule<VictimSegment> ageRule404 = victimRulesFactory.getRule404ForAgeOfVictim();
-		
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		victimSegment.setAgeString(null);
-		
 		NIBRSError nibrsError = ageRule404.apply(victimSegment);
-		
-		assertNotNull(nibrsError);
-		
-		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());	
+		assertNull(nibrsError);
 	}
 	
 	
@@ -333,19 +325,21 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	@Test
-	public void testRule404ForTypeOfficerActivityCircumstance(){
-		
-		Rule<VictimSegment> officerActivity404Rule = victimRulesFactory.getRule404ForTypeOfOfficerActivityCircumstance();
-		
+	public void testRule404ForTypeOfficerActivityCircumstance() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForTypeOfOfficerActivityCircumstance();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
 		victimSegment.setTypeOfOfficerActivityCircumstance(null);
-		
-		NIBRSError nibrsError = officerActivity404Rule.apply(victimSegment);
-		
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setTypeOfOfficerActivityCircumstance(TypeOfOfficerActivityCircumstance._01.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setTypeOfOfficerActivityCircumstance("invalid");
+		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("25A", nibrsError.getDataElementIdentifier());
+		assertEquals("invalid", nibrsError.getValue());
 	}
 	
 	

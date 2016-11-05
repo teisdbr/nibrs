@@ -27,6 +27,7 @@ import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
+import org.search.nibrs.validation.rules.NullObjectRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
@@ -231,16 +232,12 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule401ForTypeOfVictim(){
-		return new ValidValueListRule<VictimSegment>(
-				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
-				TypeOfVictimCode.codeSet(), false);
+	Rule<VictimSegment> getRule401ForTypeOfVictim() {
+		return new ValidValueListRule<VictimSegment>("typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, TypeOfVictimCode.codeSet(), false);
 	}
 
-	public Rule<VictimSegment> getRule404ForTypeOfOfficerActivityCircumstance(){
-		return new ValidValueListRule<VictimSegment>(
-				"typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, 
-				TypeOfOfficerActivityCircumstance.codeSet(), false);
+	Rule<VictimSegment> getRule404ForTypeOfOfficerActivityCircumstance() {
+		return new ValidValueListRule<VictimSegment>("typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, TypeOfOfficerActivityCircumstance.codeSet(), true);
 	}
 
 	public Rule<VictimSegment> getRule404ForSexOfVictim(){
@@ -498,56 +495,10 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-	public Rule<VictimSegment> getRule404ForAgeOfVictim(){
-				
-		Rule<VictimSegment> ageRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-
-				NIBRSError rNIBRSError = null;
-				
-				NIBRSAge nibrsAge = victimSegment.getAge();
-				
-				boolean hasValidValue = true;
-				
-				if(nibrsAge == null){
-					
-					hasValidValue = false;
-					
-				}else if(nibrsAge.getAgeMin() == null 
-						&& nibrsAge.getAgeMax() == null
-						&& StringUtils.isEmpty(nibrsAge.getNonNumericAge())){
-					
-					hasValidValue = false;
-					
-				}else if(nibrsAge.getAgeMin() != null
-						&& nibrsAge.getAgeMax() != null
-						&& nibrsAge.getAgeMin() > nibrsAge.getAgeMax()){
-					
-					hasValidValue = false;
-				
-				}else if(StringUtils.isNotEmpty(nibrsAge.getNonNumericAge())){
-					
-					String sAgeCode = nibrsAge.getNonNumericAge();
-					
-					if(!AgeOfVictimCode.codeSet().contains(sAgeCode)){
-					
-						hasValidValue = false;
-					}				
-				}
-				
-				if(!hasValidValue){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._404);
-					rNIBRSError.setDataElementIdentifier("26");
-				}								
-				return rNIBRSError;
-			}			
-		};
-						
-		return ageRule;
+	Rule<VictimSegment> getRule404ForAgeOfVictim() {
+		// note:  because we parse the age string when constructing the nibrsAge property of VictimSegment, it is not possible
+		// to have a separate violation of rule 404 for victim age.
+		return new NullObjectRule<VictimSegment>();
 	}
 
 	public Rule<VictimSegment> getRule406ForVictimConnectedToUcrOffenseCode(){
