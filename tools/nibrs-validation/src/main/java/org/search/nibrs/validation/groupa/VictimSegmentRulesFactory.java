@@ -28,10 +28,8 @@ import org.search.nibrs.validation.rules.ValidValueListRule;
 
 
 public class VictimSegmentRulesFactory {
-		
 
 	private List<Rule<VictimSegment>> rulesList;
-
 	
 	public static VictimSegmentRulesFactory instance(){
 		
@@ -55,111 +53,60 @@ public class VictimSegmentRulesFactory {
 	);		
 	
 	private VictimSegmentRulesFactory() {
-		
 		rulesList = new ArrayList<Rule<VictimSegment>>();
-		
 		initRules(rulesList);
 	}
 	
 	private void initRules(List<Rule<VictimSegment>> rulesList){
-				
 		rulesList.add(getRule401ForSequenceNumber());
-		
 		rulesList.add(getRule401ForVictimConnectedToUcrOffenseCode());
-		
 		rulesList.add(getRule401ForTypeOfVictim());
-		
 		rulesList.add(getRule404ForTypeOfOfficerActivityCircumstance());
-
 		rulesList.add(getRule404ForOfficerAssignmentType());
-		
 		rulesList.add(getRule404ForOfficerOriOtherJurisdiction());
-		
 		rulesList.add(getRule404ForAgeOfVictim());		
-		
 		rulesList.add(getRule404ForSexOfVictim());		
-
 		rulesList.add(getRule404ForRaceOfVictim());		
-		
 		rulesList.add(getRule404ForEthnicityOfVictim());		
-		
 		rulesList.add(getRule404ForResidentStatusOfVictim());		
-		
 		rulesList.add(getRule404ForAggravatedAssaultHomicideCircumstances());
-		
 		rulesList.add(getRule404OffenderNumberToBeRelated());
-					
 		rulesList.add(getRule404ForTypeOfInjury());
-		
 		rulesList.add(getRule404ForRelationshipOfVictimToOffender());		
-		
 		rulesList.add(getRule404ForAdditionalJustifiableHomicideCircsumstances());
-		
 		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());		
-		
 		rulesList.add(getRule406ForTypeOfInjury());		
-		
 		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
-		
 		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
-						
 		rulesList.add(getRule410ForAgeOfVictim());
-		
 		rulesList.add(getRule422ForAgeOfVictim());
-		
 		rulesList.add(getRule450ForAgeOfVictim());				
-		
 		rulesList.add(getRule469ForSexOfVictim());
-						
 		rulesList.add(getRule453ForAgeOfVictim());
-		
 		rulesList.add(getRule453ForSexOfVictim());
-		
 		rulesList.add(getRule453ForRaceOfVictim());
-		
 		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
-		
 		rulesList.add(getRule454ForSexOfVictim());
-		
 		rulesList.add(getRule454ForOfficerAssignmentType());
-						
 		rulesList.add(getRule464ForTypeOfVictim());
-
-		rulesList.add(geRule465ForTypeOfVictim());
-		
+		rulesList.add(getRule465ForTypeOfVictim());
 		rulesList.add(getRule467ForTypeOfVictim());		
-		
 		rulesList.add(getRule458ForSexOfVictim());	
-						
 		rulesList.add(getRule458ForResidentStatusOfVictim());				
-		
 		rulesList.add(getRule458ForOffenderNumberToBeRelated());	
-		
 		rulesList.add(getRule458ForAgeOfVictim());
-		
 		rulesList.add(getRule458ForEthnicityOfVictim());
-		
 		rulesList.add(getRule458ForRaceOfVictim());
-		
 		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
-		
 		rulesList.add(getRule481ForAgeOfVictim());		
-		
 		rulesList.add(getRule482ForTypeOfVictim());
-		
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
 	}
-	
 		
 	public List<Rule<VictimSegment>> getRulesList() {
 		return rulesList;
 	}
-	
 			
-	/**
-	 * (Victim Sequence Number The referenced data element in a Group A Incident
-	 * Report must be populated with a valid data value and cannot be blank.
-	 */
 	public Rule<VictimSegment> getRule401ForSequenceNumber(){
 		
 		Rule<VictimSegment> sequenceNumberNotEmptyRule = new Rule<VictimSegment>(){
@@ -183,12 +130,6 @@ public class VictimSegmentRulesFactory {
 		return sequenceNumberNotEmptyRule;
 	}
 	
-					
-	/**
-	 * (Victim Connected to UCR Offense Code) The referenced data element in a
-	 * Group A Incident Report must be populated with a valid data value and
-	 * cannot be blank.
-	 */
 	public Rule<VictimSegment> getRule401ForVictimConnectedToUcrOffenseCode() {		
 		
 		Rule<VictimSegment> ucrRule = new Rule<VictimSegment>(){
@@ -227,52 +168,23 @@ public class VictimSegmentRulesFactory {
 		return ucrRule;
 	}	
 	
-	
-	/**
-	 * (Type of Victim) The referenced data element in a Group A Incident Report
-	 * must be populated with a valid data value and cannot be blank.
-	 */
 	public Rule<VictimSegment> getRule401ForTypeOfVictim(){
-								
-		ValidValueListRule<VictimSegment> typeOfVictimValidValue401Rule = new ValidValueListRule<VictimSegment>(
+		return new ValidValueListRule<VictimSegment>(
 				"typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, 
 				TypeOfVictimCode.codeSet(), false);
-		
-		return typeOfVictimValidValue401Rule;
 	}
 
-	/**
-	 * (Type of Officer Activity/Circumstance) The referenced data element in a
-	 * Group A Incident Report must be populated with a valid data value and
-	 * cannot be blank.
-	 */
 	public Rule<VictimSegment> getRule404ForTypeOfOfficerActivityCircumstance(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+		return new ValidValueListRule<VictimSegment>(
 				"typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, 
 				TypeOfOfficerActivityCircumstance.codeSet(), false);
-		
-		return validValueListRule;
 	}
 
-
-	/**
-	 * (Sex of Victim) The referenced data element in a Group A Incident Report
-	 * must be populated with a valid data value and cannot be blank.
-	 */
 	public Rule<VictimSegment> getRule404ForSexOfVictim(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
+		return new ValidValueListRule<VictimSegment>(
 				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet(), false);
-		
-		return validValueListRule;
 	}
 
-	/**
-	 * (Officer–ORI Other Jurisdiction) The referenced data element in a Group A
-	 * Incident Report must be populated with a valid data value and cannot be
-	 * blank.
-	 */
 	public Rule<VictimSegment> getRule404ForOfficerOriOtherJurisdiction(){
 						
 		Rule<VictimSegment> officerOriRule = new Rule<VictimSegment>(){
@@ -316,11 +228,6 @@ public class VictimSegmentRulesFactory {
 		return officerOriRule;						
 	}
 
-	/**
-	 * Officer Assignment Type) The referenced data element in a Group A
-	 * Incident Report must be populated with a valid data value and cannot be
-	 * blank.
-	 */
 	public Rule<VictimSegment> getRule404ForOfficerAssignmentType(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
@@ -330,11 +237,6 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-	
-	/**
-	 * (Ethnicity of Victim) The referenced data element in a Group A Incident
-	 * Report must be populated with a valid data value and cannot be blank
-	 */
 	public Rule<VictimSegment> getRule404ForEthnicityOfVictim(){
 		
 		//TODO account for element being optional based on typeOfVicitmValue  
@@ -346,7 +248,6 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-	
 	public Rule<VictimSegment> getRule404ForTypeOfInjury(){
 		
 		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("typeOfInjury", 
@@ -355,7 +256,6 @@ public class VictimSegmentRulesFactory {
 		return notAllBlankRule;
 	}
 
-	
 	public Rule<VictimSegment> getRule404ForResidentStatusOfVictim(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
@@ -365,12 +265,6 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-
-	/**
-	 * (Offender Number to be Related) The referenced data element in a Group A
-	 * Incident Report must be populated with a valid data value and cannot be
-	 * blank.
-	 */
 	public Rule<VictimSegment> getRule404OffenderNumberToBeRelated(){
 						
 		Rule<VictimSegment> offenderNotBlank404Rule = new Rule<VictimSegment>(){
@@ -394,11 +288,6 @@ public class VictimSegmentRulesFactory {
 		return offenderNotBlank404Rule;
 	}
 
-	/**
-	 * (Aggravated Assault/Homicide Circumstances) The referenced data element
-	 * in a Group A Incident Report must be populated with a valid data value
-	 * and cannot be blank.
-	 */
 	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances(){
 		
 		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("aggravatedAssaultHomicideCircumstances", 
@@ -427,13 +316,6 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 	
-	
-	/**
-	 * (Additional Justifiable Homicide Circumstances) contains: 20=Criminal
-	 * Killed by Private Citizen Or 21=Criminal Killed by Police Officer, but
-	 * Data Element 32 (Additional Justifiable Homicide Circumstances) was not
-	 * entered. 455
-	 */
 	public Rule<VictimSegment> getRule455ForAdditionalJustifiableHomicideCircsumstances(){
 						
 		Rule<VictimSegment> homicide455Rule = new Rule<VictimSegment>(){
@@ -465,7 +347,6 @@ public class VictimSegmentRulesFactory {
 		};		
 		return homicide455Rule;
 	}
-	
 	
 	public Rule<VictimSegment> getRule457ForAdditionalJustifiableHomicideCircsumstances(){
 		
@@ -514,11 +395,6 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-	
-	/**
-	 * (Age of Victim) The referenced data element in a Group A Incident Report
-	 * must be populated with a valid data value and cannot be blank.
-	 */
 	public Rule<VictimSegment> getRule404ForAgeOfVictim(){
 				
 		Rule<VictimSegment> ageRule = new Rule<VictimSegment>(){
@@ -571,11 +447,6 @@ public class VictimSegmentRulesFactory {
 		return ageRule;
 	}
 
-	/**
-	 * (Victim Connected to UCR Offense Code) The referenced data element in
-	 * error is one that contains multiple data values. When more than one code
-	 * is entered, none can be duplicate codes.
-	 */
 	public Rule<VictimSegment> getRule406ForVictimConnectedToUcrOffenseCode(){
 		
 		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<>
@@ -584,12 +455,6 @@ public class VictimSegmentRulesFactory {
 		return duplicateCodedValueRule;
 	}	
 		
-	
-	/**
-	 * (Aggravated Assault/Homicide Circumstances The referenced data element in
-	 * error is one that contains multiple data values. When more than one code
-	 * is entered, none can be duplicate codes.
-	 */
 	public Rule<VictimSegment> getRule406ForAggravatedAssaultHomicideCircumstances(){
 	
 		DuplicateCodedValueRule<VictimSegment> duplicateValueRule = new DuplicateCodedValueRule<VictimSegment>(
@@ -598,11 +463,6 @@ public class VictimSegmentRulesFactory {
 		return duplicateValueRule;		
 	}
 
-	/**
-	 * (Offender Number to be Related) The referenced data element in error is
-	 * one that contains multiple data values. When more than one code is
-	 * entered, none can be duplicate codes.
-	 */
 	public Rule<VictimSegment> getRule406OffenderNumberToBeRelated(){
 		
 		DuplicateCodedValueRule<VictimSegment> noDuplicateRule = new DuplicateCodedValueRule<VictimSegment>("offenderNumberRelated", 
@@ -611,11 +471,6 @@ public class VictimSegmentRulesFactory {
 		return noDuplicateRule;
 	}
 
-	/**
-	 * (Type Injury) The referenced data element in error is one that contains
-	 * multiple data values. When more than one code is entered, none can be
-	 * duplicate codes.
-	 */
 	public Rule<VictimSegment> getRule406ForTypeOfInjury(){
 		
 		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<VictimSegment>(
@@ -624,11 +479,6 @@ public class VictimSegmentRulesFactory {
 		return duplicateCodedValueRule;
 	}
 
-	
-	/**
-	 * (Age of Victim) was entered as an age-range. Accordingly, the first age
-	 * component must be less than the second age.
-	 */
 	public Rule<VictimSegment> getRule410ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageRangeOrderRule = new Rule<VictimSegment>(){
@@ -655,15 +505,6 @@ public class VictimSegmentRulesFactory {
 		return ageRangeOrderRule;
 	}
 
-	
-	/**
-	 * Data Element 33 (Type Injury) can only be entered when one or more of the
-	 * offenses in Data Element 24 (Victim Connected to UCR Offense Code) are:
-	 * 100=Kidnapping/Abduction 11A=Rape 11B=Sodomy 11C=Sexual Assault With An
-	 * Object 11D=Fondling 120=Robbery 13A=Aggravated Assault 13B=Simple Assault
-	 * 210=Extortion/Blackmail 64A=Human Trafficking, Commercial Sex Acts
-	 * 64B=Human Trafficking, Involuntary Servitude
-	 */
 	public Rule<VictimSegment> getRule419ForTypeOfInjury(){
 		
 		Rule<VictimSegment> typeInjuryForNonPersonRule = new Rule<VictimSegment>(){
@@ -689,14 +530,6 @@ public class VictimSegmentRulesFactory {
 		return typeInjuryForNonPersonRule;
 	}
 
-	
-	/**
-	 * (Aggravated Assault/Homicide Circumstances) Circumstances) can only be
-	 * entered when one or more of the offenses in Data Element 24 (Victim
-	 * Connected to UCR Offense Code) are: 09A=Murder and Non-negligent
-	 * Manslaughter 09B=Negligent Manslaughter 09C=Justifiable Homicide
-	 * 13A=Aggravated Assault
-	 */
 	public Rule<VictimSegment> getRule419ForAggravatedAssaultHomicideCircumstances(){
 		
 		Rule<VictimSegment> assaultRule = new Rule<VictimSegment>(){
@@ -731,7 +564,6 @@ public class VictimSegmentRulesFactory {
 		return assaultRule;
 	}
 
-	
 	public Rule<VictimSegment> getRule422ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageMin00Rule = new Rule<VictimSegment>(){
@@ -758,7 +590,6 @@ public class VictimSegmentRulesFactory {
 		return ageMin00Rule;
 	}
 
-	
 	public Rule<VictimSegment> getRule450ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageOfSpouse = new Rule<VictimSegment>(){
@@ -790,12 +621,6 @@ public class VictimSegmentRulesFactory {
 		return ageOfSpouse;
 	}
 
-
-	
-	/**
-	 * (Race of Victim) The Data Element associated with this error must be
-	 * present when Data Element 25 (Type of Victim) is I=Individual.
-	 */
 	public Rule<VictimSegment> getRule453ForRaceOfVictim(){
 		
 		Rule<VictimSegment> raceForIndividualRule = new Rule<VictimSegment>(){
@@ -825,11 +650,6 @@ public class VictimSegmentRulesFactory {
 		return raceForIndividualRule;
 	}
 
-	
-	/**
-	 * (Age of Victim) The Data Element associated with this error must be
-	 * present when Data Element 25 (Type of Victim) is I=Individual.
-	 */
 	public Rule<VictimSegment> getRule453ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageOfIndividualRule = new Rule<VictimSegment>(){
@@ -867,11 +687,6 @@ public class VictimSegmentRulesFactory {
 		return ageOfIndividualRule;		
 	}
 
-	
-	/**
-	 * (Sex of Victim) The Data Element associated with this error must be
-	 * present when Data Element 25 (Type of Victim) is I=Individual.
-	 */
 	public Rule<VictimSegment> getRule453ForSexOfVictim(){
 		
 		Rule<VictimSegment> sexOfIndividualRule = new Rule<VictimSegment>(){
@@ -900,12 +715,6 @@ public class VictimSegmentRulesFactory {
 		return sexOfIndividualRule;		
 	}
 
-	/**
-	 * (Type of Officer Activity/Circumstance), Data Element 25B (Officer
-	 * Assignment Type), Data Element 26 (Age of Victim), Data Element 27 (Sex
-	 * of Victim), and Data Element 28 (Race of Victim) must be entered when
-	 * Data Element 25 (Type of Victim) is L=Law Enforcement Officer.
-	 */
 	public Rule<VictimSegment> getRule454ForTypeOfOfficerActivityCircumstance(){
 		
 		Rule<VictimSegment> typeOfficerReqFieldsRule = new Rule<VictimSegment>(){
@@ -937,7 +746,6 @@ public class VictimSegmentRulesFactory {
 		return typeOfficerReqFieldsRule;
 	}
 
-	
 	public Rule<VictimSegment> getRule454ForOfficerAssignmentType(){
 		
 		Rule<VictimSegment> assignment454Rule = new Rule<VictimSegment>(){
@@ -969,14 +777,6 @@ public class VictimSegmentRulesFactory {
 		return assignment454Rule;
 	}	
 	
-	
-	/**
-	 * (Sex of Victim) Data Element 25A (Type of Officer Activity/Circumstance),
-	 * Data Element 25B (Officer Assignment Type), Data Element 26 (Age of
-	 * Victim), Data Element 27 (Sex of Victim), and Data Element 28 (Race of
-	 * Victim) must be entered when Data Element 25 (Type of Victim) is L=Law
-	 * Enforcement Officer.
-	 */
 	public Rule<VictimSegment> getRule454ForSexOfVictim(){
 		
 		Rule<VictimSegment> sexOfVictim454Rule = new Rule<VictimSegment>(){
@@ -1008,14 +808,6 @@ public class VictimSegmentRulesFactory {
 		return sexOfVictim454Rule;
 	}		
 	
-	
-	/**
-	 * Data Element 25A (Type of Officer Activity/Circumstance), Data Element
-	 * 25B (Officer Assignment Type), Data Element 26 (Age of Victim), Data
-	 * Element 27 (Sex of Victim), and Data Element 28 (Race of Victim) must be
-	 * entered when Data Element 25 (Type of Victim) is L=Law Enforcement
-	 * Officer.
-	 */
 	public Rule<VictimSegment> getRule454ForRaceOfVictim(){
 		
 		Rule<VictimSegment> raceOfVictim454Rule = new Rule<VictimSegment>(){
@@ -1047,15 +839,6 @@ public class VictimSegmentRulesFactory {
 		return raceOfVictim454Rule;
 	}		
 	
-	
-	
-	
-	/**
-	 * The Data Element associated with this error cannot be entered when Data
-	 * Element 25 (Type of Victim) is not I=Individual or L=Law Enforcement
-	 * Officer when Data Element 24 (Victim Connected to UCR Offense Code)
-	 * contains a Crime Against Person.
-	 */
 	public Rule<VictimSegment> getRule458ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageRule458 = new Rule<VictimSegment>(){
@@ -1089,12 +872,6 @@ public class VictimSegmentRulesFactory {
 		return ageRule458;		
 	}
 
-	/**
-	 * 29 (Ethnicity of Victim) The Data Element associated with this error
-	 * cannot be entered when Data Element 25 (Type of Victim) is not
-	 * I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim
-	 * Connected to UCR Offense Code) contains a Crime Against Person.
-	 */
 	public Rule<VictimSegment> getRule458ForEthnicityOfVictim(){
 		
 		Rule<VictimSegment> ethnicityRule458 = new Rule<VictimSegment>(){
@@ -1130,12 +907,6 @@ public class VictimSegmentRulesFactory {
 		return ethnicityRule458;		
 	}
 
-	/**
-	 * (Sex of Victim) The Data Element associated with this error cannot be
-	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
-	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
-	 * Offense Code) contains a Crime Against Person.
-	 */
 	public Rule<VictimSegment> getRule458ForSexOfVictim(){
 		
 		Rule<VictimSegment> sexOfVictimRule458 = new Rule<VictimSegment>(){
@@ -1171,12 +942,6 @@ public class VictimSegmentRulesFactory {
 		return sexOfVictimRule458;		
 	}
 
-	/**
-	 * (Race of Victim) The Data Element associated with this error cannot be
-	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
-	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
-	 * Offense Code) contains a Crime Against Person.
-	 */
 	public Rule<VictimSegment> getRule458ForRaceOfVictim(){
 		
 		Rule<VictimSegment> raceRule458 = new Rule<VictimSegment>(){
@@ -1210,12 +975,6 @@ public class VictimSegmentRulesFactory {
 		return raceRule458;		
 	}
 
-	/**
-	 * (Resident Status of Victim) The Data Element associated with this error
-	 * cannot be entered when Data Element 25 (Type of Victim) is not
-	 * I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim
-	 * Connected to UCR Offense Code) contains a Crime Against Person.
-	 */
 	public Rule<VictimSegment> getRule458ForResidentStatusOfVictim(){
 		
 		Rule<VictimSegment> residentStatusRule458 = new Rule<VictimSegment>(){
@@ -1251,12 +1010,6 @@ public class VictimSegmentRulesFactory {
 		return residentStatusRule458;		
 	}
 
-	/**
-	 * (Type Injury) The Data Element associated with this error cannot be
-	 * entered when Data Element 25 (Type of Victim) is not I=Individual or
-	 * L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR
-	 * Offense Code) contains a Crime Against Person.
-	 */
 	public Rule<VictimSegment> getRule458ForTypeOfInjury(){
 		
 		Rule<VictimSegment> typeInjuryRule458 = new Rule<VictimSegment>(){
@@ -1291,12 +1044,6 @@ public class VictimSegmentRulesFactory {
 		return typeInjuryRule458;		
 	}
 
-	/**
-	 * (Offender Number to be Related) The Data Element associated with this
-	 * error cannot be entered when Data Element 25 (Type of Victim) is not
-	 * I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim
-	 * Connected to UCR Offense Code) contains a Crime Against Person.
-	 */
 	public Rule<VictimSegment> getRule458ForOffenderNumberToBeRelated(){
 		
 		Rule<VictimSegment> offenderNumRelatedRule458 = new Rule<VictimSegment>(){
@@ -1331,12 +1078,6 @@ public class VictimSegmentRulesFactory {
 		return offenderNumRelatedRule458;		
 	}
 
-	/**
-	 * (Offender Numbers To Be Related) was entered but should only be entered
-	 * if one or more of the offenses entered into Data Element 24 [Victim
-	 * Connected to UCR Offense Code(s)] is a Crime Against Person or is a
-	 * Robbery Offense (120). None of these types of offenses were entered.
-	 */
 	public Rule<VictimSegment> getRule459ForOffenderNumberToBeRelated(){
 		
 		Rule<VictimSegment> offenderNumPersonRule = new Rule<VictimSegment>(){
@@ -1368,12 +1109,6 @@ public class VictimSegmentRulesFactory {
 		return offenderNumPersonRule;
 	}
 
-	/**
-	 * (Relationship of Victim to Offender) Corresponding Data Element 35
-	 * (Relationship of Victim to Offenders) data must be entered when Data
-	 * Element 34 (Offender Numbers To Be Related) is entered with a value
-	 * greater than 00.
-	 */
 	public Rule<VictimSegment> getRule460ForRelationshipOfVictimToOffender(){
 		
 		Rule<VictimSegment> relationshiOffenderRule = new Rule<VictimSegment>(){
@@ -1413,8 +1148,6 @@ public class VictimSegmentRulesFactory {
 		return relationshiOffenderRule;
 	}
 
-	// (Type of Victim) cannot have a value of S=Society/Public when the offense
-	// is 220=Burglary/Breaking and Entering.
 	public Rule<VictimSegment> getRule461ForTypeOfVictim(){
 		
 		Rule<VictimSegment> societyBurglaryRule = new Rule<VictimSegment>(){
@@ -1442,14 +1175,6 @@ public class VictimSegmentRulesFactory {
 		return societyBurglaryRule;
 	}
 	
-
-	
-	/**
-	 * (Type of Victim) contains a Crime Against Person, but Data Element 25
-	 * (Type of Victim) is not I=Individual or L=Law Enforcement Officer when
-	 * Data Element 24 (Victim Connected to UCR Offense Code) contains a Crime
-	 * Against Person.
-	 */
 	public Rule<VictimSegment> getRule464ForTypeOfVictim(){
 		
 		Rule<VictimSegment> personTypeRule = new Rule<VictimSegment>(){
@@ -1482,13 +1207,7 @@ public class VictimSegmentRulesFactory {
 		return personTypeRule;		
 	}
 	
-	
-	
-	
-	/**
-	 * (Type of Victim) contains a Crime Against Society, but Data Element 25 (Type of Victim) is not S=Society.
-	 */
-	public Rule<VictimSegment> geRule465ForTypeOfVictim(){
+	public Rule<VictimSegment> getRule465ForTypeOfVictim(){
 				
 		Rule<VictimSegment> crimeSocietyRule = new Rule<VictimSegment>(){
 			
@@ -1522,13 +1241,6 @@ public class VictimSegmentRulesFactory {
 		return crimeSocietyRule;
 	}
 	
-
-
-	/**
-	 * (Type of Victim) contains a Crime Against Property, but Data Element 25
-	 * (Type of Victim) is S=Society. This is not an allowable code for Crime
-	 * Against Property offenses.
-	 */
 	public Rule<VictimSegment> getRule467ForTypeOfVictim(){
 		
 		Rule<VictimSegment> typeVictimPropertyOffenseRule = new Rule<VictimSegment>(){
@@ -1558,13 +1270,6 @@ public class VictimSegmentRulesFactory {
 		return typeVictimPropertyOffenseRule;
 	}
 	
-	
-	
-	/**
-	 * (Relationship of Victim to Offender) cannot be entered when Data Element
-	 * 34 (Offender Number to be Related) is zero. Zero means that the number of
-	 * offenders is unknown; therefore, the relationship cannot be entered.
-	 */
 	public Rule<VictimSegment> getRule468ForRelationshipOfVictimToOffender(){
 		
 		Rule<VictimSegment> unknownOffendersRule = new Rule<VictimSegment>(){
@@ -1624,8 +1329,6 @@ public class VictimSegmentRulesFactory {
 		return sexOfVictimForStatutoryRapeRule;
 	}
 	
-	
-	
 	public Rule<VictimSegment> getRule481ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageOfVictimUnder18ForRapeRule = new Rule<VictimSegment>(){
@@ -1656,13 +1359,6 @@ public class VictimSegmentRulesFactory {
 		return ageOfVictimUnder18ForRapeRule;
 	}
 
-	
-	/**
-	 * (Type of Victim) cannot be L=Law Enforcement Officer unless Data Element
-	 * 24 (Victim Connected to UCR Offense Code) is one of the following:
-	 * 09A=Murder & Non-negligent Manslaughter 13A=Aggravated Assault 13B=Simple
-	 * Assault 13C=Intimidation
-	 */
 	public Rule<VictimSegment> getRule482ForTypeOfVictim(){
 		
 		Rule<VictimSegment> typeVictimLawOfficerRule = new Rule<VictimSegment>(){
@@ -1698,16 +1394,6 @@ public class VictimSegmentRulesFactory {
 		return typeVictimLawOfficerRule;
 	}
 	
-
-	/**
-	 * Type of Officer Activity/Circumstance) Data Element 25B (Officer
-	 * Assignment Type), Data Element 25C (Officer–ORI Other Jurisdiction), Data
-	 * Element 26 (Age of Victim), Data Element 27 (Sex of Victim), Data Element
-	 * 28 (Race of Victim), Data Element 29 (Ethnicity of Victim), Data Element
-	 * 30 (Resident Status of Victim), and Data Element 34 (Offender Number to
-	 * be Related) can only be entered when Data Element 25 (Type of Victim) is
-	 * I=Individual or L=Law Enforcement Officer.
-	 */
 	public Rule<VictimSegment> getRule483ForTypeOfOfficerActivity(){
 		
 		Rule<VictimSegment> personReqFieldsRule = new Rule<VictimSegment>(){
@@ -1718,21 +1404,13 @@ public class VictimSegmentRulesFactory {
 			public NIBRSError apply(VictimSegment victimSegment) {
 	
 				String assignmentType = victimSegment.getOfficerAssignmentType();
-				
 				String ori = victimSegment.getOfficerOtherJurisdictionORI();
-				
 				NIBRSAge age = victimSegment.getAge();
-				
 				String race = victimSegment.getRace();
-				
 				String sex = victimSegment.getSex();
-				
 				String ethnicity = victimSegment.getEthnicity();
-				
 				String residentStatus = victimSegment.getResidentStatusOfVictim();				
-				
 				List<Integer> relatedOffenderList = victimSegment.getOffenderNumberRelatedList();
-								
 				String typeOfVictim = victimSegment.getTypeOfVictim();
 				
 				boolean isPersonVictim = TypeOfVictimCode.I.code.equals(typeOfVictim) 
@@ -1759,4 +1437,3 @@ public class VictimSegmentRulesFactory {
 	}
 	
 }
-
