@@ -549,35 +549,26 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule450ForAgeOfVictim(){
-		
-		Rule<VictimSegment> ageOfSpouse = new Rule<VictimSegment>(){
-			
+	Rule<VictimSegment> getRule450ForAgeOfVictim() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-				
-				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
-				
-				if(relationshipList != null 
-						&& relationshipList.contains(RelationshipOfVictimToOffenderCode.SE.code)){
-				
+				NIBRSError e = null;
+				if (victimSegment.getVictimOffenderRelationshipList().contains(RelationshipOfVictimToOffenderCode.SE.code)) {
 					NIBRSAge nibrsAge = victimSegment.getAge();
-					
-					Integer minAge = nibrsAge.getAgeMin();
-					
-					if(minAge != null && minAge < 10){
-	
-						rNIBRSError = victimSegment.getErrorTemplate();					
-						rNIBRSError.setDataElementIdentifier("26");
-						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._450);
-					}									
+					if (nibrsAge != null) {
+						Integer minAge = nibrsAge.getAgeMin();
+						if (minAge != null && minAge < 10) {
+							e = victimSegment.getErrorTemplate();
+							e.setDataElementIdentifier("26");
+							e.setNIBRSErrorCode(NIBRSErrorCode._450);
+							e.setValue(nibrsAge);
+						}
+					}
 				}
-				return rNIBRSError;
+				return e;
 			}
 		};
-		return ageOfSpouse;
 	}
 
 	public Rule<VictimSegment> getRule453ForRaceOfVictim(){

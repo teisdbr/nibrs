@@ -167,43 +167,30 @@ public class VictimSegmentRulesFactoryTest {
 	}
 
 	@Test
-	public void testRule450ForAgeOfVictim(){
-		
-		Rule<VictimSegment> rule450ageLess10 = victimRulesFactory.getRule450ForAgeOfVictim();
+	public void testRule450ForAgeOfVictim() {
+
+		Rule<VictimSegment> rule = victimRulesFactory.getRule450ForAgeOfVictim();
 
 		VictimSegment victimSegment = getBasicVictimSegment();
-	
-		// test can't be less than 10, for spouse relationship
 		victimSegment.setAgeString("0909");
-		
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.SE.code);
-		
-		NIBRSError nibrsError = rule450ageLess10.apply(victimSegment);
-		
+		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._450, nibrsError.getNIBRSErrorCode());
-	
-		// test non-spouse relationship, younger than 10 = valid test
+		assertEquals("26", nibrsError.getDataElementIdentifier());
+		assertEquals(victimSegment.getAge(), nibrsError.getValue());
+
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
-	
-		nibrsError = rule450ageLess10.apply(victimSegment);
-		
+		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
-		
-		//test spouse relationship, 10 years old is old enough - valid 
 
 		victimSegment.setAgeString("1010");
-		
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.SE.code);
-		
-		nibrsError = rule450ageLess10.apply(victimSegment);
-		
+		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
+		
 	}
-	
-	
-	
+
 	@Test
 	public void testRule453ForAgeOfVictim(){
 		
