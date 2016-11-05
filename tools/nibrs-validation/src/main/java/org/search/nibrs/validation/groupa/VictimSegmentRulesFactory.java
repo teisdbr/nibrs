@@ -118,6 +118,8 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
 		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
 		rulesList.add(getRule410ForAgeOfVictim());
+		rulesList.add(getRule419ForAggravatedAssaultHomicideCircumstances());
+		rulesList.add(getRule419ForTypeOfInjury());
 		rulesList.add(getRule422ForAgeOfVictim());
 		rulesList.add(getRule450ForAgeOfVictim());				
 		rulesList.add(getRule453ForAgeOfVictim());
@@ -126,7 +128,8 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
 		rulesList.add(getRule454ForSexOfVictim());
 		rulesList.add(getRule454ForOfficerAssignmentType());
-		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());		
+		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());	
+		rulesList.add(getRule457ForAdditionalJustifiableHomicideCircsumstances());
 		rulesList.add(getRule458ForSexOfVictim());	
 		rulesList.add(getRule458ForResidentStatusOfVictim());				
 		rulesList.add(getRule458ForOffenderNumberToBeRelated());	
@@ -475,63 +478,58 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule419ForTypeOfInjury(){
-		
-		Rule<VictimSegment> typeInjuryForNonPersonRule = new Rule<VictimSegment>(){
-	
+	Rule<VictimSegment> getRule419ForTypeOfInjury() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-								
-				List<String> offenseList =  victimSegment.getUcrOffenseCodeList();
-				
-				if(offenseList != null && !offenseList.isEmpty() 
-					&& !CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("33");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._419);
+
+				NIBRSError e = null;
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				List<String> typeOfInjuryList = new ArrayList<>();
+				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
+				typeOfInjuryList.removeAll(NULL_STRING_LIST);
+
+				if (!typeOfInjuryList.isEmpty() && (offenseList.isEmpty() || !CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST))) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("33");
+					e.setNIBRSErrorCode(NIBRSErrorCode._419);
+					e.setValue(typeOfInjuryList);
 				}
+
+				return e;
 				
-				return rNIBRSError;
-			}						
-		};		
-		return typeInjuryForNonPersonRule;
+			}
+		};
 	}
 
-	public Rule<VictimSegment> getRule419ForAggravatedAssaultHomicideCircumstances(){
-		
-		Rule<VictimSegment> assaultRule = new Rule<VictimSegment>(){
-	
+	Rule<VictimSegment> getRule419ForAggravatedAssaultHomicideCircumstances() {
+		return new Rule<VictimSegment>() {
+
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-	
-				NIBRSError rNIBRSError = null;
-								
-				List<String> assaultCircList = victimSegment.getAggravatedAssaultHomicideCircumstancesList();
-				
-				boolean hasAssaultEntered = assaultCircList != null && !assaultCircList.isEmpty();
-				
-				
-				List<String> ucrOffenseList = victimSegment.getUcrOffenseCodeList();
-				
-				List<String> offenseListForAssault = Arrays.asList(OffenseCode._09A.code,
-						OffenseCode._09B.code, OffenseCode._09C.code, OffenseCode._13A.code);
-				
-				boolean hasAssaultOffense = CollectionUtils.containsAny(ucrOffenseList, offenseListForAssault);
-				
-				if(hasAssaultEntered && !hasAssaultOffense){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._419);
-					rNIBRSError.setDataElementIdentifier("31");
+
+				NIBRSError e = null;
+
+				List<String> aahc = new ArrayList<>();
+				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
+				aahc.removeAll(NULL_STRING_LIST);
+
+				List<String> ucrOffenseList = new ArrayList<>();
+				ucrOffenseList.addAll(victimSegment.getUcrOffenseCodeList());
+				ucrOffenseList.removeAll(NULL_STRING_LIST);
+
+				List<String> assaultHomicideOffenses = Arrays.asList(OffenseCode._09A.code, OffenseCode._09B.code, OffenseCode._09C.code, OffenseCode._13A.code);
+
+				if (!aahc.isEmpty() && !CollectionUtils.containsAny(ucrOffenseList, assaultHomicideOffenses)) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._419);
+					e.setDataElementIdentifier("31");
+					e.setValue(aahc);
 				}
-				
-				return rNIBRSError;
-			}						
+
+				return e;
+			}
 		};
-		return assaultRule;
 	}
 
 	public Rule<VictimSegment> getRule422ForAgeOfVictim(){
