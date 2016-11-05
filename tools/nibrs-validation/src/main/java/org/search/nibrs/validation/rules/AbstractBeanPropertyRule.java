@@ -52,7 +52,7 @@ public abstract class AbstractBeanPropertyRule<T extends ValidationTarget> imple
 		if (!ignore(subject)) {
 			try {
 				Object value = property.getReadMethod().invoke(subject, new Object[0]);
-				if (propertyViolatesRule(value)) {
+				if (propertyViolatesRule(value, subject)) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(value);
 					ret.setDataElementIdentifier(dataElementIdentifier);
@@ -76,8 +76,9 @@ public abstract class AbstractBeanPropertyRule<T extends ValidationTarget> imple
 	/**
 	 * Templated method that derived types should implement to perform the test on the property value.
 	 * @param value the bean property value
+	 * @param subject the validation target object (implementers can use this for additional context needed to implement the logic in the method)
 	 * @return whether the value passes the test or not
 	 */
-	protected abstract boolean propertyViolatesRule(Object value);
+	protected abstract boolean propertyViolatesRule(Object value, T subject);
 
 }

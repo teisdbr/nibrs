@@ -14,7 +14,7 @@ public class NotBlankRule<T extends ValidationTarget> extends AbstractBeanProper
 		super(propertyName, dataElementIdentifier, subjectClass, errorCode);
 	}
 
-	protected boolean propertyViolatesRule(Object value) {
+	protected boolean propertyViolatesRule(Object value, T subject) {
 		return isBlank(value);
 	}
 	

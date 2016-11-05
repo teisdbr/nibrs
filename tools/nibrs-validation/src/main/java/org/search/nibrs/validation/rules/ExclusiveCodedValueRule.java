@@ -34,7 +34,7 @@ public class ExclusiveCodedValueRule<T extends ValidationTarget> extends Abstrac
 	}
 
 	@Override
-	protected boolean propertyViolatesRule(Object value) {
+	protected boolean propertyViolatesRule(Object value, T subject) {
 		boolean ret = false;
 		if (value != null) {
 			if (!value.getClass().isArray()) {

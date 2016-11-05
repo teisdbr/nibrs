@@ -30,7 +30,7 @@ public class ValidValueListRule<T extends ValidationTarget> extends AbstractBean
 	}
 
 	@Override
-	protected boolean propertyViolatesRule(Object value) {
+	protected boolean propertyViolatesRule(Object value, T subject) {
 		boolean ret = false;
 		if (!nullAllowed && value == null) {
 			ret = true;

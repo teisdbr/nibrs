@@ -26,6 +26,7 @@ import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
+import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NullObjectRule;
 import org.search.nibrs.validation.rules.Rule;
@@ -73,6 +74,24 @@ public class VictimSegmentRulesFactory {
 	private static final List<String> NULL_STRING_LIST = Arrays.asList(new String[] {null});
 	private static final List<Integer> NULL_INTEGER_LIST = Arrays.asList(new Integer[] {null});
 	
+	private static final class PersonVictimValidValueRule<T extends VictimSegment> extends AbstractBeanPropertyRule<VictimSegment> {
+		
+		private Set<String> allowedValueSet;
+		private boolean allowNull;
+
+		public PersonVictimValidValueRule(String propertyName, String dataElementIdentifier, NIBRSErrorCode errorCode, Set<String> allowedValueSet, boolean allowNull) {
+			super(propertyName, dataElementIdentifier, VictimSegment.class, errorCode);
+			this.allowedValueSet = allowedValueSet;
+			this.allowNull = allowNull;
+		}
+
+		@Override
+		protected boolean propertyViolatesRule(Object value, VictimSegment subject) {
+			return (subject.isPerson() && ((!allowNull && value == null) || (value != null && !allowedValueSet.contains(value))));
+		}
+
+	}
+
 	private VictimSegmentRulesFactory() {
 		rulesList = new ArrayList<Rule<VictimSegment>>();
 		initRules(rulesList);
@@ -236,11 +255,6 @@ public class VictimSegmentRulesFactory {
 		return new ValidValueListRule<VictimSegment>("typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, TypeOfVictimCode.codeSet(), false);
 	}
 
-	public Rule<VictimSegment> getRule404ForSexOfVictim(){
-		return new ValidValueListRule<VictimSegment>(
-				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet(), false);
-	}
-
 	Rule<VictimSegment> getRule404ForOfficerOriOtherJurisdiction() {
 		// note:  we cannot check if an ORI is in the FBI's database.  And the field is always optional, so nothing to test here
 		return new NullObjectRule<>();
@@ -252,17 +266,6 @@ public class VictimSegmentRulesFactory {
 
 	Rule<VictimSegment> getRule404ForTypeOfOfficerActivityCircumstance() {
 		return new ValidValueListRule<VictimSegment>("typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, TypeOfOfficerActivityCircumstance.codeSet(), true);
-	}
-
-	public Rule<VictimSegment> getRule404ForEthnicityOfVictim(){
-		
-		//TODO account for element being optional based on typeOfVicitmValue  
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"ethnicity", "29", VictimSegment.class, NIBRSErrorCode._404, 
-				EthnicityOfVictim.codeSet(), false);
-		
-		return validValueListRule;
 	}
 
 	Rule<VictimSegment> getRule404ForTypeOfInjury(){
@@ -289,16 +292,29 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule404ForResidentStatusOfVictim(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"residentStatusOfVictim", "30", VictimSegment.class, NIBRSErrorCode._404, 
-				ResidentStatusCode.codeSet(), false);
-		
-		return validValueListRule;
+	Rule<VictimSegment> getRule404ForSexOfVictim(){
+		return new PersonVictimValidValueRule<VictimSegment>("sex", "27", NIBRSErrorCode._404, SexOfVictimCode.codeSet(), false);
+	}
+	
+	Rule<VictimSegment> getRule404ForEthnicityOfVictim(){
+		return new PersonVictimValidValueRule<VictimSegment>("ethnicity", "29", NIBRSErrorCode._404, EthnicityOfVictim.codeSet(), true);
+	}
+	
+	Rule<VictimSegment> getRule404ForResidentStatusOfVictim(){
+		return new PersonVictimValidValueRule<VictimSegment>("residentStatusOfVictim", "30", NIBRSErrorCode._404, ResidentStatusCode.codeSet(), true);
+	}
+	
+	Rule<VictimSegment> getRule404ForRaceOfVictim(){
+		return new PersonVictimValidValueRule<VictimSegment>("race", "28", NIBRSErrorCode._404, RaceOfVictimCode.codeSet(), false);
+	}
+	
+	Rule<VictimSegment> getRule404ForAgeOfVictim() {
+		// note:  because we parse the age string when constructing the nibrsAge property of VictimSegment, it is not possible
+		// to have a separate violation of rule 404 for victim age.
+		return new NullObjectRule<VictimSegment>();
 	}
 
-	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances() {
+	Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances() {
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -443,21 +459,6 @@ public class VictimSegmentRulesFactory {
 		return addnlInfoWithoutJustHomicideRule;
 	}
 	
-	public Rule<VictimSegment> getRule404ForRaceOfVictim(){
-	
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"race", "28", VictimSegment.class, NIBRSErrorCode._404, RaceOfVictimCode.codeSet(),
-				false);
-		
-		return validValueListRule;
-	}
-
-	Rule<VictimSegment> getRule404ForAgeOfVictim() {
-		// note:  because we parse the age string when constructing the nibrsAge property of VictimSegment, it is not possible
-		// to have a separate violation of rule 404 for victim age.
-		return new NullObjectRule<VictimSegment>();
-	}
-
 	public Rule<VictimSegment> getRule406ForVictimConnectedToUcrOffenseCode(){
 		
 		DuplicateCodedValueRule<VictimSegment> duplicateCodedValueRule = new DuplicateCodedValueRule<>

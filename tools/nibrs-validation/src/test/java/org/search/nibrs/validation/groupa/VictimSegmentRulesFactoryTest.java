@@ -243,36 +243,41 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	@Test
-	public void testRule404ForEthnicityOfVictim(){
-		
-		Rule<VictimSegment> ethnicity404Rule = victimRulesFactory.getRule404ForEthnicityOfVictim();
-		
+	public void testRule404ForEthnicityOfVictim() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForEthnicityOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setEthnicity(null);
-		
-		NIBRSError nibrsError = ethnicity404Rule.apply(victimSegment);
-		
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setEthnicity("invalid");
+		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("29", nibrsError.getDataElementIdentifier());
+		assertEquals("invalid", nibrsError.getValue());
+		victimSegment.setEthnicity(EthnicityOfVictim.N.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 	}
 	
-	
 	@Test
-	public void testRule404ForResidentStatus(){
-		
-		Rule<VictimSegment> residentStatus404Rule = victimRulesFactory.getRule404ForResidentStatusOfVictim();
-		
+	public void testRule404ForResidentStatus() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForResidentStatusOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setResidentStatusOfVictim(null);
-		
-		NIBRSError nibrsError = residentStatus404Rule.apply(victimSegment);
-		
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setResidentStatusOfVictim("invalid");
+		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("30", nibrsError.getDataElementIdentifier());
+		assertEquals("invalid", nibrsError.getValue());
+		victimSegment.setResidentStatusOfVictim(ResidentStatusCode.N.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 	}
 
 	@Test
@@ -506,24 +511,23 @@ public class VictimSegmentRulesFactoryTest {
 		Rule<VictimSegment> sexOfVictim404Rule = victimRulesFactory.getRule404ForSexOfVictim();
 
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		// test null value
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setSex(null);
-		
 		NIBRSError nibrsError = sexOfVictim404Rule.apply(victimSegment);
-		
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("27", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
 		
-		// test invalid value
-		victimSegment.setSex("Male");
-		
+		victimSegment.setSex("invalid");
 		nibrsError = sexOfVictim404Rule.apply(victimSegment);
-		
 		assertNotNull(nibrsError);
+		assertEquals("invalid", nibrsError.getValue());
 		
-		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		victimSegment.setSex(SexOfVictimCode.F.code);
+		nibrsError = sexOfVictim404Rule.apply(victimSegment);
+		assertNull(nibrsError);
+
 	}
 	
 	
@@ -556,28 +560,28 @@ public class VictimSegmentRulesFactoryTest {
 	
 	
 	@Test
-	public void testRule404ForRaceOfVictim(){
+	public void testRule404ForRaceOfVictim() {
 		
 		Rule<VictimSegment> raceOfVictim404Rule = victimRulesFactory.getRule404ForRaceOfVictim();
 	
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setRace(null);
-		
 		NIBRSError nibrsError = raceOfVictim404Rule.apply(victimSegment);
-		
 		assertNotNull(nibrsError);	
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("28", nibrsError.getDataElementIdentifier());
+		assertEquals(null, nibrsError.getValue());
 		
-		
-		victimSegment.setRace("Purple");
-		
+		victimSegment.setRace("invalid");
 		nibrsError = raceOfVictim404Rule.apply(victimSegment);
-		
 		assertNotNull(nibrsError);
+		assertEquals("invalid", nibrsError.getValue());
 		
-		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		victimSegment.setRace(RaceOfVictimCode.A.code);
+		nibrsError = raceOfVictim404Rule.apply(victimSegment);
+		assertNull(nibrsError);
+		
 	}
 	
 	

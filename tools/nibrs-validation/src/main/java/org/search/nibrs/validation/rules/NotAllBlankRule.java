@@ -15,7 +15,7 @@ public class NotAllBlankRule<T extends ValidationTarget> extends AbstractBeanPro
 	}
 
 	@Override
-	protected boolean propertyViolatesRule(Object value) {
+	protected boolean propertyViolatesRule(Object value, T subject) {
 		boolean ret = true;
 		if (value != null) {
 			String[] s = (String[]) value;

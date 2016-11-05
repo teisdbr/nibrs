@@ -18,7 +18,7 @@ public class DuplicateCodedValueRule<T extends ValidationTarget> extends Abstrac
 	}
 
 	@Override
-	protected boolean propertyViolatesRule(Object value) {
+	protected boolean propertyViolatesRule(Object value, T subject) {
 		if (value == null) {
 			return false;
 		}
