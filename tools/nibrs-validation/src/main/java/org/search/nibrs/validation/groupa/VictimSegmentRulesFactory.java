@@ -15,11 +15,11 @@ import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
-import org.search.nibrs.model.codes.AgeOfVictimCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.OfficerAssignmentType;
 import org.search.nibrs.model.codes.RaceOfVictimCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
@@ -236,10 +236,6 @@ public class VictimSegmentRulesFactory {
 		return new ValidValueListRule<VictimSegment>("typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, TypeOfVictimCode.codeSet(), false);
 	}
 
-	Rule<VictimSegment> getRule404ForTypeOfOfficerActivityCircumstance() {
-		return new ValidValueListRule<VictimSegment>("typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, TypeOfOfficerActivityCircumstance.codeSet(), true);
-	}
-
 	public Rule<VictimSegment> getRule404ForSexOfVictim(){
 		return new ValidValueListRule<VictimSegment>(
 				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet(), false);
@@ -288,13 +284,12 @@ public class VictimSegmentRulesFactory {
 		return officerOriRule;						
 	}
 
-	public Rule<VictimSegment> getRule404ForOfficerAssignmentType(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"officerAssignmentType", "25B", VictimSegment.class, NIBRSErrorCode._404, 
-				TypeOfOfficerActivityCircumstance.codeSet(), false);
-		
-		return validValueListRule;
+	Rule<VictimSegment> getRule404ForOfficerAssignmentType() {
+		return new ValidValueListRule<VictimSegment>("officerAssignmentType", "25B", VictimSegment.class, NIBRSErrorCode._404, OfficerAssignmentType.codeSet(), true);
+	}
+
+	Rule<VictimSegment> getRule404ForTypeOfOfficerActivityCircumstance() {
+		return new ValidValueListRule<VictimSegment>("typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, TypeOfOfficerActivityCircumstance.codeSet(), true);
 	}
 
 	public Rule<VictimSegment> getRule404ForEthnicityOfVictim(){
@@ -801,6 +796,8 @@ public class VictimSegmentRulesFactory {
 	}
 
 	public Rule<VictimSegment> getRule454ForOfficerAssignmentType(){
+		
+		// TODO: need to be able to configure the factory for enforcing leoka rules, or not
 		
 		Rule<VictimSegment> assignment454Rule = new Rule<VictimSegment>(){
 							

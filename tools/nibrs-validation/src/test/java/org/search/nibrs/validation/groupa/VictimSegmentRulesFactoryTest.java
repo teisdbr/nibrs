@@ -342,7 +342,6 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("invalid", nibrsError.getValue());
 	}
 	
-	
 	@Test
 	public void testRule454ForTypeOfOfficerActivityCircumstance(){
 		
@@ -470,25 +469,23 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 	}
 	
-	
-	
-	
 	@Test
-	public void testRule404ForOfficerAssignmentType(){
-		
-		Rule<VictimSegment> officerAssignment404Rule = victimRulesFactory.getRule404ForOfficerAssignmentType();
-
+	public void testRule404ForOfficerAssignmentType() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForOfficerAssignmentType();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
 		victimSegment.setOfficerAssignmentType(null);
-		
-		NIBRSError nibrsError = officerAssignment404Rule.apply(victimSegment);
-		
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setOfficerAssignmentType(OfficerAssignmentType.F.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setOfficerAssignmentType("invalid");
+		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("25B", nibrsError.getDataElementIdentifier());
+		assertEquals("invalid", nibrsError.getValue());
 	}
-	
 	
 	@Test
 	public void testRule404ForOfficerOriOtherJurisdiction(){
