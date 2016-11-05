@@ -347,12 +347,27 @@ public class VictimSegmentRulesFactory {
 	}
 
 	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("aggravatedAssaultHomicideCircumstances", 
-				"31", VictimSegment.class, NIBRSErrorCode._404, AggravatedAssaultHomicideCircumstancesCode.codeSet(),
-				false);
-		
-		return validValueListRule;
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError e = null;
+
+				List<String> aahcList = new ArrayList<>();
+				aahcList.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
+				aahcList.removeAll(NULL_STRING_LIST);
+				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
+				if (offenseCodeList.contains(OffenseCode._09C.code) && aahcList.isEmpty()) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._404);
+					e.setDataElementIdentifier("31");
+					e.setValue(null);
+				}
+
+				return e;
+				
+			}
+		};
 	}
 
 	public Rule<VictimSegment> getRule404ForRelationshipOfVictimToOffender(){
