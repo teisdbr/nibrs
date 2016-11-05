@@ -241,47 +241,9 @@ public class VictimSegmentRulesFactory {
 				"sex", "27", VictimSegment.class, NIBRSErrorCode._404, SexOfVictimCode.codeSet(), false);
 	}
 
-	public Rule<VictimSegment> getRule404ForOfficerOriOtherJurisdiction(){
-						
-		Rule<VictimSegment> officerOriRule = new Rule<VictimSegment>(){
-
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-								
-				String officerOri = victimSegment.getOfficerOtherJurisdictionORI();
-				
-				boolean oriValid = true;
-				
-				if(StringUtils.isNotEmpty(officerOri)){
-
-					if(StringUtils.isNumeric(officerOri)){
-						
-						int iOri = Integer.parseInt(officerOri);
-						
-						if(iOri < 0 || iOri > 9){
-							
-							oriValid = false;
-						}						
-					}else{
-						
-						oriValid = StringUtils.isAlpha(officerOri) && StringUtils.isAllUpperCase(officerOri);						
-					}					
-				}else{
-					oriValid = false;
-				}
-				
-				if(!oriValid){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("25C");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._404);
-				}								
-				return rNIBRSError;
-			}			
-		};		
-		return officerOriRule;						
+	Rule<VictimSegment> getRule404ForOfficerOriOtherJurisdiction() {
+		// note:  we cannot check if an ORI is in the FBI's database.  And the field is always optional, so nothing to test here
+		return new NullObjectRule<>();
 	}
 
 	Rule<VictimSegment> getRule404ForOfficerAssignmentType() {

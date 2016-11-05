@@ -488,19 +488,15 @@ public class VictimSegmentRulesFactoryTest {
 	}
 	
 	@Test
-	public void testRule404ForOfficerOriOtherJurisdiction(){
-		
-		Rule<VictimSegment> jurisdiction404Rule = victimRulesFactory.getRule404ForOfficerOriOtherJurisdiction();
-
+	public void testRule404ForOfficerOriOtherJurisdiction() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForOfficerOriOtherJurisdiction();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
 		victimSegment.setOfficerOtherJurisdictionORI(null);
-	
-		NIBRSError nibrsError = jurisdiction404Rule.apply(victimSegment);
-		
-		assertNotNull(nibrsError);
-		
-		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setOfficerOtherJurisdictionORI("AB12345");
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 	}
 	
 	
