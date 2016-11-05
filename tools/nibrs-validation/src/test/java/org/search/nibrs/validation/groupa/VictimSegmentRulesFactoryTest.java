@@ -801,23 +801,26 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("27", nibrsError.getDataElementIdentifier());
 	}
 	
-	
 	@Test
-	public void testRule404ForTypeOfInjury(){
-		
+	public void testRule404ForTypeOfInjury() {
+
 		Rule<VictimSegment> typeOfInjuryRule = victimRulesFactory.getRule404ForTypeOfInjury();
 
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		victimSegment.setTypeOfInjury(null);
-		
+
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
+
 		NIBRSError nibrsError = typeOfInjuryRule.apply(victimSegment);
-		
+		assertNull(nibrsError);
+
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._100.code);
+		nibrsError = typeOfInjuryRule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("33", nibrsError.getDataElementIdentifier());
+
 	}
-		
+
 	@Test
 	public void testRule404ForRelationshipOfVictimToOffender(){
 		

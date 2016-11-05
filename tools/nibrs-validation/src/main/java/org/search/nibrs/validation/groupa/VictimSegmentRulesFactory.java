@@ -56,7 +56,20 @@ public class VictimSegmentRulesFactory {
 			OffenseCode._23C.code, OffenseCode._23D.code, OffenseCode._23E.code,
 			OffenseCode._23F.code, OffenseCode._23G.code, OffenseCode._23H.code,
 			OffenseCode._240.code, OffenseCode._120.code, OffenseCode._280.code					
-	);		
+	);
+	
+	private static final List<String> INJURY_OFFENSE_LIST = Arrays.asList(OffenseCode._100.code,
+			OffenseCode._11A.code,
+			OffenseCode._11B.code,
+			OffenseCode._11C.code,
+			OffenseCode._11D.code,
+			OffenseCode._120.code,
+			OffenseCode._13A.code,
+			OffenseCode._13B.code,
+			OffenseCode._210.code,
+			OffenseCode._64A.code,
+			OffenseCode._64B.code
+			);
 	
 	private static final List<String> NULL_STRING_LIST = Arrays.asList(new String[] {null});
 	private static final List<Integer> NULL_INTEGER_LIST = Arrays.asList(new Integer[] {null});
@@ -300,12 +313,28 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-	public Rule<VictimSegment> getRule404ForTypeOfInjury(){
-		
-		NotAllBlankRule<VictimSegment> notAllBlankRule = new NotAllBlankRule<VictimSegment>("typeOfInjury", 
-				"typeOfInjury", VictimSegment.class, NIBRSErrorCode._404);
-		
-		return notAllBlankRule;
+	Rule<VictimSegment> getRule404ForTypeOfInjury(){
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError e = null;
+
+				List<String> injuryTypeList = new ArrayList<>();
+				injuryTypeList.addAll(victimSegment.getTypeOfInjuryList());
+				injuryTypeList.removeAll(NULL_STRING_LIST);
+				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
+				if (CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) && injuryTypeList.isEmpty()) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._404);
+					e.setDataElementIdentifier("33");
+					e.setValue(null);
+				}
+
+				return e;
+				
+			}
+		};
 	}
 
 	public Rule<VictimSegment> getRule404ForResidentStatusOfVictim(){
