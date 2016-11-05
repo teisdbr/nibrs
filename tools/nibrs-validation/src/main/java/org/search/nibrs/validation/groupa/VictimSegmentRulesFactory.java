@@ -389,38 +389,25 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule455ForAdditionalJustifiableHomicideCircsumstances(){
-						
-		Rule<VictimSegment> homicide455Rule = new Rule<VictimSegment>(){
-
+	Rule<VictimSegment> getRule455ForAdditionalJustifiableHomicideCircsumstances() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-
-				NIBRSError rNIBRSError = null;
-								
+				NIBRSError e = null;
 				List<String> assaultCircList = victimSegment.getAggravatedAssaultHomicideCircumstancesList();
-								
-				boolean isJustAssaultHomicide = assaultCircList != null
-						&& (assaultCircList.contains(AggravatedAssaultHomicideCircumstancesCode._20.code)
-							 || assaultCircList.contains(AggravatedAssaultHomicideCircumstancesCode._21.code) 
-							);
-								
-				String sAddnlHomicideCirc = victimSegment.getAdditionalJustifiableHomicideCircumstances();
-				
-				boolean hasAddnlHomicideCir = StringUtils.isNotEmpty(sAddnlHomicideCirc);
-				
-				if(isJustAssaultHomicide && !hasAddnlHomicideCir){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("32");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._455);
-				}				
-				return rNIBRSError;
-			}					
-		};		
-		return homicide455Rule;
+				if ((assaultCircList.contains(AggravatedAssaultHomicideCircumstancesCode._20.code) ||
+						assaultCircList.contains(AggravatedAssaultHomicideCircumstancesCode._21.code))
+						&& victimSegment.getAdditionalJustifiableHomicideCircumstances() == null) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("32");
+					e.setNIBRSErrorCode(NIBRSErrorCode._455);
+					e.setValue(assaultCircList);
+				}
+				return e;
+			}
+		};
 	}
-	
+
 	public Rule<VictimSegment> getRule457ForAdditionalJustifiableHomicideCircsumstances(){
 		
 		Rule<VictimSegment> addnlInfoWithoutJustHomicideRule = new Rule<VictimSegment>(){
