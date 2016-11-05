@@ -210,10 +210,6 @@ public class VictimSegment extends AbstractPersonSegment {
 		this.victimSequenceNumber = victimSequenceNumber;
 	}
 
-	public boolean isVictimPerson() {
-		return NIBRSRules.victimTypeCodeIsPerson(getTypeOfVictim());
-	}
-
 	public boolean isPerson() {
 		return "I".equals(typeOfVictim) || "L".equals(typeOfVictim);
 	}

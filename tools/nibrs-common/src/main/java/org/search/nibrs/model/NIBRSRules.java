@@ -36,9 +36,4 @@ public class NIBRSRules
         return "XX".equals(typeDrugMeasurement);
     }
     
-    public static boolean victimTypeCodeIsPerson(String victimTypeCode)
-    {
-        return "I".equals(victimTypeCode);
-    }
-
 }
