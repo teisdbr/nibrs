@@ -28,7 +28,6 @@ import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
-import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
@@ -370,13 +369,33 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule404ForRelationshipOfVictimToOffender(){
-			
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>("victimOffenderRelationship", 
-				"35", VictimSegment.class, NIBRSErrorCode._404, RelationshipOfVictimToOffenderCode.codeSet(),
-				false);
-		
-		return validValueListRule;		
+	Rule<VictimSegment> getRule404ForRelationshipOfVictimToOffender(){
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError e = null;
+				
+				List<Integer> relatedOffenderNumbers = victimSegment.getOffenderNumberRelatedList();
+				List<String> relationships = victimSegment.getVictimOffenderRelationshipList();
+				
+				for (int i=0;i < relatedOffenderNumbers.size();i++) {
+					Integer offenderNumber = relatedOffenderNumbers.get(i);
+					String relationship = relationships.get(i);
+					if (((offenderNumber == null || offenderNumber == 0) && relationship != null) ||
+							(relationship == null && offenderNumber != null && offenderNumber > 0) ||
+							(relationship != null && !RelationshipOfVictimToOffenderCode.codeSet().contains(relationship))) {
+						e = victimSegment.getErrorTemplate();
+						e.setNIBRSErrorCode(NIBRSErrorCode._404);
+						e.setDataElementIdentifier("35");
+						e.setValue(relationship);
+					}
+				}
+
+				return e;
+				
+			}
+		};
 	}
 
 	public Rule<VictimSegment> getRule404ForAdditionalJustifiableHomicideCircsumstances(){

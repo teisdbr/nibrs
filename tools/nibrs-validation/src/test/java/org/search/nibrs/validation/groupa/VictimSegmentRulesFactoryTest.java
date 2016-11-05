@@ -827,27 +827,32 @@ public class VictimSegmentRulesFactoryTest {
 	@Test
 	public void testRule404ForRelationshipOfVictimToOffender(){
 		
-		Rule<VictimSegment> relationshipToOffender404Rule = victimRulesFactory.getRule404ForRelationshipOfVictimToOffender();
+		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForRelationshipOfVictimToOffender();
 	
 		VictimSegment victimSegment = getBasicVictimSegment();
 		
-		victimSegment.setVictimOffenderRelationship(null);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 		
-		NIBRSError nibrsError = relationshipToOffender404Rule.apply(victimSegment);
+		victimSegment.setOffenderNumberRelated(0, 0);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
+		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(RelationshipOfVictimToOffenderCode.AQ.code, nibrsError.getValue());
+		assertEquals("35", nibrsError.getDataElementIdentifier());
 		
-		
-		
-		victimSegment.setVictimOffenderRelationship(new String[]{});
-		
-		nibrsError = relationshipToOffender404Rule.apply(victimSegment);
-		
+		victimSegment.setOffenderNumberRelated(0, 1);
+		victimSegment.setVictimOffenderRelationship(0, null);
+		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals(null, nibrsError.getValue());
+		assertEquals("35", nibrsError.getDataElementIdentifier());
+		
 	}
 	
 	
