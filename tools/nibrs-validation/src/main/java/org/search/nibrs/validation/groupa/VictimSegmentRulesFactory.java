@@ -15,7 +15,6 @@ import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
-import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.AgeOfVictimCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.EthnicityOfVictim;
@@ -345,7 +344,7 @@ public class VictimSegmentRulesFactory {
 		return validValueListRule;
 	}
 
-	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances(){
+	public Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances() {
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -369,7 +368,7 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	Rule<VictimSegment> getRule404ForRelationshipOfVictimToOffender(){
+	Rule<VictimSegment> getRule404ForRelationshipOfVictimToOffender() {
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -398,16 +397,28 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule404ForAdditionalJustifiableHomicideCircsumstances(){
-		
-		ValidValueListRule<VictimSegment> validValueListRule = new ValidValueListRule<VictimSegment>(
-				"additionalJustifiableHomicideCircumstances", "32", VictimSegment.class, 
-				NIBRSErrorCode._404, AdditionalJustifiableHomicideCircumstancesCode.codeSet(),
-				false);
-		
-		return validValueListRule;
+	Rule<VictimSegment> getRule404ForAdditionalJustifiableHomicideCircsumstances() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+
+				NIBRSError e = null;
+
+				String ajhc = victimSegment.getAdditionalJustifiableHomicideCircumstances();
+				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
+				if (offenseCodeList.contains(OffenseCode._09C.code) && ajhc == null) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._404);
+					e.setDataElementIdentifier("32");
+					e.setValue(null);
+				}
+
+				return e;
+
+			}
+		};
 	}
-	
+
 	public Rule<VictimSegment> getRule455ForAdditionalJustifiableHomicideCircsumstances(){
 						
 		Rule<VictimSegment> homicide455Rule = new Rule<VictimSegment>(){
