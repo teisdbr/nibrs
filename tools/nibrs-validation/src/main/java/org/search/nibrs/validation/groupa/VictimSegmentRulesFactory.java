@@ -801,35 +801,22 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule467ForTypeOfVictim(){
-		
-		Rule<VictimSegment> typeVictimPropertyOffenseRule = new Rule<VictimSegment>(){
-				
+	Rule<VictimSegment> getRule467ForTypeOfVictim() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-
-				NIBRSError rNIBRSError = null;
-				
-				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstProperty = OffenseCode.containsCrimeAgainstPersonCode(offenseCodeList);
-				
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				if(TypeOfVictimCode.S.equals(sVictimType) 
-						&& hasCrimeAgainstProperty){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					
-					rNIBRSError.setDataElementIdentifier("25");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._467);
-				}								
-				return rNIBRSError;
+				NIBRSError e = null;
+				if (TypeOfVictimCode.S.code.equals(victimSegment.getTypeOfVictim()) && OffenseCode.containsCrimeAgainstPropertyCode(victimSegment.getUcrOffenseCodeList())) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("25");
+					e.setNIBRSErrorCode(NIBRSErrorCode._467);
+					e.setValue(TypeOfVictimCode.S.code);
+				}
+				return e;
 			}
-		};			
-		return typeVictimPropertyOffenseRule;
+		};
 	}
-	
+
 	public Rule<VictimSegment> getRule468ForRelationshipOfVictimToOffender(){
 		
 		Rule<VictimSegment> unknownOffendersRule = new Rule<VictimSegment>(){
