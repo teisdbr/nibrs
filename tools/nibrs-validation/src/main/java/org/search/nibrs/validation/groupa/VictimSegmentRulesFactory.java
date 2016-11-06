@@ -785,38 +785,22 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule464ForTypeOfVictim(){
-		
-		Rule<VictimSegment> personTypeRule = new Rule<VictimSegment>(){
-									
+	Rule<VictimSegment> getRule464ForTypeOfVictim() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					
-					rNIBRSError.setDataElementIdentifier("25");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._464);
+				NIBRSError e = null;
+				if (CollectionUtils.containsAny(victimSegment.getUcrOffenseCodeList(), PERSON_OFFENSE_LIST) && !victimSegment.isPerson()) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("25");
+					e.setNIBRSErrorCode(NIBRSErrorCode._464);
+					e.setValue(victimSegment.getTypeOfVictim());
 				}
-												
-				return rNIBRSError;
-			}			
-		};		
-		return personTypeRule;		
+				return e;
+			}
+		};
 	}
-	
+
 	public Rule<VictimSegment> getRule465ForTypeOfVictim(){
 				
 		Rule<VictimSegment> crimeSocietyRule = new Rule<VictimSegment>(){
