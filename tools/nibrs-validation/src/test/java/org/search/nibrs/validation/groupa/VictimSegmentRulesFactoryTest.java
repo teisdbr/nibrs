@@ -192,31 +192,61 @@ public class VictimSegmentRulesFactoryTest {
 	}
 
 	@Test
-	public void testRule453ForAgeOfVictim(){
-		
-		Rule<VictimSegment> age453Rule = victimRulesFactory.getRule453ForAgeOfVictim();
-		
+	public void testRule453ForAgeOfVictim() {
+
+		Rule<VictimSegment> rule = victimRulesFactory.getRule453ForAgeOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
-		
-		// test missing age
 		victimSegment.setAgeString(null);
-		
-		NIBRSError nibrsError = age453Rule.apply(victimSegment);
-		
+		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		
 		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
-	
-		// test valid age
+		assertEquals("26", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+
 		victimSegment.setAgeString("3033");
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 		
-		nibrsError = age453Rule.apply(victimSegment);
-	
+	}
+
+	@Test
+	public void testRule453ForSexOfVictim() {
+
+		Rule<VictimSegment> rule = victimRulesFactory.getRule453ForSexOfVictim();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
+		victimSegment.setSex(null);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+		assertEquals("27", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+		
+		victimSegment.setSex(SexOfVictimCode.M.code);
+		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 	}
-	
+
+	@Test
+	public void testRule453ForRaceOfVictim() {
+
+		Rule<VictimSegment> rule = victimRulesFactory.getRule453ForRaceOfVictim();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setTypeOfVictim(RaceOfVictimCode.I.code);
+		victimSegment.setRace(null);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
+		assertEquals("28", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+
+		victimSegment.setTypeOfVictim(RaceOfVictimCode.P.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+
+	}
+
 	@Test
 	public void testRule404ForEthnicityOfVictim() {
 		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForEthnicityOfVictim();
@@ -504,36 +534,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 
 	}
-	
-	
-	@Test
-	public void testRule453ForSexOfVictim(){
-		
-		Rule<VictimSegment> rule453SexCode = victimRulesFactory.getRule453ForSexOfVictim();
 
-		VictimSegment victimSegment = getBasicVictimSegment();
-	
-		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
-		
-		// test required sex code missing
-		victimSegment.setSex(null);
-		
-		NIBRSError nibrsError = rule453SexCode.apply(victimSegment);
-		
-		assertNotNull(nibrsError);
-		
-		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
-		
-		// test sex code valid
-		victimSegment.setSex(SexOfVictimCode.M.code);
-		
-		nibrsError = rule453SexCode.apply(victimSegment);
-		
-		assertNull(nibrsError);
-	}
-		
-	
-	
 	@Test
 	public void testRule404ForRaceOfVictim() {
 		
@@ -559,32 +560,6 @@ public class VictimSegmentRulesFactoryTest {
 		
 	}
 	
-	
-	@Test
-	public void testRule453ForRaceOfVictim(){
-		
-		Rule<VictimSegment> race453Rule = victimRulesFactory.getRule453ForRaceOfVictim();
-		
-		VictimSegment victimSegment = getBasicVictimSegment();
-		
-		// race is required for Individuals
-		victimSegment.setTypeOfVictim(RaceOfVictimCode.I.code);
-		
-		victimSegment.setRace(null);
-		
-		NIBRSError nibrsError = race453Rule.apply(victimSegment);
-		
-		assertNotNull(nibrsError);
-		
-		assertEquals(NIBRSErrorCode._453, nibrsError.getNIBRSErrorCode());
-	
-		// race should not be required in this case
-		victimSegment.setTypeOfVictim(RaceOfVictimCode.P.code);
-		
-		nibrsError = race453Rule.apply(victimSegment);
-						
-		assertNull(nibrsError);
-	}
 	
 	@Test
 	public void testRule404ForAdditionalJustifiableHomicideCircsumstances() {

@@ -92,6 +92,22 @@ public class VictimSegmentRulesFactory {
 
 	}
 
+	private static final class PersonVictimNotBlankRule<T extends VictimSegment> extends AbstractBeanPropertyRule<VictimSegment> {
+		
+		private String typeCode;
+		
+		public PersonVictimNotBlankRule(String propertyName, String dataElementIdentifier, NIBRSErrorCode errorCode, String typeCode) {
+			super(propertyName, dataElementIdentifier, VictimSegment.class, errorCode);
+			this.typeCode = typeCode;
+		}
+
+		@Override
+		protected boolean propertyViolatesRule(Object value, VictimSegment subject) {
+			return (typeCode.equals(subject.getTypeOfVictim()) && value == null);
+		}
+
+	}
+
 	private VictimSegmentRulesFactory() {
 		rulesList = new ArrayList<Rule<VictimSegment>>();
 		initRules(rulesList);
@@ -571,98 +587,16 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule453ForRaceOfVictim(){
-		
-		Rule<VictimSegment> raceForIndividualRule = new Rule<VictimSegment>(){
-	
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-	
-				NIBRSError rNIBRSError = null;
-				
-				String race = victimSegment.getRace();
-				
-				boolean hasRace = StringUtils.isNotEmpty(race);
-				
-				String typeOfVictim = victimSegment.getTypeOfVictim();
-				
-				boolean isIndivideual = TypeOfVictimCode.I.code.equals(typeOfVictim);
-				
-				if(isIndivideual && !hasRace){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._453);
-					rNIBRSError.setDataElementIdentifier("28");
-				}				
-				return rNIBRSError;
-			}			
-		};
-		return raceForIndividualRule;
+	Rule<VictimSegment> getRule453ForAgeOfVictim() {
+		return new PersonVictimNotBlankRule<>("age", "26", NIBRSErrorCode._453, TypeOfVictimCode.I.code);
 	}
 
-	public Rule<VictimSegment> getRule453ForAgeOfVictim(){
-		
-		Rule<VictimSegment> ageOfIndividualRule = new Rule<VictimSegment>(){
-	
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
-								
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
-				
-				NIBRSAge victimAge = victimSegment.getAge();
-								
-				boolean hasNumericAge = victimAge != null 
-						&& victimAge.getAgeMin() != null
-						&& victimAge.getAgeMax() != null;
-				
-				boolean hasTextAgeCode = victimAge != null
-						&& StringUtils.isNotEmpty(victimAge.getNonNumericAge());
-				
-				boolean hasAge = hasNumericAge || hasTextAgeCode;
-												
-				if(isIndividual && !hasAge){
-					
-					rNibrsError = victimSegment.getErrorTemplate();
-					
-					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
-					rNibrsError.setDataElementIdentifier("26");
-				}								
-				return rNibrsError;
-			}						
-		}; 		
-		return ageOfIndividualRule;		
+	Rule<VictimSegment> getRule453ForSexOfVictim() {
+		return new PersonVictimNotBlankRule<>("sex", "27", NIBRSErrorCode._453, TypeOfVictimCode.I.code);
 	}
 
-	public Rule<VictimSegment> getRule453ForSexOfVictim(){
-		
-		Rule<VictimSegment> sexOfIndividualRule = new Rule<VictimSegment>(){
-	
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
-								
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean isIndividual = TypeOfVictimCode.I.code.equals(victimType);
-				
-				boolean containsSexCode = StringUtils.isNotEmpty(victimSegment.getSex());
-				
-				if(isIndividual && !containsSexCode){
-					
-					rNibrsError = victimSegment.getErrorTemplate();
-					
-					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._453);
-					rNibrsError.setDataElementIdentifier("27");
-				}								
-				return rNibrsError;
-			}						
-		}; 		
-		return sexOfIndividualRule;		
+	Rule<VictimSegment> getRule453ForRaceOfVictim() {
+		return new PersonVictimNotBlankRule<>("race", "28", NIBRSErrorCode._453, TypeOfVictimCode.I.code);
 	}
 
 	public Rule<VictimSegment> getRule454ForTypeOfOfficerActivityCircumstance(){
