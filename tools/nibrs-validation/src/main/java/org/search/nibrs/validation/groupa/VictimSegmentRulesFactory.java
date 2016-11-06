@@ -816,32 +816,33 @@ public class VictimSegmentRulesFactory {
 			}
 		};
 	}
-
-	public Rule<VictimSegment> getRule468ForRelationshipOfVictimToOffender(){
-		
-		Rule<VictimSegment> unknownOffendersRule = new Rule<VictimSegment>(){
 	
+	public Rule<VictimSegment> getRule468ForRelationshipOfVictimToOffender() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-					
+
+				NIBRSError e = null;
 				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
-								
-				List<Integer> offenderNumberRelatedList = victimSegment.getOffenderNumberRelatedList();
+				List<Integer> offenderNumRelatedList = victimSegment.getOffenderNumberRelatedList();
 				
-				if(offenderNumberRelatedList != null && offenderNumberRelatedList.contains(0)){
-					if(victimOffenderRelationshipList != null && !victimOffenderRelationshipList.isEmpty()){
-						
-						rNIBRSError = victimSegment.getErrorTemplate();
-						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._468);
-						rNIBRSError.setDataElementIdentifier("35");						
-					}					
-				}								
-				return rNIBRSError;
-			}			
+				for (int i=0;i < offenderNumRelatedList.size() && e == null;i++) {
+					Integer offenderNumber = offenderNumRelatedList.get(i);
+					if (offenderNumber != null && offenderNumber == 0) {
+						String rel = victimOffenderRelationshipList.get(i);
+						if (rel != null) {
+							e = victimSegment.getErrorTemplate();
+							e.setDataElementIdentifier("35");
+							e.setNIBRSErrorCode(NIBRSErrorCode._468);
+							e.setValue(rel);
+						}
+					}
+				}
+
+				return e;
+				
+			}
 		};
-		return unknownOffendersRule; 		
 	}
 
 	public Rule<VictimSegment> getRule469ForSexOfVictim(){

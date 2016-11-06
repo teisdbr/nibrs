@@ -830,6 +830,22 @@ public class VictimSegmentRulesFactoryTest {
 	}
 
 	@Test
+	public void testRule468() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule468ForRelationshipOfVictimToOffender();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setOffenderNumberRelated(0, 0);
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._468, nibrsError.getNIBRSErrorCode());
+		assertEquals("35", nibrsError.getDataElementIdentifier());
+		assertEquals(RelationshipOfVictimToOffenderCode.AQ.code, nibrsError.getValue());
+		victimSegment.setVictimOffenderRelationship(0, null);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+	}
+
+	@Test
 	public void testRule461() {
 		Rule<VictimSegment> rule = victimRulesFactory.getRule461ForTypeOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
