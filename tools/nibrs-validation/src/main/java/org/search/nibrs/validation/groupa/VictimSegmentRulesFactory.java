@@ -108,6 +108,22 @@ public class VictimSegmentRulesFactory {
 
 	}
 
+	private static final class NonPersonVictimBlankRule<T extends VictimSegment> extends AbstractBeanPropertyRule<VictimSegment> {
+		
+		public NonPersonVictimBlankRule(String propertyName, String dataElementIdentifier, NIBRSErrorCode errorCode) {
+			super(propertyName, dataElementIdentifier, VictimSegment.class, errorCode);
+		}
+
+		@Override
+		protected boolean propertyViolatesRule(Object value, VictimSegment victimSegment) {
+			List<String> offenseList = new ArrayList<>();
+			offenseList.addAll(victimSegment.getUcrOffenseCodeList());
+			offenseList.removeAll(NULL_STRING_LIST);
+			return ((!victimSegment.isPerson() || !CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST)) && value != null);
+		}
+
+	}
+
 	private VictimSegmentRulesFactory() {
 		rulesList = new ArrayList<Rule<VictimSegment>>();
 		initRules(rulesList);
@@ -617,243 +633,82 @@ public class VictimSegmentRulesFactory {
 		return new PersonVictimNotBlankRule<>("race", "28", NIBRSErrorCode._454, TypeOfVictimCode.L.code);
 	}
 	
-	public Rule<VictimSegment> getRule458ForAgeOfVictim(){
-		
-		Rule<VictimSegment> ageRule458 = new Rule<VictimSegment>(){
-									
+	Rule<VictimSegment> getRule458ForAgeOfVictim() {
+		return new NonPersonVictimBlankRule<>("age", "26", NIBRSErrorCode._458);
+	}
+
+	Rule<VictimSegment> getRule458ForEthnicityOfVictim() {
+		return new NonPersonVictimBlankRule<>("ethnicity", "29", NIBRSErrorCode._458);
+	}
+
+	Rule<VictimSegment> getRule458ForSexOfVictim() {
+		return new NonPersonVictimBlankRule<>("sex", "27", NIBRSErrorCode._458);
+	}
+
+	Rule<VictimSegment> getRule458ForRaceOfVictim() {
+		return new NonPersonVictimBlankRule<>("race", "28", NIBRSErrorCode._458);
+	}
+
+	Rule<VictimSegment> getRule458ForResidentStatusOfVictim() {
+		return new NonPersonVictimBlankRule<>("residentStatusOfVictim", "30", NIBRSErrorCode._458);
+	}
+
+	Rule<VictimSegment> getRule458ForTypeOfInjury() {
+		return new Rule<VictimSegment>() {
+
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				NIBRSError e = null;
 				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				NIBRSAge age = victimSegment.getAge();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && age != null){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("26");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				List<String> offenseList = new ArrayList<>();
+				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseList.removeAll(NULL_STRING_LIST);
+
+				List<String> typeOfInjuryList = new ArrayList<>();
+				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
+				typeOfInjuryList.removeAll(NULL_STRING_LIST);
+
+				if (!(CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST) && victimSegment.isPerson()) && !typeOfInjuryList.isEmpty()) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("33");
+					e.setNIBRSErrorCode(NIBRSErrorCode._458);
+					e.setValue(typeOfInjuryList);
 				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return ageRule458;		
+				
+				return e;
+				
+			}
+		};
 	}
 
-	public Rule<VictimSegment> getRule458ForEthnicityOfVictim(){
-		
-		Rule<VictimSegment> ethnicityRule458 = new Rule<VictimSegment>(){
-									
+	Rule<VictimSegment> getRule458ForOffenderNumberToBeRelated() {
+		return new Rule<VictimSegment>() {
+
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				NIBRSError e = null;
 				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String ethnicity = victimSegment.getEthnicity();
-				
-				boolean hasEthnicity = StringUtils.isNotEmpty(ethnicity);
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && hasEthnicity){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("29");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
+				List<String> offenseList = new ArrayList<>();
+				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseList.removeAll(NULL_STRING_LIST);
+
+				List<Integer> offenderList = new ArrayList<>();
+				offenderList.addAll(victimSegment.getOffenderNumberRelatedList());
+				offenderList.removeAll(NULL_INTEGER_LIST);
+
+				if (!(CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST) && victimSegment.isPerson()) && !offenderList.isEmpty()) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("34");
+					e.setNIBRSErrorCode(NIBRSErrorCode._458);
+					e.setValue(offenderList);
 				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return ethnicityRule458;		
-	}
-
-	public Rule<VictimSegment> getRule458ForSexOfVictim(){
-		
-		Rule<VictimSegment> sexOfVictimRule458 = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
 				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				return e;
 				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String sSexOfVictim = victimSegment.getSex();
-				
-				boolean isSexOfVictimEntered= StringUtils.isNotEmpty(sSexOfVictim);
-								
-				if(hasCrimeAgainstPerson && !victimIsPerson && isSexOfVictimEntered){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("27");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return sexOfVictimRule458;		
-	}
-
-	public Rule<VictimSegment> getRule458ForRaceOfVictim(){
-		
-		Rule<VictimSegment> raceRule458 = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String victimRace = victimSegment.getRace();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && StringUtils.isNotEmpty(victimRace)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("28");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return raceRule458;		
-	}
-
-	public Rule<VictimSegment> getRule458ForResidentStatusOfVictim(){
-		
-		Rule<VictimSegment> residentStatusRule458 = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				String residentStatus = victimSegment.getResidentStatusOfVictim();
-				
-				boolean hasResidentStatus = StringUtils.isNotEmpty(residentStatus);
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && hasResidentStatus){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("30");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}
-															
-				return rNIBRSError;
-			}			
-		};		
-		return residentStatusRule458;		
-	}
-
-	public Rule<VictimSegment> getRule458ForTypeOfInjury(){
-		
-		Rule<VictimSegment> typeInjuryRule458 = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				List<String> typeOfInjuryList = victimSegment.getTypeOfInjuryList();
-				
-				boolean hasTypeOfInjury = typeOfInjuryList != null && !typeOfInjuryList.isEmpty();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && hasTypeOfInjury){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("33");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}															
-				return rNIBRSError;
-			}			
-		};		
-		return typeInjuryRule458;		
-	}
-
-	public Rule<VictimSegment> getRule458ForOffenderNumberToBeRelated(){
-		
-		Rule<VictimSegment> offenderNumRelatedRule458 = new Rule<VictimSegment>(){
-									
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-			
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasCrimeAgainstPerson = CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST);
-								
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsPerson = TypeOfVictimCode.I.code.equals(sVictimType)
-						|| TypeOfVictimCode.L.code.equals(sVictimType);				
-				
-				List<Integer> offenderRelatedList = victimSegment.getOffenderNumberRelatedList();
-				
-				boolean hasOffenderNumRelated = offenderRelatedList != null && !offenderRelatedList.isEmpty();
-				
-				if(hasCrimeAgainstPerson && !victimIsPerson && (offenderRelatedList != null && hasOffenderNumRelated)){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();
-					rNIBRSError.setDataElementIdentifier("34");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._458);
-				}															
-				return rNIBRSError;
-			}			
-		};		
-		return offenderNumRelatedRule458;		
+			}
+		};
 	}
 
 	public Rule<VictimSegment> getRule459ForOffenderNumberToBeRelated(){
