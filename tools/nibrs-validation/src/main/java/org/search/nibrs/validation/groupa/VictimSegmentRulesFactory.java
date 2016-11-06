@@ -598,132 +598,24 @@ public class VictimSegmentRulesFactory {
 	Rule<VictimSegment> getRule453ForRaceOfVictim() {
 		return new PersonVictimNotBlankRule<>("race", "28", NIBRSErrorCode._453, TypeOfVictimCode.I.code);
 	}
-
-	public Rule<VictimSegment> getRule454ForTypeOfOfficerActivityCircumstance(){
-		
-		Rule<VictimSegment> typeOfficerReqFieldsRule = new Rule<VictimSegment>(){
-							
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
 	
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
-				
-				if(victimIsLawOfficer){
-										
-					String circumstance = victimSegment.getTypeOfOfficerActivityCircumstance();
-											
-					if(StringUtils.isEmpty(circumstance)){
-						
-						rNibrsError = victimSegment.getErrorTemplate();
-						
-						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
-						rNibrsError.setDataElementIdentifier("25A");						
-					}					
-				}								
-				return rNibrsError;
-			}
-		};			
-		return typeOfficerReqFieldsRule;
+	// TODO: need to be able to configure the factory for enforcing leoka rules, or not (for these next two rules)
+
+	Rule<VictimSegment> getRule454ForTypeOfOfficerActivityCircumstance() {
+		return new PersonVictimNotBlankRule<>("typeOfOfficerActivityCircumstance", "25A", NIBRSErrorCode._454, TypeOfVictimCode.L.code);
 	}
 
-	public Rule<VictimSegment> getRule454ForOfficerAssignmentType(){
-		
-		// TODO: need to be able to configure the factory for enforcing leoka rules, or not
-		
-		Rule<VictimSegment> assignment454Rule = new Rule<VictimSegment>(){
-							
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
+	Rule<VictimSegment> getRule454ForOfficerAssignmentType() {
+		return new PersonVictimNotBlankRule<>("officerAssignmentType", "25B", NIBRSErrorCode._454, TypeOfVictimCode.L.code);
+	}
+
+	Rule<VictimSegment> getRule454ForSexOfVictim() {
+		return new PersonVictimNotBlankRule<>("sex", "27", NIBRSErrorCode._454, TypeOfVictimCode.L.code);
+	}
 	
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
-				
-				if(victimIsLawOfficer){
-																				
-					String assignmentType = victimSegment.getOfficerAssignmentType();
-																
-					if(StringUtils.isEmpty(assignmentType)){
-						
-						rNibrsError = victimSegment.getErrorTemplate();
-						
-						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
-						rNibrsError.setDataElementIdentifier("25B");						
-					}					
-				}								
-				return rNibrsError;
-			}
-		};			
-		return assignment454Rule;
-	}	
-	
-	public Rule<VictimSegment> getRule454ForSexOfVictim(){
-		
-		Rule<VictimSegment> sexOfVictim454Rule = new Rule<VictimSegment>(){
-							
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
-	
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
-				
-				if(victimIsLawOfficer){
-																				
-					String sexOfVictim = victimSegment.getSex();
-																
-					if(StringUtils.isEmpty(sexOfVictim)){
-						
-						rNibrsError = victimSegment.getErrorTemplate();
-						
-						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
-						rNibrsError.setDataElementIdentifier("27");						
-					}					
-				}								
-				return rNibrsError;
-			}
-		};			
-		return sexOfVictim454Rule;
-	}		
-	
-	public Rule<VictimSegment> getRule454ForRaceOfVictim(){
-		
-		Rule<VictimSegment> raceOfVictim454Rule = new Rule<VictimSegment>(){
-							
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
-	
-				String victimType = victimSegment.getTypeOfVictim();
-				
-				boolean victimIsLawOfficer = TypeOfVictimCode.L.code.equals(victimType);
-				
-				if(victimIsLawOfficer){
-																				
-					String raceOfVictim = victimSegment.getRace();
-																
-					if(StringUtils.isEmpty(raceOfVictim)){
-						
-						rNibrsError = victimSegment.getErrorTemplate();
-						
-						rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._454);
-						rNibrsError.setDataElementIdentifier("28");						
-					}					
-				}								
-				return rNibrsError;
-			}
-		};			
-		return raceOfVictim454Rule;
-	}		
+	Rule<VictimSegment> getRule454ForRaceOfVictim() {
+		return new PersonVictimNotBlankRule<>("race", "28", NIBRSErrorCode._454, TypeOfVictimCode.L.code);
+	}
 	
 	public Rule<VictimSegment> getRule458ForAgeOfVictim(){
 		
