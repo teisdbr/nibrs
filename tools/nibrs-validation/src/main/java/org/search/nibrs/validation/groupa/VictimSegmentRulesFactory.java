@@ -42,22 +42,6 @@ public class VictimSegmentRulesFactory {
 		return new VictimSegmentRulesFactory();
 	}
 	
-	private static final List<String> PERSON_OFFENSE_LIST = Arrays.asList(OffenseCode._13A.code, OffenseCode._13B.code, OffenseCode._13C.code, 
-			OffenseCode._09A.code, OffenseCode._09B.code, OffenseCode._64A.code, OffenseCode._64B.code, OffenseCode._100.code,
-			OffenseCode._11A.code, OffenseCode._11B.code, OffenseCode._11C.code, OffenseCode._11D.code, OffenseCode._36A.code,
-			OffenseCode._36B.code);
-	
-	private static final List<String> PROPERTY_CRIME_LIST = Arrays.asList(OffenseCode._200.code,
-			OffenseCode._510.code, OffenseCode._220.code, OffenseCode._250.code,
-			OffenseCode._290.code, OffenseCode._270.code, OffenseCode._210.code,
-			OffenseCode._26A.code, OffenseCode._26B.code, OffenseCode._26C.code,
-			OffenseCode._26D.code, OffenseCode._26E.code, OffenseCode._26F.code,
-			OffenseCode._26G.code, OffenseCode._23A.code, OffenseCode._23B.code,
-			OffenseCode._23C.code, OffenseCode._23D.code, OffenseCode._23E.code,
-			OffenseCode._23F.code, OffenseCode._23G.code, OffenseCode._23H.code,
-			OffenseCode._240.code, OffenseCode._120.code, OffenseCode._280.code					
-	);
-	
 	private static final List<String> INJURY_OFFENSE_LIST = Arrays.asList(OffenseCode._100.code,
 			OffenseCode._11A.code,
 			OffenseCode._11B.code,
@@ -119,7 +103,7 @@ public class VictimSegmentRulesFactory {
 			List<String> offenseList = new ArrayList<>();
 			offenseList.addAll(victimSegment.getUcrOffenseCodeList());
 			offenseList.removeAll(NULL_STRING_LIST);
-			return ((!victimSegment.isPerson() || !CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST)) && value != null);
+			return ((!victimSegment.isPerson() || !OffenseCode.containsCrimeAgainstPersonCode(offenseList)) && value != null);
 		}
 
 	}
@@ -523,7 +507,7 @@ public class VictimSegmentRulesFactory {
 				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
 				typeOfInjuryList.removeAll(NULL_STRING_LIST);
 
-				if (!typeOfInjuryList.isEmpty() && (offenseList.isEmpty() || !CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST))) {
+				if (!typeOfInjuryList.isEmpty() && (offenseList.isEmpty() || !OffenseCode.containsCrimeAgainstPersonCode(offenseList))) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("33");
 					e.setNIBRSErrorCode(NIBRSErrorCode._419);
@@ -671,7 +655,7 @@ public class VictimSegmentRulesFactory {
 				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
 				typeOfInjuryList.removeAll(NULL_STRING_LIST);
 
-				if (!(CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST) && victimSegment.isPerson()) && !typeOfInjuryList.isEmpty()) {
+				if (!(OffenseCode.containsCrimeAgainstPersonCode(offenseList) && victimSegment.isPerson()) && !typeOfInjuryList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("33");
 					e.setNIBRSErrorCode(NIBRSErrorCode._458);
@@ -700,7 +684,7 @@ public class VictimSegmentRulesFactory {
 				offenderList.addAll(victimSegment.getOffenderNumberRelatedList());
 				offenderList.removeAll(NULL_INTEGER_LIST);
 
-				if (!(CollectionUtils.containsAny(offenseList, PERSON_OFFENSE_LIST) && victimSegment.isPerson()) && !offenderList.isEmpty()) {
+				if (!(OffenseCode.containsCrimeAgainstPersonCode(offenseList) && victimSegment.isPerson()) && !offenderList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("34");
 					e.setNIBRSErrorCode(NIBRSErrorCode._458);
@@ -728,7 +712,7 @@ public class VictimSegmentRulesFactory {
 				offenseCodeList.addAll(victimSegment.getUcrOffenseCodeList());
 				offenseCodeList.removeAll(NULL_STRING_LIST);
 
-				if (!offenderNumberList.isEmpty() && !(CollectionUtils.containsAny(offenseCodeList, PERSON_OFFENSE_LIST) || offenseCodeList.contains(OffenseCode._120.code))) {
+				if (!offenderNumberList.isEmpty() && !(OffenseCode.containsCrimeAgainstPersonCode(offenseCodeList) || offenseCodeList.contains(OffenseCode._120.code))) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("34");
 					e.setNIBRSErrorCode(NIBRSErrorCode._459);
@@ -790,7 +774,7 @@ public class VictimSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				NIBRSError e = null;
-				if (CollectionUtils.containsAny(victimSegment.getUcrOffenseCodeList(), PERSON_OFFENSE_LIST) && !victimSegment.isPerson()) {
+				if (OffenseCode.containsCrimeAgainstPersonCode(victimSegment.getUcrOffenseCodeList()) && !victimSegment.isPerson()) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("25");
 					e.setNIBRSErrorCode(NIBRSErrorCode._464);
@@ -801,40 +785,22 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule465ForTypeOfVictim(){
-				
-		Rule<VictimSegment> crimeSocietyRule = new Rule<VictimSegment>(){
-			
-			List<String> crimeAgainstSocietyOffenseList = Arrays.asList(OffenseCode._720.code,
-					OffenseCode._35A.code, OffenseCode._35B.code, OffenseCode._39A.code, OffenseCode._39B.code,
-					OffenseCode._39C.code, OffenseCode._39D.code, OffenseCode._370.code, OffenseCode._40A.code,
-					OffenseCode._40B.code, OffenseCode._40C.code, OffenseCode._520.code);			
-
+	Rule<VictimSegment> getRule465ForTypeOfVictim() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNibrsError = null;
-				
-				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-								
-				boolean hasCrimeAgainstSociety = CollectionUtils.containsAny(offenseCodeList, crimeAgainstSocietyOffenseList); 
-				
-				String sVictimType = victimSegment.getTypeOfVictim();
-				
-				if(hasCrimeAgainstSociety 
-					&& !TypeOfVictimCode.S.code.equals(sVictimType)){
-					
-					rNibrsError = victimSegment.getErrorTemplate();
-					
-					rNibrsError.setNIBRSErrorCode(NIBRSErrorCode._465);
-					rNibrsError.setDataElementIdentifier("25");					
-				}				
-				return rNibrsError;
-			}					
-		};						
-		return crimeSocietyRule;
+				NIBRSError e = null;
+				if (OffenseCode.containsCrimeAgainstSocietyCode(victimSegment.getUcrOffenseCodeList()) && !TypeOfVictimCode.S.code.equals(victimSegment.getTypeOfVictim())) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._465);
+					e.setDataElementIdentifier("25");
+					e.setValue(victimSegment.getUcrOffenseCodeList());
+				}
+				return e;
+			}
+		};
 	}
-	
+
 	public Rule<VictimSegment> getRule467ForTypeOfVictim(){
 		
 		Rule<VictimSegment> typeVictimPropertyOffenseRule = new Rule<VictimSegment>(){
@@ -846,7 +812,7 @@ public class VictimSegmentRulesFactory {
 				
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
 				
-				boolean hasCrimeAgainstProperty = CollectionUtils.containsAny(offenseCodeList, PROPERTY_CRIME_LIST);
+				boolean hasCrimeAgainstProperty = OffenseCode.containsCrimeAgainstPersonCode(offenseCodeList);
 				
 				String sVictimType = victimSegment.getTypeOfVictim();
 				
