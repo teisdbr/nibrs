@@ -168,6 +168,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule458ForAgeOfVictim());
 		rulesList.add(getRule458ForEthnicityOfVictim());
 		rulesList.add(getRule458ForRaceOfVictim());
+		rulesList.add(getRule459ForOffenderNumberToBeRelated());
 		rulesList.add(getRule464ForTypeOfVictim());
 		rulesList.add(getRule465ForTypeOfVictim());
 		rulesList.add(getRule467ForTypeOfVictim());		
@@ -711,35 +712,32 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule459ForOffenderNumberToBeRelated(){
-		
-		Rule<VictimSegment> offenderNumPersonRule = new Rule<VictimSegment>(){
-	
+	Rule<VictimSegment> getRule459ForOffenderNumberToBeRelated() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
+
+				NIBRSError e = null;
+
+				List<Integer> offenderNumberList = new ArrayList<>();
+				offenderNumberList.addAll(victimSegment.getOffenderNumberRelatedList());
+				offenderNumberList.removeAll(NULL_INTEGER_LIST);
+
+				List<String> offenseCodeList = new ArrayList<>();
+				offenseCodeList.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseCodeList.removeAll(NULL_STRING_LIST);
+
+				if (!offenderNumberList.isEmpty() && !(CollectionUtils.containsAny(offenseCodeList, PERSON_OFFENSE_LIST) || offenseCodeList.contains(OffenseCode._120.code))) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("34");
+					e.setNIBRSErrorCode(NIBRSErrorCode._459);
+					e.setValue(offenderNumberList);
+				}
 				
-				NIBRSError rNIBRSError = null;				
+				return e;
 				
-				List<Integer> offenderNumberRelatedList = victimSegment.getOffenderNumberRelatedList();
-				
-				boolean hasOffenderNumberRelated = offenderNumberRelatedList != null && !offenderNumberRelatedList.isEmpty();
-				
-				if(hasOffenderNumberRelated){
-					
-					List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-					
-					if(!CollectionUtils.containsAny(offenseCodeList, PERSON_OFFENSE_LIST)
-							&& !offenseCodeList.contains(OffenseCode._120)){
-						
-						rNIBRSError = victimSegment.getErrorTemplate();
-						rNIBRSError.setDataElementIdentifier("34");
-						rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._459);
-					}										
-				}											
-				return rNIBRSError;
-			}			
-		};		
-		return offenderNumPersonRule;
+			}
+		};
 	}
 
 	public Rule<VictimSegment> getRule460ForRelationshipOfVictimToOffender(){
