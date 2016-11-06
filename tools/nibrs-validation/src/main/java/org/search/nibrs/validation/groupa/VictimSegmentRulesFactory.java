@@ -817,7 +817,7 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 	
-	public Rule<VictimSegment> getRule468ForRelationshipOfVictimToOffender() {
+	Rule<VictimSegment> getRule468ForRelationshipOfVictimToOffender() {
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -845,38 +845,30 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule469ForSexOfVictim(){
-		
-		Rule<VictimSegment> sexOfVictimForStatutoryRapeRule = new Rule<VictimSegment>(){
+	Rule<VictimSegment> getRule469ForSexOfVictim() {
+		return new Rule<VictimSegment>() {
 
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
+
+				NIBRSError e = null;
 				
-				NIBRSError rNIBRSError = null;
-								
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
+				List<String> offenses = Arrays.asList(new String[] {OffenseCode._36B.code, OffenseCode._11A.code});
+				List<String> sexes = Arrays.asList(new String[] {SexOfVictimCode.F.code, SexOfVictimCode.M.code});
+
+				if (CollectionUtils.containsAny(victimSegment.getUcrOffenseCodeList(), offenses) && !sexes.contains(victimSegment.getSex())) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("27");
+					e.setNIBRSErrorCode(NIBRSErrorCode._469);
+					e.setValue(victimSegment.getSex());
+				}
 				
-				boolean hasRapeOffense = offenseList.contains(OffenseCode._36B)
-						|| offenseList.contains(OffenseCode._11A);				
+				return e;
 				
-				String victimSexCode = victimSegment.getSex();
-				
-				boolean isMaleOrFemale = SexOfVictimCode.F.code.equals(victimSexCode)
-						|| SexOfVictimCode.M.code.equals(victimSexCode);
-																
-				if(hasRapeOffense && !isMaleOrFemale){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();					
-					rNIBRSError.setDataElementIdentifier("27");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._469);
-				}				
-				
-				return rNIBRSError;
-			}						
-		};		
-		return sexOfVictimForStatutoryRapeRule;
+			}
+		};
 	}
-	
+
 	public Rule<VictimSegment> getRule481ForAgeOfVictim(){
 		
 		Rule<VictimSegment> ageOfVictimUnder18ForRapeRule = new Rule<VictimSegment>(){

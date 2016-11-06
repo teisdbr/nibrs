@@ -844,6 +844,22 @@ public class VictimSegmentRulesFactoryTest {
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 	}
+	
+	@Test
+	public void testRule469() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule469ForSexOfVictim();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setSex(SexOfVictimCode.U.code);
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._11A.code);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._469, nibrsError.getNIBRSErrorCode());
+		assertEquals("27", nibrsError.getDataElementIdentifier());
+		assertEquals(SexOfVictimCode.U.code, nibrsError.getValue());
+		victimSegment.setSex(SexOfVictimCode.M.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+	}
 
 	@Test
 	public void testRule461() {
