@@ -25,6 +25,7 @@ import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexOfOffenderCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
+import org.search.nibrs.model.codes.TypeInjuryCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
@@ -166,6 +167,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule475());
 		rulesList.add(getRule477());
 		rulesList.add(getRule478());
+		rulesList.add(getRule479());
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
@@ -1174,6 +1176,26 @@ public class VictimSegmentRulesFactory {
 						offenseList.contains(OffenseCode._13C.code) && CollectionUtils.containsAny(offenseList, intimidationSet) ||
 						offenseList.contains(OffenseCode._09B.code) && CollectionUtils.containsAny(offenseList, negligentSet)) {
 					e = errorTemplate;
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule479() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._13B.code) &&
+						!(victimSegment.getTypeOfInjuryList().contains(TypeInjuryCode.M.code) || victimSegment.getTypeOfInjuryList().contains(TypeInjuryCode.N.code))) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("33");
+					e.setNIBRSErrorCode(NIBRSErrorCode._479);
+					List<String> il = new ArrayList<>();
+					il.addAll(victimSegment.getTypeOfInjuryList());
+					il.removeAll(NULL_STRING_LIST);
+					e.setValue(il);
 				}
 				return e;
 			}
