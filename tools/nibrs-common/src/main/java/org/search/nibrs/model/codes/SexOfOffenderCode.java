@@ -17,8 +17,7 @@ public enum SexOfOffenderCode {
 	}
 	
 	public String code;
-	
-	private String description;
+	public String description;
 		
 	public static final Set<String> codeSet() {
 		

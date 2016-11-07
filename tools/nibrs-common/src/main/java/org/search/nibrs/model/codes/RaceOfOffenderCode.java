@@ -13,8 +13,7 @@ public enum RaceOfOffenderCode {
 	U("U","Unknown");
 	
 	public String code;
-	
-	private String description;
+	public String description;
 	
 	private RaceOfOffenderCode(String code, String description){
 		
