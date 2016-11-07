@@ -869,34 +869,25 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule481ForAgeOfVictim(){
-		
-		Rule<VictimSegment> ageOfVictimUnder18ForRapeRule = new Rule<VictimSegment>(){
-	
+	Rule<VictimSegment> getRule481ForAgeOfVictim() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
-				NIBRSError rNIBRSError = null;
-								
-				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
-				
-				boolean hasStatRape = offenseList.contains(OffenseCode._36B);				
-				
+
+				NIBRSError e = null;
 				NIBRSAge age = victimSegment.getAge();
-				
-				boolean ageLessThan18 = age != null && age.getAgeMax() < 18;
-				
-				if(hasStatRape && !ageLessThan18){
-					
-					rNIBRSError = victimSegment.getErrorTemplate();					
-					rNIBRSError.setDataElementIdentifier("26");
-					rNIBRSError.setNIBRSErrorCode(NIBRSErrorCode._481);
-				}				
-				
-				return rNIBRSError;
-			}						
-		};		
-		return ageOfVictimUnder18ForRapeRule;
+
+				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._36B.code) && age != null && age.getAgeMax() >= 18) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("26");
+					e.setNIBRSErrorCode(NIBRSErrorCode._481);
+					e.setValue(age);
+				}
+
+				return e;
+
+			}
+		};
 	}
 
 	public Rule<VictimSegment> getRule482ForTypeOfVictim(){
