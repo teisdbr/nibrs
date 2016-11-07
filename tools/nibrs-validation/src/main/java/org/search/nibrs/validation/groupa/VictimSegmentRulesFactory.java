@@ -135,6 +135,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule406ForTypeOfInjury());		
 		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
 		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
+		rulesList.add(getRule407());
 		rulesList.add(getRule410ForAgeOfVictim());
 		rulesList.add(getRule419ForAggravatedAssaultHomicideCircumstances());
 		rulesList.add(getRule419ForTypeOfInjury());
@@ -479,6 +480,35 @@ public class VictimSegmentRulesFactory {
 
 	Rule<VictimSegment> getRule406ForTypeOfInjury() {
 		return new DuplicateCodedValueRule<VictimSegment>("typeOfInjury", "33", VictimSegment.class, NIBRSErrorCode._406);
+	}
+	
+	Rule<VictimSegment> getRule407() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				// TODO: finish this rule, pending Becki's input / FBI
+				NIBRSError e = null;
+				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+				errorTemplate.setDataElementIdentifier("33");
+				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._407);
+				Set<String> noneDisallowed = new HashSet<>();
+				noneDisallowed.addAll(TypeInjuryCode.codeSet());
+				noneDisallowed.remove(TypeInjuryCode.N.code);
+				Set<String> minorDisallowed = new HashSet<>();
+				minorDisallowed.addAll(TypeInjuryCode.codeSet());
+				minorDisallowed.remove(TypeInjuryCode.M.code);
+				List<String> injuryList = new ArrayList<>();
+				injuryList.addAll(victimSegment.getTypeOfInjuryList());
+				injuryList.removeAll(NULL_STRING_LIST);
+				errorTemplate.setValue(injuryList);
+				if (injuryList.contains(TypeInjuryCode.M.code) && CollectionUtils.containsAny(injuryList, minorDisallowed)) {
+					e = errorTemplate;
+				} else if (injuryList.contains(TypeInjuryCode.N.code) && CollectionUtils.containsAny(injuryList, noneDisallowed)) {
+					e = errorTemplate;
+				}
+				return e;
+			}
+		};
 	}
 
 	Rule<VictimSegment> getRule410ForAgeOfVictim() {
