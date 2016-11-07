@@ -1138,6 +1138,24 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 	}
 	
+	@Test
+	public void testRule471() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule471();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setOffenderNumberRelated(0, 1);
+		victimSegment.setOffenderNumberRelated(1, 2);
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.VO.code);
+		victimSegment.setVictimOffenderRelationship(1, RelationshipOfVictimToOffenderCode.VO.code);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals("34", nibrsError.getDataElementIdentifier());
+		assertEquals(RelationshipOfVictimToOffenderCode.VO.code, nibrsError.getValue());
+		victimSegment.setOffenderNumberRelated(1, null);
+		victimSegment.setVictimOffenderRelationship(1, null);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+	}
+	
 	private VictimSegment getBasicVictimSegment(){
 		
 		GroupAIncidentReport report = new GroupAIncidentReport();
