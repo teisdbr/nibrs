@@ -163,6 +163,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
 		rulesList.add(getRule471());
 		rulesList.add(getRule472());
+		rulesList.add(getRule475());
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
@@ -1019,6 +1020,33 @@ public class VictimSegmentRulesFactory {
 							e.setNIBRSErrorCode(NIBRSErrorCode._472);
 							e.setValue(relationship);
 						}
+					}
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule475() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				List<String> relationshipList = new ArrayList<>();
+				relationshipList.addAll(victimSegment.getVictimOffenderRelationshipList());
+				relationshipList.removeAll(NULL_STRING_LIST);
+				if (relationshipList.size() > 1) {
+					int spouse = 0;
+					for (String rel : relationshipList) {
+						if (RelationshipOfVictimToOffenderCode.SE.code.equals(rel)) {
+							spouse++;
+						}
+					}
+					if (spouse > 1) {
+						e = victimSegment.getErrorTemplate();
+						e.setDataElementIdentifier("34");
+						e.setNIBRSErrorCode(NIBRSErrorCode._475);
+						e.setValue(RelationshipOfVictimToOffenderCode.SE.code);
 					}
 				}
 				return e;
