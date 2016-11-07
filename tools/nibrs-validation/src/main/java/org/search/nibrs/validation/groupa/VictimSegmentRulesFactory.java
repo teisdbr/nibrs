@@ -135,6 +135,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule406ForTypeOfInjury());		
 		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
 		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
+		rulesList.add(getRule406OffenderNumberToBeRelated());
 		rulesList.add(getRule407());
 		rulesList.add(getRule410ForAgeOfVictim());
 		rulesList.add(getRule419ForAggravatedAssaultHomicideCircumstances());

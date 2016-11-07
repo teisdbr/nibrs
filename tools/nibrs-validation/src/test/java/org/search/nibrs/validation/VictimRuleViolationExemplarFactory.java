@@ -137,9 +137,11 @@ final class VictimRuleViolationExemplarFactory {
 		
 		
 		groupATweakerMap.put(406, incident -> {
+			
 			//(Victim Connected to UCR Offense Code) The referenced data element in 
 			//error is one that contains multiple data values. When more than one code is 
 			//entered, none can be duplicate codes.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenseSegment offense = new OffenseSegment();
@@ -152,54 +154,60 @@ final class VictimRuleViolationExemplarFactory {
 			offense.setLocationType("15");
 			offense.setNumberOfPremisesEntered(null);
 			offense.setAutomaticWeaponIndicator(0, " ");
+			copy.addOffense(offense);
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");
+			
 			//(Aggravated Assault/Homicide Circumstances The referenced data element 
 			//in error is one that contains multiple data values. When more than one 
 			//code is entered, none can be duplicate codes.
+			
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "02");
 			copy2.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "02");
+			
 			//(Type Injury) The referenced data element in error is one that 
-			//contains multiple data values. When more than one code is entered, none can be duplicate codes.			
+			//contains multiple data values. When more than one code is entered, none can be duplicate codes.
+			
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
 			copy3.getVictims().get(0).setTypeOfInjury(0, "B");
 			copy3.getVictims().get(0).setTypeOfInjury(1, "B");
+			
 			//(Offender Number to be Related) The referenced data element in error 
 			//is one that contains multiple data values. When more than one code 
 			//is entered, none can be duplicate codes.
+			
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
 			copy4.getVictims().get(0).setOffenderNumberRelated(1, 1);
-			
 			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
-			copy.addOffense(offense);
-			
 					
 			return incidents;
 				
 			
 		});
 		
-		//TO-DO groupATweakerMap.put(407, incident -> {
-		//(Type Injury) Can have multiple data values and was entered with 
-		//multiple values. However, the entry shown between the brackets in [value] 
-		//above cannot be entered with any other data value.
-		
-		groupATweakerMap.put(409, incident -> {
-			//(Age of Victim) contains more than two characters indicating a possible 
-			//age-range was being attempted. If so, the field must contain numeric entry of four digits.
+		groupATweakerMap.put(407, incident -> {
+			
+			// (Type Injury) Can have multiple data values and was entered with 
+			// multiple values. However, the entry shown between the brackets in [value] 
+			// above cannot be entered with any other data value.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString("253");
-				
+			copy.getVictims().get(0).setTypeOfInjury(1, "B");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfInjury(0, "M");
+			copy.getVictims().get(0).setTypeOfInjury(1, "O");
 			incidents.add(copy);
 				
 			return incidents;
 				
-			});
+		});
 		
 		groupATweakerMap.put(410, incident -> {
 			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
@@ -207,19 +215,31 @@ final class VictimRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setAgeString("3025");
-				
 			incidents.add(copy);
-				
 			return incidents;
-				
-			});
+		});
 		
-		//TO-DO groupATweakerMap.put(419, incident -> {
-		//(Aggravated Assault/Homicide Circumstances) Circumstances) can only be 
-		//entered when one or more of the offenses in Data Element 24 (Victim Connected to UCR Offense Code) are:
-		//large set of permutations
-		
-		
+		groupATweakerMap.put(419, incident -> {
+			
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
+			VictimSegment victimSegment = copy.getVictims().get(0);
+			victimSegment.setUcrOffenseCodeConnection(0, "200");
+			victimSegment.setAggravatedAssaultHomicideCircumstances(0, "01");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
+			victimSegment = copy.getVictims().get(0);
+			victimSegment.setUcrOffenseCodeConnection(0, "200");
+			victimSegment.setTypeOfInjury(0, "M");
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(422, incident -> {
 			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
