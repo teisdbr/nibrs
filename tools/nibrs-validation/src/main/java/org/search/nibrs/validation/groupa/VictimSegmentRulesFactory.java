@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
@@ -909,46 +908,20 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
-	public Rule<VictimSegment> getRule483ForTypeOfOfficerActivity(){
-		
-		Rule<VictimSegment> personReqFieldsRule = new Rule<VictimSegment>(){
-	
-			NIBRSError nibrsError = null;
-			
+	Rule<VictimSegment> getRule483ForTypeOfOfficerActivity() {
+		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-	
-				String assignmentType = victimSegment.getOfficerAssignmentType();
-				String ori = victimSegment.getOfficerOtherJurisdictionORI();
-				NIBRSAge age = victimSegment.getAge();
-				String race = victimSegment.getRace();
-				String sex = victimSegment.getSex();
-				String ethnicity = victimSegment.getEthnicity();
-				String residentStatus = victimSegment.getResidentStatusOfVictim();				
-				List<Integer> relatedOffenderList = victimSegment.getOffenderNumberRelatedList();
-				String typeOfVictim = victimSegment.getTypeOfVictim();
-				
-				boolean isPersonVictim = TypeOfVictimCode.I.code.equals(typeOfVictim) 
-						|| TypeOfVictimCode.L.code.equals(typeOfVictim); 
-								
-				if(StringUtils.isNotEmpty(assignmentType)
-					|| StringUtils.isNotEmpty(ori)
-					|| age != null
-					|| StringUtils.isNotEmpty(race)
-					|| StringUtils.isNotEmpty(sex)
-					|| StringUtils.isNotEmpty(ethnicity)
-					|| StringUtils.isNotEmpty(residentStatus)
-					|| (relatedOffenderList != null && !relatedOffenderList.isEmpty()) 
-					&& !isPersonVictim){
-					
-					nibrsError = victimSegment.getErrorTemplate();
-					nibrsError.setDataElementIdentifier("25B");
-					nibrsError.setNIBRSErrorCode(NIBRSErrorCode._483);
-				}								
-				return nibrsError;
-			}			
-		};		
-		return personReqFieldsRule;
+				NIBRSError e = null;
+				if (victimSegment.getOfficerAssignmentType() != null && !TypeOfVictimCode.L.code.equals(victimSegment.getTypeOfVictim())) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("25B");
+					e.setNIBRSErrorCode(NIBRSErrorCode._484);
+					e.setValue(victimSegment.getOfficerAssignmentType());
+				}
+				return e;
+			}
+		};
 	}
-	
+
 }
