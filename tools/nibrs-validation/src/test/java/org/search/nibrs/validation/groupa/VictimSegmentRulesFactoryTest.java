@@ -1256,6 +1256,25 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 	}
 	
+	@Test
+	public void testRule456() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule456();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._10.code);
+		victimSegment.setAggravatedAssaultHomicideCircumstances(1, AggravatedAssaultHomicideCircumstancesCode._01.code);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals("31", nibrsError.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._456, nibrsError.getNIBRSErrorCode());
+		assertEquals(Arrays.asList(new String[] {AggravatedAssaultHomicideCircumstancesCode._10.code, AggravatedAssaultHomicideCircumstancesCode._01.code}), nibrsError.getValue());
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._20.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._02.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+	}
+	
 	private VictimSegment getBasicVictimSegment(){
 		
 		GroupAIncidentReport report = new GroupAIncidentReport();

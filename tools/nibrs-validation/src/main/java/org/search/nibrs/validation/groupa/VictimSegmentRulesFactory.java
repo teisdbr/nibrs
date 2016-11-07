@@ -147,6 +147,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule454ForSexOfVictim());
 		rulesList.add(getRule454ForOfficerAssignmentType());
 		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());	
+		rulesList.add(getRule456());
 		rulesList.add(getRule457ForAdditionalJustifiableHomicideCircsumstances());
 		rulesList.add(getRule458ForSexOfVictim());	
 		rulesList.add(getRule458ForResidentStatusOfVictim());				
@@ -1196,6 +1197,34 @@ public class VictimSegmentRulesFactory {
 					il.addAll(victimSegment.getTypeOfInjuryList());
 					il.removeAll(NULL_STRING_LIST);
 					e.setValue(il);
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule456() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				List<String> aahc = new ArrayList<>();
+				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
+				aahc.removeAll(NULL_STRING_LIST);
+				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+				errorTemplate.setDataElementIdentifier("31");
+				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._456);
+				errorTemplate.setValue(aahc);
+				if (aahc.contains(AggravatedAssaultHomicideCircumstancesCode._10.code) && aahc.size() > 1) {
+					e = errorTemplate;
+				} else if (aahc.size() > 1) {
+					Set<String> categorySet = new HashSet<>();
+					for (String s : aahc) {
+						categorySet.add(s.substring(0, 1));
+					}
+					if (categorySet.size() > 1) {
+						e = errorTemplate;
+					}
 				}
 				return e;
 			}
