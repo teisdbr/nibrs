@@ -164,6 +164,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule471());
 		rulesList.add(getRule472());
 		rulesList.add(getRule475());
+		rulesList.add(getRule477());
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
@@ -1047,6 +1048,70 @@ public class VictimSegmentRulesFactory {
 						e.setDataElementIdentifier("34");
 						e.setNIBRSErrorCode(NIBRSErrorCode._475);
 						e.setValue(RelationshipOfVictimToOffenderCode.SE.code);
+					}
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule477() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._477);
+				errorTemplate.setDataElementIdentifier("31");
+				List<String> offenseList = new ArrayList<>();
+				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseList.removeAll(NULL_STRING_LIST);
+				List<String> aahc = new ArrayList<>();
+				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
+				aahc.removeAll(NULL_STRING_LIST);
+				if (offenseList.contains(OffenseCode._13A.code) || offenseList.contains(OffenseCode._09A.code)) {
+					Set<String> allowedSet = new HashSet<>();
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._01.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._02.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._03.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._04.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._05.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._06.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._07.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._08.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._09.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._10.code);
+					List<String> aahc2 = new ArrayList<>();
+					aahc2.addAll(aahc);
+					aahc2.removeAll(allowedSet);
+					if (aahc.size() > 2 || aahc2.size() > 0) {
+						e = errorTemplate;
+						e.setValue(aahc2);
+					}
+				} else if (offenseList.contains(OffenseCode._09B.code)) {
+					Set<String> allowedSet = new HashSet<>();
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._30.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._31.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._32.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._33.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._34.code);
+					List<String> aahc2 = new ArrayList<>();
+					aahc2.addAll(aahc);
+					aahc2.removeAll(allowedSet);
+					if (aahc.size() > 1 || aahc2.size() > 0) {
+						e = errorTemplate;
+						e.setValue(aahc2);
+					}
+				} else if (offenseList.contains(OffenseCode._09C.code)) {
+					Set<String> allowedSet = new HashSet<>();
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._20.code);
+					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._21.code);
+					List<String> aahc2 = new ArrayList<>();
+					aahc2.addAll(aahc);
+					aahc2.removeAll(allowedSet);
+					if (aahc.size() > 1 || aahc2.size() > 0) {
+						e = errorTemplate;
+						e.setValue(aahc2);
 					}
 				}
 				return e;
