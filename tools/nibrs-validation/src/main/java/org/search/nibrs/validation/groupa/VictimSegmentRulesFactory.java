@@ -19,9 +19,11 @@ import org.search.nibrs.model.codes.EthnicityOfVictim;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.OfficerAssignmentType;
+import org.search.nibrs.model.codes.RaceOfOffenderCode;
 import org.search.nibrs.model.codes.RaceOfVictimCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
+import org.search.nibrs.model.codes.SexOfOffenderCode;
 import org.search.nibrs.model.codes.SexOfVictimCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
@@ -160,6 +162,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule469ForSexOfVictim());
 		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
 		rulesList.add(getRule471());
+		rulesList.add(getRule472());
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
@@ -989,6 +992,34 @@ public class VictimSegmentRulesFactory {
 					e.setDataElementIdentifier("34");
 					e.setNIBRSErrorCode(NIBRSErrorCode._471);
 					e.setValue(RelationshipOfVictimToOffenderCode.VO.code);
+				}
+				return e;
+			}
+		};
+	}
+
+	Rule<VictimSegment> getRule472() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				GroupAIncidentReport incident = (GroupAIncidentReport) victimSegment.getParentReport();
+				List<Integer> offenderNumberList = victimSegment.getOffenderNumberRelatedList();
+				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
+				for (int i=0;i < offenderNumberList.size() && e == null;i++) {
+					Integer offenderNumber = offenderNumberList.get(i);
+					String relationship = relationshipList.get(i);
+					if (offenderNumber != null) {
+						OffenderSegment os = incident.getOffenderForSequenceNumber(offenderNumber);
+						if ((os.getAge() == null ||
+							 os.getSex() == null || os.getSex().equals(SexOfOffenderCode.U.code) ||
+							 os.getRace() == null || os.getRace().equals(RaceOfOffenderCode.U.code)) && !relationship.equals(RelationshipOfVictimToOffenderCode.RU.code)) {
+							e = victimSegment.getErrorTemplate();
+							e.setDataElementIdentifier("35");
+							e.setNIBRSErrorCode(NIBRSErrorCode._472);
+							e.setValue(relationship);
+						}
+					}
 				}
 				return e;
 			}

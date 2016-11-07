@@ -12,7 +12,7 @@ public enum RaceOfOffenderCode {
 	P("P","Native Hawaiian or Other Pacific Islander"),
 	U("U","Unknown");
 	
-	private String code;
+	public String code;
 	
 	private String description;
 	

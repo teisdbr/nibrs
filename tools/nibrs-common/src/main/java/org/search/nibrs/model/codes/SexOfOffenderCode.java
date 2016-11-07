@@ -16,7 +16,7 @@ public enum SexOfOffenderCode {
 		this.description = description;
 	}
 	
-	private String code;
+	public String code;
 	
 	private String description;
 		
