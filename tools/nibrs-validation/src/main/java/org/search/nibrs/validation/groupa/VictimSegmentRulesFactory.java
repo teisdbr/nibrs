@@ -798,6 +798,24 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
+	Rule<VictimSegment> getRule463() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				List<String> aahc = victimSegment.getAggravatedAssaultHomicideCircumstancesList();
+				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._09C.code) &&
+						!(aahc.contains(AggravatedAssaultHomicideCircumstancesCode._20.code) || aahc.contains(AggravatedAssaultHomicideCircumstancesCode._21.code))) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._463);
+					e.setDataElementIdentifier("31");
+					e.setValue(aahc);
+				}
+				return e;
+			}
+		};
+	}
+
 	Rule<VictimSegment> getRule464ForTypeOfVictim() {
 		return new Rule<VictimSegment>() {
 			@Override

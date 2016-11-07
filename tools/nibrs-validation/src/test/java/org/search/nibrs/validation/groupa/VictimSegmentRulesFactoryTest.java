@@ -937,6 +937,21 @@ public class VictimSegmentRulesFactoryTest {
 	}
 
 	@Test
+	public void testRule463() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule463();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09C.code);
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._01.code);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._463, nibrsError.getNIBRSErrorCode());
+		assertEquals("31", nibrsError.getDataElementIdentifier());
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._20.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+	}
+
+	@Test
 	public void testRule461() {
 		Rule<VictimSegment> rule = victimRulesFactory.getRule461ForTypeOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
