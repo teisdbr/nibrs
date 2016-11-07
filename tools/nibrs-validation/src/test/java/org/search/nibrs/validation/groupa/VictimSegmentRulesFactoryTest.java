@@ -1030,7 +1030,15 @@ public class VictimSegmentRulesFactoryTest {
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 		assertEquals("33", nibrsError.getDataElementIdentifier());
+		
+		victimSegment.setTypeOfInjury(0, TypeInjuryCode.I.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 
+		victimSegment.setTypeOfInjury(0, "invalid");
+		nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		
 	}
 
 	@Test

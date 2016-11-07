@@ -311,7 +311,8 @@ public class VictimSegmentRulesFactory {
 				injuryTypeList.addAll(victimSegment.getTypeOfInjuryList());
 				injuryTypeList.removeAll(NULL_STRING_LIST);
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-				if (CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) && injuryTypeList.isEmpty()) {
+				if ((CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) && injuryTypeList.isEmpty()) ||
+						(!injuryTypeList.isEmpty() && !CollectionUtils.containsAll(TypeInjuryCode.codeSet(), injuryTypeList))) {
 					e = victimSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._404);
 					e.setDataElementIdentifier("33");
@@ -1047,7 +1048,8 @@ public class VictimSegmentRulesFactory {
 					String relationship = relationshipList.get(i);
 					if (offenderNumber != null) {
 						OffenderSegment os = incident.getOffenderForSequenceNumber(offenderNumber);
-						if ((os.getAge() == null ||
+						if (os != null &&
+							(os.getAge() == null ||
 							 os.getSex() == null || os.getSex().equals(SexOfOffenderCode.U.code) ||
 							 os.getRace() == null || os.getRace().equals(RaceOfOffenderCode.U.code)) && !relationship.equals(RelationshipOfVictimToOffenderCode.RU.code)) {
 							e = victimSegment.getErrorTemplate();

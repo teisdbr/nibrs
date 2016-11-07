@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -16,7 +15,6 @@ import org.search.nibrs.validation.RuleViolationExemplarFactory;
 
 public class GroupAIncidentReportValidatorTest {
 	
-	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReportValidatorTest.class);
 		
 	private GroupAIncidentReportValidator validator;
@@ -295,9 +293,7 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._401, 401);
 	}
 	
-	
-	//TODO enable when passing
-	@Ignore
+	@Test
 	public void testRule404(){
 		testRule(NIBRSErrorCode._404, 404);
 	}
@@ -313,9 +309,8 @@ public class GroupAIncidentReportValidatorTest {
 					break;
 				}
 			}
-			
-			if(!found){
-				LOG.error("\n\n\n **** Didn't find for: " + r);
+			if (!found) {
+				LOG.error("Expected rule violdation not found for rule #" + ruleNumber + ".  Incident: " + r);
 			}
 			assertTrue(found);
 		}

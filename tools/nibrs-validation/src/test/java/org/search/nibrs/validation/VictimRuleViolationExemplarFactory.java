@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.VictimSegment;
 
 final class VictimRuleViolationExemplarFactory {
 
@@ -41,48 +42,93 @@ final class VictimRuleViolationExemplarFactory {
 	private void populateGroupAExemplarMap() {
 		
 		groupATweakerMap.put(401, incident -> {
+			
 			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 4 is mandatory & must be present.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-												
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.getVictims().get(0).setVictimSequenceNumber(null);
+			copy.getVictims().get(0).setVictimSequenceNumber(null);
+			incidents.add(copy);
+
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, null);
+			incidents.add(copy);
 			
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.getVictims().get(0).setUcrOffenseCodeConnection(0, null);
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfVictim(null);
+			incidents.add(copy);
 			
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getVictims().get(0).setTypeOfVictim(null);
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimSequenceNumber(000);
+			incidents.add(copy);
 			
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getVictims().get(0).setVictimSequenceNumber(000);
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "999");
+			incidents.add(copy);
 			
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			copy9.getVictims().get(0).setUcrOffenseCodeConnection(0, "999");
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "13B");
+			incidents.add(copy);
 			
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getVictims().get(0).setTypeOfVictim("Z");
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfVictim("Z");
+			incidents.add(copy);
 									
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);			
-				
 			return incidents;
+			
 		});
 
 		groupATweakerMap.put(404, incident -> {
-			//To-do, waiting on response from Becki
+			
 			//The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString(null);
+			VictimSegment victim = copy.getVictims().get(0);
+			victim.setSex(null);
+			incidents.add(copy);
 			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setRace(null);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setEthnicity("invalid");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setResidentStatusOfVictim("invalid");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setTypeOfInjury(0, null);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setTypeOfInjury(0, "invalid");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setVictimOffenderRelationship(0, null);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setVictimOffenderRelationship(0, "invalid");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			victim = copy.getVictims().get(0);
+			victim.setOffenderNumberRelated(0, 2);
 			incidents.add(copy);
 			
 			return incidents;
