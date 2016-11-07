@@ -242,36 +242,32 @@ final class VictimRuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(422, incident -> {
+			
 			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
 			//component must be less than the second age.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setAgeString("0025");
-				
 			incidents.add(copy);
 				
 			return incidents;
 				
-			});
-		
-		
-			//TO-DO Rule 449 
-			//Data Element 26 (Age of Victim) cannot be less than 18 years old when 
-			//Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse.
-		
+		});
 		
 		groupATweakerMap.put(450, incident -> {
+			
 			//(Age of Victim) contains a relationship of SE=Spouse. When this is so, the //
 			//age of the victim cannot be less than 10 years.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setAgeString("09");
-				
 			incidents.add(copy);
 				
 			return incidents;
 				
-			});
+		});
 		
 		//TO-DO Rule 451
 		//When a Group A Incident Report is submitted, the individual segments 
