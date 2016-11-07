@@ -153,6 +153,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule458ForRaceOfVictim());
 		rulesList.add(getRule459ForOffenderNumberToBeRelated());
 		rulesList.add(getRule461ForTypeOfVictim());
+		rulesList.add(getRule462());
 		rulesList.add(getRule464ForTypeOfVictim());
 		rulesList.add(getRule465ForTypeOfVictim());
 		rulesList.add(getRule467ForTypeOfVictim());		
@@ -762,6 +763,35 @@ public class VictimSegmentRulesFactory {
 					e.setNIBRSErrorCode(NIBRSErrorCode._461);
 					e.setDataElementIdentifier("25");
 					e.setValue(TypeOfVictimCode.S.code);
+				}
+				return e;
+			}
+		};
+	}
+
+	Rule<VictimSegment> getRule462() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				Set<String> allowedValues = new HashSet<>();
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._01.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._02.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._03.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._04.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._05.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._06.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._08.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._09.code);
+				allowedValues.add(AggravatedAssaultHomicideCircumstancesCode._10.code);
+				List<String> aahc = new ArrayList<>();
+				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
+				aahc.removeAll(allowedValues);
+				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._13A.code) && aahc.size() > 0) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._462);
+					e.setDataElementIdentifier("31");
+					e.setValue(aahc);
 				}
 				return e;
 			}
