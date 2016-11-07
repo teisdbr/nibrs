@@ -1223,6 +1223,23 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 	}
 	
+	@Test
+	public void testRule478() {
+		Rule<VictimSegment> rule = victimRulesFactory.getRule478();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		victimSegment.setUcrOffenseCodeConnection(1, OffenseCode._13A.code);
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals("24", nibrsError.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._478, nibrsError.getNIBRSErrorCode());
+		assertEquals(Arrays.asList(new String[] {OffenseCode._09A.code, OffenseCode._13A.code}), nibrsError.getValue());
+		victimSegment.setUcrOffenseCodeConnection(1, OffenseCode._36A.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		// certainly could test all permutations, but...
+	}
+	
 	private VictimSegment getBasicVictimSegment(){
 		
 		GroupAIncidentReport report = new GroupAIncidentReport();

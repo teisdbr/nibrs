@@ -165,6 +165,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule472());
 		rulesList.add(getRule475());
 		rulesList.add(getRule477());
+		rulesList.add(getRule478());
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
@@ -1113,6 +1114,66 @@ public class VictimSegmentRulesFactory {
 						e = errorTemplate;
 						e.setValue(aahc2);
 					}
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule478() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+				errorTemplate.setDataElementIdentifier("24");
+				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._478);
+				List<String> offenseList = new ArrayList<>();
+				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseList.removeAll(NULL_STRING_LIST);
+				errorTemplate.setValue(offenseList);
+				Set<String> murderSet = new HashSet<>();
+				murderSet.add(OffenseCode._09B.code);
+				murderSet.add(OffenseCode._13A.code);
+				murderSet.add(OffenseCode._13B.code);
+				murderSet.add(OffenseCode._13C.code);
+				Set<String> aggAssaultSet = new HashSet<>();
+				aggAssaultSet.add(OffenseCode._13B.code);
+				aggAssaultSet.add(OffenseCode._13C.code);
+				aggAssaultSet.add(OffenseCode._09A.code);
+				aggAssaultSet.add(OffenseCode._120.code);
+				aggAssaultSet.add(OffenseCode._11A.code);
+				aggAssaultSet.add(OffenseCode._11B.code);
+				aggAssaultSet.add(OffenseCode._11C.code);
+				Set<String> simpleAssaultSet = new HashSet<>();
+				simpleAssaultSet.add(OffenseCode._13C.code);
+				simpleAssaultSet.add(OffenseCode._09A.code);
+				simpleAssaultSet.add(OffenseCode._13A.code);
+				simpleAssaultSet.add(OffenseCode._120.code);
+				simpleAssaultSet.add(OffenseCode._11A.code);
+				simpleAssaultSet.add(OffenseCode._11B.code);
+				simpleAssaultSet.add(OffenseCode._11C.code);
+				simpleAssaultSet.add(OffenseCode._11D.code);
+				Set<String> intimidationSet = new HashSet<>();
+				intimidationSet.add(OffenseCode._13B.code);
+				intimidationSet.add(OffenseCode._09A.code);
+				intimidationSet.add(OffenseCode._13A.code);
+				intimidationSet.add(OffenseCode._120.code);
+				intimidationSet.add(OffenseCode._11A.code);
+				intimidationSet.add(OffenseCode._11B.code);
+				intimidationSet.add(OffenseCode._11C.code);
+				intimidationSet.add(OffenseCode._11D.code);
+				Set<String> negligentSet = new HashSet<>();
+				negligentSet.add(OffenseCode._09A.code);
+				negligentSet.add(OffenseCode._13A.code);
+				negligentSet.add(OffenseCode._13B.code);
+				negligentSet.add(OffenseCode._13C.code);
+				if (offenseList.contains(OffenseCode._09A.code) && CollectionUtils.containsAny(offenseList, murderSet) ||
+						offenseList.contains(OffenseCode._13A.code) && CollectionUtils.containsAny(offenseList, aggAssaultSet) ||
+						offenseList.contains(OffenseCode._13B.code) && CollectionUtils.containsAny(offenseList, simpleAssaultSet) ||
+						offenseList.contains(OffenseCode._13C.code) && CollectionUtils.containsAny(offenseList, intimidationSet) ||
+						offenseList.contains(OffenseCode._09B.code) && CollectionUtils.containsAny(offenseList, negligentSet)) {
+					e = errorTemplate;
 				}
 				return e;
 			}
