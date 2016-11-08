@@ -398,9 +398,27 @@ final class VictimRuleViolationExemplarFactory {
 			//UCR Offense Code) contains a Crime Against Person.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
 			copy.getVictims().get(0).setTypeOfVictim("B");
 			copy.getVictims().get(0).setTypeOfInjury(0, "B");
+			incidents.add(copy);
 			
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			copy.getVictims().get(0).setSex("M");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			copy.getVictims().get(0).setRace("B");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("200");
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			copy.getVictims().get(0).setAgeString("NB");
 			incidents.add(copy);
 			
 			return incidents;
@@ -408,6 +426,7 @@ final class VictimRuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(459, incident -> {
+			
 			//The Data Element associated with this error cannot be entered 
 			//when Data Element 25 (Type of Victim) is not I=Individual or 
 			//L=Law Enforcement Officer when Data Element 24 (Victim Connected to 
@@ -415,7 +434,7 @@ final class VictimRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("220");
-			
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "220");
 			incidents.add(copy);
 			
 			return incidents;
