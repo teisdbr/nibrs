@@ -178,6 +178,9 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
+		rulesList.add(getRule483ForOfficerAssignmentType());
+		rulesList.add(getRule483ForOfficerOtherJurisdictionORI());
+		
 	}
 		
 	public List<Rule<VictimSegment>> getRulesList() {
@@ -1011,10 +1014,42 @@ public class VictimSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				NIBRSError e = null;
+				if (victimSegment.getTypeOfOfficerActivityCircumstance() != null && !TypeOfVictimCode.L.code.equals(victimSegment.getTypeOfVictim())) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("25A");
+					e.setNIBRSErrorCode(NIBRSErrorCode._483);
+					e.setValue(victimSegment.getOfficerAssignmentType());
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule483ForOfficerAssignmentType() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
 				if (victimSegment.getOfficerAssignmentType() != null && !TypeOfVictimCode.L.code.equals(victimSegment.getTypeOfVictim())) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("25B");
-					e.setNIBRSErrorCode(NIBRSErrorCode._484);
+					e.setNIBRSErrorCode(NIBRSErrorCode._483);
+					e.setValue(victimSegment.getOfficerAssignmentType());
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule483ForOfficerOtherJurisdictionORI() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				if (victimSegment.getOfficerOtherJurisdictionORI() != null && !TypeOfVictimCode.L.code.equals(victimSegment.getTypeOfVictim())) {
+					e = victimSegment.getErrorTemplate();
+					e.setDataElementIdentifier("25C");
+					e.setNIBRSErrorCode(NIBRSErrorCode._483);
 					e.setValue(victimSegment.getOfficerAssignmentType());
 				}
 				return e;

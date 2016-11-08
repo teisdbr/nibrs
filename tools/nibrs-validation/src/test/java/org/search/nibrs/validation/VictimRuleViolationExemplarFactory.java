@@ -9,6 +9,7 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 
@@ -532,15 +533,6 @@ final class VictimRuleViolationExemplarFactory {
 					
 		});
 		
-		//TO-DO Rule 466
-		//Each UCR Offense Code entered into Data Element 24
-		//(Victim Connected to UCR Offense Codes) must have the 
-		//Offense Segment for the value. In this case, the victim was
-		//connected to offenses that were not submitted as Offense Segments. 
-		//A victim cannot be connected to an offense when the offense itself is not present.
-		
-		
-		
 		groupATweakerMap.put(467, incident -> {
 			//UCR code contains a Crime Against Property, but Data Element 25 
 			//(Type of Victim) is S=Society. This is not an allowable code for Crime Against Property offenses.
@@ -585,7 +577,6 @@ final class VictimRuleViolationExemplarFactory {
 			copy2.getVictims().get(0).setUcrOffenseCodeConnection(0, "11A");
 			copy2.getVictims().get(0).setSex("U");
 			
-					
 			incidents.add(copy);
 			incidents.add(copy2);
 			
@@ -593,22 +584,24 @@ final class VictimRuleViolationExemplarFactory {
 					
 		});
 		
-		//TO-DO groupATweakerMap.put(470, incident -> {
-		//Data Element 35 (Relationship of Victim to Offenders) has a relationship of 
-		//VO=Victim Was Offender. When this code is entered, a minimum of two victim 
-		//and two offender segments must be submitted. In this case, only one victim 
-		//and/or one offender segment was submitted. The entry of VO on one or more of
-		//the victims indicates situations such as brawls and domestic disputes. 
-		//In the vast majority of cases, each victim is also the offender; therefore, 
-		//every victim record would contain a VO code. However, there may be some 
-		//situations where only one of the victims is also the offender, but where 
-		//the other victim(s) is not also the offender(s).
-		
-		
-		//TO-DO groupATweakerMap.put(471, incident -> {
-		//(Offender Number to be Related) has relationships of VO=Victim Was Offender 
-		//that point to multiple offenders, which is an impossible situation. 
-		//A single victim cannot be two offenders.
+		groupATweakerMap.put(471, incident -> {
+			
+			//(Offender Number to be Related) has relationships of VO=Victim Was Offender 
+			//that point to multiple offenders, which is an impossible situation. 
+			//A single victim cannot be two offenders.
+			
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenderSegment os = new OffenderSegment();
+			os.setOffenderSequenceNumber(2);
+			copy.addOffender(os);
+			copy.getVictims().get(0).setOffenderNumberRelated(new Integer[] {1,2});
+			copy.getVictims().get(0).setVictimOffenderRelationship(new String[] {"VO","VO"});
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(472, incident -> {
 			//(Relationship of Victim to Offender) has a relationship to the offender
@@ -620,29 +613,29 @@ final class VictimRuleViolationExemplarFactory {
 			copy.getOffenders().get(0).setAgeString("00");
 			copy.getOffenders().get(0).setSex("U");
 			copy.getOffenders().get(0).setRace("U");
-						
-					
 			incidents.add(copy);
 						
 			return incidents;
 			
 		});
 		
-		//TO-DO groupATweakerMap.put(474, incident -> {
-		//Segment Level 4 (Victim Segment) cannot be submitted multiple times with 
-		//VO=Victim Was Offender in Data Element 35 (Relationship of Victim to Offender)
-		//when Data Element 34 (Offender Number to be Related) contains the same data value (indicating the same offender).
 		
-		
-		//TO-DO groupATweakerMap.put(475, incident -> {
+		groupATweakerMap.put(475, incident -> {
 			//(Offender Number to be Related) A victim can only have one
 			//spousal relationship. In this instance, the victim has a relationship of 
 			//SE=Spouse to two or more offenders.
-		
-		
-		//TO-DO groupATweakerMap.put(476, incident -> {
-		//An offender can only have one spousal relationship. In this instance, 
-		//two or more victims have a relationship of SE=Spouse to the same offender.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenderSegment os = new OffenderSegment();
+			os.setOffenderSequenceNumber(2);
+			copy.addOffender(os);
+			copy.getVictims().get(0).setOffenderNumberRelated(new Integer[] {1,2});
+			copy.getVictims().get(0).setVictimOffenderRelationship(new String[] {"SE","SE"});
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(477, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) A victim segment was 
@@ -652,9 +645,9 @@ final class VictimRuleViolationExemplarFactory {
 			//Only those circumstances listed in Volume 1, section VI, are valid for the particular offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("220");
+			copy.getOffenses().get(0).setUcrOffenseCode("09C");
 			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
-			
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "09C");
 			incidents.add(copy);
 						
 			return incidents;
@@ -662,13 +655,27 @@ final class VictimRuleViolationExemplarFactory {
 		});
 		
 		
-		//TO-DO groupATweakerMap.put(478, incident -> {
+		groupATweakerMap.put(478, incident -> {
 		//Data Element 24 (Victim Connected to UCR Offense Code) 
 		//Mutually Exclusive offenses are ones that cannot occur to the same 
 		//victim by UCR definitions. A Lesser Included offense is one that 
 		//is an element of another offense and should not be reported as having 
 		//happened to the victim along with the other offense. 
 		//Lesser Included and Mutually Exclusive offenses are defined as follows:
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("13A");
+			OffenseSegment os = new OffenseSegment();
+			os.setUcrOffenseCode("09A");
+			copy.addOffense(os);
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "13A");
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "09A");
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
 		
 		groupATweakerMap.put(479, incident -> {
 			//A Simple Assault (13B) was committed against a victim, but the 
@@ -679,20 +686,12 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("13B");
 			copy.getVictims().get(0).setTypeOfInjury(0, "O");
-			
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "13B");
 			incidents.add(copy);
 						
 			return incidents;
 			
 		});
-		
-		//TO-DO Rule 480 
-		//Data Element 31 (Aggravated Assault/Homicide Circumstances) has 
-		//08=Other Felony Involved but the incident has only one offense. 
-		//For this code to be used, there must be an Other Felony. Either 
-		//multiple entries for Data Element 6 (UCR Offense Code) should have 
-		//been submitted, or multiple individual victims should have been submitted for the incident report
-		
 		
 		groupATweakerMap.put(481, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
@@ -701,7 +700,7 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("36B");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "36B");
-			copy.getVictims().get(0).setAgeString("09");
+			copy.getVictims().get(0).setAgeString("19");
 			
 			incidents.add(copy);
 			
@@ -740,11 +739,17 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("B");
 			copy.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
-			copy.getVictims().get(0).setOfficerAssignmentType("G");
-			copy.getVictims().get(0).setOfficerOtherJurisdictionORI("321456789");
-						
 			incidents.add(copy);
-						
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			copy.getVictims().get(0).setOfficerAssignmentType("G");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setTypeOfVictim("B");
+			copy.getVictims().get(0).setOfficerOtherJurisdictionORI("321456789");
+			incidents.add(copy);
 			
 			return incidents;
 					
