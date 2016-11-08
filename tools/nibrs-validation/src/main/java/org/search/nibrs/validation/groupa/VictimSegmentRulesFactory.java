@@ -520,7 +520,7 @@ public class VictimSegmentRulesFactory {
 
 				NIBRSError e = null;
 				NIBRSAge nibrsAge = victimSegment.getAge();
-				if (nibrsAge.isAgeRange()) {
+				if (nibrsAge != null && nibrsAge.isAgeRange()) {
 
 					Integer ageMin = nibrsAge.getAgeMin();
 					Integer ageMax = nibrsAge.getAgeMax();

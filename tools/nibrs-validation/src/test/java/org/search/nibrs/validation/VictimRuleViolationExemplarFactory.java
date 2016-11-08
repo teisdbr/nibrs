@@ -269,13 +269,6 @@ final class VictimRuleViolationExemplarFactory {
 				
 		});
 		
-		//TO-DO Rule 451
-		//When a Group A Incident Report is submitted, the individual segments 
-		//comprising the incident cannot contain duplicates. In this case, two victim 
-		//segments were submitted having the same entry in Data Element 23 (Victim Sequence Number).
-		
-		
-		
 		groupATweakerMap.put(453, incident -> {
 			//(Age of Victim) The Data Element associated with this error must be 
 			//present when Data Element 25 (Type of Victim) is I=Individual.

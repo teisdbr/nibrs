@@ -53,6 +53,8 @@ public abstract class AbstractPersonSegment extends AbstractSegment {
 		if (ageString != null && ageString.trim().length() != 0) {
 			age = new NIBRSAge();
 			age.setAgeString(ageString, segmentType);
+		} else {
+			age = null;
 		}
 	}
 
