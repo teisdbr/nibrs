@@ -359,12 +359,17 @@ final class VictimRuleViolationExemplarFactory {
 			//1) Value 10=Unknown Circumstances is mutually exclusive with any other value. 
 			//2) More than one category (i.e., Aggravated Assault, Negligent Manslaughter, etc.) was entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
-			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "10");
-			
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "10");
 			incidents.add(copy);
 			
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "01");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(1, "20");
+			incidents.add(copy);
+
 			return incidents;
 			
 			

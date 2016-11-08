@@ -147,6 +147,8 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule453ForRaceOfVictim());
 		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
 		rulesList.add(getRule454ForSexOfVictim());
+		rulesList.add(getRule454ForRaceOfVictim());
+		rulesList.add(getRule454ForAgeOfVictim());
 		rulesList.add(getRule454ForOfficerAssignmentType());
 		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());	
 		rulesList.add(getRule456());
@@ -659,6 +661,10 @@ public class VictimSegmentRulesFactory {
 	
 	Rule<VictimSegment> getRule454ForRaceOfVictim() {
 		return new PersonVictimNotBlankRule<>("race", "28", NIBRSErrorCode._454, TypeOfVictimCode.L.code);
+	}
+	
+	Rule<VictimSegment> getRule454ForAgeOfVictim() {
+		return new PersonVictimNotBlankRule<>("age", "26", NIBRSErrorCode._454, TypeOfVictimCode.L.code);
 	}
 	
 	Rule<VictimSegment> getRule458ForAgeOfVictim() {
