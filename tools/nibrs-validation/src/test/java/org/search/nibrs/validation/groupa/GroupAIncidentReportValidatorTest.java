@@ -363,6 +363,51 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._459, 459);
 	}
 	
+	@Test
+	public void testRule460(){
+		testRule(NIBRSErrorCode._460, 460);
+	}
+	
+	@Test
+	public void testRule461(){
+		testRule(NIBRSErrorCode._461, 461);
+	}
+	
+	@Test
+	public void testRule462(){
+		testRule(NIBRSErrorCode._462, 462);
+	}
+	
+	@Test
+	public void testRule463(){
+		testRule(NIBRSErrorCode._463, 463);
+	}
+	
+	@Test
+	public void testRule464(){
+		testRule(NIBRSErrorCode._464, 464);
+	}
+	
+	@Test
+	public void testRule465(){
+		testRule(NIBRSErrorCode._465, 465);
+	}
+	
+	@Test
+	public void testRule467(){
+		testRule(NIBRSErrorCode._467, 467);
+	}
+	
+	@Test
+	public void testRule468(){
+		testRule(NIBRSErrorCode._468, 468);
+	}
+	
+	@Test
+	public void testRule469(){
+		testRule(NIBRSErrorCode._469, 469);
+	}
+	
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
 		List<GroupAIncidentReport> exemplars = exemplarFactory.getGroupAIncidentsThatViolateRule(ruleNumber);
 		for (GroupAIncidentReport r : exemplars) {

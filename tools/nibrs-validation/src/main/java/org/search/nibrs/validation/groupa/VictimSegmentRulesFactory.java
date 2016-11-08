@@ -160,8 +160,10 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule458ForEthnicityOfVictim());
 		rulesList.add(getRule458ForRaceOfVictim());
 		rulesList.add(getRule459ForOffenderNumberToBeRelated());
+		rulesList.add(getRule460ForRelationshipOfVictimToOffender());
 		rulesList.add(getRule461ForTypeOfVictim());
 		rulesList.add(getRule462());
+		rulesList.add(getRule463());
 		rulesList.add(getRule464ForTypeOfVictim());
 		rulesList.add(getRule465ForTypeOfVictim());
 		rulesList.add(getRule467ForTypeOfVictim());		
