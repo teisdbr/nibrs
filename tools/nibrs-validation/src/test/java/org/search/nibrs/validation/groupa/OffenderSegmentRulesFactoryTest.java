@@ -16,8 +16,8 @@ import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.EthnicityCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.RaceCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
-import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class OffenderSegmentRulesFactoryTest {
@@ -169,6 +169,50 @@ public class OffenderSegmentRulesFactoryTest {
 		offenderSegment.setAgeString("2030");
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
+		
+	}
+	
+	@Test
+	public void testRule550() {
+		
+		Rule<OffenderSegment> rule = rulesFactory.getRule550();
+		
+		OffenderSegment offenderSegment = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) offenderSegment.getParentReport();
+		VictimSegment vs = new VictimSegment();
+		incident.addVictim(vs);
+		
+		NIBRSError nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		offenderSegment.setOffenderSequenceNumber(1);
+		vs.setOffenderNumberRelated(0, 1);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		vs.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		offenderSegment.setAgeString("25  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		offenderSegment.setAgeString("08  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		vs.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.SE.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		assertEquals("37", nibrsError.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._550, nibrsError.getNIBRSErrorCode());
+		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
+		
+		vs.setOffenderNumberRelated(1, 2);
+		vs.setVictimOffenderRelationship(1, RelationshipOfVictimToOffenderCode.AQ.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
 		
 	}
 	

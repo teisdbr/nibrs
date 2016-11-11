@@ -5,17 +5,14 @@ import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
-import org.search.nibrs.model.codes.EthnicityOfOffender;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
-import org.search.nibrs.model.codes.RaceOfOffenderCode;
-import org.search.nibrs.model.codes.SexOfOffenderCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.validation.PersonSegmentRulesFactory;
-import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
-import org.search.nibrs.validation.rules.ValidValueListRule;
 
 public class OffenderSegmentRulesFactory {
 
@@ -116,4 +113,35 @@ public class OffenderSegmentRulesFactory {
 		return personSegmentRulesFactory.getNonZeroAgeRangeMinimumRule("37", NIBRSErrorCode._522);
 	}
 
+	Rule<OffenderSegment> getRule550() {
+		return new Rule<OffenderSegment>() {
+			@Override
+			public NIBRSError apply(OffenderSegment offenderSegment) {
+				NIBRSError e = null;
+				Integer offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber();
+				NIBRSAge age = offenderSegment.getAge();
+				if (age != null && age.getAgeMin() < 10) {
+					GroupAIncidentReport incident = (GroupAIncidentReport) offenderSegment.getParentReport();
+					List<VictimSegment> victims = incident.getVictims();
+					for (int i = 0; i < victims.size() && e == null; i++) {
+						VictimSegment victim = victims.get(i);
+						List<Integer> relatedOffenders = victim.getOffenderNumberRelatedList();
+						for (int j = 0; j < relatedOffenders.size(); j++) {
+							Integer relatedOffender = relatedOffenders.get(j);
+							String relationship = victim.getVictimOffenderRelationship()[j];
+							if (relatedOffender != null && relatedOffender == offenderSequenceNumber && relationship != null &&
+									RelationshipOfVictimToOffenderCode.SE.code.equals(relationship)) {
+								e = offenderSegment.getErrorTemplate();
+								e.setDataElementIdentifier("37");
+								e.setValue(age);
+								e.setNIBRSErrorCode(NIBRSErrorCode._550);
+							}
+						}
+					}
+				}
+				return e;
+			}
+		};
+	}
+	
 }
