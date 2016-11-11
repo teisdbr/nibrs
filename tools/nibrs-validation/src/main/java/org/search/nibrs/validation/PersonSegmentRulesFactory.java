@@ -2,7 +2,10 @@ package org.search.nibrs.validation;
 
 import java.util.Set;
 
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractPersonSegment;
+import org.search.nibrs.model.NIBRSAge;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.EthnicityCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.RaceCode;
@@ -59,4 +62,28 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 	public Rule<T> getEthnicityValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode, boolean allowNull) {
 		return new PersonVictimValidValueRule<T>("ethnicity", dataElementIdentifier, nibrsErrorCode, EthnicityCode.codeSet(), allowNull);
 	}
+	
+	public Rule<T> getProperAgeRangeRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
+		return new Rule<T>() {
+			@Override
+			public NIBRSError apply(T segment) {
+				NIBRSError e = null;
+				NIBRSAge nibrsAge = segment.getAge();
+				if (nibrsAge != null && nibrsAge.isAgeRange()) {
+
+					Integer ageMin = nibrsAge.getAgeMin();
+					Integer ageMax = nibrsAge.getAgeMax();
+
+					if (ageMin > ageMax) {
+						e = segment.getErrorTemplate();
+						e.setDataElementIdentifier(dataElementIdentifier);
+						e.setNIBRSErrorCode(nibrsErrorCode);
+						e.setValue(nibrsAge);
+					}
+				}
+				return e;
+			}
+		};
+	}
+	
 }

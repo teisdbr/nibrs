@@ -104,5 +104,9 @@ public class OffenderSegmentRulesFactory {
 	Rule<OffenderSegment> getRule504ForEthnicityOfOffender() {
 		return personSegmentRulesFactory.getEthnicityValidNonBlankRule("39A", NIBRSErrorCode._504, true);
 	}
+	
+	Rule<OffenderSegment> getRule510() {
+		return personSegmentRulesFactory.getProperAgeRangeRule("37", NIBRSErrorCode._510);
+	}
 
 }

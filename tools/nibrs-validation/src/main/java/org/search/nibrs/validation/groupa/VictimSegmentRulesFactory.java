@@ -499,28 +499,7 @@ public class VictimSegmentRulesFactory {
 	}
 
 	Rule<VictimSegment> getRule410ForAgeOfVictim() {
-		return new Rule<VictimSegment>() {
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-
-				NIBRSError e = null;
-				NIBRSAge nibrsAge = victimSegment.getAge();
-				if (nibrsAge != null && nibrsAge.isAgeRange()) {
-
-					Integer ageMin = nibrsAge.getAgeMin();
-					Integer ageMax = nibrsAge.getAgeMax();
-
-					if (ageMin > ageMax) {
-						e = victimSegment.getErrorTemplate();
-						e.setDataElementIdentifier("26");
-						e.setNIBRSErrorCode(NIBRSErrorCode._410);
-						e.setValue(nibrsAge);
-					}
-					
-				}
-				return e;
-			}
-		};
+		return personSegmentRulesFactory.getProperAgeRangeRule("26", NIBRSErrorCode._410);
 	}
 
 	Rule<VictimSegment> getRule419ForTypeOfInjury() {
