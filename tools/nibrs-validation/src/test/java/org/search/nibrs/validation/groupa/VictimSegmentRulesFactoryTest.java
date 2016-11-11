@@ -526,7 +526,6 @@ public class VictimSegmentRulesFactoryTest {
 		
 	}
 	
-	
 	@Test
 	public void testRule404ForAdditionalJustifiableHomicideCircsumstances() {
 		

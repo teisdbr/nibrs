@@ -34,9 +34,9 @@ public class OffenderSegmentRulesFactory {
 	private void initRulesList(List<Rule<OffenderSegment>> rulesList) {
 		rulesList.add(getRule501());
 		rulesList.add(getRule504ForAgeOfOffender());
-		rulesList.add(sexOfOffenderValidValue504Rule());
-		rulesList.add(raceOfOffenderValidValue504Rule());
-		rulesList.add(ethnicityOfOffenderValidValue504Rule());
+		rulesList.add(getRule504ForSexOfOffender());
+		rulesList.add(getRule504ForRaceOfOffender());
+		rulesList.add(getRule504ForEthnicityOfOffender());
 	}
 
 	public List<Rule<OffenderSegment>> getRulesList() {
@@ -93,32 +93,16 @@ public class OffenderSegmentRulesFactory {
 		return personSegmentRulesFactory.getAgeValidNonBlankRule();
 	}
 
-	public Rule<OffenderSegment> sexOfOffenderValidValue504Rule(){
-		
-		ValidValueListRule<OffenderSegment> validValueListRule = new ValidValueListRule<OffenderSegment>("sex", 
-				"38", OffenderSegment.class, NIBRSErrorCode._504, SexOfOffenderCode.codeSet());
-		
-		return validValueListRule;
+	Rule<OffenderSegment> getRule504ForSexOfOffender() {
+		return personSegmentRulesFactory.getSexValidNonBlankRule("38", NIBRSErrorCode._504);
 	}
-	
-	
-	public Rule<OffenderSegment> raceOfOffenderValidValue504Rule(){
-		
-		ValidValueListRule<OffenderSegment> validValueListRule = new ValidValueListRule<OffenderSegment>("race", 
-				"39", OffenderSegment.class, NIBRSErrorCode._504, RaceOfOffenderCode.codeSet());
-		
-		return validValueListRule;		
+
+	Rule<OffenderSegment> getRule504ForRaceOfOffender() {
+		return personSegmentRulesFactory.getRaceValidNonBlankRule("39", NIBRSErrorCode._504);
 	}
-	
-	public Rule<OffenderSegment> ethnicityOfOffenderValidValue504Rule(){
-		
-		ValidValueListRule<OffenderSegment> validValueListRule = new ValidValueListRule<OffenderSegment>("ethnicity", 
-				"39A", OffenderSegment.class, NIBRSErrorCode._504, EthnicityOfOffender.codeSet());
-		
-		return validValueListRule;
+
+	Rule<OffenderSegment> getRule504ForEthnicityOfOffender() {
+		return personSegmentRulesFactory.getEthnicityValidNonBlankRule("39A", NIBRSErrorCode._504, true);
 	}
-	
+
 }
-
-
-
