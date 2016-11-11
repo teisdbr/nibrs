@@ -557,20 +557,7 @@ public class VictimSegmentRulesFactory {
 	}
 
 	Rule<VictimSegment> getRule422ForAgeOfVictim() {
-		return new Rule<VictimSegment>() {
-			@Override
-			public NIBRSError apply(VictimSegment victimSegment) {
-				NIBRSError e = null;
-				NIBRSAge nibrsAge = victimSegment.getAge();
-				if (nibrsAge != null && nibrsAge.isAgeRange() && nibrsAge.getAgeMin() != null && nibrsAge.getAgeMin() == 00) {
-					e = victimSegment.getErrorTemplate();
-					e.setDataElementIdentifier("26");
-					e.setNIBRSErrorCode(NIBRSErrorCode._422);
-					e.setValue(nibrsAge);
-				}
-				return e;
-			}
-		};
+		return personSegmentRulesFactory.getNonZeroAgeRangeMinimumRule("26", NIBRSErrorCode._422);
 	}
 
 	Rule<VictimSegment> getRule450ForAgeOfVictim() {

@@ -86,4 +86,21 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 		};
 	}
 	
+	public Rule<T> getNonZeroAgeRangeMinimumRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
+		return new Rule<T>() {
+			@Override
+			public NIBRSError apply(T segment) {
+				NIBRSError e = null;
+				NIBRSAge nibrsAge = segment.getAge();
+				if (nibrsAge != null && nibrsAge.isAgeRange() && nibrsAge.getAgeMin() != null && nibrsAge.getAgeMin() == 0) {
+					e = segment.getErrorTemplate();
+					e.setDataElementIdentifier(dataElementIdentifier);
+					e.setNIBRSErrorCode(nibrsErrorCode);
+					e.setValue(nibrsAge);
+				}
+				return e;
+			}
+		};
+	}
+	
 }

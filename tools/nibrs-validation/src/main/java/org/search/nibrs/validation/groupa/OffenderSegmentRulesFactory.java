@@ -6,6 +6,7 @@ import java.util.List;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.EthnicityOfOffender;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -37,6 +38,8 @@ public class OffenderSegmentRulesFactory {
 		rulesList.add(getRule504ForSexOfOffender());
 		rulesList.add(getRule504ForRaceOfOffender());
 		rulesList.add(getRule504ForEthnicityOfOffender());
+		rulesList.add(getRule510());
+		rulesList.add(getRule522());
 	}
 
 	public List<Rule<OffenderSegment>> getRulesList() {
@@ -107,6 +110,10 @@ public class OffenderSegmentRulesFactory {
 	
 	Rule<OffenderSegment> getRule510() {
 		return personSegmentRulesFactory.getProperAgeRangeRule("37", NIBRSErrorCode._510);
+	}
+	
+	Rule<OffenderSegment> getRule522() {
+		return personSegmentRulesFactory.getNonZeroAgeRangeMinimumRule("37", NIBRSErrorCode._522);
 	}
 
 }
