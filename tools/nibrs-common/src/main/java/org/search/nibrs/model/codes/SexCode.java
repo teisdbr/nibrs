@@ -4,25 +4,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Code enum for residence status
+ * Code enum for sex.
  */
-public enum ResidentStatusCode {
-
-	N("N","Nonresident"),
-	R("R","Resident"),
+public enum SexCode {
+	
+	M("M","Male"),
+	F("F","Female"),	
 	U("U","Unknown");
-
-	private ResidentStatusCode(String code, String description) {
+	
+	private SexCode(String code, String description) {
 		this.code = code;
 		this.description = description;
 	}
-
+	
 	public String code;
 	public String description;
 
 	public static Set<String> codeSet() {
 		Set<String> codeSet = new HashSet<String>();
-		for (ResidentStatusCode codeValue : values()) {
+		for(SexCode codeValue : values()){
 			codeSet.add(codeValue.code);
 		}
 		return codeSet;

@@ -3,7 +3,10 @@ package org.search.nibrs.model.codes;
 import java.util.HashSet;
 import java.util.Set;
 
-public enum RaceOfVictimCode {
+/**
+ * Code enum for Race
+ */
+public enum RaceCode {
 	
 	W("W","White"),
 	B("B","Black or African American"),
@@ -12,29 +15,20 @@ public enum RaceOfVictimCode {
 	P("P","Native Hawaiian or Other Pacific Islander"),
 	U("U","Unknown");
 	
-	private RaceOfVictimCode(String code, String description){
-		
+	private RaceCode(String code, String description){
 		this.code = code;
-		
 		this.description = description;
 	}
 	
 	public String code;
-	
 	public String description;
 
-	
-	public static Set<String> codeSet(){		
-		
-		Set<String> rCodeSet = new HashSet<String>();
-		
-		for(RaceOfVictimCode victimCode : values()){
-			
-			String iCode = victimCode.code;
-			
-			rCodeSet.add(iCode);
-		}				
-		return rCodeSet;
+	public static Set<String> codeSet() {
+		Set<String> codeSet = new HashSet<String>();
+		for (RaceCode codeValue : values()) {
+			codeSet.add(codeValue.code);
+		}
+		return codeSet;
 	}
-	
+
 }

@@ -33,7 +33,7 @@ public class OffenderSegment extends AbstractPersonSegment
     public void setOffenderSequenceNumber(Integer offenderSequenceNumber)
     {
         this.offenderSequenceNumber = offenderSequenceNumber;
-        if (offenderSequenceNumber == 0) {
+        if (offenderSequenceNumber != null && offenderSequenceNumber == 0) {
         	reportedUnknown = true;
         }
     }

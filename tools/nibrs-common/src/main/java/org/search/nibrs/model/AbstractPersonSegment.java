@@ -81,6 +81,10 @@ public abstract class AbstractPersonSegment extends AbstractSegment {
 	public void setSex(String sex) {
 	    this.sex = sex;
 	}
+	
+	public boolean isPerson() {
+		return true;
+	}
 
 	@Override
 	public String toString() {

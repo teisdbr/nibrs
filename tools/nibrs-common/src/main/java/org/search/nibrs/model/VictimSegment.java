@@ -190,8 +190,8 @@ public class VictimSegment extends AbstractPersonSegment {
 		return residentStatusOfVictim;
 	}
 
-	public void setResidentStatusOfVictim(String residenceStatusOfVictim) {
-		this.residentStatusOfVictim = residenceStatusOfVictim;
+	public void setResidentStatusOfVictim(String residentStatusOfVictim) {
+		this.residentStatusOfVictim = residentStatusOfVictim;
 	}
 
 	public String getTypeOfVictim() {
@@ -210,6 +210,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		this.victimSequenceNumber = victimSequenceNumber;
 	}
 
+	@Override
 	public boolean isPerson() {
 		return "I".equals(typeOfVictim) || "L".equals(typeOfVictim);
 	}

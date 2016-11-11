@@ -17,14 +17,14 @@ import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AdditionalJustifiableHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
-import org.search.nibrs.model.codes.EthnicityOfVictim;
+import org.search.nibrs.model.codes.EthnicityCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.OfficerAssignmentType;
-import org.search.nibrs.model.codes.RaceOfVictimCode;
+import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
-import org.search.nibrs.model.codes.SexOfVictimCode;
+import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
@@ -223,7 +223,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("27", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 		
-		victimSegment.setSex(SexOfVictimCode.M.code);
+		victimSegment.setSex(SexCode.M.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 	}
@@ -233,7 +233,7 @@ public class VictimSegmentRulesFactoryTest {
 
 		Rule<VictimSegment> rule = victimRulesFactory.getRule453ForRaceOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		victimSegment.setTypeOfVictim(RaceOfVictimCode.I.code);
+		victimSegment.setTypeOfVictim(RaceCode.I.code);
 		victimSegment.setRace(null);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
@@ -241,7 +241,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("28", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 
-		victimSegment.setTypeOfVictim(RaceOfVictimCode.P.code);
+		victimSegment.setTypeOfVictim(RaceCode.P.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 
@@ -261,7 +261,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 		assertEquals("29", nibrsError.getDataElementIdentifier());
 		assertEquals("invalid", nibrsError.getValue());
-		victimSegment.setEthnicity(EthnicityOfVictim.N.code);
+		victimSegment.setEthnicity(EthnicityCode.N.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 	}
@@ -411,7 +411,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
 		assertEquals("27", nibrsError.getDataElementIdentifier());
 
-		victimSegment.setSex(SexOfVictimCode.M.code);
+		victimSegment.setSex(SexCode.M.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 		
@@ -434,7 +434,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._454, nibrsError.getNIBRSErrorCode());
 		assertEquals("28", nibrsError.getDataElementIdentifier());
 
-		victimSegment.setRace(RaceOfVictimCode.A.code);
+		victimSegment.setRace(RaceCode.A.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 		
@@ -495,7 +495,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertNotNull(nibrsError);
 		assertEquals("invalid", nibrsError.getValue());
 		
-		victimSegment.setSex(SexOfVictimCode.F.code);
+		victimSegment.setSex(SexCode.F.code);
 		nibrsError = sexOfVictim404Rule.apply(victimSegment);
 		assertNull(nibrsError);
 
@@ -520,7 +520,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertNotNull(nibrsError);
 		assertEquals("invalid", nibrsError.getValue());
 		
-		victimSegment.setRace(RaceOfVictimCode.A.code);
+		victimSegment.setRace(RaceCode.A.code);
 		nibrsError = raceOfVictim404Rule.apply(victimSegment);
 		assertNull(nibrsError);
 		
@@ -662,12 +662,12 @@ public class VictimSegmentRulesFactoryTest {
 		VictimSegment victimSegment = getBasicVictimSegment();
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
-		victimSegment.setEthnicity(EthnicityOfVictim.H.code);
+		victimSegment.setEthnicity(EthnicityCode.H.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 		assertEquals("29", nibrsError.getDataElementIdentifier());
-		assertEquals(EthnicityOfVictim.H.code, nibrsError.getValue());
+		assertEquals(EthnicityCode.H.code, nibrsError.getValue());
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
@@ -736,12 +736,12 @@ public class VictimSegmentRulesFactoryTest {
 		VictimSegment victimSegment = getBasicVictimSegment();
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
-		victimSegment.setSex(SexOfVictimCode.F.code);
+		victimSegment.setSex(SexCode.F.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 		assertEquals("27", nibrsError.getDataElementIdentifier());
-		assertEquals(SexOfVictimCode.F.code, nibrsError.getValue());
+		assertEquals(SexCode.F.code, nibrsError.getValue());
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
@@ -757,12 +757,12 @@ public class VictimSegmentRulesFactoryTest {
 		VictimSegment victimSegment = getBasicVictimSegment();
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
-		victimSegment.setRace(RaceOfVictimCode.A.code);
+		victimSegment.setRace(RaceCode.A.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());
 		assertEquals("28", nibrsError.getDataElementIdentifier());
-		assertEquals(RaceOfVictimCode.A.code, nibrsError.getValue());
+		assertEquals(RaceCode.A.code, nibrsError.getValue());
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
@@ -849,14 +849,14 @@ public class VictimSegmentRulesFactoryTest {
 	public void testRule469() {
 		Rule<VictimSegment> rule = victimRulesFactory.getRule469ForSexOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		victimSegment.setSex(SexOfVictimCode.U.code);
+		victimSegment.setSex(SexCode.U.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._11A.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._469, nibrsError.getNIBRSErrorCode());
 		assertEquals("27", nibrsError.getDataElementIdentifier());
-		assertEquals(SexOfVictimCode.U.code, nibrsError.getValue());
-		victimSegment.setSex(SexOfVictimCode.M.code);
+		assertEquals(SexCode.U.code, nibrsError.getValue());
+		victimSegment.setSex(SexCode.M.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 	}

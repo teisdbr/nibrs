@@ -74,20 +74,16 @@ public class GroupAIncidentReportValidator {
 				}
 			}
 		}
-		
-		for(Rule<VictimSegment> victimRule : victimSegmentRuleList){
-			
-			for(VictimSegment victimSegment : groupAIncidentReport.getVictims()){
-				
+
+		for (Rule<VictimSegment> victimRule : victimSegmentRuleList) {
+			for (VictimSegment victimSegment : groupAIncidentReport.getVictims()) {
 				NIBRSError nibrsError = victimRule.apply(victimSegment);
-				
-				if(nibrsError != null){
-					
+				if (nibrsError != null) {
 					ret.add(nibrsError);
 				}
-			}						
+			}
 		}
-		
+
 		return ret;
 		
 	}

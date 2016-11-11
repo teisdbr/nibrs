@@ -4,15 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Code enum for residence status
+ * Code enum for ethnicity
  */
-public enum ResidentStatusCode {
+public enum EthnicityCode {
 
-	N("N","Nonresident"),
-	R("R","Resident"),
+	H("H","Hispanic or Latino"),
+	N("N","Not Hispanic or Latino"),
 	U("U","Unknown");
 
-	private ResidentStatusCode(String code, String description) {
+	private EthnicityCode(String code, String description) {
 		this.code = code;
 		this.description = description;
 	}
@@ -22,10 +22,9 @@ public enum ResidentStatusCode {
 
 	public static Set<String> codeSet() {
 		Set<String> codeSet = new HashSet<String>();
-		for (ResidentStatusCode codeValue : values()) {
+		for (EthnicityCode codeValue : values()) {
 			codeSet.add(codeValue.code);
 		}
 		return codeSet;
 	}
-	
 }
