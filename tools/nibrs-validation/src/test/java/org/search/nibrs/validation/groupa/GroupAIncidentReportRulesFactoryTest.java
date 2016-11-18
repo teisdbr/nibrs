@@ -27,7 +27,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._101, e.getNIBRSErrorCode());
 		assertNull(e.getValue());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getSource(), e.getContext());
 		assertEquals("1", e.getDataElementIdentifier());
 		report.setOri("Not blank");
@@ -75,7 +75,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule104.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getCargoTheftIndicator(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 		
@@ -83,7 +83,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule104.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getCargoTheftIndicator(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 		
@@ -103,7 +103,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule104.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getMonthOfTape(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -122,7 +122,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule104.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getYearOfTape(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -141,7 +141,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule104.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getReportDateIndicator(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -154,7 +154,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		NIBRSError e = rule115.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._115, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getIncidentNumber(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 		report.setIncidentNumber("A");
@@ -194,7 +194,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule117.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._117, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getIncidentNumber(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -215,7 +215,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule119.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._119, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getCargoTheftIndicator(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -234,7 +234,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule152.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._152, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getIncidentHour(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -274,7 +274,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule170.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._170, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getIncidentDate(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -300,7 +300,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule171.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._171, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getIncidentDate(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -326,7 +326,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule172.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._172, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getIncidentDate(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -346,7 +346,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		NIBRSError e = rule153.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._153, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getExceptionalClearanceCode(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -370,7 +370,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		NIBRSError e = rule155.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._155, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getExceptionalClearanceDate(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
@@ -390,7 +390,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		NIBRSError e = rule156.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._156, e.getNIBRSErrorCode());
-		assertEquals('1', e.getSegmentType());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getExceptionalClearanceCode(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}

@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 public class GroupAIncidentReport extends AbstractReport
 {
     
+	public static final char ADMIN_SEGMENT_TYPE_IDENTIFIER = '1';
+
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReport.class);
 	
@@ -35,7 +37,7 @@ public class GroupAIncidentReport extends AbstractReport
 
 	public GroupAIncidentReport()
     {
-		super('1');
+		super(ADMIN_SEGMENT_TYPE_IDENTIFIER);
         removeOffenses();
         removeProperties();
         removeVictims();

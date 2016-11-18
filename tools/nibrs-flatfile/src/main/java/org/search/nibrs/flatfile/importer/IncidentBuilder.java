@@ -79,7 +79,7 @@ public class IncidentBuilder {
 			errorList.addAll(segmentErrors);
 			if (segmentErrors.isEmpty()) {
 				char level = s.getSegmentLevel();
-				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER || level == '1' || level == '7') {
+				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER || level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER || level == '7') {
 					handleNewReport(currentReport);
 					currentReport = buildReport(errorList, s, readerLocationName);
 				} else {
@@ -107,7 +107,7 @@ public class IncidentBuilder {
 		int errorListSize = errorList.size();
 		AbstractReport ret = null;
 		char level = s.getSegmentLevel();
-		if (level == '1') {
+		if (level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER) {
 			ret = buildGroupAIncidentSegment(s, errorList);
 		} else if (level == '7') {
 			ret = buildGroupBIncidentReport(s, errorList);
