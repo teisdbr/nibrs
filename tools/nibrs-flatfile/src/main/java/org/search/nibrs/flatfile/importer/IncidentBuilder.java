@@ -273,7 +273,7 @@ public class IncidentBuilder {
 		case VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER:
 			currentIncident.addVictim(buildVictimSegment(s, currentIncident, errorList));
 			break;
-		case '5':
+		case OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER:
 			currentIncident.addOffender(buildOffenderSegment(s, errorList));
 			break;
 		case '6':

@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.*;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.importer.Segment;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
 
 public class TestSegment
@@ -81,7 +82,7 @@ public class TestSegment
         String segment = "00455I022003    TN0390500111502      0100  UU";
         Segment s = new Segment();
         assertEquals(0, s.setData(1, segment).size());
-        assertEquals('5', s.getSegmentType());
+        assertEquals(OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER, s.getSegmentType());
         assertEquals('I', s.getActionType());
         assertEquals("111502", s.getSegmentUniqueIdentifier());
         assertEquals("TN0390500", s.getOri());

@@ -7,19 +7,20 @@ package org.search.nibrs.model;
 public class OffenderSegment extends AbstractPersonSegment
 {
     
+	public static final char OFFENDER_SEGMENT_TYPE_IDENTIFIER = '5';
 	private Integer offenderSequenceNumber;
     private boolean reportedUnknown;
     
     public OffenderSegment() {
     	super();
-    	segmentType = '5';
+    	segmentType = OFFENDER_SEGMENT_TYPE_IDENTIFIER;
     }
     
     public OffenderSegment(OffenderSegment o) {
     	super(o);
     	offenderSequenceNumber = o.offenderSequenceNumber;
     	reportedUnknown = o.reportedUnknown;
-    	segmentType = '5';
+    	segmentType = OFFENDER_SEGMENT_TYPE_IDENTIFIER;
     }
     
     public boolean getReportedUnknown() {
