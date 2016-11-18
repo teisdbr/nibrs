@@ -41,6 +41,9 @@ public class NIBRSAge {
 	}
 	
 	void setAgeString(String ageString, char segmentContext) {
+		nonNumericAge = null;
+		ageMin = null;
+		ageMax = null;
 		if (ageString != null) {
 			String ageStringTrim = ageString.trim();
 			if (ageStringTrim.length() == 4) {
@@ -95,6 +98,10 @@ public class NIBRSAge {
 		return error == null && nonNumericAge != null;
 	}
 	
+	public boolean isUnknown() {
+		return "00".equals(nonNumericAge);
+	}
+	
 	public boolean isAgeRange() {
 		
 		boolean isAgeRange = false;
@@ -127,6 +134,48 @@ public class NIBRSAge {
 	@Override
 	public String toString() {
 		return isNonNumeric() ? getNonNumericAge() : (isAgeRange() ? ageMin + "-" + ageMax : ageMin.toString());
+	}
+
+	public boolean isYoungerThan(NIBRSAge age, boolean lenientRange) {
+		if (age == null) {
+			throw new IllegalArgumentException("Cannot compare to null age");
+		}
+		int[] thisDays = convertAgeToDays();
+		int[] thatDays = age.convertAgeToDays();
+		int thatComp = lenientRange ? thatDays[1] : thatDays[0];
+		int thisComp = lenientRange ? thisDays[0] : thisDays[1];
+		return thisComp < thatComp;
+	}
+
+	public boolean isOlderThan(NIBRSAge age, boolean lenientRange) {
+		if (age == null) {
+			throw new IllegalArgumentException("Cannot compare to null age");
+		}
+		int[] thisDays = convertAgeToDays();
+		int[] thatDays = age.convertAgeToDays();
+		int thatComp = lenientRange ? thatDays[0] : thatDays[1];
+		int thisComp = lenientRange ? thisDays[1] : thisDays[0];
+		return thisComp > thatComp;
+	}
+	
+	int[] convertAgeToDays() {
+		int[] ret = new int[2];
+		if (isNonNumeric()) {
+			if ("NN".equals(nonNumericAge)) {
+				ret[0] = 0;
+				ret[1] = 0;
+			} else if ("NB".equals(nonNumericAge)) {
+				ret[0] = 1;
+				ret[1] = 1;
+			} else if ("BB".equals(nonNumericAge)) {
+				ret[0] = 7;
+				ret[1] = 7;
+			}
+		} else {
+			ret[0] = ageMin*365;
+			ret[1] = ageMax*365;
+		}
+		return ret;
 	}
 
 }

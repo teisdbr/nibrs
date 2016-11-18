@@ -214,5 +214,26 @@ public class OffenderSegmentRulesFactory {
 		};
 	}
 	
+	Rule<OffenderSegment> getRule554() {
+		return new RelatedVictimAndOffenderRule() {
+			@Override
+			protected NIBRSError validateRelatedVictimAndOffender(OffenderSegment offenderSegment, VictimSegment victimSegment, String relationship) {
+				NIBRSAge offenderAge = offenderSegment.getAge();
+				NIBRSAge victimAge = victimSegment.getAge();
+				NIBRSError e = null;
+				if (((RelationshipOfVictimToOffenderCode.PA.code.equals(relationship) ||  RelationshipOfVictimToOffenderCode.GP.code.equals(relationship)) &&
+						offenderAge != null && victimAge != null && !offenderAge.isUnknown() && !victimAge.isUnknown() && !victimAge.isOlderThan(offenderAge, true)) ||
+					((RelationshipOfVictimToOffenderCode.CH.code.equals(relationship) ||  RelationshipOfVictimToOffenderCode.GC.code.equals(relationship)) &&
+						offenderAge != null && victimAge != null && !offenderAge.isUnknown() && !victimAge.isUnknown() && !victimAge.isYoungerThan(offenderAge, true))) {
+					e = offenderSegment.getErrorTemplate();
+					e.setDataElementIdentifier("37");
+					e.setValue(offenderAge);
+					e.setNIBRSErrorCode(NIBRSErrorCode._554);
+				}
+				return e;
+			}
+		};
+	}
+	
 	
 }

@@ -295,6 +295,59 @@ public class OffenderSegmentRulesFactoryTest {
 		
 	}
 	
+	@Test
+	public void testRule554() {
+		
+		Rule<OffenderSegment> rule = rulesFactory.getRule554();
+		
+		OffenderSegment offenderSegment = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) offenderSegment.getParentReport();
+		VictimSegment victimSegment = new VictimSegment();
+		incident.addVictim(victimSegment);
+		
+		NIBRSError nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+
+		offenderSegment.setOffenderSequenceNumber(1);
+		victimSegment.setOffenderNumberRelated(0, 1);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.PA.code);
+		victimSegment.setAgeString("00  ");
+		offenderSegment.setAgeString("00  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+
+		victimSegment.setAgeString("20  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		victimSegment.setAgeString("00  ");
+		offenderSegment.setAgeString("20  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+
+		victimSegment.setAgeString("50  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		victimSegment.setAgeString("10  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._554, nibrsError.getNIBRSErrorCode());
+		assertEquals("37", nibrsError.getDataElementIdentifier());
+		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
+		
+		offenderSegment.setAgeString("2030");
+		victimSegment.setAgeString("1015");
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		victimSegment.setAgeString("1025");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+	}
+	
 	private OffenderSegment buildBaseSegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();
