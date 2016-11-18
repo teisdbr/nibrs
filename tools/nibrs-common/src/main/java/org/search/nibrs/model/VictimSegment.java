@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class VictimSegment extends AbstractPersonSegment {
 
+	public static final char VICTIM_SEGMENT_TYPE_IDENTIFIER = '4';
 	public static final int UCR_OFFENSE_CODE_CONNECTION_COUNT = 10;
 	public static final int AGGRAVATED_ASSAULT_HOMICIDE_CIRCUMSTANCES_COUNT = 2;
 	public static final int TYPE_OF_INJURY_COUNT = 5;
@@ -41,7 +42,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		initTypeOfInjury();
 		initOffenderNumberRelated();
 		initVictimOffenderRelationship();
-		segmentType = '4';
+		segmentType = VICTIM_SEGMENT_TYPE_IDENTIFIER;
 	}
 
 	public VictimSegment(VictimSegment v) {
@@ -62,7 +63,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		typeOfInjury = CopyUtils.copyArray(v.typeOfInjury);
 		offenderNumberRelated = CopyUtils.copyArray(v.offenderNumberRelated);
 		victimOffenderRelationship = CopyUtils.copyArray(v.victimOffenderRelationship);
-		segmentType = '4';
+		segmentType = VICTIM_SEGMENT_TYPE_IDENTIFIER;
 	}
 
 	public String getTypeOfOfficerActivityCircumstance() {

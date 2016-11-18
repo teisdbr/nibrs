@@ -270,7 +270,7 @@ public class IncidentBuilder {
 		case '3':
 			currentIncident.addProperty(buildPropertySegment(s, errorList));
 			break;
-		case '4':
+		case VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER:
 			currentIncident.addVictim(buildVictimSegment(s, currentIncident, errorList));
 			break;
 		case '5':
