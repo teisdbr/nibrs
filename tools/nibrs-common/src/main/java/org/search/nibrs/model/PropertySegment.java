@@ -10,6 +10,11 @@ import java.util.Date;
 public class PropertySegment extends AbstractSegment
 {
     
+	public static final int SUSPECTED_DRUG_TYPE_COUNT = 3;
+	public static final int DATE_RECOVERED_COUNT = 10;
+	public static final int VALUE_OF_PROPERTY_COUNT = 10;
+	public static final int PROPERTY_DESCRIPTION_COUNT = 10;
+
 	public static final char PROPERTY_SEGMENT_TYPE_IDENTIFIER = '3';
 	
 	private String typeOfPropertyLoss;
@@ -28,12 +33,12 @@ public class PropertySegment extends AbstractSegment
     public PropertySegment()
     {
     	super();
-        propertyDescription = new String[10];
-        valueOfProperty = new Integer[10];
-        dateRecovered = new Date[10];
-        suspectedDrugType = new String[3];
-        estimatedDrugQuantity = new Double[3];
-        typeDrugMeasurement = new String[3];
+        propertyDescription = new String[PROPERTY_DESCRIPTION_COUNT];
+        valueOfProperty = new Integer[VALUE_OF_PROPERTY_COUNT];
+        dateRecovered = new Date[DATE_RECOVERED_COUNT];
+        suspectedDrugType = new String[SUSPECTED_DRUG_TYPE_COUNT];
+        estimatedDrugQuantity = new Double[SUSPECTED_DRUG_TYPE_COUNT];
+        typeDrugMeasurement = new String[SUSPECTED_DRUG_TYPE_COUNT];
         segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
     }
     

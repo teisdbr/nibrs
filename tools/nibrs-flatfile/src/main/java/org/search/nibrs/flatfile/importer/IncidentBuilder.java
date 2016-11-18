@@ -417,16 +417,20 @@ public class IncidentBuilder {
 
 			newProperty.setTypeOfPropertyLoss(StringUtils.getStringBetween(38, 38, segmentData));
 
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < PropertySegment.PROPERTY_DESCRIPTION_COUNT; i++) {
 				newProperty.setPropertyDescription(i, StringUtils.getStringBetween(39 + 19 * i, 40 + 19 * i, segmentData));
+			}
+			for (int i = 0; i < PropertySegment.VALUE_OF_PROPERTY_COUNT; i++) {
 				newProperty.setValueOfProperty(i, StringUtils.getIntegerBetween(41 + 19 * i, 49 + 19 * i, segmentData));
+			}
+			for (int i = 0; i < PropertySegment.DATE_RECOVERED_COUNT; i++) {
 				newProperty.setDateRecovered(i, StringUtils.getDateBetween(50 + 19 * i, 57 + 19 * i, segmentData));
 			}
 
 			newProperty.setNumberOfStolenMotorVehicles(StringUtils.getIntegerBetween(229, 230, segmentData));
 			newProperty.setNumberOfRecoveredMotorVehicles(StringUtils.getIntegerBetween(231, 232, segmentData));
 
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < PropertySegment.SUSPECTED_DRUG_TYPE_COUNT; i++) {
 				newProperty.setSuspectedDrugType(i, StringUtils.getStringBetween(233 + 15 * i, 233 + 15 * i, segmentData));
 				String drugQuantityWholePartString = StringUtils.getStringBetween(234 + 15 * i, 242 + 15 * i, segmentData);
 				String drugQuantityFractionalPartString = StringUtils.getStringBetween(243 + 15 * i, 245 + 15 * i, segmentData);
