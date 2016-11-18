@@ -6,8 +6,10 @@ package org.search.nibrs.model;
  */
 public class ZeroReport extends AbstractReport {
 
+	public static final char ZERO_REPORT_TYPE_IDENTIFIER = '0';
+
 	public ZeroReport() {
-        super('0');
+        super(ZERO_REPORT_TYPE_IDENTIFIER);
 	}
 	
 	public ZeroReport(ZeroReport z) {

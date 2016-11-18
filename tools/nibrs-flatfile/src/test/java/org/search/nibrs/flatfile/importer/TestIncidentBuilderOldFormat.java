@@ -100,7 +100,7 @@ public class TestIncidentBuilderOldFormat
     public void testZeroReport() {
     	ZeroReport report = incidentListener.getZeroReportList().get(0);
     	assertEquals("TN0380100", report.getOri());
-    	assertEquals('0', report.getAdminSegmentLevel());
+    	assertEquals(ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER, report.getAdminSegmentLevel());
     	assertEquals('I', report.getReportActionType());
     	assertEquals(getClass().getName(), report.getSource().getSourceName());
     }
