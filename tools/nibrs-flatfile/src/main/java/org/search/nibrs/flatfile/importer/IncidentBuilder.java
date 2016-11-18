@@ -264,7 +264,7 @@ public class IncidentBuilder {
 	private final void addSegmentToIncident(GroupAIncidentReport currentIncident, Segment s, List<NIBRSError> errorList) {
 		char segmentType = s.getSegmentType();
 		switch (segmentType) {
-		case '2':
+		case OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER:
 			currentIncident.addOffense(buildOffenseSegment(s, errorList));
 			break;
 		case '3':

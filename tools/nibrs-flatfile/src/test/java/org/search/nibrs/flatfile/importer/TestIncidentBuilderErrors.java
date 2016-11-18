@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
@@ -124,7 +125,7 @@ public class TestIncidentBuilderErrors {
         List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
-        assertEquals('2', e.getSegmentType());
+        assertEquals(OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
         assertEquals(2, e.getContext());
         assertEquals(70, e.getValue());
         

@@ -9,6 +9,8 @@ import java.util.Arrays;
 public class OffenseSegment extends AbstractSegment
 {
 
+	public static final char OFFENSE_SEGMENT_TYPE_IDENTIFIER = '2';
+	
 	private String ucrOffenseCode;
     private String offenseAttemptedCompleted;
     private String[] offendersSuspectedOfUsing;
@@ -32,7 +34,7 @@ public class OffenseSegment extends AbstractSegment
         typeOfWeaponForceInvolved = new String[3];
         automaticWeaponIndicator = new String[3];
         biasMotivation = new String[5];
-        segmentType = '2';
+        segmentType = OFFENSE_SEGMENT_TYPE_IDENTIFIER;
     }
     
     public OffenseSegment(OffenseSegment o) {
@@ -51,7 +53,7 @@ public class OffenseSegment extends AbstractSegment
     	typeOfWeaponForceInvolved = CopyUtils.copyArray(o.typeOfWeaponForceInvolved);
     	automaticWeaponIndicator = CopyUtils.copyArray(o.automaticWeaponIndicator);
     	biasMotivation = CopyUtils.copyArray(o.biasMotivation);
-        segmentType = '2';
+        segmentType = OFFENSE_SEGMENT_TYPE_IDENTIFIER;
     }
     
     public int getPopulatedOffendersSuspectedOfUsingCount() {
