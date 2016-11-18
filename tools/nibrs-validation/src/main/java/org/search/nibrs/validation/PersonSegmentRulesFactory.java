@@ -5,7 +5,6 @@ import java.util.Set;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractPersonSegment;
 import org.search.nibrs.model.NIBRSAge;
-import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.EthnicityCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.RaceCode;

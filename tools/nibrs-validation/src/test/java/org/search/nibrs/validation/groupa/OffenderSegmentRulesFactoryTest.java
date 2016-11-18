@@ -246,6 +246,55 @@ public class OffenderSegmentRulesFactoryTest {
 		assertNull(e);
 	}
 	
+	@Test
+	public void testRule553() {
+		
+		Rule<OffenderSegment> rule = rulesFactory.getRule553();
+		
+		OffenderSegment offenderSegment = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) offenderSegment.getParentReport();
+		VictimSegment victimSegment = new VictimSegment();
+		incident.addVictim(victimSegment);
+		
+		NIBRSError nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+
+		offenderSegment.setOffenderSequenceNumber(1);
+		victimSegment.setOffenderNumberRelated(0, 1);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.HR.code);
+		victimSegment.setSex(SexCode.M.code);
+		offenderSegment.setSex(SexCode.F.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		assertEquals("38", nibrsError.getDataElementIdentifier());
+		assertEquals(SexCode.F.code, nibrsError.getValue());
+		assertEquals(NIBRSErrorCode._553, nibrsError.getNIBRSErrorCode());
+		
+		offenderSegment.setSex(SexCode.M.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.SE.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.BG.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.XS.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+	}
+	
 	private OffenderSegment buildBaseSegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();
