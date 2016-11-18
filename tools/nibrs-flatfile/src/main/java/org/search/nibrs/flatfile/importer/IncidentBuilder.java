@@ -466,16 +466,22 @@ public class IncidentBuilder {
 			newOffense.setNumberOfPremisesEntered(StringUtils.getIntegerBetween(47, 48, segmentData));
 			newOffense.setMethodOfEntry(StringUtils.getStringBetween(49, 49, segmentData));
 
-			int biasMotivationFields = length == 63 ? 1 : 5;
+			int biasMotivationFields = length == 63 ? 1 : OffenseSegment.BIAS_MOTIVATION_COUNT;
 
 			for (int i = 0; i < biasMotivationFields; i++) {
 				newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62 + i, 63 + i, segmentData));
 			}
 
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < OffenseSegment.OFFENDERS_SUSPECTED_OF_USING_COUNT; i++) {
 				newOffense.setOffendersSuspectedOfUsing(i, StringUtils.getStringBetween(42 + i, 42 + i, segmentData));
+			}
+			for (int i = 0; i < OffenseSegment.TYPE_OF_CRIMINAL_ACTIVITY_COUNT; i++) {
 				newOffense.setTypeOfCriminalActivity(i, StringUtils.getStringBetween(50 + i, 50 + i, segmentData));
+			}
+			for (int i = 0; i < OffenseSegment.TYPE_OF_WEAPON_FORCE_INVOLVED_COUNT; i++) {
 				newOffense.setTypeOfWeaponForceInvolved(i, StringUtils.getStringBetween(53 + 3 * i, 54 + 3 * i, segmentData));
+			}
+			for (int i = 0; i < OffenseSegment.AUTOMATIC_WEAPON_INDICATOR_COUNT; i++) {
 				newOffense.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(55 + 3 * i, 55 + 3 * i, segmentData));
 			}
 

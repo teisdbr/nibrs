@@ -9,6 +9,12 @@ import java.util.Arrays;
 public class OffenseSegment extends AbstractSegment
 {
 
+	public static final int BIAS_MOTIVATION_COUNT = 5;
+	public static final int AUTOMATIC_WEAPON_INDICATOR_COUNT = 3;
+	public static final int TYPE_OF_WEAPON_FORCE_INVOLVED_COUNT = 3;
+	public static final int TYPE_OF_CRIMINAL_ACTIVITY_COUNT = 3;
+	public static final int OFFENDERS_SUSPECTED_OF_USING_COUNT = 3;
+
 	public static final char OFFENSE_SEGMENT_TYPE_IDENTIFIER = '2';
 	
 	private String ucrOffenseCode;
@@ -29,11 +35,11 @@ public class OffenseSegment extends AbstractSegment
     public OffenseSegment()
     {
     	super();
-        offendersSuspectedOfUsing = new String[3];
-        typeOfCriminalActivity = new String[3];
-        typeOfWeaponForceInvolved = new String[3];
-        automaticWeaponIndicator = new String[3];
-        biasMotivation = new String[5];
+        offendersSuspectedOfUsing = new String[OFFENDERS_SUSPECTED_OF_USING_COUNT];
+        typeOfCriminalActivity = new String[TYPE_OF_CRIMINAL_ACTIVITY_COUNT];
+        typeOfWeaponForceInvolved = new String[TYPE_OF_WEAPON_FORCE_INVOLVED_COUNT];
+        automaticWeaponIndicator = new String[AUTOMATIC_WEAPON_INDICATOR_COUNT];
+        biasMotivation = new String[BIAS_MOTIVATION_COUNT];
         segmentType = OFFENSE_SEGMENT_TYPE_IDENTIFIER;
     }
     
