@@ -12,10 +12,25 @@ import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.validation.PersonSegmentRulesFactory;
+import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.Rule;
 
 public class OffenderSegmentRulesFactory {
 
+	private static final class UnknownOffenderDemographicsRule extends AbstractBeanPropertyRule<OffenderSegment> {
+
+		public UnknownOffenderDemographicsRule(String propertyName, String dataElementIdentifier) {
+			super(propertyName, dataElementIdentifier, OffenderSegment.class, NIBRSErrorCode._552);
+		}
+
+		@Override
+		protected boolean propertyViolatesRule(Object value, OffenderSegment subject) {
+			Integer sequenceNumber = subject.getOffenderSequenceNumber();
+			return sequenceNumber != null && sequenceNumber == 0 && value != null;
+		}
+		
+	}
+	
 	private List<Rule<OffenderSegment>> rulesList;
 	private PersonSegmentRulesFactory<OffenderSegment> personSegmentRulesFactory;
 	
@@ -37,6 +52,10 @@ public class OffenderSegmentRulesFactory {
 		rulesList.add(getRule504ForEthnicityOfOffender());
 		rulesList.add(getRule510());
 		rulesList.add(getRule522());
+		rulesList.add(getRule552ForAge());
+		rulesList.add(getRule552ForSex());
+		rulesList.add(getRule552ForRace());
+		rulesList.add(getRule552ForEthnicity());
 	}
 
 	public List<Rule<OffenderSegment>> getRulesList() {
@@ -142,6 +161,22 @@ public class OffenderSegmentRulesFactory {
 				return e;
 			}
 		};
+	}
+	
+	Rule<OffenderSegment> getRule552ForAge() {
+		return new UnknownOffenderDemographicsRule("age", "37");
+	}
+	
+	Rule<OffenderSegment> getRule552ForSex() {
+		return new UnknownOffenderDemographicsRule("sex", "38");
+	}
+	
+	Rule<OffenderSegment> getRule552ForRace() {
+		return new UnknownOffenderDemographicsRule("race", "39");
+	}
+	
+	Rule<OffenderSegment> getRule552ForEthnicity() {
+		return new UnknownOffenderDemographicsRule("ethnicity", "39A");
 	}
 	
 }
