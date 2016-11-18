@@ -371,6 +371,42 @@ public class OffenderSegmentRulesFactoryTest {
 		assertEquals("37", nibrsError.getDataElementIdentifier());
 	}
 	
+	@Test
+	public void testRule572() {
+		
+		Rule<OffenderSegment> rule = rulesFactory.getRule572();
+		
+		OffenderSegment offenderSegment = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) offenderSegment.getParentReport();
+		VictimSegment victimSegment = new VictimSegment();
+		incident.addVictim(victimSegment);
+		
+		NIBRSError nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+
+		offenderSegment.setOffenderSequenceNumber(1);
+		victimSegment.setOffenderNumberRelated(0, 1);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.PA.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._572, nibrsError.getNIBRSErrorCode());
+		assertEquals(RelationshipOfVictimToOffenderCode.PA.code, nibrsError.getValue());
+		assertEquals("35", nibrsError.getDataElementIdentifier());
+
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.RU.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.PA.code);
+		offenderSegment.setSex(SexCode.M.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+	}
+	
 	private OffenderSegment buildBaseSegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();

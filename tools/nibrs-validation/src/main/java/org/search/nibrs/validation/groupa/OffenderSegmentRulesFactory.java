@@ -252,4 +252,21 @@ public class OffenderSegmentRulesFactory {
 		};
 	}
 	
+	Rule<OffenderSegment> getRule572() {
+		return new RelatedVictimAndOffenderRule() {
+			@Override
+			protected NIBRSError validateRelatedVictimAndOffender(OffenderSegment offenderSegment, VictimSegment victimSegment, String relationship) {
+				NIBRSError e = null;
+				if (!RelationshipOfVictimToOffenderCode.RU.code.equals(relationship) &&
+						offenderSegment.getAge() == null && offenderSegment.getSex() == null && offenderSegment.getRace() == null) {
+					e = offenderSegment.getErrorTemplate();
+					e.setDataElementIdentifier("35");
+					e.setValue(relationship);
+					e.setNIBRSErrorCode(NIBRSErrorCode._572);
+				}
+				return e;
+			}
+		};
+	}
+	
 }
