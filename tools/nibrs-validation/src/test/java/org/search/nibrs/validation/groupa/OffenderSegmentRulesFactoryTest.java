@@ -348,6 +348,29 @@ public class OffenderSegmentRulesFactoryTest {
 		
 	}
 	
+	@Test
+	public void testRule556() {
+		Rule<OffenderSegment> rule = rulesFactory.getRule556();
+		OffenderSegment offenderSegment = buildBaseSegment();
+		NIBRSError nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		offenderSegment.setAgeString("20  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		offenderSegment.setAgeString("00  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		offenderSegment.setAgeString("2535");
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		offenderSegment.setAgeString("NB  ");
+		nibrsError = rule.apply(offenderSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._556, nibrsError.getNIBRSErrorCode());
+		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
+		assertEquals("37", nibrsError.getDataElementIdentifier());
+	}
+	
 	private OffenderSegment buildBaseSegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();

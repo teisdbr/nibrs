@@ -235,5 +235,21 @@ public class OffenderSegmentRulesFactory {
 		};
 	}
 	
+	Rule<OffenderSegment> getRule556() {
+		return new Rule<OffenderSegment>() {
+			@Override
+			public NIBRSError apply(OffenderSegment offenderSegment) {
+				NIBRSError e = null;
+				NIBRSAge age = offenderSegment.getAge();
+				if (age != null && !age.isUnknown() && age.isNonNumeric()) {
+					e = offenderSegment.getErrorTemplate();
+					e.setDataElementIdentifier("37");
+					e.setNIBRSErrorCode(NIBRSErrorCode._556);
+					e.setValue(age);
+				}
+				return e;
+			}
+		};
+	}
 	
 }
