@@ -359,9 +359,13 @@ public class IncidentBuilder {
 
 			newVictim.setVictimSequenceNumber(StringUtils.getIntegerBetween(38, 40, segmentData));
 
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < VictimSegment.UCR_OFFENSE_CODE_CONNECTION_COUNT; i++) {
 				newVictim.setUcrOffenseCodeConnection(i, StringUtils.getStringBetween(41 + 3 * i, 43 + 3 * i, segmentData));
+			}
+			for (int i = 0; i < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT; i++) {
 				newVictim.setOffenderNumberRelated(i, StringUtils.getIntegerBetween(90 + 4 * i, 91 + 4 * i, segmentData));
+			}
+			for (int i = 0; i < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT; i++) {
 				newVictim.setVictimOffenderRelationship(i, StringUtils.getStringBetween(92 + 4 * i, 93 + 4 * i, segmentData));
 			}
 
@@ -375,7 +379,7 @@ public class IncidentBuilder {
 			newVictim.setAggravatedAssaultHomicideCircumstances(1, StringUtils.getStringBetween(82, 83, segmentData));
 			newVictim.setAdditionalJustifiableHomicideCircumstances(StringUtils.getStringBetween(84, 84, segmentData));
 
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < VictimSegment.TYPE_OF_INJURY_COUNT; i++) {
 				newVictim.setTypeOfInjury(i, StringUtils.getStringBetween(85 + i, 85 + i, segmentData));
 			}
 
