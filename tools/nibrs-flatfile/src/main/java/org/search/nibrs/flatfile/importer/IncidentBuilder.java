@@ -300,8 +300,10 @@ public class IncidentBuilder {
 			newArrestee.setTypeOfArrest(StringUtils.getStringBetween(60, 60, segmentData));
 			newArrestee.setMultipleArresteeSegmentsIndicator(StringUtils.getStringBetween(61, 61, segmentData));
 			newArrestee.setUcrArrestOffenseCode(StringUtils.getStringBetween(62, 64, segmentData));
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < ArresteeSegment.ARRESTEE_ARMED_WITH_COUNT; i++) {
 				newArrestee.setArresteeArmedWith(i, StringUtils.getStringBetween(65 + 3 * i, 66 + 3 * i, segmentData));
+			}
+			for (int i = 0; i < ArresteeSegment.AUTOMATIC_WEAPON_INDICATOR_COUNT; i++) {
 				newArrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(67 + 3 * i, 67 + 3 * i, segmentData));
 			}
 			newArrestee.setAgeString(StringUtils.getStringBetween(71, 74, segmentData));

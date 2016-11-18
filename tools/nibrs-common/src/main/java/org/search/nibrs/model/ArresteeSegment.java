@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 public class ArresteeSegment extends AbstractPersonSegment
 {
     
+	public static final int AUTOMATIC_WEAPON_INDICATOR_COUNT = 2;
+	public static final int ARRESTEE_ARMED_WITH_COUNT = 2;
 	public static final char GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER = '6';
 	public static final char GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER = '7';
 
@@ -32,8 +34,8 @@ public class ArresteeSegment extends AbstractPersonSegment
 
     public ArresteeSegment()
     {
-        arresteeArmedWith = new String[2];
-        automaticWeaponIndicator = new String[2];
+        arresteeArmedWith = new String[ARRESTEE_ARMED_WITH_COUNT];
+        automaticWeaponIndicator = new String[AUTOMATIC_WEAPON_INDICATOR_COUNT];
     }
     
     public ArresteeSegment(ArresteeSegment a) {
