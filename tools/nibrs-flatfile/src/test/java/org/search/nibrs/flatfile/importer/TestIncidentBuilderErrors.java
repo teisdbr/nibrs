@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
@@ -146,7 +147,7 @@ public class TestIncidentBuilderErrors {
         List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
-        assertEquals('3', e.getSegmentType());
+        assertEquals(PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
         assertEquals(3, e.getContext());
         assertEquals(306, e.getValue());
         

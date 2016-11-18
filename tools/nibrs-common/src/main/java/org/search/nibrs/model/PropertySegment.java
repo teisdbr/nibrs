@@ -10,6 +10,8 @@ import java.util.Date;
 public class PropertySegment extends AbstractSegment
 {
     
+	public static final char PROPERTY_SEGMENT_TYPE_IDENTIFIER = '3';
+	
 	private String typeOfPropertyLoss;
     private String[] propertyDescription;
     private Integer[] valueOfProperty;
@@ -32,7 +34,7 @@ public class PropertySegment extends AbstractSegment
         suspectedDrugType = new String[3];
         estimatedDrugQuantity = new Double[3];
         typeDrugMeasurement = new String[3];
-        segmentType = '3';
+        segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
     }
     
     public PropertySegment(PropertySegment p) {
@@ -48,7 +50,7 @@ public class PropertySegment extends AbstractSegment
     	suspectedDrugType = CopyUtils.copyArray(p.suspectedDrugType);
     	estimatedDrugQuantity = CopyUtils.copyArray(p.estimatedDrugQuantity);
     	typeDrugMeasurement = CopyUtils.copyArray(p.typeDrugMeasurement);
-        segmentType = '3';
+        segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
     }
     
 	public Integer[] getValueOfProperty() {
