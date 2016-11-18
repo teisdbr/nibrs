@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 public class ArresteeSegment extends AbstractPersonSegment
 {
     
+	public static final char GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER = '6';
+	public static final char GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER = '7';
+
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(ArresteeSegment.class);
 	
@@ -51,9 +54,9 @@ public class ArresteeSegment extends AbstractPersonSegment
     protected void setParentReport(AbstractReport parentReport) {
     	super.setParentReport(parentReport);
     	if (parentReport instanceof GroupBIncidentReport) {
-    		segmentType = '7';
+    		segmentType = GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
     	} else {
-    		segmentType = '6';
+    		segmentType = GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
     	}
     }
     

@@ -109,7 +109,7 @@ public class TestIncidentBuilderOldFormat
     public void testGroupBIncident() {
     	GroupBIncidentReport report = incidentListener.getGroupBIncidentList().get(0);
     	assertEquals("TN0380100", report.getOri());
-    	assertEquals('7', report.getAdminSegmentLevel());
+    	assertEquals(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER, report.getAdminSegmentLevel());
     	assertEquals('I', report.getReportActionType());
     	ArresteeSegment arrestee = report.getArrestees().get(0);
     	assertNotNull(arrestee);

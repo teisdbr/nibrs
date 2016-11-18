@@ -7,7 +7,7 @@ package org.search.nibrs.model;
 public class GroupBIncidentReport extends AbstractReport {
 	
 	public GroupBIncidentReport() {
-        super('7');
+        super(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 	}
 	
 	public GroupBIncidentReport(GroupBIncidentReport r) {

@@ -79,7 +79,7 @@ public class IncidentBuilder {
 			errorList.addAll(segmentErrors);
 			if (segmentErrors.isEmpty()) {
 				char level = s.getSegmentLevel();
-				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER || level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER || level == '7') {
+				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER || level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER || level == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER) {
 					handleNewReport(currentReport);
 					currentReport = buildReport(errorList, s, readerLocationName);
 				} else {
@@ -109,7 +109,7 @@ public class IncidentBuilder {
 		char level = s.getSegmentLevel();
 		if (level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER) {
 			ret = buildGroupAIncidentSegment(s, errorList);
-		} else if (level == '7') {
+		} else if (level == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER) {
 			ret = buildGroupBIncidentReport(s, errorList);
 		} else if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER) {
 			ret = buildZeroReport(s, errorList);
@@ -276,7 +276,7 @@ public class IncidentBuilder {
 		case OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER:
 			currentIncident.addOffender(buildOffenderSegment(s, errorList));
 			break;
-		case '6':
+		case ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER:
 			currentIncident.addArrestee(buildArresteeSegment(s, errorList));
 			break;
 		default:
