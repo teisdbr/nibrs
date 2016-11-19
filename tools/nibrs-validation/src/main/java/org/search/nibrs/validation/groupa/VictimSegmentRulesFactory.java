@@ -330,7 +330,7 @@ public class VictimSegmentRulesFactory {
 	}
 	
 	Rule<VictimSegment> getRule404ForAgeOfVictim() {
-		return personSegmentRulesFactory.getAgeValidNonBlankRule();
+		return personSegmentRulesFactory.getAgeValidNonBlankRule("27", NIBRSErrorCode._404);
 	}
 
 	Rule<VictimSegment> getRule404ForAggravatedAssaultHomicideCircumstances() {

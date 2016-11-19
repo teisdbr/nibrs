@@ -55,27 +55,21 @@ final class OffenderRuleViolationExemplarFactory {
 			// Segment 5 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri(null);
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber(null);
-			
+			copy.getOffenders().get(0).setOffenderSequenceNumber(null);
 			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(-1);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(100);
+			incidents.add(copy);
 			return incidents;
 		});
+		
+		// note: rule 502 is not possible in our framework, it would be caught at import time since seq number is an Integer
 
-		//TO-DO Rule 502
-		//Data Element 36 (Offender Sequence Number) must contain numeric entry (00 through 99) with zero left-fill.
-		
-		
 		groupATweakerMap.put(504, incident -> {
+			
 			//(Age of Offender) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
@@ -84,23 +78,25 @@ final class OffenderRuleViolationExemplarFactory {
 			incidents.add(copy);
 			//(Sex of Offender) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
-			copy2 = new GroupAIncidentReport(incident);
-			copy2.getOffenders().get(0).setSex(null);
-			incidents.add(copy2);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setSex(null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setSex("invalid");
+			incidents.add(copy);
 			//(Race of Offender) The referenced data element in a Group A Incident 
 			//Report must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
-			copy3 = new GroupAIncidentReport(incident);
-			copy3.getOffenders().get(0).setRace(null);
-			incidents.add(copy3);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setRace(null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setRace("invalid");
+			incidents.add(copy);
 			//(Ethnicity of Offender) The referenced data element in a Group A Incident 
 			//Report must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4 = new GroupAIncidentReport(incident);
-			copy4.getOffenders().get(0).setEthnicity(null);
-			incidents.add(copy4);
-			
+			copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setEthnicity("invalid");
+			incidents.add(copy);
 			
 			return incidents;
 			

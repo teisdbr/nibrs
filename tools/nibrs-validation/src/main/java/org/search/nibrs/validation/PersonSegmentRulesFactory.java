@@ -11,7 +11,7 @@ import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
-import org.search.nibrs.validation.rules.NullObjectRule;
+import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
 
 public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
@@ -22,12 +22,12 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 		this.clazz = clazz;
 	}
 	
-	private final class PersonVictimValidValueRule<S extends T> extends AbstractBeanPropertyRule<T> {
+	private final class PersonValidValueRule<S extends T> extends AbstractBeanPropertyRule<T> {
 		
 		private Set<String> allowedValueSet;
 		private boolean allowNull;
 
-		public PersonVictimValidValueRule(String propertyName, String dataElementIdentifier, NIBRSErrorCode errorCode, Set<String> allowedValueSet, boolean allowNull) {
+		public PersonValidValueRule(String propertyName, String dataElementIdentifier, NIBRSErrorCode errorCode, Set<String> allowedValueSet, boolean allowNull) {
 			super(propertyName, dataElementIdentifier, clazz, errorCode);
 			this.allowedValueSet = allowedValueSet;
 			this.allowNull = allowNull;
@@ -40,26 +40,24 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 
 	}
 
-	public Rule<T> getAgeValidNonBlankRule() {
-		// note:  because we parse the age string when constructing the nibrsAge property of VictimSegment, it is not possible
-		// to have a separate violation of rule 404 for victim age.
-		return new NullObjectRule<T>();
+	public Rule<T> getAgeValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
+		return new NotBlankRule<T>("age", dataElementIdentifier, clazz, nibrsErrorCode);
 	}
 
 	public Rule<T> getSexValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
-		return new PersonVictimValidValueRule<T>("sex", dataElementIdentifier, nibrsErrorCode, SexCode.codeSet(), false);
+		return new PersonValidValueRule<T>("sex", dataElementIdentifier, nibrsErrorCode, SexCode.codeSet(), false);
 	}
 
 	public Rule<T> getRaceValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
-		return new PersonVictimValidValueRule<T>("race", dataElementIdentifier, nibrsErrorCode, RaceCode.codeSet(), false);
+		return new PersonValidValueRule<T>("race", dataElementIdentifier, nibrsErrorCode, RaceCode.codeSet(), false);
 	}
 
 	public Rule<T> getResidentStatusValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode, boolean allowNull) {
-		return new PersonVictimValidValueRule<T>("residentStatusOfVictim", dataElementIdentifier, nibrsErrorCode, ResidentStatusCode.codeSet(), allowNull);
+		return new PersonValidValueRule<T>("residentStatusOfVictim", dataElementIdentifier, nibrsErrorCode, ResidentStatusCode.codeSet(), allowNull);
 	}
 
 	public Rule<T> getEthnicityValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode, boolean allowNull) {
-		return new PersonVictimValidValueRule<T>("ethnicity", dataElementIdentifier, nibrsErrorCode, EthnicityCode.codeSet(), allowNull);
+		return new PersonValidValueRule<T>("ethnicity", dataElementIdentifier, nibrsErrorCode, EthnicityCode.codeSet(), allowNull);
 	}
 	
 	public Rule<T> getProperAgeRangeRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {

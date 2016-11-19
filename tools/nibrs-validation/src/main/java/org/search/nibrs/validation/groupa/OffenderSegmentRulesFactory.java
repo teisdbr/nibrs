@@ -79,10 +79,16 @@ public class OffenderSegmentRulesFactory {
 		rulesList.add(getRule504ForEthnicityOfOffender());
 		rulesList.add(getRule510());
 		rulesList.add(getRule522());
+		rulesList.add(getRule550());
 		rulesList.add(getRule552ForAge());
 		rulesList.add(getRule552ForSex());
 		rulesList.add(getRule552ForRace());
 		rulesList.add(getRule552ForEthnicity());
+		rulesList.add(getRule553());
+		rulesList.add(getRule554());
+		rulesList.add(getRule556());
+		rulesList.add(getRule557());
+		rulesList.add(getRule572());
 	}
 
 	public List<Rule<OffenderSegment>> getRulesList() {
@@ -136,7 +142,7 @@ public class OffenderSegmentRulesFactory {
 	}
 
 	Rule<OffenderSegment> getRule504ForAgeOfOffender() {
-		return personSegmentRulesFactory.getAgeValidNonBlankRule();
+		return personSegmentRulesFactory.getAgeValidNonBlankRule("37", NIBRSErrorCode._504);
 	}
 
 	Rule<OffenderSegment> getRule504ForSexOfOffender() {
@@ -165,7 +171,7 @@ public class OffenderSegmentRulesFactory {
 			protected NIBRSError validateRelatedVictimAndOffender(OffenderSegment offenderSegment, VictimSegment victimSegment, String relationship) {
 				NIBRSAge age = offenderSegment.getAge();
 				NIBRSError e = null;
-				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && age.getAgeMin() < 10) {
+				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && !age.isUnknown() && age.getAgeMin() < 10) {
 					e = offenderSegment.getErrorTemplate();
 					e.setDataElementIdentifier("37");
 					e.setValue(age);

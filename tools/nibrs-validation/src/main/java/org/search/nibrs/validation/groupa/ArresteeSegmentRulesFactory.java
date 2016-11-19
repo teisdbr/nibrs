@@ -27,7 +27,7 @@ public class ArresteeSegmentRulesFactory {
 	
 		rulesList = new ArrayList<Rule<ArresteeSegment>>();
 		
-		initRules(rulesList);
+		//initRules(rulesList);
 	}
 	
 	
