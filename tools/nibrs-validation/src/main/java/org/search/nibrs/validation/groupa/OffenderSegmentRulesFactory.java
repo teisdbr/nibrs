@@ -97,7 +97,7 @@ public class OffenderSegmentRulesFactory {
 				Integer offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber();
 				NIBRSError e = null;
 
-				if (offenderSequenceNumber == null || offenderSequenceNumber < 1 || offenderSequenceNumber > 999) {
+				if (offenderSequenceNumber == null || offenderSequenceNumber < 1 || offenderSequenceNumber > 99) {
 					e = offenderSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._501);
 					e.setDataElementIdentifier("36");

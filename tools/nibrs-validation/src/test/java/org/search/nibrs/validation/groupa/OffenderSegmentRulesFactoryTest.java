@@ -36,7 +36,7 @@ public class OffenderSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._501, nibrsError.getNIBRSErrorCode());
 		assertEquals("36", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
-		os.setOffenderSequenceNumber(1000);
+		os.setOffenderSequenceNumber(100);
 		nibrsError = rule.apply(os);
 		assertNotNull(nibrsError);
 	}
