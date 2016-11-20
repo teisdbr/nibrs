@@ -32,8 +32,13 @@ public class ZeroReport extends AbstractReport {
 	}
 
 	@Override
-	public String getUniqueReportIdentifier() {
+	public String getGloballyUniqueReportIdentifier() {
 		return getOri() + "." + getIncidentNumber();
+	}
+	
+	@Override
+	public String getIdentifier() {
+		return getIncidentNumber();
 	}
 
 	/**

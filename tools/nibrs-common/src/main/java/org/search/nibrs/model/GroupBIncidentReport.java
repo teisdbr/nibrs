@@ -30,8 +30,13 @@ public class GroupBIncidentReport extends AbstractReport {
 	}
 
 	@Override
-	public String getUniqueReportIdentifier() {
+	public String getGloballyUniqueReportIdentifier() {
 		return getOri() + "." + getATNOrEmpty();
+	}
+	
+	@Override
+	public String getIdentifier() {
+		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArrestTransactionNumber();
 	}
 	
 	private String getATNOrEmpty() {

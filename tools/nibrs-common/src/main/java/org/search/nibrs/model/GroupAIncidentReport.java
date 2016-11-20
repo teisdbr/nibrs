@@ -104,8 +104,12 @@ public class GroupAIncidentReport extends AbstractReport
     	return "Group A Incident: Incident # " + incidentNumber;
     }
     
-    public String getUniqueReportIdentifier() {
+    public String getGloballyUniqueReportIdentifier() {
     	return getOri() + "." + incidentNumber;
+    }
+    
+    public String getIdentifier() {
+    	return incidentNumber;
     }
     
     public void removeOffender(int index) {

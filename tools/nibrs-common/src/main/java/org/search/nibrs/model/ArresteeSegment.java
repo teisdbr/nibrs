@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
  * Representation of an Arrestee reported within an Incident in a NIBRS report.
  *
  */
-public class ArresteeSegment extends AbstractPersonSegment
+public class ArresteeSegment extends AbstractPersonSegment implements Identifiable
 {
     
 	public static final int AUTOMATIC_WEAPON_INDICATOR_COUNT = 2;
@@ -50,6 +50,11 @@ public class ArresteeSegment extends AbstractPersonSegment
     	this.dispositionOfArresteeUnder18 = a.dispositionOfArresteeUnder18;
     	this.arresteeArmedWith = CopyUtils.copyArray(a.arresteeArmedWith);
     	this.automaticWeaponIndicator = CopyUtils.copyArray(a.automaticWeaponIndicator);
+    }
+    
+    @Override
+    public String getIdentifier() {
+    	return arrestTransactionNumber;
     }
     
     @Override

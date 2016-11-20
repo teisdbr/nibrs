@@ -15,7 +15,7 @@ import org.search.nibrs.common.ValidationTarget;
  * Abstract class of objects representing types of "reports" in NIBRS...  Group A incident reports, Group B arrest reports, and Zero Reports.
  *
  */
-public abstract class AbstractReport implements ValidationTarget {
+public abstract class AbstractReport implements ValidationTarget, Identifiable {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(AbstractReport.class);
@@ -51,7 +51,7 @@ public abstract class AbstractReport implements ValidationTarget {
 	}
 	
 	public abstract String getUniqueReportDescription();
-	public abstract String getUniqueReportIdentifier();
+	public abstract String getGloballyUniqueReportIdentifier();
 
 	public char getReportActionType() {
 		return reportActionType;
@@ -164,7 +164,7 @@ public abstract class AbstractReport implements ValidationTarget {
 	public NIBRSError getErrorTemplate() {
 		NIBRSError ret = new NIBRSError();
 		ret.setContext(getSource());
-		ret.setReportUniqueIdentifier(getUniqueReportIdentifier());
+		ret.setReportUniqueIdentifier(getGloballyUniqueReportIdentifier());
 		ret.setSegmentType(getAdminSegmentLevel());
 		return ret;
 	}
