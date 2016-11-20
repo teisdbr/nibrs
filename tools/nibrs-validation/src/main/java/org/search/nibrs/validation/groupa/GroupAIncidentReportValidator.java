@@ -10,6 +10,7 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.validation.ArresteeSegmentRulesFactory;
 import org.search.nibrs.validation.rules.Rule;
 
 /**

@@ -1,4 +1,4 @@
-package org.search.nibrs.validation.groupa;
+package org.search.nibrs.validation;
 
 import java.util.ArrayList;
 import java.util.List;
