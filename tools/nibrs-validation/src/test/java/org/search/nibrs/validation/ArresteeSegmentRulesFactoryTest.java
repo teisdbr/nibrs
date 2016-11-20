@@ -23,6 +23,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
+		assertEquals("40", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 		arresteeSegment.setArresteeSequenceNumber(0);
 		nibrsError = rule.apply(arresteeSegment);
@@ -45,6 +46,49 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._701, nibrsError.getNIBRSErrorCode());
 		// don't need to test the rest...it's tested in the Group A version
+	}
+	
+	@Test
+	public void testRule601ForArrestTransactionNumber() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForArrestTransactionNumber();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setArrestTransactionNumber(null);
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
+		assertEquals("41", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+		arresteeSegment.setArrestTransactionNumber("AB123456789");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRule615() {
+		atnFormatRuleTest(groupARulesFactory.getRuleX15(), NIBRSErrorCode._615);
+	}
+
+	@Test
+	public void testRule617() {
+		atnFormatRuleTest(groupARulesFactory.getRuleX17(), NIBRSErrorCode._617);
+	}
+
+	private void atnFormatRuleTest(Rule<ArresteeSegment> rule, NIBRSErrorCode errorCode) {
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setArrestTransactionNumber(null);
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArrestTransactionNumber("11-123-SC   ");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArrestTransactionNumber("11-123*SC   ");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(errorCode, nibrsError.getNIBRSErrorCode());
+		assertEquals("41", nibrsError.getDataElementIdentifier());
+		arresteeSegment.setArrestTransactionNumber("11-123-SC");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
 	}
 	
 	private ArresteeSegment buildBaseGroupASegment() {

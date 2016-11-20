@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ArresteeSegment;
-import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -18,6 +18,7 @@ import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
+import org.search.nibrs.validation.rules.ValidNIBRSIdentifierFormatRule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
 public class ArresteeSegmentRulesFactory {
@@ -49,7 +50,6 @@ public class ArresteeSegmentRulesFactory {
 	
 	private void initRules(List<Rule<ArresteeSegment>> rulesList) {
 		rulesList.add(getRuleX01ForSequenceNumber());
-//		rulesList.add(sequenceNumberNotBlank601Rule());
 //		rulesList.add(arrestTransactionNumberNotBlank601Rule());
 //		rulesList.add(arrestDateNotBlank601Rule());
 //		rulesList.add(typeOfArrestRule());
@@ -86,22 +86,16 @@ public class ArresteeSegmentRulesFactory {
 		};
 	}
 	
-	
-	private Rule<ArresteeSegment> sequenceNumberNotBlank601Rule(){
-		
-		//TODO maybe check valid values
-		NotBlankRule<ArresteeSegment> notBlankRule = new NotBlankRule<ArresteeSegment>("arresteeSequenceNumber", 
-				"40", ArresteeSegment.class, NIBRSErrorCode._601);
-		
-		return notBlankRule;
+	Rule<ArresteeSegment> getRuleX01ForArrestTransactionNumber() {
+		return new NotBlankRule<ArresteeSegment>("arrestTransactionNumber", "41", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
 	}
 	
-	private Rule<ArresteeSegment> arrestTransactionNumberNotBlank601Rule(){
-		
-		NotBlankRule<ArresteeSegment> notBlankRule = new NotBlankRule<ArresteeSegment>("arrestTransactionNumber", 
-				"41", ArresteeSegment.class, NIBRSErrorCode._601);
-		
-		return notBlankRule;
+	Rule<ArresteeSegment> getRuleX17() {
+		return new ValidNIBRSIdentifierFormatRule<>("41", isGroupAMode() ? NIBRSErrorCode._617 : NIBRSErrorCode._717);
+	}
+	
+	Rule<ArresteeSegment> getRuleX15() {
+		return new ValidNIBRSIdentifierFormatRule<>("41", isGroupAMode() ? NIBRSErrorCode._615 : NIBRSErrorCode._715);
 	}
 	
 	private Rule<ArresteeSegment> arrestDateNotBlank601Rule(){

@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,10 +18,12 @@ import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.StringValueRule;
+import org.search.nibrs.validation.rules.ValidNIBRSIdentifierFormatRule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
 /**
@@ -252,24 +253,8 @@ public class GroupAIncidentReportRulesFactory {
 	}
 	
 	Rule<GroupAIncidentReport> getRule117() {
-		Pattern p = getRule117Regex();
-		Rule<GroupAIncidentReport> rule117 = new StringValueRule<>(
-				subject -> {
-					return subject.getIncidentNumber();
-				},
-				(value, target) -> {
-					NIBRSError ret = null;
-					if (value != null && !p.matcher(value).matches()) {
-						ret = target.getErrorTemplate();
-						ret.setNIBRSErrorCode(NIBRSErrorCode._117);
-						ret.setDataElementIdentifier("2");
-						ret.setValue(value);
-					}
-					return ret;
-				});
-		return rule117;
+		return new ValidNIBRSIdentifierFormatRule<>("2", NIBRSErrorCode._117);
 	}
-
 
 	Rule<GroupAIncidentReport> getRule104(String propertyName) {
 		Rule<GroupAIncidentReport> ret = null;
@@ -352,30 +337,7 @@ public class GroupAIncidentReportRulesFactory {
 	}
 
 	Rule<GroupAIncidentReport> getRule115() {
-		Pattern p = getRule115Regex();
-		Rule<GroupAIncidentReport> rule115 = new StringValueRule<>(
-				subject -> {
-					return subject.getIncidentNumber();
-				},
-				(value, target) -> {
-					NIBRSError ret = null;
-					if (value != null && (value.length() != 12 || !p.matcher(value).matches())) {
-						ret = target.getErrorTemplate();
-						ret.setNIBRSErrorCode(NIBRSErrorCode._115);
-						ret.setDataElementIdentifier("2");
-						ret.setValue(value);
-					}
-					return ret;
-				});
-		return rule115;
-	}
-
-	static Pattern getRule115Regex() {
-		return Pattern.compile("^[^ ]+[ ]*$");
-	}
-	
-	static Pattern getRule117Regex() {
-		return Pattern.compile("[A-Z0-9\\-]+");
+		return new BlankRightFillStringRule<>("2", NIBRSErrorCode._115);
 	}
 
 	/**

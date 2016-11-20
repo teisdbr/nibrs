@@ -9,6 +9,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
+import org.search.nibrs.model.Identifiable;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.validation.groupa.GroupAIncidentReportValidator;
@@ -42,7 +43,7 @@ public class NIBRSValidator {
 				
 		List<AbstractReport> reportList = nibrsSubmission.getReports();
 				
-		for(AbstractReport iReport : reportList){
+		for(Identifiable iReport : reportList){
 						
 			List<NIBRSError> singleReportErrorsList = validateReport(iReport);
 			
@@ -62,7 +63,7 @@ public class NIBRSValidator {
 	}
 
 	
-	public List<NIBRSError> validateReport(AbstractReport report){
+	public List<NIBRSError> validateReport(Identifiable report){
 		
 		List<NIBRSError> nibrsErrorList = null;
 		
