@@ -39,6 +39,12 @@ public class OffenderSegmentRulesFactoryTest {
 		os.setOffenderSequenceNumber(100);
 		nibrsError = rule.apply(os);
 		assertNotNull(nibrsError);
+		os.setOffenderSequenceNumber(1);
+		nibrsError = rule.apply(os);
+		assertNull(nibrsError);
+		os.setOffenderSequenceNumber(0);
+		nibrsError = rule.apply(os);
+		assertNull(nibrsError);
 	}
 
 	@Test
