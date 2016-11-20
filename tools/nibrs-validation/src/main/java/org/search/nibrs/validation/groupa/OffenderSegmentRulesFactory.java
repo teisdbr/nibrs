@@ -10,7 +10,9 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
+import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.validation.PersonSegmentRulesFactory;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.Rule;
@@ -209,6 +211,7 @@ public class OffenderSegmentRulesFactory {
 				if ((RelationshipOfVictimToOffenderCode.HR.code.equals(relationship) && offenderSex != null && !offenderSex.equals(victimSex)) ||
 						(RelationshipOfVictimToOffenderCode.BG.code.equals(relationship) && offenderSex != null && offenderSex.equals(victimSex)) ||
 						(RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && offenderSex != null && offenderSex.equals(victimSex)) ||
+						(RelationshipOfVictimToOffenderCode.CS.code.equals(relationship) && offenderSex != null && offenderSex.equals(victimSex)) ||
 						(RelationshipOfVictimToOffenderCode.XS.code.equals(relationship) && offenderSex != null && offenderSex.equals(victimSex))) {
 					e = offenderSegment.getErrorTemplate();
 					e.setDataElementIdentifier("38");
@@ -245,6 +248,7 @@ public class OffenderSegmentRulesFactory {
 		return new Rule<OffenderSegment>() {
 			@Override
 			public NIBRSError apply(OffenderSegment offenderSegment) {
+				// note: numeric range 0-99 requirement is handled by rule 501
 				NIBRSError e = null;
 				NIBRSAge age = offenderSegment.getAge();
 				if (age != null && !age.isUnknown() && age.isNonNumeric()) {
@@ -263,8 +267,12 @@ public class OffenderSegmentRulesFactory {
 			@Override
 			protected NIBRSError validateRelatedVictimAndOffender(OffenderSegment offenderSegment, VictimSegment victimSegment, String relationship) {
 				NIBRSError e = null;
+				NIBRSAge age = offenderSegment.getAge();
+				String sex = offenderSegment.getSex();
+				String race = offenderSegment.getRace();
 				if (!RelationshipOfVictimToOffenderCode.RU.code.equals(relationship) &&
-						offenderSegment.getAge() == null && offenderSegment.getSex() == null && offenderSegment.getRace() == null) {
+						((age != null && age.isUnknown() && SexCode.U.code.equals(sex) && RaceCode.U.code.equals(race)) ||
+						 (age == null && sex == null && race == null))) {
 					e = offenderSegment.getErrorTemplate();
 					e.setDataElementIdentifier("35");
 					e.setValue(relationship);

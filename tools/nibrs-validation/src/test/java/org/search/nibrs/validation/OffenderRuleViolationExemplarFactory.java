@@ -20,6 +20,13 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.ClearedExceptionallyCode;
+import org.search.nibrs.model.codes.EthnicityCode;
+import org.search.nibrs.model.codes.RaceCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
+import org.search.nibrs.model.codes.SexCode;
 
 final class OffenderRuleViolationExemplarFactory {
 
@@ -124,10 +131,7 @@ final class OffenderRuleViolationExemplarFactory {
 			return incidents;
 		});		
 		
-		//TO-DO Rule 549 
-		//Data Element 37 (Age of Offender) cannot be less than 18 years old 
-		//when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse.
-		
+		// note: regarding rule 549...we do not currently support "warnings"
 		
 		groupATweakerMap.put(550,incident -> {
 			//(Age of Offender) cannot be less than 10 years old when 
@@ -136,15 +140,12 @@ final class OffenderRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setAgeString("09");
-						
 			incidents.add(copy);
-			
 			return incidents;
-			
 		});		
 			
 		
-		//TO-DO Rule 551
+		// TODO Rule 551
 		//When a Group A Incident Report is submitted, the individual 
 		//segments comprising the incident cannot contain duplicates. 
 		//In this case, two Offender Segments were submitted having the same entry in Data Element 36 (Offender Sequence Number)
@@ -157,32 +158,26 @@ final class OffenderRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
-			incidents.add(copy);
 			//(Sex of Offender) Data Element 38 (Sex of Offender), and Data Element 39 
 			//(Race of Offender) cannot be entered when Data Element 36 
 			//(Offender Sequence Number) is 00=Unknown.						
-			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setRace(null);
+			copy.getOffenders().get(0).setRace(RaceCode.A.code);
 			incidents.add(copy);
 			//(Race of Offender) Data Element 38 (Sex of Offender), and 
 			//Data Element 39 (Race of Offender) cannot be entered when Data Element 36 
 			//(Offender Sequence Number) is 00=unknown.
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setSex(null);
-			copy.getOffenders().get(0).setRace("W");
+			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setSex(SexCode.F.code);
 			incidents.add(copy);
 			//(Ethnicity of Offender) Data Element 38 (Sex of Offender), and 
 			//Data Element 39 (Race of Offender) cannot be entered when 
 			//Data Element 36 (Offender Sequence Number) is 00=Unknown.	
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setSex("F");
-			copy.getOffenders().get(0).setEthnicity(null);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setEthnicity(EthnicityCode.H.code);
 			incidents.add(copy);
-			
-			
-			
 			return incidents;
-			
 		});		
 		
 		groupATweakerMap.put(553,incident -> {
@@ -204,14 +199,20 @@ final class OffenderRuleViolationExemplarFactory {
 			//XS=Victim was Ex-Spouse Different
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "XS");
+			copy.getVictims().get(0).setSex("F");
+			copy.getOffenders().get(0).setSex("F");
 			incidents.add(copy);
 			//SE=Victim was Spouse Different
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "SE");
+			copy.getVictims().get(0).setSex("F");
+			copy.getOffenders().get(0).setSex("F");
 			incidents.add(copy);
 			//CS=Victim was Common-Law Spouse Different
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "CS");
+			copy.getVictims().get(0).setSex("F");
+			copy.getOffenders().get(0).setSex("F");
 			incidents.add(copy);
 			//HR=Homosexual Relationship Same
 			copy = new GroupAIncidentReport(incident);
@@ -264,7 +265,6 @@ final class OffenderRuleViolationExemplarFactory {
 			copy.getVictims().get(0).setAgeString("50");
 			copy.getOffenders().get(0).setAgeString("40");
 			incidents.add(copy);
-									
 					
 			return incidents;
 			
@@ -272,7 +272,7 @@ final class OffenderRuleViolationExemplarFactory {
 		
 		
 		
-		//TO-DO Rule 555
+		// TODO Rule 555
 		//When multiple Offender Segments are submitted, none can contain a 
 		//00=Unknown value because the presence of 00 indicates that the number of 
 		//offenders is unknown. In this case, multiple offenders were submitted,
@@ -282,12 +282,9 @@ final class OffenderRuleViolationExemplarFactory {
 			//(Age of Offender) must contain numeric entry of 00 through 99.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(100);
-									
+			copy.getOffenders().get(0).setAgeString("BB");
 			incidents.add(copy);
-			
 			return incidents;
-			
 		});		
 		
 		groupATweakerMap.put(557, incident -> {
@@ -297,32 +294,28 @@ final class OffenderRuleViolationExemplarFactory {
 			//The incident was submitted with Data Element 4 (Cleared Exceptionally) having a value of A through E.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
-			
-			incidents.add(copy);
-			
+			copy.getOffenders().get(0).setOffenderSequenceNumber(0);
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			incidents.add(copy);			
 			return incidents;
-		
 		});
 		
 		
-		//TO-DO Rule 558 
+		// TODO Rule 558 
 		//None of the Offender Segments contain all known values for Age, Sex, 
 		//and Race. When an Incident is cleared exceptionally (Data Element 4 
 		//contains an A through E), one offender must have all known values.
 		
-		//TO-DO Rule 559
+		// TODO Rule 559
 		//The incident was submitted with Data Element 6 (UCR Offense Code)
 		//value of 09C=Justifiable Homicide, but unknown information was submitted
 		//for all the offender(s). At least one of the offenders must have known
 		//information for Age, Sex, and Race.
 		
-		//TO-DO Rule 560
+		// TODO Rule 560
 		//Segment Level 5 (Offender Segment) must contain a data value for 
 		//at least one offender in Data Element 38 (Sex of Offender) that is 
 		//not the same sex that is entered in Data Element 27 (Sex of Victim) when Data Element 6 (UCR Offense Code) is 11A=Rape.
-		
-		
 						
 		groupATweakerMap.put(572,incident -> {
 			//Data Element 37 (Age of Offender) If Data Element 37 (Age of Offender) is 
@@ -331,19 +324,18 @@ final class OffenderRuleViolationExemplarFactory {
 			//(Relationship of Victim to Offender) must be RU=Relationship Unknown.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setAgeString("00");
-			copy.getOffenders().get(0).setSex("U");
-			copy.getOffenders().get(0).setRace("U");
+			OffenderSegment offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setOffenderSequenceNumber(1);
+			offenderSegment.setAgeString("00");
+			offenderSegment.setSex("U");
+			offenderSegment.setRace("U");
+			VictimSegment victimSegment = copy.getVictims().get(0);
+			victimSegment.setOffenderNumberRelated(0, 1);
+			victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
 			incidents.add(copy);
-			
-			
 			return incidents;
-			
-		});	
+		});		
 		
-			
-		
-		
-		
-	}	
+	}
+	
 }
