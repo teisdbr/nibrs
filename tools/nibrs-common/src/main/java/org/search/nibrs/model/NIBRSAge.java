@@ -62,7 +62,11 @@ public class NIBRSAge {
 					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "09"));
 				}
 			} else {
-				if ("NN".equals(ageStringTrim) || "NB".equals(ageStringTrim) || "BB".equals(ageStringTrim) || "00".equals(ageStringTrim)) {
+				if ("NN".equals(ageStringTrim) || "NB".equals(ageStringTrim) || "BB".equals(ageStringTrim)) {
+					nonNumericAge = ageStringTrim;
+					ageMin = 0;
+					ageMax = 0;
+				} else if ("00".equals(ageStringTrim)) {
 					nonNumericAge = ageStringTrim;
 				} else {
 					try {

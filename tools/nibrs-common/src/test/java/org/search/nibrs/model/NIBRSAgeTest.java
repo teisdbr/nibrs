@@ -145,6 +145,15 @@ public class NIBRSAgeTest {
 		NIBRSAge age = new NIBRSAge();
 		age.setAgeString("00  ", VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER);
 		assertTrue(age.isUnknown());
+		assertNull(age.getAgeMin());
+	}
+	
+	@Test
+	public void testBabyAge() {
+		NIBRSAge age = new NIBRSAge();
+		age.setAgeString("NB  ", VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER);
+		assertTrue(age.isNonNumeric());
+		assertEquals(new Integer(0), age.getAgeMin());
 	}
 
 }
