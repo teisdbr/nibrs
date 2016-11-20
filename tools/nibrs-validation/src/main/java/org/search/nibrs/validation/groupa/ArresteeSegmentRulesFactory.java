@@ -3,7 +3,9 @@ package org.search.nibrs.validation.groupa;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -19,47 +21,69 @@ import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
 public class ArresteeSegmentRulesFactory {
+	
+	public static final String GROUP_A_ARRESTEE_MODE = "group-a-arrestee";
+	public static final String GROUP_B_ARRESTEE_MODE = "group-b-arrestee";
 
 	private List<Rule<ArresteeSegment>> rulesList;
-
+	private String mode;
 	
-	private ArresteeSegmentRulesFactory() {
+	public static final ArresteeSegmentRulesFactory instance(String mode) {
+		return new ArresteeSegmentRulesFactory(mode);
+	}	
 	
+	public List<Rule<ArresteeSegment>> getRulesList() {
+		return rulesList;
+	}	
+	
+	private ArresteeSegmentRulesFactory(String mode) {
 		rulesList = new ArrayList<Rule<ArresteeSegment>>();
-		
-		//initRules(rulesList);
+		this.mode = mode;
+		initRules(rulesList);
+	}
+	
+	private boolean isGroupAMode() {
+		return GROUP_A_ARRESTEE_MODE.equals(mode);
 	}
 	
 	
-	private void initRules(List<Rule<ArresteeSegment>> rulesList){
-		
-		rulesList.add(sequenceNumberNotBlank601Rule());
-		
-		rulesList.add(arrestTransactionNumberNotBlank601Rule());
-		
-		rulesList.add(arrestDateNotBlank601Rule());
-		
-		rulesList.add(typeOfArrestRule());
-		
-		rulesList.add(usrArrestOffenseCode());
-		
-		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
-		
-		rulesList.add(arresteeWasArmedWithNoDuplicates606Rule());
-		
-		rulesList.add(ageOfArresteeNotBlank601Rule());
-		
-		rulesList.add(sexOfArresteeNotBlank601Rule());
-		
-		rulesList.add(sexOfArresteeValidValue667Rule());
-		
-		rulesList.add(raceOfArresteeNotBlank601Rule());
-		
-		rulesList.add(ethnicityOfArresteeNotBlank604Rule());
-		
-		rulesList.add(residentStatusOfArresteeNotBlank604Code());
-		
-		rulesList.add(dispositionOfArresteeUnder18ValidValue604Rule());
+	private void initRules(List<Rule<ArresteeSegment>> rulesList) {
+		rulesList.add(getRuleX01ForSequenceNumber());
+//		rulesList.add(sequenceNumberNotBlank601Rule());
+//		rulesList.add(arrestTransactionNumberNotBlank601Rule());
+//		rulesList.add(arrestDateNotBlank601Rule());
+//		rulesList.add(typeOfArrestRule());
+//		rulesList.add(usrArrestOffenseCode());
+//		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
+//		rulesList.add(arresteeWasArmedWithNoDuplicates606Rule());
+//		rulesList.add(ageOfArresteeNotBlank601Rule());
+//		rulesList.add(sexOfArresteeNotBlank601Rule());
+//		rulesList.add(sexOfArresteeValidValue667Rule());
+//		rulesList.add(raceOfArresteeNotBlank601Rule());
+//		rulesList.add(ethnicityOfArresteeNotBlank604Rule());
+//		rulesList.add(residentStatusOfArresteeNotBlank604Code());
+//		rulesList.add(dispositionOfArresteeUnder18ValidValue604Rule());
+	}
+	
+	Rule<ArresteeSegment> getRuleX01ForSequenceNumber() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+
+				Integer arresteeSequenceNumber = arresteeSegment.getArresteeSequenceNumber();
+				NIBRSError e = null;
+
+				if (arresteeSequenceNumber == null || arresteeSequenceNumber < 1 || arresteeSequenceNumber > 99) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+					e.setDataElementIdentifier("40");
+					e.setValue(arresteeSequenceNumber);
+				}
+
+				return e;
+
+			}
+		};
 	}
 	
 	
@@ -198,13 +222,4 @@ public class ArresteeSegmentRulesFactory {
 //		return validValueListRule;
 //	}
 	
-	
-	public static ArresteeSegmentRulesFactory instance(){
-		
-		return new ArresteeSegmentRulesFactory();
-	}	
-	
-	public List<Rule<ArresteeSegment>> getRulesList() {
-		return rulesList;
-	}	
 }

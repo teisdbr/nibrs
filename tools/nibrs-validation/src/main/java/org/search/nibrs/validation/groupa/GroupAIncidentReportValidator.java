@@ -23,7 +23,7 @@ public class GroupAIncidentReportValidator {
 	private List<Rule<PropertySegment>> propertySegmentRules = new ArrayList<>();
 	private List<Rule<VictimSegment>> victimSegmentRules = new ArrayList<>();
 	private List<Rule<OffenderSegment>> offenderSegmentRules = new ArrayList<>();
-	private List<Rule<ArresteeSegment>> arresteeSegmentRules = new ArrayList<>();
+	private List<Rule<ArresteeSegment>> groupAArresteeSegmentRules = new ArrayList<>();
 	
 	
 	public GroupAIncidentReportValidator() {
@@ -32,7 +32,7 @@ public class GroupAIncidentReportValidator {
 		propertySegmentRules = new PropertySegmentRulesFactory().getRulesList();
 		victimSegmentRules = VictimSegmentRulesFactory.instance().getRulesList();
 		offenderSegmentRules = OffenderSegmentRulesFactory.instance().getRulesList();
-		arresteeSegmentRules = ArresteeSegmentRulesFactory.instance().getRulesList();
+		groupAArresteeSegmentRules = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_A_ARRESTEE_MODE).getRulesList();
 	}
 
 	public List<NIBRSError> validate(GroupAIncidentReport groupAIncidentReport) {
@@ -82,7 +82,7 @@ public class GroupAIncidentReportValidator {
 			}
 		}
 
-		for (Rule<ArresteeSegment> r : arresteeSegmentRules) {
+		for (Rule<ArresteeSegment> r : groupAArresteeSegmentRules) {
 			for (ArresteeSegment s : groupAIncidentReport.getArrestees()) {
 				NIBRSError nibrsError = r.apply(s);
 				if (nibrsError != null) {
