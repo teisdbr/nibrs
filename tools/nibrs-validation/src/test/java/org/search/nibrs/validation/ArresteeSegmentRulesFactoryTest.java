@@ -281,13 +281,33 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals(OffenseCode._09C.code, nibrsError.getValue());
 	}
 	
+	@Test
+	public void testRule760() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRule760();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setUcrArrestOffenseCode(OffenseCode._09A.code);
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		rule = groupBRulesFactory.getRule760();
+		arresteeSegment = buildBaseGroupBSegment();
+		arresteeSegment.setUcrArrestOffenseCode(OffenseCode._90A.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setUcrArrestOffenseCode(OffenseCode._09A.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._760, nibrsError.getNIBRSErrorCode());
+		assertEquals("45", nibrsError.getDataElementIdentifier());
+		assertEquals(OffenseCode._09A.code, nibrsError.getValue());
+	}
+	
 	private ArresteeSegment buildBaseGroupASegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();
 		source.setSourceLocation(getClass().getName());
 		source.setSourceName(getClass().getName());
 		report.setSource(source);
-		ArresteeSegment s = new ArresteeSegment();
+		ArresteeSegment s = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		report.addArrestee(s);
 		return s;
 	}
@@ -298,7 +318,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		source.setSourceLocation(getClass().getName());
 		source.setSourceName(getClass().getName());
 		report.setSource(source);
-		ArresteeSegment s = new ArresteeSegment();
+		ArresteeSegment s = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		report.addArrestee(s);
 		return s;
 	}

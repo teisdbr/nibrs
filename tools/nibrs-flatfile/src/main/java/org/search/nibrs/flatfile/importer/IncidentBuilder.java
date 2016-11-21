@@ -147,7 +147,7 @@ public class IncidentBuilder {
 
 	private AbstractReport buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
 		GroupBIncidentReport ret = new GroupBIncidentReport();
-		ArresteeSegment arrestee = new ArresteeSegment();
+		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		String segmentData = s.getData();
 		ret.setOri(s.getOri());
 		ret.setReportActionType(s.getActionType());
@@ -277,7 +277,7 @@ public class IncidentBuilder {
 			currentIncident.addOffender(buildOffenderSegment(s, errorList));
 			break;
 		case ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addArrestee(buildArresteeSegment(s, errorList));
+			currentIncident.addArrestee(buildGroupAArresteeSegment(s, errorList));
 			break;
 		default:
 			NIBRSError error = new NIBRSError();
@@ -289,8 +289,8 @@ public class IncidentBuilder {
 		}
 	}
 
-	private ArresteeSegment buildArresteeSegment(Segment s, List<NIBRSError> errorList) {
-		ArresteeSegment newArrestee = new ArresteeSegment();
+	private ArresteeSegment buildGroupAArresteeSegment(Segment s, List<NIBRSError> errorList) {
+		ArresteeSegment newArrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 110) {

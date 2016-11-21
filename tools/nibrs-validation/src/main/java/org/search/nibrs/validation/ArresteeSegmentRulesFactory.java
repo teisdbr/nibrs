@@ -203,6 +203,24 @@ public class ArresteeSegmentRulesFactory {
 		};
 	}
 	
+	Rule<ArresteeSegment> getRule760() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				String offenseCodeS = arresteeSegment.getUcrArrestOffenseCode();
+				OffenseCode offenseCode = OffenseCode.forCode(offenseCodeS);
+				if (arresteeSegment.isGroupB() && !offenseCode.group.equals("B")) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._760);
+					e.setDataElementIdentifier("45");
+					e.setValue(offenseCodeS);
+				}
+				return e;
+			}
+		};
+	}
+	
 	private Rule<ArresteeSegment> arresteeWasArmedWithNotAllEmpty601Rule(){
 		
 		NotAllBlankRule<ArresteeSegment> notAllBlankRule = new NotAllBlankRule<ArresteeSegment>("arresteeArmedWith", 

@@ -32,10 +32,11 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     private String residentStatusOfArrestee;
     private String dispositionOfArresteeUnder18;
 
-    public ArresteeSegment()
+    public ArresteeSegment(char segmentType)
     {
         arresteeArmedWith = new String[ARRESTEE_ARMED_WITH_COUNT];
         automaticWeaponIndicator = new String[AUTOMATIC_WEAPON_INDICATOR_COUNT];
+        this.segmentType = segmentType;
     }
     
     public ArresteeSegment(ArresteeSegment a) {
@@ -50,6 +51,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     	this.dispositionOfArresteeUnder18 = a.dispositionOfArresteeUnder18;
     	this.arresteeArmedWith = CopyUtils.copyArray(a.arresteeArmedWith);
     	this.automaticWeaponIndicator = CopyUtils.copyArray(a.automaticWeaponIndicator);
+    	this.segmentType = a.segmentType;
     }
     
     @Override
@@ -172,6 +174,14 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     public void setUcrArrestOffenseCode(String ucrArrestOffenseCode)
     {
         this.ucrArrestOffenseCode = ucrArrestOffenseCode;
+    }
+    
+    public boolean isGroupA() {
+    	return getSegmentType() == GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
+    }
+
+    public boolean isGroupB() {
+    	return getSegmentType() == GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
     }
 
 	@Override
