@@ -15,6 +15,7 @@ import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
+import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.RaceOfArresteeCode;
@@ -24,6 +25,7 @@ import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
+import org.search.nibrs.validation.rules.NullObjectRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidNIBRSIdentifierFormatRule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
@@ -63,7 +65,9 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX17());
 		rulesList.add(getRuleX01ForArrestDate());
 		rulesList.add(getRule665());
-//		rulesList.add(typeOfArrestRule());
+		rulesList.add(getRuleX01ForTypeOfArrest());
+		rulesList.add(getRuleX01ForMultipleArresteeIndicator());
+		
 //		rulesList.add(usrArrestOffenseCode());
 //		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
 //		rulesList.add(arresteeWasArmedWithNoDuplicates606Rule());
@@ -169,6 +173,12 @@ public class ArresteeSegmentRulesFactory {
 	
 	Rule<ArresteeSegment> getRuleX01ForTypeOfArrest() {
 		return new ValidValueListRule<ArresteeSegment>("typeOfArrest", "43", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701, TypeOfArrestCode.codeSet(), false);
+	}
+	
+	Rule<ArresteeSegment> getRuleX01ForMultipleArresteeIndicator() {
+		return isGroupAMode() ?
+				new ValidValueListRule<ArresteeSegment>("multipleArresteeSegmentsIndicator", "44", ArresteeSegment.class, NIBRSErrorCode._601, MultipleArresteeSegmentsIndicator.codeSet(), false) :
+				new NullObjectRule<>();
 	}
 	
 	private Rule<ArresteeSegment> usrArrestOffenseCode(){
