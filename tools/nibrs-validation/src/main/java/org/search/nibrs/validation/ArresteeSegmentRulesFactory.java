@@ -68,8 +68,9 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX01ForTypeOfArrest());
 		rulesList.add(getRuleX01ForMultipleArresteeIndicator());
 		rulesList.add(getRuleX01ForUCRArrestOffenseCode());
+		rulesList.add(getRule670());
+		rulesList.add(getRule760());
 		
-//		rulesList.add(usrArrestOffenseCode());
 //		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
 //		rulesList.add(arresteeWasArmedWithNoDuplicates606Rule());
 //		rulesList.add(ageOfArresteeNotBlank601Rule());
@@ -116,6 +117,10 @@ public class ArresteeSegmentRulesFactory {
 	
 	Rule<ArresteeSegment> getRuleX01ForArrestDate() {
 		return new NotBlankRule<ArresteeSegment>("arrestDate", "42", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+	}
+	
+	Rule<ArresteeSegment> getRuleX01ForArresteeWasArmedWith() {
+		return new NotAllBlankRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
 	}
 	
 	Rule<ArresteeSegment> getRuleX05() {

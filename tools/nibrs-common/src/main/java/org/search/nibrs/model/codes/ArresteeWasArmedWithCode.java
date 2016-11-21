@@ -3,6 +3,9 @@ package org.search.nibrs.model.codes;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Code enum for Arrestee Was Armed With (data element 46)
+ */
 public enum ArresteeWasArmedWithCode {
 	
 	_01("01","Unarmed"),
@@ -14,26 +17,20 @@ public enum ArresteeWasArmedWithCode {
 	_16("16","Lethal Cutting Instrument"),
 	_17("17","Club/Blackjack/Brass Knuckles");
 	
-	private ArresteeWasArmedWithCode(String code, String description){
-		
+	private ArresteeWasArmedWithCode(String code, String description) {
 		this.code = code;
-		
 		this.description = description;
 	}
 	
-	private String code;
-	
-	private String description;
-
+	public String code;
+	public String description;
 	
 	public static final Set<String> codeSet() {
-		
-		Set<String> rCodeSet = new HashSet<>();
-		
-		for (ArresteeWasArmedWithCode iArmedWithCode : values()) {
-			
-			rCodeSet.add(iArmedWithCode.code);
+		Set<String> codeSet = new HashSet<>();
+		for (ArresteeWasArmedWithCode code : values()) {
+			codeSet.add(code.code);
 		}
-		return rCodeSet;
+		return codeSet;
 	}
+	
 }
