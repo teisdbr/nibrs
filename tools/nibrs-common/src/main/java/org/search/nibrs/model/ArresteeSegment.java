@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Representation of an Arrestee reported within an Incident in a NIBRS report.
+ * Representation of an Arrestee reported within an Incident (either Group A or Group B) in a NIBRS report.
  *
  */
 public class ArresteeSegment extends AbstractPersonSegment implements Identifiable
