@@ -5,7 +5,9 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +15,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
@@ -23,6 +26,7 @@ import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexOfArresteeCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
+import org.search.nibrs.validation.rules.ExclusiveCodedValueRule;
 import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NullObjectRule;
@@ -125,6 +129,12 @@ public class ArresteeSegmentRulesFactory {
 	
 	Rule<ArresteeSegment> getRuleX06ForArresteeWasArmedWith() {
 		return new DuplicateCodedValueRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._606 : NIBRSErrorCode._706);
+	}
+	
+	Rule<ArresteeSegment> getRuleX07ForArresteeWasArmedWith() {
+		Set<String> exclusiveSet = new HashSet<>();
+		exclusiveSet.add(ArresteeWasArmedWithCode._01.code);
+		return new ExclusiveCodedValueRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._607 : NIBRSErrorCode._707, exclusiveSet);
 	}
 	
 	Rule<ArresteeSegment> getRuleX05() {

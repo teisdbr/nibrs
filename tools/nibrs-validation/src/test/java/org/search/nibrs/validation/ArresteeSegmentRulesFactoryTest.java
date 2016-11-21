@@ -335,6 +335,24 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertArrayEquals(new String[] {ArresteeWasArmedWithCode._01.code, ArresteeWasArmedWithCode._01.code}, (String[]) nibrsError.getValue());
 	}
 	
+	@Test
+	public void testRuleX07ForArresteeWasArmedWith() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX07ForArresteeWasArmedWith();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArresteeArmedWith(0, ArresteeWasArmedWithCode._01.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArresteeArmedWith(1, ArresteeWasArmedWithCode._01.code);
+		arresteeSegment.setArresteeArmedWith(1, ArresteeWasArmedWithCode._11.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._607, nibrsError.getNIBRSErrorCode());
+		assertEquals("46", nibrsError.getDataElementIdentifier());
+		assertArrayEquals(new String[] {ArresteeWasArmedWithCode._01.code, ArresteeWasArmedWithCode._11.code}, (String[]) nibrsError.getValue());
+	}
+	
 	private ArresteeSegment buildBaseGroupASegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();
