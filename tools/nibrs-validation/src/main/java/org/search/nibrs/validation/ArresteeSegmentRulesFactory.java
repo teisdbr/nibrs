@@ -70,9 +70,9 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX01ForUCRArrestOffenseCode());
 		rulesList.add(getRule670());
 		rulesList.add(getRule760());
+		rulesList.add(getRuleX01ForArresteeWasArmedWith());
+		rulesList.add(getRuleX06ForArresteeWasArmedWith());
 		
-//		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
-//		rulesList.add(arresteeWasArmedWithNoDuplicates606Rule());
 //		rulesList.add(ageOfArresteeNotBlank601Rule());
 //		rulesList.add(sexOfArresteeNotBlank601Rule());
 //		rulesList.add(sexOfArresteeValidValue667Rule());
@@ -121,6 +121,10 @@ public class ArresteeSegmentRulesFactory {
 	
 	Rule<ArresteeSegment> getRuleX01ForArresteeWasArmedWith() {
 		return new NotAllBlankRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+	}
+	
+	Rule<ArresteeSegment> getRuleX06ForArresteeWasArmedWith() {
+		return new DuplicateCodedValueRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._606 : NIBRSErrorCode._706);
 	}
 	
 	Rule<ArresteeSegment> getRuleX05() {
