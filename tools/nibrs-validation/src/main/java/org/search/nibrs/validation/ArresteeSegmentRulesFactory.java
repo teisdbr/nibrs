@@ -56,12 +56,13 @@ public class ArresteeSegmentRulesFactory {
 		return GROUP_A_ARRESTEE_MODE.equals(mode);
 	}
 	
-	
 	private void initRules(List<Rule<ArresteeSegment>> rulesList) {
 		rulesList.add(getRuleX01ForSequenceNumber());
 		rulesList.add(getRuleX01ForArrestTransactionNumber());
 		rulesList.add(getRuleX15());
 		rulesList.add(getRuleX17());
+		rulesList.add(getRuleX01ForArrestDate());
+		rulesList.add(getRule665());
 //		rulesList.add(typeOfArrestRule());
 //		rulesList.add(usrArrestOffenseCode());
 //		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
@@ -166,12 +167,8 @@ public class ArresteeSegmentRulesFactory {
 		};
 	}
 	
-	private Rule<ArresteeSegment> typeOfArrestRule(){
-		
-		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("typeOfArrest", 
-				"43", ArresteeSegment.class, NIBRSErrorCode._601, TypeOfArrestCode.codeSet());
-		
-		return validValueListRule;
+	Rule<ArresteeSegment> getRuleX01ForTypeOfArrest() {
+		return new ValidValueListRule<ArresteeSegment>("typeOfArrest", "43", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701, TypeOfArrestCode.codeSet(), false);
 	}
 	
 	private Rule<ArresteeSegment> usrArrestOffenseCode(){
