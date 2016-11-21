@@ -133,6 +133,41 @@ public class ArresteeSegmentRulesFactoryTest {
 		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
+		arresteeSegment.setArrestDate(null);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRule665() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRule665();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) arresteeSegment.getParentReport();
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		LocalDate incidentDate = LocalDate.of(2016, 1, 31);
+		incident.setIncidentDate(Date.from(incidentDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		incident.setIncidentDate(null);
+		LocalDate arrestDate = LocalDate.of(2016, 1, 31);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arrestDate = LocalDate.of(2016, 1, 21);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		incident.setIncidentDate(Date.from(incidentDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arrestDate = LocalDate.of(2016, 2, 1);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._665, nibrsError.getNIBRSErrorCode());
+		assertEquals("42", nibrsError.getDataElementIdentifier());
+		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
 	}
 	
 	@Test

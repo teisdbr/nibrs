@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -119,16 +120,43 @@ public class ArresteeSegmentRulesFactory {
 				AbstractReport parent = arresteeSegment.getParentReport();
 				Integer yearOfTape = parent.getYearOfTape();
 				Integer monthOfTape = parent.getMonthOfTape();
-				if (monthOfTape != null && monthOfTape > 0 && monthOfTape < 13 && yearOfTape != null) {
+				Date arrestDateD = arresteeSegment.getArrestDate();
+				if (monthOfTape != null && monthOfTape > 0 && monthOfTape < 13 && yearOfTape != null && arrestDateD != null) {
 					Calendar c = Calendar.getInstance();
 					c.set(yearOfTape, monthOfTape-1, 1);
 					LocalDate compDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, 1);
 					compDate = compDate.plusMonths(1).minusDays(1);
-					c.setTime(arresteeSegment.getArrestDate());
+					c.setTime(arrestDateD);
 					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 					if (compDate.isBefore(arrestDate)) {
 						e = arresteeSegment.getErrorTemplate();
 						e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._605 : NIBRSErrorCode._705);
+						e.setDataElementIdentifier("42");
+						e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+					}
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<ArresteeSegment> getRule665() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
+				Date incidentDateD = parent.getIncidentDate();
+				Date arrestDateD = arresteeSegment.getArrestDate();
+				if (incidentDateD != null && arrestDateD != null) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(arrestDateD);
+					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+					c.setTime(incidentDateD);
+					LocalDate incidentDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+					if (arrestDate.isAfter(incidentDate)) {
+						e = arresteeSegment.getErrorTemplate();
+						e.setNIBRSErrorCode(NIBRSErrorCode._665);
 						e.setDataElementIdentifier("42");
 						e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 					}
