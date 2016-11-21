@@ -15,6 +15,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.Rule;
 
@@ -241,6 +242,25 @@ public class ArresteeSegmentRulesFactoryTest {
 		arresteeSegment.setMultipleArresteeSegmentsIndicator(null);
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRuleX01ForUCRArrestOffenseCode() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForUCRArrestOffenseCode();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setUcrArrestOffenseCode(OffenseCode._09A.code);
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setUcrArrestOffenseCode(null);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
+		assertEquals("45", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+		arresteeSegment.setUcrArrestOffenseCode("invalid");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals("invalid", nibrsError.getValue());
 	}
 	
 	private ArresteeSegment buildBaseGroupASegment() {
