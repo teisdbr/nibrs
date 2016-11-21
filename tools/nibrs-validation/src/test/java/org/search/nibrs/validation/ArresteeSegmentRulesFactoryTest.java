@@ -2,11 +2,17 @@ package org.search.nibrs.validation;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.GroupBIncidentReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.rules.Rule;
 
@@ -40,7 +46,7 @@ public class ArresteeSegmentRulesFactoryTest {
 	@Test
 	public void testRule701ForSequenceNumber() {
 		Rule<ArresteeSegment> rule = groupBRulesFactory.getRuleX01ForSequenceNumber();
-		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		ArresteeSegment arresteeSegment = buildBaseGroupBSegment();
 		arresteeSegment.setArresteeSequenceNumber(null);
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
@@ -61,6 +67,72 @@ public class ArresteeSegmentRulesFactoryTest {
 		arresteeSegment.setArrestTransactionNumber("AB123456789");
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRule601ForArrestDate() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForArrestDate();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setArrestDate(null);
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
+		assertEquals("42", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+		Calendar c = Calendar.getInstance();
+		c.set(2016, Calendar.JANUARY, 1);
+		arresteeSegment.setArrestDate(c.getTime());
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRuleX05() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX05();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setArrestDate(null);
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		LocalDate arrestDate = LocalDate.of(2016, 2, 15);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		GroupAIncidentReport incident = (GroupAIncidentReport) arresteeSegment.getParentReport();
+		incident.setYearOfTape(2016);
+		incident.setMonthOfTape(2);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		incident.setMonthOfTape(1);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._605, nibrsError.getNIBRSErrorCode());
+		assertEquals("42", nibrsError.getDataElementIdentifier());
+		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
+		arrestDate = LocalDate.of(2016, 1, 31);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arrestDate = LocalDate.of(2016, 1, 1);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arrestDate = LocalDate.of(2015, 12, 31);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		rule = groupBRulesFactory.getRuleX05();
+		arresteeSegment = buildBaseGroupBSegment();
+		GroupBIncidentReport groupBArrestReport = (GroupBIncidentReport) arresteeSegment.getParentReport();
+		groupBArrestReport.setYearOfTape(2016);
+		groupBArrestReport.setMonthOfTape(1);
+		arrestDate = LocalDate.of(2016, 1, 31);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arrestDate = LocalDate.of(2016, 2, 1);
+		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
 	}
 	
 	@Test
@@ -93,6 +165,17 @@ public class ArresteeSegmentRulesFactoryTest {
 	
 	private ArresteeSegment buildBaseGroupASegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
+		ReportSource source = new ReportSource();
+		source.setSourceLocation(getClass().getName());
+		source.setSourceName(getClass().getName());
+		report.setSource(source);
+		ArresteeSegment s = new ArresteeSegment();
+		report.addArrestee(s);
+		return s;
+	}
+
+	private ArresteeSegment buildBaseGroupBSegment() {
+		GroupBIncidentReport report = new GroupBIncidentReport();
 		ReportSource source = new ReportSource();
 		source.setSourceLocation(getClass().getName());
 		source.setSourceName(getClass().getName());

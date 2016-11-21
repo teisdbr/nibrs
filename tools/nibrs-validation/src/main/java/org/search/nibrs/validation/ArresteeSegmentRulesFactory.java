@@ -1,11 +1,17 @@
 package org.search.nibrs.validation;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
-import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -22,6 +28,8 @@ import org.search.nibrs.validation.rules.ValidNIBRSIdentifierFormatRule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
 public class ArresteeSegmentRulesFactory {
+	
+	private static final Logger LOG = LogManager.getLogger(ArresteeSegmentRulesFactory.class);
 	
 	public static final String GROUP_A_ARRESTEE_MODE = "group-a-arrestee";
 	public static final String GROUP_B_ARRESTEE_MODE = "group-b-arrestee";
@@ -50,8 +58,9 @@ public class ArresteeSegmentRulesFactory {
 	
 	private void initRules(List<Rule<ArresteeSegment>> rulesList) {
 		rulesList.add(getRuleX01ForSequenceNumber());
-//		rulesList.add(arrestTransactionNumberNotBlank601Rule());
-//		rulesList.add(arrestDateNotBlank601Rule());
+		rulesList.add(getRuleX01ForArrestTransactionNumber());
+		rulesList.add(getRuleX15());
+		rulesList.add(getRuleX17());
 //		rulesList.add(typeOfArrestRule());
 //		rulesList.add(usrArrestOffenseCode());
 //		rulesList.add(arresteeWasArmedWithNotAllEmpty601Rule());
@@ -98,16 +107,36 @@ public class ArresteeSegmentRulesFactory {
 		return new ValidNIBRSIdentifierFormatRule<>("41", isGroupAMode() ? NIBRSErrorCode._615 : NIBRSErrorCode._715);
 	}
 	
-	private Rule<ArresteeSegment> arrestDateNotBlank601Rule(){
-		
-		//TODO validate value
-		
-		NotBlankRule<ArresteeSegment> notBlankRule = new NotBlankRule<ArresteeSegment>("arrestDate", 
-				"42", ArresteeSegment.class, NIBRSErrorCode._601);
-		
-		return notBlankRule;
+	Rule<ArresteeSegment> getRuleX01ForArrestDate() {
+		return new NotBlankRule<ArresteeSegment>("arrestDate", "42", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
 	}
 	
+	Rule<ArresteeSegment> getRuleX05() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				AbstractReport parent = arresteeSegment.getParentReport();
+				Integer yearOfTape = parent.getYearOfTape();
+				Integer monthOfTape = parent.getMonthOfTape();
+				if (monthOfTape != null && monthOfTape > 0 && monthOfTape < 13 && yearOfTape != null) {
+					Calendar c = Calendar.getInstance();
+					c.set(yearOfTape, monthOfTape-1, 1);
+					LocalDate compDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, 1);
+					compDate = compDate.plusMonths(1).minusDays(1);
+					c.setTime(arresteeSegment.getArrestDate());
+					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+					if (compDate.isBefore(arrestDate)) {
+						e = arresteeSegment.getErrorTemplate();
+						e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._605 : NIBRSErrorCode._705);
+						e.setDataElementIdentifier("42");
+						e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+					}
+				}
+				return e;
+			}
+		};
+	}
 	
 	private Rule<ArresteeSegment> typeOfArrestRule(){
 		
