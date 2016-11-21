@@ -186,6 +186,23 @@ public class ArresteeSegmentRulesFactory {
 		return new ValidValueListRule<ArresteeSegment>("ucrArrestOffenseCode", "45", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701, OffenseCode.codeSet(), false);
 	}
 	
+	Rule<ArresteeSegment> getRule670() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				String offenseCode = arresteeSegment.getUcrArrestOffenseCode();
+				if (OffenseCode._09C.code.equals(offenseCode)) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._670);
+					e.setDataElementIdentifier("45");
+					e.setValue(offenseCode);
+				}
+				return e;
+			}
+		};
+	}
+	
 	private Rule<ArresteeSegment> arresteeWasArmedWithNotAllEmpty601Rule(){
 		
 		NotAllBlankRule<ArresteeSegment> notAllBlankRule = new NotAllBlankRule<ArresteeSegment>("arresteeArmedWith", 
