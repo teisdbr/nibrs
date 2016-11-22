@@ -281,6 +281,34 @@ final class VictimRuleViolationExemplarFactory {
 				
 		});
 		
+		groupATweakerMap.put(451, incident -> {
+			//When a Group “A” Incident Report is submitted, the individual segments
+			//comprising the incident cannot contain duplicates. In this case,
+			//two victim segments were submitted having the same entry in Data Element 23 (Victim Sequence Number).
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			VictimSegment victim2 = new VictimSegment ();
+			victim2.setTypeOfVictim("I");
+			victim2.setTypeOfInjury(0, "M");
+			victim2.setVictimSequenceNumber(1);
+			victim2.setAgeString("2022");
+			victim2.setEthnicity("N");
+			victim2.setResidentStatusOfVictim("R");
+			victim2.setSex("F");
+			victim2.setRace("B");
+			victim2.setOffenderNumberRelated(0, 1);
+			victim2.setVictimOffenderRelationship(0, "AQ");
+			victim2.setUcrOffenseCodeConnection(0, "13A");
+			
+			copy.addVictim(victim2);
+			incidents.add(copy);
+				
+			return incidents;
+				
+		});
+		
+		
+		
 		groupATweakerMap.put(453, incident -> {
 			//(Age of Victim) The Data Element associated with this error must be 
 			//present when Data Element 25 (Type of Victim) is I=Individual.
