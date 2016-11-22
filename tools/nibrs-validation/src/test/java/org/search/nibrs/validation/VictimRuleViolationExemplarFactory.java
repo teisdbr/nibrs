@@ -222,9 +222,25 @@ final class VictimRuleViolationExemplarFactory {
 		
 				
 		groupATweakerMap.put(419, incident -> {
-			
+			//Data Element 31 (Aggravated Assault/Homicide Circumstances) can only be entered 
+			//when one or more of the offenses in Data Element 24 (Victim Connected to UCR Offense Code) are:
+			//09A=Murder and Non-negligent Manslaughter
+			//09B=Negligent Manslaughter
+			//09C=Justifiable Homicide
+			//13A=Aggravated Assault
+			//Data Element 33 (Type Injury) can only be entered when one or more of the offenses in Data Element 24 (Victim Connected to UCR Offense Code) are:
+			//100=Kidnapping/Abduction
+			//11A=Rape
+			//11B=Sodomy
+			//11C=Sexual Assault With An Object
+			//11D=Fondling
+			//120=Robbery
+			//13A=Aggravated Assault
+			//13B=Simple Assault
+			//210=Extortion/Blackmail
+			//64A=Human Trafficking, Commercial Sex Acts
+			//64B=Human Trafficking, Involuntary Servitude
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("200");
 			VictimSegment victimSegment = copy.getVictims().get(0);
@@ -720,6 +736,21 @@ final class VictimRuleViolationExemplarFactory {
 			
 		});
 		
+		
+		groupATweakerMap.put(476, incident -> {
+			//An offender can only have one spousal relationship. In this instance,
+			//two or more victims have a relationship of SE=Spouse to the same offender.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			VictimSegment victim2 = new VictimSegment();
+			victim2.setVictimOffenderRelationship(0, "SE");
+			victim2.setOffenderNumberRelated(0, 1);
+			copy.addVictim(victim2);
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		groupATweakerMap.put(477, incident -> {
 			//(Aggravated Assault/Homicide Circumstances) A victim segment was 
 			//submitted with Data Element 24 (Victim Connected to UCR Offense Code) 
