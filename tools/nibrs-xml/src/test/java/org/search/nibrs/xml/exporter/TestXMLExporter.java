@@ -289,7 +289,7 @@ public class TestXMLExporter {
 		
 		incident.setReportActionType('I');
 		
-		ArresteeSegment arrestee = new ArresteeSegment();
+		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(1);
 		arrestee.setAgeString("22");
@@ -449,7 +449,7 @@ public class TestXMLExporter {
 		offender.setRace("W");
 		offender.setSex("M");
 		
-		ArresteeSegment arrestee = new ArresteeSegment();
+		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(1);
 		arrestee.setAgeString("22");
