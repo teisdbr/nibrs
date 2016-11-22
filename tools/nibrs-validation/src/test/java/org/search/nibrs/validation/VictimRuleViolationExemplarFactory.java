@@ -572,6 +572,22 @@ final class VictimRuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(466, incident -> {
+			//Each UCR Offense Code entered into Data Element 24 (Victim Connected to UCR Offense Codes)
+			//must have the Offense Segment for the value. In this case, 
+			//the victim was connected to offenses that were not submitted as Offense Segments. 
+			//A victim cannot be connected to an offense when the offense itself is not present.
+			
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "720");
+						
+			incidents.add(copy);
+			
+			return incidents;
+					
+		});
+		
 		groupATweakerMap.put(467, incident -> {
 			//UCR code contains a Crime Against Property, but Data Element 25 
 			//(Type of Victim) is S=Society. This is not an allowable code for Crime Against Property offenses.
