@@ -647,7 +647,7 @@ final class VictimRuleViolationExemplarFactory {
 			
 			incidents.add(copy);
 						
-			return incidents;
+			return incidents;	
 			
 		});
 		
@@ -686,6 +686,22 @@ final class VictimRuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(474, incident -> {
+			//(Victim Segment) Cannot be submitted multiple times with VO=Victim 
+			//Was Offender in Data Element 35 (Relationship of Victim to Offender)
+			//when Data Element 34 (Offender Number to be Related) contains the same data value 
+			//indicating the same offender).
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			VictimSegment victim2 = new VictimSegment();
+			victim2.setVictimOffenderRelationship(0, "VO");
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
+			
+			
 		
 		groupATweakerMap.put(475, incident -> {
 			//(Offender Number to be Related) A victim can only have one
