@@ -267,4 +267,8 @@ public class ArresteeSegmentRulesFactory {
 		};
 	}
 	
+	Rule<ArresteeSegment> getRuleX54() {
+		return new ValidValueListRule<ArresteeSegment>("automaticWeaponIndicator", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._654 : NIBRSErrorCode._754, AutomaticWeaponIndicatorCode.codeSet());
+	}
+	
 }

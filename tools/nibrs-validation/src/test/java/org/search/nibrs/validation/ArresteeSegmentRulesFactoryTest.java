@@ -376,6 +376,29 @@ public class ArresteeSegmentRulesFactoryTest {
 		arresteeSegment.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode.A.code);
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._655, nibrsError.getNIBRSErrorCode());
+		assertEquals("46", nibrsError.getDataElementIdentifier());
+		assertEquals(ArresteeWasArmedWithCode._01, nibrsError.getValue());
+	}
+	
+	@Test
+	public void testRuleX54() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX54();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArresteeArmedWith(0, ArresteeWasArmedWithCode._11.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode.A.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setAutomaticWeaponIndicator(0, "invalid");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._654, nibrsError.getNIBRSErrorCode());
+		assertEquals("46", nibrsError.getDataElementIdentifier());
+		assertArrayEquals(new String[] {"invalid", null}, (String[]) nibrsError.getValue());
 	}
 	
 	private ArresteeSegment buildBaseGroupASegment() {

@@ -96,6 +96,11 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
         return automaticWeaponIndicator[position];
     }
     
+	public String[] getAutomaticWeaponIndicator()
+    {
+        return automaticWeaponIndicator;
+    }
+    
     public void setAutomaticWeaponIndicator(int position, String value)
     {
         automaticWeaponIndicator[position] = value;
