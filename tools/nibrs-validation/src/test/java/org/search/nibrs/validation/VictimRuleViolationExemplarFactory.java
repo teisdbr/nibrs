@@ -220,6 +220,7 @@ final class VictimRuleViolationExemplarFactory {
 			return incidents;
 		});
 		
+				
 		groupATweakerMap.put(419, incident -> {
 			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
@@ -256,11 +257,21 @@ final class VictimRuleViolationExemplarFactory {
 				
 		});
 		
+		groupATweakerMap.put(449, incident -> {
+			//This is a warning message. Data Element 26 (Age of Victim) cannot be less than 18 years old when 
+			//Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAgeString("17");
+			incidents.add(copy);
+				
+			return incidents;
+				
+		});	
+		
 		groupATweakerMap.put(450, incident -> {
-			
-			//(Age of Victim) contains a relationship of SE=Spouse. When this is so, the //
+			//(Age of Victim) contains a relationship of SE=Spouse. When this is so, the
 			//age of the victim cannot be less than 10 years.
-			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setAgeString("09");
