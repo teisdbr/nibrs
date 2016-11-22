@@ -14,6 +14,7 @@ import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
+import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
@@ -351,6 +352,30 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._607, nibrsError.getNIBRSErrorCode());
 		assertEquals("46", nibrsError.getDataElementIdentifier());
 		assertArrayEquals(new String[] {ArresteeWasArmedWithCode._01.code, ArresteeWasArmedWithCode._11.code}, (String[]) nibrsError.getValue());
+	}
+	
+	@Test
+	public void testRuleX55() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX55();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArresteeArmedWith(0, ArresteeWasArmedWithCode._11.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode.A.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode._blank.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArresteeArmedWith(0, ArresteeWasArmedWithCode._01.code);
+		arresteeSegment.setAutomaticWeaponIndicator(0, null);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setAutomaticWeaponIndicator(0, AutomaticWeaponIndicatorCode.A.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
 	}
 	
 	private ArresteeSegment buildBaseGroupASegment() {

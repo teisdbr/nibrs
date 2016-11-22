@@ -1,6 +1,9 @@
 package org.search.nibrs.model.codes;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,12 +28,33 @@ public enum ArresteeWasArmedWithCode {
 	public String code;
 	public String description;
 	
+	private static final List<ArresteeWasArmedWithCode> FIREARMS = Arrays.asList(new ArresteeWasArmedWithCode[] {_11, _12, _13, _14, _15});
+	
 	public static final Set<String> codeSet() {
 		Set<String> codeSet = new HashSet<>();
 		for (ArresteeWasArmedWithCode code : values()) {
 			codeSet.add(code.code);
 		}
 		return codeSet;
+	}
+
+	public static final Set<ArresteeWasArmedWithCode> asSet() {
+		return EnumSet.allOf(ArresteeWasArmedWithCode.class);
+	}
+	
+	public static final ArresteeWasArmedWithCode forCode(String code) {
+		ArresteeWasArmedWithCode ret = null;
+		for(ArresteeWasArmedWithCode c : asSet()) {
+			if (c.code.equals(code)) {
+				ret = c;
+				break;
+			}
+		}
+		return ret;
+	}
+
+	public boolean isFirearm() {
+		return FIREARMS.contains(this);
 	}
 	
 }

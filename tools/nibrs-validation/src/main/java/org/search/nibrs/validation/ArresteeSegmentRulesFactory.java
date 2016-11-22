@@ -16,6 +16,7 @@ import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
+import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
@@ -241,94 +242,29 @@ public class ArresteeSegmentRulesFactory {
 		};
 	}
 	
-	private Rule<ArresteeSegment> arresteeWasArmedWithNotAllEmpty601Rule(){
-		
-		NotAllBlankRule<ArresteeSegment> notAllBlankRule = new NotAllBlankRule<ArresteeSegment>("arresteeArmedWith", 
-				"46", ArresteeSegment.class, NIBRSErrorCode._601);
-						
-		return notAllBlankRule;
+	// note: rule 604/704 is unenforceable.  there is no way to distinguish between a missing automatic weapon indicator and a valid blank (since blank is,
+	//  for whatever reason, a valid value...)
+	
+	Rule<ArresteeSegment> getRuleX55() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				String[] arresteeArmedWith = arresteeSegment.getArresteeArmedWith();
+				for (int i = 0; i < arresteeArmedWith.length; i++) {
+					String aaw = arresteeArmedWith[i];
+					ArresteeWasArmedWithCode code = ArresteeWasArmedWithCode.forCode(aaw);
+					if ((code == null || !code.isFirearm()) && AutomaticWeaponIndicatorCode.A.code.equals(arresteeSegment.getAutomaticWeaponIndicator(i))) {
+						e = arresteeSegment.getErrorTemplate();
+						e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._655 : NIBRSErrorCode._755);
+						e.setDataElementIdentifier("46");
+						e.setValue(code);
+						break;
+					}
+				}
+				return e;
+			}
+		};
 	}
-	
-	
-	private Rule<ArresteeSegment> arresteeWasArmedWithNoDuplicates606Rule(){
-		
-		DuplicateCodedValueRule<ArresteeSegment> duplicateValueRule = new DuplicateCodedValueRule<ArresteeSegment>("arresteeArmedWith", 
-				"46", ArresteeSegment.class, NIBRSErrorCode._606);
-		
-		return duplicateValueRule;
-	}
-	
-	public Rule<ArresteeSegment> autoWeaponIndicatorNotBlank604Rule(){
-		//TODO depends on 3rd element
-		return null;
-	}
-	
-	public Rule<ArresteeSegment> ageOfArresteeNotBlank601Rule(){
-		
-		//TODO validate range
-		
-		NotBlankRule<ArresteeSegment> notBlankRule = new NotBlankRule<ArresteeSegment>("age", 
-				"47", ArresteeSegment.class, NIBRSErrorCode._601);
-		
-		return notBlankRule;
-	}
-	
-	public Rule<ArresteeSegment> sexOfArresteeNotBlank601Rule(){
-		
-		NotBlankRule<ArresteeSegment> notBlankRule = new NotBlankRule<ArresteeSegment>("sex", 
-				"49", ArresteeSegment.class, NIBRSErrorCode._601);
-		
-		return notBlankRule;
-	}
-	
-	public Rule<ArresteeSegment> sexOfArresteeValidValue667Rule(){
-		
-		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("sex", 
-		"49", ArresteeSegment.class, NIBRSErrorCode._667, SexOfArresteeCode.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	public Rule<ArresteeSegment> raceOfArresteeNotBlank601Rule(){
-		
-		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("race", 
-				"49", ArresteeSegment.class, NIBRSErrorCode._601, RaceOfArresteeCode.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	public Rule<ArresteeSegment> ethnicityOfArresteeNotBlank604Rule(){
-		
-		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("ethnicity", 
-				"50", ArresteeSegment.class, NIBRSErrorCode._604, EthnicityOfArrestee.codeSet());
-		
-		return validValueListRule;
-	}
-	
-	public Rule<ArresteeSegment> residentStatusOfArresteeNotBlank604Code(){
-		
-		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("residentStatusOfArrestee", 
-				"51", ArresteeSegment.class, NIBRSErrorCode._604, ResidentStatusCode.codeSet());
-		
-		return validValueListRule;		
-	}
-		
-	
-	public Rule<ArresteeSegment> dispositionOfArresteeUnder18ValidValue604Rule(){
-		
-		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("dispositionOfArresteeUnder18", 
-				"52", ArresteeSegment.class, NIBRSErrorCode._604, DispositionOfArresteeUnder18Code.codeSet());
-		
-		return validValueListRule;
-	}
-	
-// TODO see why not in pojo	
-//	public Rule<ArresteeSegment> clearanceCodeValidValue604Rule(){
-//		
-//		ValidValueListRule<ArresteeSegment> validValueListRule = new ValidValueListRule<ArresteeSegment>("TODO (not in pojo)", 
-//			/* unnumbered */ "", ArresteeSegment.class, NIBRSErrorCode._604, ClearanceCode.codeSet());
-//		
-//		return validValueListRule;
-//	}
 	
 }
