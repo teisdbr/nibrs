@@ -5,12 +5,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Representation of a VictimSegment reported within an Incident in a NIBRS report. Note that we extend AbstractPersonSegment even though some types of victims are not people (e.g., Business)...since
  * NIBRS represents them all with the same data structure.
  *
  */
 public class VictimSegment extends AbstractPersonSegment {
+	
+	private static final Logger LOG = LogManager.getLogger(VictimSegment.class);
 
 	public static final char VICTIM_SEGMENT_TYPE_IDENTIFIER = '4';
 	public static final int UCR_OFFENSE_CODE_CONNECTION_COUNT = 10;
@@ -344,4 +349,8 @@ public class VictimSegment extends AbstractPersonSegment {
 		ucrOffenseCodeConnection = new String[UCR_OFFENSE_CODE_CONNECTION_COUNT];
 	}
 
+	public boolean isVictimOfOffender(OffenderSegment os) {
+		return os != null && Arrays.asList(getOffenderNumberRelated()).contains(os.getOffenderSequenceNumber());
+	}
+	
 }

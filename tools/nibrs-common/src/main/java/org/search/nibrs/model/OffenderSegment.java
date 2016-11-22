@@ -1,5 +1,7 @@
 package org.search.nibrs.model;
 
+import java.util.Arrays;
+
 /**
  * Representation of an OffenderSegment reported within an Incident in a NIBRS report.
  *
@@ -61,6 +63,10 @@ public class OffenderSegment extends AbstractPersonSegment
 	@Override
 	protected Object getWithinSegmentIdentifier() {
 		return offenderSequenceNumber;
+	}
+
+	public boolean isOffenderOfVictim(VictimSegment vs) {
+		return (Arrays.asList(vs.getOffenderNumberRelated()).contains(getOffenderSequenceNumber()));
 	}
     
 }

@@ -83,6 +83,26 @@ public class GroupAIncidentReport extends AbstractReport
 		}
 		return ret;
 	}
+	
+	public List<VictimSegment> getVictimsOfOffender(OffenderSegment os) {
+		List<VictimSegment> ret = new ArrayList<>();
+		for (VictimSegment vs : getVictims()) {
+			if (vs.isVictimOfOffender(os)) {
+				ret.add(vs);
+			}
+		}
+		return ret;
+	}
+    
+	public List<OffenderSegment> getOffendersOfVictim(VictimSegment vs) {
+		List<OffenderSegment> ret = new ArrayList<>();
+		for (OffenderSegment os : getOffenders()) {
+			if (os.isOffenderOfVictim(vs)) {
+				ret.add(os);
+			}
+		}
+		return ret;
+	}
     
 	public boolean includesCargoTheft() {
 		return includesCargoTheft;

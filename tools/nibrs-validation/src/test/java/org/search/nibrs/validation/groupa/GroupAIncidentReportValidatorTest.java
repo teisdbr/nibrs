@@ -424,6 +424,11 @@ public class GroupAIncidentReportValidatorTest {
 	}
 	
 	@Test
+	public void testRule476(){
+		testRule(NIBRSErrorCode._476, 476);
+	}
+	
+	@Test
 	public void testRule477(){
 		testRule(NIBRSErrorCode._477, 477);
 	}

@@ -152,6 +152,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule471());
 		rulesList.add(getRule472());
 		rulesList.add(getRule475());
+		rulesList.add(getRule476());
 		rulesList.add(getRule477());
 		rulesList.add(getRule478());
 		rulesList.add(getRule479());
@@ -760,6 +761,45 @@ public class VictimSegmentRulesFactory {
 					e.setNIBRSErrorCode(NIBRSErrorCode._461);
 					e.setDataElementIdentifier("25");
 					e.setValue(TypeOfVictimCode.S.code);
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule476() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
+				int spouseCount = 0;
+				Integer[] offenderNumbersRelated = victimSegment.getOffenderNumberRelated();
+				for (int i=0; i < offenderNumbersRelated.length;i++) {
+					String relationship = victimSegment.getVictimOffenderRelationship(i);
+					Integer offenderSequenceNumber = offenderNumbersRelated[i];
+					if (offenderSequenceNumber != null && RelationshipOfVictimToOffenderCode.SE.code.equals(relationship)) {
+						OffenderSegment os = parent.getOffenderForSequenceNumber(offenderSequenceNumber);
+						List<VictimSegment> siblingVictims = new ArrayList<>();
+						siblingVictims.addAll(parent.getVictimsOfOffender(os));
+						siblingVictims.remove(victimSegment);
+						for (VictimSegment siblingVictim : siblingVictims) {
+							Integer[] siblingOffenderNumbersRelated = siblingVictim.getOffenderNumberRelated();
+							for (int j=0;j < siblingOffenderNumbersRelated.length;j++) {
+								if (offenderSequenceNumber.equals(siblingOffenderNumbersRelated[j])) {
+									if (RelationshipOfVictimToOffenderCode.SE.code.equals(siblingVictim.getVictimOffenderRelationship(j))) {
+										spouseCount++;
+									}
+								}
+							}
+						}
+					}
+				}
+				if (spouseCount > 0) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._476);
+					e.setDataElementIdentifier("35");
+					e.setValue(spouseCount);
 				}
 				return e;
 			}

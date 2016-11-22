@@ -76,6 +76,7 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRule760());
 		rulesList.add(getRuleX01ForArresteeWasArmedWith());
 		rulesList.add(getRuleX06ForArresteeWasArmedWith());
+		rulesList.add(getRuleX07ForArresteeWasArmedWith());
 		
 //		rulesList.add(ageOfArresteeNotBlank601Rule());
 //		rulesList.add(sexOfArresteeNotBlank601Rule());
