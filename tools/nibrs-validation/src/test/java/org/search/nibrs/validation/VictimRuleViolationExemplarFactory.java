@@ -693,6 +693,23 @@ final class VictimRuleViolationExemplarFactory {
 			
 		});
 		
+		groupATweakerMap.put(480, incident -> {
+			//Data Element 31 (Aggravated Assault/Homicide Circumstances) has 
+			//08=Other Felony Involved but the incident has only one offense. 
+			//For this code to be used, there must be an Other Felony. 
+			//Either multiple entries for Data Element 6 (UCR Offense Code)
+			//should have been submitted, or multiple individual victims should
+			//have been submitted for the incident report.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("13A");
+			copy.getVictims().get(0).setTypeOfInjury(0, "O");
+			copy.getVictims().get(0).setAggravatedAssaultHomicideCircumstances(0, "08");
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
 		groupATweakerMap.put(481, incident -> {
 			//Data Element 26 (Age of Victim) should be under 18 when Data Element 24
 			//(Victim Connected to UCR Offense Code) is 36B=Statutory Rape.
