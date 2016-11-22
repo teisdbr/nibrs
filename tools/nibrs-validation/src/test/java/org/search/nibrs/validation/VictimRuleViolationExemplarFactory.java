@@ -639,6 +639,18 @@ final class VictimRuleViolationExemplarFactory {
 					
 		});
 		
+		groupATweakerMap.put(470, incident -> {
+			//When “VO” Relationship is present, must have two or more victims and offenders
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "VO");
+			
+			incidents.add(copy);
+						
+			return incidents;
+			
+		});
+		
 		groupATweakerMap.put(471, incident -> {
 			
 			//(Offender Number to be Related) has relationships of VO=Victim Was Offender 
