@@ -29,7 +29,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     private String ucrArrestOffenseCode;
     private String[] arresteeArmedWith;
     private String[] automaticWeaponIndicator;
-    private String residentStatusOfArrestee;
+    private String residentStatus;
     private String dispositionOfArresteeUnder18;
 
     public ArresteeSegment(char segmentType)
@@ -47,7 +47,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     	this.typeOfArrest = a.typeOfArrest;
     	this.multipleArresteeSegmentsIndicator = a.multipleArresteeSegmentsIndicator;
     	this.ucrArrestOffenseCode = a.ucrArrestOffenseCode;
-    	this.residentStatusOfArrestee = a.residentStatusOfArrestee;
+    	this.residentStatus = a.residentStatus;
     	this.dispositionOfArresteeUnder18 = a.dispositionOfArresteeUnder18;
     	this.arresteeArmedWith = CopyUtils.copyArray(a.arresteeArmedWith);
     	this.automaticWeaponIndicator = CopyUtils.copyArray(a.automaticWeaponIndicator);
@@ -80,7 +80,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 		result = prime * result + Arrays.hashCode(automaticWeaponIndicator);
 		result = prime * result + ((dispositionOfArresteeUnder18 == null) ? 0 : dispositionOfArresteeUnder18.hashCode());
 		result = prime * result + ((multipleArresteeSegmentsIndicator == null) ? 0 : multipleArresteeSegmentsIndicator.hashCode());
-		result = prime * result + ((residentStatusOfArrestee == null) ? 0 : residentStatusOfArrestee.hashCode());
+		result = prime * result + ((residentStatus == null) ? 0 : residentStatus.hashCode());
 		result = prime * result + ((typeOfArrest == null) ? 0 : typeOfArrest.hashCode());
 		result = prime * result + ((ucrArrestOffenseCode == null) ? 0 : ucrArrestOffenseCode.hashCode());
 		return result;
@@ -160,13 +160,13 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     {
         this.multipleArresteeSegmentsIndicator = multipleArresteeSegmentsIndicator;
     }
-    public String getResidentStatusOfArrestee()
+    public String getResidentStatus()
     {
-        return residentStatusOfArrestee;
+        return residentStatus;
     }
-    public void setResidentStatusOfArrestee(String residentStatusOfArrestee)
+    public void setResidentStatus(String residentStatus)
     {
-        this.residentStatusOfArrestee = residentStatusOfArrestee;
+        this.residentStatus = residentStatus;
     }
     public String getTypeOfArrest()
     {

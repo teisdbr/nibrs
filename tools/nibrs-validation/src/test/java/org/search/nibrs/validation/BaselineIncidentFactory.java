@@ -64,7 +64,7 @@ final class BaselineIncidentFactory {
 		v.setVictimSequenceNumber(1);
 		v.setAgeString("2022");
 		v.setEthnicity("N");
-		v.setResidentStatusOfVictim("R");
+		v.setResidentStatus("R");
 		v.setSex("F");
 		v.setRace("B");
 		v.setOffenderNumberRelated(0, 1);

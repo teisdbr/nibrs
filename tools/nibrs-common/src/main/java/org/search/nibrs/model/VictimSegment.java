@@ -26,7 +26,7 @@ public class VictimSegment extends AbstractPersonSegment {
 	private Integer victimSequenceNumber;
 	private String[] ucrOffenseCodeConnection;
 	private String typeOfVictim;
-	private String residentStatusOfVictim;
+	private String residentStatus;
 	private String[] aggravatedAssaultHomicideCircumstances;
 	private String additionalJustifiableHomicideCircumstances;
 	private String[] typeOfInjury;
@@ -54,7 +54,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		super(v);
 		victimSequenceNumber = v.victimSequenceNumber;
 		typeOfVictim = v.typeOfVictim;
-		residentStatusOfVictim = v.residentStatusOfVictim;
+		residentStatus = v.residentStatus;
 		additionalJustifiableHomicideCircumstances = v.additionalJustifiableHomicideCircumstances;
 		typeOfOfficerActivityCircumstance = v.typeOfOfficerActivityCircumstance;
 		officerAssignmentType = v.officerAssignmentType;
@@ -192,12 +192,12 @@ public class VictimSegment extends AbstractPersonSegment {
 		this.additionalJustifiableHomicideCircumstances = additionalJustifiableHomicideCircumstances;
 	}
 
-	public String getResidentStatusOfVictim() {
-		return residentStatusOfVictim;
+	public String getResidentStatus() {
+		return residentStatus;
 	}
 
-	public void setResidentStatusOfVictim(String residentStatusOfVictim) {
-		this.residentStatusOfVictim = residentStatusOfVictim;
+	public void setResidentStatus(String residentStatus) {
+		this.residentStatus = residentStatus;
 	}
 
 	public String getTypeOfVictim() {
@@ -298,7 +298,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		result = prime * result + populatedOffenderNumberRelatedCount;
 		result = prime * result + populatedTypeOfInjuryCount;
 		result = prime * result + populatedUcrOffenseCodeConnectionCount;
-		result = prime * result + ((residentStatusOfVictim == null) ? 0 : residentStatusOfVictim.hashCode());
+		result = prime * result + ((residentStatus == null) ? 0 : residentStatus.hashCode());
 		result = prime * result + Arrays.hashCode(typeOfInjury);
 		result = prime * result + ((typeOfOfficerActivityCircumstance == null) ? 0 : typeOfOfficerActivityCircumstance.hashCode());
 		result = prime * result + ((typeOfVictim == null) ? 0 : typeOfVictim.hashCode());
@@ -316,7 +316,7 @@ public class VictimSegment extends AbstractPersonSegment {
 	@Override
 	public String toString() {
 		return "VictimSegment [victimSequenceNumber=" + victimSequenceNumber + ", ucrOffenseCodeConnection=" + Arrays.toString(ucrOffenseCodeConnection) + ", typeOfVictim=" + typeOfVictim
-				+ ", residentStatusOfVictim=" + residentStatusOfVictim + ", aggravatedAssaultHomicideCircumstances=" + Arrays.toString(aggravatedAssaultHomicideCircumstances)
+				+ ", residentStatus=" + residentStatus + ", aggravatedAssaultHomicideCircumstances=" + Arrays.toString(aggravatedAssaultHomicideCircumstances)
 				+ ", additionalJustifiableHomicideCircumstances=" + additionalJustifiableHomicideCircumstances + ", typeOfInjury=" + Arrays.toString(typeOfInjury) + ", offenderNumberRelated="
 				+ Arrays.toString(offenderNumberRelated) + ", victimOffenderRelationship=" + Arrays.toString(victimOffenderRelationship) + ", typeOfOfficerActivityCircumstance="
 				+ typeOfOfficerActivityCircumstance + ", officerAssignmentType=" + officerAssignmentType + ", officerOtherJurisdictionORI=" + officerOtherJurisdictionORI

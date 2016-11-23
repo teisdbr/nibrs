@@ -394,7 +394,7 @@ public class TestXMLExporter {
 		v.setVictimSequenceNumber(1);
 		v.setAgeString("2022");
 		v.setEthnicity("N");
-		v.setResidentStatusOfVictim("R");
+		v.setResidentStatus("R");
 		v.setSex("F");
 		v.setRace("B");
 		v.setUcrOffenseCodeConnection(0, "64A");
@@ -409,7 +409,7 @@ public class TestXMLExporter {
 		v.setVictimSequenceNumber(2);
 		v.setAgeString("BB");
 		v.setEthnicity("N");
-		v.setResidentStatusOfVictim("R");
+		v.setResidentStatus("R");
 		v.setSex("F");
 		v.setRace("B");
 		v.setUcrOffenseCodeConnection(0, "13A");
@@ -432,7 +432,7 @@ public class TestXMLExporter {
 		v.setTypeOfInjury(0, "L");
 		v.setAgeString("30");
 		v.setEthnicity("N");
-		v.setResidentStatusOfVictim("R");
+		v.setResidentStatus("R");
 		v.setSex("F");
 		v.setRace("B");
 		v.setOfficerAssignmentType("F");

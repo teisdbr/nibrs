@@ -53,7 +53,7 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 	}
 
 	public Rule<T> getResidentStatusValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode, boolean allowNull) {
-		return new PersonValidValueRule<T>("residentStatusOfVictim", dataElementIdentifier, nibrsErrorCode, ResidentStatusCode.codeSet(), allowNull);
+		return new PersonValidValueRule<T>("residentStatus", dataElementIdentifier, nibrsErrorCode, ResidentStatusCode.codeSet(), allowNull);
 	}
 
 	public Rule<T> getEthnicityValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode, boolean allowNull) {

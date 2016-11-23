@@ -16,6 +16,8 @@ import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
@@ -82,6 +84,10 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX22());
 		rulesList.add(getRuleX01ForAge());
 		rulesList.add(getRule761());
+		rulesList.add(getRuleX01ForSex());
+		rulesList.add(getRuleX01ForRace());
+		rulesList.add(getRuleX04ForEthnicity());
+		rulesList.add(getRuleX04ForResidentStatus());
 
 //		rulesList.add(sexOfArresteeNotBlank601Rule());
 //		rulesList.add(sexOfArresteeValidValue667Rule());
@@ -301,6 +307,22 @@ public class ArresteeSegmentRulesFactory {
 				return e;
 			}
 		};
+	}
+	
+	Rule<ArresteeSegment> getRuleX01ForSex() {
+		return personSegmentRulesFactory.getSexValidNonBlankRule("48", isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+	}
+
+	Rule<ArresteeSegment> getRuleX01ForRace() {
+		return personSegmentRulesFactory.getRaceValidNonBlankRule("49", isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+	}
+
+	Rule<ArresteeSegment> getRuleX04ForEthnicity() {
+		return personSegmentRulesFactory.getEthnicityValidNonBlankRule("50", isGroupAMode() ? NIBRSErrorCode._604 : NIBRSErrorCode._704, true);
+	}
+
+	Rule<ArresteeSegment> getRuleX04ForResidentStatus(){
+		return personSegmentRulesFactory.getResidentStatusValidNonBlankRule("51", isGroupAMode() ? NIBRSErrorCode._604 : NIBRSErrorCode._704, true);
 	}
 	
 }

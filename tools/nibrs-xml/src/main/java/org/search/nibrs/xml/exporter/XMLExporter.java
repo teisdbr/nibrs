@@ -391,7 +391,7 @@ public class XMLExporter {
 				}
 			}
 			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonRaceNDExCode", arrestee.getRace());
-			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonResidentCode", arrestee.getResidentStatusOfArrestee());
+			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonResidentCode", arrestee.getResidentStatus());
 			appendElementAndValueIfNotNull(arresteeElement, Namespace.j, "PersonSexCode", arrestee.getSex());
 		}
 	}
@@ -449,7 +449,7 @@ public class XMLExporter {
 					}
 				}
 				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonRaceNDExCode", victim.getRace());
-				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonResidentCode", victim.getResidentStatusOfVictim());
+				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonResidentCode", victim.getResidentStatus());
 				appendElementAndValueIfNotNull(victimElement, Namespace.j, "PersonSexCode", victim.getSex());
 				String ageCode = age.getNonNumericAge();
 				if (ageCode != null) {

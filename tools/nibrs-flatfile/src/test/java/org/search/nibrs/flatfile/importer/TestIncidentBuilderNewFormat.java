@@ -156,7 +156,7 @@ public class TestIncidentBuilderNewFormat
         assertEquals(new Integer(24), arrestee.getAge().getAgeMin());
         assertEquals("M", arrestee.getSex());
         assertEquals("W", arrestee.getRace());
-        assertEquals("R", arrestee.getResidentStatusOfArrestee());
+        assertEquals("R", arrestee.getResidentStatus());
         assertNull(arrestee.getDispositionOfArresteeUnder18());
         
     }
@@ -185,7 +185,7 @@ public class TestIncidentBuilderNewFormat
         assertEquals(new Integer(46), victim.getAge().getAgeMin());
         assertEquals("W", victim.getRace());
         assertEquals("N", victim.getEthnicity());
-        assertEquals("R", victim.getResidentStatusOfVictim());
+        assertEquals("R", victim.getResidentStatus());
         assertNull(victim.getAggravatedAssaultHomicideCircumstances(0));
         assertNull(victim.getAggravatedAssaultHomicideCircumstances(1));
         assertNull(victim.getAdditionalJustifiableHomicideCircumstances());

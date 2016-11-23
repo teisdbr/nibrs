@@ -634,7 +634,7 @@ public class VictimSegmentRulesFactory {
 	}
 
 	Rule<VictimSegment> getRule458ForResidentStatusOfVictim() {
-		return new NonPersonVictimBlankRule<>("residentStatusOfVictim", "30", NIBRSErrorCode._458);
+		return new NonPersonVictimBlankRule<>("residentStatus", "30", NIBRSErrorCode._458);
 	}
 
 	Rule<VictimSegment> getRule458ForTypeOfInjury() {

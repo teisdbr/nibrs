@@ -277,16 +277,16 @@ public class VictimSegmentRulesFactoryTest {
 		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForResidentStatusOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
-		victimSegment.setResidentStatusOfVictim(null);
+		victimSegment.setResidentStatus(null);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
-		victimSegment.setResidentStatusOfVictim("invalid");
+		victimSegment.setResidentStatus("invalid");
 		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
 		assertEquals("30", nibrsError.getDataElementIdentifier());
 		assertEquals("invalid", nibrsError.getValue());
-		victimSegment.setResidentStatusOfVictim(ResidentStatusCode.N.code);
+		victimSegment.setResidentStatus(ResidentStatusCode.N.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 	}
@@ -688,7 +688,7 @@ public class VictimSegmentRulesFactoryTest {
 		VictimSegment victimSegment = getBasicVictimSegment();
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.R.code);
-		victimSegment.setResidentStatusOfVictim(ResidentStatusCode.N.code);
+		victimSegment.setResidentStatus(ResidentStatusCode.N.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._458, nibrsError.getNIBRSErrorCode());

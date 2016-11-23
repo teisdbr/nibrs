@@ -485,6 +485,26 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals(arresteeSegment.getAge(), nibrsError.getValue());
 	}
 	
+	@Test
+	public void testRuleX01ForSex() {
+		// nothing to do here.  this rule is amply tested for victim and offender.
+	}
+	
+	@Test
+	public void testRuleX01ForRace() {
+		// nothing to do here.  this rule is amply tested for victim and offender.
+	}
+	
+	@Test
+	public void testRuleX04ForEthnicity() {
+		// nothing to do here.  this rule is amply tested for victim and offender.
+	}
+	
+	@Test
+	public void testRuleX04ForResidentStatus() {
+		// nothing to do here.  this rule is amply tested for victim and offender.
+	}
+	
 	private ArresteeSegment buildBaseGroupASegment() {
 		GroupAIncidentReport report = new GroupAIncidentReport();
 		ReportSource source = new ReportSource();

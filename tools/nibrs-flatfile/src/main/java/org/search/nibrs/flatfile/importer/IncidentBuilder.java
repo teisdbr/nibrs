@@ -169,7 +169,7 @@ public class IncidentBuilder {
 			arrestee.setSex(StringUtils.getStringBetween(62, 62, segmentData));
 			arrestee.setRace(StringUtils.getStringBetween(63, 63, segmentData));
 			arrestee.setEthnicity(StringUtils.getStringBetween(64, 64, segmentData));
-			arrestee.setResidentStatusOfArrestee(StringUtils.getStringBetween(65, 65, segmentData));
+			arrestee.setResidentStatus(StringUtils.getStringBetween(65, 65, segmentData));
 			arrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(66, 66, segmentData));
 		} else {
 			NIBRSError e = new NIBRSError();
@@ -310,7 +310,7 @@ public class IncidentBuilder {
 			newArrestee.setSex(StringUtils.getStringBetween(75, 75, segmentData));
 			newArrestee.setRace(StringUtils.getStringBetween(76, 76, segmentData));
 			newArrestee.setEthnicity(StringUtils.getStringBetween(77, 77, segmentData));
-			newArrestee.setResidentStatusOfArrestee(StringUtils.getStringBetween(78, 78, segmentData));
+			newArrestee.setResidentStatus(StringUtils.getStringBetween(78, 78, segmentData));
 			newArrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(79, 79, segmentData));
 		} else {
 			NIBRSError e = new NIBRSError();
@@ -374,7 +374,7 @@ public class IncidentBuilder {
 			newVictim.setSex(StringUtils.getStringBetween(76, 76, segmentData));
 			newVictim.setRace(StringUtils.getStringBetween(77, 77, segmentData));
 			newVictim.setEthnicity(StringUtils.getStringBetween(78, 78, segmentData));
-			newVictim.setResidentStatusOfVictim(StringUtils.getStringBetween(79, 79, segmentData));
+			newVictim.setResidentStatus(StringUtils.getStringBetween(79, 79, segmentData));
 			newVictim.setAggravatedAssaultHomicideCircumstances(0, StringUtils.getStringBetween(80, 81, segmentData));
 			newVictim.setAggravatedAssaultHomicideCircumstances(1, StringUtils.getStringBetween(82, 83, segmentData));
 			newVictim.setAdditionalJustifiableHomicideCircumstances(StringUtils.getStringBetween(84, 84, segmentData));
