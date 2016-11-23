@@ -16,10 +16,9 @@ import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
-import org.search.nibrs.model.OffenderSegment;
-import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
+import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
@@ -89,13 +88,9 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX01ForRace());
 		rulesList.add(getRuleX04ForEthnicity());
 		rulesList.add(getRuleX04ForResidentStatus());
-
-//		rulesList.add(sexOfArresteeNotBlank601Rule());
-//		rulesList.add(sexOfArresteeValidValue667Rule());
-//		rulesList.add(raceOfArresteeNotBlank601Rule());
-//		rulesList.add(ethnicityOfArresteeNotBlank604Rule());
-//		rulesList.add(residentStatusOfArresteeNotBlank604Code());
-//		rulesList.add(dispositionOfArresteeUnder18ValidValue604Rule());
+		rulesList.add(getRuleX04ForDispositionOfArresteeUnder18());
+		rulesList.add(getRuleX52());
+		rulesList.add(getRuleX53());
 	}
 	
 	Rule<ArresteeSegment> getRuleX01ForSequenceNumber() {
@@ -336,6 +331,42 @@ public class ArresteeSegmentRulesFactory {
 					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._667 : NIBRSErrorCode._758);
 					e.setDataElementIdentifier("48");
 					e.setValue(SexCode.U.code);
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<ArresteeSegment> getRuleX04ForDispositionOfArresteeUnder18() {
+		return new ValidValueListRule<ArresteeSegment>("dispositionOfArresteeUnder18", "52", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._604 : NIBRSErrorCode._704, DispositionOfArresteeUnder18Code.codeSet(), true);
+	}
+	
+	Rule<ArresteeSegment> getRuleX52() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				if (arresteeSegment.isJuvenile() && arresteeSegment.getDispositionOfArresteeUnder18() == null) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._652 : NIBRSErrorCode._752);
+					e.setDataElementIdentifier("52");
+					e.setValue(arresteeSegment.getDispositionOfArresteeUnder18());
+				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<ArresteeSegment> getRuleX53() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				if (!arresteeSegment.isJuvenile() && arresteeSegment.getDispositionOfArresteeUnder18() != null) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._653 : NIBRSErrorCode._753);
+					e.setDataElementIdentifier("52");
+					e.setValue(arresteeSegment.getDispositionOfArresteeUnder18());
 				}
 				return e;
 			}

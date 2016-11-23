@@ -192,6 +192,16 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     public boolean isGroupB() {
     	return getSegmentType() == GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
     }
+    
+    public boolean isJuvenile() {
+    	// set forth in rule for data element 52
+    	NIBRSAge age = getAge();
+    	boolean ret = false;
+    	if (age != null && !age.isUnknown()) {
+    		ret = age.isNonNumeric() || age.getAgeMax() < 18 || (age.getAgeMin() < 18 && age.getAverage() < 18);
+    	}
+    	return ret;
+    }
 
 	@Override
 	protected Object getWithinSegmentIdentifier() {
