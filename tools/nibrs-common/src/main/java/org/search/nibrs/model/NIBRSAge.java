@@ -148,6 +148,10 @@ public class NIBRSAge {
 	
 	@Override
 	public String toString() {
+		NIBRSError e = getError();
+		if (e != null) {
+			return "Invalid age: " + getAgeString();
+		}
 		return isNonNumeric() ? getNonNumericAge() : (isAgeRange() ? ageMin + "-" + ageMax : ageMin.toString());
 	}
 

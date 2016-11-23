@@ -197,7 +197,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     	// set forth in rule for data element 52
     	NIBRSAge age = getAge();
     	boolean ret = false;
-    	if (age != null && !age.isUnknown()) {
+    	if (age != null && !age.isUnknown() && age.getError() == null) {
     		ret = age.isNonNumeric() || age.getAgeMax() < 18 || (age.getAgeMin() < 18 && age.getAverage() < 18);
     	}
     	return ret;

@@ -14,6 +14,10 @@ public class NIBRSAgeTest {
 		a.setAgeString("AA", VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER);
 		NIBRSError e = a.getError();
 		assertNotNull(e);
+		assertFalse(a.isNonNumeric());
+		assertFalse(a.isUnknown());
+		assertNull(a.getAgeMin());
+		assertNull(a.getAgeMax());
 	}
 	
 	@Test
