@@ -321,6 +321,10 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
 		assertEquals("46", nibrsError.getDataElementIdentifier());
 		assertArrayEquals(new String[] {null, null}, (String[]) nibrsError.getValue());
+		arresteeSegment.setArresteeArmedWith(0, "invalid");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertArrayEquals(new String[] {"invalid", null}, (String[]) nibrsError.getValue());
 	}
 	
 	@Test
@@ -445,7 +449,7 @@ public class ArresteeSegmentRulesFactoryTest {
 	}
 	
 	@Test
-	public void testRuleX01ForAgeOfOffender() {
+	public void testRuleX01ForAge() {
 		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForAge();
 		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
@@ -454,6 +458,20 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals("47", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 		arresteeSegment.setAgeString("00  ");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRuleX04ForAge() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX04ForAge();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setAgeString("AA  ");
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._604, nibrsError.getNIBRSErrorCode());
+		assertEquals("47", nibrsError.getDataElementIdentifier());
+		arresteeSegment.setAgeString("22  ");
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 	}

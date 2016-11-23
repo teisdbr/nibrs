@@ -83,6 +83,7 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX10());
 		rulesList.add(getRuleX22());
 		rulesList.add(getRuleX01ForAge());
+		rulesList.add(getRuleX04ForAge());
 		rulesList.add(getRule761());
 		rulesList.add(getRuleX01ForSex());
 		rulesList.add(getRuleX01ForRace());
@@ -131,7 +132,7 @@ public class ArresteeSegmentRulesFactory {
 	}
 	
 	Rule<ArresteeSegment> getRuleX01ForArresteeWasArmedWith() {
-		return new NotAllBlankRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+		return new ValidValueListRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701, ArresteeWasArmedWithCode.codeSet(), false);
 	}
 	
 	Rule<ArresteeSegment> getRuleX06ForArresteeWasArmedWith() {
@@ -285,7 +286,11 @@ public class ArresteeSegmentRulesFactory {
 	}
 
 	Rule<ArresteeSegment> getRuleX01ForAge() {
-		return personSegmentRulesFactory.getAgeValidNonBlankRule("47", isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+		return personSegmentRulesFactory.getAgeNonBlankRule("47", isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+	}
+	
+	Rule<ArresteeSegment> getRuleX04ForAge() {
+		return personSegmentRulesFactory.getAgeValidRule("47", isGroupAMode() ? NIBRSErrorCode._604 : NIBRSErrorCode._704);
 	}
 	
 	Rule<ArresteeSegment> getRule761() {

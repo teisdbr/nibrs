@@ -144,7 +144,7 @@ public class OffenderSegmentRulesFactory {
 	}
 
 	Rule<OffenderSegment> getRule504ForAgeOfOffender() {
-		return personSegmentRulesFactory.getAgeValidNonBlankRule("37", NIBRSErrorCode._504);
+		return personSegmentRulesFactory.getAgeValidRule("37", NIBRSErrorCode._504, false);
 	}
 
 	Rule<OffenderSegment> getRule504ForSexOfOffender() {

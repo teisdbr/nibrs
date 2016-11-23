@@ -43,6 +43,83 @@ final class ArresteeRuleViolationExemplarFactory {
 	private void populateGroupAExemplarMap() {
 		
 		groupATweakerMap.put(601, incident -> {
+			
+			// The referenced data element in a Group A Incident AbstractReport
+			// Segment 6 is mandatory & must be present.
+			
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeSequenceNumber(null);
+			incidents.add(copy);
+			
+			copy.getArrestees().get(0).setArrestTransactionNumber(null);
+			incidents.add(copy);
+			//(Type of Arrest) The referenced data element in a Group A Incident Report
+			//must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setTypeOfArrest("A");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setTypeOfArrest(null);
+			incidents.add(copy);
+			//(UCR Arrest Offense Code) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setUcrArrestOffenseCode("A");
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setUcrArrestOffenseCode(null);
+			incidents.add(copy);
+			//(Arrestee Was Armed With) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeArmedWith(0, null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArresteeArmedWith(0,"00");
+			incidents.add(copy);
+			//Arrest Date cannot be blank
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setArrestDate(null);
+			incidents.add(copy);
+			//(Multiple Arrestee Segments Indicator) The referenced data element in a 
+			//A Incident Report must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setMultipleArresteeSegmentsIndicator(null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setMultipleArresteeSegmentsIndicator("A");
+			incidents.add(copy);
+			//(Age of Arrestee) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString(null);
+			incidents.add(copy);
+			//(Sex of Arrestee) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setSex(null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setSex("A");
+			incidents.add(copy);
+			//(Race of Arrestee) The referenced data element in a Group A Incident Report 
+			//must be populated with a valid data value and cannot be blank.
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setRace(null);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setRace("X");
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
+		
+		// TODO: migrate this to a Group B Exemplar factory
+		
+		groupATweakerMap.put(701, incident -> {
 			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 6 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
@@ -54,86 +131,14 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy3.setOri(null);
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.setIncidentNumber(null);
-			GroupAIncidentReport copy5 = new GroupAIncidentReport(copy);
-			copy5.getArrestees().get(0).setArresteeSequenceNumber(null);
-			GroupAIncidentReport copy6 = new GroupAIncidentReport(copy);
-			copy6.getArrestees().get(0).setArrestTransactionNumber(null);
-			//(Type of Arrest) The referenced data element in a Group A Incident Report
-			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy7 = new GroupAIncidentReport(copy);
-			copy7.getArrestees().get(0).setTypeOfArrest("A");
-			GroupAIncidentReport copy8 = new GroupAIncidentReport(copy);
-			copy8.getArrestees().get(0).setTypeOfArrest(null);
-			//(UCR Arrest Offense Code) The referenced data element in a Group A Incident Report 
-			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy9 = new GroupAIncidentReport(copy);
-			copy9.getArrestees().get(0).setUcrArrestOffenseCode("A");
-			GroupAIncidentReport copy10 = new GroupAIncidentReport(copy);
-			copy10.getArrestees().get(0).setUcrArrestOffenseCode(null);
-			//(Arrestee Was Armed With) The referenced data element in a Group A Incident Report 
-			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy11 = new GroupAIncidentReport(copy);
-			copy11.getArrestees().get(0).setArresteeArmedWith(0, null);
-			GroupAIncidentReport copy12 = new GroupAIncidentReport(copy);
-			copy12.getArrestees().get(0).setArresteeArmedWith(0,"00");
-			//Arrest Date cannot be blank
-			GroupAIncidentReport copy13 = new GroupAIncidentReport(copy);
-			copy13.getArrestees().get(0).setArrestDate(null);
-			//(Multiple Arrestee Segments Indicator) The referenced data element in a 
-			//A Incident Report must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy14 = new GroupAIncidentReport(copy);
-			copy14.getArrestees().get(0).setMultipleArresteeSegmentsIndicator(null);
-			GroupAIncidentReport copy15 = new GroupAIncidentReport(copy);
-			copy15.getArrestees().get(0).setMultipleArresteeSegmentsIndicator("A");
-			//(Age of Arrestee) The referenced data element in a Group A Incident Report 
-			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy16 = new GroupAIncidentReport(copy);
-			copy16.getArrestees().get(0).setAgeString(null);
-			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
-			copy17.getArrestees().get(0).setAgeString("AA");
-			//(Sex of Arrestee) The referenced data element in a Group A Incident Report 
-			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy18 = new GroupAIncidentReport(copy);
-			copy18.getArrestees().get(0).setSex(null);
-			GroupAIncidentReport copy19 = new GroupAIncidentReport(copy);
-			copy19.getArrestees().get(0).setSex("A");
-			//(Race of Arrestee) The referenced data element in a Group A Incident Report 
-			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy20 = new GroupAIncidentReport(copy);
-			copy20.getArrestees().get(0).setRace(null);
-			GroupAIncidentReport copy21 = new GroupAIncidentReport(copy);
-			copy21.getArrestees().get(0).setRace("X");
 			
-			
-			
-			incidents.add(copy);
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy5);
-			incidents.add(copy6);
-			incidents.add(copy7);
-			incidents.add(copy8);
-			incidents.add(copy9);
-			incidents.add(copy10);
-			incidents.add(copy11);
-			incidents.add(copy12);
-			incidents.add(copy13);
-			incidents.add(copy14);
-			incidents.add(copy15);
-			incidents.add(copy16);
-			incidents.add(copy17);
-			incidents.add(copy18);
-			incidents.add(copy19);
-			incidents.add(copy20);
-			incidents.add(copy21);
-			
-			// TODO create and enable, if needed (for tests to pass)
-//			incidents.add(copy22);
-//			incidents.add(copy23);
-			
+//			incidents.add(copy);
+//			incidents.add(copy2);
+//			incidents.add(copy3);
+//			incidents.add(copy4);
 			return incidents;
 		});
+
 		
 		groupATweakerMap.put(604, incident -> {
 			//(Automatic Weapon Indicator) The referenced data element in a Group A Incident Report 
@@ -156,11 +161,14 @@ final class ArresteeRuleViolationExemplarFactory {
 			//Group A Incident Report must be populated with a valid data value and cannot be blank.
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy4.getArrestees().get(0).setResidentStatus("X");
-			
+			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
+			copy17.getArrestees().get(0).setAgeString("AA");
+
 			incidents.add(copy2);
 			incidents.add(copy3);
 			incidents.add(copy4);
-						
+			incidents.add(copy17);
+		
 			return incidents;
 		});
 		

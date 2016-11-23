@@ -40,7 +40,7 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 
 	}
 
-	public Rule<T> getAgeValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
+	public Rule<T> getAgeNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
 		return new NotBlankRule<T>("age", dataElementIdentifier, clazz, nibrsErrorCode);
 	}
 
@@ -90,6 +90,33 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 				NIBRSError e = null;
 				NIBRSAge nibrsAge = segment.getAge();
 				if (nibrsAge != null && nibrsAge.isAgeRange() && nibrsAge.getAgeMin() != null && nibrsAge.getAgeMin() == 0) {
+					e = segment.getErrorTemplate();
+					e.setDataElementIdentifier(dataElementIdentifier);
+					e.setNIBRSErrorCode(nibrsErrorCode);
+					e.setValue(nibrsAge);
+				}
+				return e;
+			}
+		};
+	}
+	
+	public Rule<T> getAgeValidRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
+		return getAgeValidRule(dataElementIdentifier, nibrsErrorCode, true);
+	}
+
+	public Rule<T> getAgeValidRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode, boolean allowNull) {
+		return new Rule<T>() {
+			@Override
+			public NIBRSError apply(T segment) {
+				NIBRSError e = null;
+				NIBRSAge nibrsAge = segment.getAge();
+				if (nibrsAge != null) {
+					e = nibrsAge.getError();
+					if (e != null) {
+						e.setDataElementIdentifier(dataElementIdentifier);
+						e.setNIBRSErrorCode(nibrsErrorCode);
+					}
+				} else if (!allowNull) {
 					e = segment.getErrorTemplate();
 					e.setDataElementIdentifier(dataElementIdentifier);
 					e.setNIBRSErrorCode(nibrsErrorCode);
