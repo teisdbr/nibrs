@@ -13,6 +13,7 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
@@ -399,6 +400,58 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._654, nibrsError.getNIBRSErrorCode());
 		assertEquals("46", nibrsError.getDataElementIdentifier());
 		assertArrayEquals(new String[] {"invalid", null}, (String[]) nibrsError.getValue());
+	}
+	
+	@Test
+	public void testRuleX10() {
+
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX10();
+
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setAgeString("3020");
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._610, nibrsError.getNIBRSErrorCode());
+		assertEquals("47", nibrsError.getDataElementIdentifier());
+		assertEquals(arresteeSegment.getAge(), nibrsError.getValue());
+
+		arresteeSegment.setAgeString("2030");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		
+	}
+	
+	@Test
+	public void testRuleX22() {
+
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX22();
+
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setAgeString("0020");
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._622, nibrsError.getNIBRSErrorCode());
+		assertEquals("47", nibrsError.getDataElementIdentifier());
+		assertEquals(arresteeSegment.getAge(), nibrsError.getValue());
+
+		arresteeSegment.setAgeString("2030");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		
+	}
+	
+	@Test
+	public void testRuleX01ForAgeOfOffender() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForAge();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
+		assertEquals("47", nibrsError.getDataElementIdentifier());
+		assertNull(nibrsError.getValue());
+		arresteeSegment.setAgeString("00  ");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
 	}
 	
 	private ArresteeSegment buildBaseGroupASegment() {

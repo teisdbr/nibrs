@@ -15,16 +15,12 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
-import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
-import org.search.nibrs.model.codes.EthnicityOfArrestee;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
-import org.search.nibrs.model.codes.RaceOfArresteeCode;
-import org.search.nibrs.model.codes.ResidentStatusCode;
-import org.search.nibrs.model.codes.SexOfArresteeCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.ExclusiveCodedValueRule;
@@ -42,6 +38,7 @@ public class ArresteeSegmentRulesFactory {
 	public static final String GROUP_A_ARRESTEE_MODE = "group-a-arrestee";
 	public static final String GROUP_B_ARRESTEE_MODE = "group-b-arrestee";
 
+	private PersonSegmentRulesFactory<ArresteeSegment> personSegmentRulesFactory;
 	private List<Rule<ArresteeSegment>> rulesList;
 	private String mode;
 	
@@ -54,6 +51,7 @@ public class ArresteeSegmentRulesFactory {
 	}	
 	
 	private ArresteeSegmentRulesFactory(String mode) {
+		personSegmentRulesFactory = new PersonSegmentRulesFactory<ArresteeSegment>(ArresteeSegment.class);
 		rulesList = new ArrayList<Rule<ArresteeSegment>>();
 		this.mode = mode;
 		initRules(rulesList);
@@ -78,8 +76,12 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX01ForArresteeWasArmedWith());
 		rulesList.add(getRuleX06ForArresteeWasArmedWith());
 		rulesList.add(getRuleX07ForArresteeWasArmedWith());
-		
-//		rulesList.add(ageOfArresteeNotBlank601Rule());
+		rulesList.add(getRuleX54());
+		rulesList.add(getRuleX55());
+		rulesList.add(getRuleX10());
+		rulesList.add(getRuleX22());
+		rulesList.add(getRuleX01ForAge());
+
 //		rulesList.add(sexOfArresteeNotBlank601Rule());
 //		rulesList.add(sexOfArresteeValidValue667Rule());
 //		rulesList.add(raceOfArresteeNotBlank601Rule());
@@ -269,6 +271,18 @@ public class ArresteeSegmentRulesFactory {
 	
 	Rule<ArresteeSegment> getRuleX54() {
 		return new ValidValueListRule<ArresteeSegment>("automaticWeaponIndicator", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._654 : NIBRSErrorCode._754, AutomaticWeaponIndicatorCode.codeSet());
+	}
+	
+	Rule<ArresteeSegment> getRuleX10() {
+		return personSegmentRulesFactory.getProperAgeRangeRule("47", isGroupAMode() ? NIBRSErrorCode._610 : NIBRSErrorCode._710);
+	}
+	
+	Rule<ArresteeSegment> getRuleX22() {
+		return personSegmentRulesFactory.getNonZeroAgeRangeMinimumRule("47", isGroupAMode() ? NIBRSErrorCode._622 : NIBRSErrorCode._752);
+	}
+
+	Rule<ArresteeSegment> getRuleX01ForAge() {
+		return personSegmentRulesFactory.getAgeValidNonBlankRule("47", isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
 	}
 	
 }
