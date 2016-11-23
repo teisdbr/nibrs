@@ -164,14 +164,14 @@ public class ArresteeSegmentRulesFactoryTest {
 		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
-		arrestDate = LocalDate.of(2016, 1, 21);
+		arrestDate = LocalDate.of(2016, 2, 1);
 		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		incident.setIncidentDate(Date.from(incidentDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
-		arrestDate = LocalDate.of(2016, 2, 1);
+		arrestDate = LocalDate.of(2016, 1, 21);
 		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);

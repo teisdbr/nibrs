@@ -236,11 +236,6 @@ final class ArresteeRuleViolationExemplarFactory {
 					
 		});
 				
-			
-			
-			
-	
-		
 		groupATweakerMap.put(617, incident -> {
 			//(Arrest Transaction Number) Must contain a valid character combination of the following:
 			//AZ (capital letters only)
@@ -274,6 +269,8 @@ final class ArresteeRuleViolationExemplarFactory {
 			//Clearance Indicator and Clearance Offense Code must be 
 			//blank when Segment Action Type on Level 6 (Arrestee Segment) is I=Incident.
 		
+		// note: rules 640 and 641 are just warnings, so we don't implement for now...
+		
 		groupATweakerMap.put(640, incident -> {
 			//(Disposition of Arrestee Under 18) was not entered, but Data Element 47 
 			//(Age of Arrestee) indicates an age-range for a juvenile. The low age is a 
@@ -290,10 +287,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 			return incidents;
 			
-		
 		});	
-		
-		
 		
 		groupATweakerMap.put(641, incident -> {
 			//(Age of Arrestee) was entered with a value of 99 which means the 
@@ -372,8 +366,6 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy.getArrestees().get(0).setArresteeArmedWith(0, "17");
 			incidents.add(copy);
 			
-			
-			
 			return incidents;
 		});
 		
@@ -384,29 +376,21 @@ final class ArresteeRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setArrestDate(Date.from(LocalDateTime.of(2016, 4, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			
-			
 			incidents.add(copy);
 			
 			return incidents;
 			
 		});
-		
 		
 		groupATweakerMap.put(667, incident -> {
 			//(Sex of Arrestee) does not contain a valid code of M=Male or F=Female. 
 			//Note: U=Unknown (if entered) is not a valid sex for an arrestee.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setSex("A");
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.getArrestees().get(0).setSex("U");
-			
+			copy.getArrestees().get(0).setSex("U");
 			incidents.add(copy);
-			incidents.add(copy2);
 			return incidents;
-			
 		});
-			
 			
 		//TO-DO groupATweakerMap.put(668, incident -> {
 			//Clearance Indicator cannot contain Y=Yes for more than one 

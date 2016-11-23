@@ -93,6 +93,7 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX52());
 		rulesList.add(getRuleX53());
 		rulesList.add(getRuleX05());
+		rulesList.add(getRule667_758());
 	}
 	
 	Rule<ArresteeSegment> getRuleX01ForSequenceNumber() {
@@ -188,7 +189,7 @@ public class ArresteeSegmentRulesFactory {
 					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 					c.setTime(incidentDateD);
 					LocalDate incidentDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					if (arrestDate.isAfter(incidentDate)) {
+					if (arrestDate.isBefore(incidentDate)) {
 						e = arresteeSegment.getErrorTemplate();
 						e.setNIBRSErrorCode(NIBRSErrorCode._665);
 						e.setDataElementIdentifier("42");
