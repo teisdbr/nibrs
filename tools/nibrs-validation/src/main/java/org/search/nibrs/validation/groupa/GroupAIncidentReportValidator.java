@@ -3,6 +3,8 @@ package org.search.nibrs.validation.groupa;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -18,6 +20,8 @@ import org.search.nibrs.validation.rules.Rule;
  * 
  */
 public class GroupAIncidentReportValidator {
+	
+	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReportValidator.class);
 	
 	private List<Rule<GroupAIncidentReport>> incidentReportRules = new ArrayList<>();
 	private List<Rule<OffenseSegment>> offenseSegmentRules = new ArrayList<>();
@@ -91,7 +95,7 @@ public class GroupAIncidentReportValidator {
 				}
 			}
 		}
-
+		
 		return ret;
 		
 	}

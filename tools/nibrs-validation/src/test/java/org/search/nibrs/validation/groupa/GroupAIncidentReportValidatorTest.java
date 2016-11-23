@@ -309,6 +309,11 @@ public class GroupAIncidentReportValidatorTest {
 	}
 
 	@Test
+	public void testRule409() {
+		testRule(NIBRSErrorCode._409, 409);
+	}
+
+	@Test
 	public void testRule410() {
 		testRule(NIBRSErrorCode._410, 410);
 	}
@@ -469,6 +474,11 @@ public class GroupAIncidentReportValidatorTest {
 	}
 
 	@Test
+	public void testRule509() {
+		testRule(NIBRSErrorCode._509, 509);
+	}
+
+	@Test
 	public void testRule510() {
 		testRule(NIBRSErrorCode._510, 510);
 	}
@@ -521,6 +531,26 @@ public class GroupAIncidentReportValidatorTest {
 	@Test
 	public void testRule604() {
 		testRule(NIBRSErrorCode._604, 604);
+	}
+
+	@Test
+	public void testRule605() {
+		testRule(NIBRSErrorCode._605, 605);
+	}
+
+	@Test
+	public void testRule606() {
+		testRule(NIBRSErrorCode._606, 606);
+	}
+
+	@Test
+	public void testRule607() {
+		testRule(NIBRSErrorCode._607, 607);
+	}
+
+	@Test
+	public void testRule609() {
+		testRule(NIBRSErrorCode._609, 609);
 	}
 
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {

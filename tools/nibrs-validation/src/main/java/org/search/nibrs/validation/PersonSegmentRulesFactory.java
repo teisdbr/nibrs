@@ -2,6 +2,8 @@ package org.search.nibrs.validation;
 
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractPersonSegment;
 import org.search.nibrs.model.NIBRSAge;
@@ -15,6 +17,8 @@ import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
 
 public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
+	
+	private static final Logger LOG = LogManager.getLogger(PersonSegmentRulesFactory.class);
 	
 	private Class<T> clazz;
 	
@@ -83,6 +87,24 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 		};
 	}
 	
+	public Rule<T> getAgeRangeLengthRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
+		return new Rule<T>() {
+			@Override
+			public NIBRSError apply(T segment) {
+				NIBRSError e = null;
+				NIBRSAge nibrsAge = segment.getAge();
+				if (nibrsAge != null && nibrsAge.getError() != null && nibrsAge.hasInvalidLength()) {
+					e = new NIBRSError(nibrsAge.getError());
+					e.setDataElementIdentifier(dataElementIdentifier);
+					e.setNIBRSErrorCode(nibrsErrorCode);
+					e.setContext(segment.getParentReport().getSource());
+					e.setValue(nibrsAge.getError().getValue());
+				}
+				return e;
+			}
+		};
+	}
+	
 	public Rule<T> getNonZeroAgeRangeMinimumRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
 		return new Rule<T>() {
 			@Override
@@ -93,6 +115,7 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 					e = segment.getErrorTemplate();
 					e.setDataElementIdentifier(dataElementIdentifier);
 					e.setNIBRSErrorCode(nibrsErrorCode);
+					e.setContext(segment.getParentReport().getSource());
 					e.setValue(nibrsAge);
 				}
 				return e;
@@ -113,8 +136,11 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 				if (nibrsAge != null) {
 					e = nibrsAge.getError();
 					if (e != null) {
+						e = new NIBRSError(nibrsAge.getError());
 						e.setDataElementIdentifier(dataElementIdentifier);
 						e.setNIBRSErrorCode(nibrsErrorCode);
+						e.setContext(segment.getParentReport().getSource());
+						e.setValue(nibrsAge.getError().getValue());
 					}
 				} else if (!allowNull) {
 					e = segment.getErrorTemplate();

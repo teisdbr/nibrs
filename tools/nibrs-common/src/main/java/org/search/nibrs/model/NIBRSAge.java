@@ -20,6 +20,8 @@ public class NIBRSAge {
 	private String nonNumericAge;
 	private NIBRSError error;
 	private String ageString;
+	private boolean invalidValue;
+	private boolean invalidLength;
 	
 	public NIBRSAge() {
 	}
@@ -30,6 +32,8 @@ public class NIBRSAge {
 		this.nonNumericAge = a.nonNumericAge;
 		this.error = a.error == null ? null : new NIBRSError(a.error);
 		this.ageString = a.ageString;
+		this.invalidValue = a.invalidValue;
+		this.invalidLength = a.invalidLength;
 	}
 	
 	String getAgeString() {
@@ -44,6 +48,9 @@ public class NIBRSAge {
 		nonNumericAge = null;
 		ageMin = null;
 		ageMax = null;
+		error = null;
+		invalidValue = false;
+		invalidLength = false;
 		if (ageString != null) {
 			String ageStringTrim = ageString.trim();
 			if (ageStringTrim.length() == 4) {
@@ -60,8 +67,9 @@ public class NIBRSAge {
 					error = new NIBRSError();
 					error.setValue(ageString);
 					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "09"));
+					invalidValue = true;
 				}
-			} else {
+			} else if (ageStringTrim.length() == 2) {
 				if ("NN".equals(ageStringTrim) || "NB".equals(ageStringTrim) || "BB".equals(ageStringTrim)) {
 					nonNumericAge = ageStringTrim;
 					ageMin = 0;
@@ -76,8 +84,14 @@ public class NIBRSAge {
 						error = new NIBRSError();
 						error.setValue(ageString);
 						error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
+						invalidValue = true;
 					}
 				}
+			} else {
+				error = new NIBRSError();
+				error.setValue(ageString);
+				error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
+				invalidLength = true;
 			}
 		}
 	}
@@ -118,17 +132,21 @@ public class NIBRSAge {
 	}
 	
 	public boolean isAgeRange() {
-		
 		boolean isAgeRange = false;
-		
-		if(error == null && !isNonNumeric()){
-		
-			if(ageMin != null && ageMax != null){
-				
+		if (error == null && !isNonNumeric()) {
+			if (ageMin != null && ageMax != null) {
 				isAgeRange = !ageMin.equals(ageMax);
 			}
-		}		
-		return  isAgeRange;
+		}
+		return isAgeRange;
+	}
+	
+	public boolean hasInvalidValue() {
+		return invalidValue;
+	}
+	
+	public boolean hasInvalidLength() {
+		return invalidLength;
 	}
 
 	@Override

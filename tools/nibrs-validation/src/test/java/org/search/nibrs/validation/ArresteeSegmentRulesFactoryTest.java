@@ -411,6 +411,25 @@ public class ArresteeSegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRuleX09() {
+
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX09();
+
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setAgeString("302 ");
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._609, nibrsError.getNIBRSErrorCode());
+		assertEquals("47", nibrsError.getDataElementIdentifier());
+		assertEquals("302 ", nibrsError.getValue());
+
+		arresteeSegment.setAgeString("2030");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		
+	}
+	
+	@Test
 	public void testRuleX10() {
 
 		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX10();

@@ -177,7 +177,6 @@ final class ArresteeRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			
-			
 			incidents.add(copy);
 			
 			return incidents;
@@ -218,7 +217,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//contain a numeric entry of four digits.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("022");
+			copy.getArrestees().get(0).setAgeString("022 ");
 			incidents.add(copy);
 					
 			return incidents;

@@ -18,6 +18,13 @@ public class NIBRSAgeTest {
 		assertFalse(a.isUnknown());
 		assertNull(a.getAgeMin());
 		assertNull(a.getAgeMax());
+		assertTrue(a.hasInvalidValue());
+		assertFalse(a.hasInvalidLength());
+		a.setAgeString("123", VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER);
+		e = a.getError();
+		assertNotNull(e);
+		assertFalse(a.hasInvalidValue());
+		assertTrue(a.hasInvalidLength());
 	}
 	
 	@Test

@@ -26,7 +26,6 @@ import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.ExclusiveCodedValueRule;
-import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NullObjectRule;
 import org.search.nibrs.validation.rules.Rule;
@@ -80,6 +79,7 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX07ForArresteeWasArmedWith());
 		rulesList.add(getRuleX54());
 		rulesList.add(getRuleX55());
+		rulesList.add(getRuleX09());
 		rulesList.add(getRuleX10());
 		rulesList.add(getRuleX22());
 		rulesList.add(getRuleX01ForAge());
@@ -92,6 +92,7 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX04ForDispositionOfArresteeUnder18());
 		rulesList.add(getRuleX52());
 		rulesList.add(getRuleX53());
+		rulesList.add(getRuleX05());
 	}
 	
 	Rule<ArresteeSegment> getRuleX01ForSequenceNumber() {
@@ -275,6 +276,10 @@ public class ArresteeSegmentRulesFactory {
 	
 	Rule<ArresteeSegment> getRuleX54() {
 		return new ValidValueListRule<ArresteeSegment>("automaticWeaponIndicator", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._654 : NIBRSErrorCode._754, AutomaticWeaponIndicatorCode.codeSet());
+	}
+	
+	Rule<ArresteeSegment> getRuleX09() {
+		return personSegmentRulesFactory.getAgeRangeLengthRule("47", isGroupAMode() ? NIBRSErrorCode._609 : NIBRSErrorCode._709);
 	}
 	
 	Rule<ArresteeSegment> getRuleX10() {

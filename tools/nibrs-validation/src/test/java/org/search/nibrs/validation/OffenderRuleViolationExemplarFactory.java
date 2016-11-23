@@ -109,14 +109,20 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});	
 			
-		// note: rule 509 cannot occur in our framework.  improperly formatted age strings will be caught at flatfile import.	
-		
 		groupATweakerMap.put(510,incident -> {
 			//(Age of Offender) was entered as an age-range. Accordingly, the 
 			//rst age component must be less than the second age.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setAgeString("3020");
+			incidents.add(copy);
+			return incidents;
+		});		
+		
+		groupATweakerMap.put(509,incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenders().get(0).setAgeString("321");
 			incidents.add(copy);
 			return incidents;
 		});		

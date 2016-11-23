@@ -117,6 +117,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
 		rulesList.add(getRule406OffenderNumberToBeRelated());
 		rulesList.add(getRule407());
+		rulesList.add(getRule409());
 		rulesList.add(getRule410ForAgeOfVictim());
 		rulesList.add(getRule419ForAggravatedAssaultHomicideCircumstances());
 		rulesList.add(getRule419ForTypeOfInjury());
@@ -498,7 +499,11 @@ public class VictimSegmentRulesFactory {
 			}
 		};
 	}
-
+	
+	Rule<VictimSegment> getRule409() {
+		return personSegmentRulesFactory.getAgeRangeLengthRule("26", NIBRSErrorCode._409);
+	}
+	
 	Rule<VictimSegment> getRule410ForAgeOfVictim() {
 		return personSegmentRulesFactory.getProperAgeRangeRule("26", NIBRSErrorCode._410);
 	}

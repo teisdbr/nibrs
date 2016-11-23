@@ -210,6 +210,16 @@ final class VictimRuleViolationExemplarFactory {
 				
 		});
 		
+		groupATweakerMap.put(409, incident -> {
+			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
+			//component must be less than the second age.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setAgeString("302 ");
+			incidents.add(copy);
+			return incidents;
+		});
+		
 		groupATweakerMap.put(410, incident -> {
 			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
 			//component must be less than the second age.
@@ -219,7 +229,6 @@ final class VictimRuleViolationExemplarFactory {
 			incidents.add(copy);
 			return incidents;
 		});
-		
 				
 		groupATweakerMap.put(419, incident -> {
 			//Data Element 31 (Aggravated Assault/Homicide Circumstances) can only be entered 

@@ -138,6 +138,20 @@ public class VictimSegmentRulesFactoryTest {
 	}
 
 	@Test
+	public void testRule409ForAgeOfVictim(){
+		Rule<VictimSegment> rule = victimRulesFactory.getRule409();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setAgeString("345 ");
+		nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._409, nibrsError.getNIBRSErrorCode());
+		assertEquals("26", nibrsError.getDataElementIdentifier());
+		assertEquals("345 ", nibrsError.getValue());
+	}
+
+	@Test
 	public void testRule410ForAgeOfVictim() {
 
 		Rule<VictimSegment> rule = victimRulesFactory.getRule410ForAgeOfVictim();
