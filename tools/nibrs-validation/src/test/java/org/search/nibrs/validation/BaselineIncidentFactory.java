@@ -8,6 +8,7 @@ import java.util.Date;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
@@ -93,6 +94,16 @@ final class BaselineIncidentFactory {
 		arrestee.setArresteeArmedWith(0,"01");
 		
 		return incident;
+		
+	}
+	
+	static GroupBArrestReport getBaselineGroupBArrestReport() {
+		
+		GroupBArrestReport report = new GroupBArrestReport();
+		
+		// TODO:  need to set up the baseline properties
+		
+		return report;
 		
 	}
 	
