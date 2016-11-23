@@ -23,6 +23,7 @@ import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.ExclusiveCodedValueRule;
@@ -323,6 +324,22 @@ public class ArresteeSegmentRulesFactory {
 
 	Rule<ArresteeSegment> getRuleX04ForResidentStatus(){
 		return personSegmentRulesFactory.getResidentStatusValidNonBlankRule("51", isGroupAMode() ? NIBRSErrorCode._604 : NIBRSErrorCode._704, true);
+	}
+	
+	Rule<ArresteeSegment> getRule667_758() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				if (SexCode.U.code.equals(arresteeSegment.getSex())) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._667 : NIBRSErrorCode._758);
+					e.setDataElementIdentifier("48");
+					e.setValue(SexCode.U.code);
+				}
+				return e;
+			}
+		};
 	}
 	
 }

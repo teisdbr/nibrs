@@ -21,6 +21,7 @@ import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.Rule;
 
@@ -503,6 +504,29 @@ public class ArresteeSegmentRulesFactoryTest {
 	@Test
 	public void testRuleX04ForResidentStatus() {
 		// nothing to do here.  this rule is amply tested for victim and offender.
+	}
+	
+	@Test
+	public void testRule667_758() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRule667_758();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setSex(SexCode.M.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setSex(SexCode.U.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._667, nibrsError.getNIBRSErrorCode());
+		assertEquals("48", nibrsError.getDataElementIdentifier());
+		assertEquals(SexCode.U.code, nibrsError.getValue());
+		rule = groupBRulesFactory.getRule667_758();
+		arresteeSegment = buildBaseGroupBSegment();
+		arresteeSegment.setSex(SexCode.U.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._758, nibrsError.getNIBRSErrorCode());
 	}
 	
 	private ArresteeSegment buildBaseGroupASegment() {
