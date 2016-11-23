@@ -141,38 +141,32 @@ final class ArresteeRuleViolationExemplarFactory {
 
 		
 		groupATweakerMap.put(604, incident -> {
+			
 			//(Automatic Weapon Indicator) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
+			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setArresteeArmedWith(0, "11");
-			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, null);
-			incidents.add(copy);
-			copy = new GroupAIncidentReport(copy);
-			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "X");
-			incidents.add(copy);
+			
 			//(Ethnicity of Arrestee) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.getArrestees().get(0).setEthnicity(null);
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.getArrestees().get(0).setEthnicity("X");
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setEthnicity("X");
+			incidents.add(copy);
+			
 			//(Resident Status of Arrestee) The referenced data element in a 
 			//Group A Incident Report must be populated with a valid data value and cannot be blank.
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.getArrestees().get(0).setResidentStatus("X");
-			GroupAIncidentReport copy17 = new GroupAIncidentReport(copy);
-			copy17.getArrestees().get(0).setAgeString("AA");
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setResidentStatus("X");
+			incidents.add(copy);
+			
+			// Age
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("AA");
+			incidents.add(copy);
 
-			incidents.add(copy2);
-			incidents.add(copy3);
-			incidents.add(copy4);
-			incidents.add(copy17);
-		
 			return incidents;
+			
 		});
-		
-		
 		
 		groupATweakerMap.put(605, incident -> {
 			//The date cannot be later than that entered within the Month of Electronic submission 
