@@ -40,11 +40,11 @@ public final class DefaultReportListener implements ReportListener
     	return ret;
     }
     
-    public List<GroupBIncidentReport> getGroupBIncidentList() {
-    	List<GroupBIncidentReport> ret = new ArrayList<GroupBIncidentReport>();
+    public List<GroupBArrestReport> getGroupBIncidentList() {
+    	List<GroupBArrestReport> ret = new ArrayList<GroupBArrestReport>();
     	for (AbstractReport r : reports) {
-    		if (r instanceof GroupBIncidentReport) {
-    			ret.add((GroupBIncidentReport) r);
+    		if (r instanceof GroupBArrestReport) {
+    			ret.add((GroupBArrestReport) r);
     		}
     	}
     	return ret;

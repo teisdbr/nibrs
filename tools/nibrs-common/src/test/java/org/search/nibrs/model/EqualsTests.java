@@ -77,8 +77,8 @@ public class EqualsTests {
 			ZeroReport zeroReport = enhancedRandom.nextObject(ZeroReport.class);
 			assertTrue(zeroReport.equals(new ZeroReport(zeroReport)));
 
-			GroupBIncidentReport groupBReport = enhancedRandom.nextObject(GroupBIncidentReport.class);
-			assertTrue(groupBReport.equals(new GroupBIncidentReport(groupBReport)));
+			GroupBArrestReport groupBReport = enhancedRandom.nextObject(GroupBArrestReport.class);
+			assertTrue(groupBReport.equals(new GroupBArrestReport(groupBReport)));
 
 		}
 		

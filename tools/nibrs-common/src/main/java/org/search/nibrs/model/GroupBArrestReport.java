@@ -4,13 +4,13 @@ package org.search.nibrs.model;
  * Representation of an individual Group B incident in a NIBRS submission.
  *
  */
-public class GroupBIncidentReport extends AbstractReport {
+public class GroupBArrestReport extends AbstractReport {
 	
-	public GroupBIncidentReport() {
+	public GroupBArrestReport() {
         super(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 	}
 	
-	public GroupBIncidentReport(GroupBIncidentReport r) {
+	public GroupBArrestReport(GroupBArrestReport r) {
 		super(r);
 	}
 	
@@ -26,7 +26,7 @@ public class GroupBIncidentReport extends AbstractReport {
 	
 	@Override
 	public String getUniqueReportDescription() {
-    	return "Group B Incident: ATN # " + getATNOrEmpty();
+    	return "Group B Arrest: ATN # " + getATNOrEmpty();
 	}
 
 	@Override

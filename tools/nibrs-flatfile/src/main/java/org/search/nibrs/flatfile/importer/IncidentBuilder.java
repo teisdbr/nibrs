@@ -146,7 +146,7 @@ public class IncidentBuilder {
 	}
 
 	private AbstractReport buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
-		GroupBIncidentReport ret = new GroupBIncidentReport();
+		GroupBArrestReport ret = new GroupBArrestReport();
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		String segmentData = s.getData();
 		ret.setOri(s.getOri());

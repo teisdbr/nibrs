@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.GroupBIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.OffenderSegment;
@@ -64,7 +64,7 @@ public class TestXMLExporter {
 	@Test
 	public void testGroupBExport() throws Exception {
 		NIBRSSubmission report = new NIBRSSubmission();
-		GroupBIncidentReport baseIncident = buildBaseGroupBIncident();
+		GroupBArrestReport baseIncident = buildBaseGroupBIncident();
 		report.addReport(baseIncident);
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
@@ -279,9 +279,9 @@ public class TestXMLExporter {
 		return incident;
 	}
 
-	private GroupBIncidentReport buildBaseGroupBIncident() throws ParseException {
+	private GroupBArrestReport buildBaseGroupBIncident() throws ParseException {
 		
-		GroupBIncidentReport incident = new GroupBIncidentReport();
+		GroupBArrestReport incident = new GroupBArrestReport();
 		
 		incident.setYearOfTape(2016);
 		incident.setMonthOfTape(5);

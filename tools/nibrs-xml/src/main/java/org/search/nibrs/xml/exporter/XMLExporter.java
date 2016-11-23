@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.GroupBIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.NIBRSSubmission;
 import org.search.nibrs.model.OffenderSegment;
@@ -182,8 +182,8 @@ public class XMLExporter {
 		Element ret = null;
 		if (report instanceof GroupAIncidentReport) {
 			ret = buildGroupAIncidentReportElement((GroupAIncidentReport) report, errorList);
-		} else if (report instanceof GroupBIncidentReport) {
-			ret = buildGroupBIncidentReportElement((GroupBIncidentReport) report, errorList);
+		} else if (report instanceof GroupBArrestReport) {
+			ret = buildGroupBIncidentReportElement((GroupBArrestReport) report, errorList);
 		} else {
 			ret = buildZeroReportElement((ZeroReport) report, errorList);
 		}
@@ -197,7 +197,7 @@ public class XMLExporter {
 		return reportElement;
 	}
 	
-	private Element buildGroupBIncidentReportElement(GroupBIncidentReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
+	private Element buildGroupBIncidentReportElement(GroupBArrestReport incident, List<NIBRSError> errorList) throws ParserConfigurationException {
 		Document temp = XmlUtils.createNewDocument();
 		Element reportElement = XmlUtils.appendChildElement(temp, Namespace.nibrs, "AbstractReport");
 		addReportHeaderElement(incident, reportElement);
@@ -620,7 +620,7 @@ public class XMLExporter {
 			if (ga.includesLeoka()) {
 				reportType += "_LEOKA";
 			}
-		} else if (report instanceof GroupBIncidentReport) {
+		} else if (report instanceof GroupBArrestReport) {
 			reportType = "GROUP B ARREST REPORT";
 		} else {
 			reportType = "ZERO REPORT";

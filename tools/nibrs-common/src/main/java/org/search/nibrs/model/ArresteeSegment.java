@@ -62,7 +62,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     @Override
     protected void setParentReport(AbstractReport parentReport) {
     	super.setParentReport(parentReport);
-    	if (parentReport instanceof GroupBIncidentReport) {
+    	if (parentReport instanceof GroupBArrestReport) {
     		segmentType = GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
     	} else {
     		segmentType = GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;

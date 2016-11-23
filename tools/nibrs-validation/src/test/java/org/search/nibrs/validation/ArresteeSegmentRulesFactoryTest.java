@@ -15,7 +15,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.GroupBIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
@@ -132,7 +132,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 		rule = groupBRulesFactory.getRuleX05();
 		arresteeSegment = buildBaseGroupBSegment();
-		GroupBIncidentReport groupBArrestReport = (GroupBIncidentReport) arresteeSegment.getParentReport();
+		GroupBArrestReport groupBArrestReport = (GroupBArrestReport) arresteeSegment.getParentReport();
 		groupBArrestReport.setYearOfTape(2016);
 		groupBArrestReport.setMonthOfTape(1);
 		arrestDate = LocalDate.of(2016, 1, 31);
@@ -595,7 +595,7 @@ public class ArresteeSegmentRulesFactoryTest {
 	}
 
 	private ArresteeSegment buildBaseGroupBSegment() {
-		GroupBIncidentReport report = new GroupBIncidentReport();
+		GroupBArrestReport report = new GroupBArrestReport();
 		ReportSource source = new ReportSource();
 		source.setSourceLocation(getClass().getName());
 		source.setSourceName(getClass().getName());
