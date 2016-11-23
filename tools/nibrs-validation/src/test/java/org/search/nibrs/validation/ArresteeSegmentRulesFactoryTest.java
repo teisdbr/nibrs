@@ -1,6 +1,9 @@
 package org.search.nibrs.validation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -13,7 +16,6 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBIncidentReport;
-import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
@@ -452,6 +454,35 @@ public class ArresteeSegmentRulesFactoryTest {
 		arresteeSegment.setAgeString("00  ");
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRule761() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRule761();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		rule = groupBRulesFactory.getRule761();
+		arresteeSegment = buildBaseGroupBSegment();
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setUcrArrestOffenseCode(OffenseCode._90A.code);
+		arresteeSegment.setAgeString("22  ");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setUcrArrestOffenseCode(OffenseCode._90I.code);
+		arresteeSegment.setAgeString("16  ");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setAgeString("1622");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setAgeString("22  ");
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._761, nibrsError.getNIBRSErrorCode());
+		assertEquals("47", nibrsError.getDataElementIdentifier());
+		assertEquals(arresteeSegment.getAge(), nibrsError.getValue());
 	}
 	
 	private ArresteeSegment buildBaseGroupASegment() {
