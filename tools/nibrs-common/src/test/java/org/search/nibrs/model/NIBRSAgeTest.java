@@ -9,6 +9,14 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 public class NIBRSAgeTest {
 	
 	@Test
+	public void testInvalidString() {
+		NIBRSAge a = new NIBRSAge();
+		a.setAgeString("AA", VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER);
+		NIBRSError e = a.getError();
+		assertNotNull(e);
+	}
+	
+	@Test
 	public void testAverage() {
 		NIBRSAge a = new NIBRSAge();
 		a.setAgeString("NB", VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER);
