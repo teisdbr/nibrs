@@ -89,6 +89,17 @@ public class NIBRSAge {
 	public Integer getAgeMax() {
 		return ageMax;
 	}
+	
+	public Integer getAverage() {
+		Integer ret = null;
+		if (!isNonNumeric()) {
+			double min = getAgeMin().doubleValue();
+			double max = getAgeMax().doubleValue();
+			double average = (min + max) / 2.0;
+			ret = new Integer((int) average);
+		}
+		return ret;
+	}
 
 	public String getNonNumericAge() {
 		return nonNumericAge;
