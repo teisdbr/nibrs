@@ -33,6 +33,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
+import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -109,6 +110,34 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX53());
 		rulesList.add(getRuleX05());
 		rulesList.add(getRule667_758());
+		rulesList.add(getRule71());
+	}
+	
+	Rule<ArresteeSegment> getRule71() {
+		return isGroupAMode() ? new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
+				String exceptionalClearanceCode = parent.getExceptionalClearanceCode();
+				Date exceptionalClearanceDateD = parent.getExceptionalClearanceDate();
+				Date arrestDateD = arresteeSegment.getArrestDate();
+				if (exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) && exceptionalClearanceDateD != null && arrestDateD != null) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(exceptionalClearanceDateD);
+					LocalDate exceptionalClearanceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+					c.setTime(arrestDateD);
+					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+					if (!arrestDate.isAfter(exceptionalClearanceDate)) {
+						e = arresteeSegment.getErrorTemplate();
+						e.setNIBRSErrorCode(NIBRSErrorCode._071);
+						e.setDataElementIdentifier("42");
+						e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+					}
+				}
+				return e;
+			}
+		} : new NullObjectRule<>();
 	}
 	
 	Rule<ArresteeSegment> getRuleX01ForSequenceNumber() {

@@ -33,6 +33,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
+import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -45,6 +46,38 @@ public class ArresteeSegmentRulesFactoryTest {
 	
 	private ArresteeSegmentRulesFactory groupARulesFactory = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_A_ARRESTEE_MODE);
 	private ArresteeSegmentRulesFactory groupBRulesFactory = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_B_ARRESTEE_MODE);
+	
+	@Test
+	public void testRule71() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRule71();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
+		Calendar c = Calendar.getInstance();
+		c.set(2016, Calendar.JANUARY, 1);
+		LocalDate d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+		arresteeSegment.setArrestDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		c.set(2015, Calendar.DECEMBER, 31);
+		parent.setExceptionalClearanceDate(c.getTime());
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		c.set(2016, Calendar.DECEMBER, 31);
+		parent.setExceptionalClearanceDate(c.getTime());
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		parent.setExceptionalClearanceCode(ClearedExceptionallyCode.N.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		parent.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._071, nibrsError.getNIBRSErrorCode());
+		assertEquals("42", nibrsError.getDataElementIdentifier());
+		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
+		c.set(2015, Calendar.DECEMBER, 31);
+		parent.setExceptionalClearanceDate(c.getTime());
+		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+	}
 	
 	@Test
 	public void testRule601ForSequenceNumber() {

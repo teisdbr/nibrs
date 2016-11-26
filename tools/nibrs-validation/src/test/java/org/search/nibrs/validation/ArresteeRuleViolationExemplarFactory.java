@@ -15,9 +15,11 @@
  *******************************************************************************/
 package org.search.nibrs.validation;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,7 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 
 final class ArresteeRuleViolationExemplarFactory {
 
@@ -56,6 +59,21 @@ final class ArresteeRuleViolationExemplarFactory {
 	}
 
 	private void populateGroupAExemplarMap() {
+		
+		groupATweakerMap.put(71, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			Calendar c = Calendar.getInstance();
+			c.set(2016, Calendar.JANUARY, 1);
+			LocalDate d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+			copy.setExceptionalClearanceDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+			c.set(2016, Calendar.JANUARY, 1);
+			d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+			copy.getArrestees().get(0).setArrestDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+			incidents.add(copy);
+			return incidents;
+		});
 		
 		groupATweakerMap.put(601, incident -> {
 			
