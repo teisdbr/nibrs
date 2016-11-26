@@ -23,6 +23,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 /**
  * Representation of an individual Group A incident in a NIBRS submission.
@@ -83,6 +85,28 @@ public class GroupAIncidentReport extends AbstractReport
 		for (AbstractSegment s : segments) {
 			s.setParentReport(this);
 		}
+	}
+	
+	public PropertySegment getStolenPropertySegment() {
+		PropertySegment ret = null;
+		for (PropertySegment ps : getProperties()) {
+			if (TypeOfPropertyLossCode._7.code.equals(ps.getTypeOfPropertyLoss())) {
+				ret = ps;
+				break;
+			}
+		}
+		return ret;
+	}
+	
+	public PropertySegment getRecoveredPropertySegment() {
+		PropertySegment ret = null;
+		for (PropertySegment ps : getProperties()) {
+			if (TypeOfPropertyLossCode._5.code.equals(ps.getTypeOfPropertyLoss())) {
+				ret = ps;
+				break;
+			}
+		}
+		return ret;
 	}
 	
 	public OffenderSegment getOffenderForSequenceNumber(Integer sequenceNumber) {

@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import org.junit.Test;
@@ -26,13 +27,70 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule72() {
+		
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule072();
+		GroupAIncidentReport report = buildBaseReport();
+		PropertySegment stolenSegment = new PropertySegment();
+		stolenSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+		PropertySegment recoveredSegment = new PropertySegment();
+		report.addProperty(recoveredSegment);
+		recoveredSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
+		
+		OffenseSegment offenseSegment = new OffenseSegment();
+		report.addOffense(offenseSegment);
+		offenseSegment.setUcrOffenseCode(OffenseCode._250.code);
+		recoveredSegment.setPropertyDescription(0, PropertyDescriptionCode._21.code);
+		
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		
+		recoveredSegment.setPropertyDescription(0, PropertyDescriptionCode._17.code);
+		recoveredSegment.setPropertyDescription(1, PropertyDescriptionCode._19.code);
+		offenseSegment.setUcrOffenseCode(OffenseCode._220.code);
+		
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("15", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._072, e.getNIBRSErrorCode());
+		assertEquals(Arrays.asList(new String[] {PropertyDescriptionCode._17.code, PropertyDescriptionCode._19.code}), e.getValue());
+		
+		stolenSegment.setPropertyDescription(0, PropertyDescriptionCode._17.code);
+		report.addProperty(stolenSegment);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(Arrays.asList(new String[] {PropertyDescriptionCode._19.code}), e.getValue());
+
+		stolenSegment.setPropertyDescription(1, PropertyDescriptionCode._19.code);
+		e = rule.apply(report);
+		assertNull(e);
+		
+		recoveredSegment.setPropertyDescription(1, null);
+		stolenSegment.setPropertyDescription(1, null);
+		
+		recoveredSegment.setPropertyDescription(0, PropertyDescriptionCode._38.code);
+		stolenSegment.setPropertyDescription(0, PropertyDescriptionCode._04.code);
+		
+		e = rule.apply(report);
+		assertNotNull(e);
+		
+		stolenSegment.setPropertyDescription(0, PropertyDescriptionCode._03.code);
+		e = rule.apply(report);
+		assertNull(e);
+
+	}
 	
 	@Test
 	public void testRule101() {

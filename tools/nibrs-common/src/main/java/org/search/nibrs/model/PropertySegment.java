@@ -73,6 +73,10 @@ public class PropertySegment extends AbstractSegment
         segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
     }
     
+    public boolean containsPropertyDescription(String descriptionCode) {
+    	return Arrays.asList(getPropertyDescription()).contains(descriptionCode);
+    }
+    
 	public Integer[] getValueOfProperty() {
 		return valueOfProperty;
 	}

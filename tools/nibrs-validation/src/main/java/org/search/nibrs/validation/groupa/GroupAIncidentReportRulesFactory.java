@@ -17,6 +17,7 @@ package org.search.nibrs.validation.groupa;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -29,10 +30,12 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
@@ -117,7 +120,36 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule170());
 		rulesList.add(getRule171());
 		rulesList.add(getRule172());
+		rulesList.add(getRule072());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule072() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				PropertySegment recoveredSegment = subject.getRecoveredPropertySegment();
+				PropertySegment stolenSegment = subject.getStolenPropertySegment();
+				if (recoveredSegment != null && subject.getOffenseForOffenseCode(OffenseCode._250.code) == null && subject.getOffenseForOffenseCode(OffenseCode._280.code) == null) {
+					List<String> recoveredPropertyTypes = new ArrayList<>();
+					recoveredPropertyTypes.addAll(Arrays.asList(recoveredSegment.getPropertyDescription()));
+					recoveredPropertyTypes.removeIf(element -> element == null);
+					List<String> stolenPropertyDescriptionList = stolenSegment == null ? new ArrayList<String>() : Arrays.asList(stolenSegment.getPropertyDescription());
+					recoveredPropertyTypes.removeAll(stolenPropertyDescriptionList);
+					if (stolenPropertyDescriptionList.contains(PropertyDescriptionCode._03.code) || stolenPropertyDescriptionList.contains(PropertyDescriptionCode._05.code)) {
+						recoveredPropertyTypes.remove(PropertyDescriptionCode._38.code);
+					}
+					if (!recoveredPropertyTypes.isEmpty()) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(recoveredPropertyTypes);
+						ret.setDataElementIdentifier("15");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._072);
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule155() {

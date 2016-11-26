@@ -32,6 +32,8 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 final class PropertyRuleViolationExemplarFactory {
 
@@ -61,6 +63,36 @@ final class PropertyRuleViolationExemplarFactory {
 	}
 
 	private void populateGroupAExemplarMap() {
+		
+		groupATweakerMap.put(72, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			PropertySegment stolenSegment = new PropertySegment();
+			stolenSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+			PropertySegment recoveredSegment = new PropertySegment();
+			copy.addProperty(recoveredSegment);
+			recoveredSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
+			
+			recoveredSegment.setPropertyDescription(0, PropertyDescriptionCode._17.code);
+			incidents.add(copy);
+
+			copy = new GroupAIncidentReport(copy);
+			stolenSegment.setPropertyDescription(0, PropertyDescriptionCode._18.code);
+			copy.addProperty(stolenSegment);
+			
+			copy = new GroupAIncidentReport(copy);
+			recoveredSegment.setPropertyDescription(1, PropertyDescriptionCode._19.code);
+			stolenSegment.setPropertyDescription(0, PropertyDescriptionCode._19.code);
+			copy.addProperty(stolenSegment);
+			
+			copy = new GroupAIncidentReport(copy);
+			recoveredSegment.setPropertyDescription(1, PropertyDescriptionCode._38.code);
+			stolenSegment.setPropertyDescription(0, PropertyDescriptionCode._19.code);
+			copy.addProperty(stolenSegment);
+			
+			return incidents;
+		});
 		
 		//TO-DO Rule 302 Estimated Quantity
 		//Must be numeric entry with zero left-fill. If Data Element 21 
