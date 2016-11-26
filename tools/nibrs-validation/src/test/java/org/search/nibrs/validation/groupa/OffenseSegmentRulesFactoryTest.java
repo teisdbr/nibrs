@@ -25,6 +25,7 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.LocationTypeCode;
@@ -43,6 +44,28 @@ public class OffenseSegmentRulesFactoryTest {
 	private static final Logger LOG = LogManager.getLogger(OffenseSegmentRulesFactoryTest.class);
 	
 	private OffenseSegmentRulesFactory rulesFactory = new OffenseSegmentRulesFactory();
+	
+	@Test
+	public void testRule065() {
+		Rule<OffenseSegment> rule = rulesFactory.getRule065();
+		OffenseSegment os1 = buildBaseSegment();
+		os1.setUcrOffenseCode(OffenseCode._13A.code);
+		GroupAIncidentReport incident = (GroupAIncidentReport) os1.getParentReport();
+		incident.removeVictims();
+		VictimSegment vs1 = new VictimSegment();
+		incident.addVictim(vs1);
+		VictimSegment vs2 = new VictimSegment();
+		incident.addVictim(vs2);
+		OffenseSegment os2 = new OffenseSegment();
+		os2.setUcrOffenseCode(OffenseCode._13B.code);
+		incident.addOffense(os2);
+		vs1.setUcrOffenseCodeConnection(0, OffenseCode._13A.code);
+		vs2.setUcrOffenseCodeConnection(0, OffenseCode._13A.code);
+		NIBRSError e = rule.apply(os1);
+		assertNull(e);
+		e = rule.apply(os2);
+		assertNotNull(e);
+	}
 	
 	@Test
 	public void testRule270() {

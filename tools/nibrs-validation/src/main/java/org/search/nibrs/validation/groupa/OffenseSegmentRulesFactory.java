@@ -25,7 +25,9 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.LocationTypeCode;
@@ -186,6 +188,32 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule269());
 		rulesList.add(getRule270());
 		
+		rulesList.add(getRule065());
+		
+	}
+	
+	Rule<OffenseSegment> getRule065() {
+		return new Rule<OffenseSegment>() {
+			@Override
+			public NIBRSError apply(OffenseSegment subject) {
+				NIBRSError e = null;
+				String ucrCode = subject.getUcrOffenseCode();
+				boolean found = false;
+				for (VictimSegment vs : ((GroupAIncidentReport) subject.getParentReport()).getVictims()) {
+					if (vs.getUcrOffenseCodeList().contains(ucrCode)) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					e = subject.getErrorTemplate();
+					e.setValue(ucrCode);
+					e.setDataElementIdentifier("6");
+					e.setNIBRSErrorCode(NIBRSErrorCode._065);
+				}
+				return e;
+			}
+		};
 	}
 	
 	Rule<OffenseSegment> getRule270() {

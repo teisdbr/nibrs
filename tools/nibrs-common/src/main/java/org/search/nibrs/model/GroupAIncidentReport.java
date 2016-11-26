@@ -99,6 +99,20 @@ public class GroupAIncidentReport extends AbstractReport
 		return ret;
 	}
 	
+	public OffenseSegment getOffenseForOffenseCode(String ucrOffenseCode) {
+		OffenseSegment ret = null;
+		if (ucrOffenseCode == null) {
+			return null;
+		}
+		for (OffenseSegment os : offenseSegmentList) {
+			if (ucrOffenseCode.equals(os.getUcrOffenseCode())) {
+				ret = os;
+				break;
+			}
+		}
+		return ret;
+	}
+	
 	public List<VictimSegment> getVictimsOfOffender(OffenderSegment os) {
 		List<VictimSegment> ret = new ArrayList<>();
 		for (VictimSegment vs : getVictims()) {
