@@ -50,6 +50,26 @@ public class VictimSegmentRulesFactoryTest {
 	private VictimSegmentRulesFactory victimRulesFactory = VictimSegmentRulesFactory.instance();
 	
 	@Test
+	public void testRule070() {
+		
+		Rule<VictimSegment> rule = victimRulesFactory.getRule070();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		OffenderSegment offenderSegment = new OffenderSegment();
+		GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
+		parent.addOffender(offenderSegment);
+		offenderSegment.setOffenderSequenceNumber(1);
+		victimSegment.setOffenderNumberRelated(0, 1);
+		NIBRSError e = rule.apply(victimSegment);
+		assertNull(e);
+		victimSegment.setOffenderNumberRelated(0, 2);
+		e = rule.apply(victimSegment);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._070, e.getNIBRSErrorCode());
+		assertEquals("34", e.getDataElementIdentifier());
+		assertEquals(2, e.getValue());
+	}
+	
+	@Test
 	public void testRule401ForSequenceNumber(){
 				
 		Rule<VictimSegment> rule401 = victimRulesFactory.getRule401ForSequenceNumber();

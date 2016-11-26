@@ -29,7 +29,6 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
-import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;

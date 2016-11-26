@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
@@ -48,6 +50,8 @@ import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
 
 public class VictimSegmentRulesFactory {
+	
+	private static final Logger LOG = LogManager.getLogger(VictimSegmentRulesFactory.class);
 
 	private List<Rule<VictimSegment>> rulesList;
 	private PersonSegmentRulesFactory<VictimSegment> personSegmentRulesFactory;
@@ -177,11 +181,37 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule483ForTypeOfOfficerActivity());
 		rulesList.add(getRule483ForOfficerAssignmentType());
 		rulesList.add(getRule483ForOfficerOtherJurisdictionORI());
-		
+
+		rulesList.add(getRule070());
+
 	}
 		
 	public List<Rule<VictimSegment>> getRulesList() {
 		return Collections.unmodifiableList(rulesList);
+	}
+	
+	Rule<VictimSegment> getRule070() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment subject) {
+				NIBRSError e = null;
+				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
+				List<Integer> related = new ArrayList<>();
+				related.addAll(subject.getOffenderNumberRelatedList());
+				related.removeIf(element -> element == null);
+				for (Integer offenderNumber : related) {
+					OffenderSegment matchedOffender = parent.getOffenderForSequenceNumber(offenderNumber);
+					if (matchedOffender == null) {
+						e = subject.getErrorTemplate();
+						e.setNIBRSErrorCode(NIBRSErrorCode._070);
+						e.setDataElementIdentifier("34");
+						e.setValue(offenderNumber);
+						break;
+					}
+				}
+				return e;
+			}
+		};
 	}
 			
 	Rule<VictimSegment> getRule401ForSequenceNumber() {

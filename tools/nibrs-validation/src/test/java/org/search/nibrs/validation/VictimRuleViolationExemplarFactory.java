@@ -57,6 +57,18 @@ final class VictimRuleViolationExemplarFactory {
 
 	private void populateGroupAExemplarMap() {
 		
+		groupATweakerMap.put(70, incident -> {
+			
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setOffenderNumberRelated(0, 2);
+			incidents.add(copy);
+			
+			return incidents;
+
+		});
+		
 		groupATweakerMap.put(401, incident -> {
 			
 			// The referenced data element in a Group A Incident AbstractReport
