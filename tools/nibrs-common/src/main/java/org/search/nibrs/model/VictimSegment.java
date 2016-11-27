@@ -340,7 +340,7 @@ public class VictimSegment extends AbstractPersonSegment {
 	}
 
 	@Override
-	protected Object getWithinSegmentIdentifier() {
+	public Object getWithinSegmentIdentifier() {
 		return victimSequenceNumber;
 	}
 

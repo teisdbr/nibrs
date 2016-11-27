@@ -43,7 +43,7 @@ public abstract class AbstractSegment implements ValidationTarget {
 		return ret;
 	}
 
-	protected abstract Object getWithinSegmentIdentifier();
+	public abstract Object getWithinSegmentIdentifier();
 	
 	protected void setParentReport(AbstractReport parentReport) {
 		this.parentReport = parentReport;

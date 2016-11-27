@@ -268,7 +268,7 @@ public class OffenseSegment extends AbstractSegment
 	}
 
 	@Override
-	protected Object getWithinSegmentIdentifier() {
+	public Object getWithinSegmentIdentifier() {
 		return ucrOffenseCode;
 	}
 

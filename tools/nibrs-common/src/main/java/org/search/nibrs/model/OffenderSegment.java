@@ -76,7 +76,7 @@ public class OffenderSegment extends AbstractPersonSegment
 	}
 
 	@Override
-	protected Object getWithinSegmentIdentifier() {
+	public Object getWithinSegmentIdentifier() {
 		return offenderSequenceNumber;
 	}
 

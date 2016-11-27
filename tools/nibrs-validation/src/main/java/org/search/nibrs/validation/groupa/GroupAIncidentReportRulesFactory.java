@@ -24,10 +24,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -53,6 +55,42 @@ public class GroupAIncidentReportRulesFactory {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReportRulesFactory.class);
 	
+	private static final class DuplicateSegmentIdentifierRule<T extends AbstractSegment> implements Rule<GroupAIncidentReport> {
+		
+		private Function<GroupAIncidentReport, List<T>> segmentProducer;
+		private String dataElementIdentifier;
+		private NIBRSErrorCode errorCode;
+		
+		public DuplicateSegmentIdentifierRule(Function<GroupAIncidentReport, List<T>> segmentProducer, String dataElementIdentifier, NIBRSErrorCode errorCode) {
+			this.segmentProducer = segmentProducer;
+			this.dataElementIdentifier = dataElementIdentifier;
+			this.errorCode = errorCode;
+		}
+		
+		@Override
+		public NIBRSError apply(GroupAIncidentReport subject) {
+			NIBRSError ret = null;
+			Set<Object> identifiers = new HashSet<>();
+			Set<Object> dups = new HashSet<>();
+			for (T s : segmentProducer.apply(subject)) {
+				Object identifier = s.getWithinSegmentIdentifier();
+				if (identifiers.contains(identifier)) {
+					dups.add(identifier);
+				} else {
+					identifiers.add(identifier);
+				}
+			}
+			if (!dups.isEmpty()) {
+				ret = subject.getErrorTemplate();
+				ret.setValue(dups);
+				ret.setDataElementIdentifier(dataElementIdentifier);
+				ret.setNIBRSErrorCode(errorCode);
+			}
+			return ret;
+		}
+		
+	}
+
 	private static abstract class IncidentDateRule implements Rule<GroupAIncidentReport> {
 		@Override
 		public NIBRSError apply(GroupAIncidentReport subject) {
@@ -127,7 +165,12 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule075());
 		rulesList.add(getRule076());
 		rulesList.add(getRule080());
+		rulesList.add(getRule262());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule262() {
+		return new DuplicateSegmentIdentifierRule<OffenseSegment>(subject -> subject.getOffenses(), "6", NIBRSErrorCode._262);
 	}
 	
 	Rule<GroupAIncidentReport> getRule080() {

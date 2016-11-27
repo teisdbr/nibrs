@@ -44,6 +44,37 @@ public class GroupAIncidentReportRulesFactoryTest {
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
 	
 	@Test
+	public void testRule262() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule262();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenseSegment os1 = new OffenseSegment();
+		os1.setUcrOffenseCode(OffenseCode._720.code);
+		report.addOffense(os1);
+		e = rule.apply(report);
+		assertNull(e);
+		OffenseSegment os2 = new OffenseSegment();
+		os2.setUcrOffenseCode(OffenseCode._200.code);
+		report.addOffense(os2);
+		e = rule.apply(report);
+		assertNull(e);
+		OffenseSegment os3 = new OffenseSegment();
+		os3.setUcrOffenseCode(OffenseCode._13A.code);
+		report.addOffense(os3);
+		e = rule.apply(report);
+		assertNull(e);
+		os3.setUcrOffenseCode(OffenseCode._200.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("6", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._262, e.getNIBRSErrorCode());
+		Set<String> dups = new HashSet<>();
+		dups.add(OffenseCode._200.code);
+		assertEquals(dups, e.getValue());
+	}
+	
+	@Test
 	public void testRule80() {
 		
 		Rule<GroupAIncidentReport> rule = rulesFactory.getRule080();

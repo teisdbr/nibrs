@@ -219,7 +219,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     }
 
 	@Override
-	protected Object getWithinSegmentIdentifier() {
+	public Object getWithinSegmentIdentifier() {
 		return arresteeSequenceNumber;
 	}
 

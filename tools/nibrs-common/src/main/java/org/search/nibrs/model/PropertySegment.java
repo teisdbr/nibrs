@@ -243,7 +243,7 @@ public class PropertySegment extends AbstractSegment
 	}
 
 	@Override
-	protected Object getWithinSegmentIdentifier() {
+	public Object getWithinSegmentIdentifier() {
 		return typeOfPropertyLoss;
 	}
 
