@@ -44,6 +44,37 @@ public class GroupAIncidentReportRulesFactoryTest {
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
 	
 	@Test
+	public void testRule376() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule376();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		PropertySegment ps1 = new PropertySegment();
+		ps1.setTypeOfPropertyLoss(TypeOfPropertyLossCode._1.code);
+		report.addProperty(ps1);
+		e = rule.apply(report);
+		assertNull(e);
+		PropertySegment ps2 = new PropertySegment();
+		ps2.setTypeOfPropertyLoss(TypeOfPropertyLossCode._2.code);
+		report.addProperty(ps2);
+		e = rule.apply(report);
+		assertNull(e);
+		PropertySegment ps3 = new PropertySegment();
+		ps3.setTypeOfPropertyLoss(TypeOfPropertyLossCode._3.code);
+		report.addProperty(ps3);
+		e = rule.apply(report);
+		assertNull(e);
+		ps3.setTypeOfPropertyLoss(TypeOfPropertyLossCode._2.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("14", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._376, e.getNIBRSErrorCode());
+		Set<String> dups = new HashSet<>();
+		dups.add(TypeOfPropertyLossCode._2.code);
+		assertEquals(dups, e.getValue());
+	}
+	
+	@Test
 	public void testRule262() {
 		Rule<GroupAIncidentReport> rule = rulesFactory.getRule262();
 		GroupAIncidentReport report = buildBaseReport();

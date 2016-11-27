@@ -166,7 +166,12 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule076());
 		rulesList.add(getRule080());
 		rulesList.add(getRule262());
+		rulesList.add(getRule376());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule376() {
+		return new DuplicateSegmentIdentifierRule<PropertySegment>(subject -> subject.getProperties(), "14", NIBRSErrorCode._376);
 	}
 	
 	Rule<GroupAIncidentReport> getRule262() {
