@@ -123,7 +123,27 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule072());
 		rulesList.add(getRule073());
 		rulesList.add(getRule074());
+		rulesList.add(getRule076());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule076() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				if ((subject.getOffenseForOffenseCode(OffenseCode._100.code) == null &&
+						subject.getOffenseForOffenseCode(OffenseCode._35A.code) == null &&
+						!subject.includesGamblingOffense() && !subject.includesPropertyCrime()) && !subject.getProperties().isEmpty()) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(null);
+					ret.setDataElementIdentifier("6");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._076);
+				}
+						
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule074() {
@@ -133,7 +153,7 @@ public class GroupAIncidentReportRulesFactory {
 				NIBRSError ret = null;
 				if ((subject.getOffenseForOffenseCode(OffenseCode._100.code) != null ||
 						subject.getOffenseForOffenseCode(OffenseCode._35A.code) != null ||
-						subject.includesGamblingOffense() || subject.includesPropertyCrime()) && subject.getProperties().isEmpty()) {
+								subject.includesGamblingOffense() || subject.includesPropertyCrime()) && subject.getProperties().isEmpty()) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(null);
 					ret.setDataElementIdentifier("6");
