@@ -28,8 +28,10 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
@@ -39,6 +41,27 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule75() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule075();
+		GroupAIncidentReport report = buildBaseReport();
+		report.removeOffenders();
+		report.removeOffenses();
+		report.removeVictims();
+		NIBRSError e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._075, e.getNIBRSErrorCode());
+		report.addOffender(new OffenderSegment());
+		e = rule.apply(report);
+		assertNotNull(e);
+		report.addOffense(new OffenseSegment());
+		e = rule.apply(report);
+		assertNotNull(e);
+		report.addVictim(new VictimSegment());
+		e = rule.apply(report);
+		assertNull(e);
+	}
 	
 	@Test
 	public void testRule76() {

@@ -58,6 +58,26 @@ class AdministrativeRuleViolationExemplarFactory {
 
 	private void populateGroupAExemplarMap() {
 
+		groupATweakerMap.put(75, incident -> {
+			
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.removeOffenders();
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.removeOffenses();
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.removeVictims();
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
+
 		groupATweakerMap.put(59, incident -> {
 			GroupAIncidentReport ret = new GroupAIncidentReport(incident);
 			// First two positions must be the code of the state (e.g., SC, MD) in which the incident occurred.

@@ -123,8 +123,25 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule072());
 		rulesList.add(getRule073());
 		rulesList.add(getRule074());
+		rulesList.add(getRule075());
 		rulesList.add(getRule076());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule075() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				if (subject.getOffenders().isEmpty() || subject.getOffenses().isEmpty() || subject.getVictims().isEmpty()) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(null);
+					ret.setDataElementIdentifier(null);
+					ret.setNIBRSErrorCode(NIBRSErrorCode._075);
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule076() {
