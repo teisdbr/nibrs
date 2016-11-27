@@ -36,11 +36,59 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
+import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.Rule;
 
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule80() {
+		
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule080();
+		GroupAIncidentReport report = buildBaseReport();
+		
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		
+		VictimSegment v1 = new VictimSegment();
+		v1.setTypeOfVictim(TypeOfVictimCode.B.code);
+		report.addVictim(v1);
+		VictimSegment v2 = new VictimSegment();
+		v2.setTypeOfVictim(TypeOfVictimCode.I.code);
+		report.addVictim(v2);
+		
+		OffenseSegment os1 = new OffenseSegment();
+		os1.setUcrOffenseCode(OffenseCode._720.code);
+		report.addOffense(os1);
+		
+		OffenseSegment os2 = new OffenseSegment();
+		os2.setUcrOffenseCode(OffenseCode._200.code);
+		report.addOffense(os2);
+		
+		e = rule.apply(report);
+		assertNull(e);
+		
+		report.removeOffense(1);
+		
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._080, e.getNIBRSErrorCode());
+		
+		v1.setTypeOfVictim(TypeOfVictimCode.S.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		
+		v2.setTypeOfVictim(TypeOfVictimCode.S.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		
+		report.removeVictim(1);
+		e = rule.apply(report);
+		assertNull(e);
+		
+	}
 	
 	@Test
 	public void testRule75() {

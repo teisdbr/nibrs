@@ -36,6 +36,7 @@ import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
@@ -125,7 +126,33 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule074());
 		rulesList.add(getRule075());
 		rulesList.add(getRule076());
+		rulesList.add(getRule080());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule080() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				if (subject.getVictimCount() > 0) {
+					boolean onlyCrimesAgainstSociety = true;
+					for (OffenseSegment os : subject.getOffenses()) {
+						if (!OffenseCode.isCrimeAgainstSocietyCode(os.getUcrOffenseCode())) {
+							onlyCrimesAgainstSociety = false;
+							break;
+						}
+					}
+					if (onlyCrimesAgainstSociety && (subject.getVictimCount() != 1 || !TypeOfVictimCode.S.code.equals(subject.getVictims().get(0).getTypeOfVictim()))) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(subject.getVictims().get(0).getTypeOfVictim());
+						ret.setDataElementIdentifier("25");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._080);
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule075() {

@@ -27,6 +27,8 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.TypeOfVictimCode;
 
 final class VictimRuleViolationExemplarFactory {
 
@@ -56,6 +58,34 @@ final class VictimRuleViolationExemplarFactory {
 	}
 
 	private void populateGroupAExemplarMap() {
+		
+		groupATweakerMap.put(80, incident -> {
+			
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.removeVictims();
+			VictimSegment v1 = new VictimSegment();
+			v1.setTypeOfVictim(TypeOfVictimCode.B.code);
+			copy.addVictim(v1);
+			VictimSegment v2 = new VictimSegment();
+			v2.setTypeOfVictim(TypeOfVictimCode.I.code);
+			copy.addVictim(v2);
+			
+			copy.removeOffenses();
+			OffenseSegment os1 = new OffenseSegment();
+			os1.setUcrOffenseCode(OffenseCode._720.code);
+			copy.addOffense(os1);
+
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(copy);
+			copy.removeVictim(1);
+			incidents.add(copy);
+			
+			return incidents;
+
+		});
 		
 		groupATweakerMap.put(70, incident -> {
 			
