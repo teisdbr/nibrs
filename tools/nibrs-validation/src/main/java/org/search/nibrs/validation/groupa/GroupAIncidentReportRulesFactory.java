@@ -33,6 +33,7 @@ import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -167,7 +168,12 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule080());
 		rulesList.add(getRule262());
 		rulesList.add(getRule376());
+		rulesList.add(getRule451());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule451() {
+		return new DuplicateSegmentIdentifierRule<VictimSegment>(subject -> subject.getVictims(), "23", NIBRSErrorCode._451);
 	}
 	
 	Rule<GroupAIncidentReport> getRule376() {
