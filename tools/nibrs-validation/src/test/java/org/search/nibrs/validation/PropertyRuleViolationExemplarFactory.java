@@ -32,6 +32,7 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
@@ -63,6 +64,32 @@ final class PropertyRuleViolationExemplarFactory {
 	}
 
 	private void populateGroupAExemplarMap() {
+		
+		groupATweakerMap.put(74, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.removeProperties();
+			copy.getOffenses().get(0).setUcrOffenseCode(OffenseCode._100.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.removeProperties();
+			copy.getOffenses().get(0).setUcrOffenseCode(OffenseCode._35A.code);
+			incidents.add(copy);
+
+			copy = new GroupAIncidentReport(incident);
+			copy.removeProperties();
+			copy.getOffenses().get(0).setUcrOffenseCode(OffenseCode._39A.code);
+			incidents.add(copy);
+
+			copy = new GroupAIncidentReport(incident);
+			copy.removeProperties();
+			copy.getOffenses().get(0).setUcrOffenseCode(OffenseCode._220.code);
+			incidents.add(copy);
+
+			return incidents;
+		});
 		
 		groupATweakerMap.put(73, incident -> {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();

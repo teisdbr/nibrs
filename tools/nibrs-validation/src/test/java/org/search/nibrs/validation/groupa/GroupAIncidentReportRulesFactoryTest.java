@@ -21,6 +21,8 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
@@ -37,6 +39,37 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule74() {
+		Set<String> testCodes = new HashSet<>();
+		testCodes.add(OffenseCode._100.code);
+		testCodes.add(OffenseCode._35A.code);
+		testCodes.add(OffenseCode._39A.code);
+		testCodes.add(OffenseCode._220.code);
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule074();
+		GroupAIncidentReport report = buildBaseReport();
+		OffenseSegment offenseSegment = new OffenseSegment();
+		report.addOffense(offenseSegment);
+		PropertySegment stolenSegment = new PropertySegment();
+		stolenSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+		report.addProperty(stolenSegment);
+		NIBRSError e = null;
+		for (String offenseCode : testCodes) {
+			offenseSegment.setUcrOffenseCode(offenseCode);
+			e = rule.apply(report);
+			assertNull(e);
+		}
+		report.removeProperties();
+		for (String offenseCode : testCodes) {
+			offenseSegment.setUcrOffenseCode(offenseCode);
+			e = rule.apply(report);
+			assertNotNull(e);
+			assertEquals(NIBRSErrorCode._074, e.getNIBRSErrorCode());
+			assertNull(e.getValue());
+			assertEquals("6", e.getDataElementIdentifier());
+		}
+	}
 	
 	@Test
 	public void testRule73() {

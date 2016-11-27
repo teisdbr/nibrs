@@ -38,7 +38,7 @@ public enum OffenseCode {
 	_510("510", "Bribery", "A"),
 	_220("220", "Burglary/Breaking & Entering", "A"),
 	_250("250", "Counterfeiting/Forgery", "A"),
-	_290("290", "Destruction/Damage/Vandalism of PropertySegment", "A"),
+	_290("290", "Destruction/Damage/Vandalism of Property", "A"),
 	_35A("35A", "Drug/Narcotic Violations", "A"),
 	_35B("35B", "Drug Equipment Violations", "A"),
 	_270("270", "Embezzlement", "A"),
@@ -50,8 +50,8 @@ public enum OffenseCode {
 	_26E("26E", "Wire Fraud", "A"),
 	_26F("26F", "Identity Theft", "A"),
 	_26G("26G", "Hacking/Computer Invasion", "A"),
-	_39A("39A", "Betting/W agering", "A"),
-	_39B("39B", "Operating/Promoting/Assisting Society Gambling", "A"),
+	_39A("39A", "Betting/Wagering", "A"),
+	_39B("39B", "Operating/Promoting/Assisting Gambling", "A"),
 	_39C("39C", "Gambling Equipment Violations", "A"),
 	_39D("39D", "Sports Tampering", "A"),
 	_09A("09A", "Murder & Non-negligent Manslaughter", "A"),
@@ -59,7 +59,7 @@ public enum OffenseCode {
 	_09C("09C", "Justifiable Homicide", "A"),
 	_64A("64A", "Human Trafficking, Commercial Sex Acts", "A"),
 	_64B("64B", "Human Trafficking, Involuntary Servitude", "A"),
-	_100("100", "Kidnapping/Abduction AbstractPersonSegment", "A"),
+	_100("100", "Kidnapping/Abduction Person", "A"),
 	_23A("23A", "Pocket-picking", "A"),
 	_23B("23B", "Purse-snatching ", "A"),
 	_23C("23C", "Shoplifting ", "A"),
@@ -91,7 +91,7 @@ public enum OffenseCode {
 	_90G("90G", "Liquor Law Violations", "B"),
 	_90H("90H", "Peeping Tom", "B"),
 	_90I("90I", "Runaway", "B"),
-	_90J("90J", "Trespass of Real PropertySegment", "B")
+	_90J("90J", "Trespass of Real Property", "B")
 	;
 
 	private static final List<String> CRIME_AGAINST_SOCIETY_CODE_LIST = Arrays.asList(_720.code,
@@ -114,6 +114,8 @@ public enum OffenseCode {
 	_09A.code, _09B.code, _64A.code, _64B.code, _100.code,
 	_11A.code, _11B.code, _11C.code, _11D.code, _36A.code,
 	_36B.code);
+	
+	private static final List<String> GAMBLING_OFFENSE_CODE_LIST = Arrays.asList(_39A.code, _39B.code, _39C.code, _39D.code);
 
 	public String code;
 	public String description;
@@ -170,6 +172,14 @@ public enum OffenseCode {
 	
 	public static final boolean containsCrimeAgainstPropertyCode(Collection<String> codes) {
 		return CollectionUtils.containsAny(codes, CRIME_AGAINST_PROPERTY_CODE_LIST);
+	}
+
+	public static final boolean isGamblingOffenseCode(String code) {
+		return GAMBLING_OFFENSE_CODE_LIST.contains(code);
+	}
+	
+	public static final boolean containsGamblingOffenseCode(Collection<String> codes) {
+		return CollectionUtils.containsAny(codes, GAMBLING_OFFENSE_CODE_LIST);
 	}
 
 }

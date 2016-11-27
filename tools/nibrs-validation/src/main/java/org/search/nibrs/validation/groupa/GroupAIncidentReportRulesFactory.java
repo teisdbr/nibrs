@@ -122,7 +122,27 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule172());
 		rulesList.add(getRule072());
 		rulesList.add(getRule073());
+		rulesList.add(getRule074());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule074() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				if ((subject.getOffenseForOffenseCode(OffenseCode._100.code) != null ||
+						subject.getOffenseForOffenseCode(OffenseCode._35A.code) != null ||
+						subject.includesGamblingOffense() || subject.includesPropertyCrime()) && subject.getProperties().isEmpty()) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(null);
+					ret.setDataElementIdentifier("6");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._074);
+				}
+						
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule073() {

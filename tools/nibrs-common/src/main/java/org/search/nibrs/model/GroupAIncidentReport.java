@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 /**
@@ -84,6 +85,30 @@ public class GroupAIncidentReport extends AbstractReport
 		for (AbstractSegment s : segments) {
 			s.setParentReport(this);
 		}
+	}
+	
+	public boolean includesGamblingOffense() {
+		boolean ret = false;
+		for (OffenseSegment os : getOffenses()) {
+			String offenseCode = os.getUcrOffenseCode();
+			if (offenseCode != null && OffenseCode.isGamblingOffenseCode(offenseCode)) {
+				ret = true;
+				break;
+			}
+		}
+		return ret;
+	}
+	
+	public boolean includesPropertyCrime() {
+		boolean ret = false;
+		for (OffenseSegment os : getOffenses()) {
+			String offenseCode = os.getUcrOffenseCode();
+			if (offenseCode != null && OffenseCode.isCrimeAgainstPropertyCode(offenseCode)) {
+				ret = true;
+				break;
+			}
+		}
+		return ret;
 	}
 	
 	public PropertySegment getStolenPropertySegment() {
