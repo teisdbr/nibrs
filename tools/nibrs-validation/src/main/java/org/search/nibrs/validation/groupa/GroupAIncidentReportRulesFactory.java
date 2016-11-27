@@ -30,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractSegment;
+import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.OffenderSegment;
@@ -171,7 +172,12 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule376());
 		rulesList.add(getRule451());
 		rulesList.add(getRule551());
+		rulesList.add(getRule661());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule661() {
+		return new DuplicateSegmentIdentifierRule<ArresteeSegment>(subject -> subject.getArrestees(), "40", NIBRSErrorCode._661);
 	}
 	
 	Rule<GroupAIncidentReport> getRule551() {

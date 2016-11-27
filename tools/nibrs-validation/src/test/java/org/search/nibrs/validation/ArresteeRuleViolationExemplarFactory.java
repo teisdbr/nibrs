@@ -28,6 +28,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 
@@ -59,6 +60,25 @@ final class ArresteeRuleViolationExemplarFactory {
 	}
 
 	private void populateGroupAExemplarMap() {
+		
+		groupATweakerMap.put(661, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+			copy.addArrestee(arrestee);
+			arrestee.setArresteeSequenceNumber(1);
+			arrestee.setAgeString("23");
+			arrestee.setRace("W");
+			arrestee.setSex("M");
+			arrestee.setArrestTransactionNumber("67890");
+			arrestee.setArrestDate(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			arrestee.setUcrArrestOffenseCode("13A");
+			arrestee.setTypeOfArrest("O");
+			arrestee.setMultipleArresteeSegmentsIndicator("N");
+			arrestee.setArresteeArmedWith(0,"01");
+			incidents.add(copy);
+			return incidents;
+		});
 		
 		groupATweakerMap.put(71, incident -> {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
