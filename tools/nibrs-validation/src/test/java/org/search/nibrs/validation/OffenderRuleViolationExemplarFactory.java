@@ -166,10 +166,18 @@ final class OffenderRuleViolationExemplarFactory {
 		});		
 			
 		
-		// TODO Rule 551
-		//When a Group A Incident Report is submitted, the individual 
-		//segments comprising the incident cannot contain duplicates. 
-		//In this case, two Offender Segments were submitted having the same entry in Data Element 36 (Offender Sequence Number)
+		groupATweakerMap.put(551,incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenderSegment offender = new OffenderSegment();
+			copy.addOffender(offender);
+			offender.setOffenderSequenceNumber(1);
+			offender.setAgeString("23");
+			offender.setRace("W");
+			offender.setSex("M");
+			offender.setEthnicity("H");
+			return incidents;
+		});
 		
 		
 		groupATweakerMap.put(552,incident -> {
