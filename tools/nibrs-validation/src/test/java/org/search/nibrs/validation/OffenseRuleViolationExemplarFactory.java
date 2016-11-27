@@ -742,7 +742,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.addOffense(offense9);
 			copy.addOffense(offense10);
 			copy.addOffense(offense11);
-
+			
 			incidents.add(copy);
 			return incidents;
 		});
