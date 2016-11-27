@@ -121,7 +121,27 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule171());
 		rulesList.add(getRule172());
 		rulesList.add(getRule072());
+		rulesList.add(getRule073());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule073() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				PropertySegment recoveredSegment = subject.getRecoveredPropertySegment();
+				PropertySegment stolenSegment = subject.getStolenPropertySegment();
+				if (recoveredSegment != null && recoveredSegment.getNumberOfRecoveredMotorVehicles() != null &&
+						(stolenSegment == null || stolenSegment.getNumberOfStolenMotorVehicles() < recoveredSegment.getNumberOfRecoveredMotorVehicles())) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(recoveredSegment.getNumberOfRecoveredMotorVehicles());
+					ret.setDataElementIdentifier("19");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._073);
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule072() {

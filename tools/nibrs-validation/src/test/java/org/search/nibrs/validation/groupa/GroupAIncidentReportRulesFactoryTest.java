@@ -39,6 +39,34 @@ public class GroupAIncidentReportRulesFactoryTest {
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
 	
 	@Test
+	public void testRule73() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule073();
+		GroupAIncidentReport report = buildBaseReport();
+		PropertySegment stolenSegment = new PropertySegment();
+		stolenSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+		PropertySegment recoveredSegment = new PropertySegment();
+		report.addProperty(recoveredSegment);
+		recoveredSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		recoveredSegment.setNumberOfRecoveredMotorVehicles(5);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._073, e.getNIBRSErrorCode());
+		assertEquals(recoveredSegment.getNumberOfRecoveredMotorVehicles(), e.getValue());
+		stolenSegment.setNumberOfStolenMotorVehicles(4);
+		report.addProperty(stolenSegment);
+		e = rule.apply(report);
+		assertNotNull(e);
+		stolenSegment.setNumberOfStolenMotorVehicles(5);
+		e = rule.apply(report);
+		assertNull(e);
+		stolenSegment.setNumberOfStolenMotorVehicles(6);
+		e = rule.apply(report);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule72() {
 		
 		Rule<GroupAIncidentReport> rule = rulesFactory.getRule072();
