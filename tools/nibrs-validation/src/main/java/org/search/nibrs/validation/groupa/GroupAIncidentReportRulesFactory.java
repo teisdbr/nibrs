@@ -29,9 +29,11 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -42,7 +44,9 @@ import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
+import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
@@ -184,7 +188,72 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule474());
 		rulesList.add(getRule480());
 		rulesList.add(getRule555());
+		rulesList.add(getRule558());
 		
+	}
+	
+	private static abstract class MinimalOffenderInfoRule<T> implements Rule<GroupAIncidentReport> {
+		
+		private NIBRSErrorCode nibrsErrorCode;
+		
+		public MinimalOffenderInfoRule(NIBRSErrorCode nibrsErrorCode) {
+			this.nibrsErrorCode = nibrsErrorCode;
+		}
+		
+		@Override
+		public final NIBRSError apply(GroupAIncidentReport subject) {
+			NIBRSError ret = null;
+			int offenderCount = subject.getOffenderCount();
+			if (offenderCount > 0) {
+				boolean someOffenderHasAllInfo = false;
+				NIBRSError potentialError = null;
+				for (int i = 0; i < offenderCount; i++) {
+					OffenderSegment os = subject.getOffenders().get(i);
+					Object value = null;
+					String dataElementIdentifier = null;
+					String race = os.getRace();
+					NIBRSAge age = os.getAge();
+					String sex = os.getSex();
+					if (race == null || RaceCode.U.code.equals(race)) {
+						value = race;
+						dataElementIdentifier = "39";
+					}
+					if (sex == null || SexCode.U.code.equals(sex)) {
+						value = sex;
+						dataElementIdentifier = "38";
+					}
+					if (age == null || age.isUnknown()) {
+						value = age;
+						dataElementIdentifier = "37";
+					}
+					if (dataElementIdentifier != null) {
+						potentialError = os.getErrorTemplate();
+						potentialError.setValue(value);
+						potentialError.setDataElementIdentifier(dataElementIdentifier);
+						potentialError.setNIBRSErrorCode(nibrsErrorCode);
+					}
+					someOffenderHasAllInfo |= dataElementIdentifier == null;
+				}
+				if (!someOffenderHasAllInfo && violatesRule(subject)) {
+					ret = potentialError;
+				}
+			}
+			return ret;
+		}
+		
+		protected abstract boolean violatesRule(GroupAIncidentReport subject);
+		
+	}
+	
+	Rule<GroupAIncidentReport> getRule558() {
+		return new MinimalOffenderInfoRule<GroupAIncidentReport>(NIBRSErrorCode._558) {
+			@Override
+			protected boolean violatesRule(GroupAIncidentReport subject) {
+				String exceptionalClearanceCode = subject.getExceptionalClearanceCode();
+				return exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.equals(exceptionalClearanceCode);
+			}
+			
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule555() {

@@ -336,10 +336,52 @@ final class OffenderRuleViolationExemplarFactory {
 		});
 		
 		
-		// TODO Rule 558 
-		//None of the Offender Segments contain all known values for Age, Sex, 
-		//and Race. When an Incident is cleared exceptionally (Data Element 4 
-		//contains an A through E), one offender must have all known values.
+		groupATweakerMap.put(558, incident -> {
+			
+			//None of the Offender Segments contain all known values for Age, Sex, 
+			//and Race. When an Incident is cleared exceptionally (Data Element 4 
+			//contains an A through E), one offender must have all known values.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenderSegment offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setSex(SexCode.U.code);
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setSex(null);
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setRace(RaceCode.U.code);
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setRace(null);
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setAgeString("00  ");
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setAgeString(null);
+			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		// TODO Rule 559
 		//The incident was submitted with Data Element 6 (UCR Offense Code)

@@ -34,10 +34,13 @@ import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
+import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
+import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.Rule;
@@ -45,6 +48,66 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule558() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule558();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenderSegment os = new OffenderSegment();
+		report.addOffender(os);
+		os.setRace(RaceCode.A.code);
+		os.setSex(SexCode.F.code);
+		os.setAgeString("20  ");
+		e = rule.apply(report);
+		assertNull(e);
+		os.setRace(RaceCode.U.code);
+		e = rule.apply(report);
+		assertNull(e);
+		os.setRace(null);
+		e = rule.apply(report);
+		assertNull(e);
+		report.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("39", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._558, e.getNIBRSErrorCode());
+		assertEquals(null, e.getValue());
+		os.setRace(RaceCode.U.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(RaceCode.U.code, e.getValue());
+		os = new OffenderSegment();
+		report.addOffender(os);
+		os.setRace(RaceCode.A.code);
+		os.setSex(SexCode.F.code);
+		os.setAgeString("20  ");
+		e = rule.apply(report);
+		assertNull(e);
+		report.removeOffender(1);
+		e = rule.apply(report);
+		assertNotNull(e);
+		os = report.getOffenders().get(0);
+		os.setRace(RaceCode.A.code);
+		e = rule.apply(report);
+		assertNull(e);
+		os.setSex(SexCode.U.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("38", e.getDataElementIdentifier());
+		os.setSex(null);
+		e = rule.apply(report);
+		assertNotNull(e);
+		os.setSex(SexCode.F.code);
+		os.setAgeString("00  ");
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("37", e.getDataElementIdentifier());
+		os.setAgeString(null);
+		e = rule.apply(report);
+		assertNotNull(e);
+	}
 	
 	@Test
 	public void testRule555() {
