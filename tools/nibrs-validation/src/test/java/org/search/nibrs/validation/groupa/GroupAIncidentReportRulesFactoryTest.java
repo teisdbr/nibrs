@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +43,27 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+
+	@Test
+	public void testRule266() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule266();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenseSegment os = new OffenseSegment();
+		os.setUcrOffenseCode(OffenseCode._09C.code);
+		report.addOffense(os);
+		e = rule.apply(report);
+		assertNull(e);
+		os = new OffenseSegment();
+		os.setUcrOffenseCode(OffenseCode._200.code);
+		report.addOffense(os);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("6", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._266, e.getNIBRSErrorCode());
+		assertEquals(Collections.singleton(OffenseCode._200.code), e.getValue());
+	}
 	
 	@Test
 	public void testRule263() {

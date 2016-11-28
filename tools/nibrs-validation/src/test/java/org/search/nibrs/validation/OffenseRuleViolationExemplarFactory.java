@@ -799,6 +799,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense2.setLocationType("15");
 			offense2.setNumberOfPremisesEntered(null);
 			offense2.setAutomaticWeaponIndicator(0, " ");
+			copy.addOffense(offense2);
 			
 			incidents.add(copy);
 			
