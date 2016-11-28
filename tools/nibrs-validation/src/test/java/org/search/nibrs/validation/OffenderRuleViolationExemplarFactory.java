@@ -299,13 +299,19 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});		
 		
-		
-		
-		// TODO Rule 555
-		//When multiple Offender Segments are submitted, none can contain a 
-		//00=Unknown value because the presence of 00 indicates that the number of 
-		//offenders is unknown. In this case, multiple offenders were submitted,
-		//but one of the segments contains the 00=Unknown value.
+		groupATweakerMap.put(555,incident -> {
+			//When multiple Offender Segments are submitted, none can contain a 
+			//00=Unknown value because the presence of 00 indicates that the number of 
+			//offenders is unknown. In this case, multiple offenders were submitted,
+			//but one of the segments contains the 00=Unknown value.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenderSegment os = new OffenderSegment();
+			copy.addOffender(os);
+			os.setOffenderSequenceNumber(0);
+			incidents.add(copy);
+			return incidents;
+		});		
 		
 		groupATweakerMap.put(556,incident -> {
 			//(Age of Offender) must contain numeric entry of 00 through 99.
