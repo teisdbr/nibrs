@@ -1462,18 +1462,31 @@ final class PropertyRuleViolationExemplarFactory {
 			return incidents;
 		});
 		
-		//TO-DO Rule 376
-		//When a Group A Incident Report is submitted, the individual segments
-		//comprising the incident cannot contain duplicates. Example, two property segments
-		//cannot be submitted having the same entry in Data Element 14 (Type Property Loss/Etc.).
-		
-	
-		//TO-DO Rule 382
-		//Segment Level 3 (Property Segment) cannot be submitted with
-		//10=Drugs/Narcotics in Data Element 15 (Property Description) and 
-		//blanks in Data Element 16 (Value of Property) unless 
-		//	Data Element 6 (UCR Offense Code) is 35A=Drug/Narcotic Violations
-		
+		groupATweakerMap.put(382, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getOffenses().get(0).setUcrOffenseCode("35B");
+			copy.getOffenses().get(0).setOffenseAttemptedCompleted("C");
+			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
+			copy.getOffenses().get(0).setBiasMotivation(0, "88");
+			copy.getOffenses().get(0).setLocationType("20");
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setMethodOfEntry("N");
+			
+			PropertySegment property = new PropertySegment();
+			property.setTypeOfPropertyLoss("6");
+			property.setPropertyDescription(0, "10");
+			property.setSuspectedDrugType(0, "A");
+			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setTypeDrugMeasurement(0, "OZ");
+			property.setValueOfProperty(0, null);
+			copy.addProperty(property);
+			
+			incidents.add(copy);
+						
+			return incidents;
+		});
 		
 		groupATweakerMap.put(383, incident -> {
 			//(Value of PropertySegment) has a value other than zero entered. 

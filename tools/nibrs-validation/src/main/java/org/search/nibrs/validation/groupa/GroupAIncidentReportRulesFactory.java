@@ -176,7 +176,44 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule263());
 		rulesList.add(getRule266());
 		rulesList.add(getRule268());
+		rulesList.add(getRule382());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule382() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int propertyCount = subject.getPropertyCount();
+				if (propertyCount > 0 && subject.getOffenseCount() > 0) {
+					boolean hasDrugsNarcoticViolationOffense = false;
+					for (OffenseSegment os : subject.getOffenses()) {
+						String offenseCode = os.getUcrOffenseCode();
+						if (OffenseCode._35A.code.equals(offenseCode)) {
+							hasDrugsNarcoticViolationOffense = true;
+							break;
+						}
+					}
+					if (!hasDrugsNarcoticViolationOffense) {
+						boolean hasUnvaluedDrugs = false;
+						for (int i=0;i < propertyCount && !hasUnvaluedDrugs;i++) {
+							PropertySegment ps = subject.getProperties().get(i);
+							for (int j=0;j < PropertySegment.PROPERTY_DESCRIPTION_COUNT && !hasUnvaluedDrugs;j++) {
+								hasUnvaluedDrugs = PropertyDescriptionCode._10.code.equals(ps.getPropertyDescription(j)) && ps.getValueOfProperty(j) == null;
+							}
+						}
+						if (hasUnvaluedDrugs) {
+							ret = subject.getErrorTemplate();
+							ret.setValue(null);
+							ret.setDataElementIdentifier("15");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._382);
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule268() {
