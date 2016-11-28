@@ -39,6 +39,7 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.EthnicityCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
@@ -343,51 +344,87 @@ final class OffenderRuleViolationExemplarFactory {
 			//contains an A through E), one offender must have all known values.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			GroupAIncidentReport base = new GroupAIncidentReport(incident);
+			base.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(base);
 			OffenderSegment offenderSegment = copy.getOffenders().get(0);
 			offenderSegment.setSex(SexCode.U.code);
-			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			incidents.add(copy);
 			
-			copy = new GroupAIncidentReport(incident);
+			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
 			offenderSegment.setSex(null);
-			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			incidents.add(copy);
 			
-			copy = new GroupAIncidentReport(incident);
+			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
 			offenderSegment.setRace(RaceCode.U.code);
-			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			incidents.add(copy);
 			
-			copy = new GroupAIncidentReport(incident);
+			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
 			offenderSegment.setRace(null);
-			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			incidents.add(copy);
 			
-			copy = new GroupAIncidentReport(incident);
+			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
 			offenderSegment.setAgeString("00  ");
-			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			incidents.add(copy);
 			
-			copy = new GroupAIncidentReport(incident);
+			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
 			offenderSegment.setAgeString(null);
-			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			incidents.add(copy);
 			
 			return incidents;
 			
 		});
 		
-		// TODO Rule 559
-		//The incident was submitted with Data Element 6 (UCR Offense Code)
-		//value of 09C=Justifiable Homicide, but unknown information was submitted
-		//for all the offender(s). At least one of the offenders must have known
-		//information for Age, Sex, and Race.
+		groupATweakerMap.put(559, incident -> {
+			
+			//The incident was submitted with Data Element 6 (UCR Offense Code)
+			//value of 09C=Justifiable Homicide, but unknown information was submitted
+			//for all the offender(s). At least one of the offenders must have known
+			//information for Age, Sex, and Race.
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			
+			GroupAIncidentReport base = new GroupAIncidentReport(incident);
+			base.getOffenses().get(0).setUcrOffenseCode(OffenseCode._09C.code);
+			
+			GroupAIncidentReport copy = new GroupAIncidentReport(base);
+			OffenderSegment offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setSex(SexCode.U.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(base);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setSex(null);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(base);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setRace(RaceCode.U.code);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(base);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setRace(null);
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(base);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setAgeString("00  ");
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(base);
+			offenderSegment = copy.getOffenders().get(0);
+			offenderSegment.setAgeString(null);
+			incidents.add(copy);
+			
+			return incidents;
+			
+		});
 		
 		// TODO Rule 560
 		//Segment Level 5 (Offender Segment) must contain a data value for 

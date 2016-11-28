@@ -189,6 +189,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule480());
 		rulesList.add(getRule555());
 		rulesList.add(getRule558());
+		rulesList.add(getRule559());
 		
 	}
 	
@@ -243,6 +244,22 @@ public class GroupAIncidentReportRulesFactory {
 		
 		protected abstract boolean violatesRule(GroupAIncidentReport subject);
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule559() {
+		return new MinimalOffenderInfoRule<GroupAIncidentReport>(NIBRSErrorCode._559) {
+			@Override
+			protected boolean violatesRule(GroupAIncidentReport subject) {
+				boolean ret = false;
+				int offenseCount = subject.getOffenseCount();
+				for (int i=0;i < offenseCount && !ret;i++) {
+					OffenseSegment os = subject.getOffenses().get(i);
+					ret = OffenseCode._09C.code.equals(os.getUcrOffenseCode());
+				}
+				return ret;
+			}
+			
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule558() {

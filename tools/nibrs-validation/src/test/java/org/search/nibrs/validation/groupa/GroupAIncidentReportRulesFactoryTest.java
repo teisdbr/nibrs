@@ -50,6 +50,36 @@ public class GroupAIncidentReportRulesFactoryTest {
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
 	
 	@Test
+	public void testRule559() {
+		// note that we rely on the more thorough testing in rule 558 to test the shared functionality
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule559();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenderSegment os = new OffenderSegment();
+		report.addOffender(os);
+		os.setRace(RaceCode.A.code);
+		os.setSex(SexCode.F.code);
+		os.setAgeString("20  ");
+		e = rule.apply(report);
+		assertNull(e);
+		os.setRace(RaceCode.U.code);
+		e = rule.apply(report);
+		assertNull(e);
+		OffenseSegment offenseSegment = new OffenseSegment();
+		offenseSegment.setUcrOffenseCode(OffenseCode._09A.code);
+		report.addOffense(offenseSegment);
+		e = rule.apply(report);
+		assertNull(e);
+		offenseSegment.setUcrOffenseCode(OffenseCode._09C.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("39", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._559, e.getNIBRSErrorCode());
+		assertEquals(RaceCode.U.code, e.getValue());
+	}
+	
+	@Test
 	public void testRule558() {
 		Rule<GroupAIncidentReport> rule = rulesFactory.getRule558();
 		GroupAIncidentReport report = buildBaseReport();
