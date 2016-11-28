@@ -41,6 +41,7 @@ import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
@@ -178,7 +179,32 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule268());
 		rulesList.add(getRule382());
 		rulesList.add(getRule466());
+		rulesList.add(getRule470());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule470() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int victimCount = subject.getVictimCount();
+				int offenderCount = subject.getOffenderCount();
+				if (victimCount <= 1 || offenderCount <= 1) {
+					for (int i=0;i < victimCount && ret == null;i++) {
+						VictimSegment vs = subject.getVictims().get(i);
+						List<String> relationships = vs.getVictimOffenderRelationshipList();
+						if (relationships.contains(RelationshipOfVictimToOffenderCode.VO.code)) {
+							ret = vs.getErrorTemplate();
+							ret.setValue(RelationshipOfVictimToOffenderCode.VO.code);
+							ret.setDataElementIdentifier("35");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._470);
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule466() {

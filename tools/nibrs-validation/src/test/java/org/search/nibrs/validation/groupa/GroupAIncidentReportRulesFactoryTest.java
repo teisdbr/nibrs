@@ -36,6 +36,7 @@ import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.Rule;
@@ -43,6 +44,41 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule470() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule470();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenderSegment os = new OffenderSegment();
+		report.addOffender(os);
+		os = new OffenderSegment();
+		report.addOffender(os);
+		VictimSegment vs = new VictimSegment();
+		report.addVictim(vs);
+		vs.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.VO.code);
+		vs = new VictimSegment();
+		report.addVictim(vs);
+		vs.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.VO.code);
+		e = rule.apply(report);
+		assertNull(e);
+		report.removeOffender(1);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("35", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._470, e.getNIBRSErrorCode());
+		assertEquals(RelationshipOfVictimToOffenderCode.VO.code, e.getValue());
+		report.addOffender(os);
+		e = rule.apply(report);
+		assertNull(e);
+		report.removeVictim(1);
+		e = rule.apply(report);
+		assertNotNull(e);
+		report.getVictims().get(0).setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
+		e = rule.apply(report);
+		assertNull(e);
+	}
 	
 	@Test
 	public void testRule466() {
@@ -60,6 +96,12 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.addVictim(vs);
 		e = rule.apply(report);
 		assertNull(e);
+		vs.setUcrOffenseCodeConnection(0, OffenseCode._35B.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("24", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._466, e.getNIBRSErrorCode());
+		assertEquals(OffenseCode._35B.code, e.getValue());
 	}
 	
 	@Test
