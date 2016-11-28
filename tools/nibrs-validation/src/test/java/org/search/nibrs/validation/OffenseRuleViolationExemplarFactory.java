@@ -898,8 +898,6 @@ final class OffenseRuleViolationExemplarFactory {
 			property8.setPropertyDescription(0, "03");
 			property8.setValueOfProperty(0, 10000);
 			
-			
-			
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy3);
@@ -908,10 +906,8 @@ final class OffenseRuleViolationExemplarFactory {
 			incidents.add(copy6);
 			incidents.add(copy7);
 			incidents.add(copy8);
-			
 					
 			return incidents;
-			
 			
 		});
 		

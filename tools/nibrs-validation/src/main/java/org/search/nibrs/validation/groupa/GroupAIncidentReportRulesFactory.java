@@ -175,7 +175,42 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule661());
 		rulesList.add(getRule263());
 		rulesList.add(getRule266());
+		rulesList.add(getRule268());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule268() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int propertyCount = subject.getPropertyCount();
+				if (propertyCount > 0 && subject.getOffenseCount() > 0) {
+					boolean allLarceny = true;
+					for (OffenseSegment os : subject.getOffenses()) {
+						String offenseCode = os.getUcrOffenseCode();
+						if (!OffenseCode.isLarcenyOffenseCode(offenseCode)) {
+							allLarceny = false;
+							break;
+						}
+					}
+					boolean motorVehicleSubmitted = false;
+					for (int i=0;i < propertyCount && !motorVehicleSubmitted;i++) {
+						PropertySegment ps = subject.getProperties().get(i);
+						for (int j=0;j < PropertySegment.PROPERTY_DESCRIPTION_COUNT && !motorVehicleSubmitted;j++) {
+							motorVehicleSubmitted = PropertyDescriptionCode.isMotorVehicleCode(ps.getPropertyDescription(j));
+						}
+					}
+					if (allLarceny && motorVehicleSubmitted) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(null);
+						ret.setDataElementIdentifier("15");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._268);
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule266() {
@@ -349,7 +384,7 @@ public class GroupAIncidentReportRulesFactory {
 					recoveredPropertyTypes.removeIf(element -> element == null);
 					List<String> stolenPropertyDescriptionList = stolenSegment == null ? new ArrayList<String>() : Arrays.asList(stolenSegment.getPropertyDescription());
 					recoveredPropertyTypes.removeAll(stolenPropertyDescriptionList);
-					if (stolenPropertyDescriptionList.contains(PropertyDescriptionCode._03.code) || stolenPropertyDescriptionList.contains(PropertyDescriptionCode._05.code)) {
+					if (PropertyDescriptionCode.containsMotorVehicleCode(stolenPropertyDescriptionList)) {
 						recoveredPropertyTypes.remove(PropertyDescriptionCode._38.code);
 					}
 					if (!recoveredPropertyTypes.isEmpty()) {

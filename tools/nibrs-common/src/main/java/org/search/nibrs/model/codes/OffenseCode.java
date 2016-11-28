@@ -19,10 +19,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.collections4.CollectionUtils;
+import java.util.regex.Pattern;
 
 /**
  * Enum for NIBRS OffenseSegment Codes.
@@ -94,29 +92,6 @@ public enum OffenseCode {
 	_90J("90J", "Trespass of Real Property", "B")
 	;
 
-	private static final List<String> CRIME_AGAINST_SOCIETY_CODE_LIST = Arrays.asList(_720.code,
-	_35A.code, _35B.code, _39A.code, _39B.code,
-	_39C.code, _39D.code, _370.code, _40A.code,
-	_40B.code, _40C.code, _520.code);
-	
-	private static final List<String> CRIME_AGAINST_PROPERTY_CODE_LIST = Arrays.asList(_200.code,
-			_510.code, _220.code, _250.code,
-			_290.code, _270.code, _210.code,
-			_26A.code, _26B.code, _26C.code,
-			_26D.code, _26E.code, _26F.code,
-			_26G.code, _23A.code, _23B.code,
-			_23C.code, _23D.code, _23E.code,
-			_23F.code, _23G.code, _23H.code,
-			_240.code, _120.code, _280.code					
-	);
-	
-	private static final List<String> CRIME_AGAINST_PERSON_CODE_LIST = Arrays.asList(_13A.code, _13B.code, _13C.code, 
-	_09A.code, _09B.code, _64A.code, _64B.code, _100.code,
-	_11A.code, _11B.code, _11C.code, _11D.code, _36A.code,
-	_36B.code);
-	
-	private static final List<String> GAMBLING_OFFENSE_CODE_LIST = Arrays.asList(_39A.code, _39B.code, _39C.code, _39D.code);
-
 	public String code;
 	public String description;
 	public String group;
@@ -151,35 +126,62 @@ public enum OffenseCode {
 	}
 	
 	public static final boolean isCrimeAgainstPersonCode(String code) {
-		return CRIME_AGAINST_PERSON_CODE_LIST.contains(code);
+		return Arrays.asList(_13A.code, _13B.code, _13C.code, 
+		_09A.code, _09B.code, _64A.code, _64B.code, _100.code,
+		_11A.code, _11B.code, _11C.code, _11D.code, _36A.code,
+		_36B.code).contains(code);
 	}
 	
 	public static final boolean containsCrimeAgainstPersonCode(Collection<String> codes) {
-		return CollectionUtils.containsAny(codes, CRIME_AGAINST_PERSON_CODE_LIST);
+		return codes.stream().anyMatch(code -> isCrimeAgainstPersonCode(code));
 	}
 
 	public static final boolean isCrimeAgainstSocietyCode(String code) {
-		return CRIME_AGAINST_SOCIETY_CODE_LIST.contains(code);
+		return Arrays.asList(_720.code,
+		_35A.code, _35B.code, _39A.code, _39B.code,
+		_39C.code, _39D.code, _370.code, _40A.code,
+		_40B.code, _40C.code, _520.code).contains(code);
 	}
 	
 	public static final boolean containsCrimeAgainstSocietyCode(Collection<String> codes) {
-		return CollectionUtils.containsAny(codes, CRIME_AGAINST_SOCIETY_CODE_LIST);
+		return codes.stream().anyMatch(code -> isCrimeAgainstSocietyCode(code));
 	}
 
 	public static final boolean isCrimeAgainstPropertyCode(String code) {
-		return CRIME_AGAINST_PROPERTY_CODE_LIST.contains(code);
+		return Arrays.asList(_200.code,
+				_510.code, _220.code, _250.code,
+				_290.code, _270.code, _210.code,
+				_26A.code, _26B.code, _26C.code,
+				_26D.code, _26E.code, _26F.code,
+				_26G.code, _23A.code, _23B.code,
+				_23C.code, _23D.code, _23E.code,
+				_23F.code, _23G.code, _23H.code,
+				_240.code, _120.code, _280.code					
+		).contains(code);
 	}
 	
 	public static final boolean containsCrimeAgainstPropertyCode(Collection<String> codes) {
-		return CollectionUtils.containsAny(codes, CRIME_AGAINST_PROPERTY_CODE_LIST);
+		return codes.stream().anyMatch(code -> isCrimeAgainstPropertyCode(code));
 	}
 
 	public static final boolean isGamblingOffenseCode(String code) {
-		return GAMBLING_OFFENSE_CODE_LIST.contains(code);
+		return codeMatchesRegex(code, "39[ABCD]");
+	}
+
+	private static boolean codeMatchesRegex(String code, String regex) {
+		return Pattern.compile(regex).matcher(code).matches();
 	}
 	
 	public static final boolean containsGamblingOffenseCode(Collection<String> codes) {
-		return CollectionUtils.containsAny(codes, GAMBLING_OFFENSE_CODE_LIST);
+		return codes.stream().anyMatch(code -> isGamblingOffenseCode(code));
+	}
+
+	public static final boolean isLarcenyOffenseCode(String code) {
+		return codeMatchesRegex(code, "23[ABCDEFGH]");
+	}
+	
+	public static final boolean containsLarcenyOffenseCode(Collection<String> codes) {
+		return codes.stream().anyMatch(code -> isLarcenyOffenseCode(code));
 	}
 
 }

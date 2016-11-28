@@ -15,6 +15,7 @@
  *******************************************************************************/
 package org.search.nibrs.model.codes;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -111,6 +112,14 @@ public enum PropertyDescriptionCode {
 			ret.add(v.code);
 		}
 		return ret;
+	}
+	
+	public static final boolean isMotorVehicleCode(String code) {
+		return _03.code.equals(code) || _05.code.equals(code);
+	}
+	
+	public static final boolean containsMotorVehicleCode(Collection<String> codes) {
+		return codes.stream().anyMatch(code -> isMotorVehicleCode(code));
 	}
 	
 }

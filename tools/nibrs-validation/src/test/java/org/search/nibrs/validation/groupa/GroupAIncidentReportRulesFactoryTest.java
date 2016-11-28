@@ -43,6 +43,44 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule268() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule268();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenseSegment os = new OffenseSegment();
+		os.setUcrOffenseCode(OffenseCode._13A.code);
+		report.addOffense(os);
+		e = rule.apply(report);
+		assertNull(e);
+		PropertySegment ps = new PropertySegment();
+		ps.setPropertyDescription(0, PropertyDescriptionCode._01.code);
+		report.addProperty(ps);
+		e = rule.apply(report);
+		assertNull(e);
+		os.setUcrOffenseCode(OffenseCode._23A.code);
+		e = rule.apply(report);
+		assertNull(e);
+		ps.setPropertyDescription(1, PropertyDescriptionCode._03.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("15", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._268, e.getNIBRSErrorCode());
+		assertNull(e.getValue());
+		os.setUcrOffenseCode(OffenseCode._13A.code);
+		e = rule.apply(report);
+		assertNull(e);
+		os = new OffenseSegment();
+		os.setUcrOffenseCode(OffenseCode._23A.code);
+		report.addOffense(os);
+		ps = new PropertySegment();
+		ps.setPropertyDescription(0, PropertyDescriptionCode._01.code);
+		report.addProperty(ps);
+		e = rule.apply(report);
+		assertNull(e); // ok because there is one non-larceny offense...
+	}
 
 	@Test
 	public void testRule266() {
