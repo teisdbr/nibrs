@@ -36,6 +36,7 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -181,8 +182,34 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule466());
 		rulesList.add(getRule470());
 		rulesList.add(getRule474());
+		rulesList.add(getRule480());
 		
 	}
+	
+	Rule<GroupAIncidentReport> getRule480() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int victimCount = subject.getVictimCount();
+				int offenseCount = subject.getOffenseCount();
+				if (victimCount > 0 && offenseCount == 1) {
+					for (int i=0;i < victimCount && ret == null;i++) {
+						VictimSegment vs = subject.getVictims().get(i);
+						if (vs.getAggravatedAssaultHomicideCircumstancesList().contains(AggravatedAssaultHomicideCircumstancesCode._08.code)) {
+							ret = vs.getErrorTemplate();
+							ret.setValue(AggravatedAssaultHomicideCircumstancesCode._08.code);
+							ret.setDataElementIdentifier("31");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._480);
+						}
+					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+
 	
 	Rule<GroupAIncidentReport> getRule474() {
 		return new Rule<GroupAIncidentReport>() {

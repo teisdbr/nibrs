@@ -33,6 +33,7 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
@@ -44,6 +45,34 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule480() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule480();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		VictimSegment vs = new VictimSegment();
+		report.addVictim(vs);
+		vs.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._01.code);
+		OffenseSegment os = new OffenseSegment();
+		report.addOffense(os);
+		e = rule.apply(report);
+		assertNull(e);
+		os = new OffenseSegment();
+		report.addOffense(os);
+		e = rule.apply(report);
+		assertNull(e);
+		vs.setAggravatedAssaultHomicideCircumstances(1, AggravatedAssaultHomicideCircumstancesCode._08.code);
+		e = rule.apply(report);
+		assertNull(e);
+		report.removeOffense(1);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("31", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._480, e.getNIBRSErrorCode());
+		assertEquals(AggravatedAssaultHomicideCircumstancesCode._08.code, e.getValue());
+	}
 	
 	@Test
 	public void testRule474() {
