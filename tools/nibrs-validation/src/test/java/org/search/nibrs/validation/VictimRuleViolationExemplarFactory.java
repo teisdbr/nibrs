@@ -775,8 +775,11 @@ final class VictimRuleViolationExemplarFactory {
 			//indicating the same offender).
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "VO");
 			VictimSegment victim2 = new VictimSegment();
 			victim2.setVictimOffenderRelationship(0, "VO");
+			victim2.setOffenderNumberRelated(0, 1);
+			copy.addVictim(victim2);
 			incidents.add(copy);
 			
 			return incidents;

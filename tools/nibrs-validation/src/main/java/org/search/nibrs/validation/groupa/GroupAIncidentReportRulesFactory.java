@@ -32,8 +32,8 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.CargoTheftIndicatorCode;
@@ -180,7 +180,38 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule382());
 		rulesList.add(getRule466());
 		rulesList.add(getRule470());
+		rulesList.add(getRule474());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule474() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int victimCount = subject.getVictimCount();
+				List<Integer> priorVictimOffenders = new ArrayList<>();
+				if (victimCount > 1) {
+					for (int i=0;i < victimCount && ret == null;i++) {
+						VictimSegment vs = subject.getVictims().get(i);
+						for (int j=0;j < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT && ret == null;j++) {
+							if (RelationshipOfVictimToOffenderCode.VO.code.equals(vs.getVictimOffenderRelationship(j))) {
+								Integer offender = vs.getOffenderNumberRelated(j);
+								if (priorVictimOffenders.contains(offender)) {
+									ret = vs.getErrorTemplate();
+									ret.setValue(RelationshipOfVictimToOffenderCode.VO.code);
+									ret.setDataElementIdentifier("35");
+									ret.setNIBRSErrorCode(NIBRSErrorCode._474);
+								} else {
+									priorVictimOffenders.add(offender);
+								}
+							}
+						}
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule470() {
