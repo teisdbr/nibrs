@@ -67,6 +67,11 @@ final class GroupBRuleViolationExemplarFactory {
 			copy = new GroupBArrestReport(arrestReport);
 			copy.setOri(null);
 			reports.add(copy);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setArresteeSequenceNumber(null);
+			reports.add(copy);
+			
+			
 			
 					
 			return reports;
@@ -79,7 +84,8 @@ final class GroupBRuleViolationExemplarFactory {
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.ge
+			copy.getArrestees().set(0, null);
+			
 			
 			
 		});
