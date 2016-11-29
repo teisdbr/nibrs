@@ -17,8 +17,12 @@ package org.search.nibrs.model;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
+import org.search.nibrs.model.codes.OffenseCode;
 
 public class CodeEnumTests {
 	
@@ -26,6 +30,19 @@ public class CodeEnumTests {
 	public void testFirearmCode() {
 		assertTrue(ArresteeWasArmedWithCode._11.isFirearm());
 		assertFalse(ArresteeWasArmedWithCode._01.isFirearm());
+	}
+	
+	@Test
+	public void testGamblingOffenseCode() {
+		assertTrue(OffenseCode.isGamblingOffenseCode(OffenseCode._39A.code));
+		assertFalse(OffenseCode.isGamblingOffenseCode(OffenseCode._200.code));
+		Set<String> codes = new HashSet<>();
+		codes.add(OffenseCode._39A.code);
+		codes.add(OffenseCode._200.code);
+		codes.add(OffenseCode._13A.code);
+		assertTrue(OffenseCode.containsGamblingOffenseCode(codes));
+		codes.remove(OffenseCode._39A.code);
+		assertFalse(OffenseCode.containsGamblingOffenseCode(codes));
 	}
 
 }
