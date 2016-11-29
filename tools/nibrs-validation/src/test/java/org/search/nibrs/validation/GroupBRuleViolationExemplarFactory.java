@@ -95,19 +95,25 @@ final class GroupBRuleViolationExemplarFactory {
 			copy.getArrestees().get(0).setRace(null);
 			reports.add(copy);
 			
-			
-					
+							
 			return reports;
 			
 		});
 		
-		//}
-		groupBTweakerMap.put(717, arrestReport -> {
+			groupBTweakerMap.put(704, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().set(0, null);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).getAutomaticWeaponIndicator('B');
+			reports.add(copy);
+			
+			
+			
+			return reports;
+			
+			});
 			
 			
 			
