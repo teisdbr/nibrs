@@ -106,9 +106,11 @@ final class GroupBRuleViolationExemplarFactory {
 			
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).getAutomaticWeaponIndicator('B');
+			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "B");
 			reports.add(copy);
-			
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setEthnicity(null);
+			reports.add(copy);
 			
 			
 			return reports;
