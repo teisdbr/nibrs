@@ -68,12 +68,24 @@ final class GroupBRuleViolationExemplarFactory {
 			copy.setOri(null);
 			reports.add(copy);
 			
-			// TODO: fill out the list as desired...
-			
+					
 			return reports;
 			
 		});
 		
-	}
+		//}
+		groupBTweakerMap.put(717, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy.ge
+			
+			
+		});
 
+		}
+	
 }
+	
+	
