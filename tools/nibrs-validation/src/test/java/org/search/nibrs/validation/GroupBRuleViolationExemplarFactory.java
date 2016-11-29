@@ -70,6 +70,10 @@ final class GroupBRuleViolationExemplarFactory {
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setArresteeSequenceNumber(null);
 			reports.add(copy);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setArrestTransactionNumber(null);
+			reports.add(copy);
+			
 			
 			
 			
