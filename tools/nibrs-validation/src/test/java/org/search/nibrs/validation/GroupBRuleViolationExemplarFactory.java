@@ -100,7 +100,7 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 		
-			groupBTweakerMap.put(704, arrestReport -> {
+		groupBTweakerMap.put(704, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			
@@ -118,18 +118,10 @@ final class GroupBRuleViolationExemplarFactory {
 			copy.getArrestees().get(0).setDispositionOfArresteeUnder18(null);
 			reports.add(copy);
 			
-			
-			
 			return reports;
 			
-			});
-			
-			
-			
 		});
-
-		}
+			
+	}
 	
 }
-	
-	
