@@ -192,7 +192,34 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule558());
 		rulesList.add(getRule559());
 		rulesList.add(getRule669());
+		rulesList.add(getRule656());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule656() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				NIBRSError template = subject.getErrorTemplate();
+				template.setNIBRSErrorCode(NIBRSErrorCode._656);
+				template.setDataElementIdentifier("36");
+				template.setValue(null);
+				int offenderCount = subject.getOffenderCount();
+				int arresteeCount = subject.getArresteeCount();
+				if (offenderCount == 1) {
+					OffenderSegment offender = subject.getOffenders().get(0);
+					Integer offenderSequenceNumber = offender.getOffenderSequenceNumber();
+					if (arresteeCount > 0 && (offenderSequenceNumber == null || offenderSequenceNumber == 0)) {
+						ret = template;
+					}
+				}
+				if (arresteeCount > offenderCount) {
+					ret = template;
+				}
+				return ret;
+			}
+		};
 	}
 	
 	Rule<GroupAIncidentReport> getRule669() {
