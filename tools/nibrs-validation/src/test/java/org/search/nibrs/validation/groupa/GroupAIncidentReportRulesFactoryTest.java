@@ -28,6 +28,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
+import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
@@ -48,6 +49,30 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule669() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule669();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		ArresteeSegment as = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+		report.addArrestee(as);
+		OffenseSegment os = new OffenseSegment();
+		os.setUcrOffenseCode(OffenseCode._09A.code);
+		report.addOffense(os);
+		e = rule.apply(report);
+		assertNull(e);
+		os.setUcrOffenseCode(OffenseCode._09C.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._669, e.getNIBRSErrorCode());
+		assertEquals(OffenseCode._09C.code, e.getValue());
+		assertEquals("6", e.getDataElementIdentifier());
+		report.removeArrestee(0);
+		e = rule.apply(report);
+		assertNull(e);
+	}
 	
 	@Test
 	public void testRule559() {

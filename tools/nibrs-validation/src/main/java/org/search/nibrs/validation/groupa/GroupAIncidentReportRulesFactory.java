@@ -15,6 +15,7 @@
  *******************************************************************************/
 package org.search.nibrs.validation.groupa;
 
+import java.rmi.NoSuchObjectException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -190,7 +191,32 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule555());
 		rulesList.add(getRule558());
 		rulesList.add(getRule559());
+		rulesList.add(getRule669());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule669() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int offenseCount = subject.getOffenseCount();
+				if (offenseCount > 0) {
+					boolean noJustifiableHomicide = true;
+					for (int i=0;i < offenseCount && noJustifiableHomicide;i++) {
+						OffenseSegment os = subject.getOffenses().get(i);
+						noJustifiableHomicide = !(OffenseCode._09C.code.equals(os.getUcrOffenseCode()));
+					}
+					if (!noJustifiableHomicide && subject.getArresteeCount() > 0) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._669);
+						ret.setDataElementIdentifier("6");
+						ret.setValue(OffenseCode._09C.code);
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	private static abstract class MinimalOffenderInfoRule<T> implements Rule<GroupAIncidentReport> {
