@@ -51,6 +51,40 @@ public class GroupAIncidentReportRulesFactoryTest {
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
 	
 	@Test
+	public void testRule560() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule560();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenderSegment offender = new OffenderSegment();
+		report.addOffender(offender);
+		OffenseSegment offense = new OffenseSegment();
+		report.addOffense(offense);
+		VictimSegment victim = new VictimSegment();
+		report.addVictim(victim);
+		offender.setSex(SexCode.F.code);
+		victim.setSex(SexCode.F.code);
+		offense.setUcrOffenseCode(OffenseCode._11B.code);
+		e = rule.apply(report);
+		assertNull(e);
+		offense.setUcrOffenseCode(OffenseCode._11A.code);
+		victim.setSex(SexCode.M.code);
+		e = rule.apply(report);
+		assertNull(e);
+		victim.setSex(SexCode.F.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._560, e.getNIBRSErrorCode());
+		assertEquals(victim.getSex(), e.getValue());
+		assertEquals("27", e.getDataElementIdentifier());
+		OffenderSegment offender2 = new OffenderSegment();
+		report.addOffender(offender2);
+		offender2.setSex(SexCode.M.code);
+		e = rule.apply(report);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule656() {
 		Rule<GroupAIncidentReport> rule = rulesFactory.getRule656();
 		GroupAIncidentReport report = buildBaseReport();

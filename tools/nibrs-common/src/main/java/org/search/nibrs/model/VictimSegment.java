@@ -330,7 +330,7 @@ public class VictimSegment extends AbstractPersonSegment {
 
 	@Override
 	public String toString() {
-		return "VictimSegment [victimSequenceNumber=" + victimSequenceNumber + ", ucrOffenseCodeConnection=" + Arrays.toString(ucrOffenseCodeConnection) + ", typeOfVictim=" + typeOfVictim
+		return "VictimSegment [" + super.toString() + ", victimSequenceNumber=" + victimSequenceNumber + ", ucrOffenseCodeConnection=" + Arrays.toString(ucrOffenseCodeConnection) + ", typeOfVictim=" + typeOfVictim
 				+ ", residentStatus=" + residentStatus + ", aggravatedAssaultHomicideCircumstances=" + Arrays.toString(aggravatedAssaultHomicideCircumstances)
 				+ ", additionalJustifiableHomicideCircumstances=" + additionalJustifiableHomicideCircumstances + ", typeOfInjury=" + Arrays.toString(typeOfInjury) + ", offenderNumberRelated="
 				+ Arrays.toString(offenderNumberRelated) + ", victimOffenderRelationship=" + Arrays.toString(victimOffenderRelationship) + ", typeOfOfficerActivityCircumstance="
