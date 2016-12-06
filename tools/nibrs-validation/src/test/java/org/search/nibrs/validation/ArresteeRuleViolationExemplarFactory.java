@@ -170,53 +170,41 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
-		// TODO: migrate this to a Group B Exemplar factory
-		
-		groupATweakerMap.put(701, incident -> {
-			// The referenced data element in a Group A Incident AbstractReport
-			// Segment 6 is mandatory & must be present.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri(null);
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber(null);
-			
-//			incidents.add(copy);
-//			incidents.add(copy2);
-//			incidents.add(copy3);
-//			incidents.add(copy4);
-			return incidents;
-		});
-
-		
+				
 		groupATweakerMap.put(604, incident -> {
 			
 			//(Automatic Weapon Indicator) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
 			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			
 			//(Ethnicity of Arrestee) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setEthnicity("X");
 			incidents.add(copy);
-			
 			//(Resident Status of Arrestee) The referenced data element in a 
 			//Group A Incident Report must be populated with a valid data value and cannot be blank.
 			copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setResidentStatus("X");
 			incidents.add(copy);
-			
 			// Age
 			copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setAgeString("AA");
 			incidents.add(copy);
-
+			//Disposition of Arrestee under 18 cannot be null
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("16");
+			copy.getArrestees().get(0).setDispositionOfArresteeUnder18(null);
+			incidents.add(copy);
+			//Disposition of Arrestee under 18 must be valid
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("16");
+			copy.getArrestees().get(0).setDispositionOfArresteeUnder18("A");
+			incidents.add(copy);
+			
+			
+			
+			
 			return incidents;
 			
 		});
