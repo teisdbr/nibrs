@@ -119,8 +119,6 @@ final class BaselineIncidentFactory {
 		
 		GroupBArrestReport report = new GroupBArrestReport();
 		
-		// TODO:  need to set up the baseline properties
-		
 		ReportSource source = new ReportSource();
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
 		source.setSourceLocation(trace[1].toString());
@@ -133,7 +131,6 @@ final class BaselineIncidentFactory {
 		arrestee.setArrestTransactionNumber("12345");
 		arrestee.setArrestDate(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		arrestee.setTypeOfArrest("O");
-		arrestee.setMultipleArresteeSegmentsIndicator("N");
 		arrestee.setUcrArrestOffenseCode("90A");
 		arrestee.setArresteeArmedWith(0, "01");
 		arrestee.setAgeString("22");

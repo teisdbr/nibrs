@@ -122,7 +122,20 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 		
-		
+		groupBTweakerMap.put(706, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(Arrest Transaction Number) Must contain a valid character combination of the following:
+			//(Arrestee Was Armed With) The referenced data element in error is one that contains 
+			//multiple data values. When more than one code is entered, none can be duplicate codes.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setArresteeArmedWith(1, "01");
+			reports.add(copy);
+			
+			return reports;
+			
+		});
 		groupBTweakerMap.put(717, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
