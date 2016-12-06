@@ -182,6 +182,23 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 		
+		groupBTweakerMap.put(717, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(Arrest Transaction Number) Must contain a valid character combination of the following:
+			//A–Z (capital letters only)
+			//0–9
+			//Hyphen
+			//Example: 11-123-SC is valid, but 11+123*SC is not valid.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setArrestTransactionNumber("11+123*SC");
+			
+			return reports;
+			
+		});
+			
+		
 		groupBTweakerMap.put(722, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
@@ -210,6 +227,7 @@ final class GroupBRuleViolationExemplarFactory {
 			return reports;
 			
 		});
+		
 		groupBTweakerMap.put(755, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
@@ -230,22 +248,20 @@ final class GroupBRuleViolationExemplarFactory {
 			return reports;
 			
 		});
-		groupBTweakerMap.put(717, arrestReport -> {
+		
+		groupBTweakerMap.put(758, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
-			//(Arrest Transaction Number) Must contain a valid character combination of the following:
-			//A–Z (capital letters only)
-			//0–9
-			//Hyphen
-			//Example: 11-123-SC is valid, but 11+123*SC is not valid.
+			//(Sex of Arrestee) does not contain a valid code of M=Male or F=Female.
+			//Note: U=Unknown (if entered) is not a valid sex for an arrestee.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setArrestTransactionNumber("11+123*SC");
+			copy.getArrestees().get(0).setSex("U");
 			
 			return reports;
 			
 		});
-			
+		
 		groupBTweakerMap.put(760, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
@@ -255,6 +271,20 @@ final class GroupBRuleViolationExemplarFactory {
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setUcrArrestOffenseCode("13A");
+			
+			return reports;
+			
+		});
+		
+		groupBTweakerMap.put(761, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(Age of Arrestee) must be 01 through 17 for offense 
+			//code of 90I=Runaway on a Group “B” Arrest Report.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setUcrArrestOffenseCode("901");
+			reports.add(copy);
 			
 			return reports;
 			
