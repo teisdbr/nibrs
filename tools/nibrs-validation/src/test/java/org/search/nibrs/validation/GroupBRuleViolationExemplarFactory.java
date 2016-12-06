@@ -195,6 +195,21 @@ final class GroupBRuleViolationExemplarFactory {
 			return reports;
 			
 		});
+		
+		groupBTweakerMap.put(741, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//((Age of Arrestee) was entered with a value of 99 which means the arrestee
+			//is over 98 years old. The submitter should verify that 99=Over 98 Years Old 
+			//is not being confused the with 00=Unknown.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setAgeString("99");
+			reports.add(copy);
+			
+			return reports;
+			
+		});
 		groupBTweakerMap.put(755, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
