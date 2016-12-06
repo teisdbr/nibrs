@@ -167,6 +167,20 @@ final class GroupBRuleViolationExemplarFactory {
 			return reports;
 			
 		});
+		
+		groupBTweakerMap.put(710, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(Age of Arrestee) was entered as an age-range. Accordingly, the 
+			//first age component must be less than the second age.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setAgeString("2221");
+			reports.add(copy);
+			
+			return reports;
+			
+		});
 		groupBTweakerMap.put(755, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
