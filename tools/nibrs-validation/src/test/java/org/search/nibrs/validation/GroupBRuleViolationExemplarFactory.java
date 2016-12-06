@@ -126,7 +126,11 @@ final class GroupBRuleViolationExemplarFactory {
 		groupBTweakerMap.put(717, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
-			
+			//(Arrest Transaction Number) Must contain a valid character combination of the following:
+			//A–Z (capital letters only)
+			//0–9
+			//Hyphen
+			//Example: 11-123-SC is valid, but 11+123*SC is not valid.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setArrestTransactionNumber("11+123*SC");
@@ -135,6 +139,20 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 			
+		groupBTweakerMap.put(760, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(UCR Arrest Offense Code) must contain a Group “B” Offense Code
+			//in Data Element 45 (UCR Arrest Offense). 
+			//The offense code submitted is not a Group “B” offense code.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setUcrArrestOffenseCode("13A");
+			
+			return reports;
+			
+		});
+		
 	}
 	
 }
