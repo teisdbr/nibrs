@@ -136,6 +136,22 @@ final class GroupBRuleViolationExemplarFactory {
 			return reports;
 			
 		});
+		
+groupBTweakerMap.put(707, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(Arrestee Was Armed With) can have multiple data values and was entered 
+			//with multiple values. However, the entry shown between the brackets in [value] 
+			//above cannot be entered with any other data value.
+			//Baseline factory has "01" an unarmed value, test adds a handgun.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setArresteeArmedWith(1, "12");
+			reports.add(copy);
+			
+			return reports;
+			
+		});
 		groupBTweakerMap.put(717, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
