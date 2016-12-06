@@ -137,7 +137,7 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 		
-groupBTweakerMap.put(707, arrestReport -> {
+		groupBTweakerMap.put(707, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			//(Arrestee Was Armed With) can have multiple data values and was entered 
@@ -147,6 +147,41 @@ groupBTweakerMap.put(707, arrestReport -> {
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setArresteeArmedWith(1, "12");
+			reports.add(copy);
+			
+			return reports;
+			
+		});
+		
+		groupBTweakerMap.put(709, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(Age of Arrestee) contains more than two characters indicating a 
+			//possible age-range is being attempted. If so, the field must contain 
+			//a numeric entry of four digits.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setAgeString("123");
+			reports.add(copy);
+			
+			return reports;
+			
+		});
+		groupBTweakerMap.put(755, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//((Automatic Weapon Indicator) In Data Element 46 (Arrestee Was Armed With), 
+			//A=Automatic is the third character of code. It is valid only with codes:
+			//11=Firearm (Type Not Stated)
+			//12=Handgun
+			//13=Rifle
+			//14=Shotgun
+			//15=Other Firearm
+			//A weapon code other than those mentioned was entered with the automatic indicator.
+			//An automatic weapon is, by definition, a firearm.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "A");
 			reports.add(copy);
 			
 			return reports;
