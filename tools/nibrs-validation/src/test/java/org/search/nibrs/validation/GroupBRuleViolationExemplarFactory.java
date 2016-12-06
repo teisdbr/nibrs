@@ -247,6 +247,21 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 		
+		groupBTweakerMap.put(752, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			//(Disposition of Arrestee Under 18) was not entered, but Data Element 47 
+			//(Age of Arrestee) is under 18. Whenever an arrestee’s age indicates a juvenile,
+			//the disposition must be entered.
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setAgeString("12");
+			reports.add(copy);
+			
+			return reports;
+			
+		});
+		
 		groupBTweakerMap.put(755, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
