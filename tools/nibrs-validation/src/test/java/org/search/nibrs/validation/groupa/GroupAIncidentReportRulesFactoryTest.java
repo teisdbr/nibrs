@@ -28,6 +28,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
+import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
@@ -48,6 +49,89 @@ import org.search.nibrs.validation.rules.Rule;
 public class GroupAIncidentReportRulesFactoryTest {
 	
 	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	
+	@Test
+	public void testRule560() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule560();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		OffenderSegment offender = new OffenderSegment();
+		report.addOffender(offender);
+		OffenseSegment offense = new OffenseSegment();
+		report.addOffense(offense);
+		VictimSegment victim = new VictimSegment();
+		report.addVictim(victim);
+		offender.setSex(SexCode.F.code);
+		victim.setSex(SexCode.F.code);
+		offense.setUcrOffenseCode(OffenseCode._11B.code);
+		e = rule.apply(report);
+		assertNull(e);
+		offense.setUcrOffenseCode(OffenseCode._11A.code);
+		victim.setSex(SexCode.M.code);
+		e = rule.apply(report);
+		assertNull(e);
+		victim.setSex(SexCode.F.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._560, e.getNIBRSErrorCode());
+		assertEquals(victim.getSex(), e.getValue());
+		assertEquals("27", e.getDataElementIdentifier());
+		OffenderSegment offender2 = new OffenderSegment();
+		report.addOffender(offender2);
+		offender2.setSex(SexCode.M.code);
+		e = rule.apply(report);
+		assertNull(e);
+	}
+	
+	@Test
+	public void testRule656() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule656();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		ArresteeSegment as = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+		report.addArrestee(as);
+		OffenderSegment os = new OffenderSegment();
+		os.setOffenderSequenceNumber(0);
+		report.addOffender(os);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._656, e.getNIBRSErrorCode());
+		assertNull(e.getValue());
+		assertEquals("36", e.getDataElementIdentifier());
+		os.setOffenderSequenceNumber(1);
+		e = rule.apply(report);
+		assertNull(e);
+		as = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+		report.addArrestee(as);
+		e = rule.apply(report);
+		assertNotNull(e);
+	}
+	
+	@Test
+	public void testRule669() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule669();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		ArresteeSegment as = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+		report.addArrestee(as);
+		OffenseSegment os = new OffenseSegment();
+		os.setUcrOffenseCode(OffenseCode._09A.code);
+		report.addOffense(os);
+		e = rule.apply(report);
+		assertNull(e);
+		os.setUcrOffenseCode(OffenseCode._09C.code);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._669, e.getNIBRSErrorCode());
+		assertEquals(OffenseCode._09C.code, e.getValue());
+		assertEquals("6", e.getDataElementIdentifier());
+		report.removeArrestee(0);
+		e = rule.apply(report);
+		assertNull(e);
+	}
 	
 	@Test
 	public void testRule559() {

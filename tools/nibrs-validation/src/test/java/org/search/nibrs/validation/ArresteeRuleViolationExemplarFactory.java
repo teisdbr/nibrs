@@ -30,7 +30,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
+import org.search.nibrs.model.codes.OffenseCode;
 
 final class ArresteeRuleViolationExemplarFactory {
 
@@ -60,6 +63,37 @@ final class ArresteeRuleViolationExemplarFactory {
 	}
 
 	private void populateGroupAExemplarMap() {
+		
+		groupATweakerMap.put(656, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenderSegment offender = new OffenderSegment();
+			offender.setOffenderSequenceNumber(0);
+			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+			arrestee.setArresteeSequenceNumber(1);
+			copy.addArrestee(arrestee);
+			incidents.add(copy);
+			copy = new GroupAIncidentReport(copy);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(1);
+			arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+			arrestee.setArresteeSequenceNumber(2);
+			copy.addArrestee(arrestee);
+			incidents.add(copy);
+			return incidents;
+		});
+		
+		groupATweakerMap.put(669, incident -> {
+			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			OffenseSegment offense = new OffenseSegment();
+			offense.setUcrOffenseCode(OffenseCode._09C.code);
+			copy.addOffense(offense);
+			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+			arrestee.setArresteeSequenceNumber(1);
+			copy.addArrestee(arrestee);
+			incidents.add(copy);
+			return incidents;
+		});
 		
 		groupATweakerMap.put(661, incident -> {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();

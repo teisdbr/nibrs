@@ -29,7 +29,6 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -190,7 +189,97 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule555());
 		rulesList.add(getRule558());
 		rulesList.add(getRule559());
+		rulesList.add(getRule669());
+		rulesList.add(getRule656());
+		rulesList.add(getRule560());
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule560() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				boolean involvesRapeOffense = false;
+				for (OffenseSegment os : subject.getOffenses()) {
+					if (OffenseCode._11A.code.equals(os.getUcrOffenseCode())) {
+						involvesRapeOffense = true;
+						break;
+					}
+				}
+				if (involvesRapeOffense) {
+					Set<String> offenderSexes = new HashSet<>();
+					for (OffenderSegment os : subject.getOffenders()) {
+						offenderSexes.add(os.getSex());
+					}
+					offenderSexes.removeIf(item -> item == null);
+					if (offenderSexes.size() == 1) {
+						String offenderSex = offenderSexes.iterator().next();
+						for (VictimSegment vs : subject.getVictims()) {
+							String victimSex = vs.getSex();
+							if (victimSex != null && victimSex.equals(offenderSex)) {
+								ret = subject.getErrorTemplate();
+								ret.setNIBRSErrorCode(NIBRSErrorCode._560);
+								ret.setDataElementIdentifier("27");
+								ret.setValue(victimSex);
+								break;
+							}
+						}
+					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<GroupAIncidentReport> getRule656() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				NIBRSError template = subject.getErrorTemplate();
+				template.setNIBRSErrorCode(NIBRSErrorCode._656);
+				template.setDataElementIdentifier("36");
+				template.setValue(null);
+				int offenderCount = subject.getOffenderCount();
+				int arresteeCount = subject.getArresteeCount();
+				if (offenderCount == 1) {
+					OffenderSegment offender = subject.getOffenders().get(0);
+					Integer offenderSequenceNumber = offender.getOffenderSequenceNumber();
+					if (arresteeCount > 0 && (offenderSequenceNumber == null || offenderSequenceNumber == 0)) {
+						ret = template;
+					}
+				}
+				if (arresteeCount > offenderCount) {
+					ret = template;
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<GroupAIncidentReport> getRule669() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int offenseCount = subject.getOffenseCount();
+				if (offenseCount > 0) {
+					boolean noJustifiableHomicide = true;
+					for (int i=0;i < offenseCount && noJustifiableHomicide;i++) {
+						OffenseSegment os = subject.getOffenses().get(i);
+						noJustifiableHomicide = !(OffenseCode._09C.code.equals(os.getUcrOffenseCode()));
+					}
+					if (!noJustifiableHomicide && subject.getArresteeCount() > 0) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._669);
+						ret.setDataElementIdentifier("6");
+						ret.setValue(OffenseCode._09C.code);
+					}
+				}
+				return ret;
+			}
+		};
 	}
 	
 	private static abstract class MinimalOffenderInfoRule<T> implements Rule<GroupAIncidentReport> {
