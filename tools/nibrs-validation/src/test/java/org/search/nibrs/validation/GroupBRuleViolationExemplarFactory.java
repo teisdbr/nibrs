@@ -121,6 +121,19 @@ final class GroupBRuleViolationExemplarFactory {
 			return reports;
 			
 		});
+		
+		
+		groupBTweakerMap.put(717, arrestReport -> {
+			
+			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
+			
+			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
+			copy = new GroupBArrestReport(arrestReport);
+			copy.getArrestees().get(0).setArrestTransactionNumber("11+123*SC");
+			
+			return reports;
+			
+		});
 			
 	}
 	
