@@ -423,11 +423,6 @@ final class OffenderRuleViolationExemplarFactory {
 			
 		});
 		
-		// TODO Rule 560
-		//Segment Level 5 (Offender Segment) must contain a data value for 
-		//at least one offender in Data Element 38 (Sex of Offender) that is 
-		//not the same sex that is entered in Data Element 27 (Sex of Victim) when Data Element 6 (UCR Offense Code) is 11A=Rape.
-						
 		groupATweakerMap.put(572,incident -> {
 			//Data Element 37 (Age of Offender) If Data Element 37 (Age of Offender) is 
 			//00=Unknown, Data Element 38 (Sex of Offender) is U=Unknown, and 

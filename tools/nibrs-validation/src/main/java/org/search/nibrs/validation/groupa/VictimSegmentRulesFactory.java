@@ -520,7 +520,6 @@ public class VictimSegmentRulesFactory {
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				// TODO: finish this rule, pending Becki's input / FBI
 				NIBRSError e = null;
 				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
 				errorTemplate.setDataElementIdentifier("33");

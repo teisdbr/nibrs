@@ -204,29 +204,6 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
-		// TODO: migrate this to a Group B Exemplar factory
-		
-		groupATweakerMap.put(701, incident -> {
-			// The referenced data element in a Group A Incident AbstractReport
-			// Segment 6 is mandatory & must be present.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setYearOfTape(null);
-			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
-			copy2.setMonthOfTape(null);
-			GroupAIncidentReport copy3 = new GroupAIncidentReport(copy);
-			copy3.setOri(null);
-			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy4.setIncidentNumber(null);
-			
-//			incidents.add(copy);
-//			incidents.add(copy2);
-//			incidents.add(copy3);
-//			incidents.add(copy4);
-			return incidents;
-		});
-
-		
 		groupATweakerMap.put(604, incident -> {
 			
 			//(Automatic Weapon Indicator) The referenced data element in a Group A Incident Report 

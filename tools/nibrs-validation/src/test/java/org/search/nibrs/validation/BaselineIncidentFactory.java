@@ -116,8 +116,6 @@ final class BaselineIncidentFactory {
 		
 		GroupBArrestReport report = new GroupBArrestReport();
 		
-		// TODO:  need to set up the baseline properties
-		
 		ReportSource source = new ReportSource();
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
 		source.setSourceLocation(trace[1].toString());
@@ -138,10 +136,6 @@ final class BaselineIncidentFactory {
 		arrestee.setRace("W");
 		arrestee.setEthnicity("U");
 		arrestee.setResidentStatus("R");
-			
-		
-		
-		
 		
 		return report;
 		
