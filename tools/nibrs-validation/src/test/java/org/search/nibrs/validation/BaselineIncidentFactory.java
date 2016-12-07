@@ -98,16 +98,19 @@ final class BaselineIncidentFactory {
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(1);
-		arrestee.setAgeString("22");
-		arrestee.setRace("W");
-		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
 		arrestee.setArrestDate(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant()));
-		arrestee.setUcrArrestOffenseCode("13A");
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");
+		arrestee.setUcrArrestOffenseCode("13A");
 		arrestee.setArresteeArmedWith(0,"01");
-		
+		arrestee.setAgeString("22");
+		arrestee.setSex("M");
+		arrestee.setRace("W");
+		arrestee.setEthnicity("U");
+		arrestee.setResidentStatus("R");
+			
+				
 		return incident;
 		
 	}
@@ -128,7 +131,6 @@ final class BaselineIncidentFactory {
 		arrestee.setArrestTransactionNumber("12345");
 		arrestee.setArrestDate(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant()));
 		arrestee.setTypeOfArrest("O");
-		arrestee.setMultipleArresteeSegmentsIndicator("N");
 		arrestee.setUcrArrestOffenseCode("90A");
 		arrestee.setArresteeArmedWith(0, "01");
 		arrestee.setAgeString("22");

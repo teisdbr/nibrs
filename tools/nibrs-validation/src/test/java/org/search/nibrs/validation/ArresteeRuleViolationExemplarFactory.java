@@ -210,24 +210,26 @@ final class ArresteeRuleViolationExemplarFactory {
 			//must be populated with a valid data value and cannot be blank.
 			
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			
 			//(Ethnicity of Arrestee) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setEthnicity("X");
 			incidents.add(copy);
-			
 			//(Resident Status of Arrestee) The referenced data element in a 
 			//Group A Incident Report must be populated with a valid data value and cannot be blank.
 			copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setResidentStatus("X");
 			incidents.add(copy);
-			
 			// Age
 			copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setAgeString("AA");
 			incidents.add(copy);
-
+			//Disposition of Arrestee under 18 must be valid
+			copy = new GroupAIncidentReport(incident);
+			copy.getArrestees().get(0).setAgeString("16");
+			copy.getArrestees().get(0).setDispositionOfArresteeUnder18("A");
+			incidents.add(copy);
+			
 			return incidents;
 			
 		});
