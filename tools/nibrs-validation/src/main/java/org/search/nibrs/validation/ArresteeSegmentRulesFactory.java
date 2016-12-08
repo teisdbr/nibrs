@@ -224,20 +224,22 @@ public class ArresteeSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(ArresteeSegment arresteeSegment) {
 				NIBRSError e = null;
-				GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
-				Date incidentDateD = parent.getIncidentDate();
-				Date arrestDateD = arresteeSegment.getArrestDate();
-				if (incidentDateD != null && arrestDateD != null) {
-					Calendar c = Calendar.getInstance();
-					c.setTime(arrestDateD);
-					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					c.setTime(incidentDateD);
-					LocalDate incidentDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					if (arrestDate.isBefore(incidentDate)) {
-						e = arresteeSegment.getErrorTemplate();
-						e.setNIBRSErrorCode(NIBRSErrorCode._665);
-						e.setDataElementIdentifier("42");
-						e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+				if (arresteeSegment.isGroupA()) {
+					GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
+					Date incidentDateD = parent.getIncidentDate();
+					Date arrestDateD = arresteeSegment.getArrestDate();
+					if (incidentDateD != null && arrestDateD != null) {
+						Calendar c = Calendar.getInstance();
+						c.setTime(arrestDateD);
+						LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+						c.setTime(incidentDateD);
+						LocalDate incidentDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+						if (arrestDate.isBefore(incidentDate)) {
+							e = arresteeSegment.getErrorTemplate();
+							e.setNIBRSErrorCode(NIBRSErrorCode._665);
+							e.setDataElementIdentifier("42");
+							e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+						}
 					}
 				}
 				return e;
@@ -283,7 +285,7 @@ public class ArresteeSegmentRulesFactory {
 				NIBRSError e = null;
 				String offenseCodeS = arresteeSegment.getUcrArrestOffenseCode();
 				OffenseCode offenseCode = OffenseCode.forCode(offenseCodeS);
-				if (arresteeSegment.isGroupB() && !offenseCode.group.equals("B")) {
+				if (arresteeSegment.isGroupB() && offenseCode != null && !offenseCode.group.equals("B")) {
 					e = arresteeSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._760);
 					e.setDataElementIdentifier("45");
