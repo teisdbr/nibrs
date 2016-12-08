@@ -10,22 +10,22 @@
 	<packaging>jar</packaging>
 	<name>nibrs-ndex-conversion</name>
 
-	<properties>
-		<junit-version>4.10</junit-version>		
-		<java-version>1.8</java-version>		
-	</properties>
-
-	<dependencies>		
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>9.6.0-4</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
-		</dependency>			
+			<version>4.10</version>
+		</dependency>
 		<dependency>
 			<groupId>org.search.nibrs</groupId>
 			<artifactId>nibrs-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>			
-		</dependency>			
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -36,8 +36,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>${java-version}</source>
-					<target>${java-version}</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>
