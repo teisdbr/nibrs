@@ -141,7 +141,6 @@ final class GroupBRuleViolationExemplarFactory {
 			//above cannot be entered with any other data value.
 			//Baseline factory has "01" an unarmed value, test adds a handgun.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setArresteeArmedWith(1, "12");
 			reports.add(copy);
 			
@@ -156,7 +155,6 @@ final class GroupBRuleViolationExemplarFactory {
 			//possible age-range is being attempted. If so, the field must contain 
 			//a numeric entry of four digits.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setAgeString("123");
 			reports.add(copy);
 			
@@ -170,7 +168,6 @@ final class GroupBRuleViolationExemplarFactory {
 			//(Age of Arrestee) was entered as an age-range. Accordingly, the 
 			//first age component must be less than the second age.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setAgeString("2221");
 			reports.add(copy);
 			
