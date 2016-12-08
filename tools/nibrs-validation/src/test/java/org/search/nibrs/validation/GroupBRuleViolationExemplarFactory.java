@@ -186,8 +186,8 @@ final class GroupBRuleViolationExemplarFactory {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			//(Arrest Transaction Number) Must contain a valid character combination of the following:
-			//A–Z (capital letters only)
-			//0–9
+			//A-Z (capital letters only)
+			//0-9
 			//Hyphen
 			//Example: 11-123-SC is valid, but 11+123*SC is not valid.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
@@ -251,7 +251,7 @@ final class GroupBRuleViolationExemplarFactory {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			//(Disposition of Arrestee Under 18) was not entered, but Data Element 47 
-			//(Age of Arrestee) is under 18. Whenever an arrestee’s age indicates a juvenile,
+			//(Age of Arrestee) is under 18. Whenever an arrestee's age indicates a juvenile,
 			//the disposition must be entered.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
@@ -267,7 +267,7 @@ final class GroupBRuleViolationExemplarFactory {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			//(Disposition of Arrestee Under 18) was entered, but Data Element 47 (Age of Arrestee) 
-			//is 18 or greater. Whenever an arrestee’s age indicates an adult, the 
+			//is 18 or greater. Whenever an arrestee's age indicates an adult, the 
 			//juvenile disposition cannot be entered because it does not apply.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
@@ -315,9 +315,9 @@ final class GroupBRuleViolationExemplarFactory {
 		groupBTweakerMap.put(760, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
-			//(UCR Arrest Offense Code) must contain a Group “B” Offense Code
+			//(UCR Arrest Offense Code) must contain a Group B Offense Code
 			//in Data Element 45 (UCR Arrest Offense). 
-			//The offense code submitted is not a Group “B” offense code.
+			//The offense code submitted is not a Group B offense code.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setUcrArrestOffenseCode("13A");
@@ -330,7 +330,7 @@ final class GroupBRuleViolationExemplarFactory {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			//(Age of Arrestee) must be 01 through 17 for offense 
-			//code of 90I=Runaway on a Group “B” Arrest Report.
+			//code of 90I=Runaway on a Group B Arrest Report.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setUcrArrestOffenseCode("901");
