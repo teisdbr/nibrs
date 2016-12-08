@@ -71,6 +71,46 @@ public class GroupBArrestReportValidatorTest {
 		testRule(NIBRSErrorCode._710, 710);
 	}
 	
+	@Test
+	public void testRule717() {
+		testRule(NIBRSErrorCode._717, 717);
+	}
+	
+	@Test
+	public void testRule722() {
+		testRule(NIBRSErrorCode._722, 722);
+	}
+	
+	@Test
+	public void testRule752() {
+		testRule(NIBRSErrorCode._752, 752);
+	}
+	
+	@Test
+	public void testRule753() {
+		testRule(NIBRSErrorCode._753, 753);
+	}
+	
+	@Test
+	public void testRule755() {
+		testRule(NIBRSErrorCode._755, 755);
+	}
+	
+	@Test
+	public void testRule758() {
+		testRule(NIBRSErrorCode._758, 758);
+	}
+	
+	@Test
+	public void testRule760() {
+		testRule(NIBRSErrorCode._760, 760);
+	}
+	
+	@Test
+	public void testRule761() {
+		testRule(NIBRSErrorCode._761, 761);
+	}
+	
 	private void testRule(NIBRSErrorCode ruleCode, int ruleNumber) {
 		List<GroupBArrestReport> exemplars = exemplarFactory.getGroupBArrestsThatViolateRule(ruleNumber);
 		for (GroupBArrestReport r : exemplars) {

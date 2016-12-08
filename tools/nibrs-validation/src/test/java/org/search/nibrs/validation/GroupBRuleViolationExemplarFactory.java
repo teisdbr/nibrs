@@ -198,13 +198,14 @@ final class GroupBRuleViolationExemplarFactory {
 			//(Age of Arrestee) was entered as an age-range. Therefore, the first 
 			//age component cannot be 00 (unknown).
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setAgeString("0021");
 			reports.add(copy);
 			
 			return reports;
 			
 		});
+		
+		// note: exemplars for rules 740 and 741 are not currently tested, as they are warnings not errors
 		
 		groupBTweakerMap.put(740, arrestReport -> {
 			
@@ -217,7 +218,6 @@ final class GroupBRuleViolationExemplarFactory {
 			//flagged by the computer as a possible discrepancy between age and 
 			//disposition and should be checked for possible correction by the participant.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setAgeString("1219");
 			reports.add(copy);
 			
@@ -232,7 +232,6 @@ final class GroupBRuleViolationExemplarFactory {
 			//is over 98 years old. The submitter should verify that 99=Over 98 Years Old 
 			//is not being confused the with 00=Unknown.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setAgeString("99");
 			reports.add(copy);
 			
@@ -247,14 +246,12 @@ final class GroupBRuleViolationExemplarFactory {
 			//(Age of Arrestee) is under 18. Whenever an arrestee's age indicates a juvenile,
 			//the disposition must be entered.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setAgeString("12");
 			reports.add(copy);
 			
 			return reports;
 			
 		});
-		
 			
 		groupBTweakerMap.put(753, arrestReport -> {
 			
@@ -263,7 +260,6 @@ final class GroupBRuleViolationExemplarFactory {
 			//is 18 or greater. Whenever an arrestee's age indicates an adult, the 
 			//juvenile disposition cannot be entered because it does not apply.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setDispositionOfArresteeUnder18("H");
 			reports.add(copy);
 			
@@ -312,7 +308,6 @@ final class GroupBRuleViolationExemplarFactory {
 			//in Data Element 45 (UCR Arrest Offense). 
 			//The offense code submitted is not a Group B offense code.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setUcrArrestOffenseCode("13A");
 			
 			return reports;
@@ -325,8 +320,7 @@ final class GroupBRuleViolationExemplarFactory {
 			//(Age of Arrestee) must be 01 through 17 for offense 
 			//code of 90I=Runaway on a Group B Arrest Report.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setUcrArrestOffenseCode("901");
+			copy.getArrestees().get(0).setUcrArrestOffenseCode("90I");
 			reports.add(copy);
 			
 			return reports;

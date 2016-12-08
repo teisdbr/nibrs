@@ -334,7 +334,7 @@ public class ArresteeSegmentRulesFactory {
 	}
 	
 	Rule<ArresteeSegment> getRuleX22() {
-		return personSegmentRulesFactory.getNonZeroAgeRangeMinimumRule("47", isGroupAMode() ? NIBRSErrorCode._622 : NIBRSErrorCode._752);
+		return personSegmentRulesFactory.getNonZeroAgeRangeMinimumRule("47", isGroupAMode() ? NIBRSErrorCode._622 : NIBRSErrorCode._722);
 	}
 
 	Rule<ArresteeSegment> getRuleX01ForAge() {
