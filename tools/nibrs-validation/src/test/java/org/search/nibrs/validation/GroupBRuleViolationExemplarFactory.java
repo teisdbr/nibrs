@@ -105,17 +105,13 @@ final class GroupBRuleViolationExemplarFactory {
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAutomaticWeaponIndicator(0, "B");
+			copy.getArrestees().get(0).setEthnicity("invalid");
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setEthnicity(null);
+			copy.getArrestees().get(0).setResidentStatus("invalid");
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setResidentStatus(null);
-			reports.add(copy);
-			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setDispositionOfArresteeUnder18(null);
+			copy.getArrestees().get(0).setDispositionOfArresteeUnder18("invalid");
 			reports.add(copy);
 			
 			return reports;
