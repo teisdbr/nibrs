@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+ * Copyright 2016 Research Triangle Institute
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
