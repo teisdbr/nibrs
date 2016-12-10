@@ -378,7 +378,17 @@ public class IncidentBuilder {
 				newVictim.setUcrOffenseCodeConnection(i, StringUtils.getStringBetween(41 + 3 * i, 43 + 3 * i, segmentData));
 			}
 			for (int i = 0; i < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT; i++) {
-				newVictim.setOffenderNumberRelated(i, StringUtils.getIntegerBetween(90 + 4 * i, 91 + 4 * i, segmentData));
+				try {
+					newVictim.setOffenderNumberRelated(i, StringUtils.getIntegerBetween(90 + 4 * i, 91 + 4 * i, segmentData));
+				} catch (NumberFormatException nfe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getLineNumber());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData));
+					e.setNIBRSErrorCode(NIBRSErrorCode._404);
+					errorList.add(e);
+				}
 			}
 			for (int i = 0; i < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT; i++) {
 				newVictim.setVictimOffenderRelationship(i, StringUtils.getStringBetween(92 + 4 * i, 93 + 4 * i, segmentData));
@@ -414,7 +424,7 @@ public class IncidentBuilder {
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
-			e.setNIBRSErrorCode(NIBRSErrorCode._501);
+			e.setNIBRSErrorCode(NIBRSErrorCode._401);
 			errorList.add(e);
 		}
 

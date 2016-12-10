@@ -84,6 +84,26 @@ public class TestIncidentBuilderErrors {
     }
     
     @Test
+    public void testInvalidVictimSegmentInts() throws IOException {
+    	
+    	String testData = 
+            "00871I022003    TN006000002-000895   20020102 10N                                      \n" +
+            "00712I022003    TN006000002-000895   220CN  20  N            88        \n" +
+            "03073I022003    TN006000002-000895   713000000020                                                                                                                                                                                                                                                                  \n" +
+            "01414I022003    TN006000002-000895   001220                           I46  FWNR          XXAQ                                                \n" +
+            "00465I022003    TN006000002-000895   0124  MW \n";
+    	
+    	DefaultReportListener incidentListener = new DefaultReportListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
+        assertEquals(1, errorList.size());
+        NIBRSError e = errorList.get(0);
+        assertEquals("XX", e.getValue());
+    	
+        assertTrue(incidentListener.getGroupAIncidentList().get(0).getHasUpstreamErrors());
+
+    }
+    
+    @Test
     public void testInvalidAdministrativeSegmentLength() throws IOException {
     	
     	String testData = 
