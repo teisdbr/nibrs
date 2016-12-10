@@ -40,6 +40,7 @@ public abstract class AbstractSegment implements ValidationTarget {
 		ret.setReportUniqueIdentifier(getParentReport().getGloballyUniqueReportIdentifier());
 		ret.setWithinSegmentIdentifier(getWithinSegmentIdentifier());
 		ret.setSegmentType(getSegmentType());
+		ret.setReport(getParentReport());
 		return ret;
 	}
 

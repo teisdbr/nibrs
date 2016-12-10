@@ -59,7 +59,9 @@ public class TestIncidentBuilderErrors {
         assertEquals('8', e.getValue());
         assertEquals(5, e.getContext());
         
-        assertTrue(incidentListener.getGroupAIncidentList().get(0).getHasUpstreamErrors());
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
     	
     }
 
@@ -79,7 +81,9 @@ public class TestIncidentBuilderErrors {
         NIBRSError e = errorList.get(0);
         assertEquals("AB", e.getValue());
     	
-        assertTrue(incidentListener.getGroupAIncidentList().get(0).getHasUpstreamErrors());
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
 
     }
     
@@ -99,7 +103,9 @@ public class TestIncidentBuilderErrors {
         NIBRSError e = errorList.get(0);
         assertEquals("XX", e.getValue());
     	
-        assertTrue(incidentListener.getGroupAIncidentList().get(0).getHasUpstreamErrors());
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
 
     }
     
@@ -121,7 +127,9 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, e.getContext());
         assertEquals(80, e.getValue());
     	
-        assertTrue(incidentListener.getGroupAIncidentList().get(0).getHasUpstreamErrors());
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
 
     }
     
@@ -144,7 +152,9 @@ public class TestIncidentBuilderErrors {
         assertEquals(6, e.getContext());
         assertEquals(111, e.getValue());
         
-        assertTrue(incidentListener.getGroupAIncidentList().get(0).getHasUpstreamErrors());
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
         
     }
 
@@ -159,13 +169,17 @@ public class TestIncidentBuilderErrors {
     			"00465I022003    TN006000002-000895   0124  MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        ReportListener incidentListener = new DefaultReportListener();
+    	DefaultReportListener incidentListener = new DefaultReportListener();
         List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
         assertEquals(2, e.getContext());
         assertEquals(70, e.getValue());
+        
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
         
     }
 
@@ -180,13 +194,17 @@ public class TestIncidentBuilderErrors {
     			"00465I022003    TN006000002-000895   0124  MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        ReportListener incidentListener = new DefaultReportListener();
+    	DefaultReportListener incidentListener = new DefaultReportListener();
         List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
         assertEquals(3, e.getContext());
         assertEquals(306, e.getValue());
+        
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
         
     }
 
@@ -201,13 +219,17 @@ public class TestIncidentBuilderErrors {
     			"00465I022003    TN006000002-000895   0124  MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        ReportListener incidentListener = new DefaultReportListener();
+    	DefaultReportListener incidentListener = new DefaultReportListener();
         List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
         assertEquals(4, e.getContext());
         assertEquals(140, e.getValue());
+        
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
         
     }
 
@@ -222,13 +244,17 @@ public class TestIncidentBuilderErrors {
     			"00475I022003    TN006000002-000895   0124   MW \n" +
     			"01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                ";
 
-        ReportListener incidentListener = new DefaultReportListener();
+    	DefaultReportListener incidentListener = new DefaultReportListener();
         List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
         assertEquals(5, e.getContext());
         assertEquals(47, e.getValue());
+        
+        GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
+		assertTrue(incident.getHasUpstreamErrors());
+		assertEquals(incident, e.getReport());
         
     }
 

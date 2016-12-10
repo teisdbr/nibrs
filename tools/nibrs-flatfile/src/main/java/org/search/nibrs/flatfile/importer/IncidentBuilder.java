@@ -118,7 +118,7 @@ public class IncidentBuilder {
 
 	}
 
-	public AbstractReport buildReport(List<NIBRSError> errorList, Segment s, String readerLocationName) {
+	AbstractReport buildReport(List<NIBRSError> errorList, Segment s, String readerLocationName) {
 		int errorListSize = errorList.size();
 		AbstractReport ret = null;
 		char level = s.getSegmentLevel();
@@ -140,13 +140,16 @@ public class IncidentBuilder {
 	}
 
 	private ZeroReport buildZeroReport(Segment s, List<NIBRSError> errorList) {
+		
+		List<NIBRSError> newErrorList = new ArrayList<>();
 		ZeroReport ret = new ZeroReport();
 		ret.setOri(s.getOri());
 		ret.setReportActionType(s.getActionType());
 		int length = s.getSegmentLength();
+		
 		if (length == 43) {
-			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, NIBRSErrorCode._001));
-			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, NIBRSErrorCode._001));
+			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._001));
+			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._001));
 			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, s.getData()));
 		} else {
 			NIBRSError e = new NIBRSError();
@@ -155,12 +158,21 @@ public class IncidentBuilder {
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setNIBRSErrorCode(NIBRSErrorCode._001);
-			errorList.add(e);
+			newErrorList.add(e);
 		}
+		
+		for (NIBRSError e : newErrorList) {
+			e.setReport(ret);
+		}
+		
+		errorList.addAll(newErrorList);
+		
 		return ret;
+		
 	}
 
 	private AbstractReport buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
+		List<NIBRSError> newErrorList = new ArrayList<>();
 		GroupBArrestReport ret = new GroupBArrestReport();
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		String segmentData = s.getData();
@@ -168,8 +180,8 @@ public class IncidentBuilder {
 		ret.setReportActionType(s.getActionType());
 		int length = s.getSegmentLength();
 		if (length == 66) {
-			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, NIBRSErrorCode._701));
-			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, NIBRSErrorCode._701));
+			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._701));
+			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._701));
 			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
 			arrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
 			arrestee.setArrestTransactionNumber(StringUtils.getStringBetween(26, 37, segmentData));
@@ -193,10 +205,15 @@ public class IncidentBuilder {
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setNIBRSErrorCode(NIBRSErrorCode._701);
-			errorList.add(e);
+			newErrorList.add(e);
+		}
+		
+		for (NIBRSError e : newErrorList) {
+			e.setReport(ret);
 		}
 		
 		ret.addArrestee(arrestee);
+		errorList.addAll(newErrorList);
 	
 		return ret;
 	}
@@ -211,6 +228,7 @@ public class IncidentBuilder {
 	}
 
 	private final AbstractReport buildGroupAIncidentSegment(Segment s, List<NIBRSError> errorList) {
+		List<NIBRSError> newErrorList = new ArrayList<>();
 		GroupAIncidentReport newIncident = new GroupAIncidentReport();
 		newIncident.setIncidentNumber(s.getSegmentUniqueIdentifier());
 		newIncident.setOri(s.getOri());
@@ -218,13 +236,13 @@ public class IncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 87 || length == 88) {
-			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, errorList, NIBRSErrorCode._101));
-			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, errorList, NIBRSErrorCode._101));
+			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._101));
+			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._101));
 			newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
-			int incidentYear = getIntValueFromSegment(s, 38, 41, errorList, NIBRSErrorCode._105);
-			int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, errorList, NIBRSErrorCode._105);
+			int incidentYear = getIntValueFromSegment(s, 38, 41, newErrorList, NIBRSErrorCode._105);
+			int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, newErrorList, NIBRSErrorCode._105);
 			int incidentMonth = DateUtils.convertMonthValue(incidentMonthOrig);
-			int incidentDay = getIntValueFromSegment(s, 44, 45, errorList, NIBRSErrorCode._105);
+			int incidentDay = getIntValueFromSegment(s, 44, 45, newErrorList, NIBRSErrorCode._105);
 			newIncident.setIncidentDate(DateUtils.makeDate(incidentYear, incidentMonth, incidentDay));
 			newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
 			String hourString = StringUtils.getStringBetween(47, 48, segmentData);
@@ -234,10 +252,10 @@ public class IncidentBuilder {
 			newIncident.setExceptionalClearanceCode(StringUtils.getStringBetween(49, 49, segmentData));
 			String clearanceYearString = StringUtils.getStringBetween(50, 53, segmentData);
 			if (clearanceYearString != null) {
-				int clearanceYear = getIntValueFromSegment(s, 50, 53, errorList, NIBRSErrorCode._105);
-				int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, errorList, NIBRSErrorCode._105);
+				int clearanceYear = getIntValueFromSegment(s, 50, 53, newErrorList, NIBRSErrorCode._105);
+				int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, newErrorList, NIBRSErrorCode._105);
 				int clearanceMonth = DateUtils.convertMonthValue(clearanceMonthOrig);
-				int clearanceDay = getIntValueFromSegment(s, 56, 57, errorList, NIBRSErrorCode._105);
+				int clearanceDay = getIntValueFromSegment(s, 56, 57, newErrorList, NIBRSErrorCode._105);
 				newIncident.setExceptionalClearanceDate(DateUtils.makeDate(clearanceYear, clearanceMonth, clearanceDay));
 			}
 			boolean cargoTheft = length == 88;
@@ -253,8 +271,12 @@ public class IncidentBuilder {
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
 			e.setNIBRSErrorCode(NIBRSErrorCode._101);
-			errorList.add(e);
+			newErrorList.add(e);
 		}
+		for (NIBRSError e : newErrorList) {
+			e.setReport(newIncident);
+		}
+		errorList.addAll(newErrorList);
 		return newIncident;
 	}
 
@@ -277,22 +299,23 @@ public class IncidentBuilder {
 	}
 
 	private final void addSegmentToIncident(GroupAIncidentReport currentIncident, Segment s, List<NIBRSError> errorList) {
+		List<NIBRSError> newErrorList = new ArrayList<>();
 		char segmentType = s.getSegmentType();
 		switch (segmentType) {
 		case OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addOffense(buildOffenseSegment(s, errorList));
+			currentIncident.addOffense(buildOffenseSegment(s, newErrorList));
 			break;
 		case PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addProperty(buildPropertySegment(s, errorList));
+			currentIncident.addProperty(buildPropertySegment(s, newErrorList));
 			break;
 		case VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addVictim(buildVictimSegment(s, currentIncident, errorList));
+			currentIncident.addVictim(buildVictimSegment(s, currentIncident, newErrorList));
 			break;
 		case OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addOffender(buildOffenderSegment(s, errorList));
+			currentIncident.addOffender(buildOffenderSegment(s, newErrorList));
 			break;
 		case ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addArrestee(buildGroupAArresteeSegment(s, errorList));
+			currentIncident.addArrestee(buildGroupAArresteeSegment(s, newErrorList));
 			break;
 		default:
 			NIBRSError error = new NIBRSError();
@@ -300,8 +323,12 @@ public class IncidentBuilder {
 			error.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			error.setNIBRSErrorCode(NIBRSErrorCode._051);
 			error.setValue(segmentType);
-			errorList.add(error);
+			newErrorList.add(error);
 		}
+		for (NIBRSError e : newErrorList) {
+			e.setReport(currentIncident);
+		}
+		errorList.addAll(newErrorList);
 	}
 
 	private ArresteeSegment buildGroupAArresteeSegment(Segment s, List<NIBRSError> errorList) {

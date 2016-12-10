@@ -17,6 +17,7 @@ package org.search.nibrs.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.NIBRSError;
 
 /**
  * Abstract class of objects that represent People in NIBRS (offenders, victims, and arrestees).
@@ -68,6 +69,10 @@ public abstract class AbstractPersonSegment extends AbstractSegment {
 		if (ageString != null && ageString.trim().length() != 0) {
 			age = new NIBRSAge();
 			age.setAgeString(ageString, segmentType);
+			NIBRSError error = age.getError();
+			if (error != null) {
+				error.setReport(getParentReport());
+			}
 		} else {
 			age = null;
 		}

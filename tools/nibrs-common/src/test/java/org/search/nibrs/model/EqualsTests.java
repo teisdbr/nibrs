@@ -57,6 +57,13 @@ public class EqualsTests {
 			}
 		});
 		
+		builder.randomize(FieldDefinitionBuilder.field().named("report").ofType(AbstractReport.class).get(), new Randomizer<AbstractReport>() {
+			@Override
+			public AbstractReport getRandomValue() {
+				return null;
+			}
+		});
+		
 		builder.randomize(FieldDefinitionBuilder.field().ofType(new String[0].getClass()).get(), new Randomizer<String[]>() {
 
 			@Override

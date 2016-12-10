@@ -73,6 +73,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._071, nibrsError.getNIBRSErrorCode());
 		assertEquals("42", nibrsError.getDataElementIdentifier());
 		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
+		assertEquals(parent, nibrsError.getReport());
 		c.set(2015, Calendar.DECEMBER, 31);
 		parent.setExceptionalClearanceDate(c.getTime());
 		nibrsError = rule.apply(arresteeSegment);
@@ -109,6 +110,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._701, nibrsError.getNIBRSErrorCode());
+		assertEquals(arresteeSegment.getParentReport(), nibrsError.getReport());
 		// don't need to test the rest...it's tested in the Group A version
 	}
 	

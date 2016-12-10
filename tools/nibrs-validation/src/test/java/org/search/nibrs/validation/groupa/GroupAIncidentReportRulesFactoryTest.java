@@ -1154,6 +1154,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
 		assertEquals(report.getExceptionalClearanceCode(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
+		assertEquals(report, e.getReport());
 	}
 	
 	private GroupAIncidentReport buildBaseReport() {

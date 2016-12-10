@@ -19,6 +19,7 @@ import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
@@ -30,6 +31,7 @@ public class NIBRSError {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(NIBRSError.class);
 	
+	private AbstractReport report;
 	private Object context;
 	private String reportUniqueIdentifier;
 	private Object value;
@@ -52,6 +54,7 @@ public class NIBRSError {
 		this.nibrsErrorCode = e.nibrsErrorCode;
 		this.dataElementIdentifier = e.dataElementIdentifier;
 		this.warning = e.warning;
+		this.report = e.report;
 	}
 	
 	@Override
@@ -84,6 +87,17 @@ public class NIBRSError {
 		return nibrsErrorCode.description;
 	}
 	
+	/**
+	 * Get the report object (Group A Incident or Group B Arrest) with which this error is associated
+	 * @return the report
+	 */
+	public AbstractReport getReport() {
+		return report;
+	}
+	public void setReport(AbstractReport report) {
+		this.report = report;
+	}
+
 	/**
 	 * An object representing the "context" of where the error occurred.  The intent of this property is to help a human user find
 	 * the offending record/data in question so they can pursue a correction.

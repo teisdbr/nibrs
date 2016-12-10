@@ -181,6 +181,7 @@ public abstract class AbstractReport implements ValidationTarget, Identifiable {
 		ret.setContext(getSource());
 		ret.setReportUniqueIdentifier(getGloballyUniqueReportIdentifier());
 		ret.setSegmentType(getAdminSegmentLevel());
+		ret.setReport(this);
 		return ret;
 	}
 
