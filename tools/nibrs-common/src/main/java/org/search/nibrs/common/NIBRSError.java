@@ -40,9 +40,11 @@ public class NIBRSError {
 	private String dataElementIdentifier;
 	private NIBRSErrorCode nibrsErrorCode;
 	private boolean warning;
+	private boolean crossSegment;
 	
 	public NIBRSError() {
 		warning = false;
+		crossSegment = false;
 	}
 	
 	public NIBRSError(NIBRSError e) {
@@ -55,6 +57,7 @@ public class NIBRSError {
 		this.dataElementIdentifier = e.dataElementIdentifier;
 		this.warning = e.warning;
 		this.report = e.report;
+		this.crossSegment = e.crossSegment;
 	}
 	
 	@Override
@@ -62,7 +65,7 @@ public class NIBRSError {
 		return "NIBRSError [context=" + context + ", ruleNumber=" + getRuleNumber() + ", ruleDescription=" + getShortenedRuleDescription() + ", reportUniqueIdentifier=" + reportUniqueIdentifier +
 				", value=" + (value != null && value.getClass().isArray() ? Arrays.toString((Object[]) value) : value)
 				+ ", segmentType=" + segmentType + ", withinSegmentIdentifier=" + withinSegmentIdentifier + ", dataElementIdentifier=" + dataElementIdentifier + ", nibrsErrorCode=" + nibrsErrorCode
-				+ ", warning=" + warning + "]";
+				+ ", warning=" + warning + ", crossSegment=" + crossSegment + "]";
 	}
 
 	/**
@@ -196,6 +199,18 @@ public class NIBRSError {
 		this.warning = warning;
 	}
 
+	/**
+	 * Whether this error applies to multiple segments within an incident.
+	 * @return whether it's a cross-segment
+	 */
+	public boolean isCrossSegment() {
+		return crossSegment;
+	}
+
+	public void setCrossSegment(boolean crossSegment) {
+		this.crossSegment = crossSegment;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -203,6 +218,8 @@ public class NIBRSError {
 		result = prime * result + ((context == null) ? 0 : context.hashCode());
 		result = prime * result + ((nibrsErrorCode == null) ? 0 : nibrsErrorCode.hashCode());
 		result = prime * result + segmentType;
+		result = prime * result + (warning ? 1 : 0);
+		result = prime * result + (crossSegment ? 1 : 0);
 		result = prime * result + ((reportUniqueIdentifier == null) ? 0 : reportUniqueIdentifier.hashCode());
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		result = prime * result + ((withinSegmentIdentifier == null) ? 0 : withinSegmentIdentifier.hashCode());

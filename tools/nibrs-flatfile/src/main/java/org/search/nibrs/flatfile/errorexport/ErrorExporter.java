@@ -26,6 +26,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
 
 /**
  * A singleton class that handles creation of an error report file in the standard FBI format.
@@ -64,10 +70,47 @@ public final class ErrorExporter {
 		} else {
 			bw = (BufferedWriter) writer;
 		}
+		String line = blankLineTemplate;
 		for (NIBRSError error : errorList) {
-			
+			AbstractReport report = error.getReport();
+			line = modifyLine(line, 1-1, 4, String.valueOf(report.getYearOfTape()));
+			line = modifyLine(line, 5-1, 6, StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
+			line = modifyLine(line, 7-1, 13, StringUtils.leftPad(String.valueOf(error.getContext()), 7, '0'));
+			line = modifyLine(line, 14-1, 14, String.valueOf(error.getReport().getReportActionType()));
+			line = modifyLine(line, 15-1, 23, error.getReport().getOri());
+			line = modifyLine(line, 24-1, 35, StringUtils.rightPad(error.getReportUniqueIdentifier(), 12));
+			char segmentType = error.getSegmentType();
+			if (!error.isCrossSegment()) {
+				line = modifyLine(line, 36-1, 36, String.valueOf(segmentType));
+			}
+			Object withinSegmentIdentifier = error.getWithinSegmentIdentifier();
+			if (withinSegmentIdentifier != null) {
+				if (segmentType == OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER) {
+					line = modifyLine(line, 37-1, 39, withinSegmentIdentifier.toString());
+				} else if (segmentType == OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER || segmentType == VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER ||
+						segmentType == ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER || segmentType == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER) {
+					line = modifyLine(line, 40-1, 42, withinSegmentIdentifier.toString());
+				} else if (segmentType == PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER) {
+					line = modifyLine(line, 43-1, 43, withinSegmentIdentifier.toString());
+				}
+			}
+			String dataElementIdentifier = error.getDataElementIdentifier();
+			if (dataElementIdentifier != null) {
+				if (dataElementIdentifier.matches("[0-9]")) {
+					dataElementIdentifier = StringUtils.leftPad(dataElementIdentifier, 2, '0');
+				}
+				line = modifyLine(line, 44 - 1, 46, StringUtils.rightPad(dataElementIdentifier, 3));
+			}
+			line = modifyLine(line, 47-1, 49, error.getNIBRSErrorCode().code);
+			Object value = error.getValue();
+			if (value != null) {
+				line = modifyLine(line, 50-1, 61, StringUtils.rightPad(value.toString(), 12));
+			}
+			line = modifyLine(line, 62-1, 140, StringUtils.rightPad(error.getNIBRSErrorCode().message, 79));
+			bw.write(line);
+			bw.newLine();
 		}
-		String line = modifyLine(blankLineTemplate, 15-1, 23, "999999999");
+		line = modifyLine(line, 15-1, 23, "999999999");
 		line = modifyLine(line, 62-1, 140, "IncidentBuilder processed submission on " + new SimpleDateFormat("MM/dd/yy").format(new Date()));
 		bw.write(line);
 		bw.newLine();

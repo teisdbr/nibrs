@@ -222,6 +222,7 @@ public class GroupAIncidentReportRulesFactory {
 								ret.setNIBRSErrorCode(NIBRSErrorCode._560);
 								ret.setDataElementIdentifier("27");
 								ret.setValue(victimSex);
+								ret.setCrossSegment(true);
 								break;
 							}
 						}
@@ -241,6 +242,7 @@ public class GroupAIncidentReportRulesFactory {
 				template.setNIBRSErrorCode(NIBRSErrorCode._656);
 				template.setDataElementIdentifier("36");
 				template.setValue(null);
+				template.setCrossSegment(true);
 				int offenderCount = subject.getOffenderCount();
 				int arresteeCount = subject.getArresteeCount();
 				if (offenderCount == 1) {
@@ -275,6 +277,7 @@ public class GroupAIncidentReportRulesFactory {
 						ret.setNIBRSErrorCode(NIBRSErrorCode._669);
 						ret.setDataElementIdentifier("6");
 						ret.setValue(OffenseCode._09C.code);
+						ret.setCrossSegment(true);
 					}
 				}
 				return ret;
@@ -399,6 +402,7 @@ public class GroupAIncidentReportRulesFactory {
 							ret.setValue(AggravatedAssaultHomicideCircumstancesCode._08.code);
 							ret.setDataElementIdentifier("31");
 							ret.setNIBRSErrorCode(NIBRSErrorCode._480);
+							ret.setCrossSegment(true);
 						}
 					}
 				}
@@ -455,6 +459,7 @@ public class GroupAIncidentReportRulesFactory {
 							ret.setValue(RelationshipOfVictimToOffenderCode.VO.code);
 							ret.setDataElementIdentifier("35");
 							ret.setNIBRSErrorCode(NIBRSErrorCode._470);
+							ret.setCrossSegment(true);
 						}
 					}
 				}
@@ -479,6 +484,7 @@ public class GroupAIncidentReportRulesFactory {
 								ret.setValue(offenseCode);
 								ret.setDataElementIdentifier("24");
 								ret.setNIBRSErrorCode(NIBRSErrorCode._466);
+								ret.setCrossSegment(true);
 							}
 						}
 					}
@@ -516,6 +522,7 @@ public class GroupAIncidentReportRulesFactory {
 							ret.setValue(null);
 							ret.setDataElementIdentifier("15");
 							ret.setNIBRSErrorCode(NIBRSErrorCode._382);
+							ret.setCrossSegment(true);
 						}
 					}
 				}
@@ -551,6 +558,7 @@ public class GroupAIncidentReportRulesFactory {
 						ret.setValue(null);
 						ret.setDataElementIdentifier("15");
 						ret.setNIBRSErrorCode(NIBRSErrorCode._268);
+						ret.setCrossSegment(true);
 					}
 				}
 				return ret;
