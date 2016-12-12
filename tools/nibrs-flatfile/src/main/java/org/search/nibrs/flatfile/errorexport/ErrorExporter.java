@@ -70,9 +70,10 @@ public final class ErrorExporter {
 		} else {
 			bw = (BufferedWriter) writer;
 		}
-		String line = blankLineTemplate;
+		String line = null;
 		for (NIBRSError error : errorList) {
 			AbstractReport report = error.getReport();
+			line = blankLineTemplate;
 			line = modifyLine(line, 1-1, 4, String.valueOf(report.getYearOfTape()));
 			line = modifyLine(line, 5-1, 6, StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
 			line = modifyLine(line, 7-1, 13, StringUtils.leftPad(String.valueOf(error.getContext()), 7, '0'));
@@ -89,7 +90,7 @@ public final class ErrorExporter {
 					line = modifyLine(line, 37-1, 39, withinSegmentIdentifier.toString());
 				} else if (segmentType == OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER || segmentType == VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER ||
 						segmentType == ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER || segmentType == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER) {
-					line = modifyLine(line, 40-1, 42, withinSegmentIdentifier.toString());
+					line = modifyLine(line, 40-1, 42, StringUtils.leftPad(withinSegmentIdentifier.toString(), 3, '0'));
 				} else if (segmentType == PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER) {
 					line = modifyLine(line, 43-1, 43, withinSegmentIdentifier.toString());
 				}
@@ -110,6 +111,7 @@ public final class ErrorExporter {
 			bw.write(line);
 			bw.newLine();
 		}
+		line = blankLineTemplate;
 		line = modifyLine(line, 15-1, 23, "999999999");
 		line = modifyLine(line, 62-1, 140, "IncidentBuilder processed submission on " + new SimpleDateFormat("MM/dd/yy").format(new Date()));
 		bw.write(line);

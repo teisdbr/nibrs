@@ -41,6 +41,7 @@ import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 public class ErrorExporterTests {
@@ -48,10 +49,84 @@ public class ErrorExporterTests {
 	private static final Logger LOG = LogManager.getLogger(ErrorExporterTests.class);
 	
 	private ErrorExporter errorExporter;
+	private List<NIBRSError> errorList;
 	
 	@Before
 	public void setUp() throws Exception {
+		
 		errorExporter = ErrorExporter.getInstance();
+		errorList = new ArrayList<>();
+		
+		// Note: we just need this incident to include the values necessary for producing the report.  There is no
+		// intent that the incident actually fail any edits...
+		GroupAIncidentReport incident = getBaselineIncident();
+		
+		NIBRSError e = new NIBRSError();
+		e.setContext(123);
+		e.setDataElementIdentifier("5");
+		e.setNIBRSErrorCode(NIBRSErrorCode._001);
+		e.setReportUniqueIdentifier(incident.getIncidentNumber());
+		e.setSegmentType('1');
+		e.setValue("ABC");
+		e.setWithinSegmentIdentifier(null);
+		e.setReport(incident);
+		errorList.add(e);
+		
+		e = new NIBRSError();
+		e.setContext(124);
+		e.setDataElementIdentifier("7");
+		e.setNIBRSErrorCode(NIBRSErrorCode._206);
+		e.setReportUniqueIdentifier(incident.getIncidentNumber());
+		e.setSegmentType('2');
+		e.setValue("ABC");
+		e.setWithinSegmentIdentifier(OffenseCode._09A.code);
+		e.setReport(incident);
+		errorList.add(e);
+		
+		e = new NIBRSError();
+		e.setContext(125);
+		e.setDataElementIdentifier("15");
+		e.setNIBRSErrorCode(NIBRSErrorCode._320);
+		e.setReportUniqueIdentifier(incident.getIncidentNumber());
+		e.setSegmentType('3');
+		e.setValue(14);
+		e.setWithinSegmentIdentifier(TypeOfPropertyLossCode._1.code);
+		e.setReport(incident);
+		errorList.add(e);
+		
+		e = new NIBRSError();
+		e.setContext(126);
+		e.setDataElementIdentifier("25");
+		e.setNIBRSErrorCode(NIBRSErrorCode._406);
+		e.setReportUniqueIdentifier(incident.getIncidentNumber());
+		e.setSegmentType('4');
+		e.setValue(null);
+		e.setWithinSegmentIdentifier(new Integer(1));
+		e.setReport(incident);
+		errorList.add(e);
+		
+		e = new NIBRSError();
+		e.setContext(127);
+		e.setDataElementIdentifier("37");
+		e.setNIBRSErrorCode(NIBRSErrorCode._517);
+		e.setReportUniqueIdentifier(incident.getIncidentNumber());
+		e.setSegmentType('5');
+		e.setValue(99);
+		e.setWithinSegmentIdentifier(new Integer(1));
+		e.setReport(incident);
+		errorList.add(e);
+		
+		e = new NIBRSError();
+		e.setContext(128);
+		e.setDataElementIdentifier("43");
+		e.setNIBRSErrorCode(NIBRSErrorCode._606);
+		e.setReportUniqueIdentifier(incident.getIncidentNumber());
+		e.setSegmentType('6');
+		e.setValue("ABC");
+		e.setWithinSegmentIdentifier(new Integer(3));
+		e.setReport(incident);
+		errorList.add(e);
+		
 	}
 	
 	@Test
@@ -76,36 +151,113 @@ public class ErrorExporterTests {
 	
 	@Test
 	public void testErrorReport() throws IOException {
-		
-		List<NIBRSError> errorList = new ArrayList<>();
-		StringWriter writer = new StringWriter();
-		
-		GroupAIncidentReport incident = getBaselineIncident();
-		
-		NIBRSError e = new NIBRSError();
-		e.setContext(123);
-		e.setDataElementIdentifier("5");
-		e.setNIBRSErrorCode(NIBRSErrorCode._001);
-		e.setReportUniqueIdentifier(incident.getIncidentNumber());
-		e.setSegmentType('1');
-		e.setValue("ABC");
-		e.setWithinSegmentIdentifier(null);
-		e.setReport(incident);
-		
-		errorList.add(e);
-		
-		errorExporter.createErrorReport(errorList, writer);
-		
-		String contents = writer.toString();
+		String contents = exportErrorListToString();
+		LOG.info(System.lineSeparator() + contents);
 		String[] lines = StringUtils.split(contents, System.lineSeparator());
-		assertEquals(2, lines.length);
+		assertEquals(7, lines.length);
+		for(int i=0;i < lines.length - 2;i++) {
+			String line = lines[i];
+			assertEquals("201605", line.substring(0,  6));
+			assertEquals("I", line.substring(13, 14));
+			assertEquals("WA1234567", line.substring(14,  23));
+			assertEquals("54236732    ", line.substring(23,  35));
+		}
+	}
+
+	@Test
+	public void testAdminSegmentErrorReport() throws IOException {
+		String contents = exportErrorListToString();
+		String[] lines = StringUtils.split(contents, System.lineSeparator());
 		String line = lines[0];
 		assertEquals(ErrorExporter.ERROR_REPORT_LINE_LENGTH, line.length());
-		LOG.info(line);
-		
-		// TODO: asserts
-		// TODO: test cases for each scenario
-		
+		assertEquals("0000123", line.substring(6,  13));
+		assertEquals("1", line.substring(35, 36));
+		assertEquals("   ", line.substring(36, 39));
+		assertEquals("   ", line.substring(39, 42));
+		assertEquals(" ", line.substring(42, 43));
+		assertEquals("05 ", line.substring(43, 46));
+		assertEquals("ABC         ", line.substring(49, 61));
+		assertErrorInfo(line, NIBRSErrorCode._001);
+	}
+
+	@Test
+	public void testOffenseSegmentErrorReport() throws IOException {
+		String contents = exportErrorListToString();
+		String[] lines = StringUtils.split(contents, System.lineSeparator());
+		String line = lines[1];
+		assertEquals(ErrorExporter.ERROR_REPORT_LINE_LENGTH, line.length());
+		assertEquals("0000124", line.substring(6,  13));
+		assertEquals("2", line.substring(35, 36));
+		assertEquals("09A", line.substring(36, 39));
+		assertEquals("   ", line.substring(39, 42));
+		assertEquals(" ", line.substring(42, 43));
+		assertEquals("07 ", line.substring(43, 46));
+		assertEquals("ABC         ", line.substring(49, 61));
+		assertErrorInfo(line, NIBRSErrorCode._206);
+	}
+	
+	@Test
+	public void testPropertySegmentErrorReport() throws IOException {
+		String contents = exportErrorListToString();
+		String[] lines = StringUtils.split(contents, System.lineSeparator());
+		String line = lines[2];
+		assertEquals(ErrorExporter.ERROR_REPORT_LINE_LENGTH, line.length());
+		assertEquals("0000125", line.substring(6,  13));
+		assertEquals("3", line.substring(35, 36));
+		assertEquals("   ", line.substring(36, 39));
+		assertEquals("   ", line.substring(39, 42));
+		assertEquals("1", line.substring(42, 43));
+		assertEquals("15 ", line.substring(43, 46));
+		assertEquals("14          ", line.substring(49, 61));
+		assertErrorInfo(line, NIBRSErrorCode._320);
+	}
+	
+	@Test
+	public void testVictimSegmentErrorReport() throws IOException {
+		String contents = exportErrorListToString();
+		String[] lines = StringUtils.split(contents, System.lineSeparator());
+		String line = lines[3];
+		assertEquals(ErrorExporter.ERROR_REPORT_LINE_LENGTH, line.length());
+		assertEquals("0000126", line.substring(6,  13));
+		assertEquals("4", line.substring(35, 36));
+		assertEquals("   ", line.substring(36, 39));
+		assertEquals("001", line.substring(39, 42));
+		assertEquals(" ", line.substring(42, 43));
+		assertEquals("25 ", line.substring(43, 46));
+		assertEquals("            ", line.substring(49, 61));
+		assertErrorInfo(line, NIBRSErrorCode._406);
+	}
+	
+	@Test
+	public void testOffenderSegmentErrorReport() throws IOException {
+		String contents = exportErrorListToString();
+		String[] lines = StringUtils.split(contents, System.lineSeparator());
+		String line = lines[4];
+		assertEquals(ErrorExporter.ERROR_REPORT_LINE_LENGTH, line.length());
+		assertEquals("0000127", line.substring(6,  13));
+		assertEquals("5", line.substring(35, 36));
+		assertEquals("   ", line.substring(36, 39));
+		assertEquals("001", line.substring(39, 42));
+		assertEquals(" ", line.substring(42, 43));
+		assertEquals("37 ", line.substring(43, 46));
+		assertEquals("99          ", line.substring(49, 61));
+		assertErrorInfo(line, NIBRSErrorCode._517);
+	}
+	
+	@Test
+	public void testArresteeSegmentErrorReport() throws IOException {
+		String contents = exportErrorListToString();
+		String[] lines = StringUtils.split(contents, System.lineSeparator());
+		String line = lines[5];
+		assertEquals(ErrorExporter.ERROR_REPORT_LINE_LENGTH, line.length());
+		assertEquals("0000128", line.substring(6,  13));
+		assertEquals("6", line.substring(35, 36));
+		assertEquals("   ", line.substring(36, 39));
+		assertEquals("003", line.substring(39, 42));
+		assertEquals(" ", line.substring(42, 43));
+		assertEquals("43 ", line.substring(43, 46));
+		assertEquals("ABC         ", line.substring(49, 61));
+		assertErrorInfo(line, NIBRSErrorCode._606);
 	}
 	
 	private GroupAIncidentReport getBaselineIncident() {
@@ -184,6 +336,17 @@ public class ErrorExporterTests {
 				
 		return incident;
 		
+	}
+	
+	private String exportErrorListToString() throws IOException {
+		StringWriter writer = new StringWriter();
+		errorExporter.createErrorReport(errorList, writer);
+		return writer.toString();
+	}
+	
+	private void assertErrorInfo(String line, NIBRSErrorCode expectedErrorCode) {
+		assertEquals(expectedErrorCode.code, line.substring(46, 49));
+		assertEquals(expectedErrorCode.message + StringUtils.repeat(" ", 79 - expectedErrorCode.message.length()), line.substring(61, 140));
 	}
 	
 }
