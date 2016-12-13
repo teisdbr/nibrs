@@ -29,23 +29,18 @@ import org.search.nibrs.validation.groupa.GroupAIncidentReportValidator;
 import org.search.nibrs.validation.groupb.GroupBArrestReportValidator;
 import org.search.nibrs.validation.zeroreport.ZeroReportValidator;
 
+/**
+ * Class that applies edits to validate the segments contained within a NIBRS Submission
+ */
 public class SubmissionValidator {
 
 	private static final Logger LOG = Logger.getLogger(SubmissionValidator.class.getName());
 
-	private ValidationListener validationListener;
-
-	public SubmissionValidator(ValidationListener validationListener) {
-		this.validationListener = validationListener;
-	}
-
 	/**
-	 * Returns all validation errors. While processing, notifies listeners of errors found for each report that's validated.
+	 * Apply edits to validate all Reports within the specified submission.
 	 * 
-	 * @param nibrsSubmission
-	 *            Should contain all the reports to be validated
-	 * 
-	 * @return A List of all validated errors, for all the reports
+	 * @param nibrsSubmission submission containing all the reports to be validated
+	 * @return A List of all errors encountered in validating the submission
 	 */
 	public List<NIBRSError> validate(NIBRSSubmission nibrsSubmission) {
 
@@ -55,14 +50,18 @@ public class SubmissionValidator {
 		for (AbstractReport report : reportList) {
 			List<NIBRSError> singleReportErrorsList = validateReport(report);
 			errorList.addAll(singleReportErrorsList);
-			validationListener.validationAvailable(singleReportErrorsList);
 		}
 
 		return errorList;
 		
 	}
 
-	private List<NIBRSError> validateReport(AbstractReport report) {
+	/**
+	 * Validate an individual Report within the specified submission
+	 * @param report the report to be validated
+	 * @return A List of all errors encountered in validating the report
+	 */
+	public List<NIBRSError> validateReport(AbstractReport report) {
 
 		List<NIBRSError> nibrsErrorList = new ArrayList<>();
 
@@ -73,11 +72,11 @@ public class SubmissionValidator {
 		} else if (report instanceof GroupAIncidentReport) {
 			GroupAIncidentReport groupAIncidentReport = (GroupAIncidentReport) report;
 			GroupAIncidentReportValidator groupAValidator = new GroupAIncidentReportValidator();
-			groupAValidator.validate(groupAIncidentReport);
+			nibrsErrorList = groupAValidator.validate(groupAIncidentReport);
 		} else if (report instanceof GroupBArrestReport) {
 			GroupBArrestReport groupBIncidentReport = (GroupBArrestReport) report;
 			GroupBArrestReportValidator groupBValidator = new GroupBArrestReportValidator();
-			groupBValidator.validate(groupBIncidentReport);
+			nibrsErrorList = groupBValidator.validate(groupBIncidentReport);
 		}
 
 		return nibrsErrorList;
