@@ -17,8 +17,9 @@ package org.search.nibrs.validation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -34,7 +35,7 @@ import org.search.nibrs.validation.zeroreport.ZeroReportValidator;
  */
 public class SubmissionValidator {
 
-	private static final Logger LOG = Logger.getLogger(SubmissionValidator.class.getName());
+	private static final Logger LOG = LogManager.getLogger(SubmissionValidator.class);
 
 	/**
 	 * Apply edits to validate all Reports within the specified submission.
@@ -62,7 +63,9 @@ public class SubmissionValidator {
 	 * @return A List of all errors encountered in validating the report
 	 */
 	public List<NIBRSError> validateReport(AbstractReport report) {
-
+		
+		LOG.info("Validating report: " + report.getGloballyUniqueReportIdentifier());
+		
 		List<NIBRSError> nibrsErrorList = new ArrayList<>();
 
 		if (report instanceof ZeroReport) {
@@ -78,6 +81,8 @@ public class SubmissionValidator {
 			GroupBArrestReportValidator groupBValidator = new GroupBArrestReportValidator();
 			nibrsErrorList = groupBValidator.validate(groupBIncidentReport);
 		}
+
+		LOG.info("Found " + nibrsErrorList.size() + " errors");
 
 		return nibrsErrorList;
 		
