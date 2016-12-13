@@ -341,7 +341,9 @@ public class ErrorExporterTests {
 	private String exportErrorListToString() throws IOException {
 		StringWriter writer = new StringWriter();
 		errorExporter.createErrorReport(errorList, writer);
-		return writer.toString();
+		String ret = writer.toString();
+		writer.close();
+		return ret;
 	}
 	
 	private void assertErrorInfo(String line, NIBRSErrorCode expectedErrorCode) {

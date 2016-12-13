@@ -27,6 +27,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
@@ -57,7 +58,8 @@ public class TestIncidentBuilderErrors {
         NIBRSError e = errorList.get(0);
         assertEquals(NIBRSErrorCode._051, e.getNIBRSErrorCode());
         assertEquals('8', e.getValue());
-        assertEquals(5, e.getContext());
+        ReportSource reportSource = (ReportSource) e.getContext();
+        assertEquals("5", reportSource.getSourceLocation());
         
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
 		assertTrue(incident.getHasUpstreamErrors());
@@ -124,7 +126,8 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-        assertEquals(1, e.getContext());
+        ReportSource reportSource = (ReportSource) e.getContext();
+        assertEquals("1", reportSource.getSourceLocation());
         assertEquals(80, e.getValue());
     	
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
@@ -149,7 +152,8 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-        assertEquals(6, e.getContext());
+        ReportSource reportSource = (ReportSource) e.getContext();
+        assertEquals("6", reportSource.getSourceLocation());
         assertEquals(111, e.getValue());
         
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
@@ -174,7 +178,8 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-        assertEquals(2, e.getContext());
+        ReportSource reportSource = (ReportSource) e.getContext();
+        assertEquals("2", reportSource.getSourceLocation());
         assertEquals(70, e.getValue());
         
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
@@ -199,7 +204,8 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-        assertEquals(3, e.getContext());
+        ReportSource reportSource = (ReportSource) e.getContext();
+        assertEquals("3", reportSource.getSourceLocation());
         assertEquals(306, e.getValue());
         
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
@@ -224,7 +230,8 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-        assertEquals(4, e.getContext());
+        ReportSource reportSource = (ReportSource) e.getContext();
+        assertEquals("4", reportSource.getSourceLocation());
         assertEquals(140, e.getValue());
         
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
@@ -249,7 +256,8 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals(OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-        assertEquals(5, e.getContext());
+        ReportSource reportSource = (ReportSource) e.getContext();
+        assertEquals("5", reportSource.getSourceLocation());
         assertEquals(47, e.getValue());
         
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);

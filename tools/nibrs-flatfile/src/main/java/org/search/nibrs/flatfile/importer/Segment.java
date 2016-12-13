@@ -41,16 +41,18 @@ public class Segment
     private int segmentLength;
     private int lineNumber;
     private char segmentLevel;
+    private String sourceName;
     
     public char getSegmentLevel() {
 		return segmentLevel;
 	}
 
-	public List<NIBRSError> setData(int lineNumber, String data)
+	public List<NIBRSError> setData(String sourceName, int lineNumber, String data)
     {
     	List<NIBRSError> ret = new ArrayList<NIBRSError>();
         this.data = data;
         this.lineNumber = lineNumber;
+        this.sourceName = sourceName;
         NIBRSError e = null;
         if (data == null || data.length() < 37) {
         	e = new NIBRSError();
@@ -102,6 +104,9 @@ public class Segment
         return ret;
     }
 
+	public String getSourceName() {
+		return sourceName;
+	}
     public int getLineNumber() {
     	return lineNumber;
     }

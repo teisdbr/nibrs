@@ -116,7 +116,7 @@ public final class ErrorExporter {
 		line = modifyLine(line, 62-1, 140, "IncidentBuilder processed submission on " + new SimpleDateFormat("MM/dd/yy").format(new Date()));
 		bw.write(line);
 		bw.newLine();
-		bw.close();
+		bw.flush();
 	}
 
 	String modifyLine(String line, int beginPosition, int endPosition, String string) {

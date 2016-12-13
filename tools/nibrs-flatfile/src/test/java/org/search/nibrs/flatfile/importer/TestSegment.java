@@ -35,7 +35,7 @@ public class TestSegment
 	public void testSegmentTooShort() {
         String segment = "00871";
         Segment s = new Segment();
-        List<NIBRSError> errorList = s.setData(1, segment);
+        List<NIBRSError> errorList = s.setData("sourceName", 1, segment);
         assertEquals(1, errorList.size());
         NIBRSError error = errorList.get(0);
         assertEquals(5, error.getValue());
@@ -48,12 +48,13 @@ public class TestSegment
     {
         String segment = "00871I022003    TN0390500111502      20021115 19N                                      ";
         Segment s = new Segment();
-        assertEquals(0, s.setData(1, segment).size());
+        assertEquals(0, s.setData("sourceName", 1, segment).size());
         assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, s.getSegmentType());
         assertEquals('I', s.getActionType());
         assertEquals("111502", s.getSegmentUniqueIdentifier());
         assertEquals("TN0390500", s.getOri());
         assertEquals(1, s.getLineNumber());
+        assertEquals("sourceName", s.getSourceName());
         assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, s.getSegmentLevel());
     }
     
@@ -62,7 +63,7 @@ public class TestSegment
     {
         String segment = "00632I022003    TN0390500111502      240CN  05               88";
         Segment s = new Segment();
-        assertEquals(0, s.setData(1, segment).size());
+        assertEquals(0, s.setData("sourceName", 1, segment).size());
         assertEquals(OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER, s.getSegmentType());
         assertEquals('I', s.getActionType());
         assertEquals("111502", s.getSegmentUniqueIdentifier());
@@ -75,7 +76,7 @@ public class TestSegment
     {
         String segment = "03073I022003    TN0390500111502      703000000001                                                                                                                                                                                   01                                                                             ";
         Segment s = new Segment();
-        assertEquals(0, s.setData(1, segment).size());
+        assertEquals(0, s.setData("sourceName", 1, segment).size());
         assertEquals(PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER, s.getSegmentType());
         assertEquals('I', s.getActionType());
         assertEquals("111502", s.getSegmentUniqueIdentifier());
@@ -87,7 +88,7 @@ public class TestSegment
     {
         String segment = "01294I022003    TN0390500111502      001240                           B                                                          ";
         Segment s = new Segment();
-        assertEquals(0, s.setData(1, segment).size());
+        assertEquals(0, s.setData("sourceName", 1, segment).size());
         assertEquals(VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER, s.getSegmentType());
         assertEquals('I', s.getActionType());
         assertEquals("111502", s.getSegmentUniqueIdentifier());
@@ -99,7 +100,7 @@ public class TestSegment
     {
         String segment = "00455I022003    TN0390500111502      0100  UU";
         Segment s = new Segment();
-        assertEquals(0, s.setData(1, segment).size());
+        assertEquals(0, s.setData("sourceName", 1, segment).size());
         assertEquals(OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER, s.getSegmentType());
         assertEquals('I', s.getActionType());
         assertEquals("111502", s.getSegmentUniqueIdentifier());
