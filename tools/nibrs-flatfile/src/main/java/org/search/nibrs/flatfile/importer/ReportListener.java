@@ -15,19 +15,22 @@
  *******************************************************************************/
 package org.search.nibrs.flatfile.importer;
 
+import java.util.List;
+
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.*;
 
 /**
  * Interface for objects that are interested in processing new Incidents as they are built from a NIBRS report stream.
  *
  */
-public interface ReportListener
-{
+public interface ReportListener {
 
     /**
      * Called on implementations when the builder creates a new AbstractReport from the report stream.
      * @param report the new AbstractReport object
+     * @param errorList any errors encountered during the creation of the Report
      */
-    public void newReport(AbstractReport report);
+    public void newReport(AbstractReport report, List<NIBRSError> errorList);
 
 }

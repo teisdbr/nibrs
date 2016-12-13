@@ -258,11 +258,12 @@ public class TestIncidentBuilderErrors {
         
     }
 
-	private List<NIBRSError> getErrorsForTestData(String testData, ReportListener incidentListener) throws IOException {
+	private List<NIBRSError> getErrorsForTestData(String testData, DefaultReportListener incidentListener) throws IOException {
 		Reader testdataReader = new BufferedReader(new StringReader(testData));
         IncidentBuilder incidentBuilder = new IncidentBuilder();
         incidentBuilder.addIncidentListener(incidentListener);
-        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader, getClass().getName());
+        incidentBuilder.buildIncidents(testdataReader, getClass().getName());
+        List<NIBRSError> errorList = incidentListener.getErrorList();
 		return errorList;
 	}
     

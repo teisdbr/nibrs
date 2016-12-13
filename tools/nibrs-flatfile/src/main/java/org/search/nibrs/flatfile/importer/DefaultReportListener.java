@@ -17,6 +17,7 @@ package org.search.nibrs.flatfile.importer;
 
 import java.util.*;
 
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.*;
 
 /**
@@ -24,55 +25,57 @@ import org.search.nibrs.model.*;
  * when building is done.
  *
  */
-public final class DefaultReportListener implements ReportListener
-{
-    
-    private List<AbstractReport> reports = new ArrayList<AbstractReport>();
-    private Map<String, Throwable> throwables = new HashMap<String, Throwable>();
+public final class DefaultReportListener implements ReportListener {
 
-    public void newReport(AbstractReport newReport)
-    {
-        reports.add(newReport);
-    }
-    
-    public List<AbstractReport> getReportList()
-    {
-        return Collections.unmodifiableList(reports);
-    }
+	private List<AbstractReport> reports = new ArrayList<>();
+	List<NIBRSError> errorList = new ArrayList<>();
+	private Map<String, Throwable> throwables = new HashMap<String, Throwable>();
 
-    public Map<String, Throwable> getThrowablesMap()
-    {
-        return Collections.unmodifiableMap(throwables);
-    }
-    
-    public List<GroupAIncidentReport> getGroupAIncidentList() {
-    	List<GroupAIncidentReport> ret = new ArrayList<GroupAIncidentReport>();
-    	for (AbstractReport r : reports) {
-    		if (r instanceof GroupAIncidentReport) {
-    			ret.add((GroupAIncidentReport) r);
-    		}
-    	}
-    	return ret;
-    }
-    
-    public List<GroupBArrestReport> getGroupBIncidentList() {
-    	List<GroupBArrestReport> ret = new ArrayList<GroupBArrestReport>();
-    	for (AbstractReport r : reports) {
-    		if (r instanceof GroupBArrestReport) {
-    			ret.add((GroupBArrestReport) r);
-    		}
-    	}
-    	return ret;
-    }
-    
-    public List<ZeroReport> getZeroReportList() {
-    	List<ZeroReport> ret = new ArrayList<ZeroReport>();
-    	for (AbstractReport r : reports) {
-    		if (r instanceof ZeroReport) {
-    			ret.add((ZeroReport) r);
-    		}
-    	}
-    	return ret;
-    }
-    
+	public void newReport(AbstractReport newReport, List<NIBRSError> errorList) {
+		reports.add(newReport);
+		this.errorList.addAll(errorList);
+	}
+
+	public List<AbstractReport> getReportList() {
+		return Collections.unmodifiableList(reports);
+	}
+
+	public Map<String, Throwable> getThrowablesMap() {
+		return Collections.unmodifiableMap(throwables);
+	}
+	
+	public List<NIBRSError> getErrorList() {
+		return Collections.unmodifiableList(errorList);
+	}
+
+	public List<GroupAIncidentReport> getGroupAIncidentList() {
+		List<GroupAIncidentReport> ret = new ArrayList<GroupAIncidentReport>();
+		for (AbstractReport r : reports) {
+			if (r instanceof GroupAIncidentReport) {
+				ret.add((GroupAIncidentReport) r);
+			}
+		}
+		return ret;
+	}
+
+	public List<GroupBArrestReport> getGroupBIncidentList() {
+		List<GroupBArrestReport> ret = new ArrayList<GroupBArrestReport>();
+		for (AbstractReport r : reports) {
+			if (r instanceof GroupBArrestReport) {
+				ret.add((GroupBArrestReport) r);
+			}
+		}
+		return ret;
+	}
+
+	public List<ZeroReport> getZeroReportList() {
+		List<ZeroReport> ret = new ArrayList<ZeroReport>();
+		for (AbstractReport r : reports) {
+			if (r instanceof ZeroReport) {
+				ret.add((ZeroReport) r);
+			}
+		}
+		return ret;
+	}
+
 }

@@ -39,9 +39,11 @@ public class IncidentBuilder {
 
 	private static final class LogListener implements ReportListener {
 		public int reportCount = 0;
-		public void newReport(AbstractReport newReport) {
+		public int errorCount = 0;
+		public void newReport(AbstractReport newReport, List<NIBRSError> errorList) {
 			LOG.info("Created " + newReport.getUniqueReportDescription());
 			reportCount++;
+			errorCount += errorList.size();
 		}
 	}
 
@@ -66,12 +68,9 @@ public class IncidentBuilder {
 	/**
 	 * Read NIBRS incidents from the flatfile format exposed by the specified Reader
 	 * @param reader the source of the data
-	 * @return a list of errors encountered, if any
 	 * @throws IOException exception encountered in addressing the Reader
 	 */
-	public List<NIBRSError> buildIncidents(Reader reader, String readerLocationName) throws IOException {
-
-		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
+	public void buildIncidents(Reader reader, String readerLocationName) throws IOException {
 
 		BufferedReader br = null;
 		
@@ -88,6 +87,8 @@ public class IncidentBuilder {
 		
 		LOG.info("Processing NIBRS flat file");
 		
+		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
+		
 		while ((line = br.readLine()) != null) {
 			Segment s = new Segment();
 			List<NIBRSError> segmentErrors = s.setData(lineNumber, line);
@@ -95,7 +96,8 @@ public class IncidentBuilder {
 			if (segmentErrors.isEmpty()) {
 				char level = s.getSegmentLevel();
 				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER || level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER || level == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER) {
-					handleNewReport(currentReport);
+					handleNewReport(currentReport, errorList);
+					errorList = new ArrayList<NIBRSError>();
 					currentReport = buildReport(errorList, s, readerLocationName);
 				} else {
 					int errorListSize = errorList.size();
@@ -108,13 +110,11 @@ public class IncidentBuilder {
 			lineNumber++;
 		}
 		
-		handleNewReport(currentReport);
+		handleNewReport(currentReport, errorList);
 
 		LOG.info("finished processing file, read " + (lineNumber - 1) + " lines.");
-		LOG.info("Encountered " + errorList.size() + " error(s).");
+		LOG.info("Encountered " + logListener.errorCount + " error(s).");
 		LOG.info("Created " + logListener.reportCount + " incident(s).");
-
-		return errorList;
 
 	}
 
@@ -218,11 +218,11 @@ public class IncidentBuilder {
 		return ret;
 	}
 
-	private final void handleNewReport(AbstractReport newReport) {
+	private final void handleNewReport(AbstractReport newReport, List<NIBRSError> errorList) {
 		if (newReport != null) {
 			for (Iterator<ReportListener> it = listeners.iterator(); it.hasNext();) {
 				ReportListener listener = it.next();
-				listener.newReport(newReport);
+				listener.newReport(newReport, errorList);
 			}
 		}
 	}

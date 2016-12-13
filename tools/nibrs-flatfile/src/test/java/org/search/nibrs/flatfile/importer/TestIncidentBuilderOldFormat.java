@@ -33,8 +33,7 @@ import org.junit.*;
  * Unit test suite for the IncidentBuilder class.
  *
  */
-public class TestIncidentBuilderOldFormat
-{
+public class TestIncidentBuilderOldFormat {
 	
 	private static final Logger LOG = LogManager.getLogger(TestIncidentBuilderOldFormat.class);
 	
@@ -94,268 +93,238 @@ public class TestIncidentBuilderOldFormat
             "00430I022003    TN0380100000000000000012003\n";
 
      
-    private Reader testdataReader;
-    private DefaultReportListener incidentListener;
-    
-    @Before
-    public void setUp() throws Exception
-    {
-        testdataReader = new BufferedReader(new StringReader(TESTDATA_OLDFORMAT));
-        incidentListener = new DefaultReportListener();
-        IncidentBuilder incidentBuilder = new IncidentBuilder();
-        incidentBuilder.addIncidentListener(incidentListener);
-        List<NIBRSError> errorList = incidentBuilder.buildIncidents(testdataReader, getClass().getName());
-        for (NIBRSError e : errorList) {
-        	LOG.info(e.getRuleDescription());
-        }
-        assertEquals(0, errorList.size());
-    }
-    
-    @Test
-    public void testZeroReport() {
-    	ZeroReport report = incidentListener.getZeroReportList().get(0);
-    	assertEquals("TN0380100", report.getOri());
-    	assertEquals(ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER, report.getAdminSegmentLevel());
-    	assertEquals('I', report.getReportActionType());
-    	assertEquals(getClass().getName(), report.getSource().getSourceName());
-    }
-    
-    @Test
-    public void testGroupBIncident() {
-    	GroupBArrestReport report = incidentListener.getGroupBIncidentList().get(0);
-    	assertEquals("TN0380100", report.getOri());
-    	assertEquals(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER, report.getAdminSegmentLevel());
-    	assertEquals('I', report.getReportActionType());
-    	ArresteeSegment arrestee = report.getArrestees().get(0);
-    	assertNotNull(arrestee);
+	private Reader testdataReader;
+	private DefaultReportListener incidentListener;
+
+	@Before
+	public void setUp() throws Exception {
+		testdataReader = new BufferedReader(new StringReader(TESTDATA_OLDFORMAT));
+		incidentListener = new DefaultReportListener();
+		IncidentBuilder incidentBuilder = new IncidentBuilder();
+		incidentBuilder.addIncidentListener(incidentListener);
+		incidentBuilder.buildIncidents(testdataReader, getClass().getName());
+		List<NIBRSError> errorList = incidentListener.getErrorList();
+		for (NIBRSError e : errorList) {
+			LOG.info(e.getRuleDescription());
+		}
+		assertEquals(0, errorList.size());
+	}
+
+	@Test
+	public void testZeroReport() {
+		ZeroReport report = incidentListener.getZeroReportList().get(0);
+		assertEquals("TN0380100", report.getOri());
+		assertEquals(ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER, report.getAdminSegmentLevel());
+		assertEquals('I', report.getReportActionType());
+		assertEquals(getClass().getName(), report.getSource().getSourceName());
+	}
+
+	@Test
+	public void testGroupBIncident() {
+		GroupBArrestReport report = incidentListener.getGroupBIncidentList().get(0);
+		assertEquals("TN0380100", report.getOri());
+		assertEquals(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER, report.getAdminSegmentLevel());
+		assertEquals('I', report.getReportActionType());
+		ArresteeSegment arrestee = report.getArrestees().get(0);
+		assertNotNull(arrestee);
 		assertEquals("0000265601", arrestee.getArrestTransactionNumber());
 		assertNull(arrestee.getArresteeSequenceNumber());
 		assertNull(arrestee.getMultipleArresteeSegmentsIndicator());
-        assertEquals(DateUtils.makeDate(2003, Calendar.JANUARY, 12), arrestee.getArrestDate());
-        assertEquals("T", arrestee.getTypeOfArrest());
-        assertEquals("90A", arrestee.getUcrArrestOffenseCode());
-        assertEquals("01", arrestee.getArresteeArmedWith(0));
-        assertNull(arrestee.getAutomaticWeaponIndicator(0));
-        assertNull(arrestee.getArresteeArmedWith(1));
-        assertNull(arrestee.getAutomaticWeaponIndicator(1));
-        assertEquals(new Integer(33), arrestee.getAge().getAgeMin());
-        assertEquals("M", arrestee.getSex());
-        assertEquals("B", arrestee.getRace());
-        assertEquals("R", arrestee.getResidentStatus());
-        assertNull(arrestee.getDispositionOfArresteeUnder18());
-    }
-    
-    @Test
-    public void testFirstIncident()
-    {
-        List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
-        GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
-        assertNotNull(incident);
-        assertEquals("02-000895", incident.getIncidentNumber());
-        assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate());
-        assertEquals(new Integer(10), incident.getIncidentHour());
-        assertNull(incident.getReportDateIndicator());
-        assertNull(incident.getCargoTheftIndicator());
-        assertEquals("N", incident.getExceptionalClearanceCode());
-        assertNull(incident.getExceptionalClearanceDate());
-        assertEquals(1, incident.getOffenseCount());
-        assertEquals(1, incident.getPropertyCount());
-        assertEquals(1, incident.getVictimCount());
-        assertEquals(1, incident.getOffenderCount());
-        assertEquals(1, incident.getArresteeCount());
-    	assertEquals('I', incident.getReportActionType());
-    	assertFalse(incident.includesLeoka());
-    }
-    
-    @Test
-    public void testFirstIncidentArrestee()
-    {
-        ArresteeSegment arrestee = (ArresteeSegment) ((AbstractReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
-        assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
-        assertEquals("02-000895", arrestee.getArrestTransactionNumber());
-        assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate());
-        assertEquals("T", arrestee.getTypeOfArrest());
-        assertEquals("M", arrestee.getMultipleArresteeSegmentsIndicator());
-        assertEquals("220", arrestee.getUcrArrestOffenseCode());
-        assertEquals("01", arrestee.getArresteeArmedWith(0));
-        assertNull(arrestee.getAutomaticWeaponIndicator(0));
-        assertNull(arrestee.getArresteeArmedWith(1));
-        assertNull(arrestee.getAutomaticWeaponIndicator(1));
-        assertEquals(new Integer(24), arrestee.getAge().getAgeMin());
-        assertEquals("M", arrestee.getSex());
-        assertEquals("W", arrestee.getRace());
-        assertEquals("R", arrestee.getResidentStatus());
-        assertNull(arrestee.getDispositionOfArresteeUnder18());
-        
-    }
-    
-    @Test
-    public void testFirstIncidentOffender()
-    {
-        OffenderSegment offender = (OffenderSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenderIterator().next();
-        assertEquals(new Integer(1), offender.getOffenderSequenceNumber());
-        assertEquals(new Integer(24), offender.getAge().getAgeMin());
-        assertEquals("M", offender.getSex());
-        assertEquals("W", offender.getRace());
-    }
-    
-    @Test
-    public void testFirstIncidentVictim()
-    {
-        VictimSegment victim = (VictimSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).victimIterator().next();
-        assertEquals(new Integer(1), victim.getVictimSequenceNumber());
-        assertEquals("220", victim.getUcrOffenseCodeConnection(0));
-        for (int i=1;i < 10;i++)
-        {
-            assertNull(victim.getUcrOffenseCodeConnection(i));
-        }
-        assertEquals("I", victim.getTypeOfVictim());
-        assertEquals(new Integer(46), victim.getAge().getAgeMin());
-        assertEquals("W", victim.getRace());
-        assertEquals("N", victim.getEthnicity());
-        assertEquals("R", victim.getResidentStatus());
-        assertNull(victim.getAggravatedAssaultHomicideCircumstances(0));
-        assertNull(victim.getAggravatedAssaultHomicideCircumstances(1));
-        assertNull(victim.getAdditionalJustifiableHomicideCircumstances());
-        for (int i=0;i < 5;i++)
-        {
-            assertNull(victim.getTypeOfInjury(i));
-        }
-        for (int i=0;i < 10;i++)
-        {
-            assertNull(victim.getOffenderNumberRelated(i));
-            assertNull(victim.getVictimOffenderRelationship(i));
-        }
-    }
-    
-    @Test
-    public void testComplexIncidentVictim()
-    {
-        VictimSegment victim = (VictimSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(7)).victimIterator().next();
-        assertEquals("13A", victim.getUcrOffenseCodeConnection(0));
-        assertEquals("23H", victim.getUcrOffenseCodeConnection(1));
-        assertEquals("290", victim.getUcrOffenseCodeConnection(2));
-        assertEquals("09", victim.getAggravatedAssaultHomicideCircumstances(0));
-        assertEquals("N", victim.getTypeOfInjury(0));
-        assertEquals(new Integer(1), victim.getOffenderNumberRelated(0));
-        assertEquals("BG", victim.getVictimOffenderRelationship(0));
-    }
-    
-    @Test
-    public void testFirstIncidentProperty()
-    {
-        PropertySegment property = (PropertySegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).propertyIterator().next();
-        assertEquals("7", property.getTypeOfPropertyLoss());
-        assertEquals("13", property.getPropertyDescription(0));
-        assertEquals(new Integer(20), property.getValueOfProperty(0));
-        for (int i=1;i < 10;i++)
-        {
-            assertNull(property.getPropertyDescription(i));
-            assertNull(property.getValueOfProperty(i));
-        }
-        assertNull(property.getNumberOfStolenMotorVehicles());
-        assertNull(property.getNumberOfRecoveredMotorVehicles());
-        for (int i=0;i < 3;i++)
-        {
-            assertNull(property.getSuspectedDrugType(i));
-            assertNull(property.getEstimatedDrugQuantity(i));
-            assertNull(property.getTypeDrugMeasurement(i));
-        }
-    }
-    
-    @Test
-    public void testDrugIncidentProperty()
-    {
-        PropertySegment property = (PropertySegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(5)).propertyIterator().next();
-        assertEquals("E", property.getSuspectedDrugType(0));
-        assertEquals(new Double(0.1), property.getEstimatedDrugQuantity(0));
-        assertEquals("GM", property.getTypeDrugMeasurement(0));
-        assertEquals("H", property.getSuspectedDrugType(1));
-        assertEquals(new Double(2.0), property.getEstimatedDrugQuantity(1));
-        assertEquals("DU", property.getTypeDrugMeasurement(1));
-    }
-    
-    @Test
-    public void testMotorVehicleIncidentProperty()
-    {
-        Iterator<PropertySegment> propertyIterator = ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(6)).propertyIterator();
-        PropertySegment stolenProperty = (PropertySegment) propertyIterator.next();
-        PropertySegment recoveredProperty = (PropertySegment) propertyIterator.next();
-        assertEquals("7", stolenProperty.getTypeOfPropertyLoss());
-        assertEquals(new Integer(1), stolenProperty.getNumberOfStolenMotorVehicles());
-        assertNull(stolenProperty.getNumberOfRecoveredMotorVehicles());
-        assertEquals("5", recoveredProperty.getTypeOfPropertyLoss());
-        assertEquals(DateUtils.makeDate(2002, Calendar.NOVEMBER, 15), recoveredProperty.getDateRecovered(0));
-        assertEquals(new Integer(1), recoveredProperty.getNumberOfRecoveredMotorVehicles());
-        assertNull(recoveredProperty.getNumberOfStolenMotorVehicles());
-    }
-    
-    @Test
-    public void testFirstIncidentOffense()
-    {
-        OffenseSegment offense = (OffenseSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenseIterator().next();
-        assertEquals("220", offense.getUcrOffenseCode());
-        assertEquals("C", offense.getOffenseAttemptedCompleted());
-        assertEquals("N", offense.getOffendersSuspectedOfUsing(0));
-        assertNull(offense.getOffendersSuspectedOfUsing(1));
-        assertNull(offense.getOffendersSuspectedOfUsing(2));
-        assertEquals("20", offense.getLocationType());
-        assertNull(offense.getNumberOfPremisesEntered());
-        assertEquals("N", offense.getMethodOfEntry());
-        for (int i=0;i < 3;i++)
-        {
-            assertNull(offense.getTypeOfCriminalActivity(i));
-            assertNull(offense.getTypeOfWeaponForceInvolved(i));
-            assertNull(offense.getAutomaticWeaponIndicator(i));
-        }
-        assertEquals("88", offense.getBiasMotivation(0));
-    }
-    
-    @Test
-    public void testIncidentNumbers()
-    {
-        String[] numbers = new String[]
-        {
-                "02-000895",
-                "02-003178",
-                "02-018065",
-                "02-023736",
-                "02-033709",
-                "02-064481",
-                "111502",
-                "03000037"
-        };
-        List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
-        for (int i=0;i < numbers.length;i++)
-        {
-            assertEquals(numbers[i], ((GroupAIncidentReport) incidentList.get(i)).getIncidentNumber());
-        }
-    }
-    
-    @Test
-    public void testCorrectGroupAIncidentCount()
-    {
-        List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
-        assertEquals(8, incidentList.size());
-    }
-    
-    @Test
-    public void testCorrectGroupBIncidentCount()
-    {
-        List<GroupBArrestReport> incidentList = incidentListener.getGroupBIncidentList();
-        assertEquals(1, incidentList.size());
-    }
-    
-    @Test
-    public void testCorrectZeroReportCount()
-    {
-        List<ZeroReport> incidentList = incidentListener.getZeroReportList();
-        assertEquals(1, incidentList.size());
-    }
-    
-    @Test
-    public void testCorrectReportCount() {
-    	assertEquals(10, incidentListener.getReportList().size());
-    }
+		assertEquals(DateUtils.makeDate(2003, Calendar.JANUARY, 12), arrestee.getArrestDate());
+		assertEquals("T", arrestee.getTypeOfArrest());
+		assertEquals("90A", arrestee.getUcrArrestOffenseCode());
+		assertEquals("01", arrestee.getArresteeArmedWith(0));
+		assertNull(arrestee.getAutomaticWeaponIndicator(0));
+		assertNull(arrestee.getArresteeArmedWith(1));
+		assertNull(arrestee.getAutomaticWeaponIndicator(1));
+		assertEquals(new Integer(33), arrestee.getAge().getAgeMin());
+		assertEquals("M", arrestee.getSex());
+		assertEquals("B", arrestee.getRace());
+		assertEquals("R", arrestee.getResidentStatus());
+		assertNull(arrestee.getDispositionOfArresteeUnder18());
+	}
+
+	@Test
+	public void testFirstIncident() {
+		List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
+		GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
+		assertNotNull(incident);
+		assertEquals("02-000895", incident.getIncidentNumber());
+		assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate());
+		assertEquals(new Integer(10), incident.getIncidentHour());
+		assertNull(incident.getReportDateIndicator());
+		assertNull(incident.getCargoTheftIndicator());
+		assertEquals("N", incident.getExceptionalClearanceCode());
+		assertNull(incident.getExceptionalClearanceDate());
+		assertEquals(1, incident.getOffenseCount());
+		assertEquals(1, incident.getPropertyCount());
+		assertEquals(1, incident.getVictimCount());
+		assertEquals(1, incident.getOffenderCount());
+		assertEquals(1, incident.getArresteeCount());
+		assertEquals('I', incident.getReportActionType());
+		assertFalse(incident.includesLeoka());
+	}
+
+	@Test
+	public void testFirstIncidentArrestee() {
+		ArresteeSegment arrestee = (ArresteeSegment) ((AbstractReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
+		assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
+		assertEquals("02-000895", arrestee.getArrestTransactionNumber());
+		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate());
+		assertEquals("T", arrestee.getTypeOfArrest());
+		assertEquals("M", arrestee.getMultipleArresteeSegmentsIndicator());
+		assertEquals("220", arrestee.getUcrArrestOffenseCode());
+		assertEquals("01", arrestee.getArresteeArmedWith(0));
+		assertNull(arrestee.getAutomaticWeaponIndicator(0));
+		assertNull(arrestee.getArresteeArmedWith(1));
+		assertNull(arrestee.getAutomaticWeaponIndicator(1));
+		assertEquals(new Integer(24), arrestee.getAge().getAgeMin());
+		assertEquals("M", arrestee.getSex());
+		assertEquals("W", arrestee.getRace());
+		assertEquals("R", arrestee.getResidentStatus());
+		assertNull(arrestee.getDispositionOfArresteeUnder18());
+
+	}
+
+	@Test
+	public void testFirstIncidentOffender() {
+		OffenderSegment offender = (OffenderSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenderIterator().next();
+		assertEquals(new Integer(1), offender.getOffenderSequenceNumber());
+		assertEquals(new Integer(24), offender.getAge().getAgeMin());
+		assertEquals("M", offender.getSex());
+		assertEquals("W", offender.getRace());
+	}
+
+	@Test
+	public void testFirstIncidentVictim() {
+		VictimSegment victim = (VictimSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).victimIterator().next();
+		assertEquals(new Integer(1), victim.getVictimSequenceNumber());
+		assertEquals("220", victim.getUcrOffenseCodeConnection(0));
+		for (int i = 1; i < 10; i++) {
+			assertNull(victim.getUcrOffenseCodeConnection(i));
+		}
+		assertEquals("I", victim.getTypeOfVictim());
+		assertEquals(new Integer(46), victim.getAge().getAgeMin());
+		assertEquals("W", victim.getRace());
+		assertEquals("N", victim.getEthnicity());
+		assertEquals("R", victim.getResidentStatus());
+		assertNull(victim.getAggravatedAssaultHomicideCircumstances(0));
+		assertNull(victim.getAggravatedAssaultHomicideCircumstances(1));
+		assertNull(victim.getAdditionalJustifiableHomicideCircumstances());
+		for (int i = 0; i < 5; i++) {
+			assertNull(victim.getTypeOfInjury(i));
+		}
+		for (int i = 0; i < 10; i++) {
+			assertNull(victim.getOffenderNumberRelated(i));
+			assertNull(victim.getVictimOffenderRelationship(i));
+		}
+	}
+
+	@Test
+	public void testComplexIncidentVictim() {
+		VictimSegment victim = (VictimSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(7)).victimIterator().next();
+		assertEquals("13A", victim.getUcrOffenseCodeConnection(0));
+		assertEquals("23H", victim.getUcrOffenseCodeConnection(1));
+		assertEquals("290", victim.getUcrOffenseCodeConnection(2));
+		assertEquals("09", victim.getAggravatedAssaultHomicideCircumstances(0));
+		assertEquals("N", victim.getTypeOfInjury(0));
+		assertEquals(new Integer(1), victim.getOffenderNumberRelated(0));
+		assertEquals("BG", victim.getVictimOffenderRelationship(0));
+	}
+
+	@Test
+	public void testFirstIncidentProperty() {
+		PropertySegment property = (PropertySegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).propertyIterator().next();
+		assertEquals("7", property.getTypeOfPropertyLoss());
+		assertEquals("13", property.getPropertyDescription(0));
+		assertEquals(new Integer(20), property.getValueOfProperty(0));
+		for (int i = 1; i < 10; i++) {
+			assertNull(property.getPropertyDescription(i));
+			assertNull(property.getValueOfProperty(i));
+		}
+		assertNull(property.getNumberOfStolenMotorVehicles());
+		assertNull(property.getNumberOfRecoveredMotorVehicles());
+		for (int i = 0; i < 3; i++) {
+			assertNull(property.getSuspectedDrugType(i));
+			assertNull(property.getEstimatedDrugQuantity(i));
+			assertNull(property.getTypeDrugMeasurement(i));
+		}
+	}
+
+	@Test
+	public void testDrugIncidentProperty() {
+		PropertySegment property = (PropertySegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(5)).propertyIterator().next();
+		assertEquals("E", property.getSuspectedDrugType(0));
+		assertEquals(new Double(0.1), property.getEstimatedDrugQuantity(0));
+		assertEquals("GM", property.getTypeDrugMeasurement(0));
+		assertEquals("H", property.getSuspectedDrugType(1));
+		assertEquals(new Double(2.0), property.getEstimatedDrugQuantity(1));
+		assertEquals("DU", property.getTypeDrugMeasurement(1));
+	}
+
+	@Test
+	public void testMotorVehicleIncidentProperty() {
+		Iterator<PropertySegment> propertyIterator = ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(6)).propertyIterator();
+		PropertySegment stolenProperty = (PropertySegment) propertyIterator.next();
+		PropertySegment recoveredProperty = (PropertySegment) propertyIterator.next();
+		assertEquals("7", stolenProperty.getTypeOfPropertyLoss());
+		assertEquals(new Integer(1), stolenProperty.getNumberOfStolenMotorVehicles());
+		assertNull(stolenProperty.getNumberOfRecoveredMotorVehicles());
+		assertEquals("5", recoveredProperty.getTypeOfPropertyLoss());
+		assertEquals(DateUtils.makeDate(2002, Calendar.NOVEMBER, 15), recoveredProperty.getDateRecovered(0));
+		assertEquals(new Integer(1), recoveredProperty.getNumberOfRecoveredMotorVehicles());
+		assertNull(recoveredProperty.getNumberOfStolenMotorVehicles());
+	}
+
+	@Test
+	public void testFirstIncidentOffense() {
+		OffenseSegment offense = (OffenseSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenseIterator().next();
+		assertEquals("220", offense.getUcrOffenseCode());
+		assertEquals("C", offense.getOffenseAttemptedCompleted());
+		assertEquals("N", offense.getOffendersSuspectedOfUsing(0));
+		assertNull(offense.getOffendersSuspectedOfUsing(1));
+		assertNull(offense.getOffendersSuspectedOfUsing(2));
+		assertEquals("20", offense.getLocationType());
+		assertNull(offense.getNumberOfPremisesEntered());
+		assertEquals("N", offense.getMethodOfEntry());
+		for (int i = 0; i < 3; i++) {
+			assertNull(offense.getTypeOfCriminalActivity(i));
+			assertNull(offense.getTypeOfWeaponForceInvolved(i));
+			assertNull(offense.getAutomaticWeaponIndicator(i));
+		}
+		assertEquals("88", offense.getBiasMotivation(0));
+	}
+
+	@Test
+	public void testIncidentNumbers() {
+		String[] numbers = new String[] { "02-000895", "02-003178", "02-018065", "02-023736", "02-033709", "02-064481", "111502", "03000037" };
+		List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
+		for (int i = 0; i < numbers.length; i++) {
+			assertEquals(numbers[i], ((GroupAIncidentReport) incidentList.get(i)).getIncidentNumber());
+		}
+	}
+
+	@Test
+	public void testCorrectGroupAIncidentCount() {
+		List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
+		assertEquals(8, incidentList.size());
+	}
+
+	@Test
+	public void testCorrectGroupBIncidentCount() {
+		List<GroupBArrestReport> incidentList = incidentListener.getGroupBIncidentList();
+		assertEquals(1, incidentList.size());
+	}
+
+	@Test
+	public void testCorrectZeroReportCount() {
+		List<ZeroReport> incidentList = incidentListener.getZeroReportList();
+		assertEquals(1, incidentList.size());
+	}
+
+	@Test
+	public void testCorrectReportCount() {
+		assertEquals(10, incidentListener.getReportList().size());
+	}
 
 }
