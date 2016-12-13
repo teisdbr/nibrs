@@ -29,13 +29,13 @@ import org.search.nibrs.validation.groupa.GroupAIncidentReportValidator;
 import org.search.nibrs.validation.groupb.GroupBArrestReportValidator;
 import org.search.nibrs.validation.zeroreport.ZeroReportValidator;
 
-public class NIBRSValidator {
+public class SubmissionValidator {
 
-	private static final Logger LOG = Logger.getLogger(NIBRSValidator.class.getName());
+	private static final Logger LOG = Logger.getLogger(SubmissionValidator.class.getName());
 
 	private ValidationListener validationListener;
 
-	public NIBRSValidator(ValidationListener validationListener) {
+	public SubmissionValidator(ValidationListener validationListener) {
 		this.validationListener = validationListener;
 	}
 
@@ -55,11 +55,8 @@ public class NIBRSValidator {
 		for (AbstractReport report : reportList) {
 			List<NIBRSError> singleReportErrorsList = validateReport(report);
 			errorList.addAll(singleReportErrorsList);
-			LOG.info("notifying listener of single report validation");
 			validationListener.validationAvailable(singleReportErrorsList);
 		}
-
-		LOG.info("Completed validating all reports, returning them");
 
 		return errorList;
 		
