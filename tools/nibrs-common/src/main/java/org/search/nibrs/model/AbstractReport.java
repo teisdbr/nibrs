@@ -179,7 +179,7 @@ public abstract class AbstractReport implements ValidationTarget, Identifiable {
 	public NIBRSError getErrorTemplate() {
 		NIBRSError ret = new NIBRSError();
 		ret.setContext(getSource());
-		ret.setReportUniqueIdentifier(getGloballyUniqueReportIdentifier());
+		ret.setReportUniqueIdentifier(getIdentifier());
 		ret.setSegmentType(getAdminSegmentLevel());
 		ret.setReport(this);
 		return ret;

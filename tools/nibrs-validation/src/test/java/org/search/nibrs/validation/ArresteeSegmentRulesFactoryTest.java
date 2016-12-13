@@ -255,7 +255,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals("41", nibrsError.getDataElementIdentifier());
 		arresteeSegment.setArrestTransactionNumber("11-123-SC");
 		nibrsError = rule.apply(arresteeSegment);
-		assertNotNull(nibrsError);
+		assertNull(nibrsError);
 	}
 	
 	@Test

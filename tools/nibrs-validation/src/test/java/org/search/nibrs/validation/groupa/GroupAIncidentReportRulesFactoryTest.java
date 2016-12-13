@@ -940,13 +940,13 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(report.getIncidentNumber(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 		report.setIncidentNumber("A");
-		assertNotNull(rule115.apply(report));
+		assertNull(rule115.apply(report));
 		report.setIncidentNumber("A B         ");
 		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber(" AB         ");
 		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber("AB         ");
-		assertNotNull(rule115.apply(report));
+		assertNull(rule115.apply(report));
 		report.setIncidentNumber("AB           ");
 		assertNotNull(rule115.apply(report));
 		report.setIncidentNumber("AB          ");
@@ -971,7 +971,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(report.getSource(), e.getContext());
 		report.setIncidentNumber("11-123-SC");
 		e = rule117.apply(report);
-		assertNotNull(e);
+		assertNull(e);
 	}
 	
 	@Test

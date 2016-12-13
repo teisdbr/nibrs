@@ -37,7 +37,7 @@ public abstract class AbstractSegment implements ValidationTarget {
 	public NIBRSError getErrorTemplate() {
 		NIBRSError ret = new NIBRSError();
 		ret.setContext(getParentReport().getSource());
-		ret.setReportUniqueIdentifier(getParentReport().getGloballyUniqueReportIdentifier());
+		ret.setReportUniqueIdentifier(getParentReport().getIdentifier());
 		ret.setWithinSegmentIdentifier(getWithinSegmentIdentifier());
 		ret.setSegmentType(getSegmentType());
 		ret.setReport(getParentReport());

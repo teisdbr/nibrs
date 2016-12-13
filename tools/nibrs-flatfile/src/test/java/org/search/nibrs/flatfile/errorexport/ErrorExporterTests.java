@@ -62,7 +62,7 @@ public class ErrorExporterTests {
 		GroupAIncidentReport incident = getBaselineIncident();
 		
 		NIBRSError e = new NIBRSError();
-		e.setContext(123);
+		e.setContext(makeReportSource(123));
 		e.setDataElementIdentifier("5");
 		e.setNIBRSErrorCode(NIBRSErrorCode._001);
 		e.setReportUniqueIdentifier(incident.getIncidentNumber());
@@ -73,7 +73,7 @@ public class ErrorExporterTests {
 		errorList.add(e);
 		
 		e = new NIBRSError();
-		e.setContext(124);
+		e.setContext(makeReportSource(124));
 		e.setDataElementIdentifier("7");
 		e.setNIBRSErrorCode(NIBRSErrorCode._206);
 		e.setReportUniqueIdentifier(incident.getIncidentNumber());
@@ -84,7 +84,7 @@ public class ErrorExporterTests {
 		errorList.add(e);
 		
 		e = new NIBRSError();
-		e.setContext(125);
+		e.setContext(makeReportSource(125));
 		e.setDataElementIdentifier("15");
 		e.setNIBRSErrorCode(NIBRSErrorCode._320);
 		e.setReportUniqueIdentifier(incident.getIncidentNumber());
@@ -95,7 +95,7 @@ public class ErrorExporterTests {
 		errorList.add(e);
 		
 		e = new NIBRSError();
-		e.setContext(126);
+		e.setContext(makeReportSource(126));
 		e.setDataElementIdentifier("25");
 		e.setNIBRSErrorCode(NIBRSErrorCode._406);
 		e.setReportUniqueIdentifier(incident.getIncidentNumber());
@@ -106,7 +106,7 @@ public class ErrorExporterTests {
 		errorList.add(e);
 		
 		e = new NIBRSError();
-		e.setContext(127);
+		e.setContext(makeReportSource(127));
 		e.setDataElementIdentifier("37");
 		e.setNIBRSErrorCode(NIBRSErrorCode._517);
 		e.setReportUniqueIdentifier(incident.getIncidentNumber());
@@ -117,7 +117,7 @@ public class ErrorExporterTests {
 		errorList.add(e);
 		
 		e = new NIBRSError();
-		e.setContext(128);
+		e.setContext(makeReportSource(128));
 		e.setDataElementIdentifier("43");
 		e.setNIBRSErrorCode(NIBRSErrorCode._606);
 		e.setReportUniqueIdentifier(incident.getIncidentNumber());
@@ -127,6 +127,13 @@ public class ErrorExporterTests {
 		e.setReport(incident);
 		errorList.add(e);
 		
+	}
+	
+	private ReportSource makeReportSource(int lineNumber) {
+		ReportSource ret = new ReportSource();
+		ret.setSourceName(getClass().getName());
+		ret.setSourceLocation(String.valueOf(lineNumber));
+		return ret;
 	}
 	
 	@Test

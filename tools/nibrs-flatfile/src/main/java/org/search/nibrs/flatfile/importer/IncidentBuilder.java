@@ -91,7 +91,10 @@ public class IncidentBuilder {
 		
 		while ((line = br.readLine()) != null) {
 			Segment s = new Segment();
-			List<NIBRSError> segmentErrors = s.setData(readerLocationName, lineNumber, line);
+			ReportSource reportSource = new ReportSource();
+			reportSource.setSourceLocation(String.valueOf(lineNumber));
+			reportSource.setSourceName(readerLocationName);
+			List<NIBRSError> segmentErrors = s.setData(reportSource, line);
 			errorList.addAll(segmentErrors);
 			if (segmentErrors.isEmpty()) {
 				char level = s.getSegmentLevel();
@@ -132,7 +135,7 @@ public class IncidentBuilder {
 		if (errorList.size() > errorListSize) {
 			ret.setHasUpstreamErrors(true);
 		}
-		ret.setSource(getErrorContextFromSegment(s));
+		ret.setSource(s.getReportSource());
 		return ret;
 	}
 
@@ -150,7 +153,7 @@ public class IncidentBuilder {
 			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, s.getData()));
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
@@ -166,13 +169,6 @@ public class IncidentBuilder {
 		
 		return ret;
 		
-	}
-
-	private ReportSource getErrorContextFromSegment(Segment s) {
-		ReportSource ret = new ReportSource();
-		ret.setSourceName(s.getSourceName());
-		ret.setSourceLocation(String.valueOf(s.getLineNumber()));
-		return ret;
 	}
 
 	private AbstractReport buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
@@ -204,7 +200,7 @@ public class IncidentBuilder {
 			arrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(66, 66, segmentData));
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
@@ -270,7 +266,7 @@ public class IncidentBuilder {
 			}
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
@@ -291,13 +287,13 @@ public class IncidentBuilder {
 			i = new Integer(sv);
 		} catch (NumberFormatException nfe) {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setNIBRSErrorCode(errorCode);
 			e.setValue(sv);
 			e.setSegmentType(s.getSegmentType());
 			errorList.add(e);
-			LOG.debug("Error in int conversion: lineNumber=" + getErrorContextFromSegment(s) + ", value=" + sv);
+			LOG.debug("Error in int conversion: lineNumber=" + s.getReportSource() + ", value=" + sv);
 		}
 		return i;
 	}
@@ -323,7 +319,7 @@ public class IncidentBuilder {
 			break;
 		default:
 			NIBRSError error = new NIBRSError();
-			error.setContext(getErrorContextFromSegment(s));
+			error.setContext(s.getReportSource());
 			error.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			error.setNIBRSErrorCode(NIBRSErrorCode._051);
 			error.setValue(segmentType);
@@ -360,7 +356,7 @@ public class IncidentBuilder {
 			newArrestee.setDispositionOfArresteeUnder18(StringUtils.getStringBetween(79, 79, segmentData));
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
@@ -385,7 +381,7 @@ public class IncidentBuilder {
 			}
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
@@ -413,7 +409,7 @@ public class IncidentBuilder {
 					newVictim.setOffenderNumberRelated(i, StringUtils.getIntegerBetween(90 + 4 * i, 91 + 4 * i, segmentData));
 				} catch (NumberFormatException nfe) {
 					NIBRSError e = new NIBRSError();
-					e.setContext(getErrorContextFromSegment(s));
+					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 					e.setSegmentType(s.getSegmentType());
 					e.setValue(StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData));
@@ -451,7 +447,7 @@ public class IncidentBuilder {
 
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
@@ -503,7 +499,7 @@ public class IncidentBuilder {
 
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);
@@ -551,7 +547,7 @@ public class IncidentBuilder {
 
 		} else {
 			NIBRSError e = new NIBRSError();
-			e.setContext(getErrorContextFromSegment(s));
+			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
 			e.setValue(length);

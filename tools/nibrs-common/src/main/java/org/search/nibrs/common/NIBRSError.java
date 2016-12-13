@@ -32,7 +32,7 @@ public class NIBRSError {
 	private static final Logger LOG = LogManager.getLogger(NIBRSError.class);
 	
 	private AbstractReport report;
-	private Object context;
+	private ReportSource context;
 	private String reportUniqueIdentifier;
 	private Object value;
 	private char segmentType;
@@ -106,10 +106,10 @@ public class NIBRSError {
 	 * the offending record/data in question so they can pursue a correction.
 	 * @return the context object
 	 */
-	public Object getContext() {
+	public ReportSource getContext() {
 		return context;
 	}
-	public void setContext(Object context) {
+	public void setContext(ReportSource context) {
 		this.context = context;
 	}
 	/**

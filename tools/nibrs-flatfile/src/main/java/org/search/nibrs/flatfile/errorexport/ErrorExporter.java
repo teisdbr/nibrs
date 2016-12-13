@@ -76,7 +76,7 @@ public final class ErrorExporter {
 			line = blankLineTemplate;
 			line = modifyLine(line, 1-1, 4, String.valueOf(report.getYearOfTape()));
 			line = modifyLine(line, 5-1, 6, StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
-			line = modifyLine(line, 7-1, 13, StringUtils.leftPad(String.valueOf(error.getContext()), 7, '0'));
+			line = modifyLine(line, 7-1, 13, StringUtils.leftPad(String.valueOf(error.getContext().getSourceLocation()), 7, '0'));
 			line = modifyLine(line, 14-1, 14, String.valueOf(error.getReport().getReportActionType()));
 			line = modifyLine(line, 15-1, 23, error.getReport().getOri());
 			line = modifyLine(line, 24-1, 35, StringUtils.rightPad(error.getReportUniqueIdentifier(), 12));

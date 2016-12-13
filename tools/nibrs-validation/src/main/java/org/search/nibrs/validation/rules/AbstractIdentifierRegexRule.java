@@ -39,7 +39,7 @@ public abstract class AbstractIdentifierRegexRule<T extends Identifiable & Valid
 			return subject.getIdentifier();
 		}, (value, target) -> {
 			NIBRSError ret = null;
-			if (value != null && (value.length() != 12 || !regexPattern.matcher(value).matches())) {
+			if (value != null && (value.length() > 12 || !regexPattern.matcher(value).matches())) {
 				ret = target.getErrorTemplate();
 				ret.setNIBRSErrorCode(nibrsErrorCode);
 				ret.setDataElementIdentifier(dataElementIdentifier);

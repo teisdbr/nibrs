@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.flatfile.util.*;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
@@ -39,24 +40,22 @@ public class Segment
     private char actionType;
     private String data;
     private int segmentLength;
-    private int lineNumber;
     private char segmentLevel;
-    private String sourceName;
+    private ReportSource reportSource;
     
     public char getSegmentLevel() {
 		return segmentLevel;
 	}
 
-	public List<NIBRSError> setData(String sourceName, int lineNumber, String data)
+	public List<NIBRSError> setData(ReportSource reportSource, String data)
     {
     	List<NIBRSError> ret = new ArrayList<NIBRSError>();
         this.data = data;
-        this.lineNumber = lineNumber;
-        this.sourceName = sourceName;
+        this.reportSource = reportSource;
         NIBRSError e = null;
         if (data == null || data.length() < 37) {
         	e = new NIBRSError();
-        	e.setContext(lineNumber);
+        	e.setContext(reportSource);
         	e.setNIBRSErrorCode(NIBRSErrorCode._001);
         	e.setDataElementIdentifier("Segment Length");
         	if (data != null) {
@@ -78,7 +77,7 @@ public class Segment
 				this.segmentLength = i;
 	        } catch (NumberFormatException nfe) {
 	        	e = new NIBRSError();
-	        	e.setContext(lineNumber);
+	        	e.setContext(reportSource);
 	        	e.setNIBRSErrorCode(NIBRSErrorCode._001);
 	        	e.setDataElementIdentifier("Segment Length");
 	        	e.setValue(sv);
@@ -86,7 +85,7 @@ public class Segment
 	        }
 	        if (i != data.length()) {
 	        	e = new NIBRSError();
-	        	e.setContext(lineNumber);
+	        	e.setContext(reportSource);
 	        	e.setNIBRSErrorCode(NIBRSErrorCode._001);
 	        	e.setDataElementIdentifier("Segment Length");
 	        	e.setValue(data.length());
@@ -104,12 +103,9 @@ public class Segment
         return ret;
     }
 
-	public String getSourceName() {
-		return sourceName;
+	public ReportSource getReportSource() {
+		return reportSource;
 	}
-    public int getLineNumber() {
-    	return lineNumber;
-    }
     public String getData()
     {
         return data;
