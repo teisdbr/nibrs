@@ -73,9 +73,6 @@ public class VictimSegmentRulesFactory {
 			OffenseCode._64B.code
 			);
 	
-	private static final List<String> NULL_STRING_LIST = Arrays.asList(new String[] {null});
-	private static final List<Integer> NULL_INTEGER_LIST = Arrays.asList(new Integer[] {null});
-	
 	private static final class PersonVictimNotBlankRule<T extends VictimSegment> extends AbstractBeanPropertyRule<VictimSegment> {
 		
 		private String typeCode;
@@ -102,7 +99,7 @@ public class VictimSegmentRulesFactory {
 		protected boolean propertyViolatesRule(Object value, VictimSegment victimSegment) {
 			List<String> offenseList = new ArrayList<>();
 			offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-			offenseList.removeAll(NULL_STRING_LIST);
+			offenseList.removeIf(item -> item == null);
 			return ((!victimSegment.isPerson() || !OffenseCode.containsCrimeAgainstPersonCode(offenseList)) && value != null);
 		}
 
@@ -248,7 +245,7 @@ public class VictimSegmentRulesFactory {
 
 				Set<String> offenseCodeSet = new HashSet<>();
 				offenseCodeSet.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseCodeSet.removeAll(NULL_STRING_LIST);
+				offenseCodeSet.removeIf(item -> item == null);
 
 				if (offenseCodeSet.isEmpty()) {
 					
@@ -289,7 +286,7 @@ public class VictimSegmentRulesFactory {
 
 				Set<Integer> offenderNumberSet = new HashSet<>();
 				offenderNumberSet.addAll(victimSegment.getOffenderNumberRelatedList());
-				offenderNumberSet.removeAll(NULL_INTEGER_LIST);
+				offenderNumberSet.removeIf(item -> item == null);
 
 				GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
 				Set<Integer> offenderNumbers = new HashSet<>();
@@ -336,7 +333,7 @@ public class VictimSegmentRulesFactory {
 
 				List<String> injuryTypeList = new ArrayList<>();
 				injuryTypeList.addAll(victimSegment.getTypeOfInjuryList());
-				injuryTypeList.removeAll(NULL_STRING_LIST);
+				injuryTypeList.removeIf(item -> item == null);
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
 				if ((CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) && injuryTypeList.isEmpty()) ||
 						(!injuryTypeList.isEmpty() && !CollectionUtils.containsAll(TypeInjuryCode.codeSet(), injuryTypeList))) {
@@ -381,7 +378,7 @@ public class VictimSegmentRulesFactory {
 
 				List<String> aahcList = new ArrayList<>();
 				aahcList.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
-				aahcList.removeAll(NULL_STRING_LIST);
+				aahcList.removeIf(item -> item == null);
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
 				if (offenseCodeList.contains(OffenseCode._09C.code) && aahcList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
@@ -524,7 +521,7 @@ public class VictimSegmentRulesFactory {
 				minorDisallowed.remove(TypeInjuryCode.M.code);
 				List<String> injuryList = new ArrayList<>();
 				injuryList.addAll(victimSegment.getTypeOfInjuryList());
-				injuryList.removeAll(NULL_STRING_LIST);
+				injuryList.removeIf(item -> item == null);
 				errorTemplate.setValue(injuryList);
 				if (injuryList.contains(TypeInjuryCode.M.code) && CollectionUtils.containsAny(injuryList, minorDisallowed)) {
 					e = errorTemplate;
@@ -553,7 +550,7 @@ public class VictimSegmentRulesFactory {
 				List<String> offenseList = victimSegment.getUcrOffenseCodeList();
 				List<String> typeOfInjuryList = new ArrayList<>();
 				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
-				typeOfInjuryList.removeAll(NULL_STRING_LIST);
+				typeOfInjuryList.removeIf(item -> item == null);
 
 				if (!typeOfInjuryList.isEmpty() && (offenseList.isEmpty() || !OffenseCode.containsCrimeAgainstPersonCode(offenseList))) {
 					e = victimSegment.getErrorTemplate();
@@ -578,11 +575,11 @@ public class VictimSegmentRulesFactory {
 
 				List<String> aahc = new ArrayList<>();
 				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
-				aahc.removeAll(NULL_STRING_LIST);
+				aahc.removeIf(item -> item == null);
 
 				List<String> ucrOffenseList = new ArrayList<>();
 				ucrOffenseList.addAll(victimSegment.getUcrOffenseCodeList());
-				ucrOffenseList.removeAll(NULL_STRING_LIST);
+				ucrOffenseList.removeIf(item -> item == null);
 
 				List<String> assaultHomicideOffenses = Arrays.asList(OffenseCode._09A.code, OffenseCode._09B.code, OffenseCode._09C.code, OffenseCode._13A.code);
 
@@ -688,11 +685,11 @@ public class VictimSegmentRulesFactory {
 				
 				List<String> offenseList = new ArrayList<>();
 				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseList.removeAll(NULL_STRING_LIST);
+				offenseList.removeIf(item -> item == null);
 
 				List<String> typeOfInjuryList = new ArrayList<>();
 				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
-				typeOfInjuryList.removeAll(NULL_STRING_LIST);
+				typeOfInjuryList.removeIf(item -> item == null);
 
 				if (!(OffenseCode.containsCrimeAgainstPersonCode(offenseList) && victimSegment.isPerson()) && !typeOfInjuryList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
@@ -717,11 +714,11 @@ public class VictimSegmentRulesFactory {
 				
 				List<String> offenseList = new ArrayList<>();
 				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseList.removeAll(NULL_STRING_LIST);
+				offenseList.removeIf(item -> item == null);
 
 				List<Integer> offenderList = new ArrayList<>();
 				offenderList.addAll(victimSegment.getOffenderNumberRelatedList());
-				offenderList.removeAll(NULL_INTEGER_LIST);
+				offenderList.removeIf(item -> item == null);
 
 				if (!(OffenseCode.containsCrimeAgainstPersonCode(offenseList) && victimSegment.isPerson()) && !offenderList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
@@ -745,11 +742,11 @@ public class VictimSegmentRulesFactory {
 
 				List<Integer> offenderNumberList = new ArrayList<>();
 				offenderNumberList.addAll(victimSegment.getOffenderNumberRelatedList());
-				offenderNumberList.removeAll(NULL_INTEGER_LIST);
+				offenderNumberList.removeIf(item -> item == null);
 
 				List<String> offenseCodeList = new ArrayList<>();
 				offenseCodeList.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseCodeList.removeAll(NULL_STRING_LIST);
+				offenseCodeList.removeIf(item -> item == null);
 
 				if (!offenderNumberList.isEmpty() && !(OffenseCode.containsCrimeAgainstPersonCode(offenseCodeList) || offenseCodeList.contains(OffenseCode._120.code))) {
 					e = victimSegment.getErrorTemplate();
@@ -1089,10 +1086,10 @@ public class VictimSegmentRulesFactory {
 				NIBRSError e = null;
 				List<String> relationshipList = new ArrayList<>();
 				relationshipList.addAll(victimSegment.getVictimOffenderRelationshipList());
-				relationshipList.removeAll(NULL_STRING_LIST);
+				relationshipList.removeIf(item -> item == null);
 				List<Integer> offenderNumberList = new ArrayList<>();
 				offenderNumberList.addAll(victimSegment.getOffenderNumberRelatedList());
-				offenderNumberList.removeAll(NULL_INTEGER_LIST);
+				offenderNumberList.removeIf(item -> item == null);
 				if (relationshipList.contains(RelationshipOfVictimToOffenderCode.VO.code) && offenderNumberList.size() > 1) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("34");
@@ -1140,7 +1137,7 @@ public class VictimSegmentRulesFactory {
 				NIBRSError e = null;
 				List<String> relationshipList = new ArrayList<>();
 				relationshipList.addAll(victimSegment.getVictimOffenderRelationshipList());
-				relationshipList.removeAll(NULL_STRING_LIST);
+				relationshipList.removeIf(item -> item == null);
 				if (relationshipList.size() > 1) {
 					int spouse = 0;
 					for (String rel : relationshipList) {
@@ -1170,10 +1167,10 @@ public class VictimSegmentRulesFactory {
 				errorTemplate.setDataElementIdentifier("31");
 				List<String> offenseList = new ArrayList<>();
 				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseList.removeAll(NULL_STRING_LIST);
+				offenseList.removeIf(item -> item == null);
 				List<String> aahc = new ArrayList<>();
 				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
-				aahc.removeAll(NULL_STRING_LIST);
+				aahc.removeIf(item -> item == null);
 				if (offenseList.contains(OffenseCode._13A.code) || offenseList.contains(OffenseCode._09A.code)) {
 					Set<String> allowedSet = new HashSet<>();
 					allowedSet.add(AggravatedAssaultHomicideCircumstancesCode._01.code);
@@ -1234,7 +1231,7 @@ public class VictimSegmentRulesFactory {
 				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._478);
 				List<String> offenseList = new ArrayList<>();
 				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseList.removeAll(NULL_STRING_LIST);
+				offenseList.removeIf(item -> item == null);
 				errorTemplate.setValue(offenseList);
 				Set<String> murderSet = new HashSet<>();
 				murderSet.add(OffenseCode._09B.code);
@@ -1299,7 +1296,7 @@ public class VictimSegmentRulesFactory {
 					e.setNIBRSErrorCode(NIBRSErrorCode._479);
 					List<String> il = new ArrayList<>();
 					il.addAll(typeOfInjuryList);
-					il.removeAll(NULL_STRING_LIST);
+					il.removeIf(item -> item == null);
 					e.setValue(il);
 				}
 				return e;
@@ -1314,7 +1311,7 @@ public class VictimSegmentRulesFactory {
 				NIBRSError e = null;
 				List<String> aahc = new ArrayList<>();
 				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
-				aahc.removeAll(NULL_STRING_LIST);
+				aahc.removeIf(item -> item == null);
 				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
 				errorTemplate.setDataElementIdentifier("31");
 				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._456);
