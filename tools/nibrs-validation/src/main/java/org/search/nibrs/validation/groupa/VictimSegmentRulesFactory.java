@@ -1289,13 +1289,16 @@ public class VictimSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				NIBRSError e = null;
-				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._13B.code) &&
-						!(victimSegment.getTypeOfInjuryList().contains(TypeInjuryCode.M.code) || victimSegment.getTypeOfInjuryList().contains(TypeInjuryCode.N.code))) {
+				List<String> typeOfInjuryList = new ArrayList<>();
+				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
+				typeOfInjuryList.removeIf(item -> item == null);
+				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._13B.code) && !typeOfInjuryList.isEmpty() &&
+						!(typeOfInjuryList.contains(TypeInjuryCode.M.code) || typeOfInjuryList.contains(TypeInjuryCode.N.code))) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("33");
 					e.setNIBRSErrorCode(NIBRSErrorCode._479);
 					List<String> il = new ArrayList<>();
-					il.addAll(victimSegment.getTypeOfInjuryList());
+					il.addAll(typeOfInjuryList);
 					il.removeAll(NULL_STRING_LIST);
 					e.setValue(il);
 				}

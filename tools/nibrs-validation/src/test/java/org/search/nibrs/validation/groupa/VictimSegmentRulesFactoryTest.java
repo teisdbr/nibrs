@@ -1328,6 +1328,9 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setTypeOfInjury(0, TypeInjuryCode.M.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
+		victimSegment.setTypeOfInjury(0, null);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
 	}
 	
 	@Test
