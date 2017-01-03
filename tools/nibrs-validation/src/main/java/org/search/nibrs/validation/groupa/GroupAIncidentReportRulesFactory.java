@@ -359,7 +359,7 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			protected boolean violatesRule(GroupAIncidentReport subject) {
 				String exceptionalClearanceCode = subject.getExceptionalClearanceCode();
-				return exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.equals(exceptionalClearanceCode);
+				return exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode);
 			}
 			
 		};

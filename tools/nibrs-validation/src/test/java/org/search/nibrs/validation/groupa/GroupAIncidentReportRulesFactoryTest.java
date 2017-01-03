@@ -221,6 +221,9 @@ public class GroupAIncidentReportRulesFactoryTest {
 		os.setAgeString(null);
 		e = rule.apply(report);
 		assertNotNull(e);
+		report.setExceptionalClearanceCode(ClearedExceptionallyCode.N.code);
+		e = rule.apply(report);
+		assertNull(e);
 	}
 	
 	@Test
