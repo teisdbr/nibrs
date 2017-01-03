@@ -159,15 +159,20 @@ public class VictimSegmentRulesFactoryTest {
 	public void testRule404ForAgeOfVictim(){
 		Rule<VictimSegment> ageRule404 = victimRulesFactory.getRule404ForAgeOfVictim();
 		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		NIBRSError nibrsError = ageRule404.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		assertEquals("27", nibrsError.getDataElementIdentifier());
+		assertEquals("26", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 		victimSegment.setAgeString("AA  ");
 		nibrsError = ageRule404.apply(victimSegment);
 		assertNotNull(nibrsError);
+		victimSegment.setAgeString("    ");
+		nibrsError = ageRule404.apply(victimSegment);
+		assertNotNull(nibrsError);
 		victimSegment.setAgeString("00  ");
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.S.code);
 		nibrsError = ageRule404.apply(victimSegment);
 		assertNull(nibrsError);
 	}
@@ -535,7 +540,7 @@ public class VictimSegmentRulesFactoryTest {
 	
 	
 	@Test
-	public void testRule404ForSexOfVictim(){
+	public void testRule404ForSexOfVictim() {
 		
 		Rule<VictimSegment> sexOfVictim404Rule = victimRulesFactory.getRule404ForSexOfVictim();
 
@@ -554,6 +559,12 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("invalid", nibrsError.getValue());
 		
 		victimSegment.setSex(SexCode.F.code);
+		nibrsError = sexOfVictim404Rule.apply(victimSegment);
+		assertNull(nibrsError);
+		
+		victimSegment = getBasicVictimSegment();
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.S.code);
+		victimSegment.setSex(null);
 		nibrsError = sexOfVictim404Rule.apply(victimSegment);
 		assertNull(nibrsError);
 

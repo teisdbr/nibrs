@@ -157,7 +157,7 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 						e.setContext(segment.getParentReport().getSource());
 						e.setValue(nibrsAge.getError().getValue());
 					}
-				} else if (!allowNull) {
+				} else if (!allowNull && segment.isPerson()) {
 					e = segment.getErrorTemplate();
 					e.setDataElementIdentifier(dataElementIdentifier);
 					e.setNIBRSErrorCode(nibrsErrorCode);
