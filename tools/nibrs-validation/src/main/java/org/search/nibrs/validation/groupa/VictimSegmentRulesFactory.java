@@ -115,6 +115,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule401ForSequenceNumber());
 		rulesList.add(getRule401ForVictimConnectedToUcrOffenseCode());
 		rulesList.add(getRule401ForTypeOfVictim());
+		rulesList.add(getRule401ForTypeOfInjury());
 		rulesList.add(getRule404ForTypeOfOfficerActivityCircumstance());
 		rulesList.add(getRule404ForOfficerAssignmentType());
 		rulesList.add(getRule404ForOfficerOriOtherJurisdiction());
@@ -324,7 +325,7 @@ public class VictimSegmentRulesFactory {
 		return new ValidValueListRule<VictimSegment>("typeOfOfficerActivityCircumstance", "25A", VictimSegment.class, NIBRSErrorCode._404, TypeOfOfficerActivityCircumstance.codeSet(), true);
 	}
 
-	Rule<VictimSegment> getRule404ForTypeOfInjury(){
+	Rule<VictimSegment> getRule401ForTypeOfInjury(){
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -335,8 +336,30 @@ public class VictimSegmentRulesFactory {
 				injuryTypeList.addAll(victimSegment.getTypeOfInjuryList());
 				injuryTypeList.removeIf(item -> item == null);
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-				if ((CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) && injuryTypeList.isEmpty()) ||
-						(!injuryTypeList.isEmpty() && !CollectionUtils.containsAll(TypeInjuryCode.codeSet(), injuryTypeList))) {
+				if ((CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) && injuryTypeList.isEmpty())) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._401);
+					e.setDataElementIdentifier("33");
+					e.setValue(null);
+				}
+
+				return e;
+				
+			}
+		};
+	}
+
+	Rule<VictimSegment> getRule404ForTypeOfInjury(){
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError e = null;
+
+				List<String> injuryTypeList = new ArrayList<>();
+				injuryTypeList.addAll(victimSegment.getTypeOfInjuryList());
+				injuryTypeList.removeIf(item -> item == null);
+				if ((!injuryTypeList.isEmpty() && !CollectionUtils.containsAll(TypeInjuryCode.codeSet(), injuryTypeList))) {
 					e = victimSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._404);
 					e.setDataElementIdentifier("33");

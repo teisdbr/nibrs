@@ -1082,6 +1082,28 @@ public class VictimSegmentRulesFactoryTest {
 	}
 
 	@Test
+	public void testRule401ForTypeOfInjury() {
+
+		Rule<VictimSegment> rule = victimRulesFactory.getRule401ForTypeOfInjury();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
+
+		NIBRSError nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._100.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
+		assertEquals("33", nibrsError.getDataElementIdentifier());
+		
+		victimSegment.setTypeOfInjury(0, TypeInjuryCode.I.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+
+	}
+
+	@Test
 	public void testRule404ForTypeOfInjury() {
 
 		Rule<VictimSegment> rule = victimRulesFactory.getRule404ForTypeOfInjury();
@@ -1093,17 +1115,13 @@ public class VictimSegmentRulesFactoryTest {
 
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._100.code);
 		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		assertEquals("33", nibrsError.getDataElementIdentifier());
-		
-		victimSegment.setTypeOfInjury(0, TypeInjuryCode.I.code);
-		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
-
+		
 		victimSegment.setTypeOfInjury(0, "invalid");
 		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("33", nibrsError.getDataElementIdentifier());
 		
 	}
 
