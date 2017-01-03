@@ -281,7 +281,7 @@ public class VictimSegmentRulesFactory {
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
-				
+
 				NIBRSError e = null;
 				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
 				errorTemplate.setDataElementIdentifier("34");
@@ -291,25 +291,17 @@ public class VictimSegmentRulesFactory {
 				offenderNumberSet.addAll(victimSegment.getOffenderNumberRelatedList());
 				offenderNumberSet.removeAll(NULL_INTEGER_LIST);
 
-				if (offenderNumberSet.isEmpty()) {
-					
+				GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
+				Set<Integer> offenderNumbers = new HashSet<>();
+				for (OffenderSegment os : parent.getOffenders()) {
+					offenderNumbers.add(os.getOffenderSequenceNumber());
+				}
+
+				offenderNumberSet.removeAll(offenderNumbers);
+
+				if (!offenderNumberSet.isEmpty()) {
 					e = errorTemplate;
-					e.setValue(null);
-					
-				} else {
-
-					GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
-					Set<Integer> offenderNumbers = new HashSet<>();
-					for (OffenderSegment os : parent.getOffenders()) {
-						offenderNumbers.add(os.getOffenderSequenceNumber());
-					}
-
-					offenderNumberSet.removeAll(offenderNumbers);
-
-					if (!offenderNumberSet.isEmpty()) {
-						e = errorTemplate;
-						e.setValue(offenderNumberSet);
-					}
+					e.setValue(offenderNumberSet);
 				}
 
 				return e;

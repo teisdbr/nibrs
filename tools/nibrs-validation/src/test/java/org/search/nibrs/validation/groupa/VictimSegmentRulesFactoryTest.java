@@ -375,9 +375,7 @@ public class VictimSegmentRulesFactoryTest {
 		VictimSegment victimSegment = getBasicVictimSegment();
 		
 		NIBRSError nibrsError = offender404Rule.apply(victimSegment);
-		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		assertNull(nibrsError.getValue());
+		assertNull(nibrsError);
 		
 		OffenderSegment offenderSegment = ((GroupAIncidentReport) victimSegment.getParentReport()).getOffenders().get(0);
 		offenderSegment.setOffenderSequenceNumber(1);
