@@ -919,11 +919,14 @@ public class VictimSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				NIBRSError e = null;
-				if (OffenseCode.containsCrimeAgainstPersonCode(victimSegment.getUcrOffenseCodeList()) && !victimSegment.isPerson()) {
+				List<String> offenseCodeList = new ArrayList<>();
+				offenseCodeList.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseCodeList.removeIf(item -> !OffenseCode.isCrimeAgainstPersonCode(item));
+				if (!offenseCodeList.isEmpty() && !victimSegment.isPerson()) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("25");
 					e.setNIBRSErrorCode(NIBRSErrorCode._464);
-					e.setValue(victimSegment.getTypeOfVictim());
+					e.setValue(offenseCodeList.get(0));
 				}
 				return e;
 			}

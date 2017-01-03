@@ -1051,7 +1051,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._464, nibrsError.getNIBRSErrorCode());
 		assertEquals("25", nibrsError.getDataElementIdentifier());
-		assertEquals(TypeOfVictimCode.S.code, nibrsError.getValue());
+		assertEquals(OffenseCode._09A.code, nibrsError.getValue());
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._120.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
