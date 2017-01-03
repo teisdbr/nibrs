@@ -54,13 +54,9 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 
 		@Override
 		protected boolean propertyViolatesRule(Object value, AbstractPersonSegment subject) {
-			return (subject.isPerson() && ((!allowNull && value == null) || (value != null && !allowedValueSet.contains(value))));
+			return (subject.isPerson() && !subject.isUnknown() && ((!allowNull && value == null) || (value != null && !allowedValueSet.contains(value))));
 		}
 
-	}
-
-	public Rule<T> getAgeNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
-		return new NotBlankRule<T>("age", dataElementIdentifier, clazz, nibrsErrorCode);
 	}
 
 	public Rule<T> getSexValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
@@ -157,7 +153,7 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 						e.setContext(segment.getParentReport().getSource());
 						e.setValue(nibrsAge.getError().getValue());
 					}
-				} else if (!allowNull && segment.isPerson()) {
+				} else if (!allowNull && segment.isPerson() && !segment.isUnknown()) {
 					e = segment.getErrorTemplate();
 					e.setDataElementIdentifier(dataElementIdentifier);
 					e.setNIBRSErrorCode(nibrsErrorCode);

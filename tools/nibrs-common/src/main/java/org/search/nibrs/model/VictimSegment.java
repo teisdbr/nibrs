@@ -368,4 +368,12 @@ public class VictimSegment extends AbstractPersonSegment {
 		return os != null && Arrays.asList(getOffenderNumberRelated()).contains(os.getOffenderSequenceNumber());
 	}
 	
+	/**
+	 * Victim segments cannot represent unknown entities in NIBRS.
+	 */
+	@Override
+	public boolean isUnknown() {
+		return false;
+	}
+	
 }

@@ -135,10 +135,10 @@ public class TestIncidentBuilderNewFormat {
 		GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
 		OffenderSegment o = incident.getOffenders().get(0);
 		assertEquals(new Integer(1), o.getOffenderSequenceNumber());
-		assertFalse(o.getReportedUnknown());
+		assertFalse(o.isUnknown());
 		o = incident.getOffenders().get(1);
 		assertEquals(new Integer(0), o.getOffenderSequenceNumber());
-		assertTrue(o.getReportedUnknown());
+		assertTrue(o.isUnknown());
 	}
 
 	@Test

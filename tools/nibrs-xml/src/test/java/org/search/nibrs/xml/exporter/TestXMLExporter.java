@@ -207,7 +207,7 @@ public class TestXMLExporter {
 			assertNotNull(offenderPersonElement);
 			assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/j:Subject[nc:RoleOfPerson/@s:ref='OffenderSegment-" + offenderSequenceNumber + "' and " +
 					"j:OffenderSequenceNumberText/text()='" + offenderSequenceNumber + "']"));
-			if (o.getReportedUnknown()) {
+			if (o.isUnknown()) {
 				assertEquals(0, offenderPersonElement.getChildNodes().getLength());
 			} else {
 				assertDemographics(o, offenderPersonElement);

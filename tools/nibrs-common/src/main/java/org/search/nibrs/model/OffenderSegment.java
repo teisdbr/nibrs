@@ -40,10 +40,6 @@ public class OffenderSegment extends AbstractPersonSegment
     	segmentType = OFFENDER_SEGMENT_TYPE_IDENTIFIER;
     }
     
-    public boolean getReportedUnknown() {
-    	return reportedUnknown;
-    }
-
     public Integer getOffenderSequenceNumber()
     {
         return offenderSequenceNumber;
@@ -84,4 +80,20 @@ public class OffenderSegment extends AbstractPersonSegment
 		return (Arrays.asList(vs.getOffenderNumberRelated()).contains(getOffenderSequenceNumber()));
 	}
     
+	/**
+	 * All offenders are people
+	 */
+	@Override
+	public boolean isPerson() {
+		return true;
+	}
+
+	/**
+	 * An offender with a sequence number of 00 is unknown
+	 */
+	@Override
+	public boolean isUnknown() {
+		return reportedUnknown;
+	}
+
 }

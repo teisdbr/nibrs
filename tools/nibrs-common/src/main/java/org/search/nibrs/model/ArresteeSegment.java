@@ -222,5 +222,21 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	public Object getWithinSegmentIdentifier() {
 		return arresteeSequenceNumber;
 	}
+	
+	/**
+	 * All arrestees are people
+	 */
+	@Override
+	public boolean isPerson() {
+		return true;
+	}
+
+	/**
+	 * Arrestees cannot be unknown
+	 */
+	@Override
+	public boolean isUnknown() {
+		return false;
+	}
 
 }

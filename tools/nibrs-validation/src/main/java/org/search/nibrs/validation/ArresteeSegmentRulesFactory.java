@@ -338,7 +338,7 @@ public class ArresteeSegmentRulesFactory {
 	}
 
 	Rule<ArresteeSegment> getRuleX01ForAge() {
-		return personSegmentRulesFactory.getAgeNonBlankRule("47", isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+		return new NotBlankRule<ArresteeSegment>("age", "47", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
 	}
 	
 	Rule<ArresteeSegment> getRuleX04ForAge() {

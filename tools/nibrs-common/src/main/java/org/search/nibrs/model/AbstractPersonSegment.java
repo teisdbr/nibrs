@@ -102,9 +102,17 @@ public abstract class AbstractPersonSegment extends AbstractSegment {
 	    this.sex = sex;
 	}
 	
-	public boolean isPerson() {
-		return true;
-	}
+	/**
+	 * Derived types implement this to indicate whether the segment represents a true person.
+	 * @return whether the segment represents a person
+	 */
+	public abstract boolean isPerson();
+	
+	/**
+	 * Derived types implement this to indicate whether the segment represents an "unknown" entity
+	 * @return whether the segment represents an unknown person/entity
+	 */
+	public abstract boolean isUnknown();
 
 	@Override
 	public String toString() {

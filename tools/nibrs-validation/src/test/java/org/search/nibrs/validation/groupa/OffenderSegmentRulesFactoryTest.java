@@ -80,12 +80,17 @@ public class OffenderSegmentRulesFactoryTest {
 	public void testRule504ForAgeOfOffender() {
 		Rule<OffenderSegment> rule = rulesFactory.getRule504ForAgeOfOffender();
 		OffenderSegment os = buildBaseSegment();
+		os.setOffenderSequenceNumber(1);
 		NIBRSError nibrsError = rule.apply(os);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._504, nibrsError.getNIBRSErrorCode());
 		assertEquals("37", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 		os.setAgeString("00  ");
+		nibrsError = rule.apply(os);
+		assertNull(nibrsError);
+		os = buildBaseSegment();
+		os.setOffenderSequenceNumber(0);
 		nibrsError = rule.apply(os);
 		assertNull(nibrsError);
 	}
@@ -96,6 +101,7 @@ public class OffenderSegmentRulesFactoryTest {
 		Rule<OffenderSegment> rule = rulesFactory.getRule504ForSexOfOffender();
 
 		OffenderSegment offenderSegment = buildBaseSegment();
+		offenderSegment.setOffenderSequenceNumber(1);
 		offenderSegment.setSex(null);
 		NIBRSError nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);
@@ -111,15 +117,22 @@ public class OffenderSegmentRulesFactoryTest {
 		offenderSegment.setSex(SexCode.F.code);
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
+		
+		offenderSegment = buildBaseSegment();
+		offenderSegment.setOffenderSequenceNumber(0);
+		offenderSegment.setSex(null);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
 
 	}
 
 	@Test
-	public void testRule404ForRaceOfOffender() {
+	public void testRule504ForRaceOfOffender() {
 		
 		Rule<OffenderSegment> rule = rulesFactory.getRule504ForRaceOfOffender();
 	
 		OffenderSegment offenderSegment = buildBaseSegment();
+		offenderSegment.setOffenderSequenceNumber(1);
 		offenderSegment.setRace(null);
 		NIBRSError nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);	
@@ -133,6 +146,12 @@ public class OffenderSegmentRulesFactoryTest {
 		assertEquals("invalid", nibrsError.getValue());
 		
 		offenderSegment.setRace(RaceCode.A.code);
+		nibrsError = rule.apply(offenderSegment);
+		assertNull(nibrsError);
+		
+		offenderSegment = buildBaseSegment();
+		offenderSegment.setOffenderSequenceNumber(0);
+		offenderSegment.setRace(null);
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
