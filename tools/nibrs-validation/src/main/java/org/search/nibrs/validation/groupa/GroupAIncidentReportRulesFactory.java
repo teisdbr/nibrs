@@ -952,7 +952,7 @@ public class GroupAIncidentReportRulesFactory {
 						return e;
 					});
 		} else if ("cargoTheftIndicator".equals(propertyName)) {
-			ret = new ValidValueListRule<GroupAIncidentReport>(propertyName, "2A", GroupAIncidentReport.class, NIBRSErrorCode._104, CargoTheftIndicatorCode.codeSet(), false) {
+			ret = new ValidValueListRule<GroupAIncidentReport>(propertyName, "2A", GroupAIncidentReport.class, NIBRSErrorCode._104, CargoTheftIndicatorCode.codeSet(), true) {
 				protected boolean ignore(GroupAIncidentReport r) {
 					return !r.includesCargoTheft();
 				}

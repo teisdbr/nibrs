@@ -861,14 +861,6 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(report.getCargoTheftIndicator(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 		
-		report.setCargoTheftIndicator(null);
-		e = rule104.apply(report);
-		assertNotNull(e);
-		assertEquals(NIBRSErrorCode._104, e.getNIBRSErrorCode());
-		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getCargoTheftIndicator(), e.getValue());
-		assertEquals(report.getSource(), e.getContext());
-		
 	}
 	
 	@Test

@@ -134,7 +134,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			copy.setIncludesCargoTheft(true);
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
-			copy.setCargoTheftIndicator(null);
+			copy.setCargoTheftIndicator("X");
 			copy.setIncludesCargoTheft(true);
 			incidents.add(copy);
 			return incidents;
