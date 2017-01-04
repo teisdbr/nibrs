@@ -1000,6 +1000,16 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setAggravatedAssaultHomicideCircumstances(1, null);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
+		
+		victimSegment = getBasicVictimSegment();
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._13A.code);
+		victimSegment.setAggravatedAssaultHomicideCircumstances(0, AggravatedAssaultHomicideCircumstancesCode._10.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setAggravatedAssaultHomicideCircumstances(1, null);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		
 	}
 
 	@Test

@@ -885,6 +885,7 @@ public class VictimSegmentRulesFactory {
 				List<String> aahc = new ArrayList<>();
 				aahc.addAll(victimSegment.getAggravatedAssaultHomicideCircumstancesList());
 				aahc.removeAll(allowedValues);
+				aahc.removeIf(item -> item == null);
 				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._13A.code) && aahc.size() > 0) {
 					e = victimSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._462);
