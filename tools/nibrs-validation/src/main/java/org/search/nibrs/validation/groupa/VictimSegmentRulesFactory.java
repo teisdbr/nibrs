@@ -1258,7 +1258,7 @@ public class VictimSegmentRulesFactory {
 				List<String> offenseList = new ArrayList<>();
 				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
 				offenseList.removeIf(item -> item == null);
-				errorTemplate.setValue(offenseList);
+				errorTemplate.setValue(null);
 				Set<String> murderSet = new HashSet<>();
 				murderSet.add(OffenseCode._09B.code);
 				murderSet.add(OffenseCode._13A.code);
