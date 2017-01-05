@@ -399,7 +399,8 @@ public class IncidentBuilder {
 
 		if (length == 129 || length == 141) {
 
-			newVictim.setVictimSequenceNumber(StringUtils.getIntegerBetween(38, 40, segmentData));
+			Integer victimSequenceNumber = StringUtils.getIntegerBetween(38, 40, segmentData);
+			newVictim.setVictimSequenceNumber(victimSequenceNumber);
 
 			for (int i = 0; i < VictimSegment.UCR_OFFENSE_CODE_CONNECTION_COUNT; i++) {
 				newVictim.setUcrOffenseCodeConnection(i, StringUtils.getStringBetween(41 + 3 * i, 43 + 3 * i, segmentData));
@@ -413,7 +414,9 @@ public class IncidentBuilder {
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 					e.setSegmentType(s.getSegmentType());
 					e.setValue(StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData));
-					e.setNIBRSErrorCode(NIBRSErrorCode._404);
+					e.setNIBRSErrorCode(NIBRSErrorCode._402);
+					e.setWithinSegmentIdentifier(victimSequenceNumber);
+					e.setDataElementIdentifier("34");
 					errorList.add(e);
 				}
 			}

@@ -19,6 +19,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -104,12 +106,20 @@ public final class ErrorExporter {
 			}
 			line = modifyLine(line, 47-1, 49, error.getNIBRSErrorCode().code);
 			Object value = error.getValue();
-			if (value != null) {
-				line = modifyLine(line, 50-1, 61, StringUtils.rightPad(value.toString(), 12));
+			line = modifyLine(line, 62 - 1, 140, StringUtils.rightPad(error.getNIBRSErrorCode().message, 79));
+			List<Object> valueList = new ArrayList<>();
+			if (!(value instanceof Object[])) {
+				valueList.add(value);
+			} else {
+				valueList = Arrays.asList((Object[]) value);
 			}
-			line = modifyLine(line, 62-1, 140, StringUtils.rightPad(error.getNIBRSErrorCode().message, 79));
-			bw.write(line);
-			bw.newLine();
+			for (Object o : valueList) {
+				if (o != null) {
+					line = modifyLine(line, 50 - 1, 61, StringUtils.rightPad(o.toString(), 12));
+				}
+				bw.write(line);
+				bw.newLine();
+			}
 		}
 		line = blankLineTemplate;
 		line = modifyLine(line, 15-1, 23, "999999999");

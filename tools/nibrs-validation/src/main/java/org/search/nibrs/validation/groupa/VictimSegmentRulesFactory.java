@@ -285,21 +285,23 @@ public class VictimSegmentRulesFactory {
 				errorTemplate.setDataElementIdentifier("34");
 				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._404);
 
-				Set<Integer> offenderNumberSet = new HashSet<>();
-				offenderNumberSet.addAll(victimSegment.getOffenderNumberRelatedList());
-				offenderNumberSet.removeIf(item -> item == null);
+				Set<Integer> victimRelatedOffenderNumberSet = new HashSet<>();
+				victimRelatedOffenderNumberSet.addAll(victimSegment.getOffenderNumberRelatedList());
+				victimRelatedOffenderNumberSet.removeIf(item -> item == null);
 
 				GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
-				Set<Integer> offenderNumbers = new HashSet<>();
+				Set<Integer> offenderSegmentSequenceNumbers = new HashSet<>();
 				for (OffenderSegment os : parent.getOffenders()) {
-					offenderNumbers.add(os.getOffenderSequenceNumber());
+					offenderSegmentSequenceNumbers.add(os.getOffenderSequenceNumber());
 				}
 
-				offenderNumberSet.removeAll(offenderNumbers);
+				victimRelatedOffenderNumberSet.removeAll(offenderSegmentSequenceNumbers);
+				// for whatever reason, empirical evidence suggests that FBI does not count zero-related offenders as invalid
+				victimRelatedOffenderNumberSet.removeIf(item -> item == 0);
 
-				if (!offenderNumberSet.isEmpty()) {
+				if (!victimRelatedOffenderNumberSet.isEmpty()) {
 					e = errorTemplate;
-					e.setValue(offenderNumberSet);
+					e.setValue(victimRelatedOffenderNumberSet);
 				}
 
 				return e;
@@ -425,6 +427,7 @@ public class VictimSegmentRulesFactory {
 				
 				List<Integer> relatedOffenderNumbers = victimSegment.getOffenderNumberRelatedList();
 				List<String> relationships = victimSegment.getVictimOffenderRelationshipList();
+				List<String> invalidRelationships = new ArrayList<>();
 				
 				for (int i=0;i < relatedOffenderNumbers.size();i++) {
 					Integer offenderNumber = relatedOffenderNumbers.get(i);
@@ -432,11 +435,15 @@ public class VictimSegmentRulesFactory {
 					if (((offenderNumber == null || offenderNumber == 0) && relationship != null) ||
 							(relationship == null && offenderNumber != null && offenderNumber > 0) ||
 							(relationship != null && !RelationshipOfVictimToOffenderCode.codeSet().contains(relationship))) {
-						e = victimSegment.getErrorTemplate();
-						e.setNIBRSErrorCode(NIBRSErrorCode._404);
-						e.setDataElementIdentifier("35");
-						e.setValue(relationship);
+						invalidRelationships.add(relationship);
 					}
+				}
+				
+				if (!invalidRelationships.isEmpty()) {
+					e = victimSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._404);
+					e.setDataElementIdentifier("35");
+					e.setValue(invalidRelationships.toArray(new String[invalidRelationships.size()]));
 				}
 
 				return e;
@@ -795,13 +802,13 @@ public class VictimSegmentRulesFactory {
 				
 				for (int i=0;i < offenderNumRelatedList.size() && e == null;i++) {
 					Integer offenderNumber = offenderNumRelatedList.get(i);
-					if (offenderNumber != null && offenderNumber != 0) {
+					if (offenderNumber != null) {
 						String rel = victimOffenderRelationshipList.get(i);
-						if (rel == null) {
+						if (rel == null || !RelationshipOfVictimToOffenderCode.codeSet().contains(rel)) {
 							e = victimSegment.getErrorTemplate();
 							e.setDataElementIdentifier("35");
 							e.setNIBRSErrorCode(NIBRSErrorCode._460);
-							e.setValue(offenderNumber);
+							e.setValue(null);
 						}
 					}
 				}

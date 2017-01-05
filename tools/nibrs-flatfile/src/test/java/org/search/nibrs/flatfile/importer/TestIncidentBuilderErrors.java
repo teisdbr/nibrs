@@ -104,6 +104,9 @@ public class TestIncidentBuilderErrors {
         assertEquals(1, errorList.size());
         NIBRSError e = errorList.get(0);
         assertEquals("XX", e.getValue());
+        assertEquals(NIBRSErrorCode._402, e.getNIBRSErrorCode());
+        assertEquals("34", e.getDataElementIdentifier());
+        assertEquals(1, e.getWithinSegmentIdentifier());
     	
         GroupAIncidentReport incident = incidentListener.getGroupAIncidentList().get(0);
 		assertTrue(incident.getHasUpstreamErrors());
