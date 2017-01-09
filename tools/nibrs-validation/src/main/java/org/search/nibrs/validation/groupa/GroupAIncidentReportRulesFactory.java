@@ -963,7 +963,7 @@ public class GroupAIncidentReportRulesFactory {
 	
 	Rule<GroupAIncidentReport> getRule152() {
 		return new NumericValueRule<>(subject -> {
-			return subject.getIncidentHour();
+			return subject.getIncidentHour().getValue();
 		} , (value, target) -> {
 			NIBRSError e = null;
 			if (value != null && (0 > value.intValue() || 23 < value.intValue())) {

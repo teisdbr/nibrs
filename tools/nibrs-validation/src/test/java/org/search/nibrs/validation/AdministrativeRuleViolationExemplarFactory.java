@@ -27,6 +27,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 
 class AdministrativeRuleViolationExemplarFactory {
@@ -238,7 +239,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy = new GroupAIncidentReport(incident);
-			copy.setIncidentHour(24);
+			copy.setIncidentHour(new ParsedObject<Integer>(24));
 			incidents.add(copy);
 			return incidents;
 		});

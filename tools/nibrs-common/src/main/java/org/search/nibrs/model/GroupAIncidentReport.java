@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
@@ -41,7 +42,7 @@ public class GroupAIncidentReport extends AbstractReport
 	private String incidentNumber;
     private Date incidentDate;
     private String reportDateIndicator;
-    private Integer incidentHour;
+    private ParsedObject<Integer> incidentHour;
     private String exceptionalClearanceCode;
     private Date exceptionalClearanceDate;
     private String cargoTheftIndicator;
@@ -59,6 +60,7 @@ public class GroupAIncidentReport extends AbstractReport
         removeProperties();
         removeVictims();
         removeOffenders();
+        incidentHour = new ParsedObject<>();
     }
 	
 	public GroupAIncidentReport(GroupAIncidentReport r) {
@@ -353,11 +355,11 @@ public class GroupAIncidentReport extends AbstractReport
     {
         this.incidentDate = incidentDate;
     }
-    public Integer getIncidentHour()
+    public ParsedObject<Integer> getIncidentHour()
     {
         return incidentHour;
     }
-    public void setIncidentHour(Integer incidentHour)
+    public void setIncidentHour(ParsedObject<Integer> incidentHour)
     {
         this.incidentHour = incidentHour;
     }

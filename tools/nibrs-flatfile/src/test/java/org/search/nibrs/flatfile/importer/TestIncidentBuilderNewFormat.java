@@ -114,7 +114,7 @@ public class TestIncidentBuilderNewFormat {
 		assertNotNull(incident);
 		assertEquals("02-000895", incident.getIncidentNumber());
 		assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate());
-		assertEquals(new Integer(10), incident.getIncidentHour());
+		assertEquals(new Integer(10), incident.getIncidentHour().getValue());
 		assertNull(incident.getReportDateIndicator());
 		assertEquals("N", incident.getExceptionalClearanceCode());
 		assertNull(incident.getExceptionalClearanceDate());

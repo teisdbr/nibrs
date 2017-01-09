@@ -21,6 +21,7 @@ import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.flatfile.util.*;
 import org.search.nibrs.model.*;
@@ -246,8 +247,27 @@ public class IncidentBuilder {
 			newIncident.setIncidentDate(DateUtils.makeDate(incidentYear, incidentMonth, incidentDay));
 			newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
 			String hourString = StringUtils.getStringBetween(47, 48, segmentData);
-			if (hourString != null) {
-				newIncident.setIncidentHour(new Integer(hourString));
+			ParsedObject<Integer> hour = newIncident.getIncidentHour();
+			hour.setMissing(false);
+			hour.setInvalid(false);
+			if (hourString != null && hourString.trim().length() > 0) {
+				try {
+					Integer hourI = new Integer(hourString);
+					hour.setValue(hourI);
+				} catch(NumberFormatException nfe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(hourString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._104);
+					e.setDataElementIdentifier("3");
+					newErrorList.add(e);
+					hour.setMissing(true);
+					hour.setValidationError(e);
+				}
+			} else {
+				hour.setMissing(true);
 			}
 			newIncident.setExceptionalClearanceCode(StringUtils.getStringBetween(49, 49, segmentData));
 			String clearanceYearString = StringUtils.getStringBetween(50, 53, segmentData);

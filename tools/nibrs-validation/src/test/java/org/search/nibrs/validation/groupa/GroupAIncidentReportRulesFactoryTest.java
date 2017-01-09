@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -994,18 +995,18 @@ public class GroupAIncidentReportRulesFactoryTest {
 	public void testRule152() {
 		Rule<GroupAIncidentReport> rule152 = rulesFactory.getRule152();
 		GroupAIncidentReport report = buildBaseReport();
-		report.setIncidentHour(2);
+		report.setIncidentHour(new ParsedObject<Integer>(2));
 		NIBRSError e = rule152.apply(report);
 		assertNull(e);
-		report.setIncidentHour(null);
+		report.setIncidentHour(new ParsedObject<Integer>(null));
 		e = rule152.apply(report);
 		assertNull(e);
-		report.setIncidentHour(30);
+		report.setIncidentHour(new ParsedObject<Integer>(30));
 		e = rule152.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._152, e.getNIBRSErrorCode());
 		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getIncidentHour(), e.getValue());
+		assertEquals(report.getIncidentHour().getValue(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
 
