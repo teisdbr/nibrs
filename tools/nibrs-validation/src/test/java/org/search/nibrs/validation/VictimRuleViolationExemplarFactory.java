@@ -495,7 +495,6 @@ final class VictimRuleViolationExemplarFactory {
 
 			return incidents;
 			
-			
 		});
 		
 		groupATweakerMap.put(457, incident -> {
