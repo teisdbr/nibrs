@@ -52,63 +52,65 @@ public class NIBRSValidator {
 	private static final Logger LOG = LogManager.getLogger(NIBRSValidator.class);
 	
 	public static void main(String[] args) throws ParseException, IOException {
-		
+
 		CommandLineParser parser = new DefaultParser();
 		Options options = buildOptions();
 		CommandLine cl = parser.parse(options, args);
-		
+
 		if (cl.hasOption("h")) {
 			HelpFormatter hf = new HelpFormatter();
 			hf.printHelp("SubmissionValidator", options);
-		}
-		
-		Reader inputReader = null;
-		String readerLocationName = "console";
-		Writer outputWriter = null;
-		
-		if (cl.hasOption("f")) {
-			String fileName = cl.getOptionValue("f");
-			File file = new File(fileName);
-			if (file.exists()) {
-				inputReader = new BufferedReader(new FileReader(file));
-				readerLocationName = file.getAbsolutePath();
-			} else {
-				System.err.println("File " + fileName + " does not exist.");
-				System.exit(1);
-			}
 		} else {
-			inputReader = new BufferedReader(new InputStreamReader(System.in));
-		}
-		
-		if (cl.hasOption("o")) {
-			String fileName = cl.getOptionValue("o");
-			File file = new File(fileName);
-			outputWriter = new BufferedWriter(new FileWriter(file));
-		} else {
-			outputWriter = new BufferedWriter(new OutputStreamWriter(System.out));
-		}
-		
-		IncidentBuilder incidentBuilder = new IncidentBuilder();
-		SubmissionValidator submissionValidator = new SubmissionValidator();
-		ErrorExporter errorExporter = ErrorExporter.getInstance();
-		
-		final List<NIBRSError> errorList = new ArrayList<>();
 
-		incidentBuilder.addIncidentListener(new ReportListener() {
-			@Override
-			public void newReport(AbstractReport report, List<NIBRSError> el) {
-				errorList.addAll(el);
-				errorList.addAll(submissionValidator.validateReport(report));
+			Reader inputReader = null;
+			String readerLocationName = "console";
+			Writer outputWriter = null;
+
+			if (cl.hasOption("f")) {
+				String fileName = cl.getOptionValue("f");
+				File file = new File(fileName);
+				if (file.exists()) {
+					inputReader = new BufferedReader(new FileReader(file));
+					readerLocationName = file.getAbsolutePath();
+				} else {
+					System.err.println("File " + fileName + " does not exist.");
+					System.exit(1);
+				}
+			} else {
+				inputReader = new BufferedReader(new InputStreamReader(System.in));
 			}
-		});
-		
-		incidentBuilder.buildIncidents(inputReader, readerLocationName);
-		
-		errorExporter.createErrorReport(errorList, outputWriter);
-		
-		outputWriter.close();
-		inputReader.close();
-		
+
+			if (cl.hasOption("o")) {
+				String fileName = cl.getOptionValue("o");
+				File file = new File(fileName);
+				outputWriter = new BufferedWriter(new FileWriter(file));
+			} else {
+				outputWriter = new BufferedWriter(new OutputStreamWriter(System.out));
+			}
+
+			IncidentBuilder incidentBuilder = new IncidentBuilder();
+			SubmissionValidator submissionValidator = new SubmissionValidator();
+			ErrorExporter errorExporter = ErrorExporter.getInstance();
+
+			final List<NIBRSError> errorList = new ArrayList<>();
+
+			incidentBuilder.addIncidentListener(new ReportListener() {
+				@Override
+				public void newReport(AbstractReport report, List<NIBRSError> el) {
+					errorList.addAll(el);
+					errorList.addAll(submissionValidator.validateReport(report));
+				}
+			});
+
+			incidentBuilder.buildIncidents(inputReader, readerLocationName);
+
+			errorExporter.createErrorReport(errorList, outputWriter);
+
+			outputWriter.close();
+			inputReader.close();
+
+		}
+
 	}
 	
 	private static final Options buildOptions() {
