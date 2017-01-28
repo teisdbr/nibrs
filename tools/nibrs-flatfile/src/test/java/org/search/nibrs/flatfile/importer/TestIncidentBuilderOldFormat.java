@@ -155,7 +155,7 @@ public class TestIncidentBuilderOldFormat {
 		assertNull(incident.getReportDateIndicator());
 		assertNull(incident.getCargoTheftIndicator());
 		assertEquals("N", incident.getExceptionalClearanceCode());
-		assertNull(incident.getExceptionalClearanceDate());
+		assertTrue(incident.getExceptionalClearanceDate().isMissing());
 		assertEquals(1, incident.getOffenseCount());
 		assertEquals(1, incident.getPropertyCount());
 		assertEquals(1, incident.getVictimCount());

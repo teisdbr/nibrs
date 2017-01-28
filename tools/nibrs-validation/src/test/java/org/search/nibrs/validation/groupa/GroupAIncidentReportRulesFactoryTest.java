@@ -1098,9 +1098,9 @@ public class GroupAIncidentReportRulesFactoryTest {
 		c.set(Calendar.YEAR, 2015);
 		c.set(Calendar.MONTH, Calendar.MARCH);
 		c.set(Calendar.DAY_OF_MONTH, 1);
-		report.setExceptionalClearanceDate(null);
+		report.setExceptionalClearanceDate(ParsedObject.getMissingParsedObject());
 		assertNull(rule153.apply(report));
-		report.setExceptionalClearanceDate(c.getTime());
+		report.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
 		NIBRSError e = rule153.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._153, e.getNIBRSErrorCode());
@@ -1118,10 +1118,10 @@ public class GroupAIncidentReportRulesFactoryTest {
 		c.set(Calendar.YEAR, 2015);
 		c.set(Calendar.MONTH, Calendar.MARCH);
 		c.set(Calendar.DAY_OF_MONTH, 1);
-		report.setExceptionalClearanceDate(null);
+		report.setExceptionalClearanceDate(ParsedObject.getMissingParsedObject());
 		assertNull(rule155.apply(report));
-		report.setExceptionalClearanceDate(c.getTime());
-		report.setIncidentDate(null);
+		report.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
+		report.setIncidentDate(ParsedObject.getMissingParsedObject());
 		assertNull(rule155.apply(report));
 		c.set(Calendar.MONTH, Calendar.APRIL);
 		report.setIncidentDate(new ParsedObject<>(c.getTime()));
@@ -1129,7 +1129,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._155, e.getNIBRSErrorCode());
 		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getExceptionalClearanceDate(), e.getValue());
+		assertEquals(report.getExceptionalClearanceDate().getValue(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
 	
@@ -1142,9 +1142,9 @@ public class GroupAIncidentReportRulesFactoryTest {
 		c.set(Calendar.YEAR, 2015);
 		c.set(Calendar.MONTH, Calendar.MARCH);
 		c.set(Calendar.DAY_OF_MONTH, 1);
-		report.setExceptionalClearanceDate(c.getTime());
+		report.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
 		assertNull(rule156.apply(report));
-		report.setExceptionalClearanceDate(null);
+		report.setExceptionalClearanceDate(ParsedObject.getMissingParsedObject());
 		NIBRSError e = rule156.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._156, e.getNIBRSErrorCode());

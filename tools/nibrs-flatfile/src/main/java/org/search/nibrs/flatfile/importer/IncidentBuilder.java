@@ -249,23 +249,30 @@ public class IncidentBuilder {
 			incidentDate.setMissing(false);
 			incidentDate.setInvalid(false);
 			String incidentDateString = StringUtils.getStringBetween(38, 45, segmentData);
-			try {
-				Date d = DATE_FORMAT.parse(incidentDateString);
-				incidentDate.setValue(d);
-			} catch (ParseException pe) {
-				NIBRSError e = new NIBRSError();
-				e.setContext(s.getReportSource());
-				e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-				e.setSegmentType(s.getSegmentType());
-				e.setValue(incidentDateString);
-				e.setNIBRSErrorCode(NIBRSErrorCode._105);
-				e.setDataElementIdentifier("3");
-				newErrorList.add(e);
+			if (incidentDateString == null) {
 				incidentDate.setMissing(true);
-				incidentDate.setValidationError(e);
+				incidentDate.setValue(null);
+			} else {
+				try {
+					Date d = DATE_FORMAT.parse(incidentDateString);
+					incidentDate.setValue(d);
+				} catch (ParseException pe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(incidentDateString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._105);
+					e.setDataElementIdentifier("3");
+					newErrorList.add(e);
+					incidentDate.setInvalid(true);
+					incidentDate.setValidationError(e);
+				}
 			}
 			newIncident.setIncidentDate(incidentDate);
+			
 			newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
+			
 			String hourString = StringUtils.getStringBetween(47, 48, segmentData);
 			ParsedObject<Integer> hour = newIncident.getIncidentHour();
 			hour.setMissing(false);
@@ -283,27 +290,48 @@ public class IncidentBuilder {
 					e.setNIBRSErrorCode(NIBRSErrorCode._104);
 					e.setDataElementIdentifier("3");
 					newErrorList.add(e);
-					hour.setMissing(true);
+					hour.setInvalid(true);
 					hour.setValidationError(e);
 				}
 			} else {
 				hour.setMissing(true);
 			}
+			
 			newIncident.setExceptionalClearanceCode(StringUtils.getStringBetween(49, 49, segmentData));
-			String clearanceYearString = StringUtils.getStringBetween(50, 53, segmentData);
-			if (clearanceYearString != null) {
-				int clearanceYear = getIntValueFromSegment(s, 50, 53, newErrorList, NIBRSErrorCode._105);
-				int clearanceMonthOrig = getIntValueFromSegment(s, 54, 55, newErrorList, NIBRSErrorCode._105);
-				int clearanceMonth = DateUtils.convertMonthValue(clearanceMonthOrig);
-				int clearanceDay = getIntValueFromSegment(s, 56, 57, newErrorList, NIBRSErrorCode._105);
-				newIncident.setExceptionalClearanceDate(DateUtils.makeDate(clearanceYear, clearanceMonth, clearanceDay));
+			
+			ParsedObject<Date> clearanceDate = newIncident.getExceptionalClearanceDate();
+			clearanceDate.setMissing(false);
+			clearanceDate.setInvalid(false);
+			String clearanceDateString = StringUtils.getStringBetween(50, 57, segmentData);
+			if (clearanceDateString == null) {
+				clearanceDate.setMissing(true);
+				clearanceDate.setValue(null);
+			} else {
+				try {
+					Date d = DATE_FORMAT.parse(clearanceDateString);
+					clearanceDate.setValue(d);
+				} catch (ParseException pe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(clearanceDateString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._105);
+					e.setDataElementIdentifier("5");
+					newErrorList.add(e);
+					incidentDate.setInvalid(true);
+					incidentDate.setValidationError(e);
+				}
 			}
+			newIncident.setExceptionalClearanceDate(clearanceDate);
+			
 			boolean cargoTheft = length == 88;
 			if (cargoTheft) {
 				String cargoTheftYN = StringUtils.getStringBetween(88, 88, segmentData);
 				newIncident.setCargoTheftIndicator(cargoTheftYN);
 				newIncident.setIncludesCargoTheft(true);
 			}
+			
 		} else {
 			NIBRSError e = new NIBRSError();
 			e.setContext(s.getReportSource());

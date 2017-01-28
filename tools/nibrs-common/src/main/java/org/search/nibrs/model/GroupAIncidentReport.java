@@ -44,7 +44,7 @@ public class GroupAIncidentReport extends AbstractReport
     private String reportDateIndicator;
     private ParsedObject<Integer> incidentHour;
     private String exceptionalClearanceCode;
-    private Date exceptionalClearanceDate;
+    private ParsedObject<Date> exceptionalClearanceDate;
     private String cargoTheftIndicator;
     private List<OffenseSegment> offenseSegmentList;
     private List<PropertySegment> propertySegmentList;
@@ -62,6 +62,7 @@ public class GroupAIncidentReport extends AbstractReport
         removeOffenders();
         incidentHour = new ParsedObject<>();
         incidentDate = new ParsedObject<>();
+        exceptionalClearanceDate = new ParsedObject<>();
     }
 	
 	public GroupAIncidentReport(GroupAIncidentReport r) {
@@ -340,11 +341,11 @@ public class GroupAIncidentReport extends AbstractReport
     {
         this.exceptionalClearanceCode = exceptionalClearanceCode;
     }
-    public Date getExceptionalClearanceDate()
+    public ParsedObject<Date> getExceptionalClearanceDate()
     {
         return exceptionalClearanceDate;
     }
-    public void setExceptionalClearanceDate(Date exceptionalClearanceDate)
+    public void setExceptionalClearanceDate(ParsedObject<Date> exceptionalClearanceDate)
     {
         this.exceptionalClearanceDate = exceptionalClearanceDate;
     }

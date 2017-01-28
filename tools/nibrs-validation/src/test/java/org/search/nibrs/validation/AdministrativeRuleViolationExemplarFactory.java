@@ -161,7 +161,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 6, 31, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Invalid Exceptional Clearance date
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
-			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(3016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setExceptionalClearanceDate(new ParsedObject<>(Date.from(LocalDateTime.of(3016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			incidents.add(copy2);
 			incidents.add(copy4);
@@ -249,7 +249,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setExceptionalClearanceCode("N");
-			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setExceptionalClearanceDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -259,7 +259,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
-			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2015, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setExceptionalClearanceDate(new ParsedObject<>(Date.from(LocalDateTime.of(2015, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -270,7 +270,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setExceptionalClearanceCode("A");
-			copy.setExceptionalClearanceDate(null);
+			copy.setExceptionalClearanceDate(ParsedObject.getMissingParsedObject());
 			incidents.add(copy);
 			return incidents;
 		});
@@ -314,7 +314,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(1990, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			GroupAIncidentReport copy1 = new GroupAIncidentReport(incident);
-			copy1.setExceptionalClearanceDate(Date.from(LocalDateTime.of(1016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy1.setExceptionalClearanceDate(new ParsedObject<>(Date.from(LocalDateTime.of(1016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			incidents.add(copy1);
 			return incidents;

@@ -288,7 +288,7 @@ public class ErrorExporterTests {
 		incidentDate.setValue(d);
 		incident.setIncidentDate(incidentDate);
 		incident.setExceptionalClearanceCode("A");
-		incident.setExceptionalClearanceDate(d);
+		incident.setExceptionalClearanceDate(incidentDate);
 		incident.setCityIndicator("GAA7");
 		incident.setReportDateIndicator(null);
 		

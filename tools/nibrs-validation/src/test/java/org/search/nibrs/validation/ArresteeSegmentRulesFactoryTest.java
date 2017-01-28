@@ -58,11 +58,11 @@ public class ArresteeSegmentRulesFactoryTest {
 		LocalDate d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 		arresteeSegment.setArrestDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 		c.set(2015, Calendar.DECEMBER, 31);
-		parent.setExceptionalClearanceDate(c.getTime());
+		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		c.set(2016, Calendar.DECEMBER, 31);
-		parent.setExceptionalClearanceDate(c.getTime());
+		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		parent.setExceptionalClearanceCode(ClearedExceptionallyCode.N.code);
@@ -76,7 +76,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
 		assertEquals(parent, nibrsError.getReport());
 		c.set(2015, Calendar.DECEMBER, 31);
-		parent.setExceptionalClearanceDate(c.getTime());
+		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 	}

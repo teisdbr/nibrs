@@ -57,7 +57,7 @@ final class BaselineIncidentFactory {
 		incident.setIncidentNumber("54236732");
 		incident.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		incident.setExceptionalClearanceCode("A");
-		incident.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+		incident.setExceptionalClearanceDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		incident.setCityIndicator("GAA7");
 		incident.setReportDateIndicator(null);		
 		OffenseSegment o = new OffenseSegment();

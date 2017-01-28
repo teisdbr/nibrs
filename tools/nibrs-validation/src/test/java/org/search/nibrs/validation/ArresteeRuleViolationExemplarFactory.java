@@ -28,6 +28,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
@@ -121,7 +122,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			Calendar c = Calendar.getInstance();
 			c.set(2016, Calendar.JANUARY, 1);
 			LocalDate d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-			copy.setExceptionalClearanceDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setExceptionalClearanceDate(new ParsedObject<>(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 			c.set(2016, Calendar.JANUARY, 1);
 			d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 			copy.getArrestees().get(0).setArrestDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));

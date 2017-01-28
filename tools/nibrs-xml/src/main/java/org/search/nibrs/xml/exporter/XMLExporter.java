@@ -618,8 +618,8 @@ public class XMLExporter {
 		appendElementAndValueIfNotNull(augElement, Namespace.j, "OffenseCargoTheftIndicator", String.valueOf(incident.getCargoTheftIndicator()));
 		augElement = XmlUtils.appendChildElement(incidentElement, Namespace.j, "IncidentAugmentation");
 		appendElementAndValueIfNotNull(augElement, Namespace.j, "IncidentExceptionalClearanceCode", incident.getExceptionalClearanceCode());
-		Date exceptionalClearanceDate = incident.getExceptionalClearanceDate();
-		if (exceptionalClearanceDate != null) {
+		ParsedObject<Date> exceptionalClearanceDate = incident.getExceptionalClearanceDate();
+		if (!exceptionalClearanceDate.isInvalid() && !exceptionalClearanceDate.isMissing()) {
 			e = XmlUtils.appendChildElement(augElement, Namespace.j, "IncidentExceptionalClearanceDate");
 			e = XmlUtils.appendChildElement(e, Namespace.nc, "Date");
 			e.setTextContent(DATE_FORMAT.format(exceptionalClearanceDate));

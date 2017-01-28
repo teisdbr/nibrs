@@ -121,11 +121,12 @@ public class ArresteeSegmentRulesFactory {
 				NIBRSError e = null;
 				GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
 				String exceptionalClearanceCode = parent.getExceptionalClearanceCode();
-				Date exceptionalClearanceDateD = parent.getExceptionalClearanceDate();
+				ParsedObject<Date> exceptionalClearanceDatePO = parent.getExceptionalClearanceDate();
 				Date arrestDateD = arresteeSegment.getArrestDate();
-				if (exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) && exceptionalClearanceDateD != null && arrestDateD != null) {
+				if (exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) &&
+						!exceptionalClearanceDatePO.isMissing() && !exceptionalClearanceDatePO.isInvalid() && arrestDateD != null) {
 					Calendar c = Calendar.getInstance();
-					c.setTime(exceptionalClearanceDateD);
+					c.setTime(exceptionalClearanceDatePO.getValue());
 					LocalDate exceptionalClearanceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 					c.setTime(arrestDateD);
 					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));

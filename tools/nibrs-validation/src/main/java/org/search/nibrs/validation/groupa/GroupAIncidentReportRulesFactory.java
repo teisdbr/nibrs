@@ -758,18 +758,18 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				Date exceptionalClearanceDate = subject.getExceptionalClearanceDate();
+				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
 				ParsedObject<Date> incidentDatePO = subject.getIncidentDate();
-				if (exceptionalClearanceDate != null && incidentDatePO != null && !incidentDatePO.isInvalid() && !incidentDatePO.isMissing()) {
-					Date incidentDate = incidentDatePO.getValue();
+				if (!exceptionalClearanceDatePO.isMissing() && !exceptionalClearanceDatePO.isInvalid()
+						&& !incidentDatePO.isInvalid() && !incidentDatePO.isMissing()) {
 					Calendar c = Calendar.getInstance();
-					c.setTime(incidentDate);
+					c.setTime(incidentDatePO.getValue());
 					LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					c.setTime(exceptionalClearanceDate);
+					c.setTime(exceptionalClearanceDatePO.getValue());
 					LocalDate exceptionalClearanceLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 					if (exceptionalClearanceLocalDate.isBefore(incidentLocalDate)) {
 						ret = subject.getErrorTemplate();
-						ret.setValue(subject.getExceptionalClearanceDate());
+						ret.setValue(subject.getExceptionalClearanceDate().getValue());
 						ret.setDataElementIdentifier("5");
 						ret.setNIBRSErrorCode(NIBRSErrorCode._155);
 					}
@@ -784,7 +784,8 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				if (subject.getExceptionalClearanceDate() == null && trueExceptionalClearanceCodes.contains(subject.getExceptionalClearanceCode())) {
+				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
+				if ((exceptionalClearanceDatePO.isMissing() || exceptionalClearanceDatePO.isInvalid()) && trueExceptionalClearanceCodes.contains(subject.getExceptionalClearanceCode())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getExceptionalClearanceCode());
 					ret.setDataElementIdentifier("5");
@@ -800,7 +801,8 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				if (subject.getExceptionalClearanceDate() != null && "N".equals(subject.getExceptionalClearanceCode())) {
+				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
+				if (!exceptionalClearanceDatePO.isMissing() && ! exceptionalClearanceDatePO.isInvalid() && "N".equals(subject.getExceptionalClearanceCode())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getExceptionalClearanceCode());
 					ret.setDataElementIdentifier("4");

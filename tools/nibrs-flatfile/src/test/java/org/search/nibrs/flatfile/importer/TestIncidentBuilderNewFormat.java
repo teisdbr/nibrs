@@ -117,7 +117,7 @@ public class TestIncidentBuilderNewFormat {
 		assertEquals(new Integer(10), incident.getIncidentHour().getValue());
 		assertNull(incident.getReportDateIndicator());
 		assertEquals("N", incident.getExceptionalClearanceCode());
-		assertNull(incident.getExceptionalClearanceDate());
+		assertTrue(incident.getExceptionalClearanceDate().isMissing());
 		assertEquals(1, incident.getOffenseCount());
 		assertEquals(1, incident.getPropertyCount());
 		assertEquals(1, incident.getVictimCount());
