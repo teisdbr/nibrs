@@ -23,6 +23,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupBArrestReport;
 
 final class GroupBRuleViolationExemplarFactory {
@@ -68,13 +69,13 @@ final class GroupBRuleViolationExemplarFactory {
 			copy.setOri(null);
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setArresteeSequenceNumber(null);
+			copy.getArrestees().get(0).setArresteeSequenceNumber(ParsedObject.getMissingParsedObject());
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setArrestTransactionNumber(null);
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setArrestDate(null);
+			copy.getArrestees().get(0).setArrestDate(ParsedObject.getMissingParsedObject());
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setTypeOfArrest(null);

@@ -147,14 +147,15 @@ public class ArresteeSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(ArresteeSegment arresteeSegment) {
 
-				Integer arresteeSequenceNumber = arresteeSegment.getArresteeSequenceNumber();
+				ParsedObject<Integer> arresteeSequenceNumberPO = arresteeSegment.getArresteeSequenceNumber();
+				Integer arresteeSequenceNumber = arresteeSequenceNumberPO.getValue();
 				NIBRSError e = null;
 
-				if (arresteeSequenceNumber == null || arresteeSequenceNumber < 1 || arresteeSequenceNumber > 99) {
-					e = arresteeSegment.getErrorTemplate();
-					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
-					e.setDataElementIdentifier("40");
-					e.setValue(arresteeSequenceNumber);
+					if (arresteeSequenceNumberPO.isMissing() || arresteeSequenceNumber < 1 || arresteeSequenceNumber > 99) {
+						e = arresteeSegment.getErrorTemplate();
+						e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
+						e.setDataElementIdentifier("40");
+						e.setValue(arresteeSequenceNumber);
 				}
 
 				return e;

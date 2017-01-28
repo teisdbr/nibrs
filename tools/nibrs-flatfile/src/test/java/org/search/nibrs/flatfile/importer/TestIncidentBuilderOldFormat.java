@@ -128,7 +128,7 @@ public class TestIncidentBuilderOldFormat {
 		ArresteeSegment arrestee = report.getArrestees().get(0);
 		assertNotNull(arrestee);
 		assertEquals("0000265601", arrestee.getArrestTransactionNumber());
-		assertNull(arrestee.getArresteeSequenceNumber());
+		assertTrue(arrestee.getArresteeSequenceNumber().isMissing());
 		assertNull(arrestee.getMultipleArresteeSegmentsIndicator());
 		assertEquals(DateUtils.makeDate(2003, Calendar.JANUARY, 12), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());
@@ -168,7 +168,7 @@ public class TestIncidentBuilderOldFormat {
 	@Test
 	public void testFirstIncidentArrestee() {
 		ArresteeSegment arrestee = (ArresteeSegment) ((AbstractReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
-		assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
+		assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber().getValue());
 		assertEquals("02-000895", arrestee.getArrestTransactionNumber());
 		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());

@@ -37,7 +37,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(ArresteeSegment.class);
 	
-	private Integer arresteeSequenceNumber;
+	private ParsedObject<Integer> arresteeSequenceNumber;
     private String arrestTransactionNumber;
     private ParsedObject<Date> arrestDate;
     private String typeOfArrest;
@@ -54,6 +54,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
         automaticWeaponIndicator = new String[AUTOMATIC_WEAPON_INDICATOR_COUNT];
         this.segmentType = segmentType;
         arrestDate = new ParsedObject<>();
+        arresteeSequenceNumber = new ParsedObject<>();
     }
     
     public ArresteeSegment(ArresteeSegment a) {
@@ -145,11 +146,11 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     {
         this.arrestDate = arrestDate;
     }
-    public Integer getArresteeSequenceNumber()
+    public ParsedObject<Integer> getArresteeSequenceNumber()
     {
         return arresteeSequenceNumber;
     }
-    public void setArresteeSequenceNumber(Integer arresteeSequenceNumber)
+    public void setArresteeSequenceNumber(ParsedObject<Integer> arresteeSequenceNumber)
     {
         this.arresteeSequenceNumber = arresteeSequenceNumber;
     }
@@ -222,7 +223,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 
 	@Override
 	public Object getWithinSegmentIdentifier() {
-		return arresteeSequenceNumber;
+		return arresteeSequenceNumber.getValue();
 	}
 	
 	/**

@@ -71,13 +71,13 @@ final class ArresteeRuleViolationExemplarFactory {
 			OffenderSegment offender = new OffenderSegment();
 			offender.setOffenderSequenceNumber(0);
 			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
-			arrestee.setArresteeSequenceNumber(1);
+			arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 			copy.addArrestee(arrestee);
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(copy);
 			copy.getOffenders().get(0).setOffenderSequenceNumber(1);
 			arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
-			arrestee.setArresteeSequenceNumber(2);
+			arrestee.setArresteeSequenceNumber(new ParsedObject<>(2));
 			copy.addArrestee(arrestee);
 			incidents.add(copy);
 			return incidents;
@@ -90,7 +90,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			offense.setUcrOffenseCode(OffenseCode._09C.code);
 			copy.addOffense(offense);
 			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
-			arrestee.setArresteeSequenceNumber(1);
+			arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 			copy.addArrestee(arrestee);
 			incidents.add(copy);
 			return incidents;
@@ -101,7 +101,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 			copy.addArrestee(arrestee);
-			arrestee.setArresteeSequenceNumber(1);
+			arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 			arrestee.setAgeString("23");
 			arrestee.setRace("W");
 			arrestee.setSex("M");
@@ -138,7 +138,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setArresteeSequenceNumber(null);
+			copy.getArrestees().get(0).setArresteeSequenceNumber(ParsedObject.getMissingParsedObject());
 			incidents.add(copy);
 			
 			copy.getArrestees().get(0).setArrestTransactionNumber(null);

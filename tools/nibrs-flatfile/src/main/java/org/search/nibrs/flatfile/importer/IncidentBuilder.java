@@ -189,7 +189,34 @@ public class IncidentBuilder {
 			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._701));
 			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._701));
 			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
-			arrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
+			
+			ParsedObject<Integer> sequenceNumber = arrestee.getArresteeSequenceNumber();
+			sequenceNumber.setMissing(false);
+			sequenceNumber.setInvalid(false);
+			String sequenceNumberString = StringUtils.getStringBetween(38, 39, segmentData);
+			if (sequenceNumberString == null) {
+				sequenceNumber.setMissing(true);
+				sequenceNumber.setValue(null);
+			} else {
+				try {
+					Integer sequenceNumberI = Integer.parseInt(sequenceNumberString);
+					sequenceNumber.setValue(sequenceNumberI);
+				} catch (NumberFormatException nfe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(sequenceNumberString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._701);
+					e.setDataElementIdentifier("40");
+					errorList.add(e);
+					sequenceNumber.setInvalid(true);
+					sequenceNumber.setValidationError(e);
+				}
+			}
+			
+			arrestee.setArresteeSequenceNumber(sequenceNumber);
+			
 			arrestee.setArrestTransactionNumber(StringUtils.getStringBetween(26, 37, segmentData));
 			
 			ParsedObject<Date> arrestDate = arrestee.getArrestDate();
@@ -430,7 +457,34 @@ public class IncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 110) {
-			newArrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
+			
+			ParsedObject<Integer> sequenceNumber = newArrestee.getArresteeSequenceNumber();
+			sequenceNumber.setMissing(false);
+			sequenceNumber.setInvalid(false);
+			String sequenceNumberString = StringUtils.getStringBetween(38, 39, segmentData);
+			if (sequenceNumberString == null) {
+				sequenceNumber.setMissing(true);
+				sequenceNumber.setValue(null);
+			} else {
+				try {
+					Integer sequenceNumberI = Integer.parseInt(sequenceNumberString);
+					sequenceNumber.setValue(sequenceNumberI);
+				} catch (NumberFormatException nfe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(sequenceNumberString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._601);
+					e.setDataElementIdentifier("40");
+					errorList.add(e);
+					sequenceNumber.setInvalid(true);
+					sequenceNumber.setValidationError(e);
+				}
+			}
+			
+			newArrestee.setArresteeSequenceNumber(sequenceNumber);
+			
 			newArrestee.setArrestTransactionNumber(StringUtils.getStringBetween(40, 51, segmentData));
 			
 			ParsedObject<Date> arrestDate = newArrestee.getArrestDate();

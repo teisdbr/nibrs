@@ -82,20 +82,20 @@ public class ArresteeSegmentRulesFactoryTest {
 	public void testRule601ForSequenceNumber() {
 		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForSequenceNumber();
 		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
-		arresteeSegment.setArresteeSequenceNumber(null);
+		arresteeSegment.setArresteeSequenceNumber(ParsedObject.getMissingParsedObject());
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
 		assertEquals("40", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
-		arresteeSegment.setArresteeSequenceNumber(0);
+		arresteeSegment.setArresteeSequenceNumber(new ParsedObject<>(0));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(0, nibrsError.getValue());
-		arresteeSegment.setArresteeSequenceNumber(100);
+		arresteeSegment.setArresteeSequenceNumber(new ParsedObject<>(100));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
-		arresteeSegment.setArresteeSequenceNumber(1);
+		arresteeSegment.setArresteeSequenceNumber(new ParsedObject<>(1));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 	}
@@ -104,7 +104,7 @@ public class ArresteeSegmentRulesFactoryTest {
 	public void testRule701ForSequenceNumber() {
 		Rule<ArresteeSegment> rule = groupBRulesFactory.getRuleX01ForSequenceNumber();
 		ArresteeSegment arresteeSegment = buildBaseGroupBSegment();
-		arresteeSegment.setArresteeSequenceNumber(null);
+		arresteeSegment.setArresteeSequenceNumber(ParsedObject.getMissingParsedObject());
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._701, nibrsError.getNIBRSErrorCode());

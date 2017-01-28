@@ -328,7 +328,7 @@ public class ErrorExporterTests {
 		
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		incident.addArrestee(arrestee);
-		arrestee.setArresteeSequenceNumber(1);
+		arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 		arrestee.setArrestTransactionNumber("12345");
 		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 		arrestee.setTypeOfArrest("O");
