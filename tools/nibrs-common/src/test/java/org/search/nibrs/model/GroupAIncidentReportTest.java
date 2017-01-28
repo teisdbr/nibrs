@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.search.nibrs.common.ParsedObject;
 
 public class GroupAIncidentReportTest {
 	
@@ -37,13 +38,13 @@ public class GroupAIncidentReportTest {
 	public void init() {
 		incident = new GroupAIncidentReport();
 		os1 = new OffenderSegment();
-		os1.setOffenderSequenceNumber(1);
+		os1.setOffenderSequenceNumber(new ParsedObject<>(1));
 		incident.addOffender(os1);
 		os2 = new OffenderSegment();
-		os2.setOffenderSequenceNumber(2);
+		os2.setOffenderSequenceNumber(new ParsedObject<>(2));
 		incident.addOffender(os2);
 		os3 = new OffenderSegment();
-		os3.setOffenderSequenceNumber(3);
+		os3.setOffenderSequenceNumber(new ParsedObject<>(3));
 		incident.addOffender(os3);
 		vs1 = new VictimSegment();
 		vs1.setOffenderNumberRelated(0, 1);

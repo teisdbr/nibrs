@@ -17,6 +17,8 @@ package org.search.nibrs.model;
 
 import java.util.Arrays;
 
+import org.search.nibrs.common.ParsedObject;
+
 /**
  * Representation of an OffenderSegment reported within an Incident in a NIBRS report.
  *
@@ -25,12 +27,13 @@ public class OffenderSegment extends AbstractPersonSegment
 {
     
 	public static final char OFFENDER_SEGMENT_TYPE_IDENTIFIER = '5';
-	private Integer offenderSequenceNumber;
+	private ParsedObject<Integer> offenderSequenceNumber;
     private boolean reportedUnknown;
     
     public OffenderSegment() {
     	super();
     	segmentType = OFFENDER_SEGMENT_TYPE_IDENTIFIER;
+    	offenderSequenceNumber = new ParsedObject<>();
     }
     
     public OffenderSegment(OffenderSegment o) {
@@ -40,14 +43,14 @@ public class OffenderSegment extends AbstractPersonSegment
     	segmentType = OFFENDER_SEGMENT_TYPE_IDENTIFIER;
     }
     
-    public Integer getOffenderSequenceNumber()
+    public ParsedObject<Integer> getOffenderSequenceNumber()
     {
         return offenderSequenceNumber;
     }
-    public void setOffenderSequenceNumber(Integer offenderSequenceNumber)
+    public void setOffenderSequenceNumber(ParsedObject<Integer> offenderSequenceNumber)
     {
         this.offenderSequenceNumber = offenderSequenceNumber;
-        if (offenderSequenceNumber != null && offenderSequenceNumber == 0) {
+        if (!(offenderSequenceNumber.isMissing() || offenderSequenceNumber.isInvalid()) && offenderSequenceNumber.getValue() == 0) {
         	reportedUnknown = true;
         }
     }
@@ -73,11 +76,11 @@ public class OffenderSegment extends AbstractPersonSegment
 
 	@Override
 	public Object getWithinSegmentIdentifier() {
-		return offenderSequenceNumber;
+		return offenderSequenceNumber.getValue();
 	}
 
 	public boolean isOffenderOfVictim(VictimSegment vs) {
-		return (Arrays.asList(vs.getOffenderNumberRelated()).contains(getOffenderSequenceNumber()));
+		return (Arrays.asList(vs.getOffenderNumberRelated()).contains(getOffenderSequenceNumber().getValue()));
 	}
     
 	/**

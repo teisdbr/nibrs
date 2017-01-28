@@ -203,7 +203,7 @@ public class TestXMLExporter {
 		}
 		
 		for (OffenderSegment o : baseIncident.getOffenders()) {
-			Integer offenderSequenceNumber = o.getOffenderSequenceNumber();
+			Integer offenderSequenceNumber = o.getOffenderSequenceNumber().getValue();
 			Element offenderPersonElement = (Element) XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:AbstractPersonSegment[@s:id='OffenderSegment-" + offenderSequenceNumber + "']");
 			assertNotNull(offenderPersonElement);
 			assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/j:Subject[nc:RoleOfPerson/@s:ref='OffenderSegment-" + offenderSequenceNumber + "' and " +
@@ -460,7 +460,7 @@ public class TestXMLExporter {
 		
 		OffenderSegment offender = new OffenderSegment();
 		incident.addOffender(offender);
-		offender.setOffenderSequenceNumber(1);
+		offender.setOffenderSequenceNumber(new ParsedObject<>(1));
 		offender.setAgeString("22");
 		offender.setRace("W");
 		offender.setSex("M");
@@ -479,7 +479,7 @@ public class TestXMLExporter {
 		
 		offender = new OffenderSegment();
 		incident.addOffender(offender);
-		offender.setOffenderSequenceNumber(2);
+		offender.setOffenderSequenceNumber(new ParsedObject<>(2));
 		offender.setAgeString("32");
 		offender.setRace("B");
 		offender.setSex("F");
@@ -487,7 +487,7 @@ public class TestXMLExporter {
 		
 		offender = new OffenderSegment();
 		incident.addOffender(offender);
-		offender.setOffenderSequenceNumber(0);
+		offender.setOffenderSequenceNumber(new ParsedObject<>(0));
 		
 		return incident;
 		

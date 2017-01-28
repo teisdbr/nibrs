@@ -69,13 +69,13 @@ final class ArresteeRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenderSegment offender = new OffenderSegment();
-			offender.setOffenderSequenceNumber(0);
+			offender.setOffenderSequenceNumber(new ParsedObject<>(0));
 			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 			arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 			copy.addArrestee(arrestee);
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(copy);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(1);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(1));
 			arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 			arrestee.setArresteeSequenceNumber(new ParsedObject<>(2));
 			copy.addArrestee(arrestee);

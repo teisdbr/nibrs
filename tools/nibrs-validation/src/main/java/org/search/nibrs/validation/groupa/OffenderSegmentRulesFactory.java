@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
@@ -38,7 +39,7 @@ public class OffenderSegmentRulesFactory {
 		@Override
 		public NIBRSError apply(OffenderSegment offenderSegment) {
 			NIBRSError e = null;
-			Integer offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber();
+			Integer offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber().getValue();
 			GroupAIncidentReport incident = (GroupAIncidentReport) offenderSegment.getParentReport();
 			List<VictimSegment> victims = incident.getVictims();
 			for (int i = 0; i < victims.size() && e == null; i++) {
@@ -69,8 +70,8 @@ public class OffenderSegmentRulesFactory {
 
 		@Override
 		protected boolean propertyViolatesRule(Object value, OffenderSegment subject) {
-			Integer sequenceNumber = subject.getOffenderSequenceNumber();
-			return sequenceNumber != null && sequenceNumber == 0 && value != null;
+			ParsedObject<Integer> sequenceNumber = subject.getOffenderSequenceNumber();
+			return !sequenceNumber.isInvalid() && !sequenceNumber.isMissing() && sequenceNumber.getValue() == 0 && value != null;
 		}
 		
 	}
@@ -118,10 +119,11 @@ public class OffenderSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(OffenderSegment offenderSegment) {
 
-				Integer offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber();
+				ParsedObject<Integer> offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber();
+				Integer offenderSequenceNumberValue = offenderSequenceNumber.getValue();
 				NIBRSError e = null;
 
-				if (offenderSequenceNumber == null || offenderSequenceNumber < 0 || offenderSequenceNumber > 99) {
+				if (offenderSequenceNumber.isMissing() || offenderSequenceNumber.isInvalid() || offenderSequenceNumberValue < 0 || offenderSequenceNumberValue > 99) {
 					e = offenderSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._501);
 					e.setDataElementIdentifier("36");
@@ -139,18 +141,18 @@ public class OffenderSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(OffenderSegment offenderSegment) {
 
-				Integer offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber();
+				ParsedObject<Integer> offenderSequenceNumber = offenderSegment.getOffenderSequenceNumber();
 				GroupAIncidentReport parent = (GroupAIncidentReport) offenderSegment.getParentReport();
 				String exceptionalClearanceCode = parent.getExceptionalClearanceCode();
 				
 				NIBRSError e = null;
 
-				if (offenderSequenceNumber != null && offenderSequenceNumber == 0 &&
+				if (!offenderSequenceNumber.isMissing() && !offenderSequenceNumber.isInvalid() && offenderSequenceNumber.getValue() == 0 &&
 					!(exceptionalClearanceCode == null || ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode))) {
 					e = offenderSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._557);
 					e.setDataElementIdentifier("36");
-					e.setValue(offenderSequenceNumber);
+					e.setValue(offenderSequenceNumber.getValue());
 				}
 
 				return e;

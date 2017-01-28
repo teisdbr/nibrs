@@ -292,7 +292,7 @@ public class VictimSegmentRulesFactory {
 				GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
 				Set<Integer> offenderSegmentSequenceNumbers = new HashSet<>();
 				for (OffenderSegment os : parent.getOffenders()) {
-					offenderSegmentSequenceNumbers.add(os.getOffenderSequenceNumber());
+					offenderSegmentSequenceNumbers.add(os.getOffenderSequenceNumber().getValue());
 				}
 
 				victimRelatedOffenderNumberSet.removeAll(offenderSegmentSequenceNumbers);

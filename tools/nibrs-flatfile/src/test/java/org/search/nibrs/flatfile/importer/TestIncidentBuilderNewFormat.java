@@ -134,10 +134,10 @@ public class TestIncidentBuilderNewFormat {
 		List<GroupAIncidentReport> incidentList = incidentListener.getGroupAIncidentList();
 		GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
 		OffenderSegment o = incident.getOffenders().get(0);
-		assertEquals(new Integer(1), o.getOffenderSequenceNumber());
+		assertEquals(new Integer(1), o.getOffenderSequenceNumber().getValue());
 		assertFalse(o.isUnknown());
 		o = incident.getOffenders().get(1);
-		assertEquals(new Integer(0), o.getOffenderSequenceNumber());
+		assertEquals(new Integer(0), o.getOffenderSequenceNumber().getValue());
 		assertTrue(o.isUnknown());
 	}
 
@@ -176,7 +176,7 @@ public class TestIncidentBuilderNewFormat {
 	@Test
 	public void testFirstIncidentOffender() {
 		OffenderSegment offender = (OffenderSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenderIterator().next();
-		assertEquals(new Integer(1), offender.getOffenderSequenceNumber());
+		assertEquals(new Integer(1), offender.getOffenderSequenceNumber().getValue());
 		assertEquals(new Integer(24), offender.getAge().getAgeMin());
 		assertEquals("M", offender.getSex());
 		assertEquals("W", offender.getRace());

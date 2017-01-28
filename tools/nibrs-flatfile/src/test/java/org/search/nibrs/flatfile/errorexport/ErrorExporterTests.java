@@ -320,7 +320,7 @@ public class ErrorExporterTests {
 		
 		OffenderSegment offender = new OffenderSegment();
 		incident.addOffender(offender);
-		offender.setOffenderSequenceNumber(1);
+		offender.setOffenderSequenceNumber(new ParsedObject<>(1));
 		offender.setAgeString("22");
 		offender.setRace("W");
 		offender.setSex("M");

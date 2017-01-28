@@ -248,8 +248,8 @@ public class GroupAIncidentReportRulesFactory {
 				int arresteeCount = subject.getArresteeCount();
 				if (offenderCount == 1) {
 					OffenderSegment offender = subject.getOffenders().get(0);
-					Integer offenderSequenceNumber = offender.getOffenderSequenceNumber();
-					if (arresteeCount > 0 && (offenderSequenceNumber == null || offenderSequenceNumber == 0)) {
+					ParsedObject<Integer> offenderSequenceNumberPO = offender.getOffenderSequenceNumber();
+					if (arresteeCount > 0 && (offenderSequenceNumberPO.isInvalid() || offenderSequenceNumberPO.isMissing() || offenderSequenceNumberPO.getValue() == 0)) {
 						ret = template;
 					}
 				}
@@ -374,8 +374,8 @@ public class GroupAIncidentReportRulesFactory {
 				int offenderCount = subject.getOffenderCount();
 				if (offenderCount > 1) {
 					for (int i=0;i < offenderCount && ret == null;i++) {
-						Integer offenderSequenceNumber = subject.getOffenders().get(i).getOffenderSequenceNumber();
-						if (offenderSequenceNumber != null && offenderSequenceNumber == 0) {
+						ParsedObject<Integer> offenderSequenceNumber = subject.getOffenders().get(i).getOffenderSequenceNumber();
+						if (!offenderSequenceNumber.isMissing() && !offenderSequenceNumber.isInvalid() && offenderSequenceNumber.getValue() == 0) {
 							ret = subject.getErrorTemplate();
 							ret.setValue(0);
 							ret.setDataElementIdentifier("36");

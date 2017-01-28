@@ -143,7 +143,7 @@ public class GroupAIncidentReport extends AbstractReport
 			return null;
 		}
 		for (OffenderSegment o : offenderSegmentList) {
-			if (sequenceNumber.equals(o.getOffenderSequenceNumber())) {
+			if (sequenceNumber.equals(o.getOffenderSequenceNumber().getValue())) {
 				ret = o;
 				break;
 			}

@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
@@ -55,7 +56,7 @@ public class VictimSegmentRulesFactoryTest {
 		OffenderSegment offenderSegment = new OffenderSegment();
 		GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
 		parent.addOffender(offenderSegment);
-		offenderSegment.setOffenderSequenceNumber(1);
+		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
 		victimSegment.setOffenderNumberRelated(0, 1);
 		NIBRSError e = rule.apply(victimSegment);
 		assertNull(e);
@@ -376,7 +377,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 		
 		OffenderSegment offenderSegment = ((GroupAIncidentReport) victimSegment.getParentReport()).getOffenders().get(0);
-		offenderSegment.setOffenderSequenceNumber(1);
+		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
 		
 		victimSegment.setOffenderNumberRelated(0, 2);
 		
@@ -1283,7 +1284,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
 		OffenderSegment os = ((GroupAIncidentReport) victimSegment.getParentReport()).getOffenders().get(0);
 		os.setSex(null);
-		os.setOffenderSequenceNumber(1);
+		os.setOffenderSequenceNumber(new ParsedObject<>(1));
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals("35", nibrsError.getDataElementIdentifier());
@@ -1425,10 +1426,10 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 		GroupAIncidentReport incident = (GroupAIncidentReport) victimSegment1.getParentReport();
 		OffenderSegment offenderSegment = new OffenderSegment();
-		offenderSegment.setOffenderSequenceNumber(1);
+		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
 		incident.addOffender(offenderSegment);
 		offenderSegment = new OffenderSegment();
-		offenderSegment.setOffenderSequenceNumber(2);
+		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(2));
 		incident.addOffender(offenderSegment);
 		VictimSegment victimSegment2 = new VictimSegment();
 		incident.addVictim(victimSegment2);

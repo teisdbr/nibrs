@@ -189,7 +189,7 @@ public class TestIncidentBuilderOldFormat {
 	@Test
 	public void testFirstIncidentOffender() {
 		OffenderSegment offender = (OffenderSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).offenderIterator().next();
-		assertEquals(new Integer(1), offender.getOffenderSequenceNumber());
+		assertEquals(new Integer(1), offender.getOffenderSequenceNumber().getValue());
 		assertEquals(new Integer(24), offender.getAge().getAgeMin());
 		assertEquals("M", offender.getSex());
 		assertEquals("W", offender.getRace());

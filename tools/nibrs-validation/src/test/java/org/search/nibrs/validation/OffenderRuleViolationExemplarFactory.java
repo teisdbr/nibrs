@@ -23,6 +23,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
@@ -77,13 +78,13 @@ final class OffenderRuleViolationExemplarFactory {
 			// Segment 5 is mandatory & must be present.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(null);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(ParsedObject.getMissingParsedObject());
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(-1);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(-1));
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(100);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(100));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -169,7 +170,7 @@ final class OffenderRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenderSegment offender = new OffenderSegment();
 			copy.addOffender(offender);
-			offender.setOffenderSequenceNumber(1);
+			offender.setOffenderSequenceNumber(new ParsedObject<>(1));
 			offender.setAgeString("23");
 			offender.setRace("W");
 			offender.setSex("M");
@@ -184,7 +185,7 @@ final class OffenderRuleViolationExemplarFactory {
 			//(Offender Sequence Number) is 00=Unknown.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(00));
 			//(Sex of Offender) Data Element 38 (Sex of Offender), and Data Element 39 
 			//(Race of Offender) cannot be entered when Data Element 36 
 			//(Offender Sequence Number) is 00=Unknown.						
@@ -194,14 +195,14 @@ final class OffenderRuleViolationExemplarFactory {
 			//Data Element 39 (Race of Offender) cannot be entered when Data Element 36 
 			//(Offender Sequence Number) is 00=unknown.
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(00));
 			copy.getOffenders().get(0).setSex(SexCode.F.code);
 			incidents.add(copy);
 			//(Ethnicity of Offender) Data Element 38 (Sex of Offender), and 
 			//Data Element 39 (Race of Offender) cannot be entered when 
 			//Data Element 36 (Offender Sequence Number) is 00=Unknown.	
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(00);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(00));
 			copy.getOffenders().get(0).setEthnicity(EthnicityCode.H.code);
 			incidents.add(copy);
 			return incidents;
@@ -306,7 +307,7 @@ final class OffenderRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenderSegment os = new OffenderSegment();
 			copy.addOffender(os);
-			os.setOffenderSequenceNumber(0);
+			os.setOffenderSequenceNumber(new ParsedObject<>(0));
 			incidents.add(copy);
 			return incidents;
 		});		
@@ -327,7 +328,7 @@ final class OffenderRuleViolationExemplarFactory {
 			//The incident was submitted with Data Element 4 (Cleared Exceptionally) having a value of A through E.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setOffenderSequenceNumber(0);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(0));
 			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			incidents.add(copy);			
 			return incidents;
@@ -431,7 +432,7 @@ final class OffenderRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenderSegment offenderSegment = copy.getOffenders().get(0);
-			offenderSegment.setOffenderSequenceNumber(1);
+			offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
 			offenderSegment.setAgeString("00");
 			offenderSegment.setSex("U");
 			offenderSegment.setRace("U");

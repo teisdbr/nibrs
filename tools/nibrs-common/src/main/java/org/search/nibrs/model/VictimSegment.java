@@ -365,7 +365,7 @@ public class VictimSegment extends AbstractPersonSegment {
 	}
 
 	public boolean isVictimOfOffender(OffenderSegment os) {
-		return os != null && Arrays.asList(getOffenderNumberRelated()).contains(os.getOffenderSequenceNumber());
+		return os != null && Arrays.asList(getOffenderNumberRelated()).contains(os.getOffenderSequenceNumber().getValue());
 	}
 	
 	/**

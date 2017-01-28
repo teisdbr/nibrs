@@ -23,6 +23,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
@@ -742,7 +743,7 @@ final class VictimRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenderSegment os = new OffenderSegment();
-			os.setOffenderSequenceNumber(2);
+			os.setOffenderSequenceNumber(new ParsedObject<>(2));
 			copy.addOffender(os);
 			copy.getVictims().get(0).setOffenderNumberRelated(new Integer[] {1,2});
 			copy.getVictims().get(0).setVictimOffenderRelationship(new String[] {"VO","VO"});
@@ -795,7 +796,7 @@ final class VictimRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenderSegment os = new OffenderSegment();
-			os.setOffenderSequenceNumber(2);
+			os.setOffenderSequenceNumber(new ParsedObject<>(2));
 			copy.addOffender(os);
 			copy.getVictims().get(0).setOffenderNumberRelated(new Integer[] {1,2});
 			copy.getVictims().get(0).setVictimOffenderRelationship(new String[] {"SE","SE"});

@@ -545,7 +545,34 @@ public class IncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == 45 || length == 46) {
-			newOffender.setOffenderSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
+			
+			ParsedObject<Integer> sequenceNumber = newOffender.getOffenderSequenceNumber();
+			sequenceNumber.setMissing(false);
+			sequenceNumber.setInvalid(false);
+			String sequenceNumberString = StringUtils.getStringBetween(38, 39, segmentData);
+			if (sequenceNumberString == null) {
+				sequenceNumber.setMissing(true);
+				sequenceNumber.setValue(null);
+			} else {
+				try {
+					Integer sequenceNumberI = Integer.parseInt(sequenceNumberString);
+					sequenceNumber.setValue(sequenceNumberI);
+				} catch (NumberFormatException nfe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(sequenceNumberString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._301);
+					e.setDataElementIdentifier("36");
+					errorList.add(e);
+					sequenceNumber.setInvalid(true);
+					sequenceNumber.setValidationError(e);
+				}
+			}
+			
+			newOffender.setOffenderSequenceNumber(sequenceNumber);
+			
 			newOffender.setAgeString(StringUtils.getStringBetween(40, 43, segmentData));
 			newOffender.setSex(StringUtils.getStringBetween(44, 44, segmentData));
 			newOffender.setRace(StringUtils.getStringBetween(45, 45, segmentData));
