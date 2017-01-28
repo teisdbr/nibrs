@@ -103,4 +103,28 @@ public class ParsedObject<T> {
 		
 	}
 	
+	/**
+	 * Factory method for getting a missing parsed object.
+	 * @return the object
+	 */
+	public static final <T> ParsedObject<T> getMissingParsedObject() {
+		ParsedObject<T> po = new ParsedObject<>();
+		po.setValue(null);
+		po.setMissing(true);
+		po.setInvalid(false);
+		return po;
+	}
+	
+	/**
+	 * Factory method for getting a missing parsed object.
+	 * @return the object
+	 */
+	public static final <T> ParsedObject<T> getInvalidParsedObject() {
+		ParsedObject<T> po = new ParsedObject<>();
+		po.setValue(null);
+		po.setMissing(false);
+		po.setInvalid(true);
+		return po;
+	}
+	
 }
