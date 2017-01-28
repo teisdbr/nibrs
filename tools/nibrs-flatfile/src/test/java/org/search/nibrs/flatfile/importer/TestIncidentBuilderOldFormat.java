@@ -150,7 +150,7 @@ public class TestIncidentBuilderOldFormat {
 		GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
 		assertNotNull(incident);
 		assertEquals("02-000895", incident.getIncidentNumber());
-		assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate());
+		assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate().getValue());
 		assertEquals(new Integer(10), incident.getIncidentHour().getValue());
 		assertNull(incident.getReportDateIndicator());
 		assertNull(incident.getCargoTheftIndicator());

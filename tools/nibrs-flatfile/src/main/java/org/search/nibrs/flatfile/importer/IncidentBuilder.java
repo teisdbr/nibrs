@@ -16,6 +16,9 @@
 package org.search.nibrs.flatfile.importer;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +40,8 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  * 
  */
 public class IncidentBuilder {
+	
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 
 	private static final class LogListener implements ReportListener {
 		public int reportCount = 0;
@@ -240,11 +245,26 @@ public class IncidentBuilder {
 			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._101));
 			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._101));
 			newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
-			int incidentYear = getIntValueFromSegment(s, 38, 41, newErrorList, NIBRSErrorCode._105);
-			int incidentMonthOrig = getIntValueFromSegment(s, 42, 43, newErrorList, NIBRSErrorCode._105);
-			int incidentMonth = DateUtils.convertMonthValue(incidentMonthOrig);
-			int incidentDay = getIntValueFromSegment(s, 44, 45, newErrorList, NIBRSErrorCode._105);
-			newIncident.setIncidentDate(DateUtils.makeDate(incidentYear, incidentMonth, incidentDay));
+			ParsedObject<Date> incidentDate = newIncident.getIncidentDate();
+			incidentDate.setMissing(false);
+			incidentDate.setInvalid(false);
+			String incidentDateString = StringUtils.getStringBetween(38, 45, segmentData);
+			try {
+				Date d = DATE_FORMAT.parse(incidentDateString);
+				incidentDate.setValue(d);
+			} catch (ParseException pe) {
+				NIBRSError e = new NIBRSError();
+				e.setContext(s.getReportSource());
+				e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+				e.setSegmentType(s.getSegmentType());
+				e.setValue(incidentDateString);
+				e.setNIBRSErrorCode(NIBRSErrorCode._105);
+				e.setDataElementIdentifier("3");
+				newErrorList.add(e);
+				incidentDate.setMissing(true);
+				incidentDate.setValidationError(e);
+			}
+			newIncident.setIncidentDate(incidentDate);
 			newIncident.setReportDateIndicator(StringUtils.getStringBetween(46, 46, segmentData));
 			String hourString = StringUtils.getStringBetween(47, 48, segmentData);
 			ParsedObject<Integer> hour = newIncident.getIncidentHour();

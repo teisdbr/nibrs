@@ -104,7 +104,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			copy.setIncidentNumber(null);
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
-			copy.setIncidentDate(null);
+			copy.setIncidentDate(ParsedObject.getMissingParsedObject());
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
 			copy.setExceptionalClearanceCode(null);
@@ -158,7 +158,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(copy);
 			copy.setYearOfTape(2016);
 			copy.setMonthOfTape(13);
-			copy.setIncidentDate(Date.from(LocalDateTime.of(2016, 6, 31, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 6, 31, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			//Invalid Exceptional Clearance date
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(copy);
 			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(3016, 13, 12, 30, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
@@ -258,7 +258,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			// Data Element 5 (Exceptional Clearance Date) is earlier than Data Element 3 (Incident Date/Hour).
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			copy.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2015, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);
 			return incidents;
@@ -280,7 +280,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			// For example, the May 1999 electronic submission cannot contain incidents happening after this date.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setIncidentDate(Date.from(LocalDateTime.of(3016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(3016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -293,7 +293,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			// For example, the May 1999 electronic submission cannot contain incidents happening after this date.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setIncidentDate(Date.from(LocalDateTime.of(2000, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(2000, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -303,7 +303,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			// incorrect since the FBI began accepting NIBRS data on this date.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setIncidentDate(Date.from(LocalDateTime.of(1990, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(1990, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -312,7 +312,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			// Data Element 5 (Exceptional Clearance Date) cannot contain a date earlier than the date the LEA began submitting data via the NIBRS.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setIncidentDate(Date.from(LocalDateTime.of(1990, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(1990, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			GroupAIncidentReport copy1 = new GroupAIncidentReport(incident);
 			copy1.setExceptionalClearanceDate(Date.from(LocalDateTime.of(1016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 			incidents.add(copy);

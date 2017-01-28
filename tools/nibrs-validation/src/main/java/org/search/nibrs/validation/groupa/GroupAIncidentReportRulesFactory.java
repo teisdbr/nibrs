@@ -29,6 +29,7 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -112,9 +113,9 @@ public class GroupAIncidentReportRulesFactory {
 				} else {
 					month++;
 				}
-				Date incidentDate = subject.getIncidentDate();
-				if (incidentDate != null) {
-					ret = compareIncidentDateToTape(month, year, incidentDate, subject.getErrorTemplate());
+				ParsedObject<Date> incidentDatePO = subject.getIncidentDate();
+				if (!(incidentDatePO.isMissing() || incidentDatePO.isInvalid())) {
+					ret = compareIncidentDateToTape(month, year, incidentDatePO.getValue(), subject.getErrorTemplate());
 				}
 			}
 			return ret;
@@ -758,8 +759,9 @@ public class GroupAIncidentReportRulesFactory {
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
 				Date exceptionalClearanceDate = subject.getExceptionalClearanceDate();
-				Date incidentDate = subject.getIncidentDate();
-				if (exceptionalClearanceDate != null && incidentDate != null) {
+				ParsedObject<Date> incidentDatePO = subject.getIncidentDate();
+				if (exceptionalClearanceDate != null && incidentDatePO != null && !incidentDatePO.isInvalid() && !incidentDatePO.isMissing()) {
+					Date incidentDate = incidentDatePO.getValue();
 					Calendar c = Calendar.getInstance();
 					c.setTime(incidentDate);
 					LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));

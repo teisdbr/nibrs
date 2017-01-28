@@ -24,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
@@ -662,7 +663,7 @@ public class PropertySegmentRulesFactoryTest {
 	private NIBRSError testThatRecoveredDateLaterThanIncidentDate(Rule<PropertySegment> rule, NIBRSErrorCode errorCode) {
 		PropertySegment p = buildBaseSegment();
 		GroupAIncidentReport parent = (GroupAIncidentReport) p.getParentReport();
-		parent.setIncidentDate(null);
+		parent.setIncidentDate(ParsedObject.getMissingParsedObject());
 		for (int i=0;i < 10;i++) {
 			p.setDateRecovered(i, null);
 		}
@@ -670,7 +671,11 @@ public class PropertySegmentRulesFactoryTest {
 		assertNull(e);
 		Calendar c = Calendar.getInstance();
 		c.set(2016, Calendar.JANUARY, 2);
-		parent.setIncidentDate(c.getTime());
+		ParsedObject<Date> incidentDate = parent.getIncidentDate();
+		incidentDate.setValue(c.getTime());
+		incidentDate.setMissing(false);
+		incidentDate.setInvalid(false);
+		parent.setIncidentDate(incidentDate);
 		c.set(2016, Calendar.JANUARY, 2);
 		p.setDateRecovered(0, c.getTime());
 		e = rule.apply(p);

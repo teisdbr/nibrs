@@ -33,6 +33,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -282,9 +283,12 @@ public class ErrorExporterTests {
 		incident.setReportActionType('I');
 		incident.setOri("WA1234567");
 		incident.setIncidentNumber("54236732");
-		incident.setIncidentDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+		Date d = Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant());
+		ParsedObject<Date> incidentDate = new ParsedObject<>();
+		incidentDate.setValue(d);
+		incident.setIncidentDate(incidentDate);
 		incident.setExceptionalClearanceCode("A");
-		incident.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+		incident.setExceptionalClearanceDate(d);
 		incident.setCityIndicator("GAA7");
 		incident.setReportDateIndicator(null);
 		

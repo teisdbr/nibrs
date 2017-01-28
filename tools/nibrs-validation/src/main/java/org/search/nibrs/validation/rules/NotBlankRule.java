@@ -15,6 +15,7 @@
  *******************************************************************************/
 package org.search.nibrs.validation.rules;
 
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
@@ -34,6 +35,10 @@ public class NotBlankRule<T extends ValidationTarget> extends AbstractBeanProper
 	}
 	
 	private boolean isBlank(Object o) {
+		if (o instanceof ParsedObject) {
+			ParsedObject<?> po = (ParsedObject<?>) o;
+			return po.isInvalid() || po.isMissing();
+		}
 		return o == null || (o instanceof String && ((String) o).trim().length() == 0);
 	}
 

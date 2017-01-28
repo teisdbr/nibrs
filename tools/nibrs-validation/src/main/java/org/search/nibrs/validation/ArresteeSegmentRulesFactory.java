@@ -27,6 +27,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -226,13 +227,13 @@ public class ArresteeSegmentRulesFactory {
 				NIBRSError e = null;
 				if (arresteeSegment.isGroupA()) {
 					GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
-					Date incidentDateD = parent.getIncidentDate();
+					ParsedObject<Date> incidentDatePO = parent.getIncidentDate();
 					Date arrestDateD = arresteeSegment.getArrestDate();
-					if (incidentDateD != null && arrestDateD != null) {
+					if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && arrestDateD != null) {
 						Calendar c = Calendar.getInstance();
 						c.setTime(arrestDateD);
 						LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-						c.setTime(incidentDateD);
+						c.setTime(incidentDatePO.getValue());
 						LocalDate incidentDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 						if (arrestDate.isBefore(incidentDate)) {
 							e = arresteeSegment.getErrorTemplate();

@@ -40,7 +40,7 @@ public class GroupAIncidentReport extends AbstractReport
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReport.class);
 	
 	private String incidentNumber;
-    private Date incidentDate;
+    private ParsedObject<Date> incidentDate;
     private String reportDateIndicator;
     private ParsedObject<Integer> incidentHour;
     private String exceptionalClearanceCode;
@@ -61,6 +61,7 @@ public class GroupAIncidentReport extends AbstractReport
         removeVictims();
         removeOffenders();
         incidentHour = new ParsedObject<>();
+        incidentDate = new ParsedObject<>();
     }
 	
 	public GroupAIncidentReport(GroupAIncidentReport r) {
@@ -347,11 +348,11 @@ public class GroupAIncidentReport extends AbstractReport
     {
         this.exceptionalClearanceDate = exceptionalClearanceDate;
     }
-    public Date getIncidentDate()
+    public ParsedObject<Date> getIncidentDate()
     {
         return incidentDate;
     }
-    public void setIncidentDate(Date incidentDate)
+    public void setIncidentDate(ParsedObject<Date> incidentDate)
     {
         this.incidentDate = incidentDate;
     }

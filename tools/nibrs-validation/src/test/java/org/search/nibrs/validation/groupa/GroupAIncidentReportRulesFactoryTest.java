@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNull;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -1020,19 +1021,19 @@ public class GroupAIncidentReportRulesFactoryTest {
 		c.set(Calendar.YEAR, 2015);
 		c.set(Calendar.MONTH, Calendar.JANUARY);
 		c.set(Calendar.DAY_OF_MONTH, 1);
-		report.setIncidentDate(null);
+		report.setIncidentDate(ParsedObject.getMissingParsedObject());
 		NIBRSError e = rule170.apply(report);
 		assertNull(e);
-		report.setIncidentDate(c.getTime());
+		report.setIncidentDate(new ParsedObject<>(c.getTime()));
 		e = rule170.apply(report);
 		assertNull(e);
 		c.set(Calendar.YEAR, 2016);
-		report.setIncidentDate(c.getTime());
+		report.setIncidentDate(new ParsedObject<>(c.getTime()));
 		e = rule170.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._170, e.getNIBRSErrorCode());
 		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getIncidentDate(), e.getValue());
+		assertEquals(report.getIncidentDate().getValue(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
 	
@@ -1046,19 +1047,19 @@ public class GroupAIncidentReportRulesFactoryTest {
 		c.set(Calendar.YEAR, 2015);
 		c.set(Calendar.MONTH, Calendar.MARCH);
 		c.set(Calendar.DAY_OF_MONTH, 1);
-		report.setIncidentDate(null);
+		report.setIncidentDate(ParsedObject.getMissingParsedObject());
 		NIBRSError e = rule171.apply(report);
 		assertNull(e);
-		report.setIncidentDate(c.getTime());
+		report.setIncidentDate(new ParsedObject<>(c.getTime()));
 		e = rule171.apply(report);
 		assertNull(e);
 		c.set(Calendar.YEAR, 2013);
-		report.setIncidentDate(c.getTime());
+		report.setIncidentDate(new ParsedObject<>(c.getTime()));
 		e = rule171.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._171, e.getNIBRSErrorCode());
 		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getIncidentDate(), e.getValue());
+		assertEquals(report.getIncidentDate().getValue(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
 	
@@ -1072,19 +1073,19 @@ public class GroupAIncidentReportRulesFactoryTest {
 		c.set(Calendar.YEAR, 2015);
 		c.set(Calendar.MONTH, Calendar.MARCH);
 		c.set(Calendar.DAY_OF_MONTH, 1);
-		report.setIncidentDate(null);
+		report.setIncidentDate(ParsedObject.getMissingParsedObject());
 		NIBRSError e = rule172.apply(report);
 		assertNull(e);
-		report.setIncidentDate(c.getTime());
+		report.setIncidentDate(new ParsedObject<>(c.getTime()));
 		e = rule172.apply(report);
 		assertNull(e);
 		c.set(Calendar.YEAR, 1990);
-		report.setIncidentDate(c.getTime());
+		report.setIncidentDate(new ParsedObject<>(c.getTime()));
 		e = rule172.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._172, e.getNIBRSErrorCode());
 		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getIncidentDate(), e.getValue());
+		assertEquals(report.getIncidentDate().getValue(), e.getValue());
 		assertEquals(report.getSource(), e.getContext());
 	}
 	
@@ -1123,7 +1124,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.setIncidentDate(null);
 		assertNull(rule155.apply(report));
 		c.set(Calendar.MONTH, Calendar.APRIL);
-		report.setIncidentDate(c.getTime());
+		report.setIncidentDate(new ParsedObject<>(c.getTime()));
 		NIBRSError e = rule155.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._155, e.getNIBRSErrorCode());

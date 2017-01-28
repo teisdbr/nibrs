@@ -37,6 +37,7 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
@@ -606,11 +607,11 @@ public class XMLExporter {
 			e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityIdentification");
 			XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID").setTextContent(incidentNumber);
 		}
-		Date incidentDate = incident.getIncidentDate();
-		if (incidentDate != null) {
+		ParsedObject<Date> incidentDatePO = incident.getIncidentDate();
+		if (!incidentDatePO.isInvalid() && !incidentDatePO.isMissing()) {
 			e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityDate");
 			e = XmlUtils.appendChildElement(e, Namespace.nc, "DateTime");
-			e.setTextContent(DATETIME_FORMAT.format(incidentDate));
+			e.setTextContent(DATETIME_FORMAT.format(incidentDatePO.getValue()));
 		}
 		Element augElement = XmlUtils.appendChildElement(incidentElement, Namespace.cjis, "IncidentAugmentation");
 		appendElementAndValueIfNotNull(augElement, Namespace.cjis, "IncidentReportDateIndicator", incident.getReportDateIndicator());

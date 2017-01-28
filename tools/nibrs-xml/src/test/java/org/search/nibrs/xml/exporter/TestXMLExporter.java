@@ -27,6 +27,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
@@ -326,7 +327,7 @@ public class TestXMLExporter {
 		incident.setMonthOfTape(5);
 		incident.setOri("WA123456789");
 		incident.setIncidentNumber("54236732");
-		incident.setIncidentDate(XMLExporter.DATETIME_FORMAT.parse("2016-05-12T10:07:46.342-0500"));
+		incident.setIncidentDate(new ParsedObject<>(XMLExporter.DATETIME_FORMAT.parse("2016-05-12T10:07:46.342-0500")));
 		incident.setExceptionalClearanceCode("N");
 		incident.setReportActionType('I');
 		incident.setCargoTheftIndicator("N");

@@ -28,6 +28,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
@@ -608,15 +609,18 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				GroupAIncidentReport parentIncident = (GroupAIncidentReport) subject.getParentReport();
-				Date incidentDate = parentIncident.getIncidentDate();
-				for (int i=0;i < 10;i++) {
-					Date recoveredDate = subject.getDateRecovered(i);
-					if (recoveredDate != null) {
-						if (incidentDate != null && recoveredDate.before(incidentDate)) {
-							ret = subject.getErrorTemplate();
-							ret.setDataElementIdentifier("17");
-							ret.setValue(recoveredDate);
-							ret.setNIBRSErrorCode(NIBRSErrorCode._320);
+				ParsedObject<Date> incidentDatePO = parentIncident.getIncidentDate();
+				if (!(incidentDatePO.isMissing() || incidentDatePO.isInvalid())) {
+					Date incidentDate = incidentDatePO.getValue();
+					for (int i = 0; i < 10; i++) {
+						Date recoveredDate = subject.getDateRecovered(i);
+						if (recoveredDate != null) {
+							if (recoveredDate.before(incidentDate)) {
+								ret = subject.getErrorTemplate();
+								ret.setDataElementIdentifier("17");
+								ret.setValue(recoveredDate);
+								ret.setNIBRSErrorCode(NIBRSErrorCode._320);
+							}
 						}
 					}
 				}
@@ -631,14 +635,14 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				GroupAIncidentReport parentIncident = (GroupAIncidentReport) subject.getParentReport();
-				Date incidentDate = parentIncident.getIncidentDate();
+				ParsedObject<Date> incidentDatePO = parentIncident.getIncidentDate();
 				Integer monthOfTape = parentIncident.getMonthOfTape();
 				Integer yearOfTape = parentIncident.getYearOfTape();
 				Calendar c = Calendar.getInstance();
 				for (int i=0;i < 10;i++) {
 					Date recoveredDate = subject.getDateRecovered(i);
 					if (recoveredDate != null) {
-						if (incidentDate != null && recoveredDate.before(incidentDate)) {
+						if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && recoveredDate.before(incidentDatePO.getValue())) {
 							ret = subject.getErrorTemplate();
 							ret.setDataElementIdentifier("17");
 							ret.setValue(recoveredDate);
