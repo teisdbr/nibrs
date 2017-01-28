@@ -122,13 +122,13 @@ public class ArresteeSegmentRulesFactory {
 				GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
 				String exceptionalClearanceCode = parent.getExceptionalClearanceCode();
 				ParsedObject<Date> exceptionalClearanceDatePO = parent.getExceptionalClearanceDate();
-				Date arrestDateD = arresteeSegment.getArrestDate();
+				ParsedObject<Date> arrestDatePO = arresteeSegment.getArrestDate();
 				if (exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) &&
-						!exceptionalClearanceDatePO.isMissing() && !exceptionalClearanceDatePO.isInvalid() && arrestDateD != null) {
+						!exceptionalClearanceDatePO.isMissing() && !exceptionalClearanceDatePO.isInvalid() && !arrestDatePO.isMissing() && !arrestDatePO.isInvalid()) {
 					Calendar c = Calendar.getInstance();
 					c.setTime(exceptionalClearanceDatePO.getValue());
 					LocalDate exceptionalClearanceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					c.setTime(arrestDateD);
+					c.setTime(arrestDatePO.getValue());
 					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 					if (!arrestDate.isAfter(exceptionalClearanceDate)) {
 						e = arresteeSegment.getErrorTemplate();
@@ -201,13 +201,13 @@ public class ArresteeSegmentRulesFactory {
 				AbstractReport parent = arresteeSegment.getParentReport();
 				Integer yearOfTape = parent.getYearOfTape();
 				Integer monthOfTape = parent.getMonthOfTape();
-				Date arrestDateD = arresteeSegment.getArrestDate();
-				if (monthOfTape != null && monthOfTape > 0 && monthOfTape < 13 && yearOfTape != null && arrestDateD != null) {
+				ParsedObject<Date> arrestDatePO = arresteeSegment.getArrestDate();
+				if (monthOfTape != null && monthOfTape > 0 && monthOfTape < 13 && yearOfTape != null && !arrestDatePO.isMissing() && !arrestDatePO.isInvalid()) {
 					Calendar c = Calendar.getInstance();
 					c.set(yearOfTape, monthOfTape-1, 1);
 					LocalDate compDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, 1);
 					compDate = compDate.plusMonths(1).minusDays(1);
-					c.setTime(arrestDateD);
+					c.setTime(arrestDatePO.getValue());
 					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 					if (compDate.isBefore(arrestDate)) {
 						e = arresteeSegment.getErrorTemplate();
@@ -229,10 +229,10 @@ public class ArresteeSegmentRulesFactory {
 				if (arresteeSegment.isGroupA()) {
 					GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
 					ParsedObject<Date> incidentDatePO = parent.getIncidentDate();
-					Date arrestDateD = arresteeSegment.getArrestDate();
-					if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && arrestDateD != null) {
+					ParsedObject<Date> arrestDatePO = arresteeSegment.getArrestDate();
+					if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && !arrestDatePO.isInvalid() && !arrestDatePO.isMissing()) {
 						Calendar c = Calendar.getInstance();
-						c.setTime(arrestDateD);
+						c.setTime(arrestDatePO.getValue());
 						LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 						c.setTime(incidentDatePO.getValue());
 						LocalDate incidentDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));

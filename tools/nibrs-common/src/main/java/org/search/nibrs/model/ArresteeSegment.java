@@ -20,6 +20,7 @@ import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 
 /**
  * Representation of an Arrestee reported within an Incident (either Group A or Group B) in a NIBRS report.
@@ -38,7 +39,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	
 	private Integer arresteeSequenceNumber;
     private String arrestTransactionNumber;
-    private Date arrestDate;
+    private ParsedObject<Date> arrestDate;
     private String typeOfArrest;
     private String multipleArresteeSegmentsIndicator;
     private String ucrArrestOffenseCode;
@@ -52,6 +53,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
         arresteeArmedWith = new String[ARRESTEE_ARMED_WITH_COUNT];
         automaticWeaponIndicator = new String[AUTOMATIC_WEAPON_INDICATOR_COUNT];
         this.segmentType = segmentType;
+        arrestDate = new ParsedObject<>();
     }
     
     public ArresteeSegment(ArresteeSegment a) {
@@ -135,11 +137,11 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
         arresteeArmedWith[position] = value;
     }
     
-    public Date getArrestDate()
+    public ParsedObject<Date> getArrestDate()
     {
         return arrestDate;
     }
-    public void setArrestDate(Date arrestDate)
+    public void setArrestDate(ParsedObject<Date> arrestDate)
     {
         this.arrestDate = arrestDate;
     }

@@ -191,7 +191,33 @@ public class IncidentBuilder {
 			ret.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
 			arrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
 			arrestee.setArrestTransactionNumber(StringUtils.getStringBetween(26, 37, segmentData));
-			arrestee.setArrestDate(StringUtils.getDateBetween(40, 47, segmentData));
+			
+			ParsedObject<Date> arrestDate = arrestee.getArrestDate();
+			arrestDate.setMissing(false);
+			arrestDate.setInvalid(false);
+			String arrestDateString = StringUtils.getStringBetween(40, 47, segmentData);
+			if (arrestDateString == null) {
+				arrestDate.setMissing(true);
+				arrestDate.setValue(null);
+			} else {
+				try {
+					Date d = DATE_FORMAT.parse(arrestDateString);
+					arrestDate.setValue(d);
+				} catch (ParseException pe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(arrestDateString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._705);
+					e.setDataElementIdentifier("42");
+					newErrorList.add(e);
+					arrestDate.setInvalid(true);
+					arrestDate.setValidationError(e);
+				}
+			}
+			arrestee.setArrestDate(arrestDate);
+			
 			arrestee.setTypeOfArrest(StringUtils.getStringBetween(48, 48, segmentData));
 			arrestee.setUcrArrestOffenseCode(StringUtils.getStringBetween(49, 51, segmentData));
 			for (int i = 0; i < 2; i++) {
@@ -406,7 +432,33 @@ public class IncidentBuilder {
 		if (length == 110) {
 			newArrestee.setArresteeSequenceNumber(StringUtils.getIntegerBetween(38, 39, segmentData));
 			newArrestee.setArrestTransactionNumber(StringUtils.getStringBetween(40, 51, segmentData));
-			newArrestee.setArrestDate(StringUtils.getDateBetween(52, 59, segmentData));
+			
+			ParsedObject<Date> arrestDate = newArrestee.getArrestDate();
+			arrestDate.setMissing(false);
+			arrestDate.setInvalid(false);
+			String arrestDateString = StringUtils.getStringBetween(52, 59, segmentData);
+			if (arrestDateString == null) {
+				arrestDate.setMissing(true);
+				arrestDate.setValue(null);
+			} else {
+				try {
+					Date d = DATE_FORMAT.parse(arrestDateString);
+					arrestDate.setValue(d);
+				} catch (ParseException pe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(arrestDateString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._705);
+					e.setDataElementIdentifier("42");
+					errorList.add(e);
+					arrestDate.setInvalid(true);
+					arrestDate.setValidationError(e);
+				}
+			}
+			newArrestee.setArrestDate(arrestDate);
+			
 			newArrestee.setTypeOfArrest(StringUtils.getStringBetween(60, 60, segmentData));
 			newArrestee.setMultipleArresteeSegmentsIndicator(StringUtils.getStringBetween(61, 61, segmentData));
 			newArrestee.setUcrArrestOffenseCode(StringUtils.getStringBetween(62, 64, segmentData));

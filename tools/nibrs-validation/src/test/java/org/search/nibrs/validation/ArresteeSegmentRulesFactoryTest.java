@@ -15,10 +15,7 @@
  *******************************************************************************/
 package org.search.nibrs.validation;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -56,7 +53,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		Calendar c = Calendar.getInstance();
 		c.set(2016, Calendar.JANUARY, 1);
 		LocalDate d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-		arresteeSegment.setArrestDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		c.set(2015, Calendar.DECEMBER, 31);
 		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
@@ -73,7 +70,7 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._071, nibrsError.getNIBRSErrorCode());
 		assertEquals("42", nibrsError.getDataElementIdentifier());
-		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
+		assertEquals(arresteeSegment.getArrestDate().getValue(), nibrsError.getValue());
 		assertEquals(parent, nibrsError.getReport());
 		c.set(2015, Calendar.DECEMBER, 31);
 		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
@@ -134,15 +131,17 @@ public class ArresteeSegmentRulesFactoryTest {
 	public void testRule601ForArrestDate() {
 		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForArrestDate();
 		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
-		arresteeSegment.setArrestDate(null);
+		arresteeSegment.setArrestDate(ParsedObject.getMissingParsedObject());
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._601, nibrsError.getNIBRSErrorCode());
 		assertEquals("42", nibrsError.getDataElementIdentifier());
-		assertNull(nibrsError.getValue());
+		@SuppressWarnings("unchecked")
+		ParsedObject<Date> value = (ParsedObject<Date>) nibrsError.getValue();
+		assertTrue(value.isMissing());
 		Calendar c = Calendar.getInstance();
 		c.set(2016, Calendar.JANUARY, 1);
-		arresteeSegment.setArrestDate(c.getTime());
+		arresteeSegment.setArrestDate(new ParsedObject<>(c.getTime()));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 	}
@@ -151,11 +150,11 @@ public class ArresteeSegmentRulesFactoryTest {
 	public void testRuleX05() {
 		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX05();
 		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
-		arresteeSegment.setArrestDate(null);
+		arresteeSegment.setArrestDate(ParsedObject.getMissingParsedObject());
 		NIBRSError nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		LocalDate arrestDate = LocalDate.of(2016, 2, 15);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		GroupAIncidentReport incident = (GroupAIncidentReport) arresteeSegment.getParentReport();
@@ -168,17 +167,17 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._605, nibrsError.getNIBRSErrorCode());
 		assertEquals("42", nibrsError.getDataElementIdentifier());
-		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
+		assertEquals(arresteeSegment.getArrestDate().getValue(), nibrsError.getValue());
 		arrestDate = LocalDate.of(2016, 1, 31);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		arrestDate = LocalDate.of(2016, 1, 1);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		arrestDate = LocalDate.of(2015, 12, 31);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		rule = groupBRulesFactory.getRuleX05();
@@ -187,14 +186,14 @@ public class ArresteeSegmentRulesFactoryTest {
 		groupBArrestReport.setYearOfTape(2016);
 		groupBArrestReport.setMonthOfTape(1);
 		arrestDate = LocalDate.of(2016, 1, 31);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		arrestDate = LocalDate.of(2016, 2, 1);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
-		arresteeSegment.setArrestDate(null);
+		arresteeSegment.setArrestDate(ParsedObject.getMissingParsedObject());
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 	}
@@ -214,24 +213,24 @@ public class ArresteeSegmentRulesFactoryTest {
 		incidentDate = ParsedObject.getMissingParsedObject();
 		incident.setIncidentDate(incidentDate);
 		LocalDate arrestDate = LocalDate.of(2016, 1, 31);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		incidentDate = new ParsedObject<>(Date.from(incidentDateD.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
 		arrestDate = LocalDate.of(2016, 2, 1);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		incident.setIncidentDate(incidentDate);
 		nibrsError = rule.apply(arresteeSegment);
 		assertNull(nibrsError);
 		arrestDate = LocalDate.of(2016, 1, 21);
-		arresteeSegment.setArrestDate(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._665, nibrsError.getNIBRSErrorCode());
 		assertEquals("42", nibrsError.getDataElementIdentifier());
-		assertEquals(arresteeSegment.getArrestDate(), nibrsError.getValue());
+		assertEquals(arresteeSegment.getArrestDate().getValue(), nibrsError.getValue());
 	}
 	
 	@Test

@@ -312,7 +312,7 @@ public class TestXMLExporter {
 		arrestee.setRace("W");
 		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(XMLExporter.DATE_FORMAT.parse("2016-05-16"));
+		arrestee.setArrestDate(new ParsedObject<>(XMLExporter.DATE_FORMAT.parse("2016-05-16")));
 		arrestee.setUcrArrestOffenseCode("90A");
 		arrestee.setTypeOfArrest("O");
 		
@@ -472,7 +472,7 @@ public class TestXMLExporter {
 		arrestee.setRace("W");
 		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(XMLExporter.DATE_FORMAT.parse("2016-05-16"));
+		arrestee.setArrestDate(new ParsedObject<>(XMLExporter.DATE_FORMAT.parse("2016-05-16")));
 		arrestee.setUcrArrestOffenseCode("64A");
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");

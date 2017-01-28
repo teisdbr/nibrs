@@ -330,7 +330,7 @@ public class ErrorExporterTests {
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(1);
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");
 		arrestee.setUcrArrestOffenseCode("13A");

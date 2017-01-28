@@ -312,8 +312,8 @@ public class XMLExporter {
 			Element e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityIdentification");
 			appendElementAndValueIfNotNull(e, Namespace.nc, "IdentificationID", arrestee.getArrestTransactionNumber());
 			e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityDate");
-			Date arrestDate = arrestee.getArrestDate();
-			if (arrestDate != null) {
+			ParsedObject<Date> arrestDate = arrestee.getArrestDate();
+			if (!arrestDate.isInvalid() && !arrestDate.isMissing()) {
 				XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(arrestDate));
 			}
 			e = XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestCharge");

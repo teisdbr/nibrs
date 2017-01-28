@@ -130,7 +130,7 @@ public class TestIncidentBuilderOldFormat {
 		assertEquals("0000265601", arrestee.getArrestTransactionNumber());
 		assertNull(arrestee.getArresteeSequenceNumber());
 		assertNull(arrestee.getMultipleArresteeSegmentsIndicator());
-		assertEquals(DateUtils.makeDate(2003, Calendar.JANUARY, 12), arrestee.getArrestDate());
+		assertEquals(DateUtils.makeDate(2003, Calendar.JANUARY, 12), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());
 		assertEquals("90A", arrestee.getUcrArrestOffenseCode());
 		assertEquals("01", arrestee.getArresteeArmedWith(0));
@@ -170,7 +170,7 @@ public class TestIncidentBuilderOldFormat {
 		ArresteeSegment arrestee = (ArresteeSegment) ((AbstractReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
 		assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
 		assertEquals("02-000895", arrestee.getArrestTransactionNumber());
-		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate());
+		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());
 		assertEquals("M", arrestee.getMultipleArresteeSegmentsIndicator());
 		assertEquals("220", arrestee.getUcrArrestOffenseCode());

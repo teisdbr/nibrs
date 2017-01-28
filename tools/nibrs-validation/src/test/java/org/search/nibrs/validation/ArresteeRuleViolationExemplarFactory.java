@@ -106,7 +106,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			arrestee.setRace("W");
 			arrestee.setSex("M");
 			arrestee.setArrestTransactionNumber("67890");
-			arrestee.setArrestDate(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+			arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 			arrestee.setUcrArrestOffenseCode("13A");
 			arrestee.setTypeOfArrest("O");
 			arrestee.setMultipleArresteeSegmentsIndicator("N");
@@ -125,7 +125,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy.setExceptionalClearanceDate(new ParsedObject<>(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 			c.set(2016, Calendar.JANUARY, 1);
 			d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-			copy.getArrestees().get(0).setArrestDate(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+			copy.getArrestees().get(0).setArrestDate(new ParsedObject<>(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -169,7 +169,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			incidents.add(copy);
 			//Arrest Date cannot be blank
 			copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setArrestDate(null);
+			copy.getArrestees().get(0).setArrestDate(ParsedObject.getMissingParsedObject());
 			incidents.add(copy);
 			//(Multiple Arrestee Segments Indicator) The referenced data element in a 
 			//A Incident Report must be populated with a valid data value and cannot be blank.
@@ -242,7 +242,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//the arrest date cannot contain any date 07/01/1999 or later.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.getArrestees().get(0).setArrestDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			incidents.add(copy);
 			
@@ -441,7 +441,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//A person cannot be arrested before the incident occurred.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setArrestDate(Date.from(LocalDateTime.of(2016, 4, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+			copy.getArrestees().get(0).setArrestDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 4, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			incidents.add(copy);
 			

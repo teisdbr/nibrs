@@ -157,7 +157,7 @@ public class TestIncidentBuilderNewFormat {
 		ArresteeSegment arrestee = (ArresteeSegment) ((AbstractReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
 		assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber());
 		assertEquals("02-000895", arrestee.getArrestTransactionNumber());
-		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate());
+		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());
 		assertEquals("M", arrestee.getMultipleArresteeSegmentsIndicator());
 		assertEquals("220", arrestee.getUcrArrestOffenseCode());
