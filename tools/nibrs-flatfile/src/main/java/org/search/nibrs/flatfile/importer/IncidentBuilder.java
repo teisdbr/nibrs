@@ -727,7 +727,36 @@ public class IncidentBuilder {
 			newOffense.setUcrOffenseCode(StringUtils.getStringBetween(38, 40, segmentData));
 			newOffense.setOffenseAttemptedCompleted(StringUtils.getStringBetween(41, 41, segmentData));
 			newOffense.setLocationType(StringUtils.getStringBetween(45, 46, segmentData));
-			newOffense.setNumberOfPremisesEntered(StringUtils.getIntegerBetween(47, 48, segmentData));
+			
+			String premisesEnteredString = StringUtils.getStringBetween(47, 48, segmentData);
+			ParsedObject<Integer> premisesEntered = newOffense.getNumberOfPremisesEntered();
+			
+			if (premisesEnteredString == null) {
+				premisesEntered.setMissing(true);
+				premisesEntered.setInvalid(false);
+				premisesEntered.setValue(null);
+			} else {
+				
+				try {
+					Integer value = Integer.parseInt(premisesEnteredString);
+					premisesEntered.setValue(value);
+					premisesEntered.setMissing(false);
+					premisesEntered.setInvalid(false);
+				} catch (NumberFormatException nfe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(premisesEnteredString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._204);
+					e.setDataElementIdentifier("10");
+					errorList.add(e);
+					premisesEntered.setInvalid(true);
+					premisesEntered.setValidationError(e);
+				}
+				
+			}
+			
 			newOffense.setMethodOfEntry(StringUtils.getStringBetween(49, 49, segmentData));
 
 			int biasMotivationFields = length == 63 ? 1 : OffenseSegment.BIAS_MOTIVATION_COUNT;

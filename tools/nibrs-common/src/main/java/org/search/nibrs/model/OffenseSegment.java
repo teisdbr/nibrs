@@ -17,6 +17,8 @@ package org.search.nibrs.model;
 
 import java.util.Arrays;
 
+import org.search.nibrs.common.ParsedObject;
+
 /**
  * Representation of an OffenseSegment reported within an Incident in a NIBRS report.
  *  
@@ -36,7 +38,7 @@ public class OffenseSegment extends AbstractSegment
     private String offenseAttemptedCompleted;
     private String[] offendersSuspectedOfUsing;
     private String locationType;
-    private Integer numberOfPremisesEntered;
+    private ParsedObject<Integer> numberOfPremisesEntered;
     private String methodOfEntry;
     private String[] typeOfCriminalActivity;
     private String[] typeOfWeaponForceInvolved;
@@ -50,6 +52,7 @@ public class OffenseSegment extends AbstractSegment
     public OffenseSegment()
     {
     	super();
+    	numberOfPremisesEntered = new ParsedObject<>();
         offendersSuspectedOfUsing = new String[OFFENDERS_SUSPECTED_OF_USING_COUNT];
         typeOfCriminalActivity = new String[TYPE_OF_CRIMINAL_ACTIVITY_COUNT];
         typeOfWeaponForceInvolved = new String[TYPE_OF_WEAPON_FORCE_INVOLVED_COUNT];
@@ -191,12 +194,12 @@ public class OffenseSegment extends AbstractSegment
         this.methodOfEntry = methodOfEntry;
     }
 
-    public Integer getNumberOfPremisesEntered()
+    public ParsedObject<Integer> getNumberOfPremisesEntered()
     {
         return numberOfPremisesEntered;
     }
 
-    public void setNumberOfPremisesEntered(Integer numberOfPremisesEntered)
+    public void setNumberOfPremisesEntered(ParsedObject<Integer> numberOfPremisesEntered)
     {
         this.numberOfPremisesEntered = numberOfPremisesEntered;
     }

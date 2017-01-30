@@ -25,6 +25,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
@@ -356,11 +357,11 @@ public class OffenseSegmentRulesFactory {
 			public NIBRSError apply(OffenseSegment subject) {
 				NIBRSError ret = null;
 				String offenseCode = subject.getUcrOffenseCode();
-				Integer numberOfPremises = subject.getNumberOfPremisesEntered();
+				ParsedObject<Integer> numberOfPremises = subject.getNumberOfPremisesEntered();
 				String locationType = subject.getLocationType();
 				if (offenseCode != null && OffenseCode._220.code.equals(offenseCode) &&
 						locationType != null && (LocationTypeCode._14.code.equals(locationType) || LocationTypeCode._19.code.equals(locationType)) &&
-						numberOfPremises == null) {
+						(numberOfPremises.isMissing() || numberOfPremises.isInvalid())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(null);
 					ret.setDataElementIdentifier("10");
@@ -437,7 +438,7 @@ public class OffenseSegmentRulesFactory {
 					String locationType = subject.getLocationType();
 					if (!(OffenseCode._220.code.equals(offenseCode) && (LocationTypeCode._14.code.equals(locationType) || LocationTypeCode._19.code.equals(locationType)))) {
 						ret = subject.getErrorTemplate();
-						ret.setValue(subject.getNumberOfPremisesEntered());
+						ret.setValue(subject.getNumberOfPremisesEntered().getValue());
 						ret.setDataElementIdentifier("10");
 						ret.setNIBRSErrorCode(NIBRSErrorCode._252);
 					}
@@ -537,7 +538,7 @@ public class OffenseSegmentRulesFactory {
 	Rule<OffenseSegment> getRule204ForPremisesEntered() {
 		Rule<OffenseSegment> ret = new NumericValueRule<>(
 				subject -> {
-					return subject.getNumberOfPremisesEntered();
+					return subject.getNumberOfPremisesEntered().getValue();
 				},
 				(value, target) -> {
 					NIBRSError e = null;

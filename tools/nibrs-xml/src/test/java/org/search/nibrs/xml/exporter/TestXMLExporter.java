@@ -344,7 +344,7 @@ public class TestXMLExporter {
 		o = new OffenseSegment();
 		incident.addOffense(o);
 		o.setUcrOffenseCode("220");
-		o.setNumberOfPremisesEntered(1);
+		o.setNumberOfPremisesEntered(new ParsedObject<Integer>(1));
 		o.setMethodOfEntry("F");
 		o.setBiasMotivation(0, "21");
 		o.setBiasMotivation(1, "22");

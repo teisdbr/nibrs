@@ -212,7 +212,7 @@ final class VictimRuleViolationExemplarFactory {
 			offense.setOffendersSuspectedOfUsing(1, "N");
 			offense.setBiasMotivation(1, "15");
 			offense.setLocationType("15");
-			offense.setNumberOfPremisesEntered(null);
+			offense.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense.setAutomaticWeaponIndicator(0, " ");
 			copy.addOffense(offense);
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(1, "13A");

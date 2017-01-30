@@ -26,6 +26,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -135,7 +136,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setAutomaticWeaponIndicator(0, "B");
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(100);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(100));
 			incidents.add(copy);
 			
 			return incidents;
@@ -431,7 +432,7 @@ final class OffenseRuleViolationExemplarFactory {
 				for (LocationTypeCode ltc : locationTypeCodeSet) {
 					GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 					OffenseSegment offense = new OffenseSegment();
-					offense.setNumberOfPremisesEntered(2);
+					offense.setNumberOfPremisesEntered(new ParsedObject<>(2));
 					offense.setLocationType(ltc.code);
 					offense.setUcrOffenseCode(oc.code);
 					copy.addOffense(offense);
@@ -439,7 +440,7 @@ final class OffenseRuleViolationExemplarFactory {
 				}
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 				OffenseSegment offense = new OffenseSegment();
-				offense.setNumberOfPremisesEntered(2);
+				offense.setNumberOfPremisesEntered(new ParsedObject<>(2));
 				offense.setLocationType(LocationTypeCode._14.code);
 				offense.setUcrOffenseCode(oc.code);
 				copy.addOffense(offense);
@@ -449,7 +450,7 @@ final class OffenseRuleViolationExemplarFactory {
 			for (LocationTypeCode ltc : locationTypeCodeSet) {
 				GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 				OffenseSegment offense = new OffenseSegment();
-				offense.setNumberOfPremisesEntered(2);
+				offense.setNumberOfPremisesEntered(new ParsedObject<>(2));
 				offense.setLocationType(ltc.code);
 				offense.setUcrOffenseCode(OffenseCode._220.code);
 				copy.addOffense(offense);
@@ -559,12 +560,12 @@ final class OffenseRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			copy.getOffenses().get(0).setLocationType("14");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(null);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			incidents.add(copy);
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("220");
 			copy.getOffenses().get(0).setLocationType("19");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(null);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 								
 			incidents.add(copy);
 			
@@ -606,7 +607,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense2.setOffendersSuspectedOfUsing(0, "N");
 			offense2.setBiasMotivation(0, "15");
 			offense2.setLocationType("15");
-			offense2.setNumberOfPremisesEntered(null);
+			offense2.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense2.setAutomaticWeaponIndicator(0, " ");
 			
 					
@@ -629,7 +630,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense2.setOffendersSuspectedOfUsing(0, "N");
 			offense2.setBiasMotivation(0, "15");
 			offense2.setLocationType("15");
-			offense2.setNumberOfPremisesEntered(null);
+			offense2.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense2.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 3
 			OffenseSegment offense3 = new OffenseSegment();
@@ -640,7 +641,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense3.setOffendersSuspectedOfUsing(0, "N");
 			offense3.setBiasMotivation(0, "15");
 			offense3.setLocationType("15");
-			offense3.setNumberOfPremisesEntered(null);
+			offense3.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense3.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 4
 			OffenseSegment offense4 = new OffenseSegment();
@@ -651,7 +652,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense4.setOffendersSuspectedOfUsing(0, "N");
 			offense4.setBiasMotivation(0, "15");
 			offense4.setLocationType("15");
-			offense4.setNumberOfPremisesEntered(null);
+			offense4.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense4.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 5
 			OffenseSegment offense5 = new OffenseSegment();
@@ -662,7 +663,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense5.setOffendersSuspectedOfUsing(0, "N");
 			offense5.setBiasMotivation(0, "15");
 			offense5.setLocationType("15");
-			offense5.setNumberOfPremisesEntered(null);
+			offense5.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense5.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 6
 			OffenseSegment offense6 = new OffenseSegment();
@@ -673,7 +674,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense6.setOffendersSuspectedOfUsing(0, "N");
 			offense6.setBiasMotivation(0, "15");
 			offense6.setLocationType("15");
-			offense6.setNumberOfPremisesEntered(null);
+			offense6.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense6.setAutomaticWeaponIndicator(0, " ");
 			//Offense Segment 7
 			OffenseSegment offense7 = new OffenseSegment();
@@ -684,7 +685,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense7.setOffendersSuspectedOfUsing(0, "N");
 			offense7.setBiasMotivation(0, "15");
 			offense7.setLocationType("15");
-			offense7.setNumberOfPremisesEntered(null);
+			offense7.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense7.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 8
 			OffenseSegment offense8 = new OffenseSegment();
@@ -695,7 +696,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense8.setOffendersSuspectedOfUsing(0, "N");
 			offense8.setBiasMotivation(0, "15");
 			offense8.setLocationType("15");
-			offense8.setNumberOfPremisesEntered(null);
+			offense8.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense8.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 9
 			OffenseSegment offense9 = new OffenseSegment();
@@ -706,7 +707,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense9.setOffendersSuspectedOfUsing(0, "N");
 			offense9.setBiasMotivation(0, "15");
 			offense9.setLocationType("15");
-			offense9.setNumberOfPremisesEntered(null);
+			offense9.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense9.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 10
 			OffenseSegment offense10 = new OffenseSegment();
@@ -717,7 +718,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense10.setOffendersSuspectedOfUsing(0, "N");
 			offense10.setBiasMotivation(0, "15");
 			offense10.setLocationType("15");
-			offense10.setNumberOfPremisesEntered(null);
+			offense10.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense10.setAutomaticWeaponIndicator(0, " ");
 			//OffenseSegment 11
 			OffenseSegment offense11 = new OffenseSegment();
@@ -728,7 +729,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense11.setOffendersSuspectedOfUsing(0, "N");
 			offense11.setBiasMotivation(0, "15");
 			offense11.setLocationType("15");
-			offense11.setNumberOfPremisesEntered(null);
+			offense11.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense11.setAutomaticWeaponIndicator(0, " ");
 			
 				
@@ -797,7 +798,7 @@ final class OffenseRuleViolationExemplarFactory {
 			offense2.setOffendersSuspectedOfUsing(0, "N");
 			offense2.setBiasMotivation(0, "03");
 			offense2.setLocationType("15");
-			offense2.setNumberOfPremisesEntered(null);
+			offense2.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 			offense2.setAutomaticWeaponIndicator(0, " ");
 			copy.addOffense(offense2);
 			

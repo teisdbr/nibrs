@@ -29,6 +29,7 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -178,7 +179,7 @@ final class PropertyRuleViolationExemplarFactory {
 			offenseSegment.setOffendersSuspectedOfUsing(0, "N");
 			offenseSegment.setBiasMotivation(0, "88");
 			offenseSegment.setLocationType("20");
-			offenseSegment.setNumberOfPremisesEntered(1);
+			offenseSegment.setNumberOfPremisesEntered(new ParsedObject<>(1));
 			offenseSegment.setMethodOfEntry("N");
 			mvTheftIncident.removeProperties();
 			PropertySegment propertySegment = new PropertySegment();
@@ -195,7 +196,7 @@ final class PropertyRuleViolationExemplarFactory {
 			offenseSegment.setOffendersSuspectedOfUsing(0, "N");
 			offenseSegment.setBiasMotivation(0, "88");
 			offenseSegment.setLocationType("20");
-			offenseSegment.setNumberOfPremisesEntered(1);
+			offenseSegment.setNumberOfPremisesEntered(new ParsedObject<>(1));
 			offenseSegment.setMethodOfEntry("N");
 			drugIncident.removeProperties();
 			propertySegment = new PropertySegment();
@@ -280,7 +281,7 @@ final class PropertyRuleViolationExemplarFactory {
 			offenseSegment.setOffendersSuspectedOfUsing(0, "N");
 			offenseSegment.setBiasMotivation(0, "88");
 			offenseSegment.setLocationType("20");
-			offenseSegment.setNumberOfPremisesEntered(1);
+			offenseSegment.setNumberOfPremisesEntered(new ParsedObject<>(1));
 			offenseSegment.setMethodOfEntry("N");
 			mvTheftIncident.removeProperties();
 			PropertySegment propertySegment = new PropertySegment();
@@ -400,7 +401,7 @@ final class PropertyRuleViolationExemplarFactory {
 			offenseSegment.setOffendersSuspectedOfUsing(0, "N");
 			offenseSegment.setBiasMotivation(0, "88");
 			offenseSegment.setLocationType("20");
-			offenseSegment.setNumberOfPremisesEntered(1);
+			offenseSegment.setNumberOfPremisesEntered(new ParsedObject<>(1));
 			offenseSegment.setMethodOfEntry("N");
 			mvTheftIncident.removeProperties();
 			PropertySegment propertySegment = new PropertySegment();
@@ -439,7 +440,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -479,7 +480,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -517,7 +518,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("8");
@@ -538,7 +539,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("1");
@@ -556,7 +557,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy3.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property3 = new PropertySegment();
 			property3.setTypeOfPropertyLoss("1");
@@ -614,7 +615,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -640,7 +641,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -663,7 +664,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -713,7 +714,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("2");
@@ -727,7 +728,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("7");
@@ -741,7 +742,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy3.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property3 = new PropertySegment();
 			property3.setTypeOfPropertyLoss("7");
@@ -773,7 +774,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -804,7 +805,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -833,7 +834,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("2");
@@ -847,7 +848,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("5");
@@ -861,7 +862,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy3.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property3 = new PropertySegment();
 			property3.setTypeOfPropertyLoss("5");
@@ -894,7 +895,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("5");
@@ -1289,7 +1290,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("2");
@@ -1300,7 +1301,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("3");
@@ -1311,7 +1312,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy3.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property3 = new PropertySegment();
 			property3.setTypeOfPropertyLoss("4");
@@ -1322,7 +1323,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy4.getOffenses().get(0).setLocationType("20");
-			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy4.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property4 = new PropertySegment();
 			property4.setTypeOfPropertyLoss("5");
@@ -1333,7 +1334,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy5.getOffenses().get(0).setLocationType("20");
-			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy5.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property5 = new PropertySegment();
 			property5.setTypeOfPropertyLoss("6");
@@ -1344,7 +1345,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy6.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy6.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy6.getOffenses().get(0).setLocationType("20");
-			copy6.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy6.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy6.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property6 = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -1385,7 +1386,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("2");
@@ -1396,7 +1397,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("3");
@@ -1407,7 +1408,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy3.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property3 = new PropertySegment();
 			property3.setTypeOfPropertyLoss("4");
@@ -1418,7 +1419,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy4.getOffenses().get(0).setLocationType("20");
-			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy4.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property4 = new PropertySegment();
 			property4.setTypeOfPropertyLoss("5");
@@ -1429,7 +1430,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy5.getOffenses().get(0).setLocationType("20");
-			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy5.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property5 = new PropertySegment();
 			property5.setTypeOfPropertyLoss("6");
@@ -1440,7 +1441,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy6.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy6.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy6.getOffenses().get(0).setLocationType("20");
-			copy6.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy6.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy6.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property6 = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -1471,7 +1472,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			
 			PropertySegment property = new PropertySegment();
@@ -1499,7 +1500,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("6");
@@ -1529,7 +1530,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("6");
@@ -1557,7 +1558,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("6");
@@ -1574,7 +1575,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2 = new PropertySegment();
 			property2.setTypeOfPropertyLoss("6");
@@ -1608,7 +1609,7 @@ final class PropertyRuleViolationExemplarFactory {
 				copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 				copy.getOffenses().get(0).setBiasMotivation(0, "88");
 				copy.getOffenses().get(0).setLocationType("20");
-				copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+				copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 				copy.getOffenses().get(0).setMethodOfEntry("N");
 				PropertySegment property = new PropertySegment();
 				property.setTypeOfPropertyLoss("7");
@@ -1642,7 +1643,7 @@ final class PropertyRuleViolationExemplarFactory {
 				copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 				copy.getOffenses().get(0).setBiasMotivation(0, "88");
 				copy.getOffenses().get(0).setLocationType("20");
-				copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+				copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 				copy.getOffenses().get(0).setMethodOfEntry("N");
 				PropertySegment property = new PropertySegment();
 				property.setTypeOfPropertyLoss("5");
@@ -1671,7 +1672,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");
@@ -1683,7 +1684,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy2.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy2.getOffenses().get(0).setLocationType("20");
-			copy2.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy2.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy2.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property2= new PropertySegment();
 			property2.setTypeOfPropertyLoss("7");
@@ -1695,7 +1696,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy3.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy3.getOffenses().get(0).setLocationType("20");
-			copy3.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy3.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy3.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property3 = new PropertySegment();
 			property3.setTypeOfPropertyLoss("7");
@@ -1707,7 +1708,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy4.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy4.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy4.getOffenses().get(0).setLocationType("20");
-			copy4.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy4.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy4.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property4= new PropertySegment();
 			property4.setTypeOfPropertyLoss("7");
@@ -1719,7 +1720,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy5.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy5.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy5.getOffenses().get(0).setLocationType("20");
-			copy5.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy5.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy5.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property5 = new PropertySegment();
 			property5.setTypeOfPropertyLoss("7");
@@ -1731,7 +1732,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy6.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy6.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy6.getOffenses().get(0).setLocationType("20");
-			copy6.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy6.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy6.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property6= new PropertySegment();
 			property6.setTypeOfPropertyLoss("7");
@@ -1743,7 +1744,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy7.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy7.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy7.getOffenses().get(0).setLocationType("20");
-			copy7.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy7.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy7.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property7 = new PropertySegment();
 			property7.setTypeOfPropertyLoss("7");
@@ -1755,7 +1756,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy8.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy8.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy8.getOffenses().get(0).setLocationType("20");
-			copy8.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy8.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy8.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property8= new PropertySegment();
 			property8.setTypeOfPropertyLoss("7");
@@ -1767,7 +1768,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy9.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy9.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy9.getOffenses().get(0).setLocationType("20");
-			copy9.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy9.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy9.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property9 = new PropertySegment();
 			property9.setTypeOfPropertyLoss("7");
@@ -1779,7 +1780,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy10.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy10.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy10.getOffenses().get(0).setLocationType("20");
-			copy10.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy10.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy10.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property10= new PropertySegment();
 			property10.setTypeOfPropertyLoss("7");
@@ -1791,7 +1792,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy11.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy11.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy11.getOffenses().get(0).setLocationType("20");
-			copy11.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy11.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy11.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property11 = new PropertySegment();
 			property11.setTypeOfPropertyLoss("7");
@@ -1803,7 +1804,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy12.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy12.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy12.getOffenses().get(0).setLocationType("20");
-			copy12.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy12.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy12.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property12= new PropertySegment();
 			property12.setTypeOfPropertyLoss("7");
@@ -1815,7 +1816,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy13.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy13.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy13.getOffenses().get(0).setLocationType("20");
-			copy13.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy13.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy13.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property13 = new PropertySegment();
 			property13.setTypeOfPropertyLoss("7");
@@ -1827,7 +1828,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy14.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy14.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy14.getOffenses().get(0).setLocationType("20");
-			copy14.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy14.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy14.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property14= new PropertySegment();
 			property14.setTypeOfPropertyLoss("7");
@@ -1842,7 +1843,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy15.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy15.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy15.getOffenses().get(0).setLocationType("20");
-			copy15.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy15.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy15.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property15 = new PropertySegment();
 			property15.setTypeOfPropertyLoss("7");
@@ -1854,7 +1855,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy16.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy16.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy16.getOffenses().get(0).setLocationType("20");
-			copy16.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy16.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy16.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property16= new PropertySegment();
 			property16.setTypeOfPropertyLoss("7");
@@ -1867,7 +1868,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy17.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy17.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy17.getOffenses().get(0).setLocationType("20");
-			copy17.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy17.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy17.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property17 = new PropertySegment();
 			property17.setTypeOfPropertyLoss("7");
@@ -1879,7 +1880,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy18.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy18.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy18.getOffenses().get(0).setLocationType("20");
-			copy18.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy18.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy18.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property18= new PropertySegment();
 			property18.setTypeOfPropertyLoss("7");
@@ -1892,7 +1893,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy19.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy19.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy19.getOffenses().get(0).setLocationType("20");
-			copy19.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy19.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy19.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property19 = new PropertySegment();
 			property19.setTypeOfPropertyLoss("7");
@@ -1904,7 +1905,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy22.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy22.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy22.getOffenses().get(0).setLocationType("20");
-			copy22.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy22.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy22.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property22= new PropertySegment();
 			property22.setTypeOfPropertyLoss("7");
@@ -1917,7 +1918,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy23.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy23.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy23.getOffenses().get(0).setLocationType("20");
-			copy23.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy23.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy23.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property23 = new PropertySegment();
 			property23.setTypeOfPropertyLoss("7");
@@ -1929,7 +1930,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy24.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy24.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy24.getOffenses().get(0).setLocationType("20");
-			copy24.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy24.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy24.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property24= new PropertySegment();
 			property24.setTypeOfPropertyLoss("7");
@@ -1942,7 +1943,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy25.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy25.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy25.getOffenses().get(0).setLocationType("20");
-			copy25.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy25.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy25.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property25 = new PropertySegment();
 			property25.setTypeOfPropertyLoss("7");
@@ -1954,7 +1955,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy26.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy26.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy26.getOffenses().get(0).setLocationType("20");
-			copy26.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy26.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy26.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property26= new PropertySegment();
 			property26.setTypeOfPropertyLoss("7");
@@ -1967,7 +1968,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy27.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy27.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy27.getOffenses().get(0).setLocationType("20");
-			copy27.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy27.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy27.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property27 = new PropertySegment();
 			property27.setTypeOfPropertyLoss("7");
@@ -1979,7 +1980,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy28.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy28.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy28.getOffenses().get(0).setLocationType("20");
-			copy28.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy28.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy28.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property28= new PropertySegment();
 			property28.setTypeOfPropertyLoss("7");
@@ -1992,7 +1993,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy29.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy29.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy29.getOffenses().get(0).setLocationType("20");
-			copy29.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy29.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy29.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property29 = new PropertySegment();
 			property29.setTypeOfPropertyLoss("7");
@@ -2004,7 +2005,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy30.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy30.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy30.getOffenses().get(0).setLocationType("20");
-			copy30.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy30.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy30.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property30= new PropertySegment();
 			property30.setTypeOfPropertyLoss("7");
@@ -2017,7 +2018,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy31.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy31.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy31.getOffenses().get(0).setLocationType("20");
-			copy31.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy31.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy31.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property31 = new PropertySegment();
 			property31.setTypeOfPropertyLoss("7");
@@ -2029,7 +2030,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy32.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy32.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy32.getOffenses().get(0).setLocationType("20");
-			copy32.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy32.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy32.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property32= new PropertySegment();
 			property32.setTypeOfPropertyLoss("7");
@@ -2042,7 +2043,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy33.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy33.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy33.getOffenses().get(0).setLocationType("20");
-			copy33.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy33.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy33.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property33 = new PropertySegment();
 			property33.setTypeOfPropertyLoss("7");
@@ -2054,7 +2055,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy34.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy34.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy34.getOffenses().get(0).setLocationType("20");
-			copy34.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy34.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy34.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property34= new PropertySegment();
 			property34.setTypeOfPropertyLoss("7");
@@ -2067,7 +2068,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy35.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy35.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy35.getOffenses().get(0).setLocationType("20");
-			copy35.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy35.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy35.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property35 = new PropertySegment();
 			property35.setTypeOfPropertyLoss("7");
@@ -2079,7 +2080,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy36.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy36.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy36.getOffenses().get(0).setLocationType("20");
-			copy36.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy36.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy36.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property36= new PropertySegment();
 			property36.setTypeOfPropertyLoss("7");
@@ -2092,7 +2093,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy37.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy37.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy37.getOffenses().get(0).setLocationType("20");
-			copy37.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy37.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy37.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property37 = new PropertySegment();
 			property37.setTypeOfPropertyLoss("7");
@@ -2104,7 +2105,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy38.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy38.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy38.getOffenses().get(0).setLocationType("20");
-			copy38.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy38.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy38.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property38= new PropertySegment();
 			property38.setTypeOfPropertyLoss("7");
@@ -2117,7 +2118,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy39.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy39.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy39.getOffenses().get(0).setLocationType("20");
-			copy39.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy39.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy39.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property39 = new PropertySegment();
 			property39.setTypeOfPropertyLoss("7");
@@ -2129,7 +2130,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy40.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy40.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy40.getOffenses().get(0).setLocationType("20");
-			copy40.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy40.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy40.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property40= new PropertySegment();
 			property40.setTypeOfPropertyLoss("7");
@@ -2142,7 +2143,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy41.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy41.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy41.getOffenses().get(0).setLocationType("20");
-			copy41.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy41.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy41.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property41 = new PropertySegment();
 			property41.setTypeOfPropertyLoss("7");
@@ -2154,7 +2155,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy42.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy42.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy42.getOffenses().get(0).setLocationType("20");
-			copy42.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy42.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy42.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property42= new PropertySegment();
 			property42.setTypeOfPropertyLoss("7");
@@ -2167,7 +2168,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy43.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy43.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy43.getOffenses().get(0).setLocationType("20");
-			copy43.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy43.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy43.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property43 = new PropertySegment();
 			property43.setTypeOfPropertyLoss("7");
@@ -2179,7 +2180,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy44.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy44.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy44.getOffenses().get(0).setLocationType("20");
-			copy44.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy44.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy44.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property44= new PropertySegment();
 			property44.setTypeOfPropertyLoss("7");
@@ -2192,7 +2193,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy45.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy45.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy45.getOffenses().get(0).setLocationType("20");
-			copy45.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy45.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy45.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property45 = new PropertySegment();
 			property45.setTypeOfPropertyLoss("7");
@@ -2204,7 +2205,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy46.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy46.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy46.getOffenses().get(0).setLocationType("20");
-			copy46.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy46.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy46.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property46= new PropertySegment();
 			property46.setTypeOfPropertyLoss("7");
@@ -2217,7 +2218,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy47.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy47.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy47.getOffenses().get(0).setLocationType("20");
-			copy47.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy47.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy47.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property47 = new PropertySegment();
 			property47.setTypeOfPropertyLoss("7");
@@ -2229,7 +2230,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy48.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy48.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy48.getOffenses().get(0).setLocationType("20");
-			copy48.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy48.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy48.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property48= new PropertySegment();
 			property48.setTypeOfPropertyLoss("7");
@@ -2242,7 +2243,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy49.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy49.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy49.getOffenses().get(0).setLocationType("20");
-			copy49.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy49.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy49.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property49 = new PropertySegment();
 			property49.setTypeOfPropertyLoss("7");
@@ -2254,7 +2255,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy50.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy50.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy50.getOffenses().get(0).setLocationType("20");
-			copy50.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy50.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy50.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property50= new PropertySegment();
 			property50.setTypeOfPropertyLoss("7");
@@ -2267,7 +2268,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy51.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy51.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy51.getOffenses().get(0).setLocationType("20");
-			copy51.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy51.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy51.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property51 = new PropertySegment();
 			property51.setTypeOfPropertyLoss("7");
@@ -2279,7 +2280,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy52.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy52.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy52.getOffenses().get(0).setLocationType("20");
-			copy52.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy52.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy52.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property52= new PropertySegment();
 			property52.setTypeOfPropertyLoss("7");
@@ -2296,7 +2297,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy53.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy53.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy53.getOffenses().get(0).setLocationType("20");
-			copy53.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy53.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy53.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property53 = new PropertySegment();
 			property53.setTypeOfPropertyLoss("7");
@@ -2309,7 +2310,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy54.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy54.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy54.getOffenses().get(0).setLocationType("20");
-			copy54.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy54.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy54.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property54 = new PropertySegment();
 			property54.setTypeOfPropertyLoss("7");
@@ -2322,7 +2323,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy55.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy55.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy55.getOffenses().get(0).setLocationType("20");
-			copy55.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy55.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy55.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property55 = new PropertySegment();
 			property55.setTypeOfPropertyLoss("7");
@@ -2335,7 +2336,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy56.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy56.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy56.getOffenses().get(0).setLocationType("20");
-			copy56.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy56.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy56.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property56 = new PropertySegment();
 			property56.setTypeOfPropertyLoss("7");
@@ -2348,7 +2349,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy57.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy57.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy57.getOffenses().get(0).setLocationType("20");
-			copy57.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy57.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy57.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property57 = new PropertySegment();
 			property57.setTypeOfPropertyLoss("7");
@@ -2361,7 +2362,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy58.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy58.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy58.getOffenses().get(0).setLocationType("20");
-			copy58.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy58.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy58.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property58 = new PropertySegment();
 			property58.setTypeOfPropertyLoss("7");
@@ -2374,7 +2375,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy59.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy59.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy59.getOffenses().get(0).setLocationType("20");
-			copy59.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy59.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy59.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property59 = new PropertySegment();
 			property59.setTypeOfPropertyLoss("7");
@@ -2387,7 +2388,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy60.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy60.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy60.getOffenses().get(0).setLocationType("20");
-			copy60.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy60.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy60.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property60 = new PropertySegment();
 			property60.setTypeOfPropertyLoss("7");
@@ -2400,7 +2401,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy61.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy61.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy61.getOffenses().get(0).setLocationType("20");
-			copy61.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy61.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy61.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property61 = new PropertySegment();
 			property61.setTypeOfPropertyLoss("7");
@@ -2413,7 +2414,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy62.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy62.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy62.getOffenses().get(0).setLocationType("20");
-			copy62.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy62.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy62.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property62 = new PropertySegment();
 			property62.setTypeOfPropertyLoss("7");
@@ -2426,7 +2427,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy63.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy63.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy63.getOffenses().get(0).setLocationType("20");
-			copy63.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy63.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy63.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property63 = new PropertySegment();
 			property63.setTypeOfPropertyLoss("7");
@@ -2439,7 +2440,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy64.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy64.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy64.getOffenses().get(0).setLocationType("20");
-			copy64.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy64.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy64.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property64 = new PropertySegment();
 			property64.setTypeOfPropertyLoss("7");
@@ -2452,7 +2453,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy65.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy65.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy65.getOffenses().get(0).setLocationType("20");
-			copy65.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy65.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy65.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property65 = new PropertySegment();
 			property65.setTypeOfPropertyLoss("7");
@@ -2465,7 +2466,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy66.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy66.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy66.getOffenses().get(0).setLocationType("20");
-			copy66.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy66.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy66.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property66 = new PropertySegment();
 			property66.setTypeOfPropertyLoss("7");
@@ -2478,7 +2479,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy67.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy67.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy67.getOffenses().get(0).setLocationType("20");
-			copy67.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy67.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy67.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property67 = new PropertySegment();
 			property67.setTypeOfPropertyLoss("7");
@@ -2491,7 +2492,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy68.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy68.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy68.getOffenses().get(0).setLocationType("20");
-			copy68.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy68.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy68.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property68 = new PropertySegment();
 			property68.setTypeOfPropertyLoss("7");
@@ -2504,7 +2505,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy69.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy69.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy69.getOffenses().get(0).setLocationType("20");
-			copy69.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy69.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy69.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property69 = new PropertySegment();
 			property69.setTypeOfPropertyLoss("7");
@@ -2521,7 +2522,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy70.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy70.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy70.getOffenses().get(0).setLocationType("20");
-			copy70.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy70.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy70.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property70 = new PropertySegment();
 			property70.setTypeOfPropertyLoss("7");
@@ -2534,7 +2535,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy71.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy71.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy71.getOffenses().get(0).setLocationType("20");
-			copy71.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy71.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy71.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property71 = new PropertySegment();
 			property71.setTypeOfPropertyLoss("7");
@@ -2547,7 +2548,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy72.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy72.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy72.getOffenses().get(0).setLocationType("20");
-			copy72.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy72.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy72.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property72 = new PropertySegment();
 			property72.setTypeOfPropertyLoss("7");
@@ -2560,7 +2561,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy73.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy73.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy73.getOffenses().get(0).setLocationType("20");
-			copy73.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy73.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy73.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property73 = new PropertySegment();
 			property73.setTypeOfPropertyLoss("7");
@@ -2573,7 +2574,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy74.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy74.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy74.getOffenses().get(0).setLocationType("20");
-			copy74.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy74.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy74.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property74 = new PropertySegment();
 			property74.setTypeOfPropertyLoss("7");
@@ -2586,7 +2587,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy75.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy75.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy75.getOffenses().get(0).setLocationType("20");
-			copy75.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy75.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy75.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property75 = new PropertySegment();
 			property75.setTypeOfPropertyLoss("7");
@@ -2599,7 +2600,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy76.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy76.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy76.getOffenses().get(0).setLocationType("20");
-			copy76.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy76.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy76.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property76 = new PropertySegment();
 			property76.setTypeOfPropertyLoss("7");
@@ -2612,7 +2613,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy77.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy77.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy77.getOffenses().get(0).setLocationType("20");
-			copy77.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy77.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy77.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property77 = new PropertySegment();
 			property77.setTypeOfPropertyLoss("7");
@@ -2625,7 +2626,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy78.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy78.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy78.getOffenses().get(0).setLocationType("20");
-			copy78.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy78.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy78.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property78 = new PropertySegment();
 			property78.setTypeOfPropertyLoss("7");
@@ -2638,7 +2639,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy79.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy79.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy79.getOffenses().get(0).setLocationType("20");
-			copy79.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy79.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy79.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property79 = new PropertySegment();
 			property79.setTypeOfPropertyLoss("7");
@@ -2651,7 +2652,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy80.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy80.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy80.getOffenses().get(0).setLocationType("20");
-			copy80.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy80.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy80.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property80 = new PropertySegment();
 			property80.setTypeOfPropertyLoss("7");
@@ -2664,7 +2665,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy81.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy81.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy81.getOffenses().get(0).setLocationType("20");
-			copy81.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy81.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy81.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property81 = new PropertySegment();
 			property81.setTypeOfPropertyLoss("7");
@@ -2677,7 +2678,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy82.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy82.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy82.getOffenses().get(0).setLocationType("20");
-			copy82.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy82.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy82.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property82 = new PropertySegment();
 			property82.setTypeOfPropertyLoss("7");
@@ -2690,7 +2691,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy83.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy83.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy83.getOffenses().get(0).setLocationType("20");
-			copy83.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy83.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy83.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property83 = new PropertySegment();
 			property83.setTypeOfPropertyLoss("7");
@@ -2703,7 +2704,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy84.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy84.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy84.getOffenses().get(0).setLocationType("20");
-			copy84.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy84.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy84.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property84 = new PropertySegment();
 			property84.setTypeOfPropertyLoss("7");
@@ -2716,7 +2717,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy85.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy85.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy85.getOffenses().get(0).setLocationType("20");
-			copy85.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy85.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy85.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property85 = new PropertySegment();
 			property85.setTypeOfPropertyLoss("7");
@@ -2729,7 +2730,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy86.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy86.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy86.getOffenses().get(0).setLocationType("20");
-			copy86.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy86.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy86.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property86 = new PropertySegment();
 			property86.setTypeOfPropertyLoss("7");
@@ -2742,7 +2743,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy87.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy87.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy87.getOffenses().get(0).setLocationType("20");
-			copy87.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy87.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy87.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property87 = new PropertySegment();
 			property87.setTypeOfPropertyLoss("7");
@@ -2755,7 +2756,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy88.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy88.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy88.getOffenses().get(0).setLocationType("20");
-			copy88.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy88.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy88.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property88 = new PropertySegment();
 			property88.setTypeOfPropertyLoss("7");
@@ -2768,7 +2769,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy89.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy89.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy89.getOffenses().get(0).setLocationType("20");
-			copy89.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy89.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy89.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property89 = new PropertySegment();
 			property89.setTypeOfPropertyLoss("7");
@@ -2781,7 +2782,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy90.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy90.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy90.getOffenses().get(0).setLocationType("20");
-			copy90.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy90.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy90.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property90 = new PropertySegment();
 			property90.setTypeOfPropertyLoss("7");
@@ -2794,7 +2795,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy91.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy91.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy91.getOffenses().get(0).setLocationType("20");
-			copy91.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy91.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy91.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property91 = new PropertySegment();
 			property91.setTypeOfPropertyLoss("7");
@@ -2807,7 +2808,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy92.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy92.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy92.getOffenses().get(0).setLocationType("20");
-			copy92.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy92.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy92.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property92 = new PropertySegment();
 			property92.setTypeOfPropertyLoss("7");
@@ -2820,7 +2821,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy93.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy93.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy93.getOffenses().get(0).setLocationType("20");
-			copy93.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy93.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy93.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property93 = new PropertySegment();
 			property93.setTypeOfPropertyLoss("7");
@@ -2833,7 +2834,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy94.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy94.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy94.getOffenses().get(0).setLocationType("20");
-			copy94.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy94.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy94.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property94 = new PropertySegment();
 			property94.setTypeOfPropertyLoss("7");
@@ -2846,7 +2847,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy95.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy95.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy95.getOffenses().get(0).setLocationType("20");
-			copy95.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy95.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy95.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property95 = new PropertySegment();
 			property95.setTypeOfPropertyLoss("7");
@@ -2859,7 +2860,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy96.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy96.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy96.getOffenses().get(0).setLocationType("20");
-			copy96.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy96.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy96.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property96 = new PropertySegment();
 			property96.setTypeOfPropertyLoss("7");
@@ -2872,7 +2873,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy97.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy97.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy97.getOffenses().get(0).setLocationType("20");
-			copy97.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy97.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy97.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property97 = new PropertySegment();
 			property97.setTypeOfPropertyLoss("7");
@@ -2885,7 +2886,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy98.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy98.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy98.getOffenses().get(0).setLocationType("20");
-			copy98.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy98.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy98.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property98 = new PropertySegment();
 			property98.setTypeOfPropertyLoss("7");
@@ -2898,7 +2899,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy99.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy99.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy99.getOffenses().get(0).setLocationType("20");
-			copy99.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy99.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy99.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property99 = new PropertySegment();
 			property99.setTypeOfPropertyLoss("7");
@@ -2911,7 +2912,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy100.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy100.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy100.getOffenses().get(0).setLocationType("20");
-			copy100.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy100.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy100.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property100 = new PropertySegment();
 			property100.setTypeOfPropertyLoss("7");
@@ -2924,7 +2925,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy101.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy101.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy101.getOffenses().get(0).setLocationType("20");
-			copy101.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy101.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy101.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property101 = new PropertySegment();
 			property101.setTypeOfPropertyLoss("7");
@@ -2937,7 +2938,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy102.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy102.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy102.getOffenses().get(0).setLocationType("20");
-			copy102.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy102.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy102.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property102 = new PropertySegment();
 			property102.setTypeOfPropertyLoss("7");
@@ -2950,7 +2951,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy103.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy103.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy103.getOffenses().get(0).setLocationType("20");
-			copy103.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy103.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy103.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property103 = new PropertySegment();
 			property103.setTypeOfPropertyLoss("7");
@@ -2963,7 +2964,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy104.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy104.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy104.getOffenses().get(0).setLocationType("20");
-			copy104.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy104.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy104.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property104 = new PropertySegment();
 			property104.setTypeOfPropertyLoss("7");
@@ -2976,7 +2977,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy105.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy105.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy105.getOffenses().get(0).setLocationType("20");
-			copy105.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy105.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy105.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property105 = new PropertySegment();
 			property105.setTypeOfPropertyLoss("7");
@@ -2989,7 +2990,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy106.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy106.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy106.getOffenses().get(0).setLocationType("20");
-			copy106.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy106.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy106.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property106 = new PropertySegment();
 			property106.setTypeOfPropertyLoss("7");
@@ -3002,7 +3003,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy107.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy107.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy107.getOffenses().get(0).setLocationType("20");
-			copy107.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy107.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy107.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property107 = new PropertySegment();
 			property107.setTypeOfPropertyLoss("7");
@@ -3015,7 +3016,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy108.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy108.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy108.getOffenses().get(0).setLocationType("20");
-			copy108.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy108.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy108.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property108 = new PropertySegment();
 			property108.setTypeOfPropertyLoss("7");
@@ -3028,7 +3029,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy109.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy109.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy109.getOffenses().get(0).setLocationType("20");
-			copy109.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy109.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy109.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property109 = new PropertySegment();
 			property109.setTypeOfPropertyLoss("7");
@@ -3041,7 +3042,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy110.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy110.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy110.getOffenses().get(0).setLocationType("20");
-			copy110.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy110.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy110.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property110 = new PropertySegment();
 			property110.setTypeOfPropertyLoss("7");
@@ -3054,7 +3055,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy111.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy111.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy111.getOffenses().get(0).setLocationType("20");
-			copy111.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy111.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy111.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property111 = new PropertySegment();
 			property111.setTypeOfPropertyLoss("7");
@@ -3067,7 +3068,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy112.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy112.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy112.getOffenses().get(0).setLocationType("20");
-			copy112.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy112.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy112.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property112 = new PropertySegment();
 			property112.setTypeOfPropertyLoss("7");
@@ -3080,7 +3081,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy113.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy113.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy113.getOffenses().get(0).setLocationType("20");
-			copy113.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy113.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy113.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property113 = new PropertySegment();
 			property113.setTypeOfPropertyLoss("7");
@@ -3093,7 +3094,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy114.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy114.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy114.getOffenses().get(0).setLocationType("20");
-			copy114.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy114.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy114.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property114 = new PropertySegment();
 			property114.setTypeOfPropertyLoss("7");
@@ -3106,7 +3107,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy115.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy115.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy115.getOffenses().get(0).setLocationType("20");
-			copy115.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy115.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy115.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property115 = new PropertySegment();
 			property115.setTypeOfPropertyLoss("7");
@@ -3119,7 +3120,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy116.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy116.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy116.getOffenses().get(0).setLocationType("20");
-			copy116.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy116.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy116.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property116 = new PropertySegment();
 			property116.setTypeOfPropertyLoss("7");
@@ -3132,7 +3133,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy117.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy117.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy117.getOffenses().get(0).setLocationType("20");
-			copy117.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy117.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy117.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property117 = new PropertySegment();
 			property117.setTypeOfPropertyLoss("7");
@@ -3145,7 +3146,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy118.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy118.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy118.getOffenses().get(0).setLocationType("20");
-			copy118.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy118.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy118.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property118 = new PropertySegment();
 			property118.setTypeOfPropertyLoss("7");
@@ -3158,7 +3159,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy119.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy119.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy119.getOffenses().get(0).setLocationType("20");
-			copy119.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy119.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy119.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property119 = new PropertySegment();
 			property119.setTypeOfPropertyLoss("7");
@@ -3171,7 +3172,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy120.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy120.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy120.getOffenses().get(0).setLocationType("20");
-			copy120.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy120.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy120.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property120 = new PropertySegment();
 			property120.setTypeOfPropertyLoss("7");
@@ -3184,7 +3185,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy121.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy121.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy121.getOffenses().get(0).setLocationType("20");
-			copy121.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy121.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy121.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property121 = new PropertySegment();
 			property121.setTypeOfPropertyLoss("7");
@@ -3199,7 +3200,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy20.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy20.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy20.getOffenses().get(0).setLocationType("20");
-			copy20.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy20.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy20.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property20 = new PropertySegment();
 			property20.setTypeOfPropertyLoss("7");
@@ -3212,7 +3213,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy21.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy21.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy21.getOffenses().get(0).setLocationType("20");
-			copy21.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy21.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy21.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property21 = new PropertySegment();
 			property21.setTypeOfPropertyLoss("7");
@@ -3225,7 +3226,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy122.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy122.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy122.getOffenses().get(0).setLocationType("20");
-			copy122.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy122.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy122.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property122 = new PropertySegment();
 			property122.setTypeOfPropertyLoss("7");
@@ -3238,7 +3239,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy123.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy123.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy123.getOffenses().get(0).setLocationType("20");
-			copy123.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy123.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy123.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property123 = new PropertySegment();
 			property123.setTypeOfPropertyLoss("7");
@@ -3251,7 +3252,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy124.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy124.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy124.getOffenses().get(0).setLocationType("20");
-			copy124.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy124.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy124.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property124 = new PropertySegment();
 			property124.setTypeOfPropertyLoss("7");
@@ -3264,7 +3265,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy125.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy125.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy125.getOffenses().get(0).setLocationType("20");
-			copy125.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy125.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy125.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property125 = new PropertySegment();
 			property125.setTypeOfPropertyLoss("7");
@@ -3554,7 +3555,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setOffendersSuspectedOfUsing(0, "N");
 			copy.getOffenses().get(0).setBiasMotivation(0, "88");
 			copy.getOffenses().get(0).setLocationType("20");
-			copy.getOffenses().get(0).setNumberOfPremisesEntered(1);
+			copy.getOffenses().get(0).setNumberOfPremisesEntered(new ParsedObject<>(1));
 			copy.getOffenses().get(0).setMethodOfEntry("N");
 			PropertySegment property = new PropertySegment();
 			property.setTypeOfPropertyLoss("7");

@@ -21,6 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -241,10 +242,10 @@ public class OffenseSegmentRulesFactoryTest {
 		e = rule.apply(o);
 		assertNull(e);
 		o.setLocationType(LocationTypeCode._14.code);
-		o.setNumberOfPremisesEntered(1);
+		o.setNumberOfPremisesEntered(new ParsedObject<>(1));
 		e = rule.apply(o);
 		assertNull(e);
-		o.setNumberOfPremisesEntered(null);
+		o.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 		e = rule.apply(o);
 		assertNotNull(e);
 		assertNull(e.getValue());
@@ -347,7 +348,7 @@ public class OffenseSegmentRulesFactoryTest {
 		o.setNumberOfPremisesEntered(null);
 		NIBRSError e = rule.apply(o);
 		assertNull(e);
-		o.setNumberOfPremisesEntered(2);
+		o.setNumberOfPremisesEntered(new ParsedObject<>(2));
 		o.setUcrOffenseCode(OffenseCode._220.code);
 		o.setLocationType(LocationTypeCode._14.code);
 		e = rule.apply(o);
@@ -574,13 +575,13 @@ public class OffenseSegmentRulesFactoryTest {
 
 		Rule<OffenseSegment> rule = rulesFactory.getRule204ForPremisesEntered();
 		OffenseSegment o = buildBaseSegment();
-		o.setNumberOfPremisesEntered(null);
+		o.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 		NIBRSError e = rule.apply(o);
 		assertNull(e);
-		o.setNumberOfPremisesEntered(5);
+		o.setNumberOfPremisesEntered(new ParsedObject<>(5));
 		e = rule.apply(o);
 		assertNull(e);
-		o.setNumberOfPremisesEntered(500);
+		o.setNumberOfPremisesEntered(new ParsedObject<>(500));
 		e = rule.apply(o);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());

@@ -285,7 +285,7 @@ public class TestIncidentBuilderOldFormat {
 		assertNull(offense.getOffendersSuspectedOfUsing(1));
 		assertNull(offense.getOffendersSuspectedOfUsing(2));
 		assertEquals("20", offense.getLocationType());
-		assertNull(offense.getNumberOfPremisesEntered());
+		assertTrue(offense.getNumberOfPremisesEntered().isMissing());
 		assertEquals("N", offense.getMethodOfEntry());
 		for (int i = 0; i < 3; i++) {
 			assertNull(offense.getTypeOfCriminalActivity(i));
