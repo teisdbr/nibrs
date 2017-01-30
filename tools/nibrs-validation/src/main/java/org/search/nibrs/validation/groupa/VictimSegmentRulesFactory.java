@@ -196,7 +196,7 @@ public class VictimSegmentRulesFactory {
 				NIBRSError e = null;
 				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
 				List<Integer> related = new ArrayList<>();
-				related.addAll(subject.getOffenderNumberRelatedList());
+				related.addAll(subject.getDistinctValidRelatedOffenderNumberList());
 				related.removeIf(element -> element == null);
 				for (Integer offenderNumber : related) {
 					OffenderSegment matchedOffender = parent.getOffenderForSequenceNumber(offenderNumber);
@@ -288,7 +288,7 @@ public class VictimSegmentRulesFactory {
 				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._404);
 
 				Set<Integer> victimRelatedOffenderNumberSet = new HashSet<>();
-				victimRelatedOffenderNumberSet.addAll(victimSegment.getOffenderNumberRelatedList());
+				victimRelatedOffenderNumberSet.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
 				victimRelatedOffenderNumberSet.removeIf(item -> item == null);
 
 				GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
@@ -427,7 +427,7 @@ public class VictimSegmentRulesFactory {
 				
 				NIBRSError e = null;
 				
-				List<Integer> relatedOffenderNumbers = victimSegment.getOffenderNumberRelatedList();
+				List<Integer> relatedOffenderNumbers = victimSegment.getDistinctValidRelatedOffenderNumberList();
 				List<String> relationships = victimSegment.getVictimOffenderRelationshipList();
 				List<String> invalidRelationships = new ArrayList<>();
 				
@@ -749,7 +749,7 @@ public class VictimSegmentRulesFactory {
 				offenseList.removeIf(item -> item == null);
 
 				List<Integer> offenderList = new ArrayList<>();
-				offenderList.addAll(victimSegment.getOffenderNumberRelatedList());
+				offenderList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
 				offenderList.removeIf(item -> item == null);
 
 				if (!(OffenseCode.containsCrimeAgainstPersonCode(offenseList) && victimSegment.isPerson()) && !offenderList.isEmpty()) {
@@ -773,7 +773,7 @@ public class VictimSegmentRulesFactory {
 				NIBRSError e = null;
 
 				List<Integer> offenderNumberList = new ArrayList<>();
-				offenderNumberList.addAll(victimSegment.getOffenderNumberRelatedList());
+				offenderNumberList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
 				offenderNumberList.removeIf(item -> item == null);
 
 				List<String> offenseCodeList = new ArrayList<>();
@@ -800,7 +800,7 @@ public class VictimSegmentRulesFactory {
 
 				NIBRSError e = null;
 				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
-				List<Integer> offenderNumRelatedList = victimSegment.getOffenderNumberRelatedList();
+				List<Integer> offenderNumRelatedList = victimSegment.getDistinctValidRelatedOffenderNumberList();
 				
 				for (int i=0;i < offenderNumRelatedList.size() && e == null;i++) {
 					Integer offenderNumber = offenderNumRelatedList.get(i);
@@ -844,19 +844,19 @@ public class VictimSegmentRulesFactory {
 				NIBRSError e = null;
 				GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
 				int spouseCount = 0;
-				Integer[] offenderNumbersRelated = victimSegment.getOffenderNumberRelated();
+				ParsedObject<Integer>[] offenderNumbersRelated = victimSegment.getOffenderNumberRelated();
 				for (int i=0; i < offenderNumbersRelated.length;i++) {
 					String relationship = victimSegment.getVictimOffenderRelationship(i);
-					Integer offenderSequenceNumber = offenderNumbersRelated[i];
-					if (offenderSequenceNumber != null && RelationshipOfVictimToOffenderCode.SE.code.equals(relationship)) {
-						OffenderSegment os = parent.getOffenderForSequenceNumber(offenderSequenceNumber);
+					ParsedObject<Integer> offenderSequenceNumberPO = offenderNumbersRelated[i];
+					if (!(offenderSequenceNumberPO.isMissing() || offenderSequenceNumberPO.isInvalid()) && RelationshipOfVictimToOffenderCode.SE.code.equals(relationship)) {
+						OffenderSegment os = parent.getOffenderForSequenceNumber(offenderSequenceNumberPO.getValue());
 						List<VictimSegment> siblingVictims = new ArrayList<>();
 						siblingVictims.addAll(parent.getVictimsOfOffender(os));
 						siblingVictims.remove(victimSegment);
 						for (VictimSegment siblingVictim : siblingVictims) {
-							Integer[] siblingOffenderNumbersRelated = siblingVictim.getOffenderNumberRelated();
+							ParsedObject<Integer>[] siblingOffenderNumbersRelated = siblingVictim.getOffenderNumberRelated();
 							for (int j=0;j < siblingOffenderNumbersRelated.length;j++) {
-								if (offenderSequenceNumber.equals(siblingOffenderNumbersRelated[j])) {
+								if (offenderSequenceNumberPO.equals(siblingOffenderNumbersRelated[j])) {
 									if (RelationshipOfVictimToOffenderCode.SE.code.equals(siblingVictim.getVictimOffenderRelationship(j))) {
 										spouseCount++;
 									}
@@ -982,7 +982,7 @@ public class VictimSegmentRulesFactory {
 
 				NIBRSError e = null;
 				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
-				List<Integer> offenderNumRelatedList = victimSegment.getOffenderNumberRelatedList();
+				List<Integer> offenderNumRelatedList = victimSegment.getDistinctValidRelatedOffenderNumberList();
 				
 				for (int i=0;i < offenderNumRelatedList.size() && e == null;i++) {
 					Integer offenderNumber = offenderNumRelatedList.get(i);
@@ -1124,7 +1124,7 @@ public class VictimSegmentRulesFactory {
 				relationshipList.addAll(victimSegment.getVictimOffenderRelationshipList());
 				relationshipList.removeIf(item -> item == null);
 				List<Integer> offenderNumberList = new ArrayList<>();
-				offenderNumberList.addAll(victimSegment.getOffenderNumberRelatedList());
+				offenderNumberList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
 				offenderNumberList.removeIf(item -> item == null);
 				if (relationshipList.contains(RelationshipOfVictimToOffenderCode.VO.code) && offenderNumberList.size() > 1) {
 					e = victimSegment.getErrorTemplate();
@@ -1143,7 +1143,7 @@ public class VictimSegmentRulesFactory {
 			public NIBRSError apply(VictimSegment victimSegment) {
 				NIBRSError e = null;
 				GroupAIncidentReport incident = (GroupAIncidentReport) victimSegment.getParentReport();
-				List<Integer> offenderNumberList = victimSegment.getOffenderNumberRelatedList();
+				List<Integer> offenderNumberList = victimSegment.getDistinctValidRelatedOffenderNumberList();
 				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
 				for (int i=0;i < offenderNumberList.size() && e == null;i++) {
 					Integer offenderNumber = offenderNumberList.get(i);

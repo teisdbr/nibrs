@@ -215,7 +215,7 @@ public class TestIncidentBuilderOldFormat {
 			assertNull(victim.getTypeOfInjury(i));
 		}
 		for (int i = 0; i < 10; i++) {
-			assertNull(victim.getOffenderNumberRelated(i));
+			assertTrue(victim.getOffenderNumberRelated(i).isMissing());
 			assertNull(victim.getVictimOffenderRelationship(i));
 		}
 	}
@@ -228,7 +228,7 @@ public class TestIncidentBuilderOldFormat {
 		assertEquals("290", victim.getUcrOffenseCodeConnection(2));
 		assertEquals("09", victim.getAggravatedAssaultHomicideCircumstances(0));
 		assertEquals("N", victim.getTypeOfInjury(0));
-		assertEquals(new Integer(1), victim.getOffenderNumberRelated(0));
+		assertEquals(new Integer(1), victim.getOffenderNumberRelated(0).getValue());
 		assertEquals("BG", victim.getVictimOffenderRelationship(0));
 	}
 

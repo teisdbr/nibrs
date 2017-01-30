@@ -437,7 +437,7 @@ final class OffenderRuleViolationExemplarFactory {
 			offenderSegment.setSex("U");
 			offenderSegment.setRace("U");
 			VictimSegment victimSegment = copy.getVictims().get(0);
-			victimSegment.setOffenderNumberRelated(0, 1);
+			victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
 			victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
 			incidents.add(copy);
 			return incidents;

@@ -93,7 +93,7 @@ final class VictimRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setOffenderNumberRelated(0, 2);
+			copy.getVictims().get(0).setOffenderNumberRelated(0, new ParsedObject<>(2));
 			incidents.add(copy);
 			
 			return incidents;
@@ -188,7 +188,7 @@ final class VictimRuleViolationExemplarFactory {
 			
 			copy = new GroupAIncidentReport(incident);
 			victim = copy.getVictims().get(0);
-			victim.setOffenderNumberRelated(0, 2);
+			victim.setOffenderNumberRelated(0, new ParsedObject<>(2));
 			incidents.add(copy);
 			
 			return incidents;
@@ -237,7 +237,7 @@ final class VictimRuleViolationExemplarFactory {
 			//is entered, none can be duplicate codes.
 			
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
-			copy4.getVictims().get(0).setOffenderNumberRelated(1, 1);
+			copy4.getVictims().get(0).setOffenderNumberRelated(1, new ParsedObject<>(1));
 			
 			incidents.add(copy);
 			incidents.add(copy2);
@@ -380,7 +380,7 @@ final class VictimRuleViolationExemplarFactory {
 			victim2.setResidentStatus("R");
 			victim2.setSex("F");
 			victim2.setRace("B");
-			victim2.setOffenderNumberRelated(0, 1);
+			victim2.setOffenderNumberRelated(0, new ParsedObject<>(1));
 			victim2.setVictimOffenderRelationship(0, "AQ");
 			victim2.setUcrOffenseCodeConnection(0, "13A");
 			
@@ -693,7 +693,7 @@ final class VictimRuleViolationExemplarFactory {
 			//offenders is unknown; therefore, the relationship cannot be entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setOffenderNumberRelated(0, 0);
+			copy.getVictims().get(0).setOffenderNumberRelated(0, new ParsedObject<>(0));
 			
 					
 			incidents.add(copy);
@@ -745,8 +745,10 @@ final class VictimRuleViolationExemplarFactory {
 			OffenderSegment os = new OffenderSegment();
 			os.setOffenderSequenceNumber(new ParsedObject<>(2));
 			copy.addOffender(os);
-			copy.getVictims().get(0).setOffenderNumberRelated(new Integer[] {1,2});
-			copy.getVictims().get(0).setVictimOffenderRelationship(new String[] {"VO","VO"});
+			copy.getVictims().get(0).setOffenderNumberRelated(0, new ParsedObject<>(1));
+			copy.getVictims().get(0).setOffenderNumberRelated(1, new ParsedObject<>(2));
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "VO");
+			copy.getVictims().get(0).setVictimOffenderRelationship(1, "VO");
 			incidents.add(copy);
 			
 			return incidents;
@@ -779,7 +781,7 @@ final class VictimRuleViolationExemplarFactory {
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "VO");
 			VictimSegment victim2 = new VictimSegment();
 			victim2.setVictimOffenderRelationship(0, "VO");
-			victim2.setOffenderNumberRelated(0, 1);
+			victim2.setOffenderNumberRelated(0, new ParsedObject<>(1));
 			copy.addVictim(victim2);
 			incidents.add(copy);
 			
@@ -798,8 +800,10 @@ final class VictimRuleViolationExemplarFactory {
 			OffenderSegment os = new OffenderSegment();
 			os.setOffenderSequenceNumber(new ParsedObject<>(2));
 			copy.addOffender(os);
-			copy.getVictims().get(0).setOffenderNumberRelated(new Integer[] {1,2});
-			copy.getVictims().get(0).setVictimOffenderRelationship(new String[] {"SE","SE"});
+			copy.getVictims().get(0).setOffenderNumberRelated(0, new ParsedObject<>(1));
+			copy.getVictims().get(0).setOffenderNumberRelated(1, new ParsedObject<>(2));
+			copy.getVictims().get(0).setVictimOffenderRelationship(0, "SE");
+			copy.getVictims().get(0).setVictimOffenderRelationship(1, "SE");
 			incidents.add(copy);
 			
 			return incidents;
@@ -814,7 +818,7 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			VictimSegment victim2 = new VictimSegment();
 			victim2.setVictimOffenderRelationship(0, "SE");
-			victim2.setOffenderNumberRelated(0, 1);
+			victim2.setOffenderNumberRelated(0, new ParsedObject<>(1));
 			copy.addVictim(victim2);
 			incidents.add(copy);
 			

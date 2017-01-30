@@ -18,6 +18,9 @@ package org.search.nibrs.validation.rules;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ValidationTarget;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
@@ -27,6 +30,8 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  * @param <T> The class of subjects to which this rule applies
  */
 public class DuplicateCodedValueRule<T extends ValidationTarget> extends AbstractBeanPropertyRule<T> {
+	
+	private static final Logger LOG = LogManager.getLogger(DuplicateCodedValueRule.class);
 
 	public DuplicateCodedValueRule(String propertyName, String dataElementIdentifier, Class<T> subjectClass, NIBRSErrorCode errorCode) {
 		super(propertyName, dataElementIdentifier, subjectClass, errorCode);
@@ -45,7 +50,12 @@ public class DuplicateCodedValueRule<T extends ValidationTarget> extends Abstrac
 		boolean ret = false;
 		for (Object o : array) {
 			if (o != null) {
-				if (valueSet.contains(o)) {
+				boolean skipParsedObject = false;
+				if (o instanceof ParsedObject) {
+					ParsedObject<?> po = (ParsedObject<?>) o;
+					skipParsedObject = po.isMissing() || po.isInvalid();
+				}
+				if (!skipParsedObject && valueSet.contains(o)) {
 					ret = true;
 					break;
 				}

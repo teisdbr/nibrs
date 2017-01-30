@@ -628,18 +628,28 @@ public class IncidentBuilder {
 				newVictim.setUcrOffenseCodeConnection(i, StringUtils.getStringBetween(41 + 3 * i, 43 + 3 * i, segmentData));
 			}
 			for (int i = 0; i < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT; i++) {
-				try {
-					newVictim.setOffenderNumberRelated(i, StringUtils.getIntegerBetween(90 + 4 * i, 91 + 4 * i, segmentData));
-				} catch (NumberFormatException nfe) {
-					NIBRSError e = new NIBRSError();
-					e.setContext(s.getReportSource());
-					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-					e.setSegmentType(s.getSegmentType());
-					e.setValue(StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData));
-					e.setNIBRSErrorCode(NIBRSErrorCode._402);
-					e.setWithinSegmentIdentifier(sequenceNumberI);
-					e.setDataElementIdentifier("34");
-					errorList.add(e);
+				String offenderNumberRelatedString = StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData);
+				ParsedObject<Integer> offenderNumberRelated = newVictim.getOffenderNumberRelated(i);
+				if (offenderNumberRelatedString == null) {
+					offenderNumberRelated.setMissing(true);
+					offenderNumberRelated.setInvalid(false);
+				} else {
+					try {
+						Integer offenderNumberRelatedValue = Integer.parseInt(offenderNumberRelatedString);
+						offenderNumberRelated.setValue(offenderNumberRelatedValue);
+					} catch (NumberFormatException nfe) {
+						NIBRSError e = new NIBRSError();
+						e.setContext(s.getReportSource());
+						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+						e.setSegmentType(s.getSegmentType());
+						e.setValue(StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData));
+						e.setNIBRSErrorCode(NIBRSErrorCode._402);
+						e.setWithinSegmentIdentifier(sequenceNumberI);
+						e.setDataElementIdentifier("34");
+						errorList.add(e);
+						offenderNumberRelated.setMissing(false);
+						offenderNumberRelated.setInvalid(true);
+					}
 				}
 			}
 			for (int i = 0; i < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT; i++) {

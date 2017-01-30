@@ -249,7 +249,7 @@ public class XMLExporter {
 	private void addSubjectVictimAssociationElements(GroupAIncidentReport incident, Element reportElement) {
 		for (VictimSegment victim : incident.getVictims()) {
 			for (int position=0; position < 10; position++) {
-				Integer offenderSequenceNumber = victim.getOffenderNumberRelated(position);
+				Integer offenderSequenceNumber = victim.getOffenderNumberRelated(position).getValue();
 				String relString = victim.getVictimOffenderRelationship(position);
 				if (offenderSequenceNumber != null) {
 					Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.j, "SubjectVictimAssociation");

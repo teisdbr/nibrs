@@ -83,7 +83,7 @@ final class BaselineIncidentFactory {
 		v.setResidentStatus("R");
 		v.setSex("F");
 		v.setRace("B");
-		v.setOffenderNumberRelated(0, 1);
+		v.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		v.setVictimOffenderRelationship(0, "SE");
 		v.setUcrOffenseCodeConnection(0, "13A");
 		

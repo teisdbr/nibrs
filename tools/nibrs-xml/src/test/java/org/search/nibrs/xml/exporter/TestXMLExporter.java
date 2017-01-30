@@ -251,7 +251,7 @@ public class TestXMLExporter {
 						"' and j:VictimSegment/@s:ref='VictimSegment-" + victimSequenceNumber + "']"));
 			}
 			for (int i=0; i < v.getPopulatedOffenderNumberRelatedCount(); i++) {
-				Integer offender = v.getOffenderNumberRelated(i);
+				Integer offender = v.getOffenderNumberRelated(i).getValue();
 				Node assnNode = XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/j:SubjectVictimAssociation[j:Subject/@s:ref='OffenderSegment-" + offender +
 						"' and j:VictimSegment/@s:ref='VictimSegment-" + victimSequenceNumber + "']");
 				assertNotNull(assnNode);
@@ -415,7 +415,7 @@ public class TestXMLExporter {
 		v.setRace("B");
 		v.setUcrOffenseCodeConnection(0, "64A");
 		v.setUcrOffenseCodeConnection(1, "13A");
-		v.setOffenderNumberRelated(0, 1);
+		v.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		v.setVictimOffenderRelationship(0, "ER");
 		
 		v = new VictimSegment();
@@ -429,7 +429,7 @@ public class TestXMLExporter {
 		v.setSex("F");
 		v.setRace("B");
 		v.setUcrOffenseCodeConnection(0, "13A");
-		v.setOffenderNumberRelated(0, 1);
+		v.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		v.setVictimOffenderRelationship(0, "FR");
 		v.setAggravatedAssaultHomicideCircumstances(0, "32");
 		
@@ -438,7 +438,7 @@ public class TestXMLExporter {
 		v.setVictimSequenceNumber(new ParsedObject<>(3));
 		v.setTypeOfVictim("B");
 		v.setUcrOffenseCodeConnection(0, "220");
-		v.setOffenderNumberRelated(0, 1);
+		v.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		v.setVictimOffenderRelationship(0, "RU");
 		
 		v = new VictimSegment();
@@ -455,7 +455,7 @@ public class TestXMLExporter {
 		v.setTypeOfOfficerActivityCircumstance("04");
 		v.setOfficerOtherJurisdictionORI("WA987654321");
 		v.setUcrOffenseCodeConnection(0, "13A");
-		v.setOffenderNumberRelated(0, 1);
+		v.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		v.setVictimOffenderRelationship(0, "ST");
 		
 		OffenderSegment offender = new OffenderSegment();

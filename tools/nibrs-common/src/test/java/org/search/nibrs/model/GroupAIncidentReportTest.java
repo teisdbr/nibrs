@@ -47,14 +47,14 @@ public class GroupAIncidentReportTest {
 		os3.setOffenderSequenceNumber(new ParsedObject<>(3));
 		incident.addOffender(os3);
 		vs1 = new VictimSegment();
-		vs1.setOffenderNumberRelated(0, 1);
-		vs1.setOffenderNumberRelated(1, 2);
+		vs1.setOffenderNumberRelated(0, new ParsedObject<>(1));
+		vs1.setOffenderNumberRelated(1, new ParsedObject<>(2));
 		incident.addVictim(vs1);
 		vs2 = new VictimSegment();
-		vs2.setOffenderNumberRelated(0, 1);
+		vs2.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		incident.addVictim(vs2);
 		vs3 = new VictimSegment();
-		vs3.setOffenderNumberRelated(0, 2);
+		vs3.setOffenderNumberRelated(0, new ParsedObject<>(2));
 		incident.addVictim(vs3);
 		vs4 = new VictimSegment();
 		incident.addVictim(vs4);

@@ -44,10 +44,10 @@ public class OffenderSegmentRulesFactory {
 			List<VictimSegment> victims = incident.getVictims();
 			for (int i = 0; i < victims.size() && e == null; i++) {
 				VictimSegment victimSegment = victims.get(i);
-				List<Integer> relatedOffenders = victimSegment.getOffenderNumberRelatedList();
+				List<ParsedObject<Integer>> relatedOffenders = victimSegment.getOffenderNumberRelatedList();
 				for (int j = 0; j < relatedOffenders.size(); j++) {
-					Integer relatedOffender = relatedOffenders.get(j);
-					if (relatedOffender != null && relatedOffender == offenderSequenceNumber) {
+					ParsedObject<Integer> relatedOffender = relatedOffenders.get(j);
+					if (!(relatedOffender.isMissing() || relatedOffender.isInvalid()) && relatedOffender.getValue() == offenderSequenceNumber) {
 						String relationship = victimSegment.getVictimOffenderRelationship()[j];
 						if (relationship != null) {
 							e = validateRelatedVictimAndOffender(offenderSegment, victimSegment, relationship);

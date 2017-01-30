@@ -252,7 +252,7 @@ public class OffenderSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 		
 		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
-		vs.setOffenderNumberRelated(0, 1);
+		vs.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
@@ -275,7 +275,7 @@ public class OffenderSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._550, nibrsError.getNIBRSErrorCode());
 		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
 		
-		vs.setOffenderNumberRelated(1, 2);
+		vs.setOffenderNumberRelated(1, new ParsedObject<>(2));
 		vs.setVictimOffenderRelationship(1, RelationshipOfVictimToOffenderCode.AQ.code);
 		nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);
@@ -326,7 +326,7 @@ public class OffenderSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 
 		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
-		victimSegment.setOffenderNumberRelated(0, 1);
+		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
@@ -375,7 +375,7 @@ public class OffenderSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 
 		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
-		victimSegment.setOffenderNumberRelated(0, 1);
+		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
@@ -451,7 +451,7 @@ public class OffenderSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 
 		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
-		victimSegment.setOffenderNumberRelated(0, 1);
+		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		

@@ -426,7 +426,7 @@ public class GroupAIncidentReportRulesFactory {
 						VictimSegment vs = subject.getVictims().get(i);
 						for (int j=0;j < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT && ret == null;j++) {
 							if (RelationshipOfVictimToOffenderCode.VO.code.equals(vs.getVictimOffenderRelationship(j))) {
-								Integer offender = vs.getOffenderNumberRelated(j);
+								Integer offender = vs.getOffenderNumberRelated(j).getValue();
 								if (priorVictimOffenders.contains(offender)) {
 									ret = vs.getErrorTemplate();
 									ret.setValue(RelationshipOfVictimToOffenderCode.VO.code);

@@ -15,10 +15,13 @@
  *******************************************************************************/
 package org.search.nibrs.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,7 +49,7 @@ public class VictimSegment extends AbstractPersonSegment {
 	private String[] aggravatedAssaultHomicideCircumstances;
 	private String additionalJustifiableHomicideCircumstances;
 	private String[] typeOfInjury;
-	private Integer[] offenderNumberRelated;
+	private ParsedObject<Integer>[] offenderNumberRelated;
 	private String[] victimOffenderRelationship;
 	private String typeOfOfficerActivityCircumstance;
 	private String officerAssignmentType;
@@ -124,15 +127,15 @@ public class VictimSegment extends AbstractPersonSegment {
 		victimOffenderRelationship[position] = value;
 	}
 
-	public Integer getOffenderNumberRelated(int position) {
+	public ParsedObject<Integer> getOffenderNumberRelated(int position) {
 		return offenderNumberRelated[position];
 	}
 
-	public List<Integer> getOffenderNumberRelatedList() {
+	public List<ParsedObject<Integer>> getOffenderNumberRelatedList() {
 		return Collections.unmodifiableList(Arrays.asList(offenderNumberRelated));
 	}
 
-	public void setOffenderNumberRelated(int position, Integer value) {
+	public void setOffenderNumberRelated(int position, ParsedObject<Integer> value) {
 		offenderNumberRelated[position] = value;
 		populatedOffenderNumberRelatedCount = Math.max(populatedOffenderNumberRelatedCount, position + 1);
 	}
@@ -266,11 +269,11 @@ public class VictimSegment extends AbstractPersonSegment {
 		}
 	}
 
-	public Integer[] getOffenderNumberRelated() {
+	public ParsedObject<Integer>[] getOffenderNumberRelated() {
 		return offenderNumberRelated;
 	}
 
-	public void setOffenderNumberRelated(Integer[] offenderNumberRelated) {
+	public void setOffenderNumberRelated(ParsedObject<Integer>[] offenderNumberRelated) {
 		if (offenderNumberRelated == null) {
 			initOffenderNumberRelated();
 		} else {
@@ -350,8 +353,12 @@ public class VictimSegment extends AbstractPersonSegment {
 		victimOffenderRelationship = new String[OFFENDER_NUMBER_RELATED_COUNT];
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initOffenderNumberRelated() {
-		offenderNumberRelated = new Integer[OFFENDER_NUMBER_RELATED_COUNT];
+		offenderNumberRelated = (ParsedObject<Integer>[]) Array.newInstance(ParsedObject.class, OFFENDER_NUMBER_RELATED_COUNT);
+		for (int i=0;i < OFFENDER_NUMBER_RELATED_COUNT;i++) {
+			offenderNumberRelated[i] = new ParsedObject<Integer>();
+		}
 	}
 
 	private void initTypeOfInjury() {
@@ -365,9 +372,28 @@ public class VictimSegment extends AbstractPersonSegment {
 	private void initUcrOffenseCodeConnection() {
 		ucrOffenseCodeConnection = new String[UCR_OFFENSE_CODE_CONNECTION_COUNT];
 	}
+	
+	public List<Integer> getDistinctValidRelatedOffenderNumberList() {
+		Set<Integer> relatedOffenderNumbers = new HashSet<>();
+		for (ParsedObject<Integer> po : getOffenderNumberRelated()) {
+			Integer value = po.getValue();
+			if (value != null) {
+				relatedOffenderNumbers.add(value);
+			}
+		}
+		List<Integer> ret = new ArrayList<>();
+		ret.addAll(relatedOffenderNumbers);
+		return ret;
+	}
 
+	/**
+	 * Determine whether the specified offender committed an offense against this victim
+	 * @param os the offender
+	 * @return whether that offender victimized this victim
+	 */
 	public boolean isVictimOfOffender(OffenderSegment os) {
-		return os != null && Arrays.asList(getOffenderNumberRelated()).contains(os.getOffenderSequenceNumber().getValue());
+		List<Integer> relatedOffenderNumbers = getDistinctValidRelatedOffenderNumberList();
+		return os != null && relatedOffenderNumbers.contains(os.getOffenderSequenceNumber().getValue());
 	}
 	
 	/**

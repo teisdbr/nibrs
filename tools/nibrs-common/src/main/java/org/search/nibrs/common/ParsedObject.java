@@ -65,7 +65,7 @@ public class ParsedObject<T> {
 	
 	@Override
 	public String toString() {
-		return value == null ? "" : value.toString();
+		return value == null ? "null" : value.toString();
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class ParsedObject<T> {
 			ParsedObject<?> compNumber = (ParsedObject<?>) obj;
 			
 			if (value != null) {
-				ret = value.equals(compNumber);
+				ret = value.equals(compNumber.value);
 			} else {
 				ret = missing == compNumber.missing && invalid == compNumber.invalid;
 				if (validationError != null) {
