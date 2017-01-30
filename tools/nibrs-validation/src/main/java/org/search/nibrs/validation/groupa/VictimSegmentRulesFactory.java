@@ -26,6 +26,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
@@ -217,10 +218,11 @@ public class VictimSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(VictimSegment subject) {
 
-				Integer victimSequenceNumber = subject.getVictimSequenceNumber();
+				ParsedObject<Integer> victimSequenceNumberPO = subject.getVictimSequenceNumber();
+				Integer victimSequenceNumber = victimSequenceNumberPO.getValue();
 				NIBRSError e = null;
 				
-				if(victimSequenceNumber ==  null || victimSequenceNumber < 1 || victimSequenceNumber > 999) {
+				if(victimSequenceNumberPO.isMissing() || victimSequenceNumberPO.isInvalid() || victimSequenceNumber < 1 || victimSequenceNumber > 999) {
 					e = subject.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._401);
 					e.setDataElementIdentifier("23");

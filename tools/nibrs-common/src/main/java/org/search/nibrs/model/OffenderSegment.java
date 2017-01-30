@@ -28,7 +28,7 @@ public class OffenderSegment extends AbstractPersonSegment
     
 	public static final char OFFENDER_SEGMENT_TYPE_IDENTIFIER = '5';
 	private ParsedObject<Integer> offenderSequenceNumber;
-    private boolean reportedUnknown;
+    //private boolean reportedUnknown;
     
     public OffenderSegment() {
     	super();
@@ -39,7 +39,7 @@ public class OffenderSegment extends AbstractPersonSegment
     public OffenderSegment(OffenderSegment o) {
     	super(o);
     	offenderSequenceNumber = o.offenderSequenceNumber;
-    	reportedUnknown = o.reportedUnknown;
+    	//reportedUnknown = o.reportedUnknown;
     	segmentType = OFFENDER_SEGMENT_TYPE_IDENTIFIER;
     }
     
@@ -51,7 +51,7 @@ public class OffenderSegment extends AbstractPersonSegment
     {
         this.offenderSequenceNumber = offenderSequenceNumber;
         if (!(offenderSequenceNumber.isMissing() || offenderSequenceNumber.isInvalid()) && offenderSequenceNumber.getValue() == 0) {
-        	reportedUnknown = true;
+        	//reportedUnknown = true;
         }
     }
 
@@ -60,7 +60,7 @@ public class OffenderSegment extends AbstractPersonSegment
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((offenderSequenceNumber == null) ? 0 : offenderSequenceNumber.hashCode());
-		result = prime * result + (reportedUnknown ? 1231 : 1237);
+		//result = prime * result + (reportedUnknown ? 1231 : 1237);
 		return result;
 	}
 
@@ -71,7 +71,8 @@ public class OffenderSegment extends AbstractPersonSegment
 
 	@Override
 	public String toString() {
-		return "OffenderSegment [" + super.toString() + ", offenderSequenceNumber=" + offenderSequenceNumber + ", reportedUnknown=" + reportedUnknown + "]";
+		//return "OffenderSegment [" + super.toString() + ", offenderSequenceNumber=" + offenderSequenceNumber + ", reportedUnknown=" + reportedUnknown + "]";
+		return "OffenderSegment [" + super.toString() + ", offenderSequenceNumber=" + offenderSequenceNumber + "]";
 	}
 
 	@Override
@@ -96,7 +97,8 @@ public class OffenderSegment extends AbstractPersonSegment
 	 */
 	@Override
 	public boolean isUnknown() {
-		return reportedUnknown;
+		//return reportedUnknown;
+		return !(offenderSequenceNumber.isMissing() || offenderSequenceNumber.isInvalid()) && offenderSequenceNumber.getValue() == 0;
 	}
 
 }

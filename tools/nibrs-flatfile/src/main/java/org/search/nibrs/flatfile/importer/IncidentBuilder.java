@@ -571,8 +571,6 @@ public class IncidentBuilder {
 				}
 			}
 			
-			newOffender.setOffenderSequenceNumber(sequenceNumber);
-			
 			newOffender.setAgeString(StringUtils.getStringBetween(40, 43, segmentData));
 			newOffender.setSex(StringUtils.getStringBetween(44, 44, segmentData));
 			newOffender.setRace(StringUtils.getStringBetween(45, 45, segmentData));
@@ -600,8 +598,31 @@ public class IncidentBuilder {
 
 		if (length == 129 || length == 141) {
 
-			Integer victimSequenceNumber = StringUtils.getIntegerBetween(38, 40, segmentData);
-			newVictim.setVictimSequenceNumber(victimSequenceNumber);
+			Integer sequenceNumberI = null;
+			ParsedObject<Integer> sequenceNumber = newVictim.getVictimSequenceNumber();
+			sequenceNumber.setMissing(false);
+			sequenceNumber.setInvalid(false);
+			String sequenceNumberString = StringUtils.getStringBetween(38, 40, segmentData);
+			if (sequenceNumberString == null) {
+				sequenceNumber.setMissing(true);
+				sequenceNumber.setValue(null);
+			} else {
+				try {
+					sequenceNumberI = Integer.parseInt(sequenceNumberString);
+					sequenceNumber.setValue(sequenceNumberI);
+				} catch (NumberFormatException nfe) {
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setValue(sequenceNumberString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._401);
+					e.setDataElementIdentifier("23");
+					errorList.add(e);
+					sequenceNumber.setInvalid(true);
+					sequenceNumber.setValidationError(e);
+				}
+			}
 
 			for (int i = 0; i < VictimSegment.UCR_OFFENSE_CODE_CONNECTION_COUNT; i++) {
 				newVictim.setUcrOffenseCodeConnection(i, StringUtils.getStringBetween(41 + 3 * i, 43 + 3 * i, segmentData));
@@ -616,7 +637,7 @@ public class IncidentBuilder {
 					e.setSegmentType(s.getSegmentType());
 					e.setValue(StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData));
 					e.setNIBRSErrorCode(NIBRSErrorCode._402);
-					e.setWithinSegmentIdentifier(victimSequenceNumber);
+					e.setWithinSegmentIdentifier(sequenceNumberI);
 					e.setDataElementIdentifier("34");
 					errorList.add(e);
 				}

@@ -216,7 +216,7 @@ public class TestXMLExporter {
 		}
 		
 		for (VictimSegment v : baseIncident.getVictims()) {
-			Integer victimSequenceNumber = v.getVictimSequenceNumber();
+			Integer victimSequenceNumber = v.getVictimSequenceNumber().getValue();
 			assertEquals(XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/j:VictimSegment[nc:RoleOfPerson/@s:ref='VictimSegment-" + victimSequenceNumber + "']/j:VictimCategoryCode"),
 					v.getTypeOfVictim());
 			if (v.isPerson()) {
@@ -407,7 +407,7 @@ public class TestXMLExporter {
 		incident.addVictim(v);
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
-		v.setVictimSequenceNumber(1);
+		v.setVictimSequenceNumber(new ParsedObject<>(1));
 		v.setAgeString("2022");
 		v.setEthnicity("N");
 		v.setResidentStatus("R");
@@ -422,7 +422,7 @@ public class TestXMLExporter {
 		incident.addVictim(v);
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
-		v.setVictimSequenceNumber(2);
+		v.setVictimSequenceNumber(new ParsedObject<>(2));
 		v.setAgeString("BB");
 		v.setEthnicity("N");
 		v.setResidentStatus("R");
@@ -435,7 +435,7 @@ public class TestXMLExporter {
 		
 		v = new VictimSegment();
 		incident.addVictim(v);
-		v.setVictimSequenceNumber(3);
+		v.setVictimSequenceNumber(new ParsedObject<>(3));
 		v.setTypeOfVictim("B");
 		v.setUcrOffenseCodeConnection(0, "220");
 		v.setOffenderNumberRelated(0, 1);
@@ -443,7 +443,7 @@ public class TestXMLExporter {
 		
 		v = new VictimSegment();
 		incident.addVictim(v);
-		v.setVictimSequenceNumber(4);
+		v.setVictimSequenceNumber(new ParsedObject<>(4));
 		v.setTypeOfVictim("L");
 		v.setTypeOfInjury(0, "L");
 		v.setAgeString("30");

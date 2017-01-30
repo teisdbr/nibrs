@@ -74,20 +74,20 @@ public class VictimSegmentRulesFactoryTest {
 		Rule<VictimSegment> rule401 = victimRulesFactory.getRule401ForSequenceNumber();
 		
 		VictimSegment victimSegment = getBasicVictimSegment();
-		victimSegment.setVictimSequenceNumber(0);
+		victimSegment.setVictimSequenceNumber(new ParsedObject<>(0));
 		NIBRSError nibrsError = rule401.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
 		assertEquals("23", nibrsError.getDataElementIdentifier());
 		assertEquals(0, nibrsError.getValue());
 		
-		victimSegment.setVictimSequenceNumber(1000);
+		victimSegment.setVictimSequenceNumber(new ParsedObject<>(1000));
 		nibrsError = rule401.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
 		assertEquals(1000, nibrsError.getValue());
 		
-		victimSegment.setVictimSequenceNumber(null);
+		victimSegment.setVictimSequenceNumber(ParsedObject.getMissingParsedObject());
 		nibrsError = rule401.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());

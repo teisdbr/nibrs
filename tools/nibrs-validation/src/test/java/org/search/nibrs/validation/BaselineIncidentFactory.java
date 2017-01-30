@@ -77,7 +77,7 @@ final class BaselineIncidentFactory {
 		incident.addVictim(v);
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
-		v.setVictimSequenceNumber(1);
+		v.setVictimSequenceNumber(new ParsedObject<>(1));
 		v.setAgeString("2022");
 		v.setEthnicity("N");
 		v.setResidentStatus("R");

@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 
 /**
  * Representation of a VictimSegment reported within an Incident in a NIBRS report. Note that we extend AbstractPersonSegment even though some types of victims are not people (e.g., Business)...since
@@ -38,7 +39,7 @@ public class VictimSegment extends AbstractPersonSegment {
 	public static final int TYPE_OF_INJURY_COUNT = 5;
 	public static final int OFFENDER_NUMBER_RELATED_COUNT = 10;
 
-	private Integer victimSequenceNumber;
+	private ParsedObject<Integer> victimSequenceNumber;
 	private String[] ucrOffenseCodeConnection;
 	private String typeOfVictim;
 	private String residentStatus;
@@ -57,6 +58,7 @@ public class VictimSegment extends AbstractPersonSegment {
 
 	public VictimSegment() {
 		super();
+		victimSequenceNumber = new ParsedObject<>();
 		initUcrOffenseCodeConnection();
 		initAggravatedAssaultHomicideCircumstances();
 		initTypeOfInjury();
@@ -223,11 +225,11 @@ public class VictimSegment extends AbstractPersonSegment {
 		this.typeOfVictim = typeOfVictim;
 	}
 
-	public Integer getVictimSequenceNumber() {
+	public ParsedObject<Integer> getVictimSequenceNumber() {
 		return victimSequenceNumber;
 	}
 
-	public void setVictimSequenceNumber(Integer victimSequenceNumber) {
+	public void setVictimSequenceNumber(ParsedObject<Integer> victimSequenceNumber) {
 		this.victimSequenceNumber = victimSequenceNumber;
 	}
 
@@ -341,7 +343,7 @@ public class VictimSegment extends AbstractPersonSegment {
 
 	@Override
 	public Object getWithinSegmentIdentifier() {
-		return victimSequenceNumber;
+		return victimSequenceNumber.getValue();
 	}
 
 	private void initVictimOffenderRelationship() {

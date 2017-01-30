@@ -185,7 +185,7 @@ public class TestIncidentBuilderNewFormat {
 	@Test
 	public void testFirstIncidentVictim() {
 		VictimSegment victim = (VictimSegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).victimIterator().next();
-		assertEquals(new Integer(1), victim.getVictimSequenceNumber());
+		assertEquals(new Integer(1), victim.getVictimSequenceNumber().getValue());
 		assertEquals("220", victim.getUcrOffenseCodeConnection(0));
 		for (int i = 1; i < 10; i++) {
 			assertNull(victim.getUcrOffenseCodeConnection(i));

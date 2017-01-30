@@ -108,7 +108,7 @@ final class VictimRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setVictimSequenceNumber(null);
+			copy.getVictims().get(0).setVictimSequenceNumber(ParsedObject.getMissingParsedObject());
 			incidents.add(copy);
 
 			copy = new GroupAIncidentReport(incident);
@@ -120,7 +120,7 @@ final class VictimRuleViolationExemplarFactory {
 			incidents.add(copy);
 			
 			copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setVictimSequenceNumber(000);
+			copy.getVictims().get(0).setVictimSequenceNumber(new ParsedObject<>(0));
 			incidents.add(copy);
 			
 			copy = new GroupAIncidentReport(incident);
@@ -366,7 +366,7 @@ final class VictimRuleViolationExemplarFactory {
 		});
 		
 		groupATweakerMap.put(451, incident -> {
-			//When a Group �A� Incident Report is submitted, the individual segments
+			//When a Group A Incident Report is submitted, the individual segments
 			//comprising the incident cannot contain duplicates. In this case,
 			//two victim segments were submitted having the same entry in Data Element 23 (Victim Sequence Number).
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
@@ -374,7 +374,7 @@ final class VictimRuleViolationExemplarFactory {
 			VictimSegment victim2 = new VictimSegment ();
 			victim2.setTypeOfVictim("I");
 			victim2.setTypeOfInjury(0, "M");
-			victim2.setVictimSequenceNumber(1);
+			victim2.setVictimSequenceNumber(new ParsedObject<>(1));
 			victim2.setAgeString("2022");
 			victim2.setEthnicity("N");
 			victim2.setResidentStatus("R");
