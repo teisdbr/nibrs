@@ -841,7 +841,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.addProperty(property);
 			property.setTypeOfPropertyLoss("07");
 			property.setPropertyDescription(0, "03");
-			property.setValueOfProperty(0, 10000);
+			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23B
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getOffenses().get(0).setUcrOffenseCode("23B");
@@ -849,7 +849,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy2.addProperty(property);
 			property2.setTypeOfPropertyLoss("07");
 			property2.setPropertyDescription(0, "03");
-			property2.setValueOfProperty(0, 10000);
+			property2.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23C
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
 			copy3.getOffenses().get(0).setUcrOffenseCode("23C");
@@ -857,7 +857,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy3.addProperty(property);
 			property3.setTypeOfPropertyLoss("07");
 			property3.setPropertyDescription(0, "03");
-			property3.setValueOfProperty(0, 10000);
+			property3.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23D
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
 			copy4.getOffenses().get(0).setUcrOffenseCode("23D");
@@ -865,7 +865,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy4.addProperty(property);
 			property4.setTypeOfPropertyLoss("07");
 			property4.setPropertyDescription(0, "03");
-			property4.setValueOfProperty(0, 10000);
+			property4.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23E
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
 			copy5.getOffenses().get(0).setUcrOffenseCode("23E");
@@ -873,7 +873,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy5.addProperty(property);
 			property5.setTypeOfPropertyLoss("07");
 			property5.setPropertyDescription(0, "03");
-			property5.setValueOfProperty(0, 10000);
+			property5.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23F
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
 			copy6.getOffenses().get(0).setUcrOffenseCode("23F");
@@ -881,7 +881,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy6.addProperty(property);
 			property6.setTypeOfPropertyLoss("07");
 			property6.setPropertyDescription(0, "03");
-			property6.setValueOfProperty(0, 10000);
+			property6.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23G
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
 			copy7.getOffenses().get(0).setUcrOffenseCode("23G");
@@ -889,7 +889,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy7.addProperty(property);
 			property7.setTypeOfPropertyLoss("07");
 			property7.setPropertyDescription(0, "03");
-			property7.setValueOfProperty(0, 10000);
+			property7.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23H
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
 			copy8.getOffenses().get(0).setUcrOffenseCode("23H");
@@ -897,7 +897,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy8.addProperty(property);
 			property8.setTypeOfPropertyLoss("07");
 			property8.setPropertyDescription(0, "03");
-			property8.setValueOfProperty(0, 10000);
+			property8.setValueOfProperty(0, new ParsedObject<>(10000));
 			
 			incidents.add(copy);
 			incidents.add(copy2);

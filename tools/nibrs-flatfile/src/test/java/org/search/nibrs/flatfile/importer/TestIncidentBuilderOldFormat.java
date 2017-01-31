@@ -237,10 +237,10 @@ public class TestIncidentBuilderOldFormat {
 		PropertySegment property = (PropertySegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(0)).propertyIterator().next();
 		assertEquals("7", property.getTypeOfPropertyLoss());
 		assertEquals("13", property.getPropertyDescription(0));
-		assertEquals(new Integer(20), property.getValueOfProperty(0));
+		assertEquals(new Integer(20), property.getValueOfProperty(0).getValue());
 		for (int i = 1; i < 10; i++) {
 			assertNull(property.getPropertyDescription(i));
-			assertNull(property.getValueOfProperty(i));
+			assertTrue(property.getValueOfProperty(i).isMissing());
 		}
 		assertNull(property.getNumberOfStolenMotorVehicles());
 		assertNull(property.getNumberOfRecoveredMotorVehicles());

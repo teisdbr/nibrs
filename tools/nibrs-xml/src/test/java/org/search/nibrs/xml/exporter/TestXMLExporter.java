@@ -375,24 +375,24 @@ public class TestXMLExporter {
 		p.setEstimatedDrugQuantity(0, 24.0);
 		p.setTypeDrugMeasurement(0, "OZ");
 		p.setSuspectedDrugType(0, "I");
-		p.setValueOfProperty(0, 500);
+		p.setValueOfProperty(0, new ParsedObject<>(500));
 		// also seized some currency
 		p.setPropertyDescription(1, "20");
-		p.setValueOfProperty(1, 2000);
+		p.setValueOfProperty(1, new ParsedObject<>(2000));
 		
 		p = new PropertySegment();
 		incident.addProperty(p);
 		// stole jewelry
 		p.setTypeOfPropertyLoss("7");
 		p.setPropertyDescription(0, "17");
-		p.setValueOfProperty(0, 1000);
+		p.setValueOfProperty(0, new ParsedObject<>(1000));
 		
 		p = new PropertySegment();
 		incident.addProperty(p);
 		// recovered some jewelry
 		p.setTypeOfPropertyLoss("5");
 		p.setPropertyDescription(0, "17");
-		p.setValueOfProperty(0, 200);
+		p.setValueOfProperty(0, new ParsedObject<>(200));
 		p.setDateRecovered(0, XMLExporter.DATE_FORMAT.parse("2016-05-16"));
 		
 		p = new PropertySegment();
@@ -400,7 +400,7 @@ public class TestXMLExporter {
 		// stole car
 		p.setTypeOfPropertyLoss("7");
 		p.setPropertyDescription(0, "03");
-		p.setValueOfProperty(0, 5000);
+		p.setValueOfProperty(0, new ParsedObject<>(5000));
 		p.setNumberOfStolenMotorVehicles(1);
 		
 		VictimSegment v = new VictimSegment();

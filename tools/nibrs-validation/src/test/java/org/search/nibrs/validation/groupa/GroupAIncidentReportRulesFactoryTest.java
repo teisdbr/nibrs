@@ -382,7 +382,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNull(e);
 		PropertySegment ps = new PropertySegment();
 		ps.setPropertyDescription(0, PropertyDescriptionCode._10.code);
-		ps.setValueOfProperty(0, null);
+		ps.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 		report.addProperty(ps);
 		e = rule.apply(report);
 		assertNull(e);
@@ -392,7 +392,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals("15", e.getDataElementIdentifier());
 		assertEquals(NIBRSErrorCode._382, e.getNIBRSErrorCode());
 		assertNull(e.getValue());
-		ps.setValueOfProperty(0, 1);
+		ps.setValueOfProperty(0, new ParsedObject<>(1));
 		e = rule.apply(report);
 		assertNull(e);
 	}

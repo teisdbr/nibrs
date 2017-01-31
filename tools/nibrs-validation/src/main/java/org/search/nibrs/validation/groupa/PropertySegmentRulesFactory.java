@@ -16,6 +16,7 @@
 package org.search.nibrs.validation.groupa;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -117,7 +118,6 @@ public class PropertySegmentRulesFactory {
 		protected abstract Object[] getDrugElementArray(PropertySegment segment);
 	}
 
-	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(PropertySegmentRulesFactory.class);
 	
 	private List<Rule<PropertySegment>> rulesList = new ArrayList<>();
@@ -406,7 +406,7 @@ public class PropertySegmentRulesFactory {
 					if (subject.getValueOfProperty(i) != null && subject.getPropertyDescription(i) == null) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._354);
-						ret.setValue(subject.getValueOfProperty(i));
+						ret.setValue(subject.getValueOfProperty(i).getValue());
 						ret.setDataElementIdentifier("15");
 						break;
 					}
@@ -422,12 +422,13 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 10;i++) {
-					Integer valueOfProperty = subject.getValueOfProperty(i);
+					ParsedObject<Integer> valueOfPropertyPO = subject.getValueOfProperty(i);
 					String propertyDescription = subject.getPropertyDescription(i);
-					if (propertyDescription != null && PropertyDescriptionCode._88.code.equals(propertyDescription) && valueOfProperty != null && valueOfProperty.intValue() != 1) {
+					if (propertyDescription != null && PropertyDescriptionCode._88.code.equals(propertyDescription) &&
+							!(valueOfPropertyPO.isMissing() || valueOfPropertyPO.isInvalid()) && valueOfPropertyPO.getValue() != 1) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._353);
-						ret.setValue(valueOfProperty);
+						ret.setValue(valueOfPropertyPO.getValue());
 						ret.setDataElementIdentifier("16");
 						break;
 					}
@@ -506,12 +507,12 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 10;i++) {
-					Integer valueOfProperty = subject.getValueOfProperty(i);
+					ParsedObject<Integer> valueOfPropertyPO = subject.getValueOfProperty(i);
 					String propertyDescription = subject.getPropertyDescription(i);
-					if (valueOfProperty != null && valueOfProperty != 0 && zeroValuePropertyDescriptions.contains(propertyDescription)) {
+					if (!(valueOfPropertyPO.isMissing() || valueOfPropertyPO.isInvalid()) && valueOfPropertyPO.getValue() != 0 && zeroValuePropertyDescriptions.contains(propertyDescription)) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._391);
-						ret.setValue(valueOfProperty);
+						ret.setValue(valueOfPropertyPO.getValue());
 						ret.setDataElementIdentifier("16");
 					}
 				}
@@ -530,12 +531,12 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 10;i++) {
-					Integer valueOfProperty = subject.getValueOfProperty(i);
+					ParsedObject<Integer> valueOfPropertyPO = subject.getValueOfProperty(i);
 					String propertyDescription = subject.getPropertyDescription(i);
-					if (valueOfProperty != null && valueOfProperty == 0 && !allowedZeroValue.contains(propertyDescription)) {
+					if (!(valueOfPropertyPO.isMissing() || valueOfPropertyPO.isInvalid()) && valueOfPropertyPO.getValue() == 0 && !allowedZeroValue.contains(propertyDescription)) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._351);
-						ret.setValue(valueOfProperty);
+						ret.setValue(valueOfPropertyPO.getValue());
 						ret.setDataElementIdentifier("16");
 					}
 				}
@@ -549,17 +550,15 @@ public class PropertySegmentRulesFactory {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
-				Integer[] value = subject.getValueOfProperty();
-				if (value != null) {
-					for (int i=0;i < value.length;i++) {
-						// since we don't have the "FBI assigned threshold", we just compare it to $1000000
-						if (value[i] != null && 1000000 < value[i].intValue()) {
-							ret = subject.getErrorTemplate();
-							ret.setWarning(true);
-							ret.setNIBRSErrorCode(NIBRSErrorCode._342);
-							ret.setValue(value[i]);
-							ret.setDataElementIdentifier("16");
-						}
+				ParsedObject<Integer>[] value = subject.getValueOfProperty();
+				for (int i = 0; i < value.length; i++) {
+					// since we don't have the "FBI assigned threshold", we just compare it to $1000000
+					if (value[i].getValue() != null && 1000000 < value[i].getValue()) {
+						ret = subject.getErrorTemplate();
+						ret.setWarning(true);
+						ret.setNIBRSErrorCode(NIBRSErrorCode._342);
+						ret.setValue(value[i].getValue());
+						ret.setDataElementIdentifier("16");
 					}
 				}
 				return ret;
@@ -679,9 +678,9 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 10;i++) {
-					Integer propertyValue = subject.getValueOfProperty(i);
-					if (propertyValue != null) {
-						int v = propertyValue.intValue();
+					ParsedObject<Integer> propertyValue = subject.getValueOfProperty(i);
+					if (propertyValue.getValue() != null) {
+						int v = propertyValue.getValue();
 						if (v < 0 || v > 999999999) {
 							ret = subject.getErrorTemplate();
 							ret.setDataElementIdentifier("16");

@@ -515,7 +515,7 @@ public class GroupAIncidentReportRulesFactory {
 						for (int i=0;i < propertyCount && !hasUnvaluedDrugs;i++) {
 							PropertySegment ps = subject.getProperties().get(i);
 							for (int j=0;j < PropertySegment.PROPERTY_DESCRIPTION_COUNT && !hasUnvaluedDrugs;j++) {
-								hasUnvaluedDrugs = PropertyDescriptionCode._10.code.equals(ps.getPropertyDescription(j)) && ps.getValueOfProperty(j) == null;
+								hasUnvaluedDrugs = PropertyDescriptionCode._10.code.equals(ps.getPropertyDescription(j)) && ps.getValueOfProperty(j).getValue() == null;
 							}
 						}
 						if (hasUnvaluedDrugs) {

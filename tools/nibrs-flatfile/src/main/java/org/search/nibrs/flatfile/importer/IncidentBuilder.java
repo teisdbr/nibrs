@@ -702,13 +702,39 @@ public class IncidentBuilder {
 
 		if (length == 307) {
 
-			newProperty.setTypeOfPropertyLoss(StringUtils.getStringBetween(38, 38, segmentData));
+			String typeOfPropertyLoss = StringUtils.getStringBetween(38, 38, segmentData);
+			newProperty.setTypeOfPropertyLoss(typeOfPropertyLoss);
 
 			for (int i = 0; i < PropertySegment.PROPERTY_DESCRIPTION_COUNT; i++) {
 				newProperty.setPropertyDescription(i, StringUtils.getStringBetween(39 + 19 * i, 40 + 19 * i, segmentData));
 			}
 			for (int i = 0; i < PropertySegment.VALUE_OF_PROPERTY_COUNT; i++) {
-				newProperty.setValueOfProperty(i, StringUtils.getIntegerBetween(41 + 19 * i, 49 + 19 * i, segmentData));
+				String propertyValueString = StringUtils.getStringBetween(41 + 19 * i, 49 + 19 * i, segmentData);
+				ParsedObject<Integer> propertyValue = newProperty.getValueOfProperty(i);
+				propertyValue.setInvalid(false);
+				propertyValue.setMissing(false);
+				if (propertyValueString == null) {
+					propertyValue.setValue(null);
+					propertyValue.setInvalid(false);
+					propertyValue.setMissing(true);
+				} else {
+					try {
+						Integer propertyValueI = Integer.parseInt(propertyValueString);
+						propertyValue.setValue(propertyValueI);
+					} catch (NumberFormatException nfe) {
+						NIBRSError e = new NIBRSError();
+						e.setContext(s.getReportSource());
+						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+						e.setSegmentType(s.getSegmentType());
+						e.setValue(propertyValueString);
+						e.setNIBRSErrorCode(NIBRSErrorCode._304);
+						e.setWithinSegmentIdentifier(typeOfPropertyLoss);
+						e.setDataElementIdentifier("16");
+						errorList.add(e);
+						propertyValue.setMissing(false);
+						propertyValue.setInvalid(true);
+					}
+				}
 			}
 			for (int i = 0; i < PropertySegment.DATE_RECOVERED_COUNT; i++) {
 				newProperty.setDateRecovered(i, StringUtils.getDateBetween(50 + 19 * i, 57 + 19 * i, segmentData));

@@ -397,7 +397,7 @@ public class PropertySegmentRulesFactoryTest {
 		setAllNull(p.getValueOfProperty());
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(10, e.getValue());
@@ -414,10 +414,10 @@ public class PropertySegmentRulesFactoryTest {
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
 		p.setPropertyDescription(0, PropertyDescriptionCode._88.code);
-		p.setValueOfProperty(0, 1);
+		p.setValueOfProperty(0, new ParsedObject<>(1));
 		e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(10, e.getValue());
@@ -519,7 +519,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertEquals("14", e.getDataElementIdentifier());
 		
 		p.setPropertyDescription(0, null);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNotNull(e);
 		
@@ -542,19 +542,19 @@ public class PropertySegmentRulesFactoryTest {
 		Rule<PropertySegment> rule = rulesFactory.getRule391();
 		PropertySegment p = buildBaseSegment();
 		for (int i=0;i < 10;i++) {
-			p.setValueOfProperty(i, null);
+			p.setValueOfProperty(i, ParsedObject.getMissingParsedObject());
 		}
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
 		e = rule.apply(p);
 		assertNull(e);
 		p.setPropertyDescription(0, PropertyDescriptionCode._09.code);
-		p.setValueOfProperty(0, 0);
+		p.setValueOfProperty(0, new ParsedObject<>(0));
 		e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
@@ -562,7 +562,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertEquals(10, e.getValue());
 		assertEquals(NIBRSErrorCode._391, e.getNIBRSErrorCode());
 		p.setPropertyDescription(1, PropertyDescriptionCode._99.code);
-		p.setValueOfProperty(1, 0);
+		p.setValueOfProperty(1, new ParsedObject<>(0));
 		e = rule.apply(p);
 		assertNotNull(e);
 	}
@@ -572,19 +572,19 @@ public class PropertySegmentRulesFactoryTest {
 		Rule<PropertySegment> rule = rulesFactory.getRule351();
 		PropertySegment p = buildBaseSegment();
 		for (int i=0;i < 10;i++) {
-			p.setValueOfProperty(i, null);
+			p.setValueOfProperty(i, ParsedObject.getMissingParsedObject());
 		}
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 0);
+		p.setValueOfProperty(0, new ParsedObject<>(0));
 		p.setPropertyDescription(0, PropertyDescriptionCode._09.code);
 		e = rule.apply(p);
 		assertNull(e);
 		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 0);
+		p.setValueOfProperty(0, new ParsedObject<>(0));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
@@ -592,7 +592,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertEquals(0, e.getValue());
 		assertEquals(NIBRSErrorCode._351, e.getNIBRSErrorCode());
 		p.setPropertyDescription(1, PropertyDescriptionCode._99.code);
-		p.setValueOfProperty(1, 0);
+		p.setValueOfProperty(1, new ParsedObject<>(0));
 		e = rule.apply(p);
 		assertNotNull(e);
 	}
@@ -602,14 +602,14 @@ public class PropertySegmentRulesFactoryTest {
 		Rule<PropertySegment> rule = rulesFactory.getRule342();
 		PropertySegment p = buildBaseSegment();
 		for (int i=0;i < 10;i++) {
-			p.setValueOfProperty(i, null);
+			p.setValueOfProperty(i, ParsedObject.getMissingParsedObject());
 		}
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(1, 10000000);
+		p.setValueOfProperty(1, new ParsedObject<>(10000000));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
@@ -734,21 +734,21 @@ public class PropertySegmentRulesFactoryTest {
 		PropertySegment p = buildBaseSegment();
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, 10);
+		p.setValueOfProperty(0, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNull(e);
-		p.setValueOfProperty(0, -10);
+		p.setValueOfProperty(0, new ParsedObject<>(-10));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
 		assertEquals("16", e.getDataElementIdentifier());
 		assertEquals(-10, e.getValue());
 		assertEquals(NIBRSErrorCode._304, e.getNIBRSErrorCode());
-		p.setValueOfProperty(0, 1000000000);
+		p.setValueOfProperty(0, new ParsedObject<>(1000000000));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(1000000000, e.getValue());
-		p.setValueOfProperty(1, 10);
+		p.setValueOfProperty(1, new ParsedObject<>(10));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(1000000000, e.getValue());

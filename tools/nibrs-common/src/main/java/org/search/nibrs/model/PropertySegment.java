@@ -15,8 +15,13 @@
  *******************************************************************************/
 package org.search.nibrs.model;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Date;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.ParsedObject;
 
 /**
  * Representation of an article of property reported within an Incident in a NIBRS report.
@@ -24,6 +29,8 @@ import java.util.Date;
  */
 public class PropertySegment extends AbstractSegment
 {
+	
+	private static final Logger LOG = LogManager.getLogger(PropertySegment.class);
     
 	public static final int SUSPECTED_DRUG_TYPE_COUNT = 3;
 	public static final int DATE_RECOVERED_COUNT = 10;
@@ -34,7 +41,7 @@ public class PropertySegment extends AbstractSegment
 	
 	private String typeOfPropertyLoss;
     private String[] propertyDescription;
-    private Integer[] valueOfProperty;
+    private ParsedObject<Integer>[] valueOfProperty;
     private Date[] dateRecovered;
     private Integer numberOfStolenMotorVehicles;
     private Integer numberOfRecoveredMotorVehicles;
@@ -49,14 +56,14 @@ public class PropertySegment extends AbstractSegment
     {
     	super();
         propertyDescription = new String[PROPERTY_DESCRIPTION_COUNT];
-        valueOfProperty = new Integer[VALUE_OF_PROPERTY_COUNT];
+		valueOfProperty = ParsedObject.initializeParsedObjectArray(VALUE_OF_PROPERTY_COUNT);
         dateRecovered = new Date[DATE_RECOVERED_COUNT];
         suspectedDrugType = new String[SUSPECTED_DRUG_TYPE_COUNT];
         estimatedDrugQuantity = new Double[SUSPECTED_DRUG_TYPE_COUNT];
         typeDrugMeasurement = new String[SUSPECTED_DRUG_TYPE_COUNT];
         segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
     }
-    
+
     public PropertySegment(PropertySegment p) {
     	super(p);
     	typeOfPropertyLoss = p.typeOfPropertyLoss;
@@ -77,7 +84,7 @@ public class PropertySegment extends AbstractSegment
     	return Arrays.asList(getPropertyDescription()).contains(descriptionCode);
     }
     
-	public Integer[] getValueOfProperty() {
+	public ParsedObject<Integer>[] getValueOfProperty() {
 		return valueOfProperty;
 	}
 	
@@ -149,12 +156,12 @@ public class PropertySegment extends AbstractSegment
         dateRecovered[position] = value;
     }
 
-    public Integer getValueOfProperty(int position)
+    public ParsedObject<Integer> getValueOfProperty(int position)
     {
         return valueOfProperty[position];
     }
     
-    public void setValueOfProperty(int position, Integer value)
+    public void setValueOfProperty(int position, ParsedObject<Integer> value)
     {
         valueOfProperty[position] = value;
     }

@@ -15,6 +15,8 @@
  *******************************************************************************/
 package org.search.nibrs.common;
 
+import java.lang.reflect.Array;
+
 /**
  * A class whose objects wrap primitives and provide, for null values, whether the null was a consequence of a missing value in original input, or an invalid value.
  *
@@ -127,4 +129,18 @@ public class ParsedObject<T> {
 		return po;
 	}
 	
+	/**
+	 * Create an array of ParsedObjects
+	 * @param arrayLength length of the array
+	 * @return the array
+	 */
+	public static final <T> ParsedObject<T>[] initializeParsedObjectArray(int arrayLength) {
+		@SuppressWarnings("unchecked")
+		ParsedObject<T>[] ret = (ParsedObject<T>[]) Array.newInstance(ParsedObject.class, arrayLength);
+		for (int i=0;i < arrayLength;i++) {
+			ret[i] = new ParsedObject<T>();
+		}
+		return ret;
+	}
+    
 }
