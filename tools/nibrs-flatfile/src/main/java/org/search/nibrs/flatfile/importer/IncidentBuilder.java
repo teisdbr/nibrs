@@ -630,6 +630,8 @@ public class IncidentBuilder {
 			for (int i = 0; i < VictimSegment.OFFENDER_NUMBER_RELATED_COUNT; i++) {
 				String offenderNumberRelatedString = StringUtils.getStringBetween(90 + 4 * i, 91 + 4 * i, segmentData);
 				ParsedObject<Integer> offenderNumberRelated = newVictim.getOffenderNumberRelated(i);
+				offenderNumberRelated.setInvalid(false);
+				offenderNumberRelated.setMissing(false);
 				if (offenderNumberRelatedString == null) {
 					offenderNumberRelated.setMissing(true);
 					offenderNumberRelated.setInvalid(false);

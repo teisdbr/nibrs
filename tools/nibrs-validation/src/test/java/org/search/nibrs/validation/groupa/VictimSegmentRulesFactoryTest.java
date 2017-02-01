@@ -1232,11 +1232,17 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		victimSegment.setOffenderNumberRelated(1, new ParsedObject<>(1));
 		NIBRSError nibrsError = null;
-		//nibrsError = rule.apply(victimSegment);
-		//assertNotNull(nibrsError);
-		//assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
-		//assertEquals("34", nibrsError.getDataElementIdentifier());
+		nibrsError = rule.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._406, nibrsError.getNIBRSErrorCode());
+		assertEquals("34", nibrsError.getDataElementIdentifier());
 
+		// demonstrates what happens if missing/invalid is improperly set on a ParsedObject
+		victimSegment.setOffenderNumberRelated(1, new ParsedObject<>(1));
+		victimSegment.getOffenderNumberRelated(1).setMissing(true);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		
 		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		victimSegment.setOffenderNumberRelated(1, new ParsedObject<>(2));
 		nibrsError = rule.apply(victimSegment);
