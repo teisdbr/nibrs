@@ -485,7 +485,7 @@ public class GroupAIncidentReportRulesFactory {
 								ret.setValue(offenseCode);
 								ret.setDataElementIdentifier("24");
 								ret.setNIBRSErrorCode(NIBRSErrorCode._466);
-								ret.setCrossSegment(true);
+								ret.setCrossSegment(false);
 							}
 						}
 					}

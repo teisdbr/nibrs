@@ -31,6 +31,7 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  */
 public class DuplicateCodedValueRule<T extends ValidationTarget> extends AbstractBeanPropertyRule<T> {
 	
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(DuplicateCodedValueRule.class);
 
 	public DuplicateCodedValueRule(String propertyName, String dataElementIdentifier, Class<T> subjectClass, NIBRSErrorCode errorCode) {
