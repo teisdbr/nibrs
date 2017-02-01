@@ -345,7 +345,7 @@ public class OffenseSegmentRulesFactoryTest {
 	public void testRule252() {
 		Rule<OffenseSegment> rule = rulesFactory.getRule252();
 		OffenseSegment o = buildBaseSegment();
-		o.setNumberOfPremisesEntered(null);
+		o.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
 		NIBRSError e = rule.apply(o);
 		assertNull(e);
 		o.setNumberOfPremisesEntered(new ParsedObject<>(2));

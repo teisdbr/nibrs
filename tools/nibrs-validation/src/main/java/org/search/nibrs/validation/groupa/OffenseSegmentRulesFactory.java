@@ -433,7 +433,7 @@ public class OffenseSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(OffenseSegment subject) {
 				NIBRSError ret = null;
-				if (subject.getNumberOfPremisesEntered() != null) {
+				if (!(subject.getNumberOfPremisesEntered().isMissing() || subject.getNumberOfPremisesEntered().isInvalid())) {
 					String offenseCode = subject.getUcrOffenseCode();
 					String locationType = subject.getLocationType();
 					if (!(OffenseCode._220.code.equals(offenseCode) && (LocationTypeCode._14.code.equals(locationType) || LocationTypeCode._19.code.equals(locationType)))) {
