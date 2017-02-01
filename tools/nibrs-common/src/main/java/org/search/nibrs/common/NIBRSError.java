@@ -240,14 +240,24 @@ public class NIBRSError {
 	public String getOffendingValues() {
 		List<Object> valueList = new ArrayList<Object>();
 		if (!(value instanceof Object[])) {
-			valueList.add(value);
-		} else {
+			if (value instanceof List){
+				valueList.addAll((ArrayList<?>) value);
+			}
+			else{
+				valueList.add(value);
+			}
+		}
+		else {
 			valueList = Arrays.asList((Object[]) value);
 		}
 		Set<String> allItems = new HashSet<String>();
 		String values = valueList.stream()
 				.filter(Objects::nonNull)
-				.map(Object::toString)
+				.map(item -> {
+					if (item instanceof Integer) 
+						return StringUtils.leftPad(item.toString(), 2, '0'); 
+					return item.toString();
+				})
 				.filter(item-> !StringUtils.endsWith(getRuleNumber(), "06") || !allItems.add(item)) //Set.add() returns false if the item was already in the set.
 				.filter(item->!item.equals("null"))
 				.distinct()
