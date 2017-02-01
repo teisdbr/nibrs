@@ -147,7 +147,7 @@ public final class ErrorExporter {
 		String values = valueList.stream()
 				.distinct()
 				.filter(Objects::nonNull)
-				.map(item->item.toString())
+				.map(Object::toString)
 				.filter(item->!item.equals("null"))
 				.reduce("", String::concat);
 		return values;
