@@ -78,7 +78,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._560, e.getNIBRSErrorCode());
 		assertEquals(victim.getSex(), e.getValue());
-		assertEquals("27", e.getDataElementIdentifier());
+		assertEquals("38", e.getDataElementIdentifier());
 		OffenderSegment offender2 = new OffenderSegment();
 		report.addOffender(offender2);
 		offender2.setSex(SexCode.M.code);
