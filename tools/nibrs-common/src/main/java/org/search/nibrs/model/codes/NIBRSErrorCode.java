@@ -138,7 +138,7 @@ public enum NIBRSErrorCode {
 	_401("401","Victim Segment","MUST BE PRESENT -- MANDATORY FIELD","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_402("402","Victim Segment","CONTAINS NONNUMERIC DIGITS","Must contain numeric entry with zero left-fill."),
 	_404("404","Victim Segment","INVALID DATA VALUE— NOT ON FBI VALIDATION TABLE","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
-	_406("406","Victim Segment","ERROR - DUPLICATE VALUE=[value]","The referenced data element in error is one that contains multiple data values. When more than one code is entered, none can be duplicate codes."),
+	_406("406","Victim Segment","NCA07: DUPLICATE VALUE=[value]","The referenced data element in error is one that contains multiple data values. When more than one code is entered, none can be duplicate codes."),
 	_407("407","Victim Segment","ERROR - MUTUALLY EXCLUSIVE VALUE=[value]","Data Element 33 (Type Injury) Can have multiple data values and was entered with multiple values. However, the entry shown between the brackets in [value] above cannot be entered with any other data value."),
 	_408("408","Victim Segment","EXACT AGE MUST BE IN FIRST TWO POSITIONS","Data Element 26 (Age of Victim) contains data, but is not left-justified. A single two-character age must be in positions 1 and 2 of the field."),
 	_409("409","Victim Segment","CONTAINS NONNUMERIC ENTRY","Data Element 26 (Age of Victim) contains more than two characters indicating a possible age-range was being attempted. If so, the field must contain numeric entry of four digits."),

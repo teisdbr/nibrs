@@ -17,6 +17,8 @@ package org.search.nibrs.common;
 
 import java.lang.reflect.Array;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * A class whose objects wrap primitives and provide, for null values, whether the null was a consequence of a missing value in original input, or an invalid value.
  *
@@ -67,7 +69,13 @@ public class ParsedObject<T> {
 	
 	@Override
 	public String toString() {
-		return value == null ? "null" : value.toString();
+		if (value == null){
+			return "null"; 
+		}
+		if (value instanceof Integer){
+			return StringUtils.leftPad(value.toString(), 2, '0');
+		}
+		return value.toString();
 	}
 
 	@Override

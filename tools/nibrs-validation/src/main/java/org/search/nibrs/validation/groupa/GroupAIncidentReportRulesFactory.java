@@ -221,7 +221,7 @@ public class GroupAIncidentReportRulesFactory {
 							if (victimSex != null && victimSex.equals(offenderSex)) {
 								ret = subject.getErrorTemplate();
 								ret.setNIBRSErrorCode(NIBRSErrorCode._560);
-								ret.setDataElementIdentifier("27");
+								ret.setDataElementIdentifier("38");
 								ret.setValue(victimSex);
 								ret.setCrossSegment(true);
 								break;

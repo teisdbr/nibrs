@@ -44,11 +44,13 @@ import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.validation.SubmissionValidator;
 
 /**
- * Executable class (via main) that accepts a submission file (via stdin, or optionally a specified file) and validates the submission, writing the error report
- * to stdout (or optionally to a specified file).
+ * Executable class (via main) that accepts a submission file (via stdin, or
+ * optionally a specified file) and validates the submission, writing the error
+ * report to stdout (or optionally to a specified file).
  */
 public class NIBRSValidator {
 	
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(NIBRSValidator.class);
 	
 	public static void main(String[] args) throws ParseException, IOException {
