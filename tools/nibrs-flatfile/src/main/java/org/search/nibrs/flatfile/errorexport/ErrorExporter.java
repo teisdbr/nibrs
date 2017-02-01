@@ -19,11 +19,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -107,11 +104,11 @@ public final class ErrorExporter {
 				line = modifyLine(line, 44 - 1, 46, StringUtils.rightPad(dataElementIdentifier, 3));
 			}
 			line = modifyLine(line, 47-1, 49, error.getNIBRSErrorCode().code);
-			String values = getValues(error);
-			line = modifyLine(line, 62 - 1, 140, StringUtils.rightPad(getErrorMessage(error, values), 79));
+			line = modifyLine(line, 62 - 1, 140, StringUtils.rightPad(error.getErrorMessage(), 79));
 			
-			if (values != null) {
-				line = modifyLine(line, 50 - 1, 61, StringUtils.rightPad(values, 12));
+			String offendingValues = error.getOffendingValues();
+			if (offendingValues != null) {
+				line = modifyLine(line, 50 - 1, 61, StringUtils.rightPad(offendingValues, 12));
 			}
 			bw.write(line);
 			bw.newLine();
@@ -129,38 +126,6 @@ public final class ErrorExporter {
 		string = StringUtils.rightPad(string, pad, ' ');
 		line = StringUtils.overlay(line, string, beginPosition, endPosition);
 		return line;
-	}
-
-	/*
-	 * TODO revisit the following 2 methods to decide where to put them.  It might be better to put them in the 
-	 * NIBRSError class. -hw 
-	 */
-	private String getValues(NIBRSError error) {
-		Object value = error.getValue();
-		List<Object> valueList = new ArrayList<Object>();
-		if (!(value instanceof Object[])) {
-			valueList.add(value);
-		} else {
-			valueList = Arrays.asList((Object[]) value);
-		}
-		
-		String values = valueList.stream()
-				.distinct()
-				.filter(Objects::nonNull)
-				.map(Object::toString)
-				.filter(item->!item.equals("null"))
-				.reduce("", String::concat);
-		return values;
-	}
-
-	private String getErrorMessage(NIBRSError error, String values) {
-		
-		if (error.getNIBRSErrorCode().message.contains("[value]") && StringUtils.isNotBlank(values)){
-			
-			return error.getNIBRSErrorCode().message.replace("[value]", values); 
-		}
-		
-		return error.getNIBRSErrorCode().message;
 	}
 
 }
