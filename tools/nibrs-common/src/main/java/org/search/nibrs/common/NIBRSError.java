@@ -15,8 +15,14 @@
  *******************************************************************************/
 package org.search.nibrs.common;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.AbstractReport;
@@ -229,6 +235,44 @@ public class NIBRSError {
 	@Override
 	public boolean equals(Object obj) {
 		return obj != null && obj.hashCode() == hashCode();
+	}
+
+	public String getOffendingValues() {
+		List<Object> valueList = new ArrayList<Object>();
+		if (!(value instanceof Object[])) {
+			if (value instanceof List){
+				valueList.addAll((ArrayList<?>) value);
+			}
+			else{
+				valueList.add(value);
+			}
+		}
+		else {
+			valueList = Arrays.asList((Object[]) value);
+		}
+		Set<String> allItems = new HashSet<String>();
+		String values = valueList.stream()
+				.filter(Objects::nonNull)
+				.map(item -> {
+					if (item instanceof Integer) 
+						return StringUtils.leftPad(item.toString(), 2, '0'); 
+					return item.toString();
+				})
+				.filter(item-> !StringUtils.endsWith(getRuleNumber(), "06") || !allItems.add(item)) //Set.add() returns false if the item was already in the set.
+				.filter(item->!item.equals("null"))
+				.distinct()
+				.limit(StringUtils.endsWith(getRuleNumber(), "06")? 1 : valueList.size())
+				.reduce("", String::concat);
+		return values;
+	}
+
+	public String getErrorMessage() {
+		
+		if (getNIBRSErrorCode().message.contains("[value]") && StringUtils.isNotBlank(getOffendingValues())){
+			return getNIBRSErrorCode().message.replace("[value]", getOffendingValues()); 
+		}
+		
+		return getNIBRSErrorCode().message;
 	}
 
 }

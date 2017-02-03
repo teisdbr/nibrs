@@ -52,6 +52,7 @@ import org.search.nibrs.validation.rules.ValidValueListRule;
 
 public class VictimSegmentRulesFactory {
 	
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(VictimSegmentRulesFactory.class);
 
 	private List<Rule<VictimSegment>> rulesList;
@@ -202,6 +203,8 @@ public class VictimSegmentRulesFactory {
 						e.setNIBRSErrorCode(NIBRSErrorCode._070);
 						e.setDataElementIdentifier("34");
 						e.setValue(offenderNumber);
+						e.setCrossSegment(true);
+						e.setWithinSegmentIdentifier(null); //TODO is this the right place to do this? 
 						break;
 					}
 				}
