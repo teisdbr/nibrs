@@ -98,10 +98,7 @@ public class VictimSegmentRulesFactory {
 
 		@Override
 		protected boolean propertyViolatesRule(Object value, VictimSegment victimSegment) {
-			List<String> offenseList = new ArrayList<>();
-			offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-			offenseList.removeIf(item -> item == null);
-			return ((!victimSegment.isPerson() || !OffenseCode.containsCrimeAgainstPersonCode(offenseList)) && value != null);
+			return (!victimSegment.isPerson() && value != null);
 		}
 
 	}
@@ -752,7 +749,7 @@ public class VictimSegmentRulesFactory {
 				offenderList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
 				offenderList.removeIf(item -> item == null);
 
-				if (!(OffenseCode.containsCrimeAgainstPersonCode(offenseList) && victimSegment.isPerson()) && !offenderList.isEmpty()) {
+				if (!victimSegment.isPerson() && !offenderList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("34");
 					e.setNIBRSErrorCode(NIBRSErrorCode._458);

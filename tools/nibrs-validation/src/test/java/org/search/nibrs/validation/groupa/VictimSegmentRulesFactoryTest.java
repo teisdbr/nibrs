@@ -740,7 +740,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
+		assertNull(nibrsError);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
@@ -761,7 +761,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
+		assertNull(nibrsError);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
@@ -795,7 +795,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
+		assertNull(nibrsError);
 
 	}
 
@@ -814,7 +814,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
+		assertNull(nibrsError);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
@@ -835,7 +835,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);
 		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
+		assertNull(nibrsError);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
@@ -856,7 +856,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setTypeOfVictim(TypeOfVictimCode.I.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._200.code);	
 		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
+		assertNull(nibrsError);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);		
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
