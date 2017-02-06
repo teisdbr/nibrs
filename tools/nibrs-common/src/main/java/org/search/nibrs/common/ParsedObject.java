@@ -37,10 +37,6 @@ public class ParsedObject<T> {
 	
 	public ParsedObject(T value) {
 		this.value = value;
-		
-		if (value == null){
-			this.missing = true;
-		}
 	}
 	
 	public T getValue() {
