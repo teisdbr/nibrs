@@ -1147,6 +1147,7 @@ public class VictimSegmentRulesFactoryTest {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testRule404ForRelationshipOfVictimToOffender(){
 		
@@ -1165,7 +1166,7 @@ public class VictimSegmentRulesFactoryTest {
 		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		assertArrayEquals(new String[] {RelationshipOfVictimToOffenderCode.AQ.code}, (String[]) nibrsError.getValue());
+		assertEquals(Arrays.asList(RelationshipOfVictimToOffenderCode.AQ.code) , ((List<String>) nibrsError.getValue()));
 		assertEquals("35", nibrsError.getDataElementIdentifier());
 		
 		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
@@ -1173,7 +1174,7 @@ public class VictimSegmentRulesFactoryTest {
 		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		assertArrayEquals(new String[] {null}, (String[]) nibrsError.getValue());
+		assertArrayEquals(new String[] {null}, ((List<String>) nibrsError.getValue()).toArray());
 		assertEquals("35", nibrsError.getDataElementIdentifier());
 		
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
@@ -1185,7 +1186,7 @@ public class VictimSegmentRulesFactoryTest {
 		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		assertArrayEquals(new String[] {"invalid"}, (String[]) nibrsError.getValue());
+		assertEquals(Arrays.asList("invalid"), (List<String>) nibrsError.getValue());
 		assertEquals("35", nibrsError.getDataElementIdentifier());
 		
 	}

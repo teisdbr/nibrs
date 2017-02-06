@@ -64,6 +64,7 @@ public final class ErrorExporter {
 	 * @param writer
 	 * @throws IOException 
 	 */
+	@SuppressWarnings("unchecked")
 	public void createErrorReport(List<NIBRSError> errorList, Writer writer) throws IOException {
 		BufferedWriter bw = null;
 		if (!(writer instanceof BufferedWriter)) {
@@ -107,11 +108,21 @@ public final class ErrorExporter {
 			line = modifyLine(line, 62 - 1, 140, StringUtils.rightPad(error.getErrorMessage(), 79));
 			
 			String offendingValues = error.getOffendingValues();
-			if (offendingValues != null) {
-				line = modifyLine(line, 50 - 1, 61, StringUtils.rightPad(offendingValues, 12));
+			
+			if (error.getRuleNumber().equals("404") && error.getDataElementIdentifier().equals("35")) {
+				for (String invalidValue : (List<String>)error.getValue()){
+					line = modifyLine(line, 50 - 1, 61, StringUtils.rightPad(StringUtils.trimToEmpty(invalidValue), 12));
+					bw.write(line);
+					bw.newLine();
+				}
 			}
-			bw.write(line);
-			bw.newLine();
+			else { 
+				if (offendingValues != null){
+					line = modifyLine(line, 50 - 1, 61, StringUtils.rightPad(offendingValues, 12));
+				}
+				bw.write(line);
+				bw.newLine();
+			}
 		}
 		line = blankLineTemplate;
 		line = modifyLine(line, 15-1, 23, "999999999");

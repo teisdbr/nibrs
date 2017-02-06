@@ -20,7 +20,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
@@ -431,7 +433,8 @@ public class VictimSegmentRulesFactory {
 				List<String> relationships = victimSegment.getVictimOffenderRelationshipList();
 				List<String> invalidRelationships = new ArrayList<>();
 				
-				for (int i=0;i < relatedOffenderNumbers.size();i++) {
+				int i= 0; 
+				for (; i<relatedOffenderNumbers.size(); i++){
 					Integer offenderNumber = relatedOffenderNumbers.get(i);
 					String relationship = relationships.get(i);
 					if (((offenderNumber == null || offenderNumber == 0) && relationship != null) ||
@@ -441,11 +444,18 @@ public class VictimSegmentRulesFactory {
 					}
 				}
 				
-				if (!invalidRelationships.isEmpty()) {
+				for ( ;i < relationships.size(); i++) {
+					String relationship = relationships.get(i);
+					if ( relationship != null ) {
+						invalidRelationships.add(relationship);
+					}
+				}
+				
+				if ( !invalidRelationships.isEmpty() ){
 					e = victimSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._404);
 					e.setDataElementIdentifier("35");
-					e.setValue(invalidRelationships.toArray(new String[invalidRelationships.size()]));
+					e.setValue(invalidRelationships);
 				}
 
 				return e;
