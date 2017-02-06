@@ -15,10 +15,15 @@
  *******************************************************************************/
 package org.search.nibrs.validation.groupa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -384,7 +389,7 @@ public class VictimSegmentRulesFactoryTest {
 		nibrsError = offender404Rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		Set<Integer> compSet = new HashSet<>();
+		List<Integer> compSet = new ArrayList<>();
 		compSet.add(2);
 		assertEquals(compSet, nibrsError.getValue());
 		

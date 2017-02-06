@@ -303,7 +303,7 @@ public class VictimSegmentRulesFactory {
 
 				if (!victimRelatedOffenderNumberSet.isEmpty()) {
 					e = errorTemplate;
-					e.setValue(victimRelatedOffenderNumberSet);
+					e.setValue(new ArrayList<Integer>(victimRelatedOffenderNumberSet));
 				}
 
 				return e;

@@ -241,7 +241,7 @@ public class GroupAIncidentReportRulesFactory {
 				NIBRSError ret = null;
 				NIBRSError template = subject.getErrorTemplate();
 				template.setNIBRSErrorCode(NIBRSErrorCode._656);
-				template.setDataElementIdentifier("36");
+				template.setDataElementIdentifier("L 6");
 				template.setValue(null);
 				template.setCrossSegment(true);
 				int offenderCount = subject.getOffenderCount();
@@ -255,6 +255,7 @@ public class GroupAIncidentReportRulesFactory {
 				}
 				if (arresteeCount > offenderCount) {
 					ret = template;
+					ret.setValue(arresteeCount);
 				}
 				return ret;
 			}

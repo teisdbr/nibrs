@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNull;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -101,7 +100,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._656, e.getNIBRSErrorCode());
 		assertNull(e.getValue());
-		assertEquals("36", e.getDataElementIdentifier());
+		assertEquals("L 6", e.getDataElementIdentifier());
 		os.setOffenderSequenceNumber(new ParsedObject<>(1));
 		e = rule.apply(report);
 		assertNull(e);
