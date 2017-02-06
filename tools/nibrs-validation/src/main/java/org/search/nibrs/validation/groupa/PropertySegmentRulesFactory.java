@@ -55,7 +55,7 @@ public class PropertySegmentRulesFactory {
 		@Override
 		public NIBRSError apply(PropertySegment subject) {
 			NIBRSError ret = null;
-			Integer smv = stolenMode ? subject.getNumberOfStolenMotorVehicles() : subject.getNumberOfRecoveredMotorVehicles();
+			Integer smv = stolenMode ? subject.getNumberOfStolenMotorVehicles().getValue() : subject.getNumberOfRecoveredMotorVehicles();
 			boolean nmvNull = (smv == null);
 			boolean mvOffenseInvolved = false;
 			boolean offenseAttempted = false;
@@ -161,6 +161,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule364forMeasurement());
 		rulesList.add(getRule367());
 		rulesList.add(getRule391());
+		rulesList.add(getRule388());
 		
 	}
 	
@@ -296,7 +297,7 @@ public class PropertySegmentRulesFactory {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
-				Integer smv = subject.getNumberOfStolenMotorVehicles();
+				Integer smv = subject.getNumberOfStolenMotorVehicles().getValue();
 				Integer rmv = subject.getNumberOfRecoveredMotorVehicles();
 				if ((smv != null && smv > 0) || (rmv != null && rmv > 0)) {
 					boolean found = false;
@@ -456,7 +457,7 @@ public class PropertySegmentRulesFactory {
 								allNull(subject.getValueOfProperty()) &&
 								allNull(subject.getDateRecovered()) &&
 								(subject.getNumberOfRecoveredMotorVehicles() == null) &&
-								(subject.getNumberOfStolenMotorVehicles() == null) &&
+								(subject.getNumberOfStolenMotorVehicles().isMissing()) &&
 								allNull(subject.getSuspectedDrugType()) &&
 								allNull(subject.getEstimatedDrugQuantity()) &&
 								allNull(subject.getTypeDrugMeasurement())
@@ -467,7 +468,7 @@ public class PropertySegmentRulesFactory {
 								allNull(subject.getValueOfProperty()) &&
 								allNull(subject.getDateRecovered()) &&
 								(subject.getNumberOfRecoveredMotorVehicles() == null) &&
-								(subject.getNumberOfStolenMotorVehicles() == null) &&
+								(subject.getNumberOfStolenMotorVehicles().isMissing()) &&
 								notAllNull(subject.getSuspectedDrugType())
 								)) {
 					value = loss;
@@ -515,6 +516,35 @@ public class PropertySegmentRulesFactory {
 						ret.setValue(valueOfPropertyPO.getValue());
 						ret.setDataElementIdentifier("16");
 					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule388() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				
+				List<String> vehicleValues = Arrays.asList(
+						PropertyDescriptionCode._03.code, 
+						PropertyDescriptionCode._05.code, 
+						PropertyDescriptionCode._24.code, 
+						PropertyDescriptionCode._28.code, 
+						PropertyDescriptionCode._37.code);
+				long countOfVehicles = Arrays.stream(subject.getPropertyDescription())
+						.filter(item->vehicleValues.contains(item))
+						.count(); 
+				if (subject.getNumberOfStolenMotorVehicles().getValue() != null 
+//						&& !subject.getNumberOfStolenMotorVehicles().isMissing()
+//						&& !subject.getNumberOfStolenMotorVehicles().isInvalid()
+						&& countOfVehicles > subject.getNumberOfStolenMotorVehicles().getValue()) {
+					ret = subject.getErrorTemplate();
+					ret.setNIBRSErrorCode(NIBRSErrorCode._388);
+					ret.setValue(subject.getNumberOfStolenMotorVehicles());
+					ret.setDataElementIdentifier("18");
 				}
 				return ret;
 			}
@@ -729,7 +759,7 @@ public class PropertySegmentRulesFactory {
 	Rule<PropertySegment> getRule304ForStolenMotorVehicleCount() {
 		return new NumericValueRule<>(
 				subject -> {
-					return subject.getNumberOfStolenMotorVehicles();
+					return subject.getNumberOfStolenMotorVehicles().getValue();
 				},
 				(value, target) -> {
 					return getErrorForMotorVehicleCountValue(value, target, "18");

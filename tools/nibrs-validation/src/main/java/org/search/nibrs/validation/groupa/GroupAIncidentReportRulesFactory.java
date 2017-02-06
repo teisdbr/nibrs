@@ -714,7 +714,7 @@ public class GroupAIncidentReportRulesFactory {
 				PropertySegment recoveredSegment = subject.getRecoveredPropertySegment();
 				PropertySegment stolenSegment = subject.getStolenPropertySegment();
 				if (recoveredSegment != null && recoveredSegment.getNumberOfRecoveredMotorVehicles() != null &&
-						(stolenSegment == null || stolenSegment.getNumberOfStolenMotorVehicles() < recoveredSegment.getNumberOfRecoveredMotorVehicles())) {
+						(stolenSegment == null || stolenSegment.getNumberOfStolenMotorVehicles().getValue() < recoveredSegment.getNumberOfRecoveredMotorVehicles())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(recoveredSegment.getNumberOfRecoveredMotorVehicles());
 					ret.setDataElementIdentifier("19");

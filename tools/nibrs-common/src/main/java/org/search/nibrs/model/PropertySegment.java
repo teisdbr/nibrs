@@ -15,7 +15,6 @@
  *******************************************************************************/
 package org.search.nibrs.model;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -30,6 +29,7 @@ import org.search.nibrs.common.ParsedObject;
 public class PropertySegment extends AbstractSegment
 {
 	
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(PropertySegment.class);
     
 	public static final int SUSPECTED_DRUG_TYPE_COUNT = 3;
@@ -43,7 +43,7 @@ public class PropertySegment extends AbstractSegment
     private String[] propertyDescription;
     private ParsedObject<Integer>[] valueOfProperty;
     private Date[] dateRecovered;
-    private Integer numberOfStolenMotorVehicles;
+    private ParsedObject<Integer> numberOfStolenMotorVehicles;
     private Integer numberOfRecoveredMotorVehicles;
     private String[] suspectedDrugType;
     private Double[] estimatedDrugQuantity;
@@ -62,6 +62,7 @@ public class PropertySegment extends AbstractSegment
         estimatedDrugQuantity = new Double[SUSPECTED_DRUG_TYPE_COUNT];
         typeDrugMeasurement = new String[SUSPECTED_DRUG_TYPE_COUNT];
         segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
+        numberOfStolenMotorVehicles = new ParsedObject<Integer>();
     }
 
     public PropertySegment(PropertySegment p) {
@@ -185,13 +186,18 @@ public class PropertySegment extends AbstractSegment
     {
         this.numberOfRecoveredMotorVehicles = numberOfRecoveredMotorVehicles;
     }
-    public Integer getNumberOfStolenMotorVehicles()
+    public ParsedObject<Integer> getNumberOfStolenMotorVehicles()
     {
         return numberOfStolenMotorVehicles;
     }
-    public void setNumberOfStolenMotorVehicles(Integer numberOfStolenMotorVehicles)
+    public void setNumberOfStolenMotorVehicles(ParsedObject<Integer> numberOfStolenMotorVehicles)
     {
         this.numberOfStolenMotorVehicles = numberOfStolenMotorVehicles;
+    }
+    
+    public void setNumberOfStolenMotorVehicles(Integer numberOfStolenMotorVehicles)
+    {
+    	this.numberOfStolenMotorVehicles = new ParsedObject<Integer>(numberOfStolenMotorVehicles);
     }
     public String getTypeOfPropertyLoss()
     {

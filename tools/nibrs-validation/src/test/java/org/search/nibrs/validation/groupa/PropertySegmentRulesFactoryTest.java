@@ -191,7 +191,7 @@ public class PropertySegmentRulesFactoryTest {
 		Rule<PropertySegment> rule = rulesFactory.getRule359();
 		PropertySegment p = buildBaseSegment();
 		p.setNumberOfRecoveredMotorVehicles(null);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		setAllNull(p.getPropertyDescription());
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
@@ -214,7 +214,7 @@ public class PropertySegmentRulesFactoryTest {
 		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
 		e = rule.apply(p);
 		assertNotNull(e);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		p.setNumberOfRecoveredMotorVehicles(1);
 		e = rule.apply(p);
 		assertNotNull(e);
@@ -256,7 +256,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._361, e.getNIBRSErrorCode());
 		assertEquals("19", e.getDataElementIdentifier());
-		assertEquals(null, e.getValue());
+		assertEquals("null", e.getValue().toString());
 		
 	}
 	
@@ -269,11 +269,11 @@ public class PropertySegmentRulesFactoryTest {
 		incident.addOffense(o);
 		o.setUcrOffenseCode(null);
 		o.setOffenseAttemptedCompleted(null);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		p.setTypeOfPropertyLoss(null);
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._1.code);
 		o.setUcrOffenseCode(OffenseCode._240.code);
 		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
@@ -293,7 +293,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._358, e.getNIBRSErrorCode());
 		assertEquals("18", e.getDataElementIdentifier());
-		assertEquals(null, e.getValue());
+		assertEquals("null", e.getValue().toString());
 		
 	}
 	
@@ -342,7 +342,7 @@ public class PropertySegmentRulesFactoryTest {
 		incident.addOffense(o);
 		o.setUcrOffenseCode(null);
 		o.setOffenseAttemptedCompleted(null);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		p.setTypeOfPropertyLoss(null);
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
@@ -354,7 +354,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._357, e.getNIBRSErrorCode());
 		assertEquals("18", e.getDataElementIdentifier());
-		assertEquals(1, e.getValue());
+		assertEquals("01", e.getValue().toString());
 		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
 		o.setUcrOffenseCode(OffenseCode._09A.code);
 		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
@@ -439,7 +439,7 @@ public class PropertySegmentRulesFactoryTest {
 		setAllNull(p.getValueOfProperty());
 		setAllNull(p.getDateRecovered());
 		p.setNumberOfRecoveredMotorVehicles(null);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		setAllNull(p.getSuspectedDrugType());
 		setAllNull(p.getEstimatedDrugQuantity());
 		setAllNull(p.getTypeDrugMeasurement());
@@ -453,7 +453,7 @@ public class PropertySegmentRulesFactoryTest {
 		setAllNull(p.getValueOfProperty());
 		setAllNull(p.getDateRecovered());
 		p.setNumberOfRecoveredMotorVehicles(null);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		setAllNull(p.getSuspectedDrugType());
 		setAllNull(p.getEstimatedDrugQuantity());
 		setAllNull(p.getTypeDrugMeasurement());
@@ -466,7 +466,7 @@ public class PropertySegmentRulesFactoryTest {
 		setAllNull(p.getValueOfProperty());
 		setAllNull(p.getDateRecovered());
 		p.setNumberOfRecoveredMotorVehicles(null);
-		p.setNumberOfStolenMotorVehicles(null);
+		p.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
 		setAllNull(p.getSuspectedDrugType());
 		setAllNull(p.getEstimatedDrugQuantity());
 		setAllNull(p.getTypeDrugMeasurement());
@@ -937,4 +937,23 @@ public class PropertySegmentRulesFactoryTest {
 		return p;
 	}
 
+	@Test
+	public void testRule388() {
+		Rule<PropertySegment> rule = rulesFactory.getRule388();
+		PropertySegment p = buildBaseSegment();
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setNumberOfStolenMotorVehicles(1);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setPropertyDescription(0, "03");
+		p.setPropertyDescription(1, "05");
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("18", e.getDataElementIdentifier());
+		assertEquals("01", e.getValue().toString());
+		assertEquals(NIBRSErrorCode._388, e.getNIBRSErrorCode());
+	}
+	
 }

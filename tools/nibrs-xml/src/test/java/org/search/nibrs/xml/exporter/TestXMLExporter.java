@@ -182,7 +182,7 @@ public class TestXMLExporter {
 					assertNotNull(itemElement);
 					assertEquals(p.getValueOfProperty(i), new Integer(XmlUtils.xPathStringSearch(itemElement, "nc:ItemValue/nc:ItemValueAmount/nc:Amount")));
 					Integer recoveredMotorVehicles = p.getNumberOfRecoveredMotorVehicles();
-					Integer stolenMotorVehicles = p.getNumberOfStolenMotorVehicles();
+					Integer stolenMotorVehicles = p.getNumberOfStolenMotorVehicles().getValue();
 					if (recoveredMotorVehicles != null || stolenMotorVehicles != null) {
 						assertNotNull(XmlUtils.xPathNodeSearch(itemElement, "nc:ItemQuantity[text()='" +
 								(recoveredMotorVehicles != null ? recoveredMotorVehicles : stolenMotorVehicles) + "']"));

@@ -69,9 +69,9 @@ public abstract class AbstractBeanPropertyRule<T extends ValidationTarget> imple
 				Object value = property.getReadMethod().invoke(subject, new Object[0]);
 				if (propertyViolatesRule(value, subject)) {
 					ret = subject.getErrorTemplate();
+					ret.setNIBRSErrorCode(errorCode);
 					ret.setValue(value);
 					ret.setDataElementIdentifier(dataElementIdentifier);
-					ret.setNIBRSErrorCode(errorCode);
 				}
 			} catch (ReflectiveOperationException e) {
 				// this really should never happen...

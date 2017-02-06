@@ -528,7 +528,7 @@ public class XMLExporter {
 					}
 					appendElementAndValueIfNotNull(itemElement, Namespace.j, "ItemCategoryNIBRSPropertyCategoryCode", description);
 					Integer rmv = property.getNumberOfRecoveredMotorVehicles();
-					Integer smv = property.getNumberOfStolenMotorVehicles();
+					Integer smv = property.getNumberOfStolenMotorVehicles().getValue();
 					if (rmv != null || smv != null) {
 						XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemQuantity").setTextContent(String.valueOf(rmv != null ? rmv : smv));
 					}
