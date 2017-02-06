@@ -118,6 +118,7 @@ public class PropertySegmentRulesFactory {
 		protected abstract Object[] getDrugElementArray(PropertySegment segment);
 	}
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(PropertySegmentRulesFactory.class);
 	
 	private List<Rule<PropertySegment>> rulesList = new ArrayList<>();
@@ -537,9 +538,8 @@ public class PropertySegmentRulesFactory {
 				long countOfVehicles = Arrays.stream(subject.getPropertyDescription())
 						.filter(item->vehicleValues.contains(item))
 						.count(); 
-				if (subject.getNumberOfStolenMotorVehicles().getValue() != null 
-//						&& !subject.getNumberOfStolenMotorVehicles().isMissing()
-//						&& !subject.getNumberOfStolenMotorVehicles().isInvalid()
+				if ( !subject.getNumberOfStolenMotorVehicles().isMissing()
+						&& !subject.getNumberOfStolenMotorVehicles().isInvalid()
 						&& countOfVehicles > subject.getNumberOfStolenMotorVehicles().getValue()) {
 					ret = subject.getErrorTemplate();
 					ret.setNIBRSErrorCode(NIBRSErrorCode._388);
