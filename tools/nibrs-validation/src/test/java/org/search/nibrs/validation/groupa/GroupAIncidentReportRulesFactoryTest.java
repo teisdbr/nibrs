@@ -688,7 +688,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._076, e.getNIBRSErrorCode());
 		assertNull(e.getValue());
-		assertEquals("6", e.getDataElementIdentifier());
+		assertEquals("L 3", e.getDataElementIdentifier());
 	}
 	
 	@Test

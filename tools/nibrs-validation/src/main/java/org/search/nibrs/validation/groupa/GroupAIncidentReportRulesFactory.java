@@ -680,8 +680,9 @@ public class GroupAIncidentReportRulesFactory {
 						!subject.includesGamblingOffense() && !subject.includesPropertyCrime()) && !subject.getProperties().isEmpty()) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(null);
-					ret.setDataElementIdentifier("6");
+					ret.setDataElementIdentifier("L 3");
 					ret.setNIBRSErrorCode(NIBRSErrorCode._076);
+					ret.setCrossSegment(true);
 				}
 						
 				return ret;
