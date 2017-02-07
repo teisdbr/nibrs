@@ -676,6 +676,7 @@ public class GroupAIncidentReportRulesFactory {
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
 				if ((subject.getOffenseForOffenseCode(OffenseCode._100.code) == null &&
+						subject.getOffenseForOffenseCode(OffenseCode._35B.code) == null && 
 						subject.getOffenseForOffenseCode(OffenseCode._35A.code) == null &&
 						!subject.includesGamblingOffense() && !subject.includesPropertyCrime()) && !subject.getProperties().isEmpty()) {
 					ret = subject.getErrorTemplate();
