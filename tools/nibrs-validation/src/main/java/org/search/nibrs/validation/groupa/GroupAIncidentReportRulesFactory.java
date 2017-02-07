@@ -658,7 +658,8 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				if (subject.getOffenders().isEmpty() || subject.getOffenses().isEmpty() || subject.getVictims().isEmpty()) {
+				if (subject.getReportActionType() != 'D' 
+					&& (subject.getOffenders().isEmpty() || subject.getOffenses().isEmpty() || subject.getVictims().isEmpty())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(null);
 					ret.setDataElementIdentifier(null);

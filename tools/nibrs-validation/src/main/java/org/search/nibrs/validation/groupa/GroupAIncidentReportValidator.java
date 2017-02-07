@@ -27,6 +27,7 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.ArresteeSegmentRulesFactory;
 import org.search.nibrs.validation.rules.Rule;
 
@@ -36,6 +37,7 @@ import org.search.nibrs.validation.rules.Rule;
  */
 public class GroupAIncidentReportValidator {
 	
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReportValidator.class);
 	
 	private List<Rule<GroupAIncidentReport>> incidentReportRules = new ArrayList<>();
@@ -87,9 +89,7 @@ public class GroupAIncidentReportValidator {
 		for (Rule<VictimSegment> r : victimSegmentRules) {
 			for (VictimSegment s : groupAIncidentReport.getVictims()) {
 				NIBRSError nibrsError = r.apply(s);
-				if (nibrsError != null) {
-					ret.add(nibrsError);
-				}
+				processVitimSegmentError(ret, nibrsError);
 			}
 		}
 
@@ -113,6 +113,23 @@ public class GroupAIncidentReportValidator {
 		
 		return ret;
 		
+	}
+
+	private void processVitimSegmentError(List<NIBRSError> ret, NIBRSError nibrsError) {
+		if (nibrsError != null) {
+			if (!nibrsError.getRuleNumber().equals(NIBRSErrorCode._070.code)){
+				ret.add(nibrsError);
+			}
+			else{
+				long count =  
+					ret.stream()
+					   	.filter(item->nibrsError.getValue().equals(item.getValue()))
+					   	.count();
+				if (count == 0){
+					ret.add(nibrsError);
+				}
+			}
+		}
 	}
 	
 }
