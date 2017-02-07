@@ -69,8 +69,8 @@ public class ArresteeSegmentRulesFactoryTest {
 		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._071, nibrsError.getNIBRSErrorCode());
-		assertEquals("42", nibrsError.getDataElementIdentifier());
-		assertEquals(arresteeSegment.getArrestDate().getValue(), nibrsError.getValue());
+		assertEquals("04", nibrsError.getDataElementIdentifier());
+		assertEquals("A", nibrsError.getValue());
 		assertEquals(parent, nibrsError.getReport());
 		c.set(2015, Calendar.DECEMBER, 31);
 		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));

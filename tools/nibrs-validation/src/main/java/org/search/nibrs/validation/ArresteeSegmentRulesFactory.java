@@ -133,8 +133,10 @@ public class ArresteeSegmentRulesFactory {
 					if (!arrestDate.isAfter(exceptionalClearanceDate)) {
 						e = arresteeSegment.getErrorTemplate();
 						e.setNIBRSErrorCode(NIBRSErrorCode._071);
-						e.setDataElementIdentifier("42");
-						e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+						e.setDataElementIdentifier("04");
+						e.setValue(exceptionalClearanceCode);
+						e.setCrossSegment(true);
+						e.setWithinSegmentIdentifier(null);
 					}
 				}
 				return e;
