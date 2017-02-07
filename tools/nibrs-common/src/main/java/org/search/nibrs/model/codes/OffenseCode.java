@@ -89,7 +89,8 @@ public enum OffenseCode {
 	_90G("90G", "Liquor Law Violations", "B"),
 	_90H("90H", "Peeping Tom", "B"),
 	_90I("90I", "Runaway", "B"),
-	_90J("90J", "Trespass of Real Property", "B")
+	_90J("90J", "Trespass of Real Property", "B"),
+	_90Z("90Z", "All Other Offenses", "B")
 	;
 
 	public String code;
