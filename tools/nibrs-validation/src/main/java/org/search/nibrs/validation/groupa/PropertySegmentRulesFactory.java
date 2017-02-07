@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -459,7 +460,7 @@ public class PropertySegmentRulesFactory {
 								allNull(subject.getValueOfProperty()) &&
 								allNull(subject.getDateRecovered()) &&
 								(subject.getNumberOfRecoveredMotorVehicles() == null) &&
-								(subject.getNumberOfStolenMotorVehicles().isMissing()) &&
+								(subject.getNumberOfStolenMotorVehicles().getValue() == null) &&
 								allNull(subject.getSuspectedDrugType()) &&
 								allNull(subject.getEstimatedDrugQuantity()) &&
 								allNull(subject.getTypeDrugMeasurement())
@@ -487,21 +488,21 @@ public class PropertySegmentRulesFactory {
 	}
 	
 	private static final boolean notAllNull(Object[] array) {
-		for (Object o : array) {
-			if (o != null) {
-				return true;
-			}
-		}
-		return false;
+		return !allNull(array);
 	}
 	
 	private static final boolean allNull(Object[] array) {
-		for (Object o : array) {
-			if (o != null) {
-				return false;
-			}
-		}
-		return true;
+		
+		long nonNullCount = Arrays.stream(array)
+			  .map(item -> {
+					if (item instanceof ParsedObject<?>) 
+						return ((ParsedObject<?>) item).getValue(); 
+					return item;
+				})
+			  .filter(Objects::nonNull)
+			  .count();
+			
+		return nonNullCount == 0;
 	}
 	
 	Rule<PropertySegment> getRule391() {
