@@ -394,7 +394,10 @@ public class PropertySegmentRulesFactoryTest {
 		Rule<PropertySegment> rule = rulesFactory.getRule354();
 		PropertySegment p = buildBaseSegment();
 		setAllNull(p.getPropertyDescription());
-		setAllNull(p.getValueOfProperty());
+		for (int i= 0; i< PropertySegment.VALUE_OF_PROPERTY_COUNT; i++){
+			p.setValueOfProperty(i, new ParsedObject<Integer>());
+		}
+		
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
 		p.setValueOfProperty(0, new ParsedObject<>(10));

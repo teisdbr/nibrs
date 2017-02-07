@@ -405,7 +405,8 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 10;i++) {
-					if (subject.getValueOfProperty(i) != null && subject.getPropertyDescription(i) == null) {
+					if (subject.getValueOfProperty(i).getValue() != null && 
+							subject.getPropertyDescription(i) == null) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._354);
 						ret.setValue(subject.getValueOfProperty(i).getValue());
