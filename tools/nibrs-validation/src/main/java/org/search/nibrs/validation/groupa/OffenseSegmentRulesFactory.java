@@ -209,8 +209,10 @@ public class OffenseSegmentRulesFactory {
 				if (!found) {
 					e = subject.getErrorTemplate();
 					e.setValue(ucrCode);
-					e.setDataElementIdentifier("6");
+					e.setDataElementIdentifier("L 2");
 					e.setNIBRSErrorCode(NIBRSErrorCode._065);
+					e.setWithinSegmentIdentifier(null);
+					e.setCrossSegment(true);
 				}
 				return e;
 			}
