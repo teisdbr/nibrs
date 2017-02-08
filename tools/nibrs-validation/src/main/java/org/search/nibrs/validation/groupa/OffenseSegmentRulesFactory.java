@@ -91,6 +91,7 @@ public class OffenseSegmentRulesFactory {
 			}));
 			
 			offenseSet2.addAll(Arrays.asList(new String[] {
+				OffenseCode._09A.code,
 				OffenseCode._09B.code,
 				OffenseCode._100.code,
 				OffenseCode._11A.code,
