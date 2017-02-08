@@ -15,9 +15,11 @@
  *******************************************************************************/
 package org.search.nibrs.validation.groupa;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -689,6 +691,27 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._076, e.getNIBRSErrorCode());
 		assertNull(e.getValue());
 		assertEquals("L 3", e.getDataElementIdentifier());
+	}
+	
+	@Test
+	public void testRule77() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule077();
+		GroupAIncidentReport report = buildBaseReport();
+		OffenseSegment offenseSegment = new OffenseSegment();
+		report.addOffense(offenseSegment);
+		PropertySegment stolenSegment = new PropertySegment();
+		stolenSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+		report.addProperty(stolenSegment);
+		offenseSegment.setUcrOffenseCode(OffenseCode._100.code);
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		offenseSegment.setOffenseAttemptedCompleted("A");
+		
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._077, e.getNIBRSErrorCode());
+		assertThat(e.getValue(), is("100"));
+		assertEquals("14", e.getDataElementIdentifier());
 	}
 	
 	@Test

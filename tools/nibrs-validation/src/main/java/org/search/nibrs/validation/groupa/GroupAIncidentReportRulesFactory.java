@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
@@ -173,6 +174,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule074());
 		rulesList.add(getRule075());
 		rulesList.add(getRule076());
+		rulesList.add(getRule077());
 		rulesList.add(getRule080());
 		rulesList.add(getRule262());
 		rulesList.add(getRule376());
@@ -686,6 +688,38 @@ public class GroupAIncidentReportRulesFactory {
 					ret.setCrossSegment(true);
 				}
 						
+				return ret;
+			}
+		};
+	}
+	
+	Rule<GroupAIncidentReport> getRule077() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				List<String> relatedCodes = Arrays.asList(
+						OffenseCode._35A.code, OffenseCode._39A.code, OffenseCode._39B.code, 
+						OffenseCode._39C.code, OffenseCode._39D.code, OffenseCode._100.code); 
+				
+				String qualifiedUcrCode = subject.getOffenses().stream()
+					.filter(offense -> (offense.getOffenseAttemptedIndicator() 
+							&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
+									|| relatedCodes.contains(offense.getUcrOffenseCode())) )).limit(1).map(i->i.getUcrOffenseCode()).reduce("", String::concat);
+									
+				if (StringUtils.isNotBlank(qualifiedUcrCode)){
+					boolean hasNonOrUnknowPropertyLoss = 
+							subject.getProperties().stream().filter(i -> Arrays.asList("1", "8").contains( i.getTypeOfPropertyLoss())).count() > 0 ;
+							
+					if (!hasNonOrUnknowPropertyLoss){
+						ret = subject.getErrorTemplate();
+						ret.setValue(qualifiedUcrCode);
+						ret.setDataElementIdentifier("14");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._077);
+						ret.setCrossSegment(true);
+					}
+				}
+				
 				return ret;
 			}
 		};
