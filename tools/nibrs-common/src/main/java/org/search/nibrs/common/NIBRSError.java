@@ -260,6 +260,11 @@ public class NIBRSError {
 				})
 				.filter(item-> !StringUtils.endsWith(getRuleNumber(), "06") || !allItems.add(item)) //Set.add() returns false if the item was already in the set.
 				.filter(item->!item.equals("null"))
+				.map(item -> {
+					if (getRuleNumber().equals("391")) 
+						return StringUtils.leftPad(item, 9, '0'); 
+					return item.toString();
+				 })		
 				.distinct()
 				.limit(StringUtils.endsWith(getRuleNumber(), "06")? 1 : valueList.size())
 				.reduce("", String::concat);
