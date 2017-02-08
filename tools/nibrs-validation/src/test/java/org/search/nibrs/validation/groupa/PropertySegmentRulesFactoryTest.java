@@ -243,11 +243,11 @@ public class PropertySegmentRulesFactoryTest {
 		e = rule.apply(p);
 		assertNull(e);
 		o.setUcrOffenseCode(OffenseCode._240.code);
-		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.A.code);
+		p.setNumberOfRecoveredMotorVehicles(1);
 		e = rule.apply(p);
 		assertNull(e);
 		
-		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
+		p.setNumberOfRecoveredMotorVehicles(new ParsedObject<Integer>());
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._361, e.getNIBRSErrorCode());
