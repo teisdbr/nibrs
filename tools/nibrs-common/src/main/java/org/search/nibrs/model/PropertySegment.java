@@ -44,7 +44,7 @@ public class PropertySegment extends AbstractSegment
     private ParsedObject<Integer>[] valueOfProperty;
     private Date[] dateRecovered;
     private ParsedObject<Integer> numberOfStolenMotorVehicles;
-    private Integer numberOfRecoveredMotorVehicles;
+    private ParsedObject<Integer> numberOfRecoveredMotorVehicles;
     private String[] suspectedDrugType;
     private Double[] estimatedDrugQuantity;
     private String[] typeDrugMeasurement;
@@ -63,6 +63,7 @@ public class PropertySegment extends AbstractSegment
         typeDrugMeasurement = new String[SUSPECTED_DRUG_TYPE_COUNT];
         segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
         numberOfStolenMotorVehicles = new ParsedObject<Integer>();
+        numberOfRecoveredMotorVehicles = new ParsedObject<Integer>();
     }
 
     public PropertySegment(PropertySegment p) {
@@ -178,13 +179,19 @@ public class PropertySegment extends AbstractSegment
         populatedPropertyDescriptionCount = Math.max(populatedPropertyDescriptionCount, position+1);
     }
 
-    public Integer getNumberOfRecoveredMotorVehicles()
+    public ParsedObject<Integer> getNumberOfRecoveredMotorVehicles()
     {
         return numberOfRecoveredMotorVehicles;
     }
+    
     public void setNumberOfRecoveredMotorVehicles(Integer numberOfRecoveredMotorVehicles)
     {
-        this.numberOfRecoveredMotorVehicles = numberOfRecoveredMotorVehicles;
+        this.numberOfRecoveredMotorVehicles = new ParsedObject<Integer>(numberOfRecoveredMotorVehicles);
+    }
+    
+    public void setNumberOfRecoveredMotorVehicles(ParsedObject<Integer> numberOfRecoveredMotorVehicles)
+    {
+    	this.numberOfRecoveredMotorVehicles = numberOfRecoveredMotorVehicles;
     }
     public ParsedObject<Integer> getNumberOfStolenMotorVehicles()
     {

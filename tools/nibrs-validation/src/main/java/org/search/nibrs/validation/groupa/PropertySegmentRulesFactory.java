@@ -56,7 +56,7 @@ public class PropertySegmentRulesFactory {
 		@Override
 		public NIBRSError apply(PropertySegment subject) {
 			NIBRSError ret = null;
-			Integer smv = stolenMode ? subject.getNumberOfStolenMotorVehicles().getValue() : subject.getNumberOfRecoveredMotorVehicles();
+			Integer smv = stolenMode ? subject.getNumberOfStolenMotorVehicles().getValue() : subject.getNumberOfRecoveredMotorVehicles().getValue();
 			boolean nmvNull = (smv == null);
 			boolean mvOffenseInvolved = false;
 			boolean offenseAttempted = false;
@@ -300,7 +300,7 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				Integer smv = subject.getNumberOfStolenMotorVehicles().getValue();
-				Integer rmv = subject.getNumberOfRecoveredMotorVehicles();
+				Integer rmv = subject.getNumberOfRecoveredMotorVehicles().getValue();
 				if ((smv != null && smv > 0) || (rmv != null && rmv > 0)) {
 					boolean found = false;
 					for (int i=0;i < 10 && !found;i++) {
@@ -459,7 +459,7 @@ public class PropertySegmentRulesFactory {
 						!(allNull(subject.getPropertyDescription()) &&
 								allNull(subject.getValueOfProperty()) &&
 								allNull(subject.getDateRecovered()) &&
-								(subject.getNumberOfRecoveredMotorVehicles() == null) &&
+								(subject.getNumberOfRecoveredMotorVehicles().getValue() == null) &&
 								(subject.getNumberOfStolenMotorVehicles().getValue() == null) &&
 								allNull(subject.getSuspectedDrugType()) &&
 								allNull(subject.getEstimatedDrugQuantity()) &&
@@ -470,7 +470,7 @@ public class PropertySegmentRulesFactory {
 						!(allNull(subject.getPropertyDescription()) &&
 								allNull(subject.getValueOfProperty()) &&
 								allNull(subject.getDateRecovered()) &&
-								(subject.getNumberOfRecoveredMotorVehicles() == null) &&
+								(subject.getNumberOfRecoveredMotorVehicles().getValue() == null) &&
 								(subject.getNumberOfStolenMotorVehicles().isMissing()) &&
 								notAllNull(subject.getSuspectedDrugType())
 								)) {
@@ -752,7 +752,7 @@ public class PropertySegmentRulesFactory {
 	Rule<PropertySegment> getRule304ForRecoveredMotorVehicleCount() {
 		return new NumericValueRule<>(
 				subject -> {
-					return subject.getNumberOfRecoveredMotorVehicles();
+					return subject.getNumberOfRecoveredMotorVehicles().getValue();
 				},
 				(value, target) -> {
 					return getErrorForMotorVehicleCountValue(value, target, "19");

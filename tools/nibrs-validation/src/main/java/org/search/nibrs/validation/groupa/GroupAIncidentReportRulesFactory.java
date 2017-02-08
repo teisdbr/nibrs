@@ -717,8 +717,10 @@ public class GroupAIncidentReportRulesFactory {
 				NIBRSError ret = null;
 				PropertySegment recoveredSegment = subject.getRecoveredPropertySegment();
 				PropertySegment stolenSegment = subject.getStolenPropertySegment();
-				if (recoveredSegment != null && recoveredSegment.getNumberOfRecoveredMotorVehicles() != null &&
-						(stolenSegment == null || stolenSegment.getNumberOfStolenMotorVehicles().getValue() < recoveredSegment.getNumberOfRecoveredMotorVehicles())) {
+				if (recoveredSegment != null && 
+						recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue() != null &&
+						(stolenSegment == null || 
+						stolenSegment.getNumberOfStolenMotorVehicles().getValue() < recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(recoveredSegment.getNumberOfRecoveredMotorVehicles());
 					ret.setDataElementIdentifier("19");

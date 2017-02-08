@@ -243,7 +243,7 @@ public class TestIncidentBuilderOldFormat {
 			assertTrue(property.getValueOfProperty(i).isMissing());
 		}
 		assertNull(property.getNumberOfStolenMotorVehicles().getValue());
-		assertNull(property.getNumberOfRecoveredMotorVehicles());
+		assertNull(property.getNumberOfRecoveredMotorVehicles().getValue());
 		for (int i = 0; i < 3; i++) {
 			assertNull(property.getSuspectedDrugType(i));
 			assertNull(property.getEstimatedDrugQuantity(i));
@@ -269,10 +269,10 @@ public class TestIncidentBuilderOldFormat {
 		PropertySegment recoveredProperty = (PropertySegment) propertyIterator.next();
 		assertEquals("7", stolenProperty.getTypeOfPropertyLoss());
 		assertEquals(new Integer(1), stolenProperty.getNumberOfStolenMotorVehicles().getValue());
-		assertNull(stolenProperty.getNumberOfRecoveredMotorVehicles());
+		assertNull(stolenProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertEquals("5", recoveredProperty.getTypeOfPropertyLoss());
 		assertEquals(DateUtils.makeDate(2002, Calendar.NOVEMBER, 15), recoveredProperty.getDateRecovered(0));
-		assertEquals(new Integer(1), recoveredProperty.getNumberOfRecoveredMotorVehicles());
+		assertEquals(new Integer(1), recoveredProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertNull(recoveredProperty.getNumberOfStolenMotorVehicles().getValue());
 	}
 

@@ -525,8 +525,6 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setPropertyDescription(0, null);
 			property.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			property.setDateRecovered(0, null);
-			property.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
-			property.setNumberOfRecoveredMotorVehicles(null);
 			property.setSuspectedDrugType(0, null);
 			property.setEstimatedDrugQuantity(0, 1.0);
 			property.setTypeDrugMeasurement(0, null);
@@ -546,8 +544,6 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setPropertyDescription(0, "03");
 			property2.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			property2.setDateRecovered(0, null);
-			property2.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
-			property2.setNumberOfRecoveredMotorVehicles(null);
 			
 			//If it is 1=None and offense is not 35A, 
 			//then Data Elements 15 through 22 must be blank. 
@@ -564,8 +560,6 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setPropertyDescription(0, null);
 			property3.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			property3.setDateRecovered(0, null);
-			property3.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
-			property3.setNumberOfRecoveredMotorVehicles(null);
 			property3.setSuspectedDrugType(1, "A");
 			property3.setEstimatedDrugQuantity(0, 1.0);
 			property3.setTypeDrugMeasurement(0, "OZ");
@@ -584,8 +578,6 @@ final class PropertyRuleViolationExemplarFactory {
 			property4.setPropertyDescription(0, null);
 			property4.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			property4.setDateRecovered(0, null);
-			property4.setNumberOfStolenMotorVehicles(ParsedObject.getMissingParsedObject());
-			property4.setNumberOfRecoveredMotorVehicles(null);
 			property4.setSuspectedDrugType(1, null);
 			property4.setEstimatedDrugQuantity(0, 1.0);
 			property4.setTypeDrugMeasurement(0, "OZ");
