@@ -24,8 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.AbstractReport;
@@ -51,7 +51,8 @@ import org.search.nibrs.validation.rules.ValidValueListRule;
 
 public class ArresteeSegmentRulesFactory {
 	
-	private static final Logger LOG = LogManager.getLogger(ArresteeSegmentRulesFactory.class);
+	@SuppressWarnings("unused")
+	private final Log log = LogFactory.getLog(this.getClass());
 	
 	public static final String GROUP_A_ARRESTEE_MODE = "group-a-arrestee";
 	public static final String GROUP_B_ARRESTEE_MODE = "group-b-arrestee";

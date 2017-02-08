@@ -17,8 +17,8 @@ package org.search.nibrs.validation;
 
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractPersonSegment;
 import org.search.nibrs.model.NIBRSAge;
@@ -28,12 +28,12 @@ import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
-import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.Rule;
 
 public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 	
-	private static final Logger LOG = LogManager.getLogger(PersonSegmentRulesFactory.class);
+	@SuppressWarnings("unused")
+	private final Log log = LogFactory.getLog(this.getClass());
 	
 	private Class<T> clazz;
 	

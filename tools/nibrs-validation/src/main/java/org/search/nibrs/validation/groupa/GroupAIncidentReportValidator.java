@@ -105,14 +105,30 @@ public class GroupAIncidentReportValidator {
 		for (Rule<ArresteeSegment> r : groupAArresteeSegmentRules) {
 			for (ArresteeSegment s : groupAIncidentReport.getArrestees()) {
 				NIBRSError nibrsError = r.apply(s);
-				if (nibrsError != null) {
-					ret.add(nibrsError);
-				}
+				processArresteeSegmentError(ret, nibrsError);
 			}
 		}
 		
 		return ret;
 		
+	}
+
+	private void processArresteeSegmentError(List<NIBRSError> ret,
+			NIBRSError nibrsError) {
+		if (nibrsError != null) {
+			if (!nibrsError.getRuleNumber().equals(NIBRSErrorCode._071.code)){
+				ret.add(nibrsError);
+			}
+			else{
+				long count =  
+					ret.stream()
+					   	.filter(item->item.getRuleNumber().equals(NIBRSErrorCode._071.code))
+					   	.count();
+				if (count == 0){
+					ret.add(nibrsError);
+				}
+			}
+		}
 	}
 
 	private void processVitimSegmentError(List<NIBRSError> ret, NIBRSError nibrsError) {
@@ -123,6 +139,7 @@ public class GroupAIncidentReportValidator {
 			else{
 				long count =  
 					ret.stream()
+						.filter(item->item.getRuleNumber().equals(NIBRSErrorCode._070.code))
 					   	.filter(item->nibrsError.getValue().equals(item.getValue()))
 					   	.count();
 				if (count == 0){
