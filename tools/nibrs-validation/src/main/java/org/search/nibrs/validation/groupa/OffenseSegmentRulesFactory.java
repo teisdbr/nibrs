@@ -169,7 +169,7 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule206("biasMotivation", "8A"));
 		
 		rulesList.add(getRule207("typeOfCriminalActivity", "12", TypeOfCriminalActivityCode.noneOrUnknownValueCodeSet()));
-		rulesList.add(getRule207("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.noneOrUnknownValueCodeSet()));
+		rulesList.add(getRule207("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.noneValueCodeSet()));
 		rulesList.add(getRule207("offendersSuspectedOfUsing", "8", OffenderSuspectedOfUsingCode.noneOrUnknownValueCodeSet()));
 		rulesList.add(getRule207("biasMotivation", "8A", BiasMotivationCode.noneOrUnknownValueCodeSet()));
 		

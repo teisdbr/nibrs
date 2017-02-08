@@ -62,9 +62,8 @@ public enum TypeOfWeaponForceCode {
 		return ret;
 	}
 
-	public static final Set<String> noneOrUnknownValueCodeSet() {
+	public static final Set<String> noneValueCodeSet() {
 		Set<String> ret = new HashSet<>();
-		ret.add(_95.code);
 		ret.add(_99.code);
 		return ret;
 	}
