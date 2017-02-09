@@ -128,10 +128,6 @@ final class VictimRuleViolationExemplarFactory {
 			incidents.add(copy);
 			
 			copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "13B");
-			incidents.add(copy);
-			
-			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("Z");
 			incidents.add(copy);
 			

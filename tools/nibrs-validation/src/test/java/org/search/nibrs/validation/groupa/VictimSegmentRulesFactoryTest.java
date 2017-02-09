@@ -22,9 +22,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
@@ -115,18 +113,17 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("24", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 		
-		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09B.code);
+		victimSegment.setUcrOffenseCodeConnection(0, "999");
 		nibrsError = rule401.apply(victimSegment);
 		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._401, nibrsError.getNIBRSErrorCode());
 		assertEquals("24", nibrsError.getDataElementIdentifier());
 		
-		Set<String> compSet = new HashSet<>();
-		compSet.add(OffenseCode._09B.code);
+		List<String> compList = new ArrayList<>();
+		compList.add("999");
 		
-		assertEquals(compSet, nibrsError.getValue());
+		assertEquals(compList, nibrsError.getValue());
 		
-		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09B.code);
 		nibrsError = rule401.apply(victimSegment);
 		assertNull(nibrsError);
 

@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
@@ -257,17 +258,11 @@ public class VictimSegmentRulesFactory {
 					
 				} else {
 
-					GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
-					Set<String> incidentOffenseCodes = new HashSet<>();
-					for (OffenseSegment os : parent.getOffenses()) {
-						incidentOffenseCodes.add(os.getUcrOffenseCode());
-					}
-
-					offenseCodeSet.removeAll(incidentOffenseCodes);
+					offenseCodeSet.removeAll(OffenseCode.codeSet());
 
 					if (!offenseCodeSet.isEmpty()) {
 						e = errorTemplate;
-						e.setValue(offenseCodeSet);
+						e.setValue(new ArrayList<String>(offenseCodeSet));
 					}
 				}
 
