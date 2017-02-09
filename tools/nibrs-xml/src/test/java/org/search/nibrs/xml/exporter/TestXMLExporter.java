@@ -181,7 +181,7 @@ public class TestXMLExporter {
 							"' and nc:ItemStatus/cjis:ItemStatusCode='" + XMLExporter.ITEM_STATUS_MAP.get(typePropertyLoss) + "']");
 					assertNotNull(itemElement);
 					assertEquals(p.getValueOfProperty(i), new Integer(XmlUtils.xPathStringSearch(itemElement, "nc:ItemValue/nc:ItemValueAmount/nc:Amount")));
-					Integer recoveredMotorVehicles = p.getNumberOfRecoveredMotorVehicles();
+					Integer recoveredMotorVehicles = p.getNumberOfRecoveredMotorVehicles().getValue();
 					Integer stolenMotorVehicles = p.getNumberOfStolenMotorVehicles().getValue();
 					if (recoveredMotorVehicles != null || stolenMotorVehicles != null) {
 						assertNotNull(XmlUtils.xPathNodeSearch(itemElement, "nc:ItemQuantity[text()='" +

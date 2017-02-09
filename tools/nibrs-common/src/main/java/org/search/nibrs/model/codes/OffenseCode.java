@@ -170,7 +170,7 @@ public enum OffenseCode {
 	}
 
 	private static boolean codeMatchesRegex(String code, String regex) {
-		return Pattern.compile(regex).matcher(code).matches();
+		return code!= null && Pattern.compile(regex).matcher(code).matches();
 	}
 	
 	public static final boolean containsGamblingOffenseCode(Collection<String> codes) {

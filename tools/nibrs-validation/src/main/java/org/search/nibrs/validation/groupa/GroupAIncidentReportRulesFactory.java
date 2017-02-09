@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -48,6 +49,7 @@ import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
@@ -175,6 +177,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule075());
 		rulesList.add(getRule076());
 		rulesList.add(getRule077());
+		rulesList.add(getRule078());
 		rulesList.add(getRule080());
 		rulesList.add(getRule262());
 		rulesList.add(getRule376());
@@ -698,18 +701,22 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				List<String> relatedCodes = Arrays.asList(
-						OffenseCode._35A.code, OffenseCode._39A.code, OffenseCode._39B.code, 
-						OffenseCode._39C.code, OffenseCode._39D.code, OffenseCode._100.code); 
 				
 				String qualifiedUcrCode = subject.getOffenses().stream()
-					.filter(offense -> (offense.getOffenseAttemptedIndicator() 
-							&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
-									|| relatedCodes.contains(offense.getUcrOffenseCode())) )).limit(1).map(i->i.getUcrOffenseCode()).reduce("", String::concat);
-									
+						.filter(offense -> (offense.getOffenseAttemptedIndicator() 
+								&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
+										|| OffenseCode.isGamblingOffenseCode(offense.getUcrOffenseCode())
+										|| OffenseCode._100.code.equals(offense.getUcrOffenseCode()) 
+										|| OffenseCode._35A.code.equals(offense.getUcrOffenseCode())) ))
+						.limit(1)
+						.map(i->i.getUcrOffenseCode())
+						.reduce("", String::concat);
+										
 				if (StringUtils.isNotBlank(qualifiedUcrCode)){
-					boolean hasNonOrUnknowPropertyLoss = 
-							subject.getProperties().stream().filter(i -> Arrays.asList("1", "8").contains( i.getTypeOfPropertyLoss())).count() > 0 ;
+					boolean hasNonOrUnknowPropertyLoss = subject.getProperties()
+								.stream()
+								.filter(i -> TypeOfPropertyLossCode.noneOrUnknownValueCodeSet().contains( i.getTypeOfPropertyLoss()))
+								.count() > 0 ;
 							
 					if (!hasNonOrUnknowPropertyLoss){
 						ret = subject.getErrorTemplate();
@@ -718,6 +725,42 @@ public class GroupAIncidentReportRulesFactory {
 						ret.setNIBRSErrorCode(NIBRSErrorCode._077);
 						ret.setCrossSegment(true);
 					}
+				}
+				
+				return ret;
+			}
+		};
+	}
+	
+	Rule<GroupAIncidentReport> getRule078() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				
+				List<Boolean> qualifiedOffenses = subject.getOffenses().stream()
+						.map(offense -> ("C".equals(offense.getOffenseAttemptedCompleted()) 
+								&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
+										|| OffenseCode.isGamblingOffenseCode(offense.getUcrOffenseCode())
+										|| OffenseCode._35A.code.equals(offense.getUcrOffenseCode())
+										|| OffenseCode._100.code.equals(offense.getUcrOffenseCode())) ))
+						.collect(Collectors.toList());
+				
+				if (qualifiedOffenses.stream().anyMatch(i->Boolean.TRUE.equals(i))){
+					
+					List<PropertySegment> properties = subject.getProperties(); 
+//TODO wait for the offense code to valid type of property loss mapping. 					
+//					for (int i = 0; i< qualifiedOffenses.size(); i++){
+//						
+//						if ( qualifiedOffenses.get(i) && (i >= properties.size() || properties.get(i) == null || 
+//								!TypeOfPropertyLossCode.codeSet().contains( properties.get(i).getTypeOfPropertyLoss()))){
+//							ret = subject.getErrorTemplate();
+//							ret.setValue(subject.getOffenses().get(i).getUcrOffenseCode());
+//							ret.setDataElementIdentifier("14");
+//							ret.setNIBRSErrorCode(NIBRSErrorCode._078);
+//							ret.setCrossSegment(true);
+//						}
+//					}
 				}
 				
 				return ret;

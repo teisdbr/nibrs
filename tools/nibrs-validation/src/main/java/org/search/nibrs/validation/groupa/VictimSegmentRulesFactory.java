@@ -204,7 +204,7 @@ public class VictimSegmentRulesFactory {
 						e.setDataElementIdentifier("34");
 						e.setValue(offenderNumber);
 						e.setCrossSegment(true);
-						e.setWithinSegmentIdentifier(null); //TODO is this the right place to do this? 
+						e.setWithinSegmentIdentifier(null); 
 						break;
 					}
 				}

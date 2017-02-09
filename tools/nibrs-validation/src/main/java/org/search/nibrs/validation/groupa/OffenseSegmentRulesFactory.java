@@ -247,6 +247,7 @@ public class OffenseSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(OffenseSegment subject) {
 				NIBRSError ret = null;
+				
 				String offenseCode = subject.getUcrOffenseCode();
 				if (OffenseCode._13B.code.equals(offenseCode)) {
 					String[] ww = subject.getTypeOfWeaponForceInvolved();
