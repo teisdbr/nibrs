@@ -614,7 +614,7 @@ public class PropertySegmentRulesFactory {
 						String t = suspectedDrugType[i];
 						String m = typeDrugMeasurement[i];
 						if (t != null && m != null) {
-							if (typeToMeasureMap.keySet().contains(t) && m.equals(typeToMeasureMap.get(t))) {
+							if (typeToMeasureMap.keySet().contains(t) && (SuspectedDrugTypeCode._U.code.equals(t) || m.equals(typeToMeasureMap.get(t)))) {
 								ret = subject.getErrorTemplate();
 								ret.setDataElementIdentifier("20");
 								ret.setValue(t);
@@ -623,13 +623,6 @@ public class PropertySegmentRulesFactory {
 							}
 						}
 						typeToMeasureMap.put(t, m);
-						if (typeToMeasureMap.size() > 1 && typeToMeasureMap.keySet().contains(SuspectedDrugTypeCode._U.code)) {
-							ret = subject.getErrorTemplate();
-							ret.setDataElementIdentifier("20");
-							ret.setValue(t);
-							ret.setNIBRSErrorCode(NIBRSErrorCode._306);
-							break;
-						}
 					}
 				}
 				return ret;

@@ -379,7 +379,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setTypeOfPropertyLoss("6");
 			property3.setPropertyDescription(0, "10");
 			property3.setSuspectedDrugType(0, "U");
-			property3.setSuspectedDrugType(1, "A");
+			property3.setSuspectedDrugType(1, "U");
 			property3.setEstimatedDrugQuantity(0, 1.0);
 			property3.setEstimatedDrugQuantity(1, 2.0);
 			property3.setTypeDrugMeasurement(0, "OZ");

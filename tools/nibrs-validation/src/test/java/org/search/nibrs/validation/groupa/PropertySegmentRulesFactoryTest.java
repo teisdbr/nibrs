@@ -635,11 +635,11 @@ public class PropertySegmentRulesFactoryTest {
 		assertNull(e);
 		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._U.code);
 		e = rule.apply(p);
-		assertNotNull(e);
+		assertNull(e);
 		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
 		p.setSuspectedDrugType(1, SuspectedDrugTypeCode._U.code);
 		e = rule.apply(p);
-		assertNotNull(e);
+		assertNull(e);
 	}
 	
 	@Test
