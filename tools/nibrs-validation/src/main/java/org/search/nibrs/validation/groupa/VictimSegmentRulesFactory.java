@@ -1294,6 +1294,7 @@ public class VictimSegmentRulesFactory {
 							Rule478OffenseCode offenseJ = Rule478OffenseCode.valueOfAny(offenseList.get(j));
 							if (offenseJ != null && rule478ExclusionTable[offenseI.ordinal()][offenseJ.ordinal()]){
 								e = errorTemplate;
+								break;
 							}
 						}
 					}
