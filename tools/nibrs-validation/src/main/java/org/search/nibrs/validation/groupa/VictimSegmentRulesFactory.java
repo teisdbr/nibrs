@@ -20,10 +20,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
@@ -31,7 +33,6 @@ import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
-import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -1273,52 +1274,29 @@ public class VictimSegmentRulesFactory {
 				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
 				errorTemplate.setDataElementIdentifier("24");
 				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._478);
-				List<String> offenseList = new ArrayList<>();
-				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseList.removeIf(item -> item == null);
 				errorTemplate.setValue(null);
-				Set<String> murderSet = new HashSet<>();
-				murderSet.add(OffenseCode._09B.code);
-				murderSet.add(OffenseCode._13A.code);
-				murderSet.add(OffenseCode._13B.code);
-				murderSet.add(OffenseCode._13C.code);
-				Set<String> aggAssaultSet = new HashSet<>();
-				aggAssaultSet.add(OffenseCode._13B.code);
-				aggAssaultSet.add(OffenseCode._13C.code);
-				aggAssaultSet.add(OffenseCode._09A.code);
-				aggAssaultSet.add(OffenseCode._120.code);
-				aggAssaultSet.add(OffenseCode._11A.code);
-				aggAssaultSet.add(OffenseCode._11B.code);
-				aggAssaultSet.add(OffenseCode._11C.code);
-				Set<String> simpleAssaultSet = new HashSet<>();
-				simpleAssaultSet.add(OffenseCode._13C.code);
-				simpleAssaultSet.add(OffenseCode._09A.code);
-				simpleAssaultSet.add(OffenseCode._13A.code);
-				simpleAssaultSet.add(OffenseCode._120.code);
-				simpleAssaultSet.add(OffenseCode._11A.code);
-				simpleAssaultSet.add(OffenseCode._11B.code);
-				simpleAssaultSet.add(OffenseCode._11C.code);
-				simpleAssaultSet.add(OffenseCode._11D.code);
-				Set<String> intimidationSet = new HashSet<>();
-				intimidationSet.add(OffenseCode._13B.code);
-				intimidationSet.add(OffenseCode._09A.code);
-				intimidationSet.add(OffenseCode._13A.code);
-				intimidationSet.add(OffenseCode._120.code);
-				intimidationSet.add(OffenseCode._11A.code);
-				intimidationSet.add(OffenseCode._11B.code);
-				intimidationSet.add(OffenseCode._11C.code);
-				intimidationSet.add(OffenseCode._11D.code);
-				Set<String> negligentSet = new HashSet<>();
-				negligentSet.add(OffenseCode._09A.code);
-				negligentSet.add(OffenseCode._13A.code);
-				negligentSet.add(OffenseCode._13B.code);
-				negligentSet.add(OffenseCode._13C.code);
-				if (offenseList.contains(OffenseCode._09A.code) && CollectionUtils.containsAny(offenseList, murderSet) ||
-						offenseList.contains(OffenseCode._13A.code) && CollectionUtils.containsAny(offenseList, aggAssaultSet) ||
-						offenseList.contains(OffenseCode._13B.code) && CollectionUtils.containsAny(offenseList, simpleAssaultSet) ||
-						offenseList.contains(OffenseCode._13C.code) && CollectionUtils.containsAny(offenseList, intimidationSet) ||
-						offenseList.contains(OffenseCode._09B.code) && CollectionUtils.containsAny(offenseList, negligentSet)) {
-					e = errorTemplate;
+				
+				List<String> offenseList = victimSegment.getUcrOffenseCodeList()
+						.stream()
+						.distinct()
+						.filter(Objects::nonNull)
+						.collect(Collectors.toList());
+
+				if (offenseList.size() > 1){
+					for (int i=0; i< offenseList.size(); i++){
+						
+						Rule478OffenseCode offenseI = Rule478OffenseCode.valueOfAny(offenseList.get(i)); 
+						if (offenseI == null){
+							continue; 
+						}
+						
+						for (int j = i + 1; j < offenseList.size(); j++ ){
+							Rule478OffenseCode offenseJ = Rule478OffenseCode.valueOfAny(offenseList.get(j));
+							if (offenseJ != null && rule478ExclusionTable[offenseI.ordinal()][offenseJ.ordinal()]){
+								e = errorTemplate;
+							}
+						}
+					}
 				}
 				return e;
 			}
@@ -1376,4 +1354,56 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
+	private enum Rule478OffenseCode{
+		_09A, _09B, _11A, _11B, _11C, _11D, _120, _13A, _13B, _13C, 
+		_23A, _23B, _23C, _23D, _23E, _23F, _23G, _23H, _240, _36A, 
+		_36B;
+		
+		@Override
+		public String toString(){
+			return StringUtils.substringAfter(this.name(), "_");
+		}
+		
+		public static Rule478OffenseCode valueOfAny(String code){
+			code = StringUtils.prependIfMissing(StringUtils.trimToEmpty(code), "_");
+			
+			if (Rule478OffenseCode.codeSet().contains(code)){
+				return Rule478OffenseCode.valueOf(code);
+			}
+			else {
+				return null;
+			}
+		}
+		
+		public static List<String> codeSet(){
+			return Arrays.asList(Rule478OffenseCode.values())
+					.stream()
+					.map(item->item.name())
+					.collect(Collectors.toList());
+		}
+	}
+	
+	private boolean[][] rule478ExclusionTable = new boolean[][]{
+			{true, true, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false}, 
+			{true, true, false, false, false, false, false, true, true, true, false, false, false, false, false, false, false, false, false, false, false}, 
+			{false, false, true, false, false, true, false, true, true, true, false, false, false, false, false, false, false, false, false, true, true}, 
+			{false, false, false, true, false, true, false, true, true, true, false, false, false, false, false, false, false, false, false, true, true}, 
+			{false, false, false, false, true, true, false, true, true, true, false, false, false, false, false, false, false, false, false, true, true}, 
+			{false, false, true, true, true, true, false, false, true, true, false, false, false, false, false, false, false, false, false, true, true}, 
+			{false, false, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, false, false}, 
+			{true, true, true, true, true, false, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false}, 
+			{true, true, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false}, 
+			{true, true, true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, true, false, false, false, false, false, false, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, true, false, false, false, false, false, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, false, true, false, false, false, false, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, true, false, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, true, false, false, false}, 
+			{false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, true, false, false}, 
+			{false, false, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false}, 
+			{false, false, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true}, 
+		}; 
 }
