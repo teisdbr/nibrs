@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -748,26 +749,52 @@ public class GroupAIncidentReportRulesFactory {
 				
 				if (qualifiedOffenses.stream().anyMatch(i->Boolean.TRUE.equals(i))){
 					
-					List<PropertySegment> properties = subject.getProperties(); 
-//TODO wait for the offense code to valid type of property loss mapping. 					
-//					for (int i = 0; i< qualifiedOffenses.size(); i++){
-//						
-//						if ( qualifiedOffenses.get(i) && (i >= properties.size() || properties.get(i) == null || 
-//								!TypeOfPropertyLossCode.codeSet().contains( properties.get(i).getTypeOfPropertyLoss()))){
-//							ret = subject.getErrorTemplate();
-//							ret.setValue(subject.getOffenses().get(i).getUcrOffenseCode());
-//							ret.setDataElementIdentifier("14");
-//							ret.setNIBRSErrorCode(NIBRSErrorCode._078);
-//							ret.setCrossSegment(true);
-//						}
-//					}
+					List<PropertySegment> properties = subject.getProperties();
+					List<String> existingPropertyLosses = 
+							subject.getProperties().stream()
+								.map(item -> item.getTypeOfPropertyLoss())
+								.distinct()
+								.collect(Collectors.toList());
+					List<OffenseSegment> offenses = subject.getOffenses();
+					for (int i = 0; i< qualifiedOffenses.size(); i++){
+						if ( qualifiedOffenses.get(i)){
+							List<String> validPropertyLossCodes = getValidPropertyLossCodes(
+									offenses.get(i).getUcrOffenseCode());
+							if ( properties == null ||  properties.isEmpty() || 
+								!CollectionUtils.containsAny(existingPropertyLosses, validPropertyLossCodes)){
+								ret = subject.getErrorTemplate();
+								ret.setValue(offenses.get(i).getUcrOffenseCode());
+								ret.setDataElementIdentifier("14");
+								ret.setNIBRSErrorCode(NIBRSErrorCode._078);
+								ret.setCrossSegment(true);
+							}
+						}
+					}
 				}
 				
 				return ret;
 			}
 		};
 	}
-	
+
+	/**
+	 * ucrOffenseCode are among criminal against property/kidnaping/gambling/35A offense codes. 
+	 * @param ucrOffenseCode
+	 * @return list of valid property loss codes
+	 * 
+	 * TODO improve the mappings. 
+	 */
+	protected List<String> getValidPropertyLossCodes(String ucrOffenseCode) {
+		switch(ucrOffenseCode){
+		case "240": 
+			return Arrays.asList(TypeOfPropertyLossCode._7.code);
+		case "290":
+			return Arrays.asList(TypeOfPropertyLossCode._4.code);
+		default:
+			return new ArrayList<String>(TypeOfPropertyLossCode.codeSet()); 	
+		}
+	}
+
 	Rule<GroupAIncidentReport> getRule074() {
 		return new Rule<GroupAIncidentReport>() {
 			@Override
