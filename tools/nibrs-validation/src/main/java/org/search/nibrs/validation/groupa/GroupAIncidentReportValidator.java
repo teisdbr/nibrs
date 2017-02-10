@@ -89,7 +89,7 @@ public class GroupAIncidentReportValidator {
 		for (Rule<VictimSegment> r : victimSegmentRules) {
 			for (VictimSegment s : groupAIncidentReport.getVictims()) {
 				NIBRSError nibrsError = r.apply(s);
-				processVitimSegmentError(ret, nibrsError);
+				processVictimSegmentError(ret, nibrsError);
 			}
 		}
 
@@ -131,7 +131,7 @@ public class GroupAIncidentReportValidator {
 		}
 	}
 
-	private void processVitimSegmentError(List<NIBRSError> ret, NIBRSError nibrsError) {
+	private void processVictimSegmentError(List<NIBRSError> ret, NIBRSError nibrsError) {
 		if (nibrsError != null) {
 			if (!nibrsError.getRuleNumber().equals(NIBRSErrorCode._070.code)){
 				ret.add(nibrsError);
