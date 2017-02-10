@@ -64,7 +64,8 @@ public class VictimSegmentRulesFactory {
 		return new VictimSegmentRulesFactory();
 	}
 	
-	private static final List<String> INJURY_OFFENSE_LIST = Arrays.asList(OffenseCode._100.code,
+	private static final List<String> INJURY_OFFENSE_LIST = Arrays.asList(
+			OffenseCode._100.code,
 			OffenseCode._11A.code,
 			OffenseCode._11B.code,
 			OffenseCode._11C.code,
@@ -552,16 +553,11 @@ public class VictimSegmentRulesFactory {
 				Set<String> noneDisallowed = new HashSet<>();
 				noneDisallowed.addAll(TypeInjuryCode.codeSet());
 				noneDisallowed.remove(TypeInjuryCode.N.code);
-				Set<String> minorDisallowed = new HashSet<>();
-				minorDisallowed.addAll(TypeInjuryCode.codeSet());
-				minorDisallowed.remove(TypeInjuryCode.M.code);
 				List<String> injuryList = new ArrayList<>();
 				injuryList.addAll(victimSegment.getTypeOfInjuryList());
 				injuryList.removeIf(item -> item == null);
 				errorTemplate.setValue(injuryList);
-				if (injuryList.contains(TypeInjuryCode.M.code) && CollectionUtils.containsAny(injuryList, minorDisallowed)) {
-					e = errorTemplate;
-				} else if (injuryList.contains(TypeInjuryCode.N.code) && CollectionUtils.containsAny(injuryList, noneDisallowed)) {
+				if (injuryList.contains(TypeInjuryCode.N.code) && CollectionUtils.containsAny(injuryList, noneDisallowed)) {
 					e = errorTemplate;
 				}
 				return e;

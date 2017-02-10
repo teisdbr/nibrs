@@ -256,11 +256,6 @@ final class VictimRuleViolationExemplarFactory {
 			copy.getVictims().get(0).setTypeOfInjury(1, "B");
 			incidents.add(copy);
 			
-			copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setTypeOfInjury(0, "M");
-			copy.getVictims().get(0).setTypeOfInjury(1, "O");
-			incidents.add(copy);
-				
 			return incidents;
 				
 		});

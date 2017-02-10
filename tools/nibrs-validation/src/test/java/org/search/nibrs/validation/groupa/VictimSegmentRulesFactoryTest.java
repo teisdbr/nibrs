@@ -1419,10 +1419,7 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setTypeOfInjury(0, TypeInjuryCode.M.code);
 		victimSegment.setTypeOfInjury(1, TypeInjuryCode.B.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
-		assertEquals("33", nibrsError.getDataElementIdentifier());
-		assertEquals(NIBRSErrorCode._407, nibrsError.getNIBRSErrorCode());
-		assertEquals(Arrays.asList(new String[] {TypeInjuryCode.M.code, TypeInjuryCode.B.code}), nibrsError.getValue());
+		assertNull(nibrsError);
 		victimSegment.setTypeOfInjury(0, TypeInjuryCode.N.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
