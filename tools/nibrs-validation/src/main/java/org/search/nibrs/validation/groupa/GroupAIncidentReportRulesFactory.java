@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -180,6 +181,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule077());
 		rulesList.add(getRule078());
 		rulesList.add(getRule080());
+		rulesList.add(getRule081());
 		rulesList.add(getRule262());
 		rulesList.add(getRule376());
 		rulesList.add(getRule451());
@@ -739,15 +741,15 @@ public class GroupAIncidentReportRulesFactory {
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
 				
-				List<Boolean> qualifiedOffenses = subject.getOffenses().stream()
-						.map(offense -> ("C".equals(offense.getOffenseAttemptedCompleted()) 
+				List<OffenseSegment> qualifiedOffenses = subject.getOffenses().stream()
+						.filter(offense -> ("C".equals(offense.getOffenseAttemptedCompleted()) 
 								&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
 										|| OffenseCode.isGamblingOffenseCode(offense.getUcrOffenseCode())
 										|| OffenseCode._35A.code.equals(offense.getUcrOffenseCode())
 										|| OffenseCode._100.code.equals(offense.getUcrOffenseCode())) ))
 						.collect(Collectors.toList());
 				
-				if (qualifiedOffenses.stream().anyMatch(i->Boolean.TRUE.equals(i))){
+				if (qualifiedOffenses.size() > 0){
 					
 					List<PropertySegment> properties = subject.getProperties();
 					List<String> existingPropertyLosses = 
@@ -755,19 +757,15 @@ public class GroupAIncidentReportRulesFactory {
 								.map(item -> item.getTypeOfPropertyLoss())
 								.distinct()
 								.collect(Collectors.toList());
-					List<OffenseSegment> offenses = subject.getOffenses();
-					for (int i = 0; i< qualifiedOffenses.size(); i++){
-						if ( qualifiedOffenses.get(i)){
-							List<String> validPropertyLossCodes = getValidPropertyLossCodes(
-									offenses.get(i).getUcrOffenseCode());
-							if ( properties == null ||  properties.isEmpty() || 
-								!CollectionUtils.containsAny(existingPropertyLosses, validPropertyLossCodes)){
-								ret = subject.getErrorTemplate();
-								ret.setValue(offenses.get(i).getUcrOffenseCode());
-								ret.setDataElementIdentifier("14");
-								ret.setNIBRSErrorCode(NIBRSErrorCode._078);
-								ret.setCrossSegment(true);
-							}
+					for ( OffenseSegment offense: qualifiedOffenses){
+						List<String> validPropertyLossCodes = getValidPropertyLossCodes(offense);
+						if ( properties == null ||  properties.isEmpty() || 
+							!CollectionUtils.containsAny(existingPropertyLosses, validPropertyLossCodes)){
+							ret = subject.getErrorTemplate();
+							ret.setValue(offense.getUcrOffenseCode());
+							ret.setDataElementIdentifier("14");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._078);
+							ret.setCrossSegment(true);
 						}
 					}
 				}
@@ -777,6 +775,56 @@ public class GroupAIncidentReportRulesFactory {
 		};
 	}
 
+	Rule<GroupAIncidentReport> getRule081() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				
+				List<OffenseSegment> qualifiedOffenses = subject.getOffenses().stream()
+						.filter(offense -> 
+							("C".equals(offense.getOffenseAttemptedCompleted()) 
+								&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
+									|| OffenseCode.isGamblingOffenseCode(offense.getUcrOffenseCode())
+									|| OffenseCode._35A.code.equals(offense.getUcrOffenseCode())
+									|| OffenseCode._35B.code.equals(offense.getUcrOffenseCode())
+									|| OffenseCode._100.code.equals(offense.getUcrOffenseCode()))
+							|| (offense.getOffenseAttemptedIndicator() 
+								&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
+									|| OffenseCode.isGamblingOffenseCode(offense.getUcrOffenseCode())
+									|| OffenseCode._100.code.equals(offense.getUcrOffenseCode()) 
+									|| OffenseCode._35A.code.equals(offense.getUcrOffenseCode()))
+							)))
+						.collect(Collectors.toList()); 
+									
+				
+				if (qualifiedOffenses.size() > 0){
+					
+					List<String> existingPropertyLosses = 
+							subject.getProperties().stream()
+								.map(item -> item.getTypeOfPropertyLoss())
+								.filter(Objects::nonNull)
+								.distinct()
+								.collect(Collectors.toList());
+					for ( OffenseSegment offense : qualifiedOffenses ){
+						existingPropertyLosses.removeAll(getValidPropertyLossCodes(offense));
+					}
+					
+					if (existingPropertyLosses.size() > 0){
+						ret = subject.getErrorTemplate();
+						ret.setValue(existingPropertyLosses);
+						ret.setDataElementIdentifier("14");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._081);
+						ret.setCrossSegment(true);
+					}
+
+				}
+				
+				return ret;
+			}
+		};
+	}
+	
 	/**
 	 * ucrOffenseCode are among criminal against property/kidnaping/gambling/35A offense codes. 
 	 * @param ucrOffenseCode
@@ -784,15 +832,63 @@ public class GroupAIncidentReportRulesFactory {
 	 * 
 	 * TODO improve the mappings. 
 	 */
-	protected List<String> getValidPropertyLossCodes(String ucrOffenseCode) {
-		switch(ucrOffenseCode){
-		case "240": 
-			return Arrays.asList(TypeOfPropertyLossCode._7.code);
-		case "290":
-			return Arrays.asList(TypeOfPropertyLossCode._4.code);
-		default:
-			return new ArrayList<String>(TypeOfPropertyLossCode.codeSet()); 	
+	protected List<String> getValidPropertyLossCodes(OffenseSegment offense) {
+
+		switch(offense.getOffenseAttemptedCompleted()){
+		case "A":
+			return new ArrayList<>(TypeOfPropertyLossCode.noneOrUnknownValueCodeSet());
+		case "C": 
+			switch(offense.getUcrOffenseCode()){
+			case "280": 
+				return Arrays.asList(
+						TypeOfPropertyLossCode._1.code, 
+						TypeOfPropertyLossCode._5.code);
+			case "220": 
+			case "100": 
+			case "510": 
+				return Arrays.asList(
+						TypeOfPropertyLossCode._1.code, 
+						TypeOfPropertyLossCode._5.code, 
+						TypeOfPropertyLossCode._7.code, 
+						TypeOfPropertyLossCode._8.code);
+			case "35A": 
+			case "35B": 
+				return Arrays.asList(
+						TypeOfPropertyLossCode._1.code, 
+						TypeOfPropertyLossCode._6.code);
+			case "200": 
+				return Arrays.asList(TypeOfPropertyLossCode._2.code);
+			case "250": 
+				return Arrays.asList(
+						TypeOfPropertyLossCode._3.code, 
+						TypeOfPropertyLossCode._5.code, 
+						TypeOfPropertyLossCode._6.code);
+			case "290":
+				return Arrays.asList(TypeOfPropertyLossCode._4.code);
+			case "120": 
+			case "210": 
+			case "23A": 
+			case "23B": 
+			case "23C": 
+			case "23D": 
+			case "23E": 
+			case "23F": 
+			case "23G": 
+			case "23H": 
+			case "240": 
+			case "26A": 
+			case "26B": 
+			case "26C": 
+			case "26D": 
+			case "26E": 
+			case "26G": 
+			case "270": 
+				return Arrays.asList(
+						TypeOfPropertyLossCode._5.code, 
+						TypeOfPropertyLossCode._7.code);
+			}
 		}
+		return new ArrayList<String>(TypeOfPropertyLossCode.codeSet());
 	}
 
 	Rule<GroupAIncidentReport> getRule074() {

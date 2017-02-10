@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.ParsedObject;
 
 /**
@@ -34,7 +34,8 @@ import org.search.nibrs.common.ParsedObject;
  */
 public class VictimSegment extends AbstractPersonSegment {
 	
-	private static final Logger LOG = LogManager.getLogger(VictimSegment.class);
+	@SuppressWarnings("unused")
+	private final Log log = LogFactory.getLog(this.getClass());
 
 	public static final char VICTIM_SEGMENT_TYPE_IDENTIFIER = '4';
 	public static final int UCR_OFFENSE_CODE_CONNECTION_COUNT = 10;
