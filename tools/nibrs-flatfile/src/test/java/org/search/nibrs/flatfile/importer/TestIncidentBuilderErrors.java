@@ -268,6 +268,21 @@ public class TestIncidentBuilderErrors {
 		assertEquals(incident, e.getReport());
         
     }
+    
+    @Test
+    public void testInvalidRecoveredDate() throws IOException {
+    	String testData = 
+                "00871I022003    TN006000002-000895   20020102 10N                                      \n" +
+                "00632I022003    TN006000002-000895   220CN  20  N            88\n" +
+                "03073I022003    TN006000002-000895   713000000020         3800000005020161102                                                                                                                                                                                                                                      \n" +
+                "01294I022003    TN006000002-000895   001220                           I46  FWNR                                                  \n" +
+                "00455I022003    TN006000002-000895   0124  MW\n" +
+                "01106I022003    TN006000002-000895   0102-000895   20021230TM22001    24  MWNR                                \n";
+
+    	DefaultReportListener incidentListener = new DefaultReportListener();
+        List<NIBRSError> errorList = getErrorsForTestData(testData, incidentListener);
+        assertEquals(1, errorList.size());
+    }
 
 	private List<NIBRSError> getErrorsForTestData(String testData, DefaultReportListener incidentListener) throws IOException {
 		Reader testdataReader = new BufferedReader(new StringReader(testData));

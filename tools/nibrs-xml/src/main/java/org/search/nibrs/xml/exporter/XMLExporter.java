@@ -520,7 +520,7 @@ public class XMLExporter {
 						Element itemValueElement = XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemValue");
 						e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueAmount");
 						XmlUtils.appendChildElement(e, Namespace.nc, "Amount").setTextContent(value);
-						Date dateRecovered = property.getDateRecovered(i);
+						Date dateRecovered = property.getDateRecovered(i).getValue();
 						if (dateRecovered != null) {
 							e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueDate");
 							XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(dateRecovered));

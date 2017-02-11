@@ -296,7 +296,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.setMonthOfTape(4);
 			copy.setYearOfTape(2017);
 			PropertySegment property = copy.getProperties().get(0);
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2017, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, new ParsedObject<>((Date.from(LocalDateTime.of(2017, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()))));
 			incidents.add(copy);
 			
 			//Date is earlier than incident
@@ -306,7 +306,7 @@ final class PropertyRuleViolationExemplarFactory {
 			Calendar c = Calendar.getInstance();
 			c.set(2017, Calendar.JUNE, 28);
 			property = copy.getProperties().get(0);
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2015, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2015, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(copy);
 			
 			return incidents;
@@ -414,7 +414,7 @@ final class PropertyRuleViolationExemplarFactory {
 			
 			Calendar c = Calendar.getInstance();
 			c.set(2017, Calendar.JUNE, 28);
-			propertySegment.setDateRecovered(0, (Date.from(LocalDateTime.of(2015, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			propertySegment.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2015, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			incidents.add(mvTheftIncident);
 			
 			//**** CANNOT TEST FOR THE FOLLOWING CONDITION ****
@@ -524,7 +524,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("8");
 			property.setPropertyDescription(0, null);
 			property.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
-			property.setDateRecovered(0, null);
+			property.setDateRecovered(0, ParsedObject.getMissingParsedObject());
 			property.setSuspectedDrugType(0, null);
 			property.setEstimatedDrugQuantity(0, 1.0);
 			property.setTypeDrugMeasurement(0, null);
@@ -543,7 +543,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setTypeOfPropertyLoss("1");
 			property2.setPropertyDescription(0, "03");
 			property2.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
-			property2.setDateRecovered(0, null);
+			property2.setDateRecovered(0, ParsedObject.getMissingParsedObject());
 			
 			//If it is 1=None and offense is not 35A, 
 			//then Data Elements 15 through 22 must be blank. 
@@ -559,7 +559,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setTypeOfPropertyLoss("1");
 			property3.setPropertyDescription(0, null);
 			property3.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
-			property3.setDateRecovered(0, null);
+			property3.setDateRecovered(0, ParsedObject.getMissingParsedObject());
 			property3.setSuspectedDrugType(1, "A");
 			property3.setEstimatedDrugQuantity(0, 1.0);
 			property3.setTypeDrugMeasurement(0, "OZ");
@@ -577,7 +577,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property4.setTypeOfPropertyLoss("1");
 			property4.setPropertyDescription(0, null);
 			property4.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
-			property4.setDateRecovered(0, null);
+			property4.setDateRecovered(0, ParsedObject.getMissingParsedObject());
 			property4.setSuspectedDrugType(1, null);
 			property4.setEstimatedDrugQuantity(0, 1.0);
 			property4.setTypeDrugMeasurement(0, "OZ");
@@ -663,7 +663,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, new ParsedObject<>(000000000));
 			property.setNumberOfStolenMotorVehicles(new ParsedObject<Integer>(1));
-			property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 			
 			incidents.add(copy);
 			copy.addProperty(property);
@@ -1644,7 +1644,7 @@ final class PropertyRuleViolationExemplarFactory {
 				property.setPropertyDescription(1, "05");
 				property.setValueOfProperty(1, new ParsedObject<>(000020000));
 				property.setNumberOfRecoveredMotorVehicles(1);
-				property.setDateRecovered(0, (Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+				property.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 						
 				incidents.add(copy);
 				copy.addProperty(property);

@@ -393,7 +393,7 @@ public class TestXMLExporter {
 		p.setTypeOfPropertyLoss("5");
 		p.setPropertyDescription(0, "17");
 		p.setValueOfProperty(0, new ParsedObject<>(200));
-		p.setDateRecovered(0, XMLExporter.DATE_FORMAT.parse("2016-05-16"));
+		p.setDateRecovered(0, new ParsedObject<>(XMLExporter.DATE_FORMAT.parse("2016-05-16")));
 		
 		p = new PropertySegment();
 		incident.addProperty(p);

@@ -271,7 +271,7 @@ public class TestIncidentBuilderOldFormat {
 		assertEquals(new Integer(1), stolenProperty.getNumberOfStolenMotorVehicles().getValue());
 		assertNull(stolenProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertEquals("5", recoveredProperty.getTypeOfPropertyLoss());
-		assertEquals(DateUtils.makeDate(2002, Calendar.NOVEMBER, 15), recoveredProperty.getDateRecovered(0));
+		assertEquals(DateUtils.makeDate(2002, Calendar.NOVEMBER, 15), recoveredProperty.getDateRecovered(0).getValue());
 		assertEquals(new Integer(1), recoveredProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertNull(recoveredProperty.getNumberOfStolenMotorVehicles().getValue());
 	}

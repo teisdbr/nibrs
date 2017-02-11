@@ -45,9 +45,9 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
-public class ErrorExporterTests {
+public class TestErrorExporter {
 	
-	private static final Logger LOG = LogManager.getLogger(ErrorExporterTests.class);
+	private static final Logger LOG = LogManager.getLogger(TestErrorExporter.class);
 	
 	private ErrorExporter errorExporter;
 	private List<NIBRSError> errorList;
@@ -200,7 +200,7 @@ public class ErrorExporterTests {
 		assertEquals("   ", line.substring(39, 42));
 		assertEquals(" ", line.substring(42, 43));
 		assertEquals("07 ", line.substring(43, 46));
-		assertEquals("ABC         ", line.substring(49, 61));
+		assertEquals("            ", line.substring(49, 61));
 		assertErrorInfo(line, NIBRSErrorCode._206);
 	}
 	
@@ -264,7 +264,7 @@ public class ErrorExporterTests {
 		assertEquals("003", line.substring(39, 42));
 		assertEquals(" ", line.substring(42, 43));
 		assertEquals("43 ", line.substring(43, 46));
-		assertEquals("ABC         ", line.substring(49, 61));
+		assertEquals("            ", line.substring(49, 61));
 		assertErrorInfo(line, NIBRSErrorCode._606);
 	}
 	
@@ -275,7 +275,7 @@ public class ErrorExporterTests {
 		ReportSource source = new ReportSource();
 		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
 		source.setSourceLocation(trace[1].toString());
-		source.setSourceName(ErrorExporterTests.class.getName());
+		source.setSourceName(TestErrorExporter.class.getName());
 		incident.setSource(source);
 		
 		incident.setYearOfTape(2016);

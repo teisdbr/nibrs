@@ -389,10 +389,11 @@ public class PropertySegmentRulesFactory {
 				String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
 				if (typeOfPropertyLoss != null && !TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) {
 					for (int i=0;i < 10;i++) {
-						if (subject.getDateRecovered(i) != null) {
+						ParsedObject<Date> dateRecoveredPO = subject.getDateRecovered(i);
+						if (dateRecoveredPO.getValue() != null) {
 							ret = subject.getErrorTemplate();
 							ret.setDataElementIdentifier("17");
-							ret.setValue(subject.getDateRecovered(i));
+							ret.setValue(dateRecoveredPO.getValue());
 							ret.setNIBRSErrorCode(NIBRSErrorCode._355);
 						}
 					}
@@ -640,8 +641,9 @@ public class PropertySegmentRulesFactory {
 				if (!(incidentDatePO.isMissing() || incidentDatePO.isInvalid())) {
 					Date incidentDate = incidentDatePO.getValue();
 					for (int i = 0; i < 10; i++) {
-						Date recoveredDate = subject.getDateRecovered(i);
-						if (recoveredDate != null) {
+						ParsedObject<Date> recoveredDatePO = subject.getDateRecovered(i);
+						if (recoveredDatePO.getValue() != null) {
+							Date recoveredDate = recoveredDatePO.getValue();
 							if (recoveredDate.before(incidentDate)) {
 								ret = subject.getErrorTemplate();
 								ret.setDataElementIdentifier("17");
@@ -667,8 +669,9 @@ public class PropertySegmentRulesFactory {
 				Integer yearOfTape = parentIncident.getYearOfTape();
 				Calendar c = Calendar.getInstance();
 				for (int i=0;i < 10;i++) {
-					Date recoveredDate = subject.getDateRecovered(i);
-					if (recoveredDate != null) {
+					ParsedObject<Date> recoveredDatePO = subject.getDateRecovered(i);
+					if (recoveredDatePO.getValue() != null) {
+						Date recoveredDate = recoveredDatePO.getValue();
 						if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && recoveredDate.before(incidentDatePO.getValue())) {
 							ret = subject.getErrorTemplate();
 							ret.setDataElementIdentifier("17");

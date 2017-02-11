@@ -42,7 +42,7 @@ public class PropertySegment extends AbstractSegment
 	private String typeOfPropertyLoss;
     private String[] propertyDescription;
     private ParsedObject<Integer>[] valueOfProperty;
-    private Date[] dateRecovered;
+    private ParsedObject<Date>[] dateRecovered;
     private ParsedObject<Integer> numberOfStolenMotorVehicles;
     private ParsedObject<Integer> numberOfRecoveredMotorVehicles;
     private String[] suspectedDrugType;
@@ -57,7 +57,7 @@ public class PropertySegment extends AbstractSegment
     	super();
         propertyDescription = new String[PROPERTY_DESCRIPTION_COUNT];
 		valueOfProperty = ParsedObject.initializeParsedObjectArray(VALUE_OF_PROPERTY_COUNT);
-        dateRecovered = new Date[DATE_RECOVERED_COUNT];
+        dateRecovered = ParsedObject.initializeParsedObjectArray(DATE_RECOVERED_COUNT);
         suspectedDrugType = new String[SUSPECTED_DRUG_TYPE_COUNT];
         estimatedDrugQuantity = new Double[SUSPECTED_DRUG_TYPE_COUNT];
         typeDrugMeasurement = new String[SUSPECTED_DRUG_TYPE_COUNT];
@@ -94,7 +94,7 @@ public class PropertySegment extends AbstractSegment
 		return estimatedDrugQuantity;
 	}
 
-	public Date[] getDateRecovered() {
+	public ParsedObject<Date>[] getDateRecovered() {
 		return dateRecovered;
 	}
 
@@ -148,12 +148,12 @@ public class PropertySegment extends AbstractSegment
         populatedSuspectedDrugTypeCount = Math.max(populatedSuspectedDrugTypeCount, position+1);
     }
 
-    public Date getDateRecovered(int position)
+    public ParsedObject<Date> getDateRecovered(int position)
     {
         return dateRecovered[position];
     }
     
-    public void setDateRecovered(int position, Date value)
+    public void setDateRecovered(int position, ParsedObject<Date> value)
     {
         dateRecovered[position] = value;
     }

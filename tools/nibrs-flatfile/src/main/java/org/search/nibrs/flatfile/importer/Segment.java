@@ -84,14 +84,7 @@ public class Segment
 	        	ret.add(e);
 	        }
 	        if (i != data.length()) {
-	        	e = new NIBRSError();
-	        	e.setContext(reportSource);
-	        	e.setNIBRSErrorCode(NIBRSErrorCode._001);
-	        	e.setDataElementIdentifier("Segment Length");
-	        	e.setValue(data.length());
-	        	e.setSegmentType(segmentType);
-	        	ret.add(e);
-	        	LOG.debug("i=" + i + ", data.length()=" + data.length());
+	        	LOG.warn("Warning at line " + reportSource.getSourceLocation() + ":  expected segment length of " + i + ", actual length was " + data.length());
 	        }
 	        if (e == null) {
 	        	this.segmentUniqueIdentifier = StringUtils.getStringBetween(26, 37, data);

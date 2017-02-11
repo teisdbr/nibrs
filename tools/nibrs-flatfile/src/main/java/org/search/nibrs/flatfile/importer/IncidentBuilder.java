@@ -41,8 +41,6 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  */
 public class IncidentBuilder {
 	
-	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
-
 	private static final class LogListener implements ReportListener {
 		public int reportCount = 0;
 		public int errorCount = 0;
@@ -57,10 +55,13 @@ public class IncidentBuilder {
 
 	private List<ReportListener> listeners;
 	private LogListener logListener = new LogListener();
+	private DateFormat dateFormat;
 
 	public IncidentBuilder() {
 		listeners = new ArrayList<ReportListener>();
 		listeners.add(logListener);
+		dateFormat = new SimpleDateFormat("yyyyMMdd");
+		dateFormat.setLenient(false);
 	}
 
 	public void addIncidentListener(ReportListener listener) {
@@ -228,7 +229,7 @@ public class IncidentBuilder {
 				arrestDate.setValue(null);
 			} else {
 				try {
-					Date d = DATE_FORMAT.parse(arrestDateString);
+					Date d = dateFormat.parse(arrestDateString);
 					arrestDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -307,7 +308,7 @@ public class IncidentBuilder {
 				incidentDate.setValue(null);
 			} else {
 				try {
-					Date d = DATE_FORMAT.parse(incidentDateString);
+					Date d = dateFormat.parse(incidentDateString);
 					incidentDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -361,7 +362,7 @@ public class IncidentBuilder {
 				clearanceDate.setValue(null);
 			} else {
 				try {
-					Date d = DATE_FORMAT.parse(clearanceDateString);
+					Date d = dateFormat.parse(clearanceDateString);
 					clearanceDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -496,7 +497,7 @@ public class IncidentBuilder {
 				arrestDate.setValue(null);
 			} else {
 				try {
-					Date d = DATE_FORMAT.parse(arrestDateString);
+					Date d = dateFormat.parse(arrestDateString);
 					arrestDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -739,7 +740,32 @@ public class IncidentBuilder {
 				}
 			}
 			for (int i = 0; i < PropertySegment.DATE_RECOVERED_COUNT; i++) {
-				newProperty.setDateRecovered(i, StringUtils.getDateBetween(50 + 19 * i, 57 + 19 * i, segmentData));
+				
+				ParsedObject<Date> d = newProperty.getDateRecovered(i);
+				d.setMissing(false);
+				d.setInvalid(false);
+				String ds = StringUtils.getStringBetween(50 + 19 * i, 57 + 19 * i, segmentData);
+				if (ds == null) {
+					d.setMissing(true);
+					d.setValue(null);
+				} else {
+					try {
+						Date dd = dateFormat.parse(ds);
+						d.setValue(dd);
+					} catch (ParseException pe) {
+						NIBRSError e = new NIBRSError();
+						e.setContext(s.getReportSource());
+						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+						e.setSegmentType(s.getSegmentType());
+						e.setValue(ds);
+						e.setNIBRSErrorCode(NIBRSErrorCode._305);
+						e.setDataElementIdentifier("17");
+						errorList.add(e);
+						d.setInvalid(true);
+						d.setValidationError(e);
+					}
+				}
+				
 			}
 
 			newProperty.setNumberOfStolenMotorVehicles(StringUtils.getIntegerBetween(229, 230, segmentData));
