@@ -184,11 +184,6 @@ public class PropertySegment extends AbstractSegment
         return numberOfRecoveredMotorVehicles;
     }
     
-    public void setNumberOfRecoveredMotorVehicles(Integer numberOfRecoveredMotorVehicles)
-    {
-        this.numberOfRecoveredMotorVehicles = new ParsedObject<Integer>(numberOfRecoveredMotorVehicles);
-    }
-    
     public void setNumberOfRecoveredMotorVehicles(ParsedObject<Integer> numberOfRecoveredMotorVehicles)
     {
     	this.numberOfRecoveredMotorVehicles = numberOfRecoveredMotorVehicles;
@@ -202,10 +197,6 @@ public class PropertySegment extends AbstractSegment
         this.numberOfStolenMotorVehicles = numberOfStolenMotorVehicles;
     }
     
-    public void setNumberOfStolenMotorVehicles(Integer numberOfStolenMotorVehicles)
-    {
-    	this.numberOfStolenMotorVehicles = new ParsedObject<Integer>(numberOfStolenMotorVehicles);
-    }
     public String getTypeOfPropertyLoss()
     {
         return typeOfPropertyLoss;

@@ -768,8 +768,8 @@ public class IncidentBuilder {
 				
 			}
 
-			newProperty.setNumberOfStolenMotorVehicles(StringUtils.getIntegerBetween(229, 230, segmentData));
-			newProperty.setNumberOfRecoveredMotorVehicles(StringUtils.getIntegerBetween(231, 232, segmentData));
+			parseIntegerObject(segmentData, newProperty.getNumberOfStolenMotorVehicles(), 229, 230);
+			parseIntegerObject(segmentData, newProperty.getNumberOfRecoveredMotorVehicles(), 231, 232);
 
 			for (int i = 0; i < PropertySegment.SUSPECTED_DRUG_TYPE_COUNT; i++) {
 				newProperty.setSuspectedDrugType(i, StringUtils.getStringBetween(233 + 15 * i, 233 + 15 * i, segmentData));
@@ -798,6 +798,28 @@ public class IncidentBuilder {
 
 		return newProperty;
 
+	}
+
+	private void parseIntegerObject(String segmentData,
+			ParsedObject<Integer> parsedObject, 
+			int startPosition, 
+			int endPosition) {
+		
+		parsedObject.setMissing(false);
+		parsedObject.setInvalid(false);
+		
+		String parsedString = 
+				StringUtils.getStringBetween(startPosition, endPosition, segmentData);
+		if (parsedString == null) {
+			parsedObject.setMissing(true);
+			parsedObject.setValue(null);
+		} else {
+			try {
+				parsedObject.setValue(Integer.parseInt(parsedString));
+			} catch (NumberFormatException nfe) {
+				parsedObject.setInvalid(true);
+			}
+		}
 	}
 
 	private OffenseSegment buildOffenseSegment(Segment s, List<NIBRSError> errorList) {

@@ -401,7 +401,7 @@ public class TestXMLExporter {
 		p.setTypeOfPropertyLoss("7");
 		p.setPropertyDescription(0, "03");
 		p.setValueOfProperty(0, new ParsedObject<>(5000));
-		p.setNumberOfStolenMotorVehicles(1);
+		p.setNumberOfStolenMotorVehicles(new ParsedObject<>(1));
 		
 		VictimSegment v = new VictimSegment();
 		incident.addVictim(v);

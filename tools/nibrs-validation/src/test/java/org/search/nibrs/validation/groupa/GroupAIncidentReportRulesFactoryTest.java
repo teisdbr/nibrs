@@ -931,21 +931,29 @@ public class GroupAIncidentReportRulesFactoryTest {
 		recoveredSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
 		NIBRSError e = rule.apply(report);
 		assertNull(e);
-		recoveredSegment.setNumberOfRecoveredMotorVehicles(5);
+		recoveredSegment.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(5));
 		e = rule.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._073, e.getNIBRSErrorCode());
 		assertEquals(recoveredSegment.getNumberOfRecoveredMotorVehicles(), e.getValue());
-		stolenSegment.setNumberOfStolenMotorVehicles(4);
+		stolenSegment.setNumberOfStolenMotorVehicles(new ParsedObject<>(4));
 		report.addProperty(stolenSegment);
 		e = rule.apply(report);
 		assertNotNull(e);
-		stolenSegment.setNumberOfStolenMotorVehicles(5);
+		stolenSegment.setNumberOfStolenMotorVehicles(new ParsedObject<>(5));
 		e = rule.apply(report);
 		assertNull(e);
-		stolenSegment.setNumberOfStolenMotorVehicles(6);
+		stolenSegment.setNumberOfStolenMotorVehicles(new ParsedObject<>(6));
 		e = rule.apply(report);
 		assertNull(e);
+		
+		stolenSegment.setNumberOfStolenMotorVehicles(new ParsedObject<>());
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._073, e.getNIBRSErrorCode());
+		assertEquals(recoveredSegment.getNumberOfRecoveredMotorVehicles(), e.getValue());
+		
+		
 	}
 	
 	@Test

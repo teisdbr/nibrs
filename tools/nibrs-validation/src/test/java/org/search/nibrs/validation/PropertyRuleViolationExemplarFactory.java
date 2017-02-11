@@ -116,11 +116,15 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.addProperty(recoveredSegment);
 			recoveredSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
 			
-			recoveredSegment.setNumberOfRecoveredMotorVehicles(5);
+			recoveredSegment.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(5));
 			incidents.add(copy);
 
 			copy = new GroupAIncidentReport(copy);
 			stolenSegment.setNumberOfStolenMotorVehicles(new ParsedObject<Integer>(4));
+			copy.addProperty(stolenSegment);
+			
+			copy = new GroupAIncidentReport(copy);
+			stolenSegment.setNumberOfRecoveredMotorVehicles(new ParsedObject<Integer>(4));
 			copy.addProperty(stolenSegment);
 			
 			return incidents;
@@ -238,7 +242,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(mvTheftIncident);
 			copy.getProperties().get(0).setNumberOfStolenMotorVehicles(new ParsedObject<Integer>(0));
 			copy.getProperties().get(0).setTypeOfPropertyLoss("5");
-			copy.getProperties().get(0).setNumberOfRecoveredMotorVehicles(2000);
+			copy.getProperties().get(0).setNumberOfRecoveredMotorVehicles(new ParsedObject<>(2000));
 			incidents.add(copy);
 			
 			//Suspected Drug type must be valid
@@ -290,7 +294,7 @@ final class PropertyRuleViolationExemplarFactory {
 			propertySegment.setPropertyDescription(0, "03");
 			propertySegment.setValueOfProperty(0, new ParsedObject<>(10000));
 			propertySegment.setNumberOfStolenMotorVehicles(new ParsedObject<Integer>(1));
-			propertySegment.setNumberOfRecoveredMotorVehicles(1);
+			propertySegment.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(1));
 			
 			GroupAIncidentReport copy = new GroupAIncidentReport(mvTheftIncident);
 			copy.setMonthOfTape(4);
@@ -410,7 +414,7 @@ final class PropertyRuleViolationExemplarFactory {
 			propertySegment.setPropertyDescription(0, "03");
 			propertySegment.setValueOfProperty(0, new ParsedObject<>(10000));
 			propertySegment.setNumberOfStolenMotorVehicles(new ParsedObject<Integer>(1));
-			propertySegment.setNumberOfRecoveredMotorVehicles(1);
+			propertySegment.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(1));
 			
 			Calendar c = Calendar.getInstance();
 			c.set(2017, Calendar.JUNE, 28);
@@ -832,7 +836,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("2");
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
-			property.setNumberOfRecoveredMotorVehicles(1);
+			property.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(1));
 			//UCR OffenseSegment Code not = 240
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getOffenses().get(0).setUcrOffenseCode("220");
@@ -846,7 +850,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setTypeOfPropertyLoss("5");
 			property2.setPropertyDescription(0, "03");
 			property2.setValueOfProperty(0, new ParsedObject<>(10000));
-			property2.setNumberOfRecoveredMotorVehicles(1);
+			property2.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(1));
 			//Offense Attempted/Completed not completed
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
 			copy3.getOffenses().get(0).setUcrOffenseCode("240");
@@ -860,7 +864,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setTypeOfPropertyLoss("5");
 			property3.setPropertyDescription(0, "03");
 			property3.setValueOfProperty(0, new ParsedObject<>(10000));
-			property3.setNumberOfRecoveredMotorVehicles(1);
+			property3.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(1));
 			
 			
 			incidents.add(copy);
@@ -1643,7 +1647,7 @@ final class PropertyRuleViolationExemplarFactory {
 				property.setValueOfProperty(0, new ParsedObject<>(000010000));
 				property.setPropertyDescription(1, "05");
 				property.setValueOfProperty(1, new ParsedObject<>(000020000));
-				property.setNumberOfRecoveredMotorVehicles(1);
+				property.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(1));
 				property.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 						
 				incidents.add(copy);
