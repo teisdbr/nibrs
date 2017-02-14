@@ -26,7 +26,6 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.search.nibrs.xml.XmlTestUtils;
@@ -50,8 +49,6 @@ public class NdexNibrsTransformTest {
 	}	
 	
 	@Test
-	@Ignore
-//	TODO fix the junit test. 
 	public void nibrsTransformTest() throws Exception{
 		
 		XsltTransformer xsltTransformer = new XsltTransformer();
@@ -83,8 +80,6 @@ public class NdexNibrsTransformTest {
 	}
 	
 	@Test
-	@Ignore
-//	TODO fix the junit test. 
 	public void nibrsUtilsTest() throws Exception{
 		
 		Document ndexNibrsDoc = XmlUtils.toDocument(new File("src/test/resources/xml/NDEx-NIBRS.out.xml"));

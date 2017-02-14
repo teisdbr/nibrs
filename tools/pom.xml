@@ -34,9 +34,7 @@
 	  <module>nibrs-flatfile</module>
 	  <module>nibrs-resources</module>
 	  <module>nibrs-validation</module>
-    <module>nibrs-xml</module>
     <module>nibrs-apps</module>
-    <module>nibrs-ndex-conversion</module>
   </modules>
 
 </project>

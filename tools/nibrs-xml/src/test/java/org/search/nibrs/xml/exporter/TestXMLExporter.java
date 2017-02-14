@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
@@ -56,7 +55,6 @@ public class TestXMLExporter {
 	private static final Logger LOG = LogManager.getLogger(TestXMLExporter.class);
 	
 	@Test
-	@Ignore
 	public void testDocumentConversion() throws Exception {
 		
 		NIBRSSubmission report = new NIBRSSubmission();
@@ -69,7 +67,6 @@ public class TestXMLExporter {
 	}
 	
 	@Test
-	@Ignore
 	public void testStreamConversion() throws Exception {
 		NIBRSSubmission report = new NIBRSSubmission();
 		report.addReport(buildBaseGroupAIncident());
@@ -84,7 +81,6 @@ public class TestXMLExporter {
 	}
 	
 	@Test
-	@Ignore
 	public void testGroupBExport() throws Exception {
 		NIBRSSubmission report = new NIBRSSubmission();
 		GroupBArrestReport baseIncident = buildBaseGroupBIncident();
@@ -142,7 +138,6 @@ public class TestXMLExporter {
 	}
 	
 	@Test
-	@Ignore
 	public void testGroupAExport() throws Exception {
 		
 		NIBRSSubmission report = new NIBRSSubmission();
