@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
@@ -18,24 +17,23 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <artifactId>nibrs-tools-aggregate</artifactId>
-  <version>1.0.0</version>
+  <artifactId>nibrs-shared-aggregate</artifactId>
   <packaging>pom</packaging>
 
+  <groupId>org.search.nibrs</groupId>
+  <version>1.0.0</version>
+  
   <parent>
     <groupId>org.search.nibrs</groupId>
     <artifactId>ojb-nibrs-aggregate</artifactId>
     <version>1.0.0</version>
   </parent>
+ 
+  <properties>
+  	<owner>SEARCH-The National Consortium for Justice Information and Statistics</owner>
+  </properties>
   
   <modules>
- 	<module>nibrs-common</module>
-	<module>nibrs-flatfile</module>
-	<module>nibrs-resources</module>
-	<module>nibrs-validation</module>
-	<module>nibrs-apps</module>
+    <module>ojb-build-common</module>
   </modules>
-
 </project>
- 
