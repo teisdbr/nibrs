@@ -424,19 +424,16 @@ public class VictimSegmentRulesFactory {
 				
 				NIBRSError e = null;
 				
-				List<Integer> relatedOffenderNumbers = Arrays.stream(victimSegment.getOffenderNumberRelated())
-						.map(item -> item.getValue())
-						.collect(Collectors.toList());
+				List<ParsedObject<Integer>> relatedOffenderNumbers = victimSegment.getOffenderNumberRelatedList();
 				List<String> relationships = victimSegment.getVictimOffenderRelationshipList();
 				List<String> invalidRelationships = new ArrayList<>();
 				
 				for (int i= 0; i<relatedOffenderNumbers.size(); i++){
-					Integer offenderNumber = relatedOffenderNumbers.get(i);
+					ParsedObject<Integer> offenderNumber = relatedOffenderNumbers.get(i);
 					String relationship = relationships.get(i);
-					if (((offenderNumber == null || offenderNumber == 0) && relationship != null) ||
-							(relationship == null && offenderNumber != null && offenderNumber > 0) ||
-							(offenderNumber != null && offenderNumber > 0 
-							&&relationship != null && !RelationshipOfVictimToOffenderCode.codeSet().contains(relationship))) {
+					if ((isEmpty(offenderNumber) && relationship != null) 
+						||(!isEmpty(offenderNumber) 
+							&& !RelationshipOfVictimToOffenderCode.codeSet().contains(relationship))) {
 						invalidRelationships.add(relationship);
 					}
 				}
@@ -450,6 +447,10 @@ public class VictimSegmentRulesFactory {
 
 				return e;
 				
+			}
+
+			private boolean isEmpty(ParsedObject<Integer> offenderNumber) {
+				return offenderNumber.getValue() == null || offenderNumber.getValue() == 0;
 			}
 		};
 	}
@@ -800,11 +801,11 @@ public class VictimSegmentRulesFactory {
 
 				NIBRSError e = null;
 				List<String> victimOffenderRelationshipList = victimSegment.getVictimOffenderRelationshipList();
-				List<Integer> offenderNumRelatedList = victimSegment.getDistinctValidRelatedOffenderNumberList();
+				List<ParsedObject<Integer>> offenderNumRelatedList = victimSegment.getOffenderNumberRelatedList();
 				
 				for (int i=0;i < offenderNumRelatedList.size() && e == null;i++) {
-					Integer offenderNumber = offenderNumRelatedList.get(i);
-					if (offenderNumber != null) {
+					ParsedObject<Integer> offenderNumber = offenderNumRelatedList.get(i);
+					if (offenderNumber.isInvalid() || (offenderNumber.getValue() != null && offenderNumber.getValue() > 0)) {
 						String rel = victimOffenderRelationshipList.get(i);
 						if (rel == null || !RelationshipOfVictimToOffenderCode.codeSet().contains(rel)) {
 							e = victimSegment.getErrorTemplate();

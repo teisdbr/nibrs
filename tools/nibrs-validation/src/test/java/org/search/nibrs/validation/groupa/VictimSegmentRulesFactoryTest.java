@@ -898,6 +898,9 @@ public class VictimSegmentRulesFactoryTest {
 		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(0));
 		victimSegment.setVictimOffenderRelationship(0, null);
 		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
+		nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
 		nibrsError = rule.apply(victimSegment);
