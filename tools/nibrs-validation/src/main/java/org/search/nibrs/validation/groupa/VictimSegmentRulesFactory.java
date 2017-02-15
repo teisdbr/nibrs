@@ -424,24 +424,19 @@ public class VictimSegmentRulesFactory {
 				
 				NIBRSError e = null;
 				
-				List<Integer> relatedOffenderNumbers = victimSegment.getDistinctValidRelatedOffenderNumberList();
+				List<Integer> relatedOffenderNumbers = Arrays.stream(victimSegment.getOffenderNumberRelated())
+						.map(item -> item.getValue())
+						.collect(Collectors.toList());
 				List<String> relationships = victimSegment.getVictimOffenderRelationshipList();
 				List<String> invalidRelationships = new ArrayList<>();
 				
-				int i= 0; 
-				for (; i<relatedOffenderNumbers.size(); i++){
+				for (int i= 0; i<relatedOffenderNumbers.size(); i++){
 					Integer offenderNumber = relatedOffenderNumbers.get(i);
 					String relationship = relationships.get(i);
 					if (((offenderNumber == null || offenderNumber == 0) && relationship != null) ||
 							(relationship == null && offenderNumber != null && offenderNumber > 0) ||
-							(relationship != null && !RelationshipOfVictimToOffenderCode.codeSet().contains(relationship))) {
-						invalidRelationships.add(relationship);
-					}
-				}
-				
-				for ( ;i < relationships.size(); i++) {
-					String relationship = relationships.get(i);
-					if ( relationship != null ) {
+							(offenderNumber != null && offenderNumber > 0 
+							&&relationship != null && !RelationshipOfVictimToOffenderCode.codeSet().contains(relationship))) {
 						invalidRelationships.add(relationship);
 					}
 				}
