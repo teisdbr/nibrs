@@ -1125,13 +1125,11 @@ public class VictimSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
 				NIBRSError e = null;
-				List<String> relationshipList = new ArrayList<>();
-				relationshipList.addAll(victimSegment.getVictimOffenderRelationshipList());
-				relationshipList.removeIf(item -> item == null);
-				List<Integer> offenderNumberList = new ArrayList<>();
-				offenderNumberList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
-				offenderNumberList.removeIf(item -> item == null);
-				if (relationshipList.contains(RelationshipOfVictimToOffenderCode.VO.code) && offenderNumberList.size() > 1) {
+				long voCount = victimSegment.getVictimOffenderRelationshipList().stream()
+						.filter(Objects::nonNull)
+						.filter(item->RelationshipOfVictimToOffenderCode.VO.code.equals(item))
+						.count(); 
+				if (voCount > 1) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("34");
 					e.setNIBRSErrorCode(NIBRSErrorCode._471);
