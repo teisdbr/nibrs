@@ -34,6 +34,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.AgeOfVictimCode;
 import org.search.nibrs.model.codes.AggravatedAssaultHomicideCircumstancesCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
@@ -1149,10 +1150,11 @@ public class VictimSegmentRulesFactory {
 					String relationship = relationshipList.get(i);
 					if (offenderNumber != null) {
 						OffenderSegment os = incident.getOffenderForSequenceNumber(offenderNumber);
-						if (os != null &&
-							(os.getAge() == null ||
-							 os.getSex() == null || os.getSex().equals(SexOfOffenderCode.U.code) ||
-							 os.getRace() == null || os.getRace().equals(RaceOfOffenderCode.U.code)) && !relationship.equals(RelationshipOfVictimToOffenderCode.RU.code)) {
+						if (os != null 
+							 && (os.getAge() == null || AgeOfVictimCode._00.code.equals(os.getAge().getNonNumericAge())) 
+							 && (os.getSex() == null || os.getSex().equals(SexOfOffenderCode.U.code)) 
+							 && (os.getRace() == null || os.getRace().equals(RaceOfOffenderCode.U.code)) 
+							 && !relationship.equals(RelationshipOfVictimToOffenderCode.RU.code)) {
 							e = victimSegment.getErrorTemplate();
 							e.setDataElementIdentifier("35");
 							e.setNIBRSErrorCode(NIBRSErrorCode._472);
