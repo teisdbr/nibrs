@@ -43,4 +43,9 @@ public enum SexCode {
 		return codeSet;
 	}
 	
+	public static Set<String> knownCodeSet(){
+		Set<String> codeSet =  codeSet(); 
+		codeSet.remove(SexCode.U.code); 
+		return codeSet; 
+	}
 }

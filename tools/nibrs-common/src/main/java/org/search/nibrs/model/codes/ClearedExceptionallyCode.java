@@ -43,6 +43,11 @@ public enum ClearedExceptionallyCode {
 		return EnumSet.allOf(ClearedExceptionallyCode.class);
 	}
 	
+	public static final Set<String> applicableCodeSet(){
+		Set<String> ret = codeSet();
+		ret.remove(ClearedExceptionallyCode.N.code);
+		return ret;
+	}
 	public static final Set<String> codeSet() {
 		Set<String> ret = new HashSet<>();
 		for (ClearedExceptionallyCode v : values()) {

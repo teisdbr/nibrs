@@ -365,13 +365,29 @@ public class GroupAIncidentReportRulesFactory {
 	}
 	
 	Rule<GroupAIncidentReport> getRule558() {
-		return new MinimalOffenderInfoRule<GroupAIncidentReport>(NIBRSErrorCode._558) {
+		return new Rule<GroupAIncidentReport>() {
 			@Override
-			protected boolean violatesRule(GroupAIncidentReport subject) {
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				
 				String exceptionalClearanceCode = subject.getExceptionalClearanceCode();
-				return exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode);
+				if (subject.getReportActionType() != 'D' 
+						&& ClearedExceptionallyCode.applicableCodeSet().contains(exceptionalClearanceCode)){
+					long allKnownOffenderCount = subject.getOffenders()
+							.stream()
+							.filter(item -> (item.isUnknown() || item.isIdentifyingInfoComplete()) )
+							.count();
+					if (allKnownOffenderCount == 0){
+						ret = subject.getErrorTemplate();
+						ret.setDataElementIdentifier("L 5");
+						ret.setNIBRSErrorCode(NIBRSErrorCode._558);
+						ret.setWithinSegmentIdentifier(null);
+						ret.setCrossSegment(true);
+					}
+				}
+
+				return ret;
 			}
-			
 		};
 	}
 	
@@ -830,7 +846,6 @@ public class GroupAIncidentReportRulesFactory {
 	 * @param ucrOffenseCode
 	 * @return list of valid property loss codes
 	 * 
-	 * TODO improve the mappings. 
 	 */
 	protected List<String> getValidPropertyLossCodes(OffenseSegment offense) {
 

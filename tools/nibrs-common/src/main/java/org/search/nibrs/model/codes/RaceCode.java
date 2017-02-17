@@ -45,5 +45,11 @@ public enum RaceCode {
 		}
 		return codeSet;
 	}
+	
+	public static Set<String> knownCodeSet(){
+		Set<String> codeSet = codeSet();
+		codeSet.remove(RaceCode.U.code);
+		return codeSet;
+	}
 
 }

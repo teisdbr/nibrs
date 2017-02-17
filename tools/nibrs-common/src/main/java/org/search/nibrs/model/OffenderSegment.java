@@ -16,6 +16,8 @@
 package org.search.nibrs.model;
 
 import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.model.codes.RaceCode;
+import org.search.nibrs.model.codes.SexCode;
 
 /**
  * Representation of an OffenderSegment reported within an Incident in a NIBRS report.
@@ -93,4 +95,10 @@ public class OffenderSegment extends AbstractPersonSegment
 		return !(offenderSequenceNumber.isMissing() || offenderSequenceNumber.isInvalid()) && offenderSequenceNumber.getValue() == 0;
 	}
 
+	public boolean isIdentifyingInfoComplete() {
+		return getRace() != null && RaceCode.knownCodeSet().contains(getRace()) 
+				&& getSex() != null && SexCode.knownCodeSet().contains(getSex()) 
+				&& getAge() != null && !getAge().isUnknown();
+	}
+	
 }
