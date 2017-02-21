@@ -263,7 +263,7 @@ public class GroupAIncidentReportRulesFactory {
 				}
 				if (arresteeCount > offenderCount) {
 					ret = template;
-					ret.setValue(arresteeCount);
+					ret.setValue(offenderCount + 1);
 				}
 				return ret;
 			}
