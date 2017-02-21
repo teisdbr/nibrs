@@ -15,8 +15,10 @@
  */
 package org.search.nibrs.common;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -254,8 +256,12 @@ public class NIBRSError {
 		String values = valueList.stream()
 				.filter(Objects::nonNull)
 				.map(item -> {
-					if (item instanceof Integer) 
-						return StringUtils.leftPad(item.toString(), 2, '0'); 
+					if (item instanceof Integer){ 
+						return StringUtils.leftPad(item.toString(), 2, '0');
+					}
+					else if (item instanceof Date){
+						return (new SimpleDateFormat("yyyyMMdd")).format((Date) item);
+					}
 					return item.toString();
 				})
 				.filter(item-> !StringUtils.endsWith(getRuleNumber(), "06") || !allItems.add(item)) //Set.add() returns false if the item was already in the set.
