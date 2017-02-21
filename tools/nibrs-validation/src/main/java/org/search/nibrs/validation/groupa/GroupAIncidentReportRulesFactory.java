@@ -911,13 +911,23 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				if ((subject.getOffenseForOffenseCode(OffenseCode._100.code) != null ||
-						subject.getOffenseForOffenseCode(OffenseCode._35A.code) != null ||
-								subject.includesGamblingOffense() || subject.includesPropertyCrime()) && subject.getProperties().isEmpty()) {
+				String offenseCode = subject.getOffenses().stream()
+						.map(item -> item.getUcrOffenseCode())
+						.filter(Objects::nonNull)
+						.filter(item -> OffenseCode._100.code.equals(item) 
+								|| OffenseCode._35A.code.equals(item)
+								|| OffenseCode.isGamblingOffenseCode(item)
+								|| OffenseCode.isCrimeAgainstPropertyCode(item))
+								.limit(1)
+								.reduce("", String::concat);
+				if (StringUtils.isNotBlank(offenseCode) 
+								&& subject.getProperties().isEmpty()) {
+					
 					ret = subject.getErrorTemplate();
-					ret.setValue(null);
-					ret.setDataElementIdentifier("6");
+					ret.setValue(offenseCode);
+					ret.setDataElementIdentifier("L 3");
 					ret.setNIBRSErrorCode(NIBRSErrorCode._074);
+					ret.setCrossSegment(true);
 				}
 						
 				return ret;
