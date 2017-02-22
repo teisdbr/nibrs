@@ -814,28 +814,39 @@ public class GroupAIncidentReportRulesFactory {
 						.collect(Collectors.toList()); 
 									
 				
+				List<String> existingPropertyLosses = 
+						subject.getProperties().stream()
+							.map(item -> item.getTypeOfPropertyLoss())
+							.filter(Objects::nonNull)
+							.distinct()
+							.collect(Collectors.toList());
+				
 				if (qualifiedOffenses.size() > 0){
 					
-					List<String> existingPropertyLosses = 
-							subject.getProperties().stream()
-								.map(item -> item.getTypeOfPropertyLoss())
-								.filter(Objects::nonNull)
-								.distinct()
-								.collect(Collectors.toList());
 					for ( OffenseSegment offense : qualifiedOffenses ){
 						existingPropertyLosses.removeAll(getValidPropertyLossCodes(offense));
 					}
 					
-					if (existingPropertyLosses.size() > 0){
-						ret = subject.getErrorTemplate();
-						ret.setValue(existingPropertyLosses);
-						ret.setDataElementIdentifier("14");
-						ret.setNIBRSErrorCode(NIBRSErrorCode._081);
-						ret.setCrossSegment(true);
-					}
+					ret = setError081(subject, ret, existingPropertyLosses);
 
 				}
+				else if (subject.getOffenses().stream().anyMatch(Objects::nonNull)){
+					existingPropertyLosses.remove(TypeOfPropertyLossCode._1.code);
+					ret = setError081(subject, ret, existingPropertyLosses);
+				}
 				
+				return ret;
+			}
+
+			private NIBRSError setError081(GroupAIncidentReport subject,
+					NIBRSError ret, List<String> existingPropertyLosses) {
+				if (existingPropertyLosses.size() > 0){
+					ret = subject.getErrorTemplate();
+					ret.setValue(existingPropertyLosses);
+					ret.setDataElementIdentifier("14");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._081);
+					ret.setCrossSegment(true);
+				}
 				return ret;
 			}
 		};
