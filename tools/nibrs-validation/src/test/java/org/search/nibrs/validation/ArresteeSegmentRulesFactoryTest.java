@@ -46,39 +46,6 @@ public class ArresteeSegmentRulesFactoryTest {
 	private ArresteeSegmentRulesFactory groupBRulesFactory = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_B_ARRESTEE_MODE);
 	
 	@Test
-	public void testRule71() {
-		Rule<ArresteeSegment> rule = groupARulesFactory.getRule71();
-		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
-		GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
-		Calendar c = Calendar.getInstance();
-		c.set(2016, Calendar.JANUARY, 1);
-		LocalDate d = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-		arresteeSegment.setArrestDate(new ParsedObject<>(Date.from(d.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())));
-		c.set(2015, Calendar.DECEMBER, 31);
-		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
-		NIBRSError nibrsError = rule.apply(arresteeSegment);
-		assertNull(nibrsError);
-		c.set(2016, Calendar.DECEMBER, 31);
-		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
-		nibrsError = rule.apply(arresteeSegment);
-		assertNull(nibrsError);
-		parent.setExceptionalClearanceCode(ClearedExceptionallyCode.N.code);
-		nibrsError = rule.apply(arresteeSegment);
-		assertNull(nibrsError);
-		parent.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
-		nibrsError = rule.apply(arresteeSegment);
-		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._071, nibrsError.getNIBRSErrorCode());
-		assertEquals("04", nibrsError.getDataElementIdentifier());
-		assertEquals("A", nibrsError.getValue());
-		assertEquals(parent, nibrsError.getReport());
-		c.set(2015, Calendar.DECEMBER, 31);
-		parent.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
-		nibrsError = rule.apply(arresteeSegment);
-		assertNull(nibrsError);
-	}
-	
-	@Test
 	public void testRule601ForSequenceNumber() {
 		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX01ForSequenceNumber();
 		ArresteeSegment arresteeSegment = buildBaseGroupASegment();

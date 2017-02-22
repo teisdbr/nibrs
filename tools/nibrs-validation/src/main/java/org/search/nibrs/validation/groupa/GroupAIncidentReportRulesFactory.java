@@ -174,6 +174,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule171());
 		rulesList.add(getRule172());
 		rulesList.add(getRule072());
+		rulesList.add(getRule071());
 		rulesList.add(getRule073());
 		rulesList.add(getRule074());
 		rulesList.add(getRule075());
@@ -747,6 +748,31 @@ public class GroupAIncidentReportRulesFactory {
 				}
 				
 				return ret;
+			}
+		};
+	}
+	
+	Rule<GroupAIncidentReport> getRule071() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError e = null;
+				String exceptionalClearanceCode = subject.getExceptionalClearanceCode();
+				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
+				if (exceptionalClearanceCode != null 
+						&& !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) 
+						&& !exceptionalClearanceDatePO.isMissing() 
+						&& !exceptionalClearanceDatePO.isInvalid()
+						&& exceptionalClearanceDatePO.getValue() != null) {
+					if (subject.getArresteeCount() > 0) {
+						e = subject.getErrorTemplate();
+						e.setNIBRSErrorCode(NIBRSErrorCode._071);
+						e.setDataElementIdentifier("04");
+						e.setValue(exceptionalClearanceCode);
+						e.setCrossSegment(true);
+					}
+				}
+				return e;
 			}
 		};
 	}

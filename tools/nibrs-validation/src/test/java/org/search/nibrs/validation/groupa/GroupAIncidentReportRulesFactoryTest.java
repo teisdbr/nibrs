@@ -21,9 +21,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -603,6 +606,34 @@ public class GroupAIncidentReportRulesFactoryTest {
 		Set<String> dups = new HashSet<>();
 		dups.add(OffenseCode._200.code);
 		assertEquals(dups, e.getValue());
+	}
+	
+	@Test
+	public void testRule71() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule071();
+		GroupAIncidentReport report = buildBaseReport();
+		ArresteeSegment arresteeSegment = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+		report.addArrestee(arresteeSegment);
+
+		Calendar c = Calendar.getInstance();
+		c.set(2015, Calendar.DECEMBER, 31);
+		report.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
+		NIBRSError nibrsError = rule.apply(report);
+		assertNull(nibrsError);
+		c.set(2016, Calendar.DECEMBER, 31);
+		report.setExceptionalClearanceDate(new ParsedObject<>(c.getTime()));
+		nibrsError = rule.apply(report);
+		assertNull(nibrsError);
+		report.setExceptionalClearanceCode(ClearedExceptionallyCode.N.code);
+		nibrsError = rule.apply(report);
+		assertNull(nibrsError);
+		report.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
+		nibrsError = rule.apply(report);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._071, nibrsError.getNIBRSErrorCode());
+		assertEquals("04", nibrsError.getDataElementIdentifier());
+		assertEquals("A", nibrsError.getValue());
+		assertEquals(report, nibrsError.getReport());
 	}
 	
 	@Test
@@ -1379,5 +1410,4 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.setSource(source);
 		return report;
 	}
-	
 }

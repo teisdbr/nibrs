@@ -112,37 +112,6 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX53());
 		rulesList.add(getRuleX05());
 		rulesList.add(getRule667_758());
-		rulesList.add(getRule71());
-	}
-	
-	Rule<ArresteeSegment> getRule71() {
-		return isGroupAMode() ? new Rule<ArresteeSegment>() {
-			@Override
-			public NIBRSError apply(ArresteeSegment arresteeSegment) {
-				NIBRSError e = null;
-				GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
-				String exceptionalClearanceCode = parent.getExceptionalClearanceCode();
-				ParsedObject<Date> exceptionalClearanceDatePO = parent.getExceptionalClearanceDate();
-				ParsedObject<Date> arrestDatePO = arresteeSegment.getArrestDate();
-				if (exceptionalClearanceCode != null && !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) &&
-						!exceptionalClearanceDatePO.isMissing() && !exceptionalClearanceDatePO.isInvalid() && !arrestDatePO.isMissing() && !arrestDatePO.isInvalid()) {
-					Calendar c = Calendar.getInstance();
-					c.setTime(exceptionalClearanceDatePO.getValue());
-					LocalDate exceptionalClearanceDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					c.setTime(arrestDatePO.getValue());
-					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					if (!arrestDate.isAfter(exceptionalClearanceDate)) {
-						e = arresteeSegment.getErrorTemplate();
-						e.setNIBRSErrorCode(NIBRSErrorCode._071);
-						e.setDataElementIdentifier("04");
-						e.setValue(exceptionalClearanceCode);
-						e.setCrossSegment(true);
-						e.setWithinSegmentIdentifier(null);
-					}
-				}
-				return e;
-			}
-		} : new NullObjectRule<>();
 	}
 	
 	Rule<ArresteeSegment> getRuleX01ForSequenceNumber() {
