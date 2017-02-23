@@ -76,6 +76,7 @@ public final class ErrorExporter {
 		for (NIBRSError error : errorList) {
 			AbstractReport report = error.getReport();
 			line = blankLineTemplate;
+			if (report == null) continue;
 			line = modifyLine(line, 1-1, 4, String.valueOf(report.getYearOfTape()));
 			line = modifyLine(line, 5-1, 6, StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
 			line = modifyLine(line, 7-1, 13, StringUtils.leftPad(String.valueOf(error.getContext().getSourceLocation()), 7, '0'));
