@@ -42,6 +42,7 @@ import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.SuspectedDrugTypeCode;
 import org.search.nibrs.model.codes.TypeOfDrugMeasurementCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
+import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
 import org.search.nibrs.validation.rules.Rule;
 import org.search.nibrs.validation.rules.ValidValueListRule;
@@ -143,6 +144,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule304ForPropertyValue());
 		rulesList.add(getRule305());
 		rulesList.add(getRule306());
+		rulesList.add(getRule306ForPropertyDescriptions());
 		rulesList.add(getRule320());
 		rulesList.add(getRule342());
 		rulesList.add(getRule351());
@@ -629,6 +631,10 @@ public class PropertySegmentRulesFactory {
 				return ret;
 			}
 		};
+	}
+	
+	Rule<PropertySegment> getRule306ForPropertyDescriptions() {
+		return new DuplicateCodedValueRule<PropertySegment>("propertyDescription", "15", PropertySegment.class, NIBRSErrorCode._306);
 	}
 	
 	Rule<PropertySegment> getRule320() {
