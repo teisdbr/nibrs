@@ -21,12 +21,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -575,6 +572,35 @@ public class GroupAIncidentReportRulesFactoryTest {
 		Set<String> dups = new HashSet<>();
 		dups.add(TypeOfPropertyLossCode._2.code);
 		assertEquals(dups, e.getValue());
+	}
+	
+	@Test
+	public void testRule084() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule084();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		PropertySegment ps1 = new PropertySegment();
+		ps1.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
+		report.addProperty(ps1);
+		e = rule.apply(report);
+		assertNull(e);
+		PropertySegment ps2 = new PropertySegment();
+		ps2.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+		report.addProperty(ps2);
+		e = rule.apply(report);
+		assertNull(e);
+		ps1.setPropertyDescription(0, "09");
+		ps1.setValueOfProperty(0, new ParsedObject<Integer>(4));
+		e = rule.apply(report);
+		assertNull(e);
+		ps2.setPropertyDescription(0, "09");
+		ps2.setValueOfProperty(0, new ParsedObject<Integer>(3));
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("15", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._084, e.getNIBRSErrorCode());
+		assertEquals("09", e.getValue());
 	}
 	
 	@Test

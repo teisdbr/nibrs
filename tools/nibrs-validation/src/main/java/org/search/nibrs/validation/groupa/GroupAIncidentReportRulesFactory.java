@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
@@ -183,6 +184,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule078());
 		rulesList.add(getRule080());
 		rulesList.add(getRule081());
+		rulesList.add(getRule084());
 		rulesList.add(getRule262());
 		rulesList.add(getRule376());
 		rulesList.add(getRule451());
@@ -943,6 +945,57 @@ public class GroupAIncidentReportRulesFactory {
 		return new ArrayList<String>(TypeOfPropertyLossCode.codeSet());
 	}
 
+	Rule<GroupAIncidentReport> getRule084() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				
+				boolean hasStolenAndRecoverdPropertySegments = subject.getProperties()
+						.stream()
+						.filter(item -> item.isStolenPropertySegment() || item.isRecoveredPropertySegment())
+						.map(item -> item.getTypeOfPropertyLoss())
+						.distinct()
+						.count() == 2;
+				 
+				
+				if ( hasStolenAndRecoverdPropertySegments ){
+					Map<String, Integer> stolenPropertyValueMap = 
+							subject.getProperties().stream()
+							.filter(item ->item.isStolenPropertySegment())
+							.map(item -> item.getPropertyDescriptionValueMap())
+							.findFirst()
+							.get();
+					Map<String, Integer> recoveredPropertyValueMap = 
+							subject.getProperties().stream()
+							.filter(item ->item.isRecoveredPropertySegment())
+							.map(item -> item.getPropertyDescriptionValueMap())
+							.findFirst()
+							.get();
+					
+					
+					if (stolenPropertyValueMap != null && recoveredPropertyValueMap != null) {
+						for (Map.Entry<String, Integer> entry : stolenPropertyValueMap.entrySet()) {
+							if (entry.getValue() != null 
+									&& entry.getValue() >= 0 
+									&& recoveredPropertyValueMap.get(entry.getKey()) != null
+									&& recoveredPropertyValueMap.get(entry.getKey()) > entry.getValue()){
+								ret = subject.getErrorTemplate();
+								ret.setValue(entry.getKey());
+								ret.setNIBRSErrorCode(NIBRSErrorCode._084);
+								ret.setDataElementIdentifier("15");
+								ret.setCrossSegment(true);
+								break;
+							}
+						}
+					}
+				}
+				
+				return ret;
+			}
+		};
+	}
+	
 	Rule<GroupAIncidentReport> getRule074() {
 		return new Rule<GroupAIncidentReport>() {
 			@Override

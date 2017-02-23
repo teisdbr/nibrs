@@ -17,10 +17,14 @@ package org.search.nibrs.model;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 /**
  * Representation of an article of property reported within an Incident in a NIBRS report.
@@ -220,7 +224,15 @@ public class PropertySegment extends AbstractSegment
     {
         return NIBRSRules.drugMeasurementIsNotReported(getTypeDrugMeasurement(position));
     }
+    
+    public boolean isStolenPropertySegment(){
+    	return TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLoss);
+    }
 
+    public boolean isRecoveredPropertySegment(){
+    	return TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss);
+    }
+    
 	@Override
 	public String toString() {
 		return "PropertySegment [typeOfPropertyLoss=" + typeOfPropertyLoss + ", propertyDescription=" + Arrays.toString(propertyDescription) + ", valueOfProperty=" + Arrays.toString(valueOfProperty)
@@ -256,6 +268,17 @@ public class PropertySegment extends AbstractSegment
 	@Override
 	public Object getWithinSegmentIdentifier() {
 		return typeOfPropertyLoss;
+	}
+	
+	public Map<String, Integer> getPropertyDescriptionValueMap(){
+		Map<String, Integer> descriptionValueMap = new HashMap<String, Integer>();
+		for (int i=0; i<PROPERTY_DESCRIPTION_COUNT; i++ ){
+			if (StringUtils.isNotBlank(this.getPropertyDescription(i))){
+				descriptionValueMap.put(StringUtils.trim(this.getPropertyDescription(i)), this.getValueOfProperty(i).getValue());
+			}
+		}
+		
+		return descriptionValueMap;
 	}
 
 }

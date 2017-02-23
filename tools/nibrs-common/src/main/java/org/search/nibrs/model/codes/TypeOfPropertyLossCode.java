@@ -24,13 +24,37 @@ import java.util.Set;
  */
 public enum TypeOfPropertyLossCode {
 	
+	/**
+	 * None
+	 */
 	_1("1", "None"),
+	/**
+	 * Burned (includes damage caused in fighting the fire)
+	 */
 	_2("2", "Burned (includes damage caused in fighting the fire)"),
+	/**
+	 * Counterfeited/Forged
+	 */
 	_3("3", "Counterfeited/Forged"),
+	/**
+	 * Destroyed/Damaged/Vandalized
+	 */
 	_4("4", "Destroyed/Damaged/Vandalized"),
+	/**
+	 * Recovered (to impound property that was previously stolen)
+	 */
 	_5("5", "Recovered (to impound property that was previously stolen)"),
+	/**
+	 * Seized (to impound property that was not previously stolen)
+	 */
 	_6("6", "Seized (to impound property that was not previously stolen)"),
+	/**
+	 * Stolen/Etc
+	 */
 	_7("7", "Stolen/Etc. (includes bribed, defrauded, embezzled, extorted, ransomed, robbed, etc.)"),
+	/**
+	 * Unknown
+	 */
 	_8("8", "Unknown");
 		
 	private TypeOfPropertyLossCode(String code, String description) {

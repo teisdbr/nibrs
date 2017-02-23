@@ -24,9 +24,17 @@ import java.util.Set;
  * Code enum for property description (data element 15)
  */
 public enum PropertyDescriptionCode {
-	
+	/**
+	 * Aircraft
+	 */
 	_01("01", "Aircraft"),
+	/**
+	 * Alcohol
+	 */
 	_02("02", "Alcohol"),
+	/**
+	 * Automobiles
+	 */
 	_03("03", "Automobiles"),
 	_04("04", "Bicycles"),
 	_05("05", "Buses"),

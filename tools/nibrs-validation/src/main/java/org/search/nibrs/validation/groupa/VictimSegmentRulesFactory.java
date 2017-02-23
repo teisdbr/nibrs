@@ -337,7 +337,9 @@ public class VictimSegmentRulesFactory {
 				injuryTypeList.addAll(victimSegment.getTypeOfInjuryList());
 				injuryTypeList.removeIf(item -> item == null);
 				List<String> offenseCodeList = victimSegment.getUcrOffenseCodeList();
-				if ((CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) && injuryTypeList.isEmpty())) {
+				
+				if ( (CollectionUtils.containsAny(offenseCodeList, INJURY_OFFENSE_LIST) 
+								&& injuryTypeList.isEmpty())) {
 					e = victimSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._401);
 					e.setDataElementIdentifier("33");
