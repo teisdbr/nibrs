@@ -453,12 +453,9 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				String loss = subject.getTypeOfPropertyLoss();
-				boolean drugOffenseInvolved = false;
-				for (OffenseSegment os : ((GroupAIncidentReport) subject.getParentReport()).getOffenses()) {
-					if (OffenseCode._35A.code.equals(os.getUcrOffenseCode())) {
-						drugOffenseInvolved = true;
-					}
-				}
+				boolean drugOffenseInvolved = ((GroupAIncidentReport) subject.getParentReport()).isDrugOffenseInvolved();
+				boolean againstPropertyCrimeInvolved = ((GroupAIncidentReport) subject.getParentReport()).isAgainstPropertyCrimeInvolved();
+				
 				Object value = null;
 				if ((TypeOfPropertyLossCode._8.code.equals(loss) || (TypeOfPropertyLossCode._1.code.equals(loss) && !drugOffenseInvolved)) &&
 						!(allNull(subject.getPropertyDescription()) &&
@@ -472,13 +469,14 @@ public class PropertySegmentRulesFactory {
 								)) {
 					value = loss; // not the best, but will work for now
 				} else if (TypeOfPropertyLossCode._1.code.equals(loss) && drugOffenseInvolved &&
+						!againstPropertyCrimeInvolved &&
 						!(allNull(subject.getPropertyDescription()) &&
-								allNull(subject.getValueOfProperty()) &&
-								allNull(subject.getDateRecovered()) &&
-								(subject.getNumberOfRecoveredMotorVehicles().getValue() == null) &&
-								(subject.getNumberOfStolenMotorVehicles().getValue() == null) &&
-								notAllNull(subject.getSuspectedDrugType())
-								)) {
+							allNull(subject.getValueOfProperty()) &&
+							allNull(subject.getDateRecovered()) &&
+							(subject.getNumberOfRecoveredMotorVehicles().getValue() == null) &&
+							(subject.getNumberOfStolenMotorVehicles().getValue() == null) &&
+							notAllNull(subject.getSuspectedDrugType())
+						)) {
 					value = loss;
 				}
 				if (value != null) {

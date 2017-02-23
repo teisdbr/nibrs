@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -382,6 +383,18 @@ public class GroupAIncidentReport extends AbstractReport
         this.reportDateIndicator = reportDateIndicator;
     }
 
+    public boolean isDrugOffenseInvolved() {
+		return this.getOffenses().stream()
+			.filter(Objects::nonNull)
+			.anyMatch(item->OffenseCode._35A.code.equals(item.getUcrOffenseCode()));
+    }
+    
+    public boolean isAgainstPropertyCrimeInvolved() {
+    	return this.getOffenses().stream()
+    			.filter(Objects::nonNull)
+    			.anyMatch(item->OffenseCode.isCrimeAgainstPropertyCode(item.getUcrOffenseCode()));
+    }
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;
