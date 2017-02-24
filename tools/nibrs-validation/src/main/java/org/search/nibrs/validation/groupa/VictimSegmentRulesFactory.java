@@ -1155,7 +1155,7 @@ public class VictimSegmentRulesFactory {
 							 && (os.getAge() == null || os.getAge().isUnknown()) 
 							 && (os.getSex() == null || os.getSex().equals(SexOfOffenderCode.U.code)) 
 							 && (os.getRace() == null || os.getRace().equals(RaceOfOffenderCode.U.code)) 
-							 && !relationship.equals(RelationshipOfVictimToOffenderCode.RU.code)) {
+							 && !RelationshipOfVictimToOffenderCode.RU.code.equals(relationship)) {
 							e = victimSegment.getErrorTemplate();
 							e.setDataElementIdentifier("35");
 							e.setNIBRSErrorCode(NIBRSErrorCode._472);
