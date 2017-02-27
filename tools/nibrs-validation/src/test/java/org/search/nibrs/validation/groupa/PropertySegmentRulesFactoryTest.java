@@ -15,7 +15,13 @@
  */
 package org.search.nibrs.validation.groupa;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -207,8 +213,8 @@ public class PropertySegmentRulesFactoryTest {
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._359, e.getNIBRSErrorCode());
-		assertEquals("15", e.getDataElementIdentifier());
-		assertEquals(null, e.getValue());
+		assertEquals("18", e.getDataElementIdentifier());
+		assertThat(e.getValue(), is(1));
 		p.setPropertyDescription(0, PropertyDescriptionCode._01.code);
 		e = rule.apply(p);
 		assertNotNull(e);
