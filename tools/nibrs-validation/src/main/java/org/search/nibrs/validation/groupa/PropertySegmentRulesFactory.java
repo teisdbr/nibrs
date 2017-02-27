@@ -311,9 +311,9 @@ public class PropertySegmentRulesFactory {
 					}
 					if (!found) {
 						ret = subject.getErrorTemplate();
-						ret.setValue(null);
+						ret.setValue((smv != null && smv > 0)?smv:rmv);
 						ret.setNIBRSErrorCode(NIBRSErrorCode._359);
-						ret.setDataElementIdentifier("15");
+						ret.setDataElementIdentifier("18");
 					}
 				}
 				return ret;
