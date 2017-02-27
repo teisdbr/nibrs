@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -164,8 +165,9 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule364forQuantity());
 		rulesList.add(getRule364forMeasurement());
 		rulesList.add(getRule367());
-		rulesList.add(getRule391());
 		rulesList.add(getRule388());
+		rulesList.add(getRule390());
+		rulesList.add(getRule391());
 		
 	}
 	
@@ -315,6 +317,36 @@ public class PropertySegmentRulesFactory {
 						ret.setNIBRSErrorCode(NIBRSErrorCode._359);
 						ret.setDataElementIdentifier("18");
 					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule390() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				List<OffenseSegment> offenses = ((GroupAIncidentReport)subject.getParentReport()).getOffenses();
+				for (OffenseSegment offense: offenses) {
+					
+					String offenseCode = offense.getUcrOffenseCode(); 
+					List<String> illogicalPropertyDescriptions = 
+							PropertyDescriptionCode.getIllogicalPropertyDescriptions(offenseCode);
+					List<String> existingDescriptions = 
+							Arrays.stream(subject.getPropertyDescription())
+							.filter(Objects::nonNull)
+							.collect(Collectors.toList()); 
+					existingDescriptions.removeAll(illogicalPropertyDescriptions);
+					
+					if (existingDescriptions.isEmpty()) {
+						ret = subject.getErrorTemplate();
+						ret.setValue(null);
+						ret.setNIBRSErrorCode(NIBRSErrorCode._390);
+						ret.setDataElementIdentifier("15");
+					}
+					break;
 				}
 				return ret;
 			}
