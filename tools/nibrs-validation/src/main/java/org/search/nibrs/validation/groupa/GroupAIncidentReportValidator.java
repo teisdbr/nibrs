@@ -116,13 +116,13 @@ public class GroupAIncidentReportValidator {
 	private void processArresteeSegmentError(List<NIBRSError> ret,
 			NIBRSError nibrsError) {
 		if (nibrsError != null) {
-			if (!nibrsError.getRuleNumber().equals(NIBRSErrorCode._071.code)){
+			if (!nibrsError.getRuleNumber().equals(NIBRSErrorCode._071.getCode())){
 				ret.add(nibrsError);
 			}
 			else{
 				long count =  
 					ret.stream()
-					   	.filter(item->item.getRuleNumber().equals(NIBRSErrorCode._071.code))
+					   	.filter(item->item.getRuleNumber().equals(NIBRSErrorCode._071.getCode()))
 					   	.count();
 				if (count == 0){
 					ret.add(nibrsError);
@@ -133,13 +133,13 @@ public class GroupAIncidentReportValidator {
 
 	private void processVictimSegmentError(List<NIBRSError> ret, NIBRSError nibrsError) {
 		if (nibrsError != null) {
-			if (!nibrsError.getRuleNumber().equals(NIBRSErrorCode._070.code)){
+			if (!nibrsError.getRuleNumber().equals(NIBRSErrorCode._070.getCode())){
 				ret.add(nibrsError);
 			}
 			else{
 				long count =  
 					ret.stream()
-						.filter(item->item.getRuleNumber().equals(NIBRSErrorCode._070.code))
+						.filter(item->item.getRuleNumber().equals(NIBRSErrorCode._070.getCode()))
 					   	.filter(item->nibrsError.getValue().equals(item.getValue()))
 					   	.count();
 				if (count == 0){

@@ -358,7 +358,7 @@ public class TestErrorExporter {
 	}
 	
 	private void assertErrorInfo(String line, NIBRSErrorCode expectedErrorCode) {
-		assertEquals(expectedErrorCode.code, line.substring(46, 49));
+		assertEquals(expectedErrorCode.getCode(), line.substring(46, 49));
 		assertEquals(expectedErrorCode.message + StringUtils.repeat(" ", 79 - expectedErrorCode.message.length()), line.substring(61, 140));
 	}
 	

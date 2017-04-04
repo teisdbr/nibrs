@@ -105,7 +105,7 @@ public final class ErrorExporter {
 				}
 				line = modifyLine(line, 44 - 1, 46, StringUtils.rightPad(dataElementIdentifier, 3));
 			}
-			line = modifyLine(line, 47-1, 49, error.getNIBRSErrorCode().code);
+			line = modifyLine(line, 47-1, 49, error.getNIBRSErrorCode().getCode());
 			line = modifyLine(line, 62 - 1, 140, StringUtils.rightPad(error.getErrorMessage(), 79));
 			
 			String offendingValues = error.getOffendingValues();

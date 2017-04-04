@@ -271,17 +271,27 @@ public enum NIBRSErrorCode {
 	_093_ZeroReport("093","Zero Report Segment","ZERO REPORT MONTH/YEAR IS PRIOR TO AGENCY CONVERSION TO THE NIBRS","Zero Report Month and Zero Report Year must be later than the month and year in the date the LEA converted to the NIBRS."),
 	_094_ZeroReport("094","Zero Report Segment","ZERO REPORT MONTH/YEAR EXCEEDED MONTH/YEAR OF SUBMISSION","Zero Report Month and Zero Report Year must be earlier than Month of Submission and Year of Submission.");
 		
-	public String code;
+	private String code;
 	public String type;
 	public String message;
 	public String description;
 	
 	
 	private NIBRSErrorCode(String code, String type, String message, String description) {
-		this.code = code;
+		this.setCode(code);
 		this.type = type;
 		this.message = message;
 		this.description = description;
+	}
+
+
+	public String getCode() {
+		return code;
+	}
+
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 }

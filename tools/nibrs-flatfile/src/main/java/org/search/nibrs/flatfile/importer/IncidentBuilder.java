@@ -15,20 +15,34 @@
  */
 package org.search.nibrs.flatfile.importer;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
-import org.search.nibrs.flatfile.util.*;
-import org.search.nibrs.model.*;
+import org.search.nibrs.flatfile.util.StringUtils;
+import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.springframework.stereotype.Component;
 
 /**
  * Builder class that constructs incidents from a stream of NIBRS report data.
@@ -39,6 +53,7 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  * need to be modified. Currently, it only broadcasts Incident "add" records.
  * 
  */
+@Component
 public class IncidentBuilder {
 	
 	private static final class LogListener implements ReportListener {

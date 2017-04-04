@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.common;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,8 +35,10 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
  * A class for objects that represent an error encountered in processing NIBRS data.
  *
  */
-public class NIBRSError {
+public class NIBRSError implements Serializable{
 	
+	private static final long serialVersionUID = 4910476126877700609L;
+
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(NIBRSError.class);
 	
@@ -125,7 +128,7 @@ public class NIBRSError {
 	 * @return the rule number
 	 */
 	public String getRuleNumber() {
-		return nibrsErrorCode.code;
+		return nibrsErrorCode.getCode();
 	}
 	/**
 	 * A value that uniquely identifies the Report in which the error occurred.  For example, this will be the incident number
