@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<title>Spring Framework Guru</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Hello</h1>
+
+	<table>
+		<tbody>
+			<tr th:each="nibrsError: ${errorList}">
+				<td th:text="${nibrsError.nIBRSErrorCode.code}" />
+				<td th:text="${nibrsError.errorMessage}" />
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
