@@ -332,21 +332,25 @@ public class PropertySegmentRulesFactory {
 				for (OffenseSegment offense: offenses) {
 					
 					String offenseCode = offense.getUcrOffenseCode(); 
-					List<String> illogicalPropertyDescriptions = 
-							PropertyDescriptionCode.getIllogicalPropertyDescriptions(offenseCode);
-					List<String> existingDescriptions = 
-							Arrays.stream(subject.getPropertyDescription())
-							.filter(Objects::nonNull)
-							.collect(Collectors.toList()); 
-					existingDescriptions.removeAll(illogicalPropertyDescriptions);
 					
-					if (existingDescriptions.isEmpty()) {
-						ret = subject.getErrorTemplate();
-						ret.setValue(null);
-						ret.setNIBRSErrorCode(NIBRSErrorCode._390);
-						ret.setDataElementIdentifier("15");
+					if (OffenseCode.isCrimeAgainstPropertyCode(offenseCode) 
+							&& !TypeOfPropertyLossCode.noneOrUnknownValueCodeSet().contains(subject.getTypeOfPropertyLoss())){
+						List<String> illogicalPropertyDescriptions = 
+								PropertyDescriptionCode.getIllogicalPropertyDescriptions(offenseCode);
+						List<String> existingDescriptions = 
+								Arrays.stream(subject.getPropertyDescription())
+								.filter(Objects::nonNull)
+								.collect(Collectors.toList()); 
+						existingDescriptions.removeAll(illogicalPropertyDescriptions);
+						
+						if (existingDescriptions.isEmpty()) {
+							ret = subject.getErrorTemplate();
+							ret.setValue(null);
+							ret.setNIBRSErrorCode(NIBRSErrorCode._390);
+							ret.setDataElementIdentifier("15");
+							break;
+						}
 					}
-					break;
 				}
 				return ret;
 			}
