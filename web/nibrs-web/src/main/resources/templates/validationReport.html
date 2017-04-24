@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-<title>NIBRS Validation Result</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>NIBRS Validation Result</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link th:href="@{/webjars/datatables/1.10.13/css/jquery.dataTables.css}" href="/webjars/datatables/1.10.13/css/jquery.dataTables.css"  rel="stylesheet" type="text/css"  />
+	<link th:href="@{/webjars/datatables/1.10.13/css/dataTables.jqueryui.css}" href="/webjars/datatables/1.10.13/css/dataTables.jqueryui.css"  rel="stylesheet" type="text/css"  />
+	<script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/datatables/1.10.13/js/jquery.dataTables.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/datatables/1.10.13/js/dataTables.jqueryui.js}"></script>
 </head>
 <body>
+	<script type="text/javascript">
+	  $(function() {
+		  $('#errorReport').DataTable();
+	  });
+  </script>
 	<h1>Validation Report</h1>
 
-	<table>
+	<table id="errorReport" class="display dataTable">
+		<thead>
+			<tr>
+				<th>Error Code</th>
+				<th>Error Message</th>
+			</tr>
+		</thead>
 		<tbody>
 			<tr th:each="nibrsError: ${errorList}">
 				<td th:text="${nibrsError.nIBRSErrorCode.code}" />

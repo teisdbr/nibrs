@@ -12,6 +12,7 @@ $(function(){
 		var droppedFiles = false;
 		var dropzone = $("#dropzone");
 		
+		//TODO should not need the upload function anymore. Will double check with more testing. -hw 
 		var upload = function(files){
 			
 		  console.log(files);	
@@ -63,45 +64,44 @@ $(function(){
 		
 	}
 	
-//	$form.on('submit', function(e) {
-//	  if ($form.hasClass('is-uploading')) return false;
-//
-//	  $form.addClass('is-uploading').removeClass('is-error');
-//
-//	  e.preventDefault();
-//
-//	  var ajaxData = new FormData($form.get(0));
-//
-//	  if (droppedFiles) {
-//	    $.each( droppedFiles, function(i, file) {
-//	      ajaxData.append( $("#file").attr('name'), file );
-//	    });
-//	  }
-//
-//	  $.ajax({
-//	    url: $form.attr('action'),
-//	    type: $form.attr('method'),
-//	    data: ajaxData,
-//	    dataType: 'json',
-//	    cache: false,
-//	    contentType: false,
-//	    processData: false,
-//	    complete: function() {
-//	      $form.removeClass('is-uploading');
-//	    },
-//	    success: function(data) {
-//	    	console.log(data);
-//	      $form.addClass( data.success == true ? 'is-success' : 'is-error' );
-//	      if (!data.success) $errorMsg.text(data.error);
-//          document.open();
-//          document.write(data);
-//          document.close();
-//	    },
-//	    error: function() {
-//	      // Log the error, show an alert, whatever works for you
-//	    }
-//	  });
-//	});
+	$form.on('submit', function(e) {
+	  if ($form.hasClass('is-uploading')) return false;
+
+	  $form.addClass('is-uploading').removeClass('is-error');
+
+	  e.preventDefault();
+
+	  var ajaxData = new FormData($form.get(0));
+
+	  if (droppedFiles) {
+	    $.each( droppedFiles, function(i, file) {
+	      ajaxData.append( $("#file").attr('name'), file );
+	    });
+	  }
+
+	  $.ajax({
+	    url: $form.attr('action'),
+	    type: $form.attr('method'),
+	    data: ajaxData,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    complete: function() {
+	      $form.removeClass('is-uploading');
+	    },
+	    success: function(data) {
+	    	console.log(data.success);
+	    	console.log(data);
+	    	$form.addClass( data.success == true ? 'is-success' : 'is-error' );
+    		document.open();
+			document.write(data);
+			document.close();
+	    },
+	    error: function() {
+	      // Log the error, show an alert, whatever works for you
+	    }
+	  });
+	});
 	
 	$("#file").on('change', function(e) { 
 		$("#file").removeAttr("form");
