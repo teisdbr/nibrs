@@ -359,7 +359,7 @@ public class OffenseSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._252, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
 		assertEquals("10", e.getDataElementIdentifier());
-		assertEquals(2, e.getValue());
+		assertEquals("220", e.getValue());
 		o.setUcrOffenseCode(OffenseCode._220.code);
 		o.setLocationType(LocationTypeCode._01.code);
 		e = rule.apply(o);

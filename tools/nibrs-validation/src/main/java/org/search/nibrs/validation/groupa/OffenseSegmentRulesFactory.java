@@ -442,9 +442,10 @@ public class OffenseSegmentRulesFactory {
 					String locationType = subject.getLocationType();
 					if (!(OffenseCode._220.code.equals(offenseCode) && (LocationTypeCode._14.code.equals(locationType) || LocationTypeCode._19.code.equals(locationType)))) {
 						ret = subject.getErrorTemplate();
-						ret.setValue(subject.getNumberOfPremisesEntered().getValue());
+						ret.setValue(OffenseCode._220.code);
 						ret.setDataElementIdentifier("10");
 						ret.setNIBRSErrorCode(NIBRSErrorCode._252);
+						ret.setWithinSegmentIdentifier(null);
 					}
 				}
 				return ret;

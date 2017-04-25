@@ -612,7 +612,7 @@ public class IncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
-		if (length == 129 || length == 141) {
+		if (length == 129 || length >= 141) {
 
 			Integer sequenceNumberI = null;
 			ParsedObject<Integer> sequenceNumber = newVictim.getVictimSequenceNumber();
