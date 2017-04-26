@@ -172,7 +172,6 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule155());
 		rulesList.add(getRule156());
 		rulesList.add(getRule170());
-		rulesList.add(getRule171());
 		rulesList.add(getRule172());
 		rulesList.add(getRule072());
 		rulesList.add(getRule071());
