@@ -884,7 +884,7 @@ public class IncidentBuilder {
 			int biasMotivationFields = length == 63 ? 1 : OffenseSegment.BIAS_MOTIVATION_COUNT;
 
 			for (int i = 0; i < biasMotivationFields; i++) {
-				newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62 + i, 63 + i, segmentData));
+				newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62 + 2*i, 63 + 2*i, segmentData));
 			}
 
 			for (int i = 0; i < OffenseSegment.OFFENDERS_SUSPECTED_OF_USING_COUNT; i++) {
