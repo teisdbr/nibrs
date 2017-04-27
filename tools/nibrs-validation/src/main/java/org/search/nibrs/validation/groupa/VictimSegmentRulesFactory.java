@@ -754,7 +754,7 @@ public class VictimSegmentRulesFactory {
 
 				List<Integer> offenderList = new ArrayList<>();
 				offenderList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
-				offenderList.removeIf(item -> item == null);
+				offenderList.removeIf(item -> (item == null || item == 0));
 
 				if (!victimSegment.isPerson() && !offenderList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
@@ -778,7 +778,7 @@ public class VictimSegmentRulesFactory {
 
 				List<Integer> offenderNumberList = new ArrayList<>();
 				offenderNumberList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
-				offenderNumberList.removeIf(item -> item == null);
+				offenderNumberList.removeIf(item -> item == null || item == 0);
 
 				List<String> offenseCodeList = new ArrayList<>();
 				offenseCodeList.addAll(victimSegment.getUcrOffenseCodeList());
