@@ -198,7 +198,7 @@ public class VictimSegmentRulesFactory {
 				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
 				List<Integer> related = new ArrayList<>();
 				related.addAll(subject.getDistinctValidRelatedOffenderNumberList());
-				related.removeIf(element -> (element == null || element == 0));
+				related.removeIf(element -> element == null);
 				for (Integer offenderNumber : related) {
 					OffenderSegment matchedOffender = parent.getOffenderForSequenceNumber(offenderNumber);
 					if (matchedOffender == null) {
@@ -754,7 +754,7 @@ public class VictimSegmentRulesFactory {
 
 				List<Integer> offenderList = new ArrayList<>();
 				offenderList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
-				offenderList.removeIf(item -> (item == null || item == 0));
+				offenderList.removeIf(item -> item == null);
 
 				if (!victimSegment.isPerson() && !offenderList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
@@ -778,7 +778,7 @@ public class VictimSegmentRulesFactory {
 
 				List<Integer> offenderNumberList = new ArrayList<>();
 				offenderNumberList.addAll(victimSegment.getDistinctValidRelatedOffenderNumberList());
-				offenderNumberList.removeIf(item -> item == null || item == 0);
+				offenderNumberList.removeIf(item -> item == null);
 
 				List<String> offenseCodeList = new ArrayList<>();
 				offenseCodeList.addAll(victimSegment.getUcrOffenseCodeList());
