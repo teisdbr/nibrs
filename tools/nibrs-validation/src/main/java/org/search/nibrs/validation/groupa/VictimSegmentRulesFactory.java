@@ -198,7 +198,7 @@ public class VictimSegmentRulesFactory {
 				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
 				List<Integer> related = new ArrayList<>();
 				related.addAll(subject.getDistinctValidRelatedOffenderNumberList());
-				related.removeIf(element -> element == null);
+				related.removeIf(element -> (element == null || element == 0));
 				for (Integer offenderNumber : related) {
 					OffenderSegment matchedOffender = parent.getOffenderForSequenceNumber(offenderNumber);
 					if (matchedOffender == null) {
