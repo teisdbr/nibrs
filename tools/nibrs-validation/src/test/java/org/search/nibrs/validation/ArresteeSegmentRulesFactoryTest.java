@@ -15,7 +15,11 @@
  */
 package org.search.nibrs.validation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -31,7 +35,6 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
-import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
