@@ -164,9 +164,6 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setArresteeArmedWith(0, null);
 			incidents.add(copy);
-			copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setArresteeArmedWith(0,"00");
-			incidents.add(copy);
 			//Arrest Date cannot be blank
 			copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setArrestDate(ParsedObject.getMissingParsedObject());

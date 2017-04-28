@@ -34,7 +34,6 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
-import org.search.nibrs.model.codes.ClearedExceptionallyCode;
 import org.search.nibrs.model.codes.DispositionOfArresteeUnder18Code;
 import org.search.nibrs.model.codes.MultipleArresteeSegmentsIndicator;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
@@ -43,6 +42,7 @@ import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfArrestCode;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.ExclusiveCodedValueRule;
+import org.search.nibrs.validation.rules.NotAllBlankRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NullObjectRule;
 import org.search.nibrs.validation.rules.Rule;
@@ -93,6 +93,7 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRule670());
 		rulesList.add(getRule760());
 		rulesList.add(getRuleX01ForArresteeWasArmedWith());
+		rulesList.add(getRuleX04ForArresteeWasArmedWith());
 		rulesList.add(getRuleX06ForArresteeWasArmedWith());
 		rulesList.add(getRuleX07ForArresteeWasArmedWith());
 		rulesList.add(getRuleX54());
@@ -152,8 +153,12 @@ public class ArresteeSegmentRulesFactory {
 		return new NotBlankRule<ArresteeSegment>("arrestDate", "42", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
 	}
 	
+	Rule<ArresteeSegment> getRuleX04ForArresteeWasArmedWith() {
+		return new ValidValueListRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._604 : NIBRSErrorCode._704, ArresteeWasArmedWithCode.codeSet(), false);
+	}
+	
 	Rule<ArresteeSegment> getRuleX01ForArresteeWasArmedWith() {
-		return new ValidValueListRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701, ArresteeWasArmedWithCode.codeSet(), false);
+		return new NotAllBlankRule<ArresteeSegment>("arresteeArmedWith", "46", ArresteeSegment.class, isGroupAMode() ? NIBRSErrorCode._601 : NIBRSErrorCode._701);
 	}
 	
 	Rule<ArresteeSegment> getRuleX06ForArresteeWasArmedWith() {

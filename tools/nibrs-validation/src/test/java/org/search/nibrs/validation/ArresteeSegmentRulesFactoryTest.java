@@ -346,6 +346,24 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertArrayEquals(new String[] {null, null}, (String[]) nibrsError.getValue());
 		arresteeSegment.setArresteeArmedWith(0, "invalid");
 		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+	}
+	
+	@Test
+	public void testRuleX04ForArresteeWasArmedWith() {
+		Rule<ArresteeSegment> rule = groupARulesFactory.getRuleX04ForArresteeWasArmedWith();
+		ArresteeSegment arresteeSegment = buildBaseGroupASegment();
+		arresteeSegment.setArresteeArmedWith(0, ArresteeWasArmedWithCode._01.code);
+		NIBRSError nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		arresteeSegment.setArresteeArmedWith(0, null);
+		nibrsError = rule.apply(arresteeSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._604, nibrsError.getNIBRSErrorCode());
+		assertEquals("46", nibrsError.getDataElementIdentifier());
+		assertArrayEquals(new String[] {null, null}, (String[]) nibrsError.getValue());
+		arresteeSegment.setArresteeArmedWith(0, "invalid");
+		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertArrayEquals(new String[] {"invalid", null}, (String[]) nibrsError.getValue());
 	}
