@@ -183,6 +183,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule483ForOfficerOtherJurisdictionORI());
 
 		rulesList.add(getRule070());
+		rulesList.add(getRule085());
 
 	}
 		
@@ -211,6 +212,34 @@ public class VictimSegmentRulesFactory {
 						break;
 					}
 				}
+				return e;
+			}
+		};
+	}
+	
+	Rule<VictimSegment> getRule085() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment subject) {
+				NIBRSError e = null;
+				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
+				
+				if (parent.getOffenderCount() >= 3 
+						&& subject.isPerson()
+						&& (subject.getUcrOffenseCodeList().contains(OffenseCode._120.code) ||
+							OffenseCode.containsCrimeAgainstPersonCode(subject.getUcrOffenseCodeList()))
+						){
+					long relatedOffenderCount = subject.getOffenderNumberRelatedList().stream()
+							.filter(item->!(item.isInvalid() || item.isMissing() ||item.getValue() == null)).count();
+					if (relatedOffenderCount < 2){
+						e = subject.getErrorTemplate();
+						e.setNIBRSErrorCode(NIBRSErrorCode._085);
+						e.setDataElementIdentifier("34");
+						e.setCrossSegment(true);
+						e.setWithinSegmentIdentifier(null); 
+					}
+				}
+					
 				return e;
 			}
 		};

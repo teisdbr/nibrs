@@ -15,10 +15,12 @@
  */
 package org.search.nibrs.validation.groupa;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +71,43 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals(NIBRSErrorCode._070, e.getNIBRSErrorCode());
 		assertEquals("34", e.getDataElementIdentifier());
 		assertEquals(2, e.getValue());
+	}
+	
+	@Test
+	public void testRule085() {
+		
+		Rule<VictimSegment> rule = victimRulesFactory.getRule085();
+		VictimSegment victimSegment = getBasicVictimSegment();
+		OffenderSegment offenderSegment2 = new OffenderSegment();
+		GroupAIncidentReport parent = (GroupAIncidentReport) victimSegment.getParentReport();
+		parent.addOffender(offenderSegment2);
+		parent.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<>(1));
+		offenderSegment2.setOffenderSequenceNumber(new ParsedObject<>(2));
+		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(2));
+		NIBRSError e = rule.apply(victimSegment);
+		assertNull(e);
+		
+		victimSegment.setTypeOfVictim("I");
+		e = rule.apply(victimSegment);
+		assertNull(e);
+		
+		victimSegment.setUcrOffenseCodeConnection(0, "120");;
+		assertThat(parent.getOffenderCount(), is(2));
+		e = rule.apply(victimSegment);
+		assertNull(e);
+		
+		OffenderSegment offenderSegment3 = new OffenderSegment();
+		offenderSegment3.setOffenderSequenceNumber(new ParsedObject<Integer>(3));
+		parent.addOffender(offenderSegment2);
+		e = rule.apply(victimSegment);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._085, e.getNIBRSErrorCode());
+		assertEquals("34", e.getDataElementIdentifier());
+		assertNull(e.getValue());
+
+		victimSegment.setTypeOfVictim(TypeOfVictimCode.F.code);
+		e = rule.apply(victimSegment);
+		assertNull(e);
 	}
 	
 	@Test
