@@ -873,6 +873,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 				break;
 			default:
 				assertThat(reject081(offense, "C",  TypeOfPropertyLossCode._1), is(false));
+				assertThat(reject081(offense, "C",  TypeOfPropertyLossCode._8), is(false));
 				if (OffenseCode.isCrimeAgainstPropertyCode(offense.code) 
 						|| OffenseCode.isGamblingOffenseCode(offense.code)){
 					assertThat(reject081(offense, "C",  TypeOfPropertyLossCode._2), is(false));
@@ -890,7 +891,6 @@ public class GroupAIncidentReportRulesFactoryTest {
 					assertThat(reject081(offense, "C",  TypeOfPropertyLossCode._5), is(true));
 					assertThat(reject081(offense, "C",  TypeOfPropertyLossCode._6), is(true));
 					assertThat(reject081(offense, "C",  TypeOfPropertyLossCode._7), is(true));
-					assertThat(reject081(offense, "C",  TypeOfPropertyLossCode._8), is(true));
 				}
 				break;
 			}
@@ -926,7 +926,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 				assertThat(reject081(offense, "A",  TypeOfPropertyLossCode._5), is(true));
 				assertThat(reject081(offense, "A",  TypeOfPropertyLossCode._6), is(true));
 				assertThat(reject081(offense, "A",  TypeOfPropertyLossCode._7), is(true));
-				assertThat(reject081(offense, "A",  TypeOfPropertyLossCode._8), is(true));
+				assertThat(reject081(offense, "A",  TypeOfPropertyLossCode._8), is(false));
 			}
 		}
 		

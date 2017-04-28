@@ -858,7 +858,7 @@ public class GroupAIncidentReportRulesFactory {
 
 				}
 				else if (subject.getOffenses().stream().anyMatch(Objects::nonNull)){
-					existingPropertyLosses.remove(TypeOfPropertyLossCode._1.code);
+					existingPropertyLosses.removeAll(TypeOfPropertyLossCode.noneOrUnknownValueCodeSet());
 					ret = setError081(subject, ret, existingPropertyLosses);
 				}
 				
