@@ -72,9 +72,8 @@ public class NIBRSAge {
 				try {
 					ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
 				} catch (NumberFormatException nfe) {
-					error = new NIBRSError();
-					error.setValue(ageString);
-					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
+					setNonNumericAgeError(segmentContext, ageString);
+					
 				}
 				try {
 					ageMax = Integer.parseInt(ageStringTrim.substring(2, 4));
@@ -89,6 +88,10 @@ public class NIBRSAge {
 					nonNumericAge = ageStringTrim;
 					ageMin = 0;
 					ageMax = 0;
+					
+					if (segmentContext != '4'){
+						setNonNumericAgeError(segmentContext, ageString);
+					}
 				} else if ("00".equals(ageStringTrim)) {
 					nonNumericAge = ageStringTrim;
 				} else {
@@ -96,18 +99,44 @@ public class NIBRSAge {
 						ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
 						ageMax = ageMin;
 					} catch (NumberFormatException nfe) {
-						error = new NIBRSError();
-						error.setValue(ageString);
-						error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
+						nonNumericAge = ageStringTrim; 
+						setNonNumericAgeError(segmentContext, ageString);
 						invalidValue = true;
 					}
 				}
 			} else {
-				error = new NIBRSError();
-				error.setValue(ageString);
-				error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
 				invalidLength = true;
+				nonNumericAge = ageStringTrim; 
+				if (ageStringTrim.length() == 3){
+					error = new NIBRSError();
+					error.setValue(ageString);
+					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "09"));
+				}
+				else{
+					setNonNumericAgeError(segmentContext, ageString);
+				}
 			}
+		}
+	}
+
+	private void setNonNumericAgeError(char segmentContext, String ageString) {
+		error = new NIBRSError();
+		error.setValue(ageString);
+		nonNumericAge = ageString.trim();
+	
+		switch (segmentContext){
+		case '4':
+			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
+			break; 
+		case '5': 
+			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "56"));
+			break; 
+		case '6': 
+			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "64"));
+			break; 
+		case '7': 
+			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "57"));
+			break; 
 		}
 	}
 
@@ -154,6 +183,13 @@ public class NIBRSAge {
 			}
 		}
 		return isAgeRange;
+	}
+	
+	public boolean containsBadAgeRange() {
+		if ( nonNumericAge != null && nonNumericAge.length() > 2 ){
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean hasInvalidValue() {

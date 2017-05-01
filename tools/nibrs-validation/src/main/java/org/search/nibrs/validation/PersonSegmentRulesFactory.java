@@ -104,12 +104,20 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 			public NIBRSError apply(T segment) {
 				NIBRSError e = null;
 				NIBRSAge nibrsAge = segment.getAge();
-				if (nibrsAge != null && nibrsAge.getError() != null && nibrsAge.hasInvalidLength()) {
+				if (nibrsAge != null && nibrsAge.getError() != null 
+						&& nibrsAge.hasInvalidLength() && nibrsAge.getNonNumericAge().length()>2) {
 					e = new NIBRSError(nibrsAge.getError());
 					e.setDataElementIdentifier(dataElementIdentifier);
 					e.setNIBRSErrorCode(nibrsErrorCode);
 					e.setContext(segment.getParentReport().getSource());
 					e.setValue(nibrsAge.getError().getValue());
+					if (segment.isPerson() && !segment.isUnknown()){
+						e.setContext(segment.getParentReport().getSource());
+						e.setReportUniqueIdentifier(segment.getParentReport().getIdentifier());
+						e.setWithinSegmentIdentifier(segment.getWithinSegmentIdentifier());
+						e.setSegmentType(segment.getSegmentType());
+						e.setReport(segment.getParentReport());
+					}
 				}
 				return e;
 			}
@@ -152,6 +160,14 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 						e.setNIBRSErrorCode(nibrsErrorCode);
 						e.setContext(segment.getParentReport().getSource());
 						e.setValue(nibrsAge.getError().getValue());
+						
+						if (segment.isPerson() && !segment.isUnknown()){
+							e.setContext(segment.getParentReport().getSource());
+							e.setReportUniqueIdentifier(segment.getParentReport().getIdentifier());
+							e.setWithinSegmentIdentifier(segment.getWithinSegmentIdentifier());
+							e.setSegmentType(segment.getSegmentType());
+							e.setReport(segment.getParentReport());
+						}
 					}
 				} else if (!allowNull && segment.isPerson() && !segment.isUnknown()) {
 					e = segment.getErrorTemplate();

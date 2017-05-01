@@ -91,7 +91,7 @@ public class OffenderSegmentRulesFactory {
 	
 	private void initRulesList(List<Rule<OffenderSegment>> rulesList) {
 		rulesList.add(getRule501());
-		rulesList.add(getRule504ForAgeOfOffender());
+		rulesList.add(getRule556ForAgeOfOffender());
 		rulesList.add(getRule504ForSexOfOffender());
 		rulesList.add(getRule504ForRaceOfOffender());
 		rulesList.add(getRule504ForEthnicityOfOffender());
@@ -105,7 +105,6 @@ public class OffenderSegmentRulesFactory {
 		rulesList.add(getRule552ForEthnicity());
 		rulesList.add(getRule553());
 		rulesList.add(getRule554());
-		rulesList.add(getRule556());
 		rulesList.add(getRule557());
 		rulesList.add(getRule572());
 	}
@@ -161,8 +160,8 @@ public class OffenderSegmentRulesFactory {
 		};
 	}
 
-	Rule<OffenderSegment> getRule504ForAgeOfOffender() {
-		return personSegmentRulesFactory.getAgeValidRule("37", NIBRSErrorCode._504, false);
+	Rule<OffenderSegment> getRule556ForAgeOfOffender() {
+		return personSegmentRulesFactory.getAgeValidRule("37", NIBRSErrorCode._556, false);
 	}
 
 	Rule<OffenderSegment> getRule504ForSexOfOffender() {
@@ -195,7 +194,8 @@ public class OffenderSegmentRulesFactory {
 			protected NIBRSError validateRelatedVictimAndOffender(OffenderSegment offenderSegment, VictimSegment victimSegment, String relationship) {
 				NIBRSAge age = offenderSegment.getAge();
 				NIBRSError e = null;
-				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && !age.isUnknown() && age.getError() == null && age.getAgeMin() < 10) {
+				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && !age.isUnknown() && age.getError() == null 
+						&& !age.hasInvalidLength() && age.getAgeMin() < 10) {
 					e = offenderSegment.getErrorTemplate();
 					e.setDataElementIdentifier("37");
 					e.setValue(age);
@@ -266,24 +266,24 @@ public class OffenderSegmentRulesFactory {
 		};
 	}
 	
-	Rule<OffenderSegment> getRule556() {
-		return new Rule<OffenderSegment>() {
-			@Override
-			public NIBRSError apply(OffenderSegment offenderSegment) {
-				// note: numeric range 0-99 requirement is handled by rule 501
-				NIBRSError e = null;
-				NIBRSAge age = offenderSegment.getAge();
-				if (age != null && !age.isUnknown() && age.isNonNumeric()) {
-					e = offenderSegment.getErrorTemplate();
-					e.setDataElementIdentifier("37");
-					e.setNIBRSErrorCode(NIBRSErrorCode._556);
-					e.setValue(age);
-				}
-				return e;
-			}
-		};
-	}
-	
+//	Rule<OffenderSegment> getRule556() {
+//		return new Rule<OffenderSegment>() {
+//			@Override
+//			public NIBRSError apply(OffenderSegment offenderSegment) {
+//				// note: numeric range 00-99 requirement is handled by rule 501
+//				NIBRSError e = null;
+//				NIBRSAge age = offenderSegment.getAge();
+//				if (age != null && !age.isUnknown() && (age.isNonNumeric() || age.hasInvalidLength())) {
+//					e = offenderSegment.getErrorTemplate();
+//					e.setDataElementIdentifier("37");
+//					e.setNIBRSErrorCode(NIBRSErrorCode._556);
+//					e.setValue(age);
+//				}
+//				return e;
+//			}
+//		};
+//	}
+//	
 	Rule<OffenderSegment> getRule572() {
 		return new RelatedVictimAndOffenderRule() {
 			@Override
