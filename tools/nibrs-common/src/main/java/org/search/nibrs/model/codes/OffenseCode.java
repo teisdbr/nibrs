@@ -128,7 +128,7 @@ public enum OffenseCode {
 	
 	public static final boolean isCrimeAgainstPersonCode(String code) {
 		return Arrays.asList(_13A.code, _13B.code, _13C.code, 
-		_09A.code, _09B.code, _64A.code, _64B.code, _100.code,
+		_09A.code, _09B.code, _09C.code, _64A.code, _64B.code, _100.code,
 		_11A.code, _11B.code, _11C.code, _11D.code, _36A.code,
 		_36B.code).contains(code);
 	}
