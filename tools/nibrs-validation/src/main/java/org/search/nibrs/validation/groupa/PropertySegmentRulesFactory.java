@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -164,6 +165,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule364forType());
 		rulesList.add(getRule364forQuantity());
 		rulesList.add(getRule364forMeasurement());
+		rulesList.add(getRule365());
 		rulesList.add(getRule367());
 		rulesList.add(getRule388());
 		rulesList.add(getRule390());
@@ -223,6 +225,36 @@ public class PropertySegmentRulesFactory {
 				return segment.getSuspectedDrugType();
 			}
 
+		};
+	}
+	
+	Rule<PropertySegment> getRule365() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				if ( notAllNull(subject.getSuspectedDrugType())) {
+					GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
+					boolean drugOffense = parent.getOffenses().stream()
+							.anyMatch(offense->OffenseCode._35A.code.equals(offense.getUcrOffenseCode()));
+							
+					String typePropertyLoss = subject.getTypeOfPropertyLoss();
+					if ( ! ( drugOffense && typePropertyLoss != null 
+							&& (TypeOfPropertyLossCode._1.code.equals(typePropertyLoss)
+								|| (TypeOfPropertyLossCode._6.code.equals(typePropertyLoss) 
+										&& PropertyDescriptionCode._10.code.equals(subject.getPropertyDescription(0)))))) {
+						ret = subject.getErrorTemplate();
+						ret.setDataElementIdentifier("20");
+						
+						Optional<String> value = Arrays.stream(subject.getSuspectedDrugType())
+								.filter(Objects::nonNull)
+								.reduce(String::concat);
+						ret.setValue(value.get());
+						ret.setNIBRSErrorCode(NIBRSErrorCode._365);
+					}
+				}
+				return ret;
+			}
 		};
 	}
 	

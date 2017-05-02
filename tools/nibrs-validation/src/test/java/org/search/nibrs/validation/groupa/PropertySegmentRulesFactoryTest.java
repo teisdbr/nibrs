@@ -80,6 +80,61 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule365() {
+		Rule<PropertySegment> rule = rulesFactory.getRule365();
+		PropertySegment p = buildBaseSegment();
+		setAllNull(p.getSuspectedDrugType());
+		setAllNull(p.getPropertyDescription());
+		p.setTypeOfPropertyLoss(null);
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._365, e.getNIBRSErrorCode());
+		assertEquals("20", e.getDataElementIdentifier());
+		assertEquals(SuspectedDrugTypeCode._A.code, e.getValue());
+		
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._1.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._365, e.getNIBRSErrorCode());
+		assertEquals("20", e.getDataElementIdentifier());
+		assertEquals(SuspectedDrugTypeCode._A.code, e.getValue());
+		
+		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
+		OffenseSegment o = new OffenseSegment();
+		incident.addOffense(o);
+		o.setUcrOffenseCode(null);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._365, e.getNIBRSErrorCode());
+		assertEquals("20", e.getDataElementIdentifier());
+		assertEquals(SuspectedDrugTypeCode._A.code, e.getValue());
+		o.setUcrOffenseCode(OffenseCode._35A.code);
+		e = rule.apply(p);
+		assertNull(e);
+	
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._6.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._365, e.getNIBRSErrorCode());
+		assertEquals("20", e.getDataElementIdentifier());
+		assertEquals(SuspectedDrugTypeCode._A.code, e.getValue());
+		
+		p.setPropertyDescription(0, "20");
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._365, e.getNIBRSErrorCode());
+		assertEquals("20", e.getDataElementIdentifier());
+		assertEquals(SuspectedDrugTypeCode._A.code, e.getValue());
+		
+		p.setPropertyDescription(0, "10");
+		e = rule.apply(p);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule364ForMeasurement() {
 		testRule364_common(rulesFactory.getRule364forMeasurement(), "22");
 	}
