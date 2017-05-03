@@ -29,6 +29,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.search.nibrs.util.ArrayUtils.allNull;
+import static org.search.nibrs.util.ArrayUtils.notAllNull;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
@@ -556,24 +559,6 @@ public class PropertySegmentRulesFactory {
 				return ret;
 			}
 		};
-	}
-	
-	private static final boolean notAllNull(Object[] array) {
-		return !allNull(array);
-	}
-	
-	private static final boolean allNull(Object[] array) {
-		
-		long nonNullCount = Arrays.stream(array)
-			  .map(item -> {
-					if (item instanceof ParsedObject<?>) 
-						return ((ParsedObject<?>) item).getValue(); 
-					return item;
-				})
-			  .filter(Objects::nonNull)
-			  .count();
-			
-		return nonNullCount == 0;
 	}
 	
 	Rule<PropertySegment> getRule391() {

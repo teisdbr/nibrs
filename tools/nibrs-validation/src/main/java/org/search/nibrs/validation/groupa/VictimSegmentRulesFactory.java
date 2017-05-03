@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static org.search.nibrs.util.ArrayUtils.allNull;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -118,6 +119,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule401ForVictimConnectedToUcrOffenseCode());
 		rulesList.add(getRule401ForTypeOfVictim());
 		rulesList.add(getRule401ForTypeOfInjury());
+		rulesList.add(getRule401OffenderNumberToBeRelated());
 		rulesList.add(getRule404ForTypeOfOfficerActivityCircumstance());
 		rulesList.add(getRule404ForOfficerAssignmentType());
 		rulesList.add(getRule404ForOfficerOriOtherJurisdiction());
@@ -338,6 +340,32 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
+	Rule<VictimSegment> getRule401OffenderNumberToBeRelated() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError e = null;
+				boolean victimRelatedOffenderMissing = allNull(victimSegment.getOffenderNumberRelated());
+				boolean crimeAgainstPersonAndRobberyOffense = 
+						victimSegment.getUcrOffenseCodeList().contains(OffenseCode._120.code) 
+						|| OffenseCode.containsCrimeAgainstPersonCode(victimSegment.getUcrOffenseCodeList());
+
+				if ( victimRelatedOffenderMissing 
+						&& victimSegment.isPerson() 
+						&& crimeAgainstPersonAndRobberyOffense ) {
+					NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+					errorTemplate.setDataElementIdentifier("34");
+					errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._401);
+					e = errorTemplate;
+				}
+				
+				return e;
+				
+			}
+		};
+	}
+	
 	Rule<VictimSegment> getRule401ForTypeOfVictim() {
 		return new ValidValueListRule<VictimSegment>("typeOfVictim", "25", VictimSegment.class, NIBRSErrorCode._401, TypeOfVictimCode.codeSet(), false);
 	}
