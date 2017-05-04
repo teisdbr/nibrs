@@ -1213,7 +1213,9 @@ public class GroupAIncidentReportRulesFactory {
 					}
 				}
 				NIBRSError ret = null;
-				if (cargoTheftIncident && subject.getCargoTheftIndicator() == null) {
+				if (subject.getCargoTheftIndicator() != null 
+						&& subject.getCargoTheftIndicator().equalsIgnoreCase("Yes")
+						&& !cargoTheftIncident ) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(null);
 					ret.setDataElementIdentifier("2A");

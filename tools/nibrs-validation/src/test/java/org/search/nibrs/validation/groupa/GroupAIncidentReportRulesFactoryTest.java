@@ -1249,21 +1249,24 @@ public class GroupAIncidentReportRulesFactoryTest {
 	public void testRule119() {
 		Rule<GroupAIncidentReport> rule119 = rulesFactory.getRule119();
 		GroupAIncidentReport report = buildBaseReport();
-		report.setCargoTheftIndicator(null);
+		report.setCargoTheftIndicator("Yes");
 		OffenseSegment o = new OffenseSegment();
 		report.addOffense(o);
 		o.setUcrOffenseCode(OffenseCode._35A.code);
 		NIBRSError e = rule119.apply(report);
-		assertNull(e);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._119, e.getNIBRSErrorCode());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
+		assertEquals(report.getCargoTheftIndicator(), "Yes");
+		assertEquals(report.getSource(), e.getContext());
 		o = new OffenseSegment();
 		report.addOffense(o);
 		o.setUcrOffenseCode(OffenseCode._120.code);
 		e = rule119.apply(report);
-		assertNotNull(e);
-		assertEquals(NIBRSErrorCode._119, e.getNIBRSErrorCode());
-		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getCargoTheftIndicator(), e.getValue());
-		assertEquals(report.getSource(), e.getContext());
+		assertNull(e);
+		report.setCargoTheftIndicator("No");
+		e = rule119.apply(report);
+		assertNull(e);
 	}
 	
 	@Test
