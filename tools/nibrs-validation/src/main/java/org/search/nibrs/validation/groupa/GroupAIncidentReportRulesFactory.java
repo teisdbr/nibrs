@@ -659,20 +659,14 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				if (subject.getVictimCount() > 0) {
-					boolean onlyCrimesAgainstSociety = true;
-					for (OffenseSegment os : subject.getOffenses()) {
-						if (!OffenseCode.isCrimeAgainstSocietyCode(os.getUcrOffenseCode())) {
-							onlyCrimesAgainstSociety = false;
-							break;
-						}
-					}
-					if (onlyCrimesAgainstSociety && (subject.getVictimCount() != 1 || !TypeOfVictimCode.S.code.equals(subject.getVictims().get(0).getTypeOfVictim()))) {
-						ret = subject.getErrorTemplate();
-						ret.setValue(subject.getVictims().get(0).getTypeOfVictim());
-						ret.setDataElementIdentifier("25");
-						ret.setNIBRSErrorCode(NIBRSErrorCode._080);
-					}
+					
+				boolean onlyCrimesAgainstSociety = subject.getOffenses().size() == 1 
+						&& OffenseCode.isCrimeAgainstSocietyCode(subject.getOffenses().get(0).getUcrOffenseCode()) ;
+				
+				if (onlyCrimesAgainstSociety && (subject.getVictimCount() != 1 
+						|| !TypeOfVictimCode.S.code.equals(subject.getVictims().get(0).getTypeOfVictim()))) {
+					ret = subject.getErrorTemplate();
+					ret.setNIBRSErrorCode(NIBRSErrorCode._080);
 				}
 				return ret;
 			}
@@ -1039,7 +1033,7 @@ public class GroupAIncidentReportRulesFactory {
 						|| stolenSegment.getNumberOfStolenMotorVehicles().getValue() == null 
 						|| stolenSegment.getNumberOfStolenMotorVehicles().getValue() < recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue())) {
 					ret = subject.getErrorTemplate();
-					ret.setValue(recoveredSegment.getNumberOfRecoveredMotorVehicles());
+					ret.setValue(recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue());
 					ret.setDataElementIdentifier("19");
 					ret.setNIBRSErrorCode(NIBRSErrorCode._073);
 				}
@@ -1066,8 +1060,6 @@ public class GroupAIncidentReportRulesFactory {
 					}
 					if (!recoveredPropertyTypes.isEmpty()) {
 						ret = subject.getErrorTemplate();
-						ret.setValue(recoveredPropertyTypes);
-						ret.setDataElementIdentifier("15");
 						ret.setNIBRSErrorCode(NIBRSErrorCode._072);
 					}
 				}

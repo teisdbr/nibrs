@@ -1013,7 +1013,8 @@ public class VictimSegmentRulesFactory {
 					e = victimSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._465);
 					e.setDataElementIdentifier("25");
-					e.setValue(victimSegment.getUcrOffenseCodeList());
+					e.setValue(victimSegment.getTypeOfVictim());
+					e.setWithinSegmentIdentifier(null);
 				}
 				return e;
 			}

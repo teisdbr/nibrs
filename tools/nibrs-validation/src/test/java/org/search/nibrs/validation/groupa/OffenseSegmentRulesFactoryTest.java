@@ -190,7 +190,7 @@ public class OffenseSegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals('2', e.getSegmentType());
 		assertEquals("6", e.getDataElementIdentifier());
-		assertEquals(offenseCode, e.getValue());
+		assertEquals(offenseCode.code, e.getValue());
 	}
 	
 	@Test

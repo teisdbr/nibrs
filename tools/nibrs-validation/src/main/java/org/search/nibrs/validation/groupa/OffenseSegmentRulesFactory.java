@@ -326,9 +326,10 @@ public class OffenseSegmentRulesFactory {
 				OffenseCode code = OffenseCode.forCode(subject.getUcrOffenseCode());
 				if (code != null && !code.group.equals("A")) {
 					ret = subject.getErrorTemplate();
-					ret.setValue(code);
+					ret.setValue(code.code);
 					ret.setDataElementIdentifier("6");
 					ret.setNIBRSErrorCode(NIBRSErrorCode._264);
+					ret.setWithinSegmentIdentifier(null);
 				}
 				return ret;
 			}

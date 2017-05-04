@@ -1005,7 +1005,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._073, e.getNIBRSErrorCode());
-		assertEquals(recoveredSegment.getNumberOfRecoveredMotorVehicles(), e.getValue());
+		assertEquals(recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue(), e.getValue());
 		stolenSegment.setNumberOfStolenMotorVehicles(new ParsedObject<>(4));
 		report.addProperty(stolenSegment);
 		e = rule.apply(report);
@@ -1021,7 +1021,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._073, e.getNIBRSErrorCode());
-		assertEquals(recoveredSegment.getNumberOfRecoveredMotorVehicles(), e.getValue());
+		assertEquals(recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue(), e.getValue());
 		
 		
 	}
@@ -1051,15 +1051,15 @@ public class GroupAIncidentReportRulesFactoryTest {
 		
 		e = rule.apply(report);
 		assertNotNull(e);
-		assertEquals("15", e.getDataElementIdentifier());
+		assertEquals(null, e.getDataElementIdentifier());
 		assertEquals(NIBRSErrorCode._072, e.getNIBRSErrorCode());
-		assertEquals(Arrays.asList(new String[] {PropertyDescriptionCode._17.code, PropertyDescriptionCode._19.code}), e.getValue());
+		assertEquals(null, e.getValue());
 		
 		stolenSegment.setPropertyDescription(0, PropertyDescriptionCode._17.code);
 		report.addProperty(stolenSegment);
 		e = rule.apply(report);
 		assertNotNull(e);
-		assertEquals(Arrays.asList(new String[] {PropertyDescriptionCode._19.code}), e.getValue());
+		assertEquals(null, e.getValue());
 
 		stolenSegment.setPropertyDescription(1, PropertyDescriptionCode._19.code);
 		e = rule.apply(report);
