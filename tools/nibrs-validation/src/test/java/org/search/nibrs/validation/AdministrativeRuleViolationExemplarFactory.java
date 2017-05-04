@@ -194,12 +194,12 @@ class AdministrativeRuleViolationExemplarFactory {
 		});
 
 		groupATweakerMap.put(119, incident -> {
-			// Data Element 2A (Cargo Theft) must be populated with a valid data value when
-			// Data Element 6 (UCR OffenseSegment Code) contains a Cargo Theft-related offense.
+			// When Data Element 2A (Cargo Theft) is populated with a valid data value, 
+			// Data Element 6 (UCR OffenseSegment Code) must a Cargo Theft-related offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setCargoTheftIndicator(null);
-			copy.getOffenses().get(0).setUcrOffenseCode("120");
+			copy.setCargoTheftIndicator("Yes");
+			copy.getOffenses().get(0).setUcrOffenseCode("");
 			incidents.add(copy);
 			return incidents;
 		});

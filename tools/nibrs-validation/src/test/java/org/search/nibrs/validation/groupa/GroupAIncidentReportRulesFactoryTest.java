@@ -993,6 +993,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 	public void testRule73() {
 		Rule<GroupAIncidentReport> rule = rulesFactory.getRule073();
 		GroupAIncidentReport report = buildBaseReport();
+		report.setReportActionType('I');
 		PropertySegment stolenSegment = new PropertySegment();
 		stolenSegment.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
 		PropertySegment recoveredSegment = new PropertySegment();

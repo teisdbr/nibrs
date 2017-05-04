@@ -108,6 +108,7 @@ final class PropertyRuleViolationExemplarFactory {
 		
 		groupATweakerMap.put(73, incident -> {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
+			incident.setReportActionType('I');
 			
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			PropertySegment stolenSegment = new PropertySegment();

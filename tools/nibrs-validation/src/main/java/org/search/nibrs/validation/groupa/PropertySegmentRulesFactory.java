@@ -599,6 +599,7 @@ public class PropertySegmentRulesFactory {
 				if ( !subject.getNumberOfStolenMotorVehicles().isMissing()
 						&& !subject.getNumberOfStolenMotorVehicles().isInvalid()
 						&& subject.getNumberOfStolenMotorVehicles().getValue() != null 
+						&& (subject.getNumberOfStolenMotorVehicles().getValue() != 0 )
 						&& countOfVehicles > subject.getNumberOfStolenMotorVehicles().getValue()) {
 					ret = subject.getErrorTemplate();
 					ret.setNIBRSErrorCode(NIBRSErrorCode._388);
