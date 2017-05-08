@@ -1038,7 +1038,7 @@ public class GroupAIncidentReportRulesFactory {
 						|| stolenSegment.getNumberOfStolenMotorVehicles().getValue() < recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue());
-					ret.setDataElementIdentifier("19");
+					ret.setSegmentType('0');
 					ret.setNIBRSErrorCode(NIBRSErrorCode._073);
 				}
 				return ret;
