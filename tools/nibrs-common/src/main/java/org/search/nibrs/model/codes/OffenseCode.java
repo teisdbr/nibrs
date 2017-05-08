@@ -141,7 +141,10 @@ public enum OffenseCode {
 		return Arrays.asList(_720.code,
 		_35A.code, _35B.code, _39A.code, _39B.code,
 		_39C.code, _39D.code, _370.code, _40A.code,
-		_40B.code, _40C.code, _520.code).contains(code);
+		_40B.code, _40C.code, _520.code, _90A.code, 
+		_90B.code, _90C.code, _90D.code, _90E.code,
+		_90F.code, _90G.code, _90H.code, _90J.code,
+		_90Z.code).contains(code);
 	}
 	
 	public static final boolean containsCrimeAgainstSocietyCode(Collection<String> codes) {

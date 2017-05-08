@@ -692,16 +692,21 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.removeOffense(1);
 		
 		e = rule.apply(report);
-		assertNotNull(e);
-		assertEquals(NIBRSErrorCode._080, e.getNIBRSErrorCode());
+		assertNull(e);
 		
 		v1.setTypeOfVictim(TypeOfVictimCode.S.code);
+		v1.setUcrOffenseCodeConnection(0, OffenseCode._720.code);
 		e = rule.apply(report);
-		assertNotNull(e);
+		assertNull(e);
 		
 		v2.setTypeOfVictim(TypeOfVictimCode.S.code);
+		v2.setUcrOffenseCodeConnection(0, OffenseCode._720.code);
 		e = rule.apply(report);
-		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._080, e.getNIBRSErrorCode());
+		
+		report.addOffense(os2);
+		e = rule.apply(report);
+		assertEquals(NIBRSErrorCode._080, e.getNIBRSErrorCode());
 		
 		report.removeVictim(1);
 		e = rule.apply(report);

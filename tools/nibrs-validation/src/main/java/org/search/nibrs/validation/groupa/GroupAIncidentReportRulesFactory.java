@@ -53,7 +53,6 @@ import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
-import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
@@ -659,13 +658,18 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-					
-				boolean onlyCrimesAgainstSociety = subject.getOffenses().size() == 1 
-						&& OffenseCode.isCrimeAgainstSocietyCode(subject.getOffenses().get(0).getUcrOffenseCode()) ;
+
+				boolean containsCrimesAgainstSociety = subject.getOffenses().stream()
+						.anyMatch(offense -> OffenseCode.isCrimeAgainstSocietyCode(offense.getUcrOffenseCode())) ;
 				
-				if (onlyCrimesAgainstSociety && (subject.getVictimCount() != 1 
-						|| !TypeOfVictimCode.S.code.equals(subject.getVictims().get(0).getTypeOfVictim()))) {
+				Long crimeAgainsSocietyVictimCount = subject.getVictims()
+						.stream()
+						.filter(VictimSegment::isVictimOfCrimeAgainstSociety)
+						.count();
+						
+				if (containsCrimesAgainstSociety && crimeAgainsSocietyVictimCount > 1) {
 					ret = subject.getErrorTemplate();
+					ret.setSegmentType('0');
 					ret.setNIBRSErrorCode(NIBRSErrorCode._080);
 				}
 				return ret;

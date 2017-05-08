@@ -67,10 +67,12 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.removeVictims();
 			VictimSegment v1 = new VictimSegment();
-			v1.setTypeOfVictim(TypeOfVictimCode.B.code);
+			v1.setTypeOfVictim(TypeOfVictimCode.S.code);
+			v1.setUcrOffenseCodeConnection(0, OffenseCode._720.code);
 			copy.addVictim(v1);
 			VictimSegment v2 = new VictimSegment();
-			v2.setTypeOfVictim(TypeOfVictimCode.I.code);
+			v2.setTypeOfVictim(TypeOfVictimCode.S.code);
+			v2.setUcrOffenseCodeConnection(0, OffenseCode._40A.code);
 			copy.addVictim(v2);
 			
 			copy.removeOffenses();
@@ -81,7 +83,8 @@ final class VictimRuleViolationExemplarFactory {
 			incidents.add(copy);
 			
 			copy = new GroupAIncidentReport(copy);
-			copy.removeVictim(1);
+			OffenseSegment os2 = new OffenseSegment();
+			os2.setUcrOffenseCode(OffenseCode._40A.code);
 			incidents.add(copy);
 			
 			return incidents;

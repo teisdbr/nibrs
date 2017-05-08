@@ -21,9 +21,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.TypeOfVictimCode;
 
 /**
  * Representation of a VictimSegment reported within an Incident in a NIBRS report. Note that we extend AbstractPersonSegment even though some types of victims are not people (e.g., Business)...since
@@ -390,6 +393,22 @@ public class VictimSegment extends AbstractPersonSegment {
 	public boolean isVictimOfOffender(OffenderSegment os) {
 		List<Integer> relatedOffenderNumbers = getDistinctValidRelatedOffenderNumberList();
 		return os != null && relatedOffenderNumbers.contains(os.getOffenderSequenceNumber().getValue());
+	}
+	
+	/**
+	 * Determine whether the specified offender committed an offense against this victim
+	 * @param os the offender
+	 * @return whether that offender victimized this victim
+	 */
+	public boolean isVictimOfCrimeAgainstSociety() {
+		boolean containOffenses = this.getUcrOffenseCodeList().stream().filter(Objects::nonNull).count() > 0;
+		boolean containsOnlyCrimeAgainstSocietyOffenses = this.getUcrOffenseCodeList().stream()
+				.filter(Objects::nonNull)
+				.allMatch(OffenseCode::isCrimeAgainstSocietyCode);
+				
+		return TypeOfVictimCode.S.code.equals(this.getTypeOfVictim()) 
+				&& containOffenses 
+				&& containsOnlyCrimeAgainstSocietyOffenses;
 	}
 	
 	/**
