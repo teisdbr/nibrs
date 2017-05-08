@@ -737,16 +737,22 @@ public class IncidentBuilder {
 					propertyValue.setMissing(true);
 				} else {
 					try {
-						Integer propertyValueI = Integer.parseInt(propertyValueString);
-						propertyValue.setValue(propertyValueI);
+						String valueOfPropertyPattern = "\\d{9}";
+						if (propertyValueString.matches(valueOfPropertyPattern)){
+							Integer propertyValueI = Integer.parseInt(propertyValueString);
+							propertyValue.setValue(propertyValueI);
+						}
+						else{
+							throw new NumberFormatException(); 
+						}
 					} catch (NumberFormatException nfe) {
 						NIBRSError e = new NIBRSError();
 						e.setContext(s.getReportSource());
 						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 						e.setSegmentType(s.getSegmentType());
-						e.setValue(propertyValueString);
-						e.setNIBRSErrorCode(NIBRSErrorCode._304);
-						e.setWithinSegmentIdentifier(typeOfPropertyLoss);
+						e.setValue(org.apache.commons.lang3.StringUtils.leftPad(propertyValueString, 9));
+						e.setNIBRSErrorCode(NIBRSErrorCode._302);
+						e.setWithinSegmentIdentifier(null);
 						e.setDataElementIdentifier("16");
 						errorList.add(e);
 						propertyValue.setMissing(false);
