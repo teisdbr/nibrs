@@ -159,7 +159,17 @@ public class NIBRSError implements Serializable{
 	public char getSegmentType() {
 		return segmentType;
 	}
+	
+	public String getSegmentTypeOutput() {
+		if (!this.isCrossSegment()) {
+			return String.valueOf(segmentType);
+		}
+		
+		return StringUtils.EMPTY;
+
+	}
 	public void setSegmentType(char segmentType) {
+		
 		this.segmentType = segmentType;
 	}
 	/**
@@ -193,6 +203,18 @@ public class NIBRSError implements Serializable{
 	 */
 	public String getDataElementIdentifier() {
 		return dataElementIdentifier;
+	}
+	
+	public String getDataElementIdentifierOutput() {
+		
+		String output = StringUtils.EMPTY;
+		if (dataElementIdentifier != null) {
+			if (dataElementIdentifier.matches("[0-9]")) {
+				output = StringUtils.leftPad(dataElementIdentifier, 2, '0');
+			}
+			output = StringUtils.rightPad(dataElementIdentifier, 3);
+		}
+		return output;
 	}
 	public void setDataElementIdentifier(String dataElementIdentifier) {
 		this.dataElementIdentifier = dataElementIdentifier;
@@ -242,7 +264,21 @@ public class NIBRSError implements Serializable{
 		return obj != null && obj.hashCode() == hashCode();
 	}
 
+	@SuppressWarnings("unchecked")
 	public String getOffendingValues() {
+		
+		if (this.getRuleNumber().equals("404") && this.getDataElementIdentifier().equals("35")) {
+			
+			StringBuilder sb = new StringBuilder();
+			
+			for (String invalidValue : (List<String>)this.getValue()){
+				sb.append(StringUtils.rightPad(StringUtils.trimToEmpty(invalidValue), 12));
+				sb.append("\n");
+			}
+			
+			return sb.toString();
+		}
+		
 		List<Object> valueList = new ArrayList<Object>();
 		if (!(value instanceof Object[])) {
 			if (value instanceof List){
@@ -289,4 +325,16 @@ public class NIBRSError implements Serializable{
 		return getNIBRSErrorCode().message;
 	}
 
+	public String getReportUniqueIdentifierOutput() {
+		StringBuilder sb = new StringBuilder(36);
+		
+		sb.append(String.valueOf(report.getYearOfTape()));
+		sb.append(StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
+		sb.append(StringUtils.leftPad(String.valueOf(this.getContext().getSourceLocation()), 7, '0'));
+		sb.append(String.valueOf(this.getReport().getReportActionType()));
+		sb.append(String.valueOf(this.getReport().getOri()));
+		sb.append(StringUtils.rightPad(this.getReportUniqueIdentifier(), 12));
+		return sb.toString();
+	}
+	
 }

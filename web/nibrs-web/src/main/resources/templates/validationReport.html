@@ -4,15 +4,34 @@
 	<title>NIBRS Validation Result</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link th:href="@{/webjars/datatables/1.10.13/css/jquery.dataTables.css}" href="/webjars/datatables/1.10.13/css/jquery.dataTables.css"  rel="stylesheet" type="text/css"  />
+	<link href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css"  rel="stylesheet" type="text/css"  />
 	<link th:href="@{/webjars/datatables/1.10.13/css/dataTables.jqueryui.css}" href="/webjars/datatables/1.10.13/css/dataTables.jqueryui.css"  rel="stylesheet" type="text/css"  />
 	<script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/datatables/1.10.13/js/jquery.dataTables.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/datatables/1.10.13/js/dataTables.jqueryui.js}"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>
+	<script type="text/javascript" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
+	<script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
 </head>
-<body>
+  <body>
 	<script type="text/javascript">
 	  $(function() {
-		  $('#errorReport').DataTable();
+		  $('#errorReport').DataTable({
+	    	  dom: 'lBfrtip',
+	          buttons: [
+	              {
+	                  extend: 'copyHtml5',
+	                  exportOptions: {
+	               		   columns: ':contains("Office")'
+	               	  }
+	              },
+	              'excelHtml5',
+	              'csvHtml5',
+	              'pdfHtml5'
+	          ]
+		  });
 	  });
   </script>
 	<h1>Validation Report</h1>
@@ -20,13 +39,21 @@
 	<table id="errorReport" class="display dataTable">
 		<thead>
 			<tr>
+				<th>Identifier</th>
+				<th>Segment</th>
+				<th>Data Element</th>
 				<th>Error Code</th>
+				<th>Rejected Value</th>
 				<th>Error Message</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="nibrsError: ${errorList}">
+				<td th:text="${nibrsError.reportUniqueIdentifierOutput}"/>
+				<td th:text="${nibrsError.segmentTypeOutput}"/>
+				<td th:text="${nibrsError.dataElementIdentifierOutput}"/>
 				<td th:text="${nibrsError.nIBRSErrorCode.code}" />
+				<td th:text="${nibrsError.offendingValues}" />
 				<td th:text="${nibrsError.errorMessage}" />
 			</tr>
 		</tbody>

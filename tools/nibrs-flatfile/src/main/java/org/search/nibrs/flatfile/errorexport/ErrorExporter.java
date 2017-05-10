@@ -23,8 +23,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
@@ -38,8 +38,7 @@ import org.search.nibrs.model.VictimSegment;
  */
 public final class ErrorExporter {
 	
-	@SuppressWarnings("unused")
-	private static final Logger LOG = LogManager.getLogger(ErrorExporter.class);
+	private final Log log = LogFactory.getLog(ErrorExporter.class);
 	
 	static final int ERROR_REPORT_LINE_LENGTH = 146;
 	private static final ErrorExporter INSTANCE = new ErrorExporter();
@@ -108,6 +107,7 @@ public final class ErrorExporter {
 			line = modifyLine(line, 47-1, 49, error.getNIBRSErrorCode().getCode());
 			line = modifyLine(line, 62 - 1, 140, StringUtils.rightPad(error.getErrorMessage(), 79));
 			
+			log.info("error.getReportUniqueIdentifier():" + error.getReportUniqueIdentifier());
 			String offendingValues = error.getOffendingValues();
 			
 			if (error.getRuleNumber().equals("404") && error.getDataElementIdentifier().equals("35")) {
