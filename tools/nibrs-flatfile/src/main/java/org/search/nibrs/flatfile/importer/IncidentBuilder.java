@@ -397,8 +397,20 @@ public class IncidentBuilder {
 			boolean cargoTheft = length == 88;
 			if (cargoTheft) {
 				String cargoTheftYN = StringUtils.getStringBetween(88, 88, segmentData);
-				newIncident.setCargoTheftIndicator(cargoTheftYN);
-				newIncident.setIncludesCargoTheft(true);
+				
+				if (org.apache.commons.lang3.StringUtils.isNotBlank(cargoTheftYN)){
+					newIncident.setCargoTheftIndicator(cargoTheftYN);
+					newIncident.setIncludesCargoTheft(true);
+				}
+				else{
+					NIBRSError e = new NIBRSError();
+					e.setContext(s.getReportSource());
+					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e.setSegmentType(s.getSegmentType());
+					e.setDataElementIdentifier("2A");
+					e.setNIBRSErrorCode(NIBRSErrorCode._101);
+					newErrorList.add(e);
+				}
 			}
 			
 		} else {
