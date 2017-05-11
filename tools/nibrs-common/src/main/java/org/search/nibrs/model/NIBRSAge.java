@@ -81,6 +81,7 @@ public class NIBRSAge {
 					error = new NIBRSError();
 					error.setValue(ageString);
 					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "09"));
+					nonNumericAge = ageString;
 					invalidValue = true;
 				}
 			} else if (ageStringTrim.length() == 2) {
