@@ -29,6 +29,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
@@ -337,4 +342,34 @@ public class NIBRSError implements Serializable{
 		return sb.toString();
 	}
 	
+	public String getDateOfTape(){
+		StringBuilder sb = new StringBuilder(6);
+		sb.append(String.valueOf(report.getYearOfTape()));
+		sb.append(StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
+		return sb.toString();
+	}
+
+	public String getOffenseSegmentIdentifier(){
+		if ( withinSegmentIdentifier != null && segmentType == OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER) {
+			return withinSegmentIdentifier.toString();
+		} 
+		
+		return StringUtils.EMPTY;
+	}
+	public String getOffenderArresteeVictimSegmentIdentifier(){
+		if (withinSegmentIdentifier != null 
+				&& (segmentType == OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER 
+					|| segmentType == VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER 
+					|| segmentType == ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER 
+					|| segmentType == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER)) {
+			return StringUtils.leftPad(withinSegmentIdentifier.toString(), 3, '0');
+		} 
+		return StringUtils.EMPTY;
+	}
+	public String getPropertySegmentIdentifier(){
+		if ( withinSegmentIdentifier != null && segmentType == PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER) {
+			return withinSegmentIdentifier.toString();
+		} 
+		return StringUtils.EMPTY;
+	}
 }

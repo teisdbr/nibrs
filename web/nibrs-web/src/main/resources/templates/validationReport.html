@@ -39,23 +39,58 @@
 	<table id="errorReport" class="display dataTable">
 		<thead>
 			<tr>
-				<th>Identifier</th>
+				<th>Tape Date</th>
+				<th>Source Location</th>
+				<th>Action Type</th>
+				<th>ORI</th>
+				<th>Report ID</th>
 				<th>Segment</th>
-				<th>Data Element</th>
+				<th>Within Offense</th>
+				<th>Within Offender Arrestee Victim</th>
+				<th>Within Property</th>
+				<th>DE</th>
 				<th>Error Code</th>
 				<th>Rejected Value</th>
 				<th>Error Message</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="nibrsError: ${errorList}">
-				<td th:text="${nibrsError.reportUniqueIdentifierOutput}"/>
-				<td th:text="${nibrsError.segmentTypeOutput}"/>
-				<td th:text="${nibrsError.dataElementIdentifierOutput}"/>
-				<td th:text="${nibrsError.nIBRSErrorCode.code}" />
-				<td th:text="${nibrsError.offendingValues}" />
-				<td th:text="${nibrsError.errorMessage}" />
-			</tr>
+			<th:block th:each="nibrsError: ${errorList}">
+				<th:block th:switch="${nibrsError.ruleNumber == '404' and nibrsError.dataElementIdentifier == '35'}">
+					<th:block th:case="true">
+						<tr th:each="rejectedValue:${#lists.toList(nibrsError.value)}">
+							<td th:text="${nibrsError.dateOfTape}"/>
+							<td th:text="${nibrsError.context.sourceLocation}"/>
+							<td th:text="${nibrsError.report.reportActionType}"/>
+							<td th:text="${nibrsError.report.ori}"/>
+							<td th:text="${nibrsError.reportUniqueIdentifier}"/>
+							<td th:text="${nibrsError.segmentTypeOutput}"/>
+							<td th:text="${nibrsError.offenseSegmentIdentifier}"/>
+							<td th:text="${nibrsError.OffenderArresteeVictimSegmentIdentifier}"/>
+							<td th:text="${nibrsError.propertySegmentIdentifier}"/>
+							<td th:text="${nibrsError.dataElementIdentifierOutput}"/>
+							<td th:text="${nibrsError.nIBRSErrorCode.code}" />
+							<td th:text="${rejectedValue}" />
+							<td th:text="${nibrsError.errorMessage}" />
+						</tr>
+					</th:block>
+					<tr th:case="*">
+						<td th:text="${nibrsError.dateOfTape}"/>
+						<td th:text="${nibrsError.context.sourceLocation}"/>
+						<td th:text="${nibrsError.report.reportActionType}"/>
+						<td th:text="${nibrsError.report.ori}"/>
+						<td th:text="${nibrsError.reportUniqueIdentifier}"/>
+						<td th:text="${nibrsError.segmentTypeOutput}"/>
+						<td th:text="${nibrsError.offenseSegmentIdentifier}"/>
+						<td th:text="${nibrsError.OffenderArresteeVictimSegmentIdentifier}"/>
+						<td th:text="${nibrsError.propertySegmentIdentifier}"/>
+						<td th:text="${nibrsError.dataElementIdentifierOutput}"/>
+						<td th:text="${nibrsError.nIBRSErrorCode.code}" />
+						<td th:text="${nibrsError.offendingValues}" />
+						<td th:text="${nibrsError.errorMessage}" />
+					</tr>
+				</th:block>
+			</th:block>
 		</tbody>
 	</table>
 </body>
