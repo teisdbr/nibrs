@@ -164,10 +164,25 @@ public enum OffenseCode {
 		).contains(code);
 	}
 	
+	public static final boolean isDrugNarcoticOffense(String code) {
+		return Arrays.asList(_35A.code, _35B.code).contains(code);
+	}
+	
 	public static final boolean containsCrimeAgainstPropertyCode(Collection<String> codes) {
 		return codes.stream().anyMatch(code -> isCrimeAgainstPropertyCode(code));
 	}
 
+	public static final boolean containsCrimeRequirePropertySegement(Collection<String> codes) {
+		return codes.stream().anyMatch(OffenseCode::isCrimeRequirePropertySegement);
+	}
+	
+	public static final boolean isCrimeRequirePropertySegement(String code) {
+		return isCrimeAgainstPropertyCode(code)
+				|| _100.code.equals(code)
+				|| isGamblingOffenseCode(code)
+				|| isDrugNarcoticOffense(code);
+	}
+	
 	public static final boolean isGamblingOffenseCode(String code) {
 		return codeMatchesRegex(code, "39[ABCD]");
 	}

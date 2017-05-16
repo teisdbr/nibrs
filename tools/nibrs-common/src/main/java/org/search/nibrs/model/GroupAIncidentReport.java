@@ -386,13 +386,26 @@ public class GroupAIncidentReport extends AbstractReport
     public boolean isDrugOffenseInvolved() {
 		return this.getOffenses().stream()
 			.filter(Objects::nonNull)
+			.anyMatch(item->OffenseCode.isDrugNarcoticOffense(item.getUcrOffenseCode()));
+    }
+
+    public boolean is35AOffenseInvolved() {
+		return this.getOffenses().stream()
+			.filter(Objects::nonNull)
 			.anyMatch(item->OffenseCode._35A.code.equals(item.getUcrOffenseCode()));
     }
-    
+
     public boolean isAgainstPropertyCrimeInvolved() {
     	return this.getOffenses().stream()
     			.filter(Objects::nonNull)
     			.anyMatch(item->OffenseCode.isCrimeAgainstPropertyCode(item.getUcrOffenseCode()));
+    }
+    
+    public boolean containsNon35ACrimeRequirePropertySegment() {
+    	return this.getOffenses().stream()
+    			.filter(Objects::nonNull)
+    			.filter(item->!OffenseCode._35A.code.equals(item.getUcrOffenseCode()))
+    			.anyMatch(item->OffenseCode.isCrimeRequirePropertySegement(item.getUcrOffenseCode()));
     }
     
 	@Override
