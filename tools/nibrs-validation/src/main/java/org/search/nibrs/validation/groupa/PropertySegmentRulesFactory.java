@@ -15,6 +15,9 @@
  */
 package org.search.nibrs.validation.groupa;
 
+import static org.search.nibrs.util.ArrayUtils.allNull;
+import static org.search.nibrs.util.ArrayUtils.notAllNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,9 +31,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static org.search.nibrs.util.ArrayUtils.allNull;
-import static org.search.nibrs.util.ArrayUtils.notAllNull;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -363,29 +363,50 @@ public class PropertySegmentRulesFactory {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
+				
 				List<OffenseSegment> offenses = ((GroupAIncidentReport)subject.getParentReport()).getOffenses();
-				for (OffenseSegment offense: offenses) {
-					
-					String offenseCode = offense.getUcrOffenseCode(); 
-					
-					if (OffenseCode.isCrimeAgainstPropertyCode(offenseCode) 
-							&& !TypeOfPropertyLossCode.noneOrUnknownValueCodeSet().contains(subject.getTypeOfPropertyLoss())){
-						List<String> illogicalPropertyDescriptions = 
-								PropertyDescriptionCode.getIllogicalPropertyDescriptions(offenseCode);
-						List<String> existingDescriptions = 
-								Arrays.stream(subject.getPropertyDescription())
-								.filter(Objects::nonNull)
-								.collect(Collectors.toList()); 
-						existingDescriptions.removeAll(illogicalPropertyDescriptions);
+				
+				List<String> offensesRequirePropertySegment = 
+						offenses.stream()
+							.map(item->item.getUcrOffenseCode())
+							.filter(OffenseCode::isCrimeRequirePropertySegement)
+							.collect(Collectors.toList()) ;
 						
-						if (existingDescriptions.isEmpty()) {
-							ret = subject.getErrorTemplate();
-							ret.setValue(null);
-							ret.setNIBRSErrorCode(NIBRSErrorCode._390);
-							ret.setDataElementIdentifier("15");
-							break;
-						}
+				if ( offensesRequirePropertySegment.size() == 0 ) 
+					return ret; 
+				
+				boolean containsOffensesWithoutIllogicalPropertyDescriptions = 
+						offensesRequirePropertySegment.stream()
+						.filter(offenseCode->!OffenseCode.isOffenseHavingIllogicalPropertyDescriptions(offenseCode))
+						.count() > 0 ; 
+				if (containsOffensesWithoutIllogicalPropertyDescriptions || TypeOfPropertyLossCode.noneOrUnknownValueCodeSet().contains(subject.getTypeOfPropertyLoss())){
+					return ret; 
+				}
+
+				List<String> existingDescriptions = 
+						Arrays.stream(subject.getPropertyDescription())
+						.filter(Objects::nonNull)
+						.collect(Collectors.toList()); 
+				boolean isLogicalPropertyDescription = false;
+				for (String offenseCode: offensesRequirePropertySegment) {
+					
+					List<String> illogicalPropertyDescriptions = 
+							PropertyDescriptionCode.getIllogicalPropertyDescriptions(offenseCode);
+					
+//					existingDescriptions.removeAll(illogicalPropertyDescriptions);
+					
+					if (!illogicalPropertyDescriptions.containsAll(existingDescriptions)) {
+						isLogicalPropertyDescription = true; 
+						break;
 					}
+						
+				}
+				
+				if (!isLogicalPropertyDescription){
+					ret = subject.getErrorTemplate();
+					ret.setValue(null);
+					ret.setNIBRSErrorCode(NIBRSErrorCode._390);
+					ret.setDataElementIdentifier("15");
 				}
 				return ret;
 			}

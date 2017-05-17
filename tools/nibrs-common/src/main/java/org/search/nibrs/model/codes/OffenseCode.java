@@ -202,5 +202,14 @@ public enum OffenseCode {
 	public static final boolean containsLarcenyOffenseCode(Collection<String> codes) {
 		return codes.stream().anyMatch(code -> isLarcenyOffenseCode(code));
 	}
+	
+	public static final boolean isOffenseHavingIllogicalPropertyDescriptions(String code){
+		return Arrays.asList(
+				_220.code, _240.code, _23A.code, _23B.code,
+				_23C.code, _23D.code, _23E.code,
+				_23F.code, _23G.code, _23H.code
+		).contains(code);
+
+	}
 
 }
