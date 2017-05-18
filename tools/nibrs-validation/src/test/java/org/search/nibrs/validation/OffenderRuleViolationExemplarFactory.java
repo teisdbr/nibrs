@@ -67,8 +67,11 @@ final class OffenderRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenders().get(0).setSex(SexCode.F.code);
+			copy.getOffenders().get(0).setOffenderSequenceNumber(new ParsedObject<Integer>(1));
 			copy.getOffenses().get(0).setUcrOffenseCode(OffenseCode._11A.code);
 			copy.getVictims().get(0).setSex(SexCode.F.code);
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, OffenseCode._11A.code);
+			copy.getVictims().get(0).setOffenderNumberRelated(0, new ParsedObject<Integer>(1));
 			incidents.add(copy);
 			return incidents;
 		});

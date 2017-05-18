@@ -395,6 +395,10 @@ public class VictimSegment extends AbstractPersonSegment {
 		return os != null && relatedOffenderNumbers.contains(os.getOffenderSequenceNumber().getValue());
 	}
 	
+	public boolean isVictimOfRape() {
+		return getUcrOffenseCodeList().contains(OffenseCode._11A.code);
+	}
+	
 	/**
 	 * Determine whether the specified offender committed an offense against this victim
 	 * @param os the offender

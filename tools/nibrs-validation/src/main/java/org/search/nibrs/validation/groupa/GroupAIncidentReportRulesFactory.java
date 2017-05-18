@@ -210,24 +210,24 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				boolean involvesRapeOffense = false;
-				for (OffenseSegment os : subject.getOffenses()) {
-					if (OffenseCode._11A.code.equals(os.getUcrOffenseCode())) {
-						involvesRapeOffense = true;
-						break;
-					}
-				}
-				if (involvesRapeOffense) {
-					Set<String> offenderSexes = new HashSet<>();
-					for (OffenderSegment os : subject.getOffenders()) {
-						offenderSexes.add(os.getSex());
-					}
-					offenderSexes.removeIf(item -> item == null);
-					if (offenderSexes.size() == 1) {
-						String offenderSex = offenderSexes.iterator().next();
-						for (VictimSegment vs : subject.getVictims()) {
+				
+				List<VictimSegment> victimsOfRape = subject.getVictims().stream()
+						.filter(VictimSegment::isVictimOfRape)
+						.collect(Collectors.toList());
+				
+				if (victimsOfRape.size() > 0) {
+					for (VictimSegment vs : victimsOfRape) {
+						List<Integer> validRelatedOffenderNumbers = vs.getDistinctValidRelatedOffenderNumberList(); 
+						if (validRelatedOffenderNumbers.size() > 0 
+							 && !validRelatedOffenderNumbers.contains(Integer.valueOf(0))){;
 							String victimSex = vs.getSex();
-							if (victimSex != null && victimSex.equals(offenderSex)) {
+							Set<String> relatedOffenderSexes = 
+									subject.getOffenders().stream()
+									.filter(offense->vs.isVictimOfOffender(offense))
+									.map(offense->offense.getSex())
+									.collect(Collectors.toSet()); 
+							relatedOffenderSexes.remove(victimSex);
+							if (victimSex != null && relatedOffenderSexes.size() == 0) {
 								ret = subject.getErrorTemplate();
 								ret.setNIBRSErrorCode(NIBRSErrorCode._560);
 								ret.setDataElementIdentifier("38");

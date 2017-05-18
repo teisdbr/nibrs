@@ -60,6 +60,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		NIBRSError e = rule.apply(report);
 		assertNull(e);
 		OffenderSegment offender = new OffenderSegment();
+		offender.setOffenderSequenceNumber(new ParsedObject<Integer>(1));
 		report.addOffender(offender);
 		OffenseSegment offense = new OffenseSegment();
 		report.addOffense(offense);
@@ -75,14 +76,21 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule.apply(report);
 		assertNull(e);
 		victim.setSex(SexCode.F.code);
+		victim.setUcrOffenseCodeConnection(0, OffenseCode._11A.code);
+		e = rule.apply(report);
+		assertNull(e); 
+		
+		victim.setOffenderNumberRelated(0, new ParsedObject<Integer>(1));
 		e = rule.apply(report);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._560, e.getNIBRSErrorCode());
 		assertEquals(victim.getSex(), e.getValue());
 		assertEquals("38", e.getDataElementIdentifier());
 		OffenderSegment offender2 = new OffenderSegment();
+		offender2.setOffenderSequenceNumber(new ParsedObject<Integer>(2));
 		report.addOffender(offender2);
 		offender2.setSex(SexCode.M.code);
+		victim.setOffenderNumberRelated(1, new ParsedObject<Integer>(2));
 		e = rule.apply(report);
 		assertNull(e);
 	}
