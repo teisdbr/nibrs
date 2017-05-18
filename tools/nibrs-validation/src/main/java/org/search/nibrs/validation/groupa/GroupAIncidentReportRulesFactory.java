@@ -419,19 +419,19 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
+				
+				boolean contains08AggravatedAssaultHomicideCircumstancesCode = subject.getVictims().stream()
+						.anyMatch(victim -> 
+							victim.getAggravatedAssaultHomicideCircumstancesList().contains(AggravatedAssaultHomicideCircumstancesCode._08.code));
+				
 				int victimCount = subject.getVictimCount();
 				int offenseCount = subject.getOffenseCount();
-				if (victimCount > 0 && offenseCount == 1) {
-					for (int i=0;i < victimCount && ret == null;i++) {
-						VictimSegment vs = subject.getVictims().get(i);
-						if (vs.getAggravatedAssaultHomicideCircumstancesList().contains(AggravatedAssaultHomicideCircumstancesCode._08.code)) {
-							ret = vs.getErrorTemplate();
-							ret.setValue(AggravatedAssaultHomicideCircumstancesCode._08.code);
-							ret.setDataElementIdentifier("31");
-							ret.setNIBRSErrorCode(NIBRSErrorCode._480);
-							ret.setCrossSegment(true);
-						}
-					}
+				if (contains08AggravatedAssaultHomicideCircumstancesCode && victimCount < 2 && offenseCount < 2) {
+					ret = subject.getVictims().get(0).getErrorTemplate();
+					ret.setValue(AggravatedAssaultHomicideCircumstancesCode._08.code);
+					ret.setDataElementIdentifier("31");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._480);
+					ret.setCrossSegment(true);
 				}
 				return ret;
 			}

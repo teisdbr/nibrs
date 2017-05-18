@@ -672,7 +672,7 @@ public class PropertySegmentRulesFactory {
 				ParsedObject<Integer>[] value = subject.getValueOfProperty();
 				for (int i = 0; i < value.length; i++) {
 					// since we don't have the "FBI assigned threshold", we just compare it to $1000000
-					if (value[i].getValue() != null && 1000000 < value[i].getValue()) {
+					if (value[i].getValue() != null && 1000000 <= value[i].getValue()) {
 						ret = subject.getErrorTemplate();
 						ret.setWarning(true);
 						ret.setNIBRSErrorCode(NIBRSErrorCode._342);
