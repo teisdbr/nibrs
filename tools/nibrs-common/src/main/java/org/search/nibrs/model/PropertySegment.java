@@ -18,7 +18,9 @@ package org.search.nibrs.model;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -107,6 +109,12 @@ public class PropertySegment extends AbstractSegment
 	}
 	public String[] getPropertyDescription() {
 		return propertyDescription;
+	}
+	
+	public List<String> getPropertyDescriptionList(){
+		return Arrays.stream(propertyDescription)
+				.filter(StringUtils::isNotBlank)
+				.collect(Collectors.toList());
 	}
 
 	public String[] getSuspectedDrugType() {

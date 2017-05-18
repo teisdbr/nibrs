@@ -244,8 +244,8 @@ public class PropertySegmentRulesFactory {
 					String typePropertyLoss = subject.getTypeOfPropertyLoss();
 					if ( ! ( drugOffense && typePropertyLoss != null 
 							&& (TypeOfPropertyLossCode._1.code.equals(typePropertyLoss)
-								|| (TypeOfPropertyLossCode._6.code.equals(typePropertyLoss) 
-										&& PropertyDescriptionCode._10.code.equals(subject.getPropertyDescription(0)))))) {
+								|| (TypeOfPropertyLossCode._6.code.equals(typePropertyLoss)
+										&& subject.getPropertyDescriptionList().contains(PropertyDescriptionCode._10.code))))) {
 						ret = subject.getErrorTemplate();
 						ret.setDataElementIdentifier("20");
 						
