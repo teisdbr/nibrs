@@ -221,6 +221,16 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     	return ret;
     }
 
+    public boolean isNotJuvenile() {
+    	// set forth in rule for data element 52
+    	NIBRSAge age = getAge();
+    	boolean ret = false;
+    	if (age != null && !age.isUnknown() && age.getError() == null) {
+    		ret = !(age.isNonNumeric() || age.getAgeMax() < 18 || (age.getAgeMin() < 18 && age.getAverage() < 18));
+    	}
+    	return ret;
+    }
+    
 	@Override
 	public Object getWithinSegmentIdentifier() {
 		return arresteeSequenceNumber.getValue();

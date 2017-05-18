@@ -655,6 +655,10 @@ public class ArresteeSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 		arresteeSegment.setAgeString(null);
 		nibrsError = rule.apply(arresteeSegment);
+		assertNull(nibrsError);
+		
+		arresteeSegment.setAgeString("18  ");
+		nibrsError = rule.apply(arresteeSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._653, nibrsError.getNIBRSErrorCode());
 		assertEquals("52", nibrsError.getDataElementIdentifier());

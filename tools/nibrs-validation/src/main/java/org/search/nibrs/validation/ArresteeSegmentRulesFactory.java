@@ -399,7 +399,8 @@ public class ArresteeSegmentRulesFactory {
 			@Override
 			public NIBRSError apply(ArresteeSegment arresteeSegment) {
 				NIBRSError e = null;
-				if (!arresteeSegment.isJuvenile() && arresteeSegment.getDispositionOfArresteeUnder18() != null) {
+				
+				if (arresteeSegment.getDispositionOfArresteeUnder18() != null && arresteeSegment.isNotJuvenile()) {
 					e = arresteeSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._653 : NIBRSErrorCode._753);
 					e.setDataElementIdentifier("52");

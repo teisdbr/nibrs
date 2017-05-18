@@ -131,6 +131,7 @@ public final class ErrorExporter {
 		bw.write(line);
 		bw.newLine();
 		bw.flush();
+		bw.close();
 	}
 
 	String modifyLine(String line, int beginPosition, int endPosition, String string) {
