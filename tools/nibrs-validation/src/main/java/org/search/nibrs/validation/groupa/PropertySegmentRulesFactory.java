@@ -69,9 +69,10 @@ public class PropertySegmentRulesFactory {
 			for (OffenseSegment os : ((GroupAIncidentReport) subject.getParentReport()).getOffenses()) {
 				if (OffenseCode._240.code.equals(os.getUcrOffenseCode())) {
 					mvOffenseInvolved = true;
-				}
-				if (OffenseAttemptedCompletedCode.A.code.equals(os.getOffenseAttemptedCompleted())) {
-					offenseAttempted = true;
+					
+					if (OffenseAttemptedCompletedCode.A.code.equals(os.getOffenseAttemptedCompleted())) {
+						offenseAttempted = true;
+					}
 				}
 			}
 			String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
@@ -416,10 +417,16 @@ public class PropertySegmentRulesFactory {
 	Rule<PropertySegment> getRule361() {
 		return new StolenMotorVehiclesRule(false) {
 			protected NIBRSError evaluateRule(boolean nmvNull, boolean mvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
+				
+				boolean completeMvOffenseInvolved = ((GroupAIncidentReport) subject.getParentReport()).getOffenses()
+						.stream()
+						.anyMatch(offense-> OffenseCode._240.code.equals(offense.getUcrOffenseCode()) 
+								&& OffenseAttemptedCompletedCode.C.code.equals(offense.getOffenseAttemptedCompleted()));
+						
 				NIBRSError ret = null;
 				if (nmvNull && ((typeOfPropertyLoss != null 
 						&& TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) 
-						&& mvOffenseInvolved
+						&& completeMvOffenseInvolved
 						&& subject.containsVehiclePropertyCodes())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getNumberOfStolenMotorVehicles());
