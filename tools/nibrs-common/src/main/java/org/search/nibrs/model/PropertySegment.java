@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 /**
@@ -115,6 +116,12 @@ public class PropertySegment extends AbstractSegment
 		return Arrays.stream(propertyDescription)
 				.filter(StringUtils::isNotBlank)
 				.collect(Collectors.toList());
+	}
+	
+	public boolean containsVehiclePropertyCodes(){
+		return getPropertyDescriptionList()
+				.stream()
+				.anyMatch(PropertyDescriptionCode::isMotorVehicleCode);
 	}
 
 	public String[] getSuspectedDrugType() {

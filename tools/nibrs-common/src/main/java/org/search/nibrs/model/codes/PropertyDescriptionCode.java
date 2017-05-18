@@ -323,7 +323,8 @@ public enum PropertyDescriptionCode {
 	}
 	
 	public static final boolean isMotorVehicleCode(String code) {
-		return _03.code.equals(code) || _05.code.equals(code);
+		return Arrays.asList(_03.code, _05.code, 
+				_24.code, _28.code, _37.code ).contains(code);
 	}
 	
 	public static final boolean containsMotorVehicleCode(Collection<String> codes) {

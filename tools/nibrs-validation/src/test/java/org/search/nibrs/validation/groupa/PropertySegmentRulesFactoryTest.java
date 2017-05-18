@@ -310,6 +310,10 @@ public class PropertySegmentRulesFactoryTest {
 		
 		p.setNumberOfRecoveredMotorVehicles(new ParsedObject<Integer>());
 		e = rule.apply(p);
+		assertNull(e);
+		
+		p.setPropertyDescription(0, PropertyDescriptionCode._03.code);
+		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._361, e.getNIBRSErrorCode());
 		assertEquals("19", e.getDataElementIdentifier());

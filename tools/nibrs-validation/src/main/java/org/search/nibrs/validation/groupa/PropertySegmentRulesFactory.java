@@ -419,7 +419,8 @@ public class PropertySegmentRulesFactory {
 				NIBRSError ret = null;
 				if (nmvNull && ((typeOfPropertyLoss != null 
 						&& TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) 
-						&& mvOffenseInvolved)) {
+						&& mvOffenseInvolved
+						&& subject.containsVehiclePropertyCodes())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getNumberOfStolenMotorVehicles());
 					ret.setNIBRSErrorCode(NIBRSErrorCode._361);
