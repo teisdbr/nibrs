@@ -555,6 +555,7 @@ public class PropertySegmentRulesFactory {
 				String loss = subject.getTypeOfPropertyLoss();
 				boolean drugOffense35AInvolved = ((GroupAIncidentReport) subject.getParentReport()).is35AOffenseInvolved();
 				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport()).containsNon35ACrimeRequirePropertySegment();
+				boolean isRule392Exception2 = ((GroupAIncidentReport) subject.getParentReport()).isRule392Exception2();
 				
 				Object value = null;
 				if ((TypeOfPropertyLossCode._8.code.equals(loss) || (TypeOfPropertyLossCode._1.code.equals(loss) && !drugOffense35AInvolved)) &&
@@ -568,9 +569,9 @@ public class PropertySegmentRulesFactory {
 								allNull(subject.getTypeDrugMeasurement())
 								)) {
 					value = loss; // not the best, but will work for now
-				} else if (TypeOfPropertyLossCode._1.code.equals(loss) && drugOffense35AInvolved &&
-						!otherOffenseRequirePropertySegment &&
-						!(allNull(subject.getPropertyDescription()) &&
+				} else if (TypeOfPropertyLossCode._1.code.equals(loss) && drugOffense35AInvolved 
+						&& !otherOffenseRequirePropertySegment && !isRule392Exception2 
+						&& !(allNull(subject.getPropertyDescription()) &&
 							allNull(subject.getValueOfProperty()) &&
 							allNull(subject.getDateRecovered()) &&
 							(subject.getNumberOfRecoveredMotorVehicles().getValue() == null) &&

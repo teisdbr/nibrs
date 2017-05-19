@@ -26,6 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 /**
@@ -406,6 +407,14 @@ public class GroupAIncidentReport extends AbstractReport
     			.filter(Objects::nonNull)
     			.filter(item->!OffenseCode._35A.code.equals(item.getUcrOffenseCode()))
     			.anyMatch(item->OffenseCode.isCrimeRequirePropertySegement(item.getUcrOffenseCode()));
+    }
+    
+    public boolean isRule392Exception2() {
+    	return getPropertyCount() > 1 && 
+    			this.getProperties().stream()
+    			.filter(Objects::nonNull)
+    			.anyMatch(item-> TypeOfPropertyLossCode._6.code.equals(item.getTypeOfPropertyLoss())
+    					&& item.containsPropertyDescription(PropertyDescriptionCode._10.code));
     }
     
 	@Override
