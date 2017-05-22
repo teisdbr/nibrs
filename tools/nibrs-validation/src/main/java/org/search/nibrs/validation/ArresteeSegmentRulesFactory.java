@@ -111,6 +111,7 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX04ForResidentStatus());
 		rulesList.add(getRuleX04ForDispositionOfArresteeUnder18());
 		rulesList.add(getRuleX41());
+		rulesList.add(getRuleX40());
 		rulesList.add(getRuleX52());
 		rulesList.add(getRuleX53());
 		rulesList.add(getRuleX05());
@@ -437,6 +438,36 @@ public class ArresteeSegmentRulesFactory {
 					e.setValue("99");
 				}
 				return e;
+			}
+		};
+	}
+	
+	Rule<ArresteeSegment> getRuleX40() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
+				
+				char reportActionType = getReportActionType(arresteeSegment);
+				
+				if ('D' != reportActionType && arresteeSegment.isJuvenile() && arresteeSegment.getDispositionOfArresteeUnder18() == null) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._640 : NIBRSErrorCode._740);
+					e.setDataElementIdentifier("52");
+				}
+				return e;
+			}
+
+			private char getReportActionType(ArresteeSegment arresteeSegment) {
+				char reportActionType = ' ';
+				
+				if (isGroupAMode()){
+					reportActionType = ((GroupAIncidentReport) arresteeSegment.getParentReport()).getReportActionType();
+				}
+				else{
+					reportActionType = ((GroupBArrestReport) arresteeSegment.getParentReport()).getReportActionType();
+				}
+				return reportActionType;
 			}
 		};
 	}
