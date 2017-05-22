@@ -117,6 +117,13 @@ public final class ErrorExporter {
 					bw.newLine();
 				}
 			}
+			else if (error.getRuleNumber().equals("342")){
+				for (String invalidValue : (List<String>)error.getValue()){
+					line = modifyLine(line, 50 - 1, 61, invalidValue);
+					bw.write(line);
+					bw.newLine();
+				}
+			}
 			else { 
 				if (offendingValues != null){
 					line = modifyLine(line, 50 - 1, 61, StringUtils.rightPad(offendingValues, 12));

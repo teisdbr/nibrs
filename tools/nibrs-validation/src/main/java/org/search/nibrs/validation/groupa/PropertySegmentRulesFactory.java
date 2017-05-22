@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
@@ -670,16 +671,17 @@ public class PropertySegmentRulesFactory {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
-				ParsedObject<Integer>[] value = subject.getValueOfProperty();
-				for (int i = 0; i < value.length; i++) {
-					// since we don't have the "FBI assigned threshold", we just compare it to $1000000
-					if (value[i].getValue() != null && 1000000 <= value[i].getValue()) {
-						ret = subject.getErrorTemplate();
-						ret.setWarning(true);
-						ret.setNIBRSErrorCode(NIBRSErrorCode._342);
-						ret.setValue(value[i].getValue());
-						ret.setDataElementIdentifier("16");
-					}
+				List<String> value = Arrays.stream(subject.getValueOfProperty())
+						.filter(item-> item.getValue() != null && 1000000 <= item.getValue())
+						.map(item -> String.valueOf(item.getValue()))
+						.map(item -> StringUtils.leftPad(item, 9, '0'))
+						.collect(Collectors.toList());
+				if ( value != null && value.size() > 0) {
+					ret = subject.getErrorTemplate();
+					ret.setWarning(true);
+					ret.setNIBRSErrorCode(NIBRSErrorCode._342);
+					ret.setValue(value);
+					ret.setDataElementIdentifier("16");
 				}
 				return ret;
 			}

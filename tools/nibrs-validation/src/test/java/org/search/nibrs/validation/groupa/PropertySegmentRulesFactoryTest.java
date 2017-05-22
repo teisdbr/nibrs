@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -671,7 +672,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
 		assertEquals("16", e.getDataElementIdentifier());
-		assertEquals(10000000, e.getValue());
+		assertEquals(Arrays.asList("010000000"), e.getValue());
 		assertEquals(NIBRSErrorCode._342, e.getNIBRSErrorCode());
 		assertTrue(e.isWarning());
 	}
