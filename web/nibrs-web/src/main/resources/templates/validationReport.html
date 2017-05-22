@@ -56,7 +56,8 @@
 		</thead>
 		<tbody>
 			<th:block th:each="nibrsError: ${errorList}">
-				<th:block th:switch="${nibrsError.ruleNumber == '404' and nibrsError.dataElementIdentifier == '35'}">
+				<th:block th:switch="${(nibrsError.ruleNumber == '404' and nibrsError.dataElementIdentifier == '35') 
+						or nibrsError.ruleNumber == '342'}">
 					<th:block th:case="true">
 						<tr th:each="rejectedValue:${#lists.toList(nibrsError.value)}">
 							<td th:text="${nibrsError.dateOfTape}"/>
