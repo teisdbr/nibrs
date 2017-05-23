@@ -1203,7 +1203,11 @@ public class VictimSegmentRulesFactory {
 			public NIBRSError apply(VictimSegment victimSegment) {
 				NIBRSError e = null;
 				GroupAIncidentReport incident = (GroupAIncidentReport) victimSegment.getParentReport();
-				List<Integer> offenderNumberList = victimSegment.getDistinctValidRelatedOffenderNumberList();
+				List<Integer> offenderNumberList = Arrays.stream(victimSegment.getOffenderNumberRelated())
+						.filter(Objects::nonNull)
+						.filter(item->item.getValue() != null)
+						.map(item->item.getValue())
+						.collect(Collectors.toList());
 				List<String> relationshipList = victimSegment.getVictimOffenderRelationshipList();
 				for (int i=0;i < offenderNumberList.size() && e == null;i++) {
 					Integer offenderNumber = offenderNumberList.get(i);

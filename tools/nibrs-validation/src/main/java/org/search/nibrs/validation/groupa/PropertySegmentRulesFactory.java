@@ -94,13 +94,8 @@ public class PropertySegmentRulesFactory {
 		public NIBRSError apply(PropertySegment subject) {
 			NIBRSError ret = null;
 			GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
-			boolean drugOffense = false;
-			for (OffenseSegment os : parent.getOffenses()) {
-				if (OffenseCode._35A.code.equals(os.getUcrOffenseCode())) {
-					drugOffense = true;
-					break;
-				}
-			}
+			boolean drugOffense = parent.is35AOffenseInvolved();
+			
 			String typePropertyLoss = subject.getTypeOfPropertyLoss();
 			if (drugOffense && typePropertyLoss != null && TypeOfPropertyLossCode._6.code.equals(typePropertyLoss)) {
 				if (evaluateProperty(subject)) {
@@ -115,7 +110,7 @@ public class PropertySegmentRulesFactory {
 		private boolean evaluateProperty(PropertySegment segment) {
 			boolean ret = false;
 			for (int i=0;i < 10;i++) {
-				if (PropertyDescriptionCode._10.code.equals(segment.getPropertyDescription(i))) {
+				if (PropertyDescriptionCode._10.code.equals(segment.getPropertyDescription(i)) && notAllNull(segment.getSuspectedDrugType())) {
 					if (allNull(getDrugElementArray(segment))) {
 						ret = true;
 						break;
@@ -167,7 +162,6 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule362());
 		rulesList.add(getRule363forQuantity());
 		rulesList.add(getRule363forMeasurement());
-		rulesList.add(getRule364forType());
 		rulesList.add(getRule364forQuantity());
 		rulesList.add(getRule364forMeasurement());
 		rulesList.add(getRule365());
@@ -218,16 +212,6 @@ public class PropertySegmentRulesFactory {
 			@Override
 			protected Object[] getDrugElementArray(PropertySegment segment) {
 				return segment.getEstimatedDrugQuantity();
-			}
-
-		};
-	}
-	
-	Rule<PropertySegment> getRule364forType() {
-		return new Rule364("20") {
-			@Override
-			protected String[] getDrugElementArray(PropertySegment segment) {
-				return segment.getSuspectedDrugType();
 			}
 
 		};

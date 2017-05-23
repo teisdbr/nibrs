@@ -145,11 +145,6 @@ public class PropertySegmentRulesFactoryTest {
 		testRule364_common(rulesFactory.getRule364forQuantity(), "21");
 	}
 
-	@Test
-	public void testRule364ForType() {
-		testRule364_common(rulesFactory.getRule364forType(), "20");
-	}
-
 	private void testRule364_common(Rule<PropertySegment> rule, String expectedDataElementIdentifier) {
 		PropertySegment p = buildBaseSegment();
 		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
@@ -167,6 +162,9 @@ public class PropertySegmentRulesFactoryTest {
 		e = rule.apply(p);
 		assertNull(e);
 		p.setPropertyDescription(0, PropertyDescriptionCode._10.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._A.code);
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._364, e.getNIBRSErrorCode());
