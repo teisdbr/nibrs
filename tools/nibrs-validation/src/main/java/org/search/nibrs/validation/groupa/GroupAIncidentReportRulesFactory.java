@@ -834,7 +834,7 @@ public class GroupAIncidentReportRulesFactory {
 								&& (OffenseCode.isCrimeAgainstPropertyCode(offense.getUcrOffenseCode()) 
 									|| OffenseCode.isGamblingOffenseCode(offense.getUcrOffenseCode())
 									|| OffenseCode._100.code.equals(offense.getUcrOffenseCode()) 
-									|| OffenseCode._35A.code.equals(offense.getUcrOffenseCode()))
+									|| OffenseCode.isDrugNarcoticOffense(offense.getUcrOffenseCode()))
 							)))
 						.collect(Collectors.toList()); 
 									
