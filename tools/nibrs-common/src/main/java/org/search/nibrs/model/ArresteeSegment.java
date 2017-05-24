@@ -251,5 +251,19 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	public boolean isUnknown() {
 		return false;
 	}
+	
+	public char getReportActionType() {
+		char reportActionType = ' ';
+		
+		if (isGroupA()){
+			reportActionType = ((GroupAIncidentReport) this.getParentReport()).getReportActionType();
+		}
+		else{
+			reportActionType = ((GroupBArrestReport) this.getParentReport()).getReportActionType();
+		}
+		return reportActionType;
+	}
+	
+
 
 }

@@ -31,7 +31,6 @@ import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
-import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.codes.ArresteeWasArmedWithCode;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
@@ -420,14 +419,7 @@ public class ArresteeSegmentRulesFactory {
 			public NIBRSError apply(ArresteeSegment arresteeSegment) {
 				NIBRSError e = null;
 				
-				char reportActionType = ' ';
-				
-				if (isGroupAMode()){
-					reportActionType = ((GroupAIncidentReport) arresteeSegment.getParentReport()).getReportActionType();
-				}
-				else{
-					reportActionType = ((GroupBArrestReport) arresteeSegment.getParentReport()).getReportActionType();
-				}
+				char reportActionType = arresteeSegment.getReportActionType();
 				
 				NIBRSAge arresteeAge = arresteeSegment.getAge();
 				
@@ -448,7 +440,7 @@ public class ArresteeSegmentRulesFactory {
 			public NIBRSError apply(ArresteeSegment arresteeSegment) {
 				NIBRSError e = null;
 				
-				char reportActionType = getReportActionType(arresteeSegment);
+				char reportActionType = arresteeSegment.getReportActionType();
 				
 				if ('D' != reportActionType && arresteeSegment.isJuvenile() && arresteeSegment.getDispositionOfArresteeUnder18() == null) {
 					e = arresteeSegment.getErrorTemplate();
@@ -458,17 +450,25 @@ public class ArresteeSegmentRulesFactory {
 				return e;
 			}
 
-			private char getReportActionType(ArresteeSegment arresteeSegment) {
-				char reportActionType = ' ';
+		};
+	}
+	
+	Rule<ArresteeSegment> getRuleX20() {
+		return new Rule<ArresteeSegment>() {
+			@Override
+			public NIBRSError apply(ArresteeSegment arresteeSegment) {
+				NIBRSError e = null;
 				
-				if (isGroupAMode()){
-					reportActionType = ((GroupAIncidentReport) arresteeSegment.getParentReport()).getReportActionType();
+				char reportActionType = arresteeSegment.getReportActionType();
+				
+				if ('D' != reportActionType && arresteeSegment.isJuvenile() && arresteeSegment.getDispositionOfArresteeUnder18() == null) {
+					e = arresteeSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._640 : NIBRSErrorCode._740);
+					e.setDataElementIdentifier("52");
 				}
-				else{
-					reportActionType = ((GroupBArrestReport) arresteeSegment.getParentReport()).getReportActionType();
-				}
-				return reportActionType;
+				return e;
 			}
+			
 		};
 	}
 	

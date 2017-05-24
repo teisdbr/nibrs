@@ -20,6 +20,9 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ValidationTarget;
+import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
@@ -47,6 +50,20 @@ public class ValidValueListRule<T extends ValidationTarget> extends AbstractBean
 	@Override
 	protected boolean propertyViolatesRule(Object value, T subject) {
 		boolean ret = false;
+		
+		char reportActionType = ' '; 
+		if (subject instanceof GroupAIncidentReport){
+			reportActionType =((GroupAIncidentReport)subject).getReportActionType() ; 
+		}
+		else if (subject instanceof GroupBArrestReport){
+			reportActionType =((GroupBArrestReport)subject).getReportActionType() ;
+		}
+		else if (subject instanceof ArresteeSegment){
+			reportActionType = ((ArresteeSegment) subject).getReportActionType();
+		}
+		
+		if (reportActionType == 'D') return ret; 
+		
 		if (!nullAllowed && value == null) {
 			ret = true;
 		} else if (value != null) {
