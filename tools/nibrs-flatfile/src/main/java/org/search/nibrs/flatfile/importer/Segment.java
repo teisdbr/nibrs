@@ -89,7 +89,7 @@ public class Segment
 	        if (e == null) {
 	        	this.segmentUniqueIdentifier = StringUtils.getStringBetween(26, 37, data);
 	        	this.ori = StringUtils.getStringBetween(17, 25, data);
-	        	this.actionType = StringUtils.getStringBetween(6, 6, data).charAt(0);
+	        	this.actionType =  data.charAt(5);
 	        	this.segmentLevel = StringUtils.getStringBetween(5, 5, data).charAt(0);
 	        }
 		}

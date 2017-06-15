@@ -33,7 +33,7 @@ public final class StringUtils
      */
     public static final String getStringBetween(int begin, int end, String s)
     {
-        if (s == null || s.length() == 0)
+        if (s == null || s.length() == 0 || s.length() < end)
         {
             return null;
         }

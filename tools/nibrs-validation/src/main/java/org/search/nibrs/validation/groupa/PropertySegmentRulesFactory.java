@@ -136,6 +136,7 @@ public class PropertySegmentRulesFactory {
 		zeroValuePropertyDescriptions.add(PropertyDescriptionCode._65.code);
 		zeroValuePropertyDescriptions.add(PropertyDescriptionCode._66.code);
 		
+		rulesList.add(getRule301ForSuspectedDrugType());
 		rulesList.add(getRule304ForTypePropertyLoss());
 		rulesList.add(getRule304ForListBoundElement("propertyDescription", "15", PropertyDescriptionCode.codeSet()));
 		rulesList.add(getRule304ForListBoundElement("suspectedDrugType", "20", SuspectedDrugTypeCode.codeSet()));
@@ -172,6 +173,27 @@ public class PropertySegmentRulesFactory {
 		
 	}
 	
+	private Rule<PropertySegment> getRule301ForSuspectedDrugType() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				for (int i=0;i < 3;i++) {
+					Double drugQuantity = subject.getEstimatedDrugQuantity(i);
+					if (drugQuantity != null) {
+						double d = drugQuantity.doubleValue();
+						if (d < 0 || d > 100000000) {
+							ret = subject.getErrorTemplate();
+							ret.setDataElementIdentifier("20");
+							ret.setNIBRSErrorCode(NIBRSErrorCode._301);
+						}
+					}
+				}
+				return ret;
+			}
+		};
+	}
+
 	Rule<PropertySegment> getRule367() {
 		Set<String> allowedCodes = new HashSet<>();
 		allowedCodes.add(SuspectedDrugTypeCode._E.code);

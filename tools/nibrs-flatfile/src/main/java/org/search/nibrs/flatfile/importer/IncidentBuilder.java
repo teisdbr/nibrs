@@ -127,7 +127,7 @@ public class IncidentBuilder {
 				} else {
 					int errorListSize = errorList.size();
 					addSegmentToIncident((GroupAIncidentReport) currentReport, s, errorList);
-					if (errorList.size() > errorListSize) {
+					if (errorList.size() > errorListSize && currentReport != null) {
 						currentReport.setHasUpstreamErrors(true);
 					}
 				}
@@ -403,13 +403,14 @@ public class IncidentBuilder {
 					newIncident.setIncludesCargoTheft(true);
 				}
 				else{
-					NIBRSError e = new NIBRSError();
-					e.setContext(s.getReportSource());
-					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-					e.setSegmentType(s.getSegmentType());
-					e.setDataElementIdentifier("2A");
-					e.setNIBRSErrorCode(NIBRSErrorCode._101);
-					newErrorList.add(e);
+					//TODO comment out temporarily  --hw
+//					NIBRSError e = new NIBRSError();
+//					e.setContext(s.getReportSource());
+//					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+//					e.setSegmentType(s.getSegmentType());
+//					e.setDataElementIdentifier("2A");
+//					e.setNIBRSErrorCode(NIBRSErrorCode._101);
+//					newErrorList.add(e);
 				}
 			}
 			
@@ -624,7 +625,8 @@ public class IncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
-		if (length == 129 || length >= 141) {
+// comment out temporarily for Hawaii file validation. TODO  -hw		
+//		if (length == 129 || length >= 141) {
 
 			Integer sequenceNumberI = null;
 			ParsedObject<Integer> sequenceNumber = newVictim.getVictimSequenceNumber();
@@ -709,9 +711,10 @@ public class IncidentBuilder {
 			}
 			
 			parentIncident.setIncludesLeoka(leoka);
-
-		} else {
-			NIBRSError e = new NIBRSError();
+//TODO temporary change for Hawaii file validation. 
+//		} else {
+		if (!(length == 129 || length >= 141)){
+				NIBRSError e = new NIBRSError();
 			e.setContext(s.getReportSource());
 			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
 			e.setSegmentType(s.getSegmentType());
