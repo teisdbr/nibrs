@@ -565,24 +565,37 @@ public class GroupAIncidentReportRulesFactory {
 				NIBRSError ret = null;
 				int propertyCount = subject.getPropertyCount();
 				if (propertyCount > 0 && subject.getOffenseCount() > 0) {
-					boolean allLarceny = true;
+					boolean containsLarcency = subject.getOffenses()
+							.stream()
+							.filter(Objects::nonNull)
+							.anyMatch(offense->OffenseCode.isLarcenyOffenseCode(offense.getUcrOffenseCode()));
+					boolean hasOtherStolenVehicleCrime = false;
 					for (OffenseSegment os : subject.getOffenses()) {
 						String offenseCode = os.getUcrOffenseCode();
-						if (!OffenseCode.isLarcenyOffenseCode(offenseCode)) {
-							allLarceny = false;
-							break;
+						if (OffenseCode.isCrimeAgainstStolenVehiclePropertyCode(offenseCode) 
+								&& !OffenseCode.isLarcenyOffenseCode(offenseCode)) {
+							if (!os.getOffenseAttemptedIndicator()){
+								hasOtherStolenVehicleCrime = true;
+								break;
+							}
 						}
 					}
-					boolean motorVehicleSubmitted = false;
-					for (int i=0;i < propertyCount && !motorVehicleSubmitted;i++) {
+					boolean stolenMotorVehicleSubmitted = false;
+					String propertyDescriptionValue = null;
+					for (int i=0;i < propertyCount && !stolenMotorVehicleSubmitted;i++) {
 						PropertySegment ps = subject.getProperties().get(i);
-						for (int j=0;j < PropertySegment.PROPERTY_DESCRIPTION_COUNT && !motorVehicleSubmitted;j++) {
-							motorVehicleSubmitted = PropertyDescriptionCode.isMotorVehicleCode(ps.getPropertyDescription(j));
+						boolean isStolen = TypeOfPropertyLossCode._7.code.equals(ps.getTypeOfPropertyLoss());
+						
+						if (isStolen){
+							for (int j=0;j < PropertySegment.PROPERTY_DESCRIPTION_COUNT && !stolenMotorVehicleSubmitted;j++) {
+								stolenMotorVehicleSubmitted = PropertyDescriptionCode.isMotorVehicleCode(ps.getPropertyDescription(j));
+								propertyDescriptionValue = ps.getPropertyDescription(j);
+							}
 						}
 					}
-					if (allLarceny && motorVehicleSubmitted) {
+					if (containsLarcency && !hasOtherStolenVehicleCrime && stolenMotorVehicleSubmitted) {
 						ret = subject.getErrorTemplate();
-						ret.setValue(null);
+						ret.setValue(propertyDescriptionValue);
 						ret.setDataElementIdentifier("15");
 						ret.setNIBRSErrorCode(NIBRSErrorCode._268);
 						ret.setCrossSegment(true);

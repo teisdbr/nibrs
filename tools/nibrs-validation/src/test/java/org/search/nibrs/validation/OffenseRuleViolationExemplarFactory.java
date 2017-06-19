@@ -839,7 +839,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy.getOffenses().get(0).setUcrOffenseCode("23A");
 			PropertySegment property = new PropertySegment();
 			copy.addProperty(property);
-			property.setTypeOfPropertyLoss("07");
+			property.setTypeOfPropertyLoss("7");
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23B
@@ -847,7 +847,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy2.getOffenses().get(0).setUcrOffenseCode("23B");
 			PropertySegment property2 = new PropertySegment();
 			copy2.addProperty(property);
-			property2.setTypeOfPropertyLoss("07");
+			property2.setTypeOfPropertyLoss("7");
 			property2.setPropertyDescription(0, "03");
 			property2.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23C
@@ -855,7 +855,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy3.getOffenses().get(0).setUcrOffenseCode("23C");
 			PropertySegment property3 = new PropertySegment();
 			copy3.addProperty(property);
-			property3.setTypeOfPropertyLoss("07");
+			property3.setTypeOfPropertyLoss("7");
 			property3.setPropertyDescription(0, "03");
 			property3.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23D
@@ -863,7 +863,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy4.getOffenses().get(0).setUcrOffenseCode("23D");
 			PropertySegment property4 = new PropertySegment();
 			copy4.addProperty(property);
-			property4.setTypeOfPropertyLoss("07");
+			property4.setTypeOfPropertyLoss("7");
 			property4.setPropertyDescription(0, "03");
 			property4.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23E
@@ -871,7 +871,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy5.getOffenses().get(0).setUcrOffenseCode("23E");
 			PropertySegment property5 = new PropertySegment();
 			copy5.addProperty(property);
-			property5.setTypeOfPropertyLoss("07");
+			property5.setTypeOfPropertyLoss("7");
 			property5.setPropertyDescription(0, "03");
 			property5.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23F
@@ -879,7 +879,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy6.getOffenses().get(0).setUcrOffenseCode("23F");
 			PropertySegment property6 = new PropertySegment();
 			copy6.addProperty(property);
-			property6.setTypeOfPropertyLoss("07");
+			property6.setTypeOfPropertyLoss("7");
 			property6.setPropertyDescription(0, "03");
 			property6.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23G
@@ -887,7 +887,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy7.getOffenses().get(0).setUcrOffenseCode("23G");
 			PropertySegment property7 = new PropertySegment();
 			copy7.addProperty(property);
-			property7.setTypeOfPropertyLoss("07");
+			property7.setTypeOfPropertyLoss("7");
 			property7.setPropertyDescription(0, "03");
 			property7.setValueOfProperty(0, new ParsedObject<>(10000));
 			//23H
@@ -895,7 +895,7 @@ final class OffenseRuleViolationExemplarFactory {
 			copy8.getOffenses().get(0).setUcrOffenseCode("23H");
 			PropertySegment property8 = new PropertySegment();
 			copy8.addProperty(property);
-			property8.setTypeOfPropertyLoss("07");
+			property8.setTypeOfPropertyLoss("7");
 			property8.setPropertyDescription(0, "03");
 			property8.setValueOfProperty(0, new ParsedObject<>(10000));
 			

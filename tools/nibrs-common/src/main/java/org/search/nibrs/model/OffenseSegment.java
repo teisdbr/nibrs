@@ -109,6 +109,11 @@ public class OffenseSegment extends AbstractSegment
     	return automaticWeaponIndicator;
     }
 
+    @Override
+    protected void setParentReport(AbstractReport parentReport) {
+    	super.setParentReport(parentReport);
+    }
+
     public void setAutomaticWeaponIndicator(int position, String value)
     {
         automaticWeaponIndicator[position] = value;

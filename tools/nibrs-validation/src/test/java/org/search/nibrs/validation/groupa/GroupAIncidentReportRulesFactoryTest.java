@@ -427,11 +427,14 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNull(e);
 		ps.setPropertyDescription(1, PropertyDescriptionCode._03.code);
 		e = rule.apply(report);
+		assertNull(e);
+		ps.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+		e = rule.apply(report);
 		assertNotNull(e);
 		assertEquals("15", e.getDataElementIdentifier());
 		assertEquals(NIBRSErrorCode._268, e.getNIBRSErrorCode());
-		assertNull(e.getValue());
-		os.setUcrOffenseCode(OffenseCode._13A.code);
+		assertEquals(e.getValue(), "03");
+		os.setUcrOffenseCode(OffenseCode._220.code);
 		e = rule.apply(report);
 		assertNull(e);
 		os = new OffenseSegment();

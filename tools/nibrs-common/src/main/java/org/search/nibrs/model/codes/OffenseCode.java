@@ -164,6 +164,19 @@ public enum OffenseCode {
 		).contains(code);
 	}
 	
+	public static final boolean isCrimeAgainstStolenVehiclePropertyCode(String code) {
+		return Arrays.asList(
+				_510.code, _220.code, 
+				_270.code, _210.code,
+				_26A.code, _26B.code, _26C.code,
+				_26D.code, _26E.code, _26F.code,
+				_26G.code, _23A.code, _23B.code,
+				_23C.code, _23D.code, _23E.code,
+				_23F.code, _23G.code, _23H.code,
+				_240.code, _120.code					
+				).contains(code);
+	}
+	
 	public static final boolean isDrugNarcoticOffense(String code) {
 		return Arrays.asList(_35A.code, _35B.code).contains(code);
 	}
