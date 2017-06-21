@@ -73,3 +73,16 @@ body{
 .box.has-advanced-upload .box__dragndrop {
   display: inline;
 }
+
+#loadingAjaxPane  { 
+	position: absolute;
+	background-color: #7e7e7e;
+	opacity: 0.75;
+	filter: alpha(opacity=75);
+	background-image: url('../images/loading.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+	
+	z-index: 10000;
+}
+

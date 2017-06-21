@@ -18,34 +18,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>NIBRS Report Validating</title>
+	<title>NIBRS Report Validating Error</title>
     <link type="text/css" rel="stylesheet" th:href="@{/css/nibrs.web.css}"/>
     <script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/js/nibrsweb.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/datatables/1.10.13/js/jquery.dataTables.js}"></script>
 </head>
 <body>
-<!--
- 		<form method="POST" enctype="multipart/form-data" action="/">
-			<table>
-				<tr><td>File to validate:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Validate" /></td></tr>
-			</table>
-		</form>
- -->
- 	
-	<div id="loadingAjaxPane" ></div>
- 	<div id="mainContent">
-		<div id="errorMsg"></div>
-		<form method="POST" enctype="multipart/form-data" th:action="@{/}" class="box">
-		  	<div id="uploads"></div>
-		 	<div class="dropzone" id="dropzone">
-		 		<input type="file" name="file" id="file" class="inputfile" form="fileform"/>  
-		 		<label for="file" class="inputfileLabel"><Strong>Choose</Strong> </label> or drop file here to validate
-	 		</div>		
-		</form>
-	</div>	
-
- 
+	<div id="$errorMsg">There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).</div>
 </body>
 </html>

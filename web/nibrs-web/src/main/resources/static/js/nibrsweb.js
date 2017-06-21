@@ -19,11 +19,29 @@ var isAdvancedUpload = function() {
 }();
 
 $(function(){
+	xhr = null;
+	$.ajaxSetup ({
+	      // Disable caching of AJAX responses on IE.
+	      cache: false
+	});
 	
+    ojbc.handleEsc();
+
+ 	$(document).ajaxStart(function(){
+ 		var loadingDiv =  $("#loadingAjaxPane");
+ 		var mainContent = $("#mainContent");
+		
+ 		loadingDiv.height(mainContent.height());
+ 		loadingDiv.width(mainContent.width());
+ 		
+      	$("#loadingAjaxPane").show();          	
+    }).ajaxStop(function() {
+        $("#loadingAjaxPane").hide();                
+    });
+
 	var $form = $(".box");
 	
 	if (isAdvancedUpload){
-		
 		var droppedFiles = false;
 		var dropzone = $("#dropzone");
 		
@@ -36,11 +54,11 @@ $(function(){
 		  if (files) {
 			    $.each( files, function(i, file) {
 			        ajaxData.append( 'file', file );
-			      });
+		        });
 		  }
 		  console.log(ajaxData);	
 
-		  $.ajax({
+		  xhr = $.ajax({
 		    url: $form.attr('action'),
 		    type: $form.attr('method'),
 		    data: ajaxData,
@@ -81,6 +99,7 @@ $(function(){
 	
 	$form.on('submit', function(e) {
 	  if ($form.hasClass('is-uploading')) return false;
+	  $('#errorMsg').html("");
 
 	  $form.addClass('is-uploading').removeClass('is-error');
 
@@ -94,7 +113,7 @@ $(function(){
 	    });
 	  }
 
-	  $.ajax({
+	  xhr = $.ajax({
 	    url: $form.attr('action'),
 	    type: $form.attr('method'),
 	    data: ajaxData,
@@ -112,10 +131,10 @@ $(function(){
 			document.write(data);
 			document.close();
 	    },
-	    error: function() {
-	      // Log the error, show an alert, whatever works for you
+	    error: function( jqXHR, textStatus, errorThrown) {
+	        console.log("errorThrown")
 	    }
-	  });
+	  }).fail(ojbc.displayFailMessage);
 	});
 	
 	$("#file").on('change', function(e) { 
@@ -123,3 +142,36 @@ $(function(){
 		$form.trigger('submit');
 	});
 });
+
+ojbc = {
+		
+		handleEsc:function(){
+		   $("body").on("keyup", function(event){
+		  	  if ( event.keyCode == 27 ) {
+		  		  event.preventDefault();
+		  		  event.stopPropagation();
+		  		  console.log("xhr is null:" +  xhr===null);
+			  	  if(xhr && xhr.readyState != 4){
+			  		  xhr.textStatus="aborted"; 
+			  		  xhr.abort();
+			  	  }
+			  }
+		   }); 
+		},
+		
+		displayFailMessage : function(jqXHR, textStatus, errorThrown) {
+	    	if (jqXHR.status == 500) {
+		    	var errorHeader = "<span class='error'>An error occurred while processing your request. Details below:</span>";
+		    	responseText = jQuery.parseJSON(jqXHR.responseText)
+		    	$('#errorMsg').html(errorHeader + responseText.exception + ": " + responseText.message);
+	    	} else if (jqXHR.status == 0) {
+	    		if (jqXHR.textStatus != "aborted"){
+	    			window.location.reload();
+	    		}
+	    	} else {
+	    		console.log("Other errors")
+	    	}
+		},
+
+}
+		
