@@ -20,9 +20,9 @@
 <head>
 	<title>NIBRS Report Validating Error</title>
     <link type="text/css" rel="stylesheet" th:href="@{/css/nibrs.web.css}"/>
-    <script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/1.12.4/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/datatables/1.10.15/js/jquery.dataTables.js}"></script>
     <script type="text/javascript" th:src="@{/js/nibrsweb.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/datatables/1.10.13/js/jquery.dataTables.js}"></script>
 </head>
 <body>
 	<div id="$errorMsg">There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).</div>
