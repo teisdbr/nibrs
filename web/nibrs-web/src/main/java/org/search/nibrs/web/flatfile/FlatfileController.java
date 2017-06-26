@@ -51,7 +51,7 @@ public class FlatfileController {
 		
 		Reader inputReader = new BufferedReader(new
 				InputStreamReader(multipartFile.getInputStream()));
-
+		
 		IncidentBuilder incidentBuilder = new IncidentBuilder();
 		SubmissionValidator submissionValidator = new SubmissionValidator();
 
@@ -68,6 +68,7 @@ public class FlatfileController {
 		incidentBuilder.buildIncidents(inputReader, readerLocationName);
 
 		model.addAttribute("errorList", errorList);
+//        return "validationReport :: #content";
         return "validationReport";
     }
 

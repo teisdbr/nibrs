@@ -29,10 +29,10 @@ $(function(){
 
  	$(document).ajaxStart(function(){
  		var loadingDiv =  $("#loadingAjaxPane");
- 		var mainContent = $("#mainContent");
+ 		var dropzone = $("#dropzone");
 		
- 		loadingDiv.height(mainContent.height());
- 		loadingDiv.width(mainContent.width());
+ 		loadingDiv.height(dropzone.height());
+ 		loadingDiv.width(dropzone.width());
  		
       	$("#loadingAjaxPane").show();          	
     }).ajaxStop(function() {
@@ -71,9 +71,10 @@ $(function(){
 		    success: function(data) {
 		    	console.log(data);
 		        $form.addClass( data.success == true ? 'is-success' : 'is-error' );
-	            document.open();
-	            document.write(data);
-	            document.close();
+		        $("#mainContent").html(data);
+//	            document.open();
+//	            document.write(data);
+//	            document.close();
 		    }
 		  });
 		}
