@@ -68,8 +68,8 @@ public class FlatfileController {
 		incidentBuilder.buildIncidents(inputReader, readerLocationName);
 
 		model.addAttribute("errorList", errorList);
-//        return "validationReport :: #content";
-        return "validationReport";
+        return "validationReport :: #content";
+//        return "validationReport";
     }
 
 	

@@ -128,9 +128,11 @@ $(function(){
 	    	console.log(data.success);
 	    	console.log(data);
 	    	$form.addClass( data.success == true ? 'is-success' : 'is-error' );
-    		document.open();
-			document.write(data);
-			document.close();
+	        $("#mainContent").html(data);
+
+//    		document.open();
+//			document.write(data);
+//			document.close();
 	    },
 	    error: function( jqXHR, textStatus, errorThrown) {
 	        console.log("errorThrown")
