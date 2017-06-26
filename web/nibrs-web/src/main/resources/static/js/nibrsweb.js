@@ -126,7 +126,7 @@ ojbc = {
 		
 		displayFailMessage : function(jqXHR, textStatus, errorThrown) {
 	    	if (jqXHR.status == 500) {
-		    	var errorHeader = "<span class='error'>An error occurred while processing your request. Details below:</span>";
+		    	var errorHeader = "<span class='error'>An error occurred while processing your request. Details:</span>";
 		    	responseText = jQuery.parseJSON(jqXHR.responseText)
 		    	$('#errorMsg').html(errorHeader + responseText.exception + ": " + responseText.message);
 	    	} else if (jqXHR.status == 0) {

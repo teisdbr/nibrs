@@ -53,7 +53,19 @@
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>
-	<div id="$errorMsg" class="container">There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).</div>
+	<div id="mainContent">
+	 	<div id="content" class="container">
+			<div id="loadingAjaxPane" ></div>
+			<div id="errorMsg"></div>
+			<form method="POST" enctype="multipart/form-data" th:action="@{/}" class="box">
+			  	<div id="uploads"></div>
+			 	<div class="dropzone" id="dropzone">
+			 		<input type="file" name="file" id="file" class="inputfile" form="fileform"/>  
+			 		<label for="file" class="inputfileLabel"><Strong>Choose</Strong> </label> or drop file here to validate
+		 		</div>		
+			</form>
+		</div>	
+	</div>
 	
     <footer class="footer">
       <div class="container-fluid">

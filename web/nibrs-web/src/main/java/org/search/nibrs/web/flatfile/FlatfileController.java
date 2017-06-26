@@ -38,9 +38,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class FlatfileController {
 	@GetMapping("/")
-	public String listUploadedFiles(Model model) throws IOException {
+	public String getFileUploadForm(Model model) throws IOException {
 	
-	    return "submissionForm";
+	    return "index";
 	}
 	
     @PostMapping("/")
