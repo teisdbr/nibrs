@@ -45,6 +45,36 @@ $(function(){
 		var droppedFiles = false;
 		var dropzone = $("#dropzone");
 		
+		var upload = function(files){
+			
+		  console.log(files);	
+		  var ajaxData = new FormData($form.get(0));
+		  console.log("file0:" + files[0]);
+		  if (files) {
+			    $.each( files, function(i, file) {
+			        ajaxData.append( 'file', file );
+		        });
+		  }
+		  console.log(ajaxData);	
+
+		  xhr = $.ajax({
+		    url: $form.attr('action'),
+		    type: $form.attr('method'),
+		    data: ajaxData,
+		    cache: false,
+		    contentType: false,
+		    processData: false,
+		    complete: function() {
+		      $form.removeClass('is-uploading');
+		    },
+		    success: function(data) {
+		    	console.log(data);
+		        $form.addClass( data.success == true ? 'is-success' : 'is-error' );
+		        $("#mainContent").html(data);
+		    }
+		  }).fail(ojbc.displayFailMessage);;
+		}
+		
 		$( "#dropzone" ).on( "dragover dragenter", function() {
 			  $(this).addClass("dragover");
 			  return false;

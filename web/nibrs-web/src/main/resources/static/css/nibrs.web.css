@@ -51,10 +51,10 @@ code {
 /* drop box */
 .dropzone {
 	width: 100%; 
-	height: 710px; 
+	height: 85vh; 
 	border: 2px dashed #ccc;
 	color: #ccc; 
-	line-height: 710px;  
+	line-height: 85vh;  
 	text-align: center;
 }
 
