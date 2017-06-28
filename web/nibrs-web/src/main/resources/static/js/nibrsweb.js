@@ -45,36 +45,6 @@ $(function(){
 		var droppedFiles = false;
 		var dropzone = $("#dropzone");
 		
-		var upload = function(files){
-			
-		  console.log(files);	
-		  var ajaxData = new FormData($form.get(0));
-		  console.log("file0:" + files[0]);
-		  if (files) {
-			    $.each( files, function(i, file) {
-			        ajaxData.append( 'file', file );
-		        });
-		  }
-		  console.log(ajaxData);	
-
-		  xhr = $.ajax({
-		    url: $form.attr('action'),
-		    type: $form.attr('method'),
-		    data: ajaxData,
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    complete: function() {
-		      $form.removeClass('is-uploading');
-		    },
-		    success: function(data) {
-		    	console.log(data);
-		        $form.addClass( data.success == true ? 'is-success' : 'is-error' );
-		        $("#mainContent").html(data);
-		    }
-		  }).fail(ojbc.displayFailMessage);;
-		}
-		
 		$( "#dropzone" ).on( "dragover dragenter", function() {
 			  $(this).addClass("dragover");
 			  return false;
@@ -86,7 +56,7 @@ $(function(){
 		.on('drop', function(e) {
 			e.preventDefault();
 		    droppedFiles = e.originalEvent.dataTransfer.files;
-		    upload(droppedFiles);
+		    $form.trigger('submit');
 		});
 		
 	}
@@ -101,14 +71,25 @@ $(function(){
 	  $form.addClass('is-uploading').removeClass('is-error');
 
 	  e.preventDefault();
-
+	  upload(droppedFiles);
+	});
+	
+	$("#file").on('change', function(e) { 
+		$("#file").removeAttr("form");
+		$form.trigger('submit');
+	});
+	
+	var upload = function(files){
+		
+	  console.log(files);	
 	  var ajaxData = new FormData($form.get(0));
-
-	  if (droppedFiles) {
-	    $.each( droppedFiles, function(i, file) {
-	      ajaxData.append( $("#file").attr('name'), file );
-	    });
+	  console.log("file0:" + files[0]);
+	  if (files) {
+		    $.each( files, function(i, file) {
+		        ajaxData.append( 'file', file );
+	        });
 	  }
+	  console.log(ajaxData);	
 
 	  xhr = $.ajax({
 	    url: $form.attr('action'),
@@ -121,21 +102,14 @@ $(function(){
 	      $form.removeClass('is-uploading');
 	    },
 	    success: function(data) {
-	    	console.log(data.success);
 	    	console.log(data);
-	    	$form.addClass( data.success == true ? 'is-success' : 'is-error' );
+	        $form.addClass( data.success == true ? 'is-success' : 'is-error' );
 	        $("#mainContent").html(data);
-	    },
-	    error: function( jqXHR, textStatus, errorThrown) {
-	        console.log("errorThrown")
 	    }
-	  }).fail(ojbc.displayFailMessage);
-	});
-	
-	$("#file").on('change', function(e) { 
-		$("#file").removeAttr("form");
-		$form.trigger('submit');
-	});
+	  }).fail(ojbc.displayFailMessage);;
+	}
+		
+
 });
 
 ojbc = {
