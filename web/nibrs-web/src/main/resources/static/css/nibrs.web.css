@@ -131,3 +131,7 @@ code {
 .jumbotron{
   margin-bottom:20px;	
 }
+
+#errorMsg{
+  color:red; 
+}

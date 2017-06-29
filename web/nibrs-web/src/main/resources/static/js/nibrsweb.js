@@ -130,9 +130,9 @@ ojbc = {
 		
 		displayFailMessage : function(jqXHR, textStatus, errorThrown) {
 	    	if (jqXHR.status == 500) {
-		    	var errorHeader = "<span class='error'>An error occurred while processing your request. Details:</span>";
+		    	var errorHeader = "<span class='error'>An error occurred while processing your request. Details: </span>";
 		    	responseText = jQuery.parseJSON(jqXHR.responseText)
-		    	$('#errorMsg').html(errorHeader + responseText.exception + ": " + responseText.message);
+		    	$('#errorMsg').html(errorHeader + responseText.message + "<!--" + responseText.exception + " -->");
 	    	} else if (jqXHR.status == 0) {
 	    		if (jqXHR.textStatus != "aborted"){
 	    			window.location.reload();

@@ -16,11 +16,17 @@
 package org.search.nibrs.web.flatfile;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
@@ -37,6 +43,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class FlatfileController {
+	
+	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream");
+	
 	@GetMapping("/")
 	public String getFileUploadForm(Model model) throws IOException {
 	
@@ -49,8 +58,18 @@ public class FlatfileController {
 
 		String readerLocationName = "console";
 		
-		Reader inputReader = new BufferedReader(new
-				InputStreamReader(multipartFile.getInputStream()));
+		if (!acceptedFileTypes.contains(multipartFile.getContentType())){
+			throw new IllegalArgumentException("The file type is not supported"); 
+		}
+		
+		Reader inputReader = null;
+		if (multipartFile.getContentType().equals("application/zip")){
+			InputStream stream = getUnzippedInputStream(multipartFile);
+			inputReader = new BufferedReader(new InputStreamReader(stream));
+		}
+		else {
+			inputReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()));
+		}
 		
 		IncidentBuilder incidentBuilder = new IncidentBuilder();
 		SubmissionValidator submissionValidator = new SubmissionValidator();
@@ -66,10 +85,32 @@ public class FlatfileController {
 		});
 
 		incidentBuilder.buildIncidents(inputReader, readerLocationName);
-
+		inputReader.close();
+		
 		model.addAttribute("errorList", errorList);
         return "validationReport :: #content";
     }
+
+	private InputStream getUnzippedInputStream(MultipartFile multipartFile) throws IOException {
+		ZipInputStream zippedStream = new ZipInputStream(multipartFile.getInputStream());
+		
+        ZipEntry zipEntry = zippedStream.getNextEntry();
+        
+        System.out.println("Unzipping " + zipEntry.getName());
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        for (int c = zippedStream.read(); c != -1; c = zippedStream.read()) {
+          bout.write(c);
+        }
+        
+        zippedStream.closeEntry();
+		zippedStream.close();
+		
+		
+		ByteArrayInputStream inStream = new ByteArrayInputStream( bout.toByteArray() );
+		bout.close();
+		
+		return inStream;
+	}
 
 	
 }
