@@ -22,16 +22,18 @@
 <body>
 	<div th:replace="fragments/header :: header"></div>
 	<div id="mainContent">
-	 	<div id="content" class="jumbotron container">
-			<div id="loadingAjaxPane" ></div>
-			<div id="errorMsg"></div>
-			<form method="POST" enctype="multipart/form-data" th:action="@{/}" class="box">
-			  	<div id="uploads"></div>
-			 	<div class="dropzone" id="dropzone">
-			 		<input type="file" name="file" id="file" class="inputfile" form="fileform"/>  
-			 		<label for="file" class="inputfileLabel"><Strong>Choose</Strong> </label> or drop file here to validate
-		 		</div>		
-			</form>
+	 	<div id="content" class="container">
+	 		<div class="jumbotron">
+				<div id="loadingAjaxPane" ></div>
+				<div id="errorMsg"></div>
+				<form method="POST" enctype="multipart/form-data" th:action="@{/}" class="box">
+				  	<div id="uploads"></div>
+				 	<div class="dropzone" id="dropzone">
+				 		<input type="file" name="file" id="file" class="inputfile" form="fileform"/>  
+				 		<label for="file" class="inputfileLabel"><Strong>Choose</Strong> </label> or drop file here to validate
+			 		</div>		
+				</form>
+			</div>
 		</div>
 	</div>
 	<div th:replace="fragments/footer :: footer"></div>	
