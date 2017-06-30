@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.flatfile.importer.ReportListener;
@@ -43,7 +45,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class FlatfileController {
-	
+	private final Log log = LogFactory.getLog(this.getClass());
+
 	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream");
 	
 	@GetMapping("/")
@@ -91,12 +94,19 @@ public class FlatfileController {
         return "validationReport :: #content";
     }
 
+	@GetMapping("/about")
+	public String getAbout(Model model){
+	
+	    return "about";
+	}
+	
+
 	private InputStream getUnzippedInputStream(MultipartFile multipartFile) throws IOException {
 		ZipInputStream zippedStream = new ZipInputStream(multipartFile.getInputStream());
 		
         ZipEntry zipEntry = zippedStream.getNextEntry();
         
-        System.out.println("Unzipping " + zipEntry.getName());
+        log.info("Unzipping " + zipEntry.getName());
         ByteArrayOutputStream bout = new ByteArrayOutputStream();
         for (int c = zippedStream.read(); c != -1; c = zippedStream.read()) {
           bout.write(c);

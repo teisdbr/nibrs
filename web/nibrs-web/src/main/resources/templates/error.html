@@ -18,12 +18,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="fragments/header :: header-css">
+    <link type="text/css" rel="stylesheet" th:href="@{/css/nibrs.web.css}"/>
 </head>
 <body>
 	<div th:replace="fragments/header :: header"></div>
-	
-	<div id="$errorMsg" class="container">There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).</div>
-	
+	<div id="$errorMsg" class="jumbotron" 
+		style="color:red; 	line-height: calc(100vh - 120px);  text-align: center;">
+		There was an unexpected error (type=<span th:text="${error}">Bad</span>, status=<span th:text="${status}">500</span>).</div>
 	<div th:replace="fragments/footer :: footer"></div>	
 </body>
 </html>

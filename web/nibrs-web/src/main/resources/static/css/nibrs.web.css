@@ -132,6 +132,11 @@ code {
   margin-bottom:20px;	
 }
 
+.jumbotron p{
+	font-size:small;	
+}
+
 #errorMsg{
   color:red; 
+  line-height: calc(100vh - 120px);  
 }
