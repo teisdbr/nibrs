@@ -1,0 +1,41 @@
+<!--
+
+    Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: header-css">
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<div id="mainContent">
+	 	<div id="content" class="container">
+	 		<div class="jumbotron">
+	 			<h3 style="text-align: center;"> The National Incident Based Reporting System</h3>
+				<h4 style="text-align: center;"> Pre-Certification Tool</h4>
+				
+				<hr/>
+				<p>The NIBRS Pre-Certification Tool provides agencies responsible for submitting data to the National Incident Based Reporting System (NIBRS) data to state Incident Based Reporting (IBR) programs or the FBI the ability to test their data submissions for accuracy prior to formally working with the state or FBI to begin the NIBRS Certification process.  The Pre-Cert tool can also be used by state IBR programs in preparation for submitting data to the FBI.  The Pre-Cert tool exercises all of the NIBRS data edit and validation rules and provides formatted output of errors so submitters can correct their data submissions and, ultimately, speed the certification process.  </p>
+				<p>The Pre-Cert tool is simple and easy to use.  Simply copy and paste or drag and drop a data file into the and the results are immediately returned.  Results can be viewed here or downloaded as a spreadsheet (CSV file) or PDF.  The tool currently accepts text files formatted in the flat file format defined in the NIBRS Version 3.1 standard.  <a href="https://ucr.fbi.gov/nibrs_technical_specification_version_3.1_pdf">https://ucr.fbi.gov/nibrs_technical_specification_version_3.1_pdf</a> </p>
+				<p>The Pre-Cert tool is available for free under an open source license that allows the source code to be used in other products.  It may be modified to meet state-specific reporting requirements.  As an open source project, modifications and updates to the code are encouraged by not required by the license.  Source code for the tool can be found at (insert github link). </p>
+				<p>Questions about the tool can be directed to SEARCH, The National Consortium for Justice Information and Statistics, at XXXXXXXXXXX</p>
+				<p>Development of the NIBRS Pre-Certification Tool was funded as part of the National Crime Statistics Exchange Program (NCS-X) through the Bureau of Justice Statistics under award XXXXXX.  (include standard disclosure language.)  </p>
+			</div>
+		</div>
+	</div>
+	<div th:replace="fragments/footer :: footer"></div>	
+</body>
+</html>
