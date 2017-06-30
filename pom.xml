@@ -53,6 +53,7 @@
 	<modules>
 		<module>shared</module>
 		<module>tools</module>
+		<module>web</module>
 	</modules>
 
 	<distributionManagement>
