@@ -1368,8 +1368,12 @@ public class VictimSegmentRulesFactory {
 				List<String> typeOfInjuryList = new ArrayList<>();
 				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
 				typeOfInjuryList.removeIf(item -> item == null);
-				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._13B.code) && !typeOfInjuryList.isEmpty() &&
-						!(typeOfInjuryList.contains(TypeInjuryCode.M.code) || typeOfInjuryList.contains(TypeInjuryCode.N.code))) {
+				
+				boolean containsOnly13B = victimSegment.getUcrOffenseCodeList().stream()
+						.filter(Objects::nonNull)
+						.distinct()
+						.allMatch(item->Objects.equals(item, OffenseCode._13B.code));
+				if (containsOnly13B && typeOfInjuryList.contains(TypeInjuryCode.M.code)) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("33");
 					e.setNIBRSErrorCode(NIBRSErrorCode._479);

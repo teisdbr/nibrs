@@ -867,7 +867,7 @@ final class VictimRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("13B");
-			copy.getVictims().get(0).setTypeOfInjury(0, "O");
+			copy.getVictims().get(0).setTypeOfInjury(0, "M");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "13B");
 			incidents.add(copy);
 						
