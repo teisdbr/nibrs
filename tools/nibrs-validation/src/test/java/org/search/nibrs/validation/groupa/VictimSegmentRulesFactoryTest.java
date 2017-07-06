@@ -287,7 +287,7 @@ public class VictimSegmentRulesFactoryTest {
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 
-		victimSegment.setAgeString("1010");
+		victimSegment.setAgeString("1313");
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.SE.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);

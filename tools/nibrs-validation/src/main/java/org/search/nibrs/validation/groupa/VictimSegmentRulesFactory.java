@@ -701,7 +701,7 @@ public class VictimSegmentRulesFactory {
 					NIBRSAge nibrsAge = victimSegment.getAge();
 					if (nibrsAge != null) {
 						Integer minAge = nibrsAge.getAgeMin();
-						if (minAge != null && minAge < 10) {
+						if (minAge != null && minAge < 13) {
 							e = victimSegment.getErrorTemplate();
 							e.setDataElementIdentifier("26");
 							e.setNIBRSErrorCode(NIBRSErrorCode._450);

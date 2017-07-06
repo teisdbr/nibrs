@@ -103,14 +103,12 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX22());
 		rulesList.add(getRuleX01ForAge());
 		rulesList.add(getRuleX04ForAge());
-		rulesList.add(getRule761());
 		rulesList.add(getRuleX01ForSex());
 		rulesList.add(getRuleX01ForRace());
 		rulesList.add(getRuleX04ForEthnicity());
 		rulesList.add(getRuleX04ForResidentStatus());
 		rulesList.add(getRuleX04ForDispositionOfArresteeUnder18());
 		rulesList.add(getRuleX41());
-		rulesList.add(getRuleX40());
 		rulesList.add(getRuleX52());
 		rulesList.add(getRuleX53());
 		rulesList.add(getRuleX05());
@@ -326,7 +324,11 @@ public class ArresteeSegmentRulesFactory {
 	Rule<ArresteeSegment> getRuleX04ForAge() {
 		return personSegmentRulesFactory.getAgeValidRule("47", isGroupAMode() ? NIBRSErrorCode._604 : NIBRSErrorCode._704);
 	}
-	
+
+	/**
+	 * The rule is removed in spec v3-1. 
+	 * @return
+	 */
 	Rule<ArresteeSegment> getRule761() {
 		return isGroupAMode() ? new NullObjectRule<>() : new Rule<ArresteeSegment>() {
 			@Override
@@ -434,6 +436,10 @@ public class ArresteeSegmentRulesFactory {
 		};
 	}
 	
+	/**
+	 * Rule 640 and 740 for DE52 are removed in spec v3-1.  Not adding this to the rule list. 
+	 * @return
+	 */
 	Rule<ArresteeSegment> getRuleX40() {
 		return new Rule<ArresteeSegment>() {
 			@Override
