@@ -166,6 +166,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule115());
 		rulesList.add(getRule117());
 		rulesList.add(getRule119());
+		rulesList.add(getRule122());
 		rulesList.add(getRule152());
 		rulesList.add(getRule153());
 		rulesList.add(getRule155());
@@ -1194,6 +1195,10 @@ public class GroupAIncidentReportRulesFactory {
 		
 	}
 	
+	/**
+	 * Removed from specs v3-1. Remove it from rule list. 
+	 * @return
+	 */
 	Rule<GroupAIncidentReport> getRule171() {
 		
 		return new IncidentDateRule() {
@@ -1242,16 +1247,11 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				List<OffenseSegment> offenses = subject.getOffenses();
-				boolean cargoTheftIncident = false;
-				for (OffenseSegment o : offenses) {
-					if (cargoTheftOffenses.contains(o.getUcrOffenseCode())) {
-						cargoTheftIncident = true;
-						break;
-					}
-				}
+				boolean cargoTheftIncident = offenses.stream()
+						.anyMatch(offense -> cargoTheftOffenses.contains(offense.getUcrOffenseCode()));
 				NIBRSError ret = null;
 				if (subject.getCargoTheftIndicator() != null 
-						&& subject.getCargoTheftIndicator().equalsIgnoreCase("Yes")
+						&& subject.getCargoTheftIndicator().equalsIgnoreCase("Y")
 						&& !cargoTheftIncident ) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(null);
@@ -1264,6 +1264,30 @@ public class GroupAIncidentReportRulesFactory {
 		
 		return ret;
 		
+	}
+	
+	Rule<GroupAIncidentReport> getRule122() {
+		
+		Rule<GroupAIncidentReport> ret = new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				List<OffenseSegment> offenses = subject.getOffenses();
+				boolean cargoTheftIncident = offenses.stream()
+						.anyMatch(offense -> cargoTheftOffenses.contains(offense.getUcrOffenseCode()));
+				
+				NIBRSError ret = null;
+				if (cargoTheftIncident &&  
+						!Arrays.asList("Y", "N").contains(subject.getCargoTheftIndicator())) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(subject.getCargoTheftIndicator());
+					ret.setDataElementIdentifier("2A");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._122);
+				}
+				return ret;
+			}
+		};
+		
+		return ret;
 	}
 	
 	Rule<GroupAIncidentReport> getRule117() {

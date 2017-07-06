@@ -198,7 +198,7 @@ class AdministrativeRuleViolationExemplarFactory {
 			// Data Element 6 (UCR OffenseSegment Code) must a Cargo Theft-related offense.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.setCargoTheftIndicator("Yes");
+			copy.setCargoTheftIndicator("Y");
 			copy.getOffenses().get(0).setUcrOffenseCode("");
 			incidents.add(copy);
 			return incidents;

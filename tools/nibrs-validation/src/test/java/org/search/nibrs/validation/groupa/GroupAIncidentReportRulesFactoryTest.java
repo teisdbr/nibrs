@@ -1296,7 +1296,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 	public void testRule119() {
 		Rule<GroupAIncidentReport> rule119 = rulesFactory.getRule119();
 		GroupAIncidentReport report = buildBaseReport();
-		report.setCargoTheftIndicator("Yes");
+		report.setCargoTheftIndicator("Y");
 		OffenseSegment o = new OffenseSegment();
 		report.addOffense(o);
 		o.setUcrOffenseCode(OffenseCode._35A.code);
@@ -1304,16 +1304,45 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._119, e.getNIBRSErrorCode());
 		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
-		assertEquals(report.getCargoTheftIndicator(), "Yes");
+		assertEquals(report.getCargoTheftIndicator(), "Y");
 		assertEquals(report.getSource(), e.getContext());
 		o = new OffenseSegment();
 		report.addOffense(o);
 		o.setUcrOffenseCode(OffenseCode._120.code);
 		e = rule119.apply(report);
 		assertNull(e);
-		report.setCargoTheftIndicator("No");
+		report.setCargoTheftIndicator("N");
 		e = rule119.apply(report);
 		assertNull(e);
+	}
+	
+	@Test
+	public void testRule122() {
+		Rule<GroupAIncidentReport> rule122 = rulesFactory.getRule122();
+		GroupAIncidentReport report = buildBaseReport();
+		report.setCargoTheftIndicator("Y");
+		OffenseSegment o = new OffenseSegment();
+		report.addOffense(o);
+		o.setUcrOffenseCode(OffenseCode._35A.code);
+		NIBRSError e = rule122.apply(report);
+		assertNull(e);
+		
+		o.setUcrOffenseCode(OffenseCode._23H.code);
+		e = rule122.apply(report);
+		assertNull(e);
+		
+		report.setCargoTheftIndicator("N");
+		e = rule122.apply(report);
+		assertNull(e);
+		
+		report.setCargoTheftIndicator(null);
+		e = rule122.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._122, e.getNIBRSErrorCode());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
+		assertEquals(report.getSource(), e.getContext());
+		assertEquals(e.getDataElementIdentifier(), "2A");
+		assertNull(e.getValue());
 	}
 	
 	@Test
