@@ -290,6 +290,36 @@ public class GroupAIncidentReportRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule404VictimSequenceNumber() {
+		Rule<GroupAIncidentReport> rule = rulesFactory.getRule404VictimSequenceNumber();
+		GroupAIncidentReport report = buildBaseReport();
+		NIBRSError e = rule.apply(report);
+		assertNull(e);
+		VictimSegment vs = new VictimSegment();
+		report.addVictim(vs);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("23", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._404, e.getNIBRSErrorCode());
+
+		vs.setVictimSequenceNumber(new ParsedObject<>(1));
+		e = rule.apply(report);
+		assertNull(e);
+		
+		vs = new VictimSegment();
+		vs.setVictimSequenceNumber(new ParsedObject<>(1));
+		report.addVictim(vs);
+		e = rule.apply(report);
+		assertNotNull(e);
+		assertEquals("23", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._404, e.getNIBRSErrorCode());
+		
+		vs.setVictimSequenceNumber(new ParsedObject<>(2));
+		e = rule.apply(report);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule474() {
 		Rule<GroupAIncidentReport> rule = rulesFactory.getRule474();
 		GroupAIncidentReport report = buildBaseReport();

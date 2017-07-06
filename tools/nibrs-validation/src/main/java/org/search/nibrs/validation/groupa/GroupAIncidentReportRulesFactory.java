@@ -192,6 +192,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule266());
 		rulesList.add(getRule268());
 		rulesList.add(getRule382());
+		rulesList.add(getRule404VictimSequenceNumber());
 		rulesList.add(getRule466());
 		rulesList.add(getRule470());
 		rulesList.add(getRule474());
@@ -489,6 +490,33 @@ public class GroupAIncidentReportRulesFactory {
 							ret.setCrossSegment(true);
 						}
 					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<GroupAIncidentReport> getRule404VictimSequenceNumber() {
+		return new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				NIBRSError ret = null;
+				int victimCount = subject.getVictimCount();
+				
+				long validVictimSequenceNumberCount = subject.getVictims().stream()
+					.map(victim -> victim.getVictimSequenceNumber())
+					.map(sequnceNumber -> sequnceNumber.getValue())
+					.filter(Objects::nonNull)
+					.filter(item -> item > 0)
+					.distinct()
+					.count(); 
+							
+				
+				if (victimCount > 0 && victimCount != validVictimSequenceNumberCount ) {
+					ret = subject.getVictims().get(0).getErrorTemplate();
+					ret.setDataElementIdentifier("23");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._404);
+					ret.setCrossSegment(true);
 				}
 				return ret;
 			}

@@ -163,7 +163,6 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule458ForRaceOfVictim());
 		rulesList.add(getRule459ForOffenderNumberToBeRelated());
 		rulesList.add(getRule460ForRelationshipOfVictimToOffender());
-		rulesList.add(getRule461ForTypeOfVictim());
 		rulesList.add(getRule462());
 		rulesList.add(getRule463());
 		rulesList.add(getRule464ForTypeOfVictim());
@@ -882,6 +881,10 @@ public class VictimSegmentRulesFactory {
 		};
 	}
 
+	/**
+	 * Removed in specs v3-1. Remove it from the rule list. 
+	 * @return
+	 */
 	Rule<VictimSegment> getRule461ForTypeOfVictim() {
 		return new Rule<VictimSegment>() {
 			@Override

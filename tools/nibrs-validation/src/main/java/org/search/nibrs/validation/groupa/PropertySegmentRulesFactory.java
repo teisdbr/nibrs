@@ -148,7 +148,6 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule305());
 		rulesList.add(getRule306());
 		rulesList.add(getRule306ForPropertyDescriptions());
-		rulesList.add(getRule320());
 		rulesList.add(getRule342());
 		rulesList.add(getRule351());
 		rulesList.add(getRule352());
@@ -727,6 +726,10 @@ public class PropertySegmentRulesFactory {
 		return new DuplicateCodedValueRule<PropertySegment>("propertyDescription", "15", PropertySegment.class, NIBRSErrorCode._306);
 	}
 	
+	/**
+	 * This rule is removed from spec v3-1. Removing it from the rule list. 
+	 * @return
+	 */
 	Rule<PropertySegment> getRule320() {
 		return new Rule<PropertySegment>() {
 			@Override
