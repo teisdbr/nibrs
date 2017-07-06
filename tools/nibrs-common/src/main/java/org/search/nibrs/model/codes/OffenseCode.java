@@ -177,6 +177,20 @@ public enum OffenseCode {
 				).contains(code);
 	}
 	
+	public static final boolean isCrimeAllowingLocationType(String code) {
+		return Arrays.asList(
+				_210.code, _250.code, _270.code, 
+				_280.code, _290.code, _370.code,  
+				_510.code, _26A.code, _26B.code,  
+				_26C.code, _26D.code, _26E.code, 
+				_26F.code, _26G.code, _39A.code, 
+				_39B.code, _39C.code, _13C.code, 
+				_35A.code, _35B.code, _520.code, 
+				_64A.code, _64B.code, _40A.code,  
+				_40B.code, _40C.code					
+				).contains(code);
+	}
+	
 	public static final boolean isDrugNarcoticOffense(String code) {
 		return Arrays.asList(_35A.code, _35B.code).contains(code);
 	}

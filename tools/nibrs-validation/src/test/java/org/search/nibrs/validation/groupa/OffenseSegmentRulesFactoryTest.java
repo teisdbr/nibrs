@@ -15,7 +15,14 @@
  */
 package org.search.nibrs.validation.groupa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,6 +73,50 @@ public class OffenseSegmentRulesFactoryTest {
 		assertNull(e);
 		e = rule.apply(os2);
 		assertNotNull(e);
+	}
+	
+	@Test
+	public void testRule205() {
+		Rule<OffenseSegment> rule = rulesFactory.getRule205();
+		OffenseSegment o = buildBaseSegment();
+		o.setUcrOffenseCode(null);
+		o.setLocationType(LocationTypeCode._02.code);
+		
+		NIBRSError e = rule.apply(o);
+		assertNotNull(e);
+		assertEquals('2', e.getSegmentType());
+		assertEquals("9", e.getDataElementIdentifier());
+		assertEquals(LocationTypeCode._02.code, e.getValue());
+		assertEquals(NIBRSErrorCode._205, e.getNIBRSErrorCode());
+
+		List<OffenseCode> offenseCodeList = 
+				Arrays.asList(
+					OffenseCode._210, OffenseCode._250, OffenseCode._270,
+					OffenseCode._280, OffenseCode._290, OffenseCode._370,
+					OffenseCode._510, OffenseCode._26A, OffenseCode._26B,
+					OffenseCode._26C, OffenseCode._26D, OffenseCode._26E,
+					OffenseCode._26F, OffenseCode._26G, OffenseCode._39A,
+					OffenseCode._39B, OffenseCode._39C, OffenseCode._13C,
+					OffenseCode._35A, OffenseCode._35B, OffenseCode._520,
+					OffenseCode._64A, OffenseCode._64B, OffenseCode._40A,
+					OffenseCode._40B, OffenseCode._40C
+				);
+		
+		for (OffenseCode offenseCode : OffenseCode.values()){
+			o.setUcrOffenseCode(offenseCode.code);
+			e = rule.apply(o);
+			if (offenseCodeList.contains(offenseCode)){
+				assertNull(e);
+			}
+			else{
+				assertNotNull(e);
+				assertEquals('2', e.getSegmentType());
+				assertEquals("9", e.getDataElementIdentifier());
+				assertEquals(LocationTypeCode._02.code, e.getValue());
+				assertEquals(NIBRSErrorCode._205, e.getNIBRSErrorCode());
+			}
+				
+		}
 	}
 	
 	@Test
