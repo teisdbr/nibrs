@@ -23,6 +23,7 @@
 	<div th:replace="fragments/header :: header"></div>
 	<div id="mainContent">
 	 	<div id="content" class="container">
+	 		<div style="padding: 10px;">The NIBRS Pre-Certification Tool validates NIBRS submissions according to the NIBRS flat file format defined in the <a href="https://ucr.fbi.gov/nibrs_technical_specification_version_3.1_pdf ">NIBRS 3.1 Standard </a></div>
 	 		<div class="jumbotron">
 				<div id="loadingAjaxPane" ></div>
 				<div id="errorMsg"></div>
@@ -30,9 +31,12 @@
 				  	<div id="uploads"></div>
 				 	<div class="dropzone" id="dropzone">
 				 		<input type="file" name="file" id="file" class="inputfile" form="fileform" accept="application/zip, text/plain, application/octet-stream"/>  
-				 		<label for="file" class="inputfileLabel"><Strong>Choose</Strong> </label> or drop file here to validate
+				 		<label for="file" class="inputfileLabel"><Strong>Choose</Strong></label> or drop file here to validate. The file can be a single NIBRS text file or a zip file containing single NIBRS text file. 
 			 		</div>		
 				</form>
+			</div>
+			<div align="center" style="padding: 10px; padding-top:0;">
+				Have questions? Ask SEARCH at <a href="mailto:NIBRSPreCertToolHelp@search.org">NIBRSPreCertToolHelp@search.org</a>
 			</div>
 		</div>
 	</div>

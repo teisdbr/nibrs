@@ -61,6 +61,7 @@ public class FlatfileController {
 
 		String readerLocationName = "console";
 		
+		log.info("processing file: " + multipartFile.getName());
 		if (!acceptedFileTypes.contains(multipartFile.getContentType())){
 			throw new IllegalArgumentException("The file type is not supported"); 
 		}
