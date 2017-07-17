@@ -265,7 +265,9 @@ public class ArresteeSegmentRulesFactory {
 				NIBRSError e = null;
 				String offenseCodeS = arresteeSegment.getUcrArrestOffenseCode();
 				OffenseCode offenseCode = OffenseCode.forCode(offenseCodeS);
-				if (arresteeSegment.isGroupB() && offenseCode != null && !offenseCode.group.equals("B")) {
+			if (arresteeSegment.getReportActionType() != 'D' 
+					&& arresteeSegment.isGroupB() && offenseCode != null 
+					&& !offenseCode.group.equals("B")) {
 					e = arresteeSegment.getErrorTemplate();
 					e.setNIBRSErrorCode(NIBRSErrorCode._760);
 					e.setDataElementIdentifier("45");
