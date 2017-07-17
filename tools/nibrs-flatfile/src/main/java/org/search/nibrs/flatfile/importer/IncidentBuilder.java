@@ -26,8 +26,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
@@ -60,13 +60,13 @@ public class IncidentBuilder {
 		public int reportCount = 0;
 		public int errorCount = 0;
 		public void newReport(AbstractReport newReport, List<NIBRSError> errorList) {
-			LOG.info("Created " + newReport.getUniqueReportDescription());
+			log.info("Created " + newReport.getUniqueReportDescription());
 			reportCount++;
 			errorCount += errorList.size();
 		}
 	}
 
-	private static final Logger LOG = LogManager.getLogger(IncidentBuilder.class);
+	private static final Log log = LogFactory.getLog(IncidentBuilder.class);;
 
 	private List<ReportListener> listeners;
 	private LogListener logListener = new LogListener();
@@ -107,7 +107,7 @@ public class IncidentBuilder {
 		AbstractReport currentReport = null;
 		int lineNumber = 1;
 		
-		LOG.info("Processing NIBRS flat file");
+		log.info("Processing NIBRS flat file");
 		
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		
@@ -137,9 +137,9 @@ public class IncidentBuilder {
 		
 		handleNewReport(currentReport, errorList);
 
-		LOG.info("finished processing file, read " + (lineNumber - 1) + " lines.");
-		LOG.info("Encountered " + logListener.errorCount + " error(s).");
-		LOG.info("Created " + logListener.reportCount + " incident(s).");
+		log.info("finished processing file, read " + (lineNumber - 1) + " lines.");
+		log.info("Encountered " + logListener.errorCount + " error(s).");
+		log.info("Created " + logListener.reportCount + " incident(s).");
 
 	}
 
@@ -443,7 +443,7 @@ public class IncidentBuilder {
 			e.setValue(sv);
 			e.setSegmentType(s.getSegmentType());
 			errorList.add(e);
-			LOG.debug("Error in int conversion: lineNumber=" + s.getReportSource() + ", value=" + sv);
+			log.debug("Error in int conversion: lineNumber=" + s.getReportSource() + ", value=" + sv);
 		}
 		return i;
 	}
