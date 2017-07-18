@@ -506,11 +506,6 @@ public class GroupAIncidentReportValidatorTest {
 	}
 
 	@Test
-	public void testRule553() {
-		testRule(NIBRSErrorCode._553, 553);
-	}
-
-	@Test
 	public void testRule554() {
 		testRule(NIBRSErrorCode._554, 554);
 	}

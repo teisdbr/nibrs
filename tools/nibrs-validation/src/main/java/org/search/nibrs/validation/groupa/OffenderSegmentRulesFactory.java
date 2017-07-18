@@ -103,7 +103,6 @@ public class OffenderSegmentRulesFactory {
 		rulesList.add(getRule552ForSex());
 		rulesList.add(getRule552ForRace());
 		rulesList.add(getRule552ForEthnicity());
-		rulesList.add(getRule553());
 		rulesList.add(getRule554());
 		rulesList.add(getRule557());
 		rulesList.add(getRule572());
