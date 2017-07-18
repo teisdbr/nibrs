@@ -378,7 +378,7 @@ public class GroupAIncidentReportRulesFactory {
 						&& ClearedExceptionallyCode.applicableCodeSet().contains(exceptionalClearanceCode)){
 					long allKnownOffenderCount = subject.getOffenders()
 							.stream()
-							.filter(item -> (item.isUnknown() || item.isIdentifyingInfoComplete()) )
+							.filter(item ->  ( item.isIdentifyingInfoComplete()) )
 							.count();
 					if (allKnownOffenderCount == 0){
 						ret = subject.getErrorTemplate();
