@@ -176,7 +176,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule476());
 		rulesList.add(getRule477());
 		rulesList.add(getRule478());
-		rulesList.add(getRule479());
+//		rulesList.add(getRule479());
 		rulesList.add(getRule481ForAgeOfVictim());		
 		rulesList.add(getRule482ForTypeOfVictim());
 		rulesList.add(getRule483ForTypeOfOfficerActivity());

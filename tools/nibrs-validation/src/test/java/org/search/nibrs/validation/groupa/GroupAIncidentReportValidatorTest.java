@@ -450,10 +450,10 @@ public class GroupAIncidentReportValidatorTest {
 		testRule(NIBRSErrorCode._478, 478);
 	}
 
-	@Test
-	public void testRule479() {
-		testRule(NIBRSErrorCode._479, 479);
-	}
+//	@Test
+//	public void testRule479() {
+//		testRule(NIBRSErrorCode._479, 479);
+//	}
 
 	@Test
 	public void testRule481() {

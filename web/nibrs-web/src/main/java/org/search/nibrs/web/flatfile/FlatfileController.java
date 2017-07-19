@@ -25,6 +25,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -91,7 +92,12 @@ public class FlatfileController {
 		incidentBuilder.buildIncidents(inputReader, readerLocationName);
 		inputReader.close();
 		
-		model.addAttribute("errorList", errorList);
+		List<NIBRSError> filteredErrorList = errorList.stream()
+				.filter(error->error.getReport() != null)
+				.collect(Collectors.toList()); 
+		
+		model.addAttribute("errorList", filteredErrorList);
+		
         return "validationReport :: #content";
     }
 

@@ -164,7 +164,7 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule204ForValueList("automaticWeaponIndicator", "13", AutomaticWeaponIndicatorCode.codeSet()));
 		rulesList.add(getRule204ForPremisesEntered());
 		
-		rulesList.add(getRule205());
+//		rulesList.add(getRule205());
 				
 		rulesList.add(getRule206("typeOfCriminalActivity", "12"));
 		rulesList.add(getRule206("typeOfWeaponForceInvolved", "13"));

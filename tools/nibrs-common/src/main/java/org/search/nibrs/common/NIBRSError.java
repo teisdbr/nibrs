@@ -344,8 +344,12 @@ public class NIBRSError implements Serializable{
 	
 	public String getDateOfTape(){
 		StringBuilder sb = new StringBuilder(6);
-		sb.append(String.valueOf(report.getYearOfTape()));
-		sb.append(StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
+		if ( report != null && report.getYearOfTape() != null){
+			sb.append(String.valueOf(report.getYearOfTape()));
+		}
+		if ( report!= null && report.getMonthOfTape() != null){
+			sb.append(StringUtils.leftPad(String.valueOf(report.getMonthOfTape()), 2, '0'));
+		}
 		return sb.toString();
 	}
 
