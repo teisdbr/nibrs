@@ -177,7 +177,7 @@ public enum OffenseCode {
 				).contains(code);
 	}
 	
-	public static final boolean isCrimeAllowingLocationType(String code) {
+	public static final boolean isCrimeAllowingLocationTypeCyberspace(String code) {
 		return Arrays.asList(
 				_210.code, _250.code, _270.code, 
 				_280.code, _290.code, _370.code,  

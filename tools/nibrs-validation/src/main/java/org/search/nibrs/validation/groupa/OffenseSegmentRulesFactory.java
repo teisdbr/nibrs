@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
@@ -164,7 +163,7 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule204ForValueList("automaticWeaponIndicator", "13", AutomaticWeaponIndicatorCode.codeSet()));
 		rulesList.add(getRule204ForPremisesEntered());
 		
-//		rulesList.add(getRule205());
+		rulesList.add(getRule205());
 				
 		rulesList.add(getRule206("typeOfCriminalActivity", "12"));
 		rulesList.add(getRule206("typeOfWeaponForceInvolved", "13"));
@@ -251,10 +250,11 @@ public class OffenseSegmentRulesFactory {
 			public NIBRSError apply(OffenseSegment subject) {
 				NIBRSError ret = null;
 				String offenseCode = subject.getUcrOffenseCode();
-				if (StringUtils.isNotBlank(subject.getLocationType()) && !OffenseCode.isCrimeAllowingLocationType(offenseCode)) {
+				if (LocationTypeCode._58.code.equals(subject.getLocationType()) && 
+						!OffenseCode.isCrimeAllowingLocationTypeCyberspace(offenseCode)) {
 					ret = subject.getErrorTemplate();
 					ret.setDataElementIdentifier("9");
-					ret.setValue(subject.getLocationType());
+					ret.setValue(offenseCode);
 					ret.setNIBRSErrorCode(NIBRSErrorCode._205);
 				}
 				return ret;

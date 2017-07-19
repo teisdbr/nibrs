@@ -80,13 +80,13 @@ public class OffenseSegmentRulesFactoryTest {
 		Rule<OffenseSegment> rule = rulesFactory.getRule205();
 		OffenseSegment o = buildBaseSegment();
 		o.setUcrOffenseCode(null);
-		o.setLocationType(LocationTypeCode._02.code);
+		o.setLocationType(LocationTypeCode._58.code);
 		
 		NIBRSError e = rule.apply(o);
 		assertNotNull(e);
 		assertEquals('2', e.getSegmentType());
 		assertEquals("9", e.getDataElementIdentifier());
-		assertEquals(LocationTypeCode._02.code, e.getValue());
+		assertNull(e.getValue());
 		assertEquals(NIBRSErrorCode._205, e.getNIBRSErrorCode());
 
 		List<OffenseCode> offenseCodeList = 
@@ -112,11 +112,20 @@ public class OffenseSegmentRulesFactoryTest {
 				assertNotNull(e);
 				assertEquals('2', e.getSegmentType());
 				assertEquals("9", e.getDataElementIdentifier());
-				assertEquals(LocationTypeCode._02.code, e.getValue());
+				assertEquals(offenseCode.code, e.getValue());
 				assertEquals(NIBRSErrorCode._205, e.getNIBRSErrorCode());
 			}
-				
+			
 		}
+		
+		o.setLocationType(LocationTypeCode._02.code);
+
+		for (OffenseCode offenseCode : OffenseCode.values()){
+			o.setUcrOffenseCode(offenseCode.code);
+			e = rule.apply(o);
+			assertNull(e);
+		}
+		
 	}
 	
 	@Test
