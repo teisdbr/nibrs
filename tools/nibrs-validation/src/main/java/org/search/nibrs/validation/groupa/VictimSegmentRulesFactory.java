@@ -46,6 +46,7 @@ import org.search.nibrs.model.codes.SexOfOffenderCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
+import org.search.nibrs.util.ArrayUtils;
 import org.search.nibrs.validation.PersonSegmentRulesFactory;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
@@ -638,13 +639,16 @@ public class VictimSegmentRulesFactory {
 				List<String> typeOfInjuryList = new ArrayList<>();
 				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
 				typeOfInjuryList.removeIf(item -> item == null);
-
+				
 				List<String> allowedOffenseCodes = 
 						Arrays.asList(OffenseCode._100.code, OffenseCode._11A.code, OffenseCode._11B.code, OffenseCode._11C.code, 
 						OffenseCode._11D.code, OffenseCode._120.code, OffenseCode._13A.code, OffenseCode._13B.code,  
 						OffenseCode._210.code, OffenseCode._64A.code, OffenseCode._64B.code);
-				if (!typeOfInjuryList.isEmpty() && (offenseList.isEmpty() || 
-						offenseList.stream().noneMatch(i->allowedOffenseCodes.contains(i)))) {
+				boolean containsTypeOfInjuryOffense = offenseList.stream().anyMatch(i->allowedOffenseCodes.contains(i)); 
+				boolean containsAggravatedAssaultHomicideCircumstancesOffense = offenseList.stream().anyMatch(OffenseCode::isAggravatedAssaultHomicideCircumstancesOffense); 
+				if ((!typeOfInjuryList.isEmpty() && !containsTypeOfInjuryOffense)
+						|| (ArrayUtils.notAllNull(victimSegment.getAggravatedAssaultHomicideCircumstances()) && 
+								!containsAggravatedAssaultHomicideCircumstancesOffense)) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("33");
 					e.setNIBRSErrorCode(NIBRSErrorCode._419);
@@ -1079,7 +1083,8 @@ public class VictimSegmentRulesFactory {
 				List<String> offenses = Arrays.asList(new String[] {OffenseCode._36B.code, OffenseCode._11A.code});
 				List<String> sexes = Arrays.asList(new String[] {SexCode.F.code, SexCode.M.code});
 
-				if (CollectionUtils.containsAny(victimSegment.getUcrOffenseCodeList(), offenses) && !sexes.contains(victimSegment.getSex())) {
+				if (CollectionUtils.containsAny(victimSegment.getUcrOffenseCodeList(), offenses) 
+						&& !sexes.contains(victimSegment.getSex())) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("27");
 					e.setNIBRSErrorCode(NIBRSErrorCode._469);

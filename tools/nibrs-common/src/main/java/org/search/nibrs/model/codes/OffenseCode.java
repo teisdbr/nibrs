@@ -195,6 +195,10 @@ public enum OffenseCode {
 		return Arrays.asList(_35A.code, _35B.code).contains(code);
 	}
 	
+	public static final boolean isAggravatedAssaultHomicideCircumstancesOffense(String code) {
+		return Arrays.asList(_09A.code, _09B.code, _09C.code, _13A.code).contains(code);
+	}
+	
 	public static final boolean containsCrimeAgainstPropertyCode(Collection<String> codes) {
 		return codes.stream().anyMatch(code -> isCrimeAgainstPropertyCode(code));
 	}
