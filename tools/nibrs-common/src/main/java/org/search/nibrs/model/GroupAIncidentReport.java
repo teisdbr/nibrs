@@ -16,6 +16,7 @@
 package org.search.nibrs.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -390,10 +391,10 @@ public class GroupAIncidentReport extends AbstractReport
 			.anyMatch(item->OffenseCode.isDrugNarcoticOffense(item.getUcrOffenseCode()));
     }
 
-    public boolean is35AOffenseInvolved() {
+    public boolean isOffenseInvolved( OffenseCode offensecode) {
 		return this.getOffenses().stream()
 			.filter(Objects::nonNull)
-			.anyMatch(item->OffenseCode._35A.code.equals(item.getUcrOffenseCode()));
+			.anyMatch(item->offensecode.code.equals(item.getUcrOffenseCode()));
     }
 
     public boolean isAgainstPropertyCrimeInvolved() {
@@ -402,10 +403,10 @@ public class GroupAIncidentReport extends AbstractReport
     			.anyMatch(item->OffenseCode.isCrimeAgainstPropertyCode(item.getUcrOffenseCode()));
     }
     
-    public boolean containsNon35ACrimeRequirePropertySegment() {
+    public boolean containsOtherCrimeRequirePropertySegment(String... excludedOffenseCodes) {
     	return this.getOffenses().stream()
     			.filter(Objects::nonNull)
-    			.filter(item->!OffenseCode._35A.code.equals(item.getUcrOffenseCode()))
+    			.filter(item->!Arrays.asList(excludedOffenseCodes).contains(item.getUcrOffenseCode()))
     			.anyMatch(item->OffenseCode.isCrimeRequirePropertySegement(item.getUcrOffenseCode()));
     }
     

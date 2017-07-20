@@ -94,7 +94,7 @@ public class PropertySegmentRulesFactory {
 		public NIBRSError apply(PropertySegment subject) {
 			NIBRSError ret = null;
 			GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
-			boolean drugOffense = parent.is35AOffenseInvolved();
+			boolean drugOffense = parent.isOffenseInvolved(OffenseCode._35A);
 			
 			String typePropertyLoss = subject.getTypeOfPropertyLoss();
 			if (drugOffense && typePropertyLoss != null && TypeOfPropertyLossCode._6.code.equals(typePropertyLoss)) {
@@ -166,6 +166,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule364forMeasurement());
 		rulesList.add(getRule365());
 		rulesList.add(getRule367());
+		rulesList.add(getRule387());
 		rulesList.add(getRule388());
 		rulesList.add(getRule390());
 		rulesList.add(getRule391());
@@ -560,8 +561,9 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				String loss = subject.getTypeOfPropertyLoss();
-				boolean drugOffense35AInvolved = ((GroupAIncidentReport) subject.getParentReport()).is35AOffenseInvolved();
-				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport()).containsNon35ACrimeRequirePropertySegment();
+				boolean drugOffense35AInvolved = ((GroupAIncidentReport) subject.getParentReport()).isOffenseInvolved(OffenseCode._35A);
+				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport())
+						.containsOtherCrimeRequirePropertySegment(OffenseCode._35A.code);
 				boolean isRule392Exception2 = ((GroupAIncidentReport) subject.getParentReport()).isRule392Exception2();
 				
 				Object value = null;
@@ -604,8 +606,9 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				String loss = subject.getTypeOfPropertyLoss();
-				boolean drugOffense35AInvolved = ((GroupAIncidentReport) subject.getParentReport()).is35AOffenseInvolved();
-				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport()).containsNon35ACrimeRequirePropertySegment();
+				boolean drugOffense35AInvolved = ((GroupAIncidentReport) subject.getParentReport()).isOffenseInvolved(OffenseCode._35A);
+				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport())
+						.containsOtherCrimeRequirePropertySegment(OffenseCode._35A.code);
 				boolean isRule392Exception2 = ((GroupAIncidentReport) subject.getParentReport()).isRule392Exception2();
 				
 				if (TypeOfPropertyLossCode._1.code.equals(loss) 
@@ -617,6 +620,46 @@ public class PropertySegmentRulesFactory {
 					ret.setNIBRSErrorCode(NIBRSErrorCode._392);
 					ret.setDataElementIdentifier("20");
 				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule387() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				String loss = subject.getTypeOfPropertyLoss();
+				boolean drugOffense35AInvolved = ((GroupAIncidentReport) subject.getParentReport()).isOffenseInvolved(OffenseCode._35A);
+				boolean drugOffense35BInvolved = ((GroupAIncidentReport) subject.getParentReport()).isOffenseInvolved(OffenseCode._35B);
+				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport())
+						.containsOtherCrimeRequirePropertySegment(OffenseCode._35A.code, OffenseCode._35B.code);
+				boolean containsPropertyDescription11 = subject.containsPropertyDescription(PropertyDescriptionCode._11.code);
+				boolean containsPropertyDescription10 = subject.containsPropertyDescription(PropertyDescriptionCode._10.code);
+				
+				if (TypeOfPropertyLossCode._6.code.equals(loss) 
+						&& drugOffense35AInvolved 
+						&& !drugOffense35BInvolved
+						&& !otherOffenseRequirePropertySegment 
+						&& containsPropertyDescription11){
+					ret = subject.getErrorTemplate();
+					ret.setValue(PropertyDescriptionCode._11.code);
+					ret.setNIBRSErrorCode(NIBRSErrorCode._387);
+					ret.setDataElementIdentifier("15");
+				}
+				
+				if (TypeOfPropertyLossCode._6.code.equals(loss) 
+						&& !drugOffense35AInvolved 
+						&& drugOffense35BInvolved
+						&& !otherOffenseRequirePropertySegment 
+						&& containsPropertyDescription10){
+					ret = subject.getErrorTemplate();
+					ret.setValue(PropertyDescriptionCode._10.code);
+					ret.setNIBRSErrorCode(NIBRSErrorCode._387);
+					ret.setDataElementIdentifier("15");
+				}
+
 				return ret;
 			}
 		};

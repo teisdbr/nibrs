@@ -538,6 +538,52 @@ public class PropertySegmentRulesFactoryTest {
 		
 	}
 
+	@Test
+	public void testRule387() {
+		
+		Rule<PropertySegment> rule = rulesFactory.getRule387();
+		PropertySegment p = buildBaseSegment();
+		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
+		OffenseSegment o = new OffenseSegment();
+		incident.addOffense(o);
+		o.setUcrOffenseCode(OffenseCode._35A.code);
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._6.code);
+		
+		setAllNull(p.getPropertyDescription());
+		setAllNull(p.getValueOfProperty());
+		setAllNull(p.getDateRecovered());
+		setAllNull(p.getSuspectedDrugType());
+		setAllNull(p.getEstimatedDrugQuantity());
+		setAllNull(p.getTypeDrugMeasurement());
+		
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+
+		p.setPropertyDescription(0, PropertyDescriptionCode._11.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertThat(e.getDataElementIdentifier(), is("15"));
+		assertThat(e.getValue(), is("11"));
+		assertThat(e.getNIBRSErrorCode(), is(NIBRSErrorCode._387));
+		
+		OffenseSegment _35B = new OffenseSegment();
+		_35B.setUcrOffenseCode(OffenseCode._35B.code);
+		incident.addOffense(_35B);
+		e = rule.apply(p);
+		assertNull(e);
+		
+		incident.removeOffense(0);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setPropertyDescription(0, PropertyDescriptionCode._10.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertThat(e.getDataElementIdentifier(), is("15"));
+		assertThat(e.getValue(), is("10"));
+		assertThat(e.getNIBRSErrorCode(), is(NIBRSErrorCode._387));
+		
+	}
+	
 	private void testRule352DrugElements(PropertySegment p) {
 		
 		Rule<PropertySegment> rule = rulesFactory.getRule352();
