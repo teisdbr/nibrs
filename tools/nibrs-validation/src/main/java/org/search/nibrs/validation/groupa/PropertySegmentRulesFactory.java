@@ -169,6 +169,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule388());
 		rulesList.add(getRule390());
 		rulesList.add(getRule391());
+		rulesList.add(getRule392());
 		
 	}
 	
@@ -591,6 +592,30 @@ public class PropertySegmentRulesFactory {
 					ret.setValue(value);
 					ret.setNIBRSErrorCode(NIBRSErrorCode._352);
 					ret.setDataElementIdentifier("14");
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule392() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				String loss = subject.getTypeOfPropertyLoss();
+				boolean drugOffense35AInvolved = ((GroupAIncidentReport) subject.getParentReport()).is35AOffenseInvolved();
+				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport()).containsNon35ACrimeRequirePropertySegment();
+				boolean isRule392Exception2 = ((GroupAIncidentReport) subject.getParentReport()).isRule392Exception2();
+				
+				if (TypeOfPropertyLossCode._1.code.equals(loss) 
+						&& drugOffense35AInvolved 
+						&& !otherOffenseRequirePropertySegment 
+						&& !isRule392Exception2 
+						&& allNull(subject.getSuspectedDrugType())){
+					ret = subject.getErrorTemplate();
+					ret.setNIBRSErrorCode(NIBRSErrorCode._392);
+					ret.setDataElementIdentifier("20");
 				}
 				return ret;
 			}
