@@ -396,6 +396,13 @@ public class GroupAIncidentReport extends AbstractReport
 			.filter(Objects::nonNull)
 			.anyMatch(item->offensecode.code.equals(item.getUcrOffenseCode()));
     }
+    
+    public boolean isCompleteOffenseInvolved( OffenseCode offensecode) {
+		return this.getOffenses().stream()
+			.filter(Objects::nonNull)
+			.anyMatch(item->(offensecode.code.equals(item.getUcrOffenseCode()) 
+					&& !item.getOffenseAttemptedIndicator()));
+    }
 
     public boolean isAgainstPropertyCrimeInvolved() {
     	return this.getOffenses().stream()

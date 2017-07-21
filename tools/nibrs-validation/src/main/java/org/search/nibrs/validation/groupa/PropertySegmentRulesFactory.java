@@ -462,10 +462,20 @@ public class PropertySegmentRulesFactory {
 	}
 	
 	Rule<PropertySegment> getRule360() {
-		return new StolenMotorVehiclesRule(false) {
-			protected NIBRSError evaluateRule(boolean nmvNull, boolean mvOffenseInvolved, boolean offenseAttempted, String typeOfPropertyLoss, PropertySegment subject) {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
-				if (!nmvNull && ((typeOfPropertyLoss != null && !TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) || !mvOffenseInvolved || offenseAttempted)) {
+				String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
+				boolean numberOfRecoveredVehicleEntered = subject.getNumberOfRecoveredMotorVehicles().getValue() != null; 
+//						&& subject.getNumberOfRecoveredMotorVehicles().getValue() != 0;
+				
+				boolean completedMovingVehicleOffenseInvolved = ((GroupAIncidentReport) subject.getParentReport()).isCompleteOffenseInvolved(OffenseCode._240);
+				
+				if (numberOfRecoveredVehicleEntered 
+						&& (typeOfPropertyLoss == null 
+							|| !TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)
+							|| !completedMovingVehicleOffenseInvolved)) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getNumberOfRecoveredMotorVehicles());
 					ret.setNIBRSErrorCode(NIBRSErrorCode._360);
