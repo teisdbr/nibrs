@@ -139,9 +139,9 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule301ForSuspectedDrugType());
 		rulesList.add(getRule304ForTypePropertyLoss());
 		rulesList.add(getRule304ForListBoundElement("propertyDescription", "15", PropertyDescriptionCode.codeSet()));
-		rulesList.add(getRule304ForListBoundElement("suspectedDrugType", "20", SuspectedDrugTypeCode.codeSet()));
 		rulesList.add(getRule304ForListBoundElement("typeDrugMeasurement", "22", TypeOfDrugMeasurementCode.codeSet()));
 		rulesList.add(getRule304ForStolenMotorVehicleCount());
+		rulesList.add(getRule304ForSuspectedDrugType());
 		rulesList.add(getRule304ForRecoveredMotorVehicleCount());
 		rulesList.add(getRule304ForDrugQuantity());
 		rulesList.add(getRule304ForPropertyValue());
@@ -896,6 +896,41 @@ public class PropertySegmentRulesFactory {
 							ret.setNIBRSErrorCode(NIBRSErrorCode._304);
 						}
 					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule304ForSuspectedDrugType() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				
+				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
+				boolean drugOffense = parent.isOffenseInvolved(OffenseCode._35A);
+				boolean isRule392Exception2 = parent.isRule392Exception2();
+				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport())
+						.containsOtherCrimeRequirePropertySegment(OffenseCode._35A.code);
+
+				String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
+				boolean containsPropertyDescription10 = subject.containsPropertyDescription(PropertyDescriptionCode._10.code);
+
+				boolean mandatoryField = !otherOffenseRequirePropertySegment && drugOffense 
+						&& ((Objects.equals(typeOfPropertyLoss, TypeOfPropertyLossCode._6.code) && containsPropertyDescription10 ) 
+							|| (Objects.equals(typeOfPropertyLoss, TypeOfPropertyLossCode._1.code) && !isRule392Exception2) ); 
+				
+				boolean allValidSuspectedDrugType = Arrays.asList(subject.getSuspectedDrugType())
+						.stream()
+						.filter(Objects::nonNull)
+						.allMatch(drugType -> SuspectedDrugTypeCode.codeSet().contains(drugType));
+				
+				if ((mandatoryField && (allNull(subject.getSuspectedDrugType()) || !allValidSuspectedDrugType))
+						|| (!mandatoryField && !allValidSuspectedDrugType)) {
+					ret = subject.getErrorTemplate();
+					ret.setDataElementIdentifier("20");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._304);
 				}
 				return ret;
 			}
