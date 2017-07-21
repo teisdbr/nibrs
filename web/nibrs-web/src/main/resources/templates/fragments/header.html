@@ -38,7 +38,7 @@
 			<div class="row">
 			  <div class="col-sm-2"><img th:src="@{/images/search.png}" height="40px"/></div>
 			  <div class="col-sm-8" align="center"><strong>National Crime Statistics Exchange Program (NCS-X)</strong><br/>
-						<strong>The National Incident-Based Reporting System (NIBRS) Pre-Certification Tool</strong>
+						<strong>The National Incident-Based Reporting System (NIBRS) Pre-Certification Tool</strong> 
 			  </div>
 			  <div class="col-sm-2"><img th:src="@{/images/bjs.png}" height="40px"/></div>
 			</div>
@@ -55,11 +55,13 @@
 		  </div>
 		
 		  <!-- Collect the nav links, forms, and other content for toggling -->
+		  <strong id="version-alert">Beta Version</strong>
+		 
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		    <ul class="nav navbar-nav navbar-right">
-		      <li><a th:href="@{/}">Home</a></li>
-		      <li><a th:href="@{/about}" id="aboutLink">About</a></li>
-		    </ul>
+				<ul class="nav navbar-nav navbar-right">
+				  <li><a th:href="@{/}">Home</a></li>
+				  <li><a th:href="@{/about}" id="aboutLink">About</a></li>
+				</ul>
 		  </div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
 	</nav>
