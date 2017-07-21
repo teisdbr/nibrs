@@ -20,12 +20,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
@@ -295,5 +297,22 @@ public class PropertySegment extends AbstractSegment
 		
 		return descriptionValueMap;
 	}
+	
+	public boolean isSuspectedDrugTypeMandatory() {
+		GroupAIncidentReport parent = (GroupAIncidentReport) this.getParentReport();
+		boolean drugOffense = parent.isOffenseInvolved(OffenseCode._35A);
+		boolean isRule392Exception2 = parent.isRule392Exception2();
+		boolean otherOffenseRequirePropertySegment = parent.containsOtherCrimeRequirePropertySegment(OffenseCode._35A.code);
+
+		String typeOfPropertyLoss = this.getTypeOfPropertyLoss();
+		boolean containsPropertyDescription10 = this.containsPropertyDescription(PropertyDescriptionCode._10.code);
+
+		boolean mandatoryField = !otherOffenseRequirePropertySegment && drugOffense 
+				&& ((Objects.equals(typeOfPropertyLoss, TypeOfPropertyLossCode._6.code) && containsPropertyDescription10 ) 
+					|| (Objects.equals(typeOfPropertyLoss, TypeOfPropertyLossCode._1.code) && !isRule392Exception2) );
+		return mandatoryField;
+	}
+	
+
 
 }

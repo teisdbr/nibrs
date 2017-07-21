@@ -179,16 +179,10 @@ public class PropertySegmentRulesFactory {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
-				for (int i=0;i < 3;i++) {
-					Double drugQuantity = subject.getEstimatedDrugQuantity(i);
-					if (drugQuantity != null) {
-						double d = drugQuantity.doubleValue();
-						if (d < 0 || d > 100000000) {
-							ret = subject.getErrorTemplate();
-							ret.setDataElementIdentifier("20");
-							ret.setNIBRSErrorCode(NIBRSErrorCode._301);
-						}
-					}
+				if (subject.isSuspectedDrugTypeMandatory() && allNull(subject.getSuspectedDrugType())) {
+					ret = subject.getErrorTemplate();
+					ret.setDataElementIdentifier("20");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._301);
 				}
 				return ret;
 			}
@@ -908,18 +902,7 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				
-				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
-				boolean drugOffense = parent.isOffenseInvolved(OffenseCode._35A);
-				boolean isRule392Exception2 = parent.isRule392Exception2();
-				boolean otherOffenseRequirePropertySegment = ((GroupAIncidentReport) subject.getParentReport())
-						.containsOtherCrimeRequirePropertySegment(OffenseCode._35A.code);
-
-				String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
-				boolean containsPropertyDescription10 = subject.containsPropertyDescription(PropertyDescriptionCode._10.code);
-
-				boolean mandatoryField = !otherOffenseRequirePropertySegment && drugOffense 
-						&& ((Objects.equals(typeOfPropertyLoss, TypeOfPropertyLossCode._6.code) && containsPropertyDescription10 ) 
-							|| (Objects.equals(typeOfPropertyLoss, TypeOfPropertyLossCode._1.code) && !isRule392Exception2) ); 
+				boolean mandatoryField = subject.isSuspectedDrugTypeMandatory(); 
 				
 				boolean allValidSuspectedDrugType = Arrays.asList(subject.getSuspectedDrugType())
 						.stream()
@@ -934,6 +917,7 @@ public class PropertySegmentRulesFactory {
 				}
 				return ret;
 			}
+
 		};
 	}
 	
