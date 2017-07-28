@@ -18,6 +18,8 @@ package org.search.nibrs.model;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
@@ -265,5 +267,8 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	}
 	
 
-
+	@Override
+	public String toString(){
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }
