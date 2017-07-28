@@ -639,7 +639,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		ps2.setValueOfProperty(0, new ParsedObject<Integer>(3));
 		e = rule.apply(report);
 		assertNotNull(e);
-		assertEquals("15", e.getDataElementIdentifier());
+		assertEquals("16", e.getDataElementIdentifier());
 		assertEquals(NIBRSErrorCode._084, e.getNIBRSErrorCode());
 		assertEquals("09", e.getValue());
 	}

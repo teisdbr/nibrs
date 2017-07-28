@@ -1022,7 +1022,7 @@ public class GroupAIncidentReportRulesFactory {
 								ret = subject.getErrorTemplate();
 								ret.setValue(entry.getKey());
 								ret.setNIBRSErrorCode(NIBRSErrorCode._084);
-								ret.setDataElementIdentifier("15");
+								ret.setDataElementIdentifier("16");
 								ret.setCrossSegment(true);
 								break;
 							}
