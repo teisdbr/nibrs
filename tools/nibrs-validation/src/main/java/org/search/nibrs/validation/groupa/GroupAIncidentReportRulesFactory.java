@@ -1104,6 +1104,10 @@ public class GroupAIncidentReportRulesFactory {
 					if (PropertyDescriptionCode.containsMotorVehicleCode(stolenPropertyDescriptionList)) {
 						recoveredPropertyTypes.remove(PropertyDescriptionCode._38.code);
 					}
+					
+					if (stolenPropertyDescriptionList.contains(PropertyDescriptionCode._13.code)){
+						recoveredPropertyTypes.remove(PropertyDescriptionCode._59.code);
+					}
 					if (!recoveredPropertyTypes.isEmpty()) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._072);
