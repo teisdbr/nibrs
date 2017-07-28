@@ -118,6 +118,8 @@ final class ArresteeRuleViolationExemplarFactory {
 		groupATweakerMap.put(71, incident -> {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
+			copy.setReportActionType('I');
+			
 			copy.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 			Calendar c = Calendar.getInstance();
 			c.set(2016, Calendar.JANUARY, 1);

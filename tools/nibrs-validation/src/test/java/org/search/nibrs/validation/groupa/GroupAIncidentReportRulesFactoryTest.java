@@ -696,6 +696,20 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertNull(nibrsError);
 		report.setExceptionalClearanceCode(ClearedExceptionallyCode.A.code);
 		nibrsError = rule.apply(report);
+		assertNull(nibrsError);
+		
+		Calendar arrestDate = Calendar.getInstance();
+		arresteeSegment.setArrestDate(new ParsedObject<>(arrestDate.getTime()));
+		nibrsError = rule.apply(report);
+		assertNull(nibrsError);
+		
+		arrestDate.set(2016, Calendar.DECEMBER, 31);
+		arresteeSegment.setArrestDate(new ParsedObject<>(arrestDate.getTime()));
+		nibrsError = rule.apply(report);
+		assertNull(nibrsError);
+		
+		report.setReportActionType('I');
+		nibrsError = rule.apply(report);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._071, nibrsError.getNIBRSErrorCode());
 		assertEquals("04", nibrsError.getDataElementIdentifier());

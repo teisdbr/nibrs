@@ -800,12 +800,19 @@ public class GroupAIncidentReportRulesFactory {
 				NIBRSError e = null;
 				String exceptionalClearanceCode = subject.getExceptionalClearanceCode();
 				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
-				if (exceptionalClearanceCode != null 
+				if (subject.getReportActionType() == 'I' 
+						&& exceptionalClearanceCode != null 
 						&& !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) 
 						&& !exceptionalClearanceDatePO.isMissing() 
 						&& !exceptionalClearanceDatePO.isInvalid()
 						&& exceptionalClearanceDatePO.getValue() != null) {
-					if (subject.getArresteeCount() > 0) {
+					boolean containingInvalidArrests = 
+							subject.getArrestees().stream()
+							.anyMatch(item->
+								item.getArrestDate() != null 
+								&& item.getArrestDate().getValue() != null 
+								&&  !item.getArrestDate().getValue().after(exceptionalClearanceDatePO.getValue()));
+					if (containingInvalidArrests) {
 						e = subject.getErrorTemplate();
 						e.setNIBRSErrorCode(NIBRSErrorCode._071);
 						e.setDataElementIdentifier("04");
