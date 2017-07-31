@@ -343,13 +343,12 @@ public class PropertySegmentRulesFactory {
 				NIBRSError ret = null;
 				Integer smv = subject.getNumberOfStolenMotorVehicles().getValue();
 				Integer rmv = subject.getNumberOfRecoveredMotorVehicles().getValue();
-				if ((smv != null && smv > 0) || (rmv != null && rmv > 0)) {
-					boolean found = false;
-					for (int i=0;i < 10 && !found;i++) {
-						String pd = subject.getPropertyDescription(i);
-						found = pd != null && allowedPropertyDescriptions.contains(pd);
-					}
-					if (!found) {
+				
+				GroupAIncidentReport parent = (GroupAIncidentReport) subject.getParentReport();
+				boolean motorVehicleTheftOffense = parent.isOffenseInvolved(OffenseCode._240);
+
+				if ( motorVehicleTheftOffense && (smv != null && smv > 0) || (rmv != null && rmv > 0) ) {
+					if (!subject.containsVehiclePropertyCodes()) {
 						ret = subject.getErrorTemplate();
 						ret.setValue((smv != null && smv > 0)?smv:rmv);
 						ret.setNIBRSErrorCode(NIBRSErrorCode._359);

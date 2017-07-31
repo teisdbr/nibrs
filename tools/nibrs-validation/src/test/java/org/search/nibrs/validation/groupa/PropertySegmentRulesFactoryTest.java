@@ -265,6 +265,13 @@ public class PropertySegmentRulesFactoryTest {
 		p.setNumberOfStolenMotorVehicles(new ParsedObject<>(1));
 		p.setPropertyDescription(0, null);
 		e = rule.apply(p);
+		assertNull(e);
+		
+		GroupAIncidentReport incident = (GroupAIncidentReport) p.getParentReport();
+		OffenseSegment o = new OffenseSegment();
+		incident.addOffense(o);
+		o.setUcrOffenseCode(OffenseCode._240.code);
+		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._359, e.getNIBRSErrorCode());
 		assertEquals("18", e.getDataElementIdentifier());
