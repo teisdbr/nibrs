@@ -1105,7 +1105,10 @@ public class VictimSegmentRulesFactory {
 				NIBRSError e = null;
 				NIBRSAge age = victimSegment.getAge();
 
-				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._36B.code) && age != null && age.getAgeMax() >= 18) {
+				if (victimSegment.getUcrOffenseCodeList().contains(OffenseCode._36B.code) 
+						&& age != null
+						&& age.getAgeMax() != null
+						&& age.getAgeMax() >= 18) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("26");
 					e.setNIBRSErrorCode(NIBRSErrorCode._481);
