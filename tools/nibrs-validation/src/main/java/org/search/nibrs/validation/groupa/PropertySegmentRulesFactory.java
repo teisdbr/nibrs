@@ -426,12 +426,12 @@ public class PropertySegmentRulesFactory {
 								&& OffenseAttemptedCompletedCode.C.code.equals(offense.getOffenseAttemptedCompleted()));
 						
 				NIBRSError ret = null;
-				if (nmvNull && ((typeOfPropertyLoss != null 
+				if ((nmvNull || subject.getNumberOfRecoveredMotorVehicles().getValue() == 0)  && ((typeOfPropertyLoss != null 
 						&& TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) 
 						&& completeMvOffenseInvolved
 						&& subject.containsVehiclePropertyCodes())) {
 					ret = subject.getErrorTemplate();
-					ret.setValue(subject.getNumberOfStolenMotorVehicles());
+					ret.setValue(subject.getFirstVehiclePropertyCode().orElse(""));
 					ret.setNIBRSErrorCode(NIBRSErrorCode._361);
 					ret.setDataElementIdentifier("19");
 				}
