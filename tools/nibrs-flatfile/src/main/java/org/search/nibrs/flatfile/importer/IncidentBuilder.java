@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -126,7 +127,9 @@ public class IncidentBuilder {
 					currentReport = buildReport(errorList, s, readerLocationName);
 				} else {
 					int errorListSize = errorList.size();
-					addSegmentToIncident((GroupAIncidentReport) currentReport, s, errorList);
+					if (currentReport instanceof GroupAIncidentReport){
+						addSegmentToIncident((GroupAIncidentReport) currentReport, s, errorList);
+					}
 					if (errorList.size() > errorListSize && currentReport != null) {
 						currentReport.setHasUpstreamErrors(true);
 					}
@@ -449,6 +452,8 @@ public class IncidentBuilder {
 	}
 
 	private final void addSegmentToIncident(GroupAIncidentReport currentIncident, Segment s, List<NIBRSError> errorList) {
+		if (Objects.isNull(currentIncident)) return; 
+		
 		List<NIBRSError> newErrorList = new ArrayList<>();
 		char segmentType = s.getSegmentType();
 		switch (segmentType) {
