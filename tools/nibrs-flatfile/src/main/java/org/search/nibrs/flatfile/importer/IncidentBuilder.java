@@ -816,8 +816,15 @@ public class IncidentBuilder {
 					if (drugQuantityFractionalPartString != null) {
 						fractionalValueString = drugQuantityFractionalPartString;
 					}
+					
 					String drugQuantityFullValueString = drugQuantityWholePartString + "." + fractionalValueString;
-					newProperty.setEstimatedDrugQuantity(i, new Double(drugQuantityFullValueString));
+					
+					try{
+						newProperty.setEstimatedDrugQuantity(i, new Double(drugQuantityFullValueString));
+					}
+					catch (NumberFormatException ne){
+						log.error(ne);
+					}
 				}
 				newProperty.setTypeDrugMeasurement(i, StringUtils.getStringBetween(246 + 15 * i, 247 + 15 * i, segmentData));
 			}
