@@ -1080,6 +1080,7 @@ public class GroupAIncidentReportRulesFactory {
 				PropertySegment stolenSegment = subject.getStolenPropertySegment();
 				if (subject.getReportActionType() == 'I' && recoveredSegment != null 
 					&& recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue() != null 
+					&& recoveredSegment.getNumberOfRecoveredMotorVehicles().getValue() > 0
 					&& (stolenSegment == null 
 						|| stolenSegment.getNumberOfStolenMotorVehicles().isMissing() 
 						|| stolenSegment.getNumberOfStolenMotorVehicles().isInvalid()
