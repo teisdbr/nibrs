@@ -420,7 +420,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._357, e.getNIBRSErrorCode());
 		assertEquals("18", e.getDataElementIdentifier());
-		assertEquals("01", e.getValue().toString());
+		assertEquals("1", e.getValue());
 		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
 		o.setUcrOffenseCode(OffenseCode._09A.code);
 		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
@@ -698,7 +698,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
 		assertEquals("16", e.getDataElementIdentifier());
-		assertEquals(0, e.getValue());
+		assertEquals("0", e.getValue());
 		assertEquals(NIBRSErrorCode._351, e.getNIBRSErrorCode());
 		p.setPropertyDescription(1, PropertyDescriptionCode._99.code);
 		p.setValueOfProperty(1, new ParsedObject<>(0));

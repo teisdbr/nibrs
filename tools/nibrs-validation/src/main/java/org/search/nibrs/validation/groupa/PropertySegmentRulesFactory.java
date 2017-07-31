@@ -331,12 +331,6 @@ public class PropertySegmentRulesFactory {
 	}
 	
 	Rule<PropertySegment> getRule359() {
-		Set<String> allowedPropertyDescriptions = new HashSet<>();
-		allowedPropertyDescriptions.add(PropertyDescriptionCode._03.code);
-		allowedPropertyDescriptions.add(PropertyDescriptionCode._05.code);
-		allowedPropertyDescriptions.add(PropertyDescriptionCode._24.code);
-		allowedPropertyDescriptions.add(PropertyDescriptionCode._28.code);
-		allowedPropertyDescriptions.add(PropertyDescriptionCode._37.code);
 		return new Rule<PropertySegment>() {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
@@ -485,7 +479,7 @@ public class PropertySegmentRulesFactory {
 				NIBRSError ret = null;
 				if (!nmvNull && ((typeOfPropertyLoss != null && !TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLoss)) || !mvOffenseInvolved || offenseAttempted)) {
 					ret = subject.getErrorTemplate();
-					ret.setValue(subject.getNumberOfStolenMotorVehicles());
+					ret.setValue(subject.getNumberOfStolenMotorVehicles().getValue().toString());
 					ret.setNIBRSErrorCode(NIBRSErrorCode._357);
 					ret.setDataElementIdentifier("18");
 				}
@@ -733,7 +727,7 @@ public class PropertySegmentRulesFactory {
 					if (!(valueOfPropertyPO.isMissing() || valueOfPropertyPO.isInvalid()) && valueOfPropertyPO.getValue() == 0 && !allowedZeroValue.contains(propertyDescription)) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._351);
-						ret.setValue(valueOfPropertyPO.getValue());
+						ret.setValue("0");
 						ret.setDataElementIdentifier("16");
 					}
 				}

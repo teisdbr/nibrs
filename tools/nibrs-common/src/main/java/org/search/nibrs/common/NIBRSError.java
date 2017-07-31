@@ -300,8 +300,8 @@ public class NIBRSError implements Serializable{
 		String values = valueList.stream()
 				.filter(Objects::nonNull)
 				.map(item -> {
-					if (item instanceof Integer){ 
-						return StringUtils.leftPad(item.toString(), 2, '0');
+					if (item instanceof Integer ){ 
+							return StringUtils.leftPad(item.toString(), 2, '0');
 					}
 					else if (item instanceof Date){
 						return (new SimpleDateFormat("yyyyMMdd")).format((Date) item);
@@ -311,7 +311,7 @@ public class NIBRSError implements Serializable{
 				.filter(item-> !StringUtils.endsWith(getRuleNumber(), "06") || !allItems.add(item)) //Set.add() returns false if the item was already in the set.
 				.filter(item->!item.equals("null"))
 				.map(item -> {
-					if (getRuleNumber().equals("391")) 
+					if (getRuleNumber().equals("391") || getRuleNumber().equals("351")) 
 						return StringUtils.leftPad(item, 9, '0'); 
 					return item.toString();
 				 })		
