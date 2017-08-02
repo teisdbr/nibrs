@@ -757,7 +757,7 @@ public class IncidentBuilder {
 					propertyValue.setMissing(true);
 				} else {
 					try {
-						String valueOfPropertyPattern = "\\d{9}";
+						String valueOfPropertyPattern = "\\d{1,9}";
 						if (propertyValueString.matches(valueOfPropertyPattern)){
 							Integer propertyValueI = Integer.parseInt(propertyValueString);
 							propertyValue.setValue(propertyValueI);
