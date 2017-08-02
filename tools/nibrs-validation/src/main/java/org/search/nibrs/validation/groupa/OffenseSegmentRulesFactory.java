@@ -149,7 +149,7 @@ public class OffenseSegmentRulesFactory {
 		firearmCodes.add(TypeOfWeaponForceCode._14.code);
 		firearmCodes.add(TypeOfWeaponForceCode._15.code);
 		
-		rulesList.add(getRule201ForUCROffenseCode());
+		rulesList.add(getRule201ForSingleStringProperty("ucrOffenseCode", "6"));
 		rulesList.add(getRule201ForOffendersSuspectedOfUsing());
 		rulesList.add(getRule201ForSingleStringProperty("offenseAttemptedCompleted", "7"));
 		rulesList.add(getRule201ForSingleStringProperty("locationType", "9"));

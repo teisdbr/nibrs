@@ -74,12 +74,9 @@ final class OffenseRuleViolationExemplarFactory {
 		groupATweakerMap.put(201, incident -> {
 			// The referenced data element in a Group A Incident AbstractReport
 			// Segment 2 is mandatory & must be present.
+			// Data Elemet 6
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenses().get(0).setUcrOffenseCode("XXX");
-			incidents.add(copy);
-			copy = new GroupAIncidentReport(incident);
-			//Data Element 6
 			copy.getOffenses().get(0).setUcrOffenseCode(null);
 			incidents.add(copy);
 			//Data Element 7
