@@ -464,7 +464,7 @@ public class PropertySegmentRulesFactory {
 							|| !TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)
 							|| !completedMovingVehicleOffenseInvolved)) {
 					ret = subject.getErrorTemplate();
-					ret.setValue(subject.getNumberOfRecoveredMotorVehicles());
+					ret.setValue(subject.getNumberOfRecoveredMotorVehicles().getValue().toString());
 					ret.setNIBRSErrorCode(NIBRSErrorCode._360);
 					ret.setDataElementIdentifier("19");
 				}

@@ -981,11 +981,18 @@ public class GroupAIncidentReportRulesFactory {
 			case "26C": 
 			case "26D": 
 			case "26E": 
+			case "26F": 
 			case "26G": 
 			case "270": 
 				return Arrays.asList(
 						TypeOfPropertyLossCode._5.code, 
 						TypeOfPropertyLossCode._7.code);
+			case "39A": 
+			case "39B":
+			case "39C":
+			case "39D":
+				return Arrays.asList(
+						TypeOfPropertyLossCode._6.code);
 			}
 		}
 		return new ArrayList<String>(TypeOfPropertyLossCode.codeSet());

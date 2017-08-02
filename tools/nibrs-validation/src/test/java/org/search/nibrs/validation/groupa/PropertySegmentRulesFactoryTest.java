@@ -384,7 +384,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		assertEquals(NIBRSErrorCode._360, e.getNIBRSErrorCode());
 		assertEquals("19", e.getDataElementIdentifier());
-		assertEquals("01", e.getValue().toString());
+		assertEquals("1", e.getValue().toString());
 		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
 		o.setUcrOffenseCode(OffenseCode._09A.code);
 		o.setOffenseAttemptedCompleted(OffenseAttemptedCompletedCode.C.code);
