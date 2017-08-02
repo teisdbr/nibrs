@@ -896,14 +896,10 @@ public class GroupAIncidentReportRulesFactory {
 							.collect(Collectors.toList());
 				
 				if (qualifiedOffenses.size() > 0){
-					
-					for ( OffenseSegment offense : qualifiedOffenses ){
-						existingPropertyLosses.removeAll(getValidPropertyLossCodes(offense));
-					}
-					
+					existingPropertyLosses.removeAll(getValidPropertyLossCodes(qualifiedOffenses));
 					ret = setError081(subject, ret, existingPropertyLosses);
-
 				}
+				
 				else if (subject.getOffenses().stream().anyMatch(Objects::nonNull)){
 					existingPropertyLosses.removeAll(TypeOfPropertyLossCode.noneOrUnknownValueCodeSet());
 					ret = setError081(subject, ret, existingPropertyLosses);
@@ -924,6 +920,14 @@ public class GroupAIncidentReportRulesFactory {
 				return ret;
 			}
 		};
+	}
+	
+	protected Set<String> getValidPropertyLossCodes(List<OffenseSegment> offenses){
+		Set<String> validPropertyCodes = new HashSet<>(); 
+		
+		offenses.stream()
+			.forEach(offense -> validPropertyCodes.addAll(getValidPropertyLossCodes(offense)));
+		return validPropertyCodes;
 	}
 	
 	/**
