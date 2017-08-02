@@ -161,6 +161,8 @@ public class OffenseSegmentRulesFactory {
 		rulesList.add(getRule204ForValueList("typeOfCriminalActivity", "12", TypeOfCriminalActivityCode.codeSet()));
 		rulesList.add(getRule204ForValueList("typeOfWeaponForceInvolved", "13", TypeOfWeaponForceCode.codeSet()));
 		rulesList.add(getRule204ForValueList("automaticWeaponIndicator", "13", AutomaticWeaponIndicatorCode.codeSet()));
+		rulesList.add(getRule204ForValueList("automaticWeaponIndicator", "13", AutomaticWeaponIndicatorCode.codeSet()));
+		rulesList.add(getRule204ForUCROffenseCode());
 		rulesList.add(getRule204ForPremisesEntered());
 		
 		rulesList.add(getRule205());
@@ -535,9 +537,8 @@ public class OffenseSegmentRulesFactory {
 		return new DuplicateCodedValueRule<>(propertyName, dataElementIdentifier, OffenseSegment.class, NIBRSErrorCode._206);
 	}
 	
-	Rule<OffenseSegment> getRule201ForUCROffenseCode() {
-		// weird that the 2.1 spec calls this a 201 error, not 204 like the rest of the "must be a valid value" ones, but there you go...
-		return new ValidValueListRule<>("ucrOffenseCode", "6", OffenseSegment.class, NIBRSErrorCode._201, OffenseCode.codeSet(), false);
+	Rule<OffenseSegment> getRule204ForUCROffenseCode() {
+		return new ValidValueListRule<>("ucrOffenseCode", "6", OffenseSegment.class, NIBRSErrorCode._204, OffenseCode.codeSet(), false);
 	}
 	
 	Rule<OffenseSegment> getRule201ForOffendersSuspectedOfUsing() {

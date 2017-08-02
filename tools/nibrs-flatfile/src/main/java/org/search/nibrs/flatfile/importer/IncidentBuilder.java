@@ -818,8 +818,10 @@ public class IncidentBuilder {
 				String drugQuantityFractionalPartString = StringUtils.getStringBetween(243 + 15 * i, 245 + 15 * i, segmentData);
 				if (drugQuantityWholePartString != null) {
 					String fractionalValueString = "000";
+					String value = drugQuantityWholePartString;
 					if (drugQuantityFractionalPartString != null) {
 						fractionalValueString = drugQuantityFractionalPartString;
+						value += fractionalValueString;
 					}
 					
 					String drugQuantityFullValueString = drugQuantityWholePartString + "." + fractionalValueString;
@@ -829,6 +831,16 @@ public class IncidentBuilder {
 					}
 					catch (NumberFormatException ne){
 						log.error(ne);
+						NIBRSError e = new NIBRSError();
+						e.setContext(s.getReportSource());
+						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+						e.setSegmentType(s.getSegmentType());
+						e.setValue(value);
+						e.setNIBRSErrorCode(NIBRSErrorCode._302);
+						e.setWithinSegmentIdentifier(null);
+						e.setDataElementIdentifier("21");
+						errorList.add(e);
+
 					}
 				}
 				newProperty.setTypeDrugMeasurement(i, StringUtils.getStringBetween(246 + 15 * i, 247 + 15 * i, segmentData));

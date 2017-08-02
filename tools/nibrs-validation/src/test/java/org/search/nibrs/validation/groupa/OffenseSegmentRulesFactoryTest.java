@@ -681,15 +681,15 @@ public class OffenseSegmentRulesFactoryTest {
 	}
 
 	@Test
-	public void testRule201ForOffenseCode() {
+	public void testRule204ForOffenseCode() {
 		
-		Rule<OffenseSegment> rule201 = rulesFactory.getRule201ForUCROffenseCode();
+		Rule<OffenseSegment> rule201 = rulesFactory.getRule204ForUCROffenseCode();
 		OffenseSegment o = buildBaseSegment();
 		AbstractReport report = o.getParentReport();
 		o.setUcrOffenseCode(null);
 		NIBRSError e = rule201.apply(o);
 		assertNotNull(e);
-		assertEquals(NIBRSErrorCode._201, e.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._204, e.getNIBRSErrorCode());
 		assertEquals('2', e.getSegmentType());
 		assertEquals("6", e.getDataElementIdentifier());
 		assertEquals(null, e.getValue());
