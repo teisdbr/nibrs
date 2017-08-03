@@ -154,6 +154,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule353());
 		rulesList.add(getRule354());
 		rulesList.add(getRule355());
+		rulesList.add(getRule356());
 		rulesList.add(getRule357());
 		rulesList.add(getRule358());
 		rulesList.add(getRule359());
@@ -730,6 +731,29 @@ public class PropertySegmentRulesFactory {
 						ret.setNIBRSErrorCode(NIBRSErrorCode._351);
 						ret.setValue("0");
 						ret.setDataElementIdentifier("16");
+					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule356() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				for (int i=0;i < 10;i++) {
+					ParsedObject<Date> recoveredDate = subject.getDateRecovered(i);
+					ParsedObject<Integer> valueOfPropertyPO = subject.getValueOfProperty(i);
+					String propertyDescription = subject.getPropertyDescription(i);
+					if (!(recoveredDate.isInvalid() || recoveredDate.isMissing() || recoveredDate.getValue() == null)  
+							&& (valueOfPropertyPO.isMissing() || valueOfPropertyPO.isInvalid() || valueOfPropertyPO.getValue() == null
+							|| StringUtils.isBlank(propertyDescription))) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._356);
+						ret.setDataElementIdentifier("17");
+						break;
 					}
 				}
 				return ret;
