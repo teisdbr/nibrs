@@ -724,7 +724,8 @@ public class PropertySegmentRulesFactory {
 				for (int i=0;i < 10;i++) {
 					ParsedObject<Integer> valueOfPropertyPO = subject.getValueOfProperty(i);
 					String propertyDescription = subject.getPropertyDescription(i);
-					if (!(valueOfPropertyPO.isMissing() || valueOfPropertyPO.isInvalid()) && valueOfPropertyPO.getValue() == 0 && !allowedZeroValue.contains(propertyDescription)) {
+					if (PropertyDescriptionCode.codeSet().contains(propertyDescription) 
+							&& !(valueOfPropertyPO.isMissing() || valueOfPropertyPO.isInvalid()) && valueOfPropertyPO.getValue() == 0 && !allowedZeroValue.contains(propertyDescription)) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._351);
 						ret.setValue("0");
