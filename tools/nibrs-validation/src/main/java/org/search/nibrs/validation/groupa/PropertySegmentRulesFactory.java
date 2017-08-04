@@ -852,6 +852,14 @@ public class PropertySegmentRulesFactory {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
+				
+				if (Objects.equals(subject.getTypeOfPropertyLoss(), TypeOfPropertyLossCode._5.code)
+						&& allNull(subject.getDateRecovered())){
+					ret = subject.getErrorTemplate();
+					ret.setDataElementIdentifier("17");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._305);
+					return ret;
+				}
 				GroupAIncidentReport parentIncident = (GroupAIncidentReport) subject.getParentReport();
 				ParsedObject<Date> incidentDatePO = parentIncident.getIncidentDate();
 				Integer monthOfTape = parentIncident.getMonthOfTape();
