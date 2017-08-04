@@ -166,6 +166,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule364forQuantity());
 		rulesList.add(getRule364forMeasurement());
 		rulesList.add(getRule365());
+		rulesList.add(getRule366());
 		rulesList.add(getRule367());
 		rulesList.add(getRule387());
 		rulesList.add(getRule388());
@@ -592,6 +593,27 @@ public class PropertySegmentRulesFactory {
 					ret.setValue(value);
 					ret.setNIBRSErrorCode(NIBRSErrorCode._352);
 					ret.setDataElementIdentifier("14");
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule366() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				int length = subject.getEstimatedDrugQuantity().length; 
+				for (int i=0;i < length;i++) {
+					Double estimatedDrugQuantity = subject.getEstimatedDrugQuantity(i);
+					String suspectedDrugType = subject.getSuspectedDrugType(i);
+					String typeDrugMeasurement = subject.getTypeDrugMeasurement(i);
+					if (estimatedDrugQuantity != null && (StringUtils.isBlank(suspectedDrugType) || StringUtils.isBlank(typeDrugMeasurement)) ) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._366);
+						ret.setDataElementIdentifier("21");
+					}
 				}
 				return ret;
 			}

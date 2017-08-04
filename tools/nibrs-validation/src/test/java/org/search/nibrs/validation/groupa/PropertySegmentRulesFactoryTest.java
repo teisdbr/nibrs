@@ -925,6 +925,32 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule366() {
+		Rule<PropertySegment> rule = rulesFactory.getRule366();
+		PropertySegment p = buildBaseSegment();
+		
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		p.setEstimatedDrugQuantity(0, 10.0);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("21", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._366, e.getNIBRSErrorCode());
+		
+		p.setSuspectedDrugType(0, SuspectedDrugTypeCode._E.code);
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("21", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._366, e.getNIBRSErrorCode());
+		
+		p.setTypeDrugMeasurement(0, TypeOfDrugMeasurementCode._FO.code);;
+		e = rule.apply(p);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule304_stolenMotorVehicles() {
 		Rule<PropertySegment> rule = rulesFactory.getRule304ForStolenMotorVehicleCount();
 		PropertySegment p = buildBaseSegment();
