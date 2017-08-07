@@ -1113,6 +1113,40 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule375() {
+		Rule<PropertySegment> rule = rulesFactory.getRule375();
+		PropertySegment p = buildBaseSegment();
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		
+		for (int i=0;i < 10;i++) {
+			p.setPropertyDescription(i, null);
+		}
+		e = rule.apply(p);
+		assertNull(e);
+		
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._1.code);
+		e = rule.apply(p);
+		assertNull(e);
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._8.code);
+		e = rule.apply(p);
+		assertNull(e);
+		
+		for (String typeOfPropertyLossCode: TypeOfPropertyLossCode.requirePropertyDescriptionValueCodeSet()){
+			p.setTypeOfPropertyLoss(typeOfPropertyLossCode);
+			e = rule.apply(p);
+			assertNotNull(e);
+			assertEquals('3', e.getSegmentType());
+			assertEquals("15", e.getDataElementIdentifier());
+			assertEquals(NIBRSErrorCode._375, e.getNIBRSErrorCode());
+		}
+		
+		p.setPropertyDescription(0, "18");
+		e = rule.apply(p);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule304_typeOfPropertyLoss() {
 		Rule<PropertySegment> rule = rulesFactory.getRule304ForTypePropertyLoss();
 		PropertySegment p = buildBaseSegment();

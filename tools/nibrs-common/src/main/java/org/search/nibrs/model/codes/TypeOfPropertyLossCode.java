@@ -84,4 +84,15 @@ public enum TypeOfPropertyLossCode {
 		return ret;
 	}
 
+	public static final Set<String> requirePropertyDescriptionValueCodeSet() {
+		Set<String> ret = new HashSet<>();
+		ret.add(_2.code);
+		ret.add(_3.code);
+		ret.add(_4.code);
+		ret.add(_5.code);
+		ret.add(_6.code);
+		ret.add(_7.code);
+		return ret;
+	}
+	
 }
