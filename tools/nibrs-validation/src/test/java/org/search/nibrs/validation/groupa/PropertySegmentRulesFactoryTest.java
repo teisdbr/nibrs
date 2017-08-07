@@ -989,6 +989,51 @@ public class PropertySegmentRulesFactoryTest {
 	}
 	
 	@Test
+	public void testRule384() {
+		Rule<PropertySegment> rule = rulesFactory.getRule384();
+		PropertySegment p = buildBaseSegment();
+		
+		NIBRSError e = rule.apply(p);
+		assertNull(e);
+		
+		p.setTypeDrugMeasurement(0, TypeOfDrugMeasurementCode._FO.code);;
+		e = rule.apply(p);
+		assertNull(e);
+		
+		p.setTypeDrugMeasurement(0, TypeOfDrugMeasurementCode._XX.code);;
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("21", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._384, e.getNIBRSErrorCode());
+		
+		p.setEstimatedDrugQuantity(0, new ParsedObject<>(10.0));
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("21", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._384, e.getNIBRSErrorCode());
+		
+		p.setEstimatedDrugQuantity(0, ParsedObject.getInvalidParsedObject());
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("21", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._384, e.getNIBRSErrorCode());
+		
+		p.setEstimatedDrugQuantity(0, ParsedObject.getMissingParsedObject());
+		e = rule.apply(p);
+		assertNotNull(e);
+		assertEquals('3', e.getSegmentType());
+		assertEquals("21", e.getDataElementIdentifier());
+		assertEquals(NIBRSErrorCode._384, e.getNIBRSErrorCode());
+		
+		p.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
+		e = rule.apply(p);
+		assertNull(e);
+	}
+	
+	@Test
 	public void testRule304_stolenMotorVehicles() {
 		Rule<PropertySegment> rule = rulesFactory.getRule304ForStolenMotorVehicleCount();
 		PropertySegment p = buildBaseSegment();

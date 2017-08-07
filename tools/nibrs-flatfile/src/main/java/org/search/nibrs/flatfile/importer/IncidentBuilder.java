@@ -816,9 +816,9 @@ public class IncidentBuilder {
 				newProperty.setSuspectedDrugType(i, StringUtils.getStringBetween(233 + 15 * i, 233 + 15 * i, segmentData));
 				String drugQuantityWholePartString = StringUtils.getStringBetween(234 + 15 * i, 242 + 15 * i, segmentData);
 				String drugQuantityFractionalPartString = StringUtils.getStringBetween(243 + 15 * i, 245 + 15 * i, segmentData);
-				if (drugQuantityWholePartString != null) {
+				if (drugQuantityWholePartString != null || drugQuantityFractionalPartString != null) {
 					String fractionalValueString = "000";
-					String value = drugQuantityWholePartString;
+					String value = org.apache.commons.lang3.StringUtils.isBlank(drugQuantityWholePartString)? "0":drugQuantityWholePartString.trim();
 					if (drugQuantityFractionalPartString != null) {
 						fractionalValueString = drugQuantityFractionalPartString;
 						value += fractionalValueString;
@@ -832,7 +832,8 @@ public class IncidentBuilder {
 					}
 					catch (NumberFormatException ne){
 						log.error(ne);
-						newProperty.setEstimatedDrugQuantity(i, ParsedObject.getInvalidParsedObject());
+						ParsedObject<Double> estimatedDrugQuantity = ParsedObject.getInvalidParsedObject();
+						newProperty.setEstimatedDrugQuantity(i, estimatedDrugQuantity);
 						NIBRSError e = new NIBRSError();
 						e.setContext(s.getReportSource());
 						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -842,6 +843,7 @@ public class IncidentBuilder {
 						e.setWithinSegmentIdentifier(null);
 						e.setDataElementIdentifier("21");
 						errorList.add(e);
+						estimatedDrugQuantity.setValidationError(e);
 
 					}
 				}
