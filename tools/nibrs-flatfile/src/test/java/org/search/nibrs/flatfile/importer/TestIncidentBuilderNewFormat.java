@@ -15,19 +15,33 @@
  */
 package org.search.nibrs.flatfile.importer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 
-import org.search.nibrs.model.*;
-import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.flatfile.importer.DefaultReportListener;
-import org.search.nibrs.flatfile.importer.IncidentBuilder;
-import org.search.nibrs.flatfile.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.flatfile.util.DateUtils;
+import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
+import org.search.nibrs.model.VictimSegment;
 
 /**
  * Unit test suite for the IncidentBuilder class.
@@ -235,7 +249,7 @@ public class TestIncidentBuilderNewFormat {
 		assertNull(property.getNumberOfRecoveredMotorVehicles().getValue());
 		for (int i = 0; i < 3; i++) {
 			assertNull(property.getSuspectedDrugType(i));
-			assertNull(property.getEstimatedDrugQuantity(i));
+			assertTrue(property.getEstimatedDrugQuantity(i).isMissing());
 			assertNull(property.getTypeDrugMeasurement(i));
 		}
 	}
@@ -244,10 +258,10 @@ public class TestIncidentBuilderNewFormat {
 	public void testDrugIncidentProperty() {
 		PropertySegment property = (PropertySegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(5)).propertyIterator().next();
 		assertEquals("E", property.getSuspectedDrugType(0));
-		assertEquals(new Double(0.1), property.getEstimatedDrugQuantity(0));
+		assertEquals(new ParsedObject<>(0.1), property.getEstimatedDrugQuantity(0));
 		assertEquals("GM", property.getTypeDrugMeasurement(0));
 		assertEquals("H", property.getSuspectedDrugType(1));
-		assertEquals(new Double(2.0), property.getEstimatedDrugQuantity(1));
+		assertEquals(new ParsedObject<>(2.0), property.getEstimatedDrugQuantity(1));
 		assertEquals("DU", property.getTypeDrugMeasurement(1));
 	}
 

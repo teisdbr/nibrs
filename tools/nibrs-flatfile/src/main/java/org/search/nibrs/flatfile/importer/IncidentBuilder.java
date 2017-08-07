@@ -827,10 +827,12 @@ public class IncidentBuilder {
 					String drugQuantityFullValueString = drugQuantityWholePartString + "." + fractionalValueString;
 					
 					try{
-						newProperty.setEstimatedDrugQuantity(i, new Double(drugQuantityFullValueString));
+						Double doubleValue = new Double(drugQuantityFullValueString);
+						newProperty.setEstimatedDrugQuantity(i, new ParsedObject<Double>(doubleValue));
 					}
 					catch (NumberFormatException ne){
 						log.error(ne);
+						newProperty.setEstimatedDrugQuantity(i, ParsedObject.getInvalidParsedObject());
 						NIBRSError e = new NIBRSError();
 						e.setContext(s.getReportSource());
 						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -843,6 +845,10 @@ public class IncidentBuilder {
 
 					}
 				}
+				else{
+					newProperty.setEstimatedDrugQuantity(i, ParsedObject.getMissingParsedObject());
+				}
+				
 				newProperty.setTypeDrugMeasurement(i, StringUtils.getStringBetween(246 + 15 * i, 247 + 15 * i, segmentData));
 			}
 

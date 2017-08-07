@@ -56,7 +56,7 @@ public class PropertySegment extends AbstractSegment
     private ParsedObject<Integer> numberOfStolenMotorVehicles;
     private ParsedObject<Integer> numberOfRecoveredMotorVehicles;
     private String[] suspectedDrugType;
-    private Double[] estimatedDrugQuantity;
+    private ParsedObject<Double>[] estimatedDrugQuantity;
     private String[] typeDrugMeasurement;
 
 	private int populatedPropertyDescriptionCount;
@@ -69,7 +69,7 @@ public class PropertySegment extends AbstractSegment
 		valueOfProperty = ParsedObject.initializeParsedObjectArray(VALUE_OF_PROPERTY_COUNT);
         dateRecovered = ParsedObject.initializeParsedObjectArray(DATE_RECOVERED_COUNT);
         suspectedDrugType = new String[SUSPECTED_DRUG_TYPE_COUNT];
-        estimatedDrugQuantity = new Double[SUSPECTED_DRUG_TYPE_COUNT];
+        estimatedDrugQuantity = ParsedObject.initializeParsedObjectArray(SUSPECTED_DRUG_TYPE_COUNT);
         typeDrugMeasurement = new String[SUSPECTED_DRUG_TYPE_COUNT];
         segmentType = PROPERTY_SEGMENT_TYPE_IDENTIFIER;
         numberOfStolenMotorVehicles = new ParsedObject<Integer>();
@@ -100,7 +100,7 @@ public class PropertySegment extends AbstractSegment
 		return valueOfProperty;
 	}
 	
-    public Double[] getEstimatedDrugQuantity() {
+    public ParsedObject<Double>[] getEstimatedDrugQuantity() {
 		return estimatedDrugQuantity;
 	}
 
@@ -146,12 +146,12 @@ public class PropertySegment extends AbstractSegment
     	return populatedPropertyDescriptionCount;
     }
     
-    public Double getEstimatedDrugQuantity(int position)
+    public ParsedObject<Double> getEstimatedDrugQuantity(int position)
     {
         return estimatedDrugQuantity[position];
     }
     
-    public void setEstimatedDrugQuantity(int position, Double value)
+    public void setEstimatedDrugQuantity(int position, ParsedObject<Double> value)
     {
         estimatedDrugQuantity[position] = value;
     }

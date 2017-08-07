@@ -168,6 +168,7 @@ public class PropertySegmentRulesFactory {
 		rulesList.add(getRule365());
 		rulesList.add(getRule366());
 		rulesList.add(getRule367());
+		rulesList.add(getRule368());
 		rulesList.add(getRule387());
 		rulesList.add(getRule388());
 		rulesList.add(getRule390());
@@ -291,10 +292,11 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 3;i++) {
-					if (SuspectedDrugTypeCode._X.code.equals(subject.getSuspectedDrugType(i)) && subject.getEstimatedDrugQuantity(i) != null) {
+					if (SuspectedDrugTypeCode._X.code.equals(subject.getSuspectedDrugType(i)) && 
+							subject.getEstimatedDrugQuantity(i) != null && subject.getEstimatedDrugQuantity(i).getValue()!= null) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._363);
-						ret.setValue(subject.getEstimatedDrugQuantity(i));
+						ret.setValue(subject.getEstimatedDrugQuantity(i).getValue());
 						ret.setDataElementIdentifier("21");
 						break;
 					}
@@ -606,13 +608,37 @@ public class PropertySegmentRulesFactory {
 				NIBRSError ret = null;
 				int length = subject.getEstimatedDrugQuantity().length; 
 				for (int i=0;i < length;i++) {
-					Double estimatedDrugQuantity = subject.getEstimatedDrugQuantity(i);
+					ParsedObject<Double> estimatedDrugQuantity = subject.getEstimatedDrugQuantity(i);
 					String suspectedDrugType = subject.getSuspectedDrugType(i);
 					String typeDrugMeasurement = subject.getTypeDrugMeasurement(i);
-					if (estimatedDrugQuantity != null && (StringUtils.isBlank(suspectedDrugType) || StringUtils.isBlank(typeDrugMeasurement)) ) {
+					if (estimatedDrugQuantity != null && !estimatedDrugQuantity.isMissing() 
+							&& (StringUtils.isBlank(suspectedDrugType) || StringUtils.isBlank(typeDrugMeasurement)) ) {
 						ret = subject.getErrorTemplate();
 						ret.setNIBRSErrorCode(NIBRSErrorCode._366);
 						ret.setDataElementIdentifier("21");
+					}
+				}
+				return ret;
+			}
+		};
+	}
+	
+	Rule<PropertySegment> getRule368() {
+		return new Rule<PropertySegment>() {
+			@Override
+			public NIBRSError apply(PropertySegment subject) {
+				NIBRSError ret = null;
+				int length = subject.getEstimatedDrugQuantity().length; 
+				for (int i=0;i < length;i++) {
+					ParsedObject<Double> estimatedDrugQuantity = subject.getEstimatedDrugQuantity(i);
+					String suspectedDrugType = subject.getSuspectedDrugType(i);
+					String typeDrugMeasurement = subject.getTypeDrugMeasurement(i);
+					if (StringUtils.isNotBlank(typeDrugMeasurement) && 
+							(StringUtils.isBlank(suspectedDrugType) || estimatedDrugQuantity == null
+								|| estimatedDrugQuantity.isMissing()) ) {
+						ret = subject.getErrorTemplate();
+						ret.setNIBRSErrorCode(NIBRSErrorCode._368);
+						ret.setDataElementIdentifier("22");
 					}
 				}
 				return ret;
@@ -975,13 +1001,13 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 3;i++) {
-					Double drugQuantity = subject.getEstimatedDrugQuantity(i);
-					if (drugQuantity != null) {
-						double d = drugQuantity.doubleValue();
+					ParsedObject<Double> drugQuantity = subject.getEstimatedDrugQuantity(i);
+					if (drugQuantity != null && drugQuantity.getValue() != null) {
+						double d = drugQuantity.getValue().doubleValue();
 						if (d < 0 || d > 100000000) {
 							ret = subject.getErrorTemplate();
 							ret.setDataElementIdentifier("21");
-							ret.setValue(drugQuantity);
+							ret.setValue(drugQuantity.getValue());
 							ret.setNIBRSErrorCode(NIBRSErrorCode._304);
 						}
 					}

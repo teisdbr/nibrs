@@ -209,7 +209,7 @@ final class PropertyRuleViolationExemplarFactory {
 			propertySegment.setTypeOfPropertyLoss("6");
 			propertySegment.setPropertyDescription(0, "10");
 			propertySegment.setSuspectedDrugType(0, "A");
-			propertySegment.setEstimatedDrugQuantity(0, 1.0);
+			propertySegment.setEstimatedDrugQuantity(0, new ParsedObject<Double>(1.0));
 			propertySegment.setTypeDrugMeasurement(0, "OZ");
 			propertySegment.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			
@@ -253,7 +253,7 @@ final class PropertyRuleViolationExemplarFactory {
 
 			//Estimated Drug Quantity must be valid.
 			copy = new GroupAIncidentReport(drugIncident);
-			copy.getProperties().get(0).setEstimatedDrugQuantity(0, 9999999999.0);
+			copy.getProperties().get(0).setEstimatedDrugQuantity(0, new ParsedObject<>(9999999999.0));
 			incidents.add(copy);
 			
 			//Drug Measurement must be valid.
@@ -335,9 +335,9 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setSuspectedDrugType(0, "A");
 			property.setSuspectedDrugType(1, "B");
 			property.setSuspectedDrugType(2, "B");
-			property.setEstimatedDrugQuantity(0, 1.0);
-			property.setEstimatedDrugQuantity(1, 1.0);
-			property.setEstimatedDrugQuantity(2, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
+			property.setEstimatedDrugQuantity(1, new ParsedObject<>(1.0));
+			property.setEstimatedDrugQuantity(2, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setTypeDrugMeasurement(1, "OZ");
 			property.setTypeDrugMeasurement(2, "OZ");
@@ -364,8 +364,8 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setPropertyDescription(0, "10");
 			property2.setSuspectedDrugType(0, "A");
 			property2.setSuspectedDrugType(1, "A");
-			property2.setEstimatedDrugQuantity(0, 1.0);
-			property2.setEstimatedDrugQuantity(1, 2.0);
+			property2.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
+			property2.setEstimatedDrugQuantity(1, new ParsedObject<>(2.0));
 			property2.setTypeDrugMeasurement(0, "OZ");
 			property2.setTypeDrugMeasurement(1, "OZ");
 			property2.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
@@ -385,8 +385,8 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setPropertyDescription(0, "10");
 			property3.setSuspectedDrugType(0, "U");
 			property3.setSuspectedDrugType(1, "U");
-			property3.setEstimatedDrugQuantity(0, 1.0);
-			property3.setEstimatedDrugQuantity(1, 2.0);
+			property3.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
+			property3.setEstimatedDrugQuantity(1, new ParsedObject<>(2.0));
 			property3.setTypeDrugMeasurement(0, "OZ");
 			property3.setTypeDrugMeasurement(1, "GM");
 			property3.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
@@ -531,7 +531,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			property.setDateRecovered(0, ParsedObject.getMissingParsedObject());
 			property.setSuspectedDrugType(0, null);
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, null);
 			
 			//If it is 1=None and offense is 35A, then Data Elements 15 through 19 and 
@@ -566,7 +566,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			property3.setDateRecovered(0, ParsedObject.getMissingParsedObject());
 			property3.setSuspectedDrugType(1, "A");
-			property3.setEstimatedDrugQuantity(0, 1.0);
+			property3.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property3.setTypeDrugMeasurement(0, "OZ");
 			
 			//The exception to this rule is when Data Element 6 (UCR Offense Code) is 
@@ -584,7 +584,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property4.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			property4.setDateRecovered(0, ParsedObject.getMissingParsedObject());
 			property4.setSuspectedDrugType(1, null);
-			property4.setEstimatedDrugQuantity(0, 1.0);
+			property4.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property4.setTypeDrugMeasurement(0, "OZ");
 			
 			
@@ -921,7 +921,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setPropertyDescription(0, "10");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			property.setSuspectedDrugType(0, "A");
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setPropertyDescription(1, "10");
 			property.setSuspectedDrugType(1, "X");
@@ -946,7 +946,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setPropertyDescription(0, "10");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			property.setSuspectedDrugType(0, "X");
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, null);
 			//TypeDrugMeasurement not blank
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
@@ -1005,7 +1005,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setPropertyDescription(0, "10");
 			property2.setValueOfProperty(0, new ParsedObject<>(10000));
 			property2.setSuspectedDrugType(0, "B");
-			property2.setEstimatedDrugQuantity(0, 1.0);
+			property2.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property2.setTypeDrugMeasurement(0, null);
 			
 			
@@ -1055,7 +1055,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("6");
 			property.setPropertyDescription(0, "10");
 			property.setSuspectedDrugType(0, "A");
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "NP");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
@@ -1068,7 +1068,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setTypeOfPropertyLoss("6");
 			property2.setPropertyDescription(0, "10");
 			property2.setSuspectedDrugType(0, "B");
-			property2.setEstimatedDrugQuantity(0, 1.0);
+			property2.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property2.setTypeDrugMeasurement(0, "NP");
 			property2.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
@@ -1081,7 +1081,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property3.setTypeOfPropertyLoss("6");
 			property3.setPropertyDescription(0, "10");
 			property3.setSuspectedDrugType(0, "C");
-			property3.setEstimatedDrugQuantity(0, 1.0);
+			property3.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property3.setTypeDrugMeasurement(0, "NP");
 			property3.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
@@ -1094,7 +1094,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property4.setTypeOfPropertyLoss("6");
 			property4.setPropertyDescription(0, "10");
 			property4.setSuspectedDrugType(0, "D");
-			property4.setEstimatedDrugQuantity(0, 1.0);
+			property4.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property4.setTypeDrugMeasurement(0, "NP");
 			property4.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy5 = new GroupAIncidentReport(incident);
@@ -1107,7 +1107,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property5.setTypeOfPropertyLoss("6");
 			property5.setPropertyDescription(0, "10");
 			property5.setSuspectedDrugType(0, "F");
-			property5.setEstimatedDrugQuantity(0, 1.0);
+			property5.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property5.setTypeDrugMeasurement(0, "NP");
 			property5.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy6 = new GroupAIncidentReport(incident);
@@ -1120,7 +1120,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property6.setTypeOfPropertyLoss("6");
 			property6.setPropertyDescription(0, "10");
 			property6.setSuspectedDrugType(0, "H");
-			property6.setEstimatedDrugQuantity(0, 1.0);
+			property6.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property6.setTypeDrugMeasurement(0, "NP");
 			property6.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy7 = new GroupAIncidentReport(incident);
@@ -1133,7 +1133,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property7.setTypeOfPropertyLoss("6");
 			property7.setPropertyDescription(0, "10");
 			property7.setSuspectedDrugType(0, "I");
-			property7.setEstimatedDrugQuantity(0, 1.0);
+			property7.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property7.setTypeDrugMeasurement(0, "NP");
 			property7.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy8 = new GroupAIncidentReport(incident);
@@ -1146,7 +1146,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property8.setTypeOfPropertyLoss("6");
 			property8.setPropertyDescription(0, "10");
 			property8.setSuspectedDrugType(0, "J");
-			property8.setEstimatedDrugQuantity(0, 1.0);
+			property8.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property8.setTypeDrugMeasurement(0, "NP");
 			property8.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy9 = new GroupAIncidentReport(incident);
@@ -1159,7 +1159,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property9.setTypeOfPropertyLoss("6");
 			property9.setPropertyDescription(0, "10");
 			property9.setSuspectedDrugType(0, "L");
-			property9.setEstimatedDrugQuantity(0, 1.0);
+			property9.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property9.setTypeDrugMeasurement(0, "NP");
 			property9.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy10 = new GroupAIncidentReport(incident);
@@ -1172,7 +1172,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property10.setTypeOfPropertyLoss("6");
 			property10.setPropertyDescription(0, "10");
 			property10.setSuspectedDrugType(0, "M");
-			property10.setEstimatedDrugQuantity(0, 1.0);
+			property10.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property10.setTypeDrugMeasurement(0, "NP");
 			property10.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy11 = new GroupAIncidentReport(incident);
@@ -1185,7 +1185,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property11.setTypeOfPropertyLoss("6");
 			property11.setPropertyDescription(0, "10");
 			property11.setSuspectedDrugType(0, "N");
-			property11.setEstimatedDrugQuantity(0, 1.0);
+			property11.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property11.setTypeDrugMeasurement(0, "NP");
 			property11.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy12 = new GroupAIncidentReport(incident);
@@ -1198,7 +1198,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property12.setTypeOfPropertyLoss("6");
 			property12.setPropertyDescription(0, "10");
 			property12.setSuspectedDrugType(0, "O");
-			property12.setEstimatedDrugQuantity(0, 1.0);
+			property12.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property12.setTypeDrugMeasurement(0, "NP");
 			property12.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy13 = new GroupAIncidentReport(incident);
@@ -1211,7 +1211,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property13.setTypeOfPropertyLoss("6");
 			property13.setPropertyDescription(0, "10");
 			property13.setSuspectedDrugType(0, "P");
-			property13.setEstimatedDrugQuantity(0, 1.0);
+			property13.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property13.setTypeDrugMeasurement(0, "NP");
 			property13.setValueOfProperty(0, new ParsedObject<>(10000));
 			GroupAIncidentReport copy14 = new GroupAIncidentReport(incident);
@@ -1224,7 +1224,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property14.setTypeOfPropertyLoss("6");
 			property14.setPropertyDescription(0, "10");
 			property14.setSuspectedDrugType(0, "U");
-			property14.setEstimatedDrugQuantity(0, 1.0);
+			property14.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property14.setTypeDrugMeasurement(0, "NP");
 			property14.setValueOfProperty(0, new ParsedObject<>(10000));
 			
@@ -1476,7 +1476,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("6");
 			property.setPropertyDescription(0, "10");
 			property.setSuspectedDrugType(0, "A");
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
 			copy.addProperty(property);
@@ -1503,7 +1503,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("6");
 			property.setPropertyDescription(0, "10");
 			property.setSuspectedDrugType(1, "A");
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			
@@ -1534,7 +1534,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setPropertyDescription(0, "10");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			property.setSuspectedDrugType(0, "B");
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "XX");
 			
 			incidents.add(copy);
@@ -1561,7 +1561,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("6");
 			property.setPropertyDescription(0, "11");
 			property.setSuspectedDrugType(1, "A");
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setValueOfProperty(0, null);
 			
@@ -1578,7 +1578,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property2.setTypeOfPropertyLoss("6");
 			property2.setPropertyDescription(0, "10");
 			property2.setSuspectedDrugType(1, "A");
-			property2.setEstimatedDrugQuantity(0, 1.0);
+			property2.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property2.setTypeDrugMeasurement(0, "OZ");
 			property2.setValueOfProperty(0, null);
 					
@@ -3587,7 +3587,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setTypeOfPropertyLoss("1");
 			property.setPropertyDescription(0, "10");
 			property.setSuspectedDrugType(0, null);
-			property.setEstimatedDrugQuantity(0, 1.0);
+			property.setEstimatedDrugQuantity(0, new ParsedObject<>(1.0));
 			property.setTypeDrugMeasurement(0, "OZ");
 			property.setValueOfProperty(0, new ParsedObject<>(10000));
 			

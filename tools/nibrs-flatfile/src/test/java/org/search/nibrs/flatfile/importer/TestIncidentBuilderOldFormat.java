@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.search.nibrs.model.*;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.flatfile.importer.DefaultReportListener;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.flatfile.util.*;
@@ -246,7 +247,7 @@ public class TestIncidentBuilderOldFormat {
 		assertNull(property.getNumberOfRecoveredMotorVehicles().getValue());
 		for (int i = 0; i < 3; i++) {
 			assertNull(property.getSuspectedDrugType(i));
-			assertNull(property.getEstimatedDrugQuantity(i));
+			assertTrue(property.getEstimatedDrugQuantity(i).isMissing());
 			assertNull(property.getTypeDrugMeasurement(i));
 		}
 	}
@@ -255,10 +256,10 @@ public class TestIncidentBuilderOldFormat {
 	public void testDrugIncidentProperty() {
 		PropertySegment property = (PropertySegment) ((GroupAIncidentReport) incidentListener.getGroupAIncidentList().get(5)).propertyIterator().next();
 		assertEquals("E", property.getSuspectedDrugType(0));
-		assertEquals(new Double(0.1), property.getEstimatedDrugQuantity(0));
+		assertEquals(new ParsedObject<>(0.1), property.getEstimatedDrugQuantity(0));
 		assertEquals("GM", property.getTypeDrugMeasurement(0));
 		assertEquals("H", property.getSuspectedDrugType(1));
-		assertEquals(new Double(2.0), property.getEstimatedDrugQuantity(1));
+		assertEquals(new ParsedObject<>(2.0), property.getEstimatedDrugQuantity(1));
 		assertEquals("DU", property.getTypeDrugMeasurement(1));
 	}
 
