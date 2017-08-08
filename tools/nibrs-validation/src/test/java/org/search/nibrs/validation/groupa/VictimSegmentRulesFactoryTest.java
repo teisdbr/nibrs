@@ -152,20 +152,38 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("24", nibrsError.getDataElementIdentifier());
 		assertNull(nibrsError.getValue());
 		
-		victimSegment.setUcrOffenseCodeConnection(0, "999");
-		nibrsError = rule401.apply(victimSegment);
-		assertNotNull(nibrsError);
-		assertEquals("24", nibrsError.getDataElementIdentifier());
-		
-		List<String> compList = new ArrayList<>();
-		compList.add("999");
-		
-		assertEquals(compList, nibrsError.getValue());
-		
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09B.code);
 		nibrsError = rule401.apply(victimSegment);
 		assertNull(nibrsError);
 
+	}
+	@Test
+	public void testRule404ForVictimConnectedToUcrOffenseCode() {
+		
+		Rule<VictimSegment> rule404 = victimRulesFactory.getRule404ForVictimConnectedToUcrOffenseCode();
+		
+		VictimSegment victimSegment = getBasicVictimSegment();
+		OffenseSegment offenseSegment = ((GroupAIncidentReport) victimSegment.getParentReport()).getOffenses().get(0);
+		offenseSegment.setUcrOffenseCode(OffenseCode._09A.code);
+		
+		NIBRSError nibrsError = rule404.apply(victimSegment);
+		assertNull(nibrsError);
+		
+		
+		victimSegment.setUcrOffenseCodeConnection(0, "999");
+		nibrsError = rule404.apply(victimSegment);
+		assertNotNull(nibrsError);
+		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
+		assertEquals("24", nibrsError.getDataElementIdentifier());
+		
+		List<String> compList = new ArrayList<>();
+		compList.add("999");
+		assertEquals(compList, nibrsError.getValue());
+		
+		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._09A.code);
+		nibrsError = rule404.apply(victimSegment);
+		assertNull(nibrsError);
+		
 	}
 	
 	@Test

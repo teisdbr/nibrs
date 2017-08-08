@@ -397,7 +397,8 @@ public class PropertySegmentRulesFactory {
 						offensesRequirePropertySegment.stream()
 						.filter(offenseCode->!OffenseCode.isOffenseHavingIllogicalPropertyDescriptions(offenseCode))
 						.count() > 0 ; 
-				if (containsOffensesWithoutIllogicalPropertyDescriptions || TypeOfPropertyLossCode.noneOrUnknownValueCodeSet().contains(subject.getTypeOfPropertyLoss())){
+				if (containsOffensesWithoutIllogicalPropertyDescriptions 
+						|| TypeOfPropertyLossCode.noneOrUnknownValueCodeSet().contains(subject.getTypeOfPropertyLoss())){
 					return ret; 
 				}
 
@@ -405,30 +406,34 @@ public class PropertySegmentRulesFactory {
 						Arrays.stream(subject.getPropertyDescription())
 						.filter(Objects::nonNull)
 						.collect(Collectors.toList()); 
-				boolean isLogicalPropertyDescription = false;
-				for (String offenseCode: offensesRequirePropertySegment) {
-					
-					List<String> illogicalPropertyDescriptions = 
-							PropertyDescriptionCode.getIllogicalPropertyDescriptions(offenseCode);
-					
-//					existingDescriptions.removeAll(illogicalPropertyDescriptions);
-					
-					if (!illogicalPropertyDescriptions.containsAll(existingDescriptions)) {
-						isLogicalPropertyDescription = true; 
-						break;
-					}
-						
-				}
 				
-				if (!isLogicalPropertyDescription){
-					ret = subject.getErrorTemplate();
-					ret.setValue(null);
-					ret.setNIBRSErrorCode(NIBRSErrorCode._390);
-					ret.setDataElementIdentifier("15");
+				
+				Optional<List<String>> illogicalPropertyDescriptionToAllOffense = 
+						offensesRequirePropertySegment.stream()
+						.map(PropertyDescriptionCode::getIllogicalPropertyDescriptions)
+						.reduce((a, b) -> getIntersection(a, b));
+						
+				if (illogicalPropertyDescriptionToAllOffense.isPresent() ) {
+					existingDescriptions.removeAll(illogicalPropertyDescriptionToAllOffense.get());
+					
+					if (existingDescriptions.size() == 0){
+						ret = subject.getErrorTemplate();
+						ret.setValue(illogicalPropertyDescriptionToAllOffense.get().get(0));
+						ret.setNIBRSErrorCode(NIBRSErrorCode._390);
+						ret.setDataElementIdentifier("15");
+						return ret;
+					}
 				}
-				return ret;
+						
+				
+				return null;
 			}
 		};
+	}
+	
+	
+	private List<String> getIntersection(List<String> list1,  List<String> list2){
+		return list1.stream().filter(list2::contains).collect(Collectors.toList());
 	}
 	
 	Rule<PropertySegment> getRule361() {

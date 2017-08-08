@@ -127,10 +127,6 @@ final class VictimRuleViolationExemplarFactory {
 			incidents.add(copy);
 			
 			copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "999");
-			incidents.add(copy);
-			
-			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setTypeOfVictim("Z");
 			incidents.add(copy);
 			
@@ -188,6 +184,10 @@ final class VictimRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			victim = copy.getVictims().get(0);
 			victim.setOffenderNumberRelated(0, new ParsedObject<>(2));
+			incidents.add(copy);
+			
+			copy = new GroupAIncidentReport(incident);
+			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "999");
 			incidents.add(copy);
 			
 			return incidents;

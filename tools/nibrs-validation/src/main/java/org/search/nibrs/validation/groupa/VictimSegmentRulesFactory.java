@@ -123,6 +123,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule401OffenderNumberToBeRelated());
 		rulesList.add(getRule404ForTypeOfOfficerActivityCircumstance());
 		rulesList.add(getRule404ForOfficerAssignmentType());
+		rulesList.add(getRule404ForVictimConnectedToUcrOffenseCode());
 		rulesList.add(getRule404ForOfficerOriOtherJurisdiction());
 		rulesList.add(getRule404ForAgeOfVictim());		
 		rulesList.add(getRule404ForSexOfVictim());		
@@ -282,25 +283,47 @@ public class VictimSegmentRulesFactory {
 
 				Set<String> offenseCodeSet = new HashSet<>();
 				offenseCodeSet.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseCodeSet.removeIf(item -> item == null);
+				offenseCodeSet.removeIf(Objects::isNull);
 
 				if (offenseCodeSet.isEmpty()) {
 					
 					e = errorTemplate;
 					e.setValue(null);
 					
-				} else {
+				} 
 
+				return e;
+
+			}
+		};
+	}	
+	Rule<VictimSegment> getRule404ForVictimConnectedToUcrOffenseCode() {
+		return new Rule<VictimSegment>() {
+			
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				
+				NIBRSError e = null;
+				NIBRSError errorTemplate = victimSegment.getErrorTemplate();
+				errorTemplate.setDataElementIdentifier("24");
+				errorTemplate.setNIBRSErrorCode(NIBRSErrorCode._404);
+				
+				Set<String> offenseCodeSet = new HashSet<>();
+				offenseCodeSet.addAll(victimSegment.getUcrOffenseCodeList());
+				offenseCodeSet.removeIf(Objects::isNull);
+				
+				if (!offenseCodeSet.isEmpty()) {
+					
 					offenseCodeSet.removeAll(OffenseCode.codeSet());
-
+					
 					if (!offenseCodeSet.isEmpty()) {
 						e = errorTemplate;
 						e.setValue(new ArrayList<String>(offenseCodeSet));
 					}
-				}
-
+				} 
+				
 				return e;
-
+				
 			}
 		};
 	}	

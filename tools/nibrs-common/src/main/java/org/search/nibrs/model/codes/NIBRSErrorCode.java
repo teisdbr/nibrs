@@ -137,7 +137,7 @@ public enum NIBRSErrorCode {
 	_392("392","Property Segment","35A OFFENSE ENTERED AND 1=NONE ENTERED; MISSING SUSPECTED DRUG TYPE (20)","An offense of 35A Drug/Narcotic Violations and Data Element 14 (Type Property Loss/Etc.) with1=None were entered but Data Element 20 (Suspected Drug Type) was not submitted. Since a drug"),
 	_401("401","Victim Segment","MUST BE PRESENT -- MANDATORY FIELD","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_402("402","Victim Segment","CONTAINS NONNUMERIC DIGITS","Must contain numeric entry with zero left-fill."),
-	_404("404","Victim Segment","INVALID DATA VALUE -- NOT ON FBI VALIDATION TABLE","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
+	_404("404","Victim Segment","INVALID DATA VALUE","The referenced data element must contain a valid data value when it is entered; blank is permissible on non-mandatory fields."),
 	_406("406","Victim Segment","NCA07: DUPLICATE VALUE=[value]","The referenced data element in error is one that contains multiple data values. When more than one code is entered, none can be duplicate codes."),
 	_407("407","Victim Segment","ERROR - MUTUALLY EXCLUSIVE VALUE=[value]","Data Element 33 (Type Injury) Can have multiple data values and was entered with multiple values. However, the entry shown between the brackets in [value] above cannot be entered with any other data value."),
 	_408("408","Victim Segment","EXACT AGE MUST BE IN FIRST TWO POSITIONS","Data Element 26 (Age of Victim) contains data, but is not left-justified. A single two-character age must be in positions 1 and 2 of the field."),
