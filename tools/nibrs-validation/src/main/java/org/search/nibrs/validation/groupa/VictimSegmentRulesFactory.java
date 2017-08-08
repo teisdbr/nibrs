@@ -163,6 +163,7 @@ public class VictimSegmentRulesFactory {
 		rulesList.add(getRule458ForAgeOfVictim());
 		rulesList.add(getRule458ForEthnicityOfVictim());
 		rulesList.add(getRule458ForRaceOfVictim());
+		rulesList.add(getRule458ForTypeOfInjury());
 		rulesList.add(getRule459ForOffenderNumberToBeRelated());
 		rulesList.add(getRule460ForRelationshipOfVictimToOffender());
 		rulesList.add(getRule462());
@@ -802,19 +803,14 @@ public class VictimSegmentRulesFactory {
 				
 				NIBRSError e = null;
 				
-				List<String> offenseList = new ArrayList<>();
-				offenseList.addAll(victimSegment.getUcrOffenseCodeList());
-				offenseList.removeIf(item -> item == null);
-
 				List<String> typeOfInjuryList = new ArrayList<>();
 				typeOfInjuryList.addAll(victimSegment.getTypeOfInjuryList());
-				typeOfInjuryList.removeIf(item -> item == null);
+				typeOfInjuryList.removeIf(Objects::isNull);
 
-				if (!(OffenseCode.containsCrimeAgainstPersonCode(offenseList) && victimSegment.isPerson()) && !typeOfInjuryList.isEmpty()) {
+				if (!victimSegment.isPerson() && !typeOfInjuryList.isEmpty()) {
 					e = victimSegment.getErrorTemplate();
 					e.setDataElementIdentifier("33");
 					e.setNIBRSErrorCode(NIBRSErrorCode._458);
-					e.setValue(typeOfInjuryList);
 				}
 				
 				return e;
