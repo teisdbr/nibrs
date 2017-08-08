@@ -452,7 +452,7 @@ public class IncidentBuilder {
 	}
 
 	private final void addSegmentToIncident(GroupAIncidentReport currentIncident, Segment s, List<NIBRSError> errorList) {
-		if (Objects.isNull(currentIncident)) return; 
+		if (Objects.isNull(currentIncident) || !Objects.equals(currentIncident.getIncidentNumber(), s.getSegmentUniqueIdentifier())) return; 
 		
 		List<NIBRSError> newErrorList = new ArrayList<>();
 		char segmentType = s.getSegmentType();
