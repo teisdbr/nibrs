@@ -35,6 +35,7 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.flatfile.util.StringUtils;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.BadSegmentLevelReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.OffenderSegment;
@@ -121,7 +122,10 @@ public class IncidentBuilder {
 			errorList.addAll(segmentErrors);
 			if (segmentErrors.isEmpty()) {
 				char level = s.getSegmentLevel();
-				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER || level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER || level == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER) {
+				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER 
+						|| level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER 
+						|| level == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER 
+						|| !Objects.equals(currentReport.getIdentifier(), s.getSegmentUniqueIdentifier())) {
 					handleNewReport(currentReport, errorList);
 					errorList = new ArrayList<NIBRSError>();
 					currentReport = buildReport(errorList, s, readerLocationName);
@@ -156,6 +160,8 @@ public class IncidentBuilder {
 			ret = buildGroupBIncidentReport(s, errorList);
 		} else if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER) {
 			ret = buildZeroReport(s, errorList);
+		} else {
+			ret = buildBadSegmentLevelIncidentSegment(s, errorList);
 		}
 		if (errorList.size() > errorListSize) {
 			ret.setHasUpstreamErrors(true);
@@ -432,6 +438,31 @@ public class IncidentBuilder {
 		errorList.addAll(newErrorList);
 		return newIncident;
 	}
+	private final AbstractReport buildBadSegmentLevelIncidentSegment(Segment s, List<NIBRSError> errorList) {
+		List<NIBRSError> newErrorList = new ArrayList<>();
+		BadSegmentLevelReport newIncident = new BadSegmentLevelReport();
+		newIncident.setIncidentNumber(s.getSegmentUniqueIdentifier());
+		newIncident.setOri(s.getOri());
+		newIncident.setReportActionType(s.getActionType());
+		String segmentData = s.getData();
+		int length = s.getSegmentLength();
+		if (length >=38 ) {
+			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._101));
+			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._101));
+			newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
+		}
+		
+		NIBRSError e = new NIBRSError();
+		e.setContext(s.getReportSource());
+		e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+		e.setNIBRSErrorCode(NIBRSErrorCode._050);
+		e.setCrossSegment(true);
+		newErrorList.add(e);
+		
+		e.setReport(newIncident);
+		errorList.addAll(newErrorList);
+		return newIncident;
+	}
 
 	private Integer getIntValueFromSegment(Segment s, int startPos, int endPos, List<NIBRSError> errorList, NIBRSErrorCode errorCode) {
 		String sv = StringUtils.getStringBetween(startPos, endPos, s.getData());
@@ -452,7 +483,7 @@ public class IncidentBuilder {
 	}
 
 	private final void addSegmentToIncident(GroupAIncidentReport currentIncident, Segment s, List<NIBRSError> errorList) {
-		if (Objects.isNull(currentIncident) || !Objects.equals(currentIncident.getIncidentNumber(), s.getSegmentUniqueIdentifier())) return; 
+		if (Objects.isNull(currentIncident)) return; 
 		
 		List<NIBRSError> newErrorList = new ArrayList<>();
 		char segmentType = s.getSegmentType();
