@@ -32,5 +32,10 @@ public class ArrayUtils {
 		return CollectionUtils.allNull(Arrays.asList(array));
 	}
 	
+	public static final boolean allMissing(Object[] array) {
+		
+		return CollectionUtils.allMissing(Arrays.asList(array));
+	}
+	
 }
 

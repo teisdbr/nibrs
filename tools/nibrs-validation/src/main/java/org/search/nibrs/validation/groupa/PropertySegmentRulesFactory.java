@@ -16,6 +16,7 @@
 package org.search.nibrs.validation.groupa;
 
 import static org.search.nibrs.util.ArrayUtils.allNull;
+import static org.search.nibrs.util.ArrayUtils.allMissing;
 import static org.search.nibrs.util.ArrayUtils.notAllNull;
 
 import java.util.ArrayList;
@@ -111,7 +112,7 @@ public class PropertySegmentRulesFactory {
 			boolean ret = false;
 			for (int i=0;i < 10;i++) {
 				if (PropertyDescriptionCode._10.code.equals(segment.getPropertyDescription(i)) && notAllNull(segment.getSuspectedDrugType())) {
-					if (allNull(getDrugElementArray(segment))) {
+					if (allMissing(getDrugElementArray(segment))) {
 						ret = true;
 						break;
 					}

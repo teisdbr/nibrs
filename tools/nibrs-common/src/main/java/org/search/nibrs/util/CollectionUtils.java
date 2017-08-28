@@ -43,6 +43,20 @@ public class CollectionUtils {
 		
 		return nonNullCount == 0;
 	}
+	public static final boolean allMissing(Collection<?> collection) {
+		
+		long nonNullCount = collection.stream()
+				.map(item -> {
+					if (item instanceof ParsedObject<?> &&  
+						((ParsedObject<?>) item).isMissing())
+						return null; 
+					return item;
+				})
+				.filter(Objects::nonNull)
+				.count();
+		
+		return nonNullCount == 0;
+	}
 	
 	
 }
