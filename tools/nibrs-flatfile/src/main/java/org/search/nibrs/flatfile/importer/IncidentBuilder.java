@@ -855,7 +855,7 @@ public class IncidentBuilder {
 						value += fractionalValueString;
 					}
 					
-					String drugQuantityFullValueString = drugQuantityWholePartString + "." + fractionalValueString;
+					String drugQuantityFullValueString = org.apache.commons.lang3.StringUtils.trimToEmpty(drugQuantityWholePartString) + "." + fractionalValueString;
 					
 					try{
 						Double doubleValue = new Double(drugQuantityFullValueString);
