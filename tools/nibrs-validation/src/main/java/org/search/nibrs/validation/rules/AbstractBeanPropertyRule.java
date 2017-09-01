@@ -24,6 +24,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
+import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
@@ -85,6 +87,17 @@ public abstract class AbstractBeanPropertyRule<T extends ValidationTarget> imple
 	 * Templated method that derived types can override to determine if the rule should be ignored for a particular incident.
 	 */
 	protected boolean ignore(T subject) {
+		if (subject instanceof GroupBArrestReport){
+			if (((GroupBArrestReport)subject).getReportActionType() == 'D'){
+				return true; 
+			}
+		}
+		
+		if (subject instanceof ArresteeSegment){
+			if (((ArresteeSegment) subject).getReportActionType() == 'D'){
+				return true; 
+			}
+		}
 		return false;
 	}
 	
