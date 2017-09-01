@@ -287,7 +287,7 @@ public class NIBRSError implements Serializable{
 		List<Object> valueList = new ArrayList<Object>();
 		if (!(value instanceof Object[])) {
 			if (value instanceof List){
-				valueList.addAll((ArrayList<?>) value);
+				valueList.addAll((List<?>) value);
 			}
 			else{
 				valueList.add(value);
