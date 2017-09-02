@@ -22,14 +22,9 @@
 			<script type="text/javascript">
 				  $(function() {
 					  $('#errorReport').DataTable({
-				    	  dom: 'lBfrtip',
+						  dom: 'lBfrtip',
+				    	  colReorder: true,
 				          buttons: [
-				              {
-				                  extend: 'copyHtml5',
-				                  exportOptions: {
-				               		   columns: ':contains("Office")'
-				               	  }
-				              },
 				              'excelHtml5',
 				              'csvHtml5',
 				              'pdfHtml5'
