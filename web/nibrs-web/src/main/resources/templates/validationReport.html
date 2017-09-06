@@ -20,16 +20,12 @@
 	<body>
 		<div id="content" class="container-fluid">
 			<script type="text/javascript">
-				  $(function() {
+ 				  $(function() {
 					  $('#errorReport').DataTable({
-				    	  dom: 'lBfrtip',
+						  dom: 'lBfrtip',
+						  
+				    	  colReorder: true,
 				          buttons: [
-				              {
-				                  extend: 'copyHtml5',
-				                  exportOptions: {
-				               		   columns: ':contains("Office")'
-				               	  }
-				              },
 				              'excelHtml5',
 				              'csvHtml5',
 				              'pdfHtml5'
@@ -38,10 +34,17 @@
 				              emptyTable: "No errors found in this NIBRS submission"
 			              }
 					  });
+					  
+ 					  $("#errorReport_length").addClass("col-sm-2");
+					  $("div.dt_buttons").addClass("col-sm-2");
+					  $("div.dataTables_info").addClass("col-sm-6");
 				  });
-			  </script>
+
+ 			</script>
 	
-			<table id="errorReport" class="display dataTable">
+			<!-- The styling of width and border-spacing is important to make the responsive feature working properly. -->
+			<table id="errorReport" class="table table-striped table-bordered dt-responsive" style="width: 100%; border-spacing: 0;">
+			<!-- <table id="errorReport" class="display responsive" style="width: 100%; border-spacing: 0;"> -->
 				<thead>
 					<tr>
 						<th>Tape Date</th>
