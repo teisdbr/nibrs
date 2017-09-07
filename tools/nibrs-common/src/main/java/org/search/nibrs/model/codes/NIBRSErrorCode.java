@@ -17,16 +17,44 @@ package org.search.nibrs.model.codes;
 
 public enum NIBRSErrorCode {
 	
+	
 	_015("015","Structure Check","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit found embedded blanks between the first and last significant characters."),
+/**
+ * 016 not implemented
+ */
 	_016("016","Structure Check","MUST BE LEFT-JUSTIFIED— BLANK DETECTED IN FIRST POSITION","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit found a blank in the first position. It must begin in position 1 and must also contain 12 zeros."),
+/**
+ * 017 not implemented
+ */	
 	_017("017","Structure Check","CANNOT HAVE CHARACTERS OTHER THAN A-Z, 0-9, HYPHENS, AND/OR BLANKS","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit discovered characters other than A through Z, 0 through 9, hyphens, and/or blanks had been entered."),
+/**
+ * 050 not implemented
+ */
 	_050("050","Structure Check","SEGMENT LEVELS ARE OUT OF NUMERICAL ORDER FOR THIS INCIDENT","Segment Levels in a Group A Incident Report must be organized in numerical order. For example, an incident having segments 1, 2, 2, 3, 4, 4, 4, 5 must be written in that order, not as 1, 2, 2, 5, 3, 4, 4, 4."),
 	_051("051","Structure Check","INVALID RECORD LEVEL ON SUBMISSION","Segment Level must contain data values 0–7."),
+/**
+ * 052 not in 3.1	
+ */
 	_052("052","Structure Check","NOT A VALID ORI–NOT IN UCR ORI FILE","Data Element 1 (ORI) and Data Element 25C (Officer–ORI Other Jurisdiction) must be a valid nine-character NCIC ORI."),
+/**
+ * 055 not implemented	
+ */
 	_055("055","Structure Check","CANNOT HAVE A GROUP A INCIDENT REPORT WITHOUT LEVEL 1 SEGMENT","Segment Level 1 (Administrative Segment) with Segment Action Type I=Incident Report must be the first segment submitted for each Group A Incident Report."),
+/**
+ * 056 not implemented	
+ */
 	_056("056","Structure Check","DUPLICATE INCIDENT– PREVIOUSLY ADDED","Data Element 2 (Incident Number) must be a unique number for each incident submitted. No two incidents can have the same incident number."),
+/**
+ * 058 not implemented	
+ */
 	_058("058","Structure Check","ALL SEGMENTS IN A SUBMISSION MUST HAVE SAME MONTH AND YEAR OF SUBMISSION","Month of Submission and Year of Submission must contain the same data values for each segment in a NIBRS submission. The first segment processed will be compared with all other segments to check for this condition."),
+/**
+ * 059 not implemented	
+ */
 	_059("059","Structure Check","ALL SEGMENTS IN SUBMISSION MUST BE FROM SAME STATE","Data Element 1 (ORI) must contain the same state abbreviation code (e.g., SC, MD, etc.) in the first two positions (record positions 17 & 18). For nonfederal LEAs, every segment in a submission must have the same state code in the first two positions of the ORI."),
+/**
+ * 060 not implemented	
+ */
 	_060("060","Structure Check","PROCESSING DATE PRECEDES MONTH AND YEAR OF SUBMISSION","Month of Submission and Year of Submission must precede the date the FBI receives and processes a NIBRS submission. This edit checks for data submitted for a future month/year."),
 	_065("065","Structure Check","EACH LEVEL 2 OFFENSE MUST HAVE AT LEAST ONE VICTIM","Segment Level 2 (Offense Segment) must have at least one Segment Level 4 (Victim Segment) connected to it by entering the offense code identified in Data Element 6 (UCR Offense Code) in Data Element 24 (Victim Connected to UCR Offense Code)."),
 	_070("070","Structure Check","THE CORRESPONDING OFFENDER RECORD MUST BE PRESENT","Data Element 34 (Offender Numbers To Be Related) has a value that does not have a corresponding Offender Segment. For example, if the field value shown in Data Element 34 is 15, an Offender Segment does not exist with a value of 15 in Data Element 36 (Offender Sequence Number)."),
@@ -42,40 +70,96 @@ public enum NIBRSErrorCode {
 	_081("081","Structure Check","THIS PROPERTY LOSS CODE CAN NOT EXIST WITH THE OFFENSES SUBMITTED","Data Element 14 (Type Property Loss/Etc.) must be 1=None or 8=Unknown when Data Element 6 (UCR Offense Code) contains an offense of Kidnapping/Abduction, Crimes against Property, Drug/Narcotic Offenses, or Gambling Offenses and Data Element 7 (Offense Attempted/Completed) is A=Attempted. Data Element 14 (Type Property Loss/Etc.) must be 1=None or 5=Recovered when Data Element 6 (UCR Offense Code) is 280=Stolen Property Offenses and Data Element 7 (Offense Attempted/Completed) is C=Completed. Data Element 14 (Type Property Loss/Etc.) must be 1=None, 5=Recovered, 7=Stolen/Etc., or 8=Unknown when Data Element 6 (UCR Offense Code) is 100=Kidnapping/Abduction, 220=Burglary/ Breaking & Entering, or 510=Bribery and Data Element 7 (Offense Attempted/Completed) is C=Completed. Data Element 14 (Type Property Loss/Etc.) must be 1=None or 6=Seized when Data Element 6 (UCR Offense Code) is 35A=Drug/ Narcotic Violations or 35B=Drug Equipment Violations and Data Element 7 (Offense Attempted/Completed) is C=Completed. Data Element 14 (Type Property Loss/Etc.) must be 2=Burned when Data Element 6 (UCR Offense Code) is 200=Arson and Data Element 7 (Offense Attempted/Completed) is C=Completed. Data Element 14 (Type Property Loss/Etc.) must be 3=Counterfeited/Forged, 5=Recovered, or 6=Seized when Data Element 6 (UCR Offense Code) is 250=Counterfeiting/Forgery and Data Element 7 (Offense Attempted/Completed) is C=Completed. Data Element 14 (Type Property Loss/Etc.) must be 4=Destroyed/Damaged/Vandalized when Data Element 6 (UCR Offense Code) is 290=Destruction/Damage/Vandalism of Property and Data Element 7 (Offense Attempted/Completed) is C=Completed. Data Element 14 (Type Property Loss/Etc.) must be 5=Recovered or 7=Stolen/Etc. when Data Element 6 (UCR Offense Code) is any of the following and Data Element 7 (Offense Attempted/Completed) is C=Completed: 120=Robbery 210=Extortion/Blackmail 23A=Pocket-picking 23B=Purse Snatching 23C=Shoplifting 23D=Theft from Building 23E=Theft from Coin-Operated Machine or Device 23F=Theft from Motor Vehicle 23G=Theft of Motor Vehicle Parts or Accessories 23H=All other Larceny 240=Motor Vehicle Theft 26A=False Pretenses/Swindle/Confidence Game 26B=Credit Card/Automated Teller Machine Fraud 26C=Impersonation 26D=Welfare Fraud 26E=Wire Fraud270=Embezzlement Data Element 14 (Type Property Loss/Etc.) must be 6=Seized when Data Element 6 (UCR Offense Code) is any of the following and Data Element 7 (Offense Attempted/Completed) is C=Completed: 39A=Betting/W agering 39B=Operating/Promoting/Assisting Gambling 39C=Gambling Equipment Violation 39D=Sports Tampering"),
 	_084("084","Structure Check","RECOVERED PROPERTY VALUE CAN NOT BE GREATER THAN THE VALUE WHEN STOLEN","Data Element 16 (Value of Property) for property classified as 7=Stolen/Etc. in Data Element 14 (Type Property Loss/Etc.) must be greater than or equal to the value entered in Data Element 16 (Value of Property) for property classified as 5=Recovered for the same property specified in Data Element 15 (Property Description) in an incident. Note: This edit also applies when a vehicle was stolen and the recovered property in Data Element 15 (Property Description) is 38=Vehicle Parts/Accessories. The value of recovered parts cannot exceed the value of stolen vehicles."),
 	_085("085","Structure Check","WHEN CONNECTED; EACH VICTIM MUST BE CONNECTED TO AT LEAST TWO OFFENDERS","Segment Level 4 (Victim Segment) with a data value in Data Element 24 (Victim Connected to UCR Offense Code) of a Crime Against Person or Robbery must contain at least two offender sequence numbers in Data Element 34 (Offender Number to be Related) when there are three or more Segment Level 5 (Offender Segment) records submitted for the incident."),
+/**
+ * 088 not implemented	
+ */
 	_088("088","Structure Check","GROUP A AND GROUP B ARREST REPORTS CANNOT HAVE SAME IDENTIFIER","Segment Level 6 (Arrestee Segment) and Segment Level 7 (Group B Arrest Report Segment) cannot have the same data values entered in Data Element 2 (Incident Number) and Data Element 41 (Arrest Transaction Number), respectively, for the same ORI."),
+/**
+ * 090 not implemented	
+ */
 	_091("091","Structure Check","ZERO-REPORTING YEAR IS INVALID","A Segment Level 0 was submitted that did not have four numeric digits in positions 40 through 43."),
 	_101("101","Admin Segment","MANDATORY FIELDS MISSING IN ADMIN SEGMENT","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_104("104","Admin Segment","INVALID DATA VALUE—NOT ON FBI VALIDATION TABLE","The referenced data element must contain a valid data value when it is entered."),
+/**
+ * 105 not implemented	
+ */
 	_105("105","Admin Segment","INVALID DATA VALUE FOR DATE","The data element in error contains a date that is not entered correctly. Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31days). Also, the date cannot exceed the current date."),
 	_115("115","Admin Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","(Incident Number) Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
+/**
+ * 116 not implemented
+ */
 	_116("116","Admin Segment","MUST BE LEFT-JUSTIFIED– BLANK DETECTED IN FIRST POSITION","(Incident Number) must be left-justified with blank right-fill. Since the number is less than 12 characters, it must begin in position 1"),
 	_117("117","Admin Segment","CANNOT HAVE CHARACTERS OTHER THAN A–Z, 0–9, AND/OR HYPHEN, AND/OR BLANKS","(Incident Number) can only have character combinations of A through Z, 0 through 9, hyphens, and/or blanks. For example, 89-123-SC is valid, but 89+123*SC is invalid."),
+/**
+ * 118 cannot be validated	
+ */
 	_118("118","Admin Segment","DATE CANNOT BE ON OR AFTER THE INACTIVE DATE [yyyymmdd] OF THE ORI","The UCR Program has determined that an ORI will no longer be submitting data to the FBI as of an inactive date. No data from this ORI will be accepted after this date."),
 	_119("119","Admin Segment","CARGO THEFT DATA CAN ONLY BE SUBMITTED FOR SPECIFIC OFFENSES","Data Element 2A (Cargo Theft) must be populated with a valid data value when Data Element 6 (UCR Offense Code) contains a Cargo Theft- related offense."),
 	_122("122","Admin Segment","INCIDENT MUST INCLUDE AT LEAST ONE CARGO THEFT OFFENSE","Data Element 2A (Cargo Theft) can be Y=Yes only when Data Element 6 (UCR Offense Code) includes at least one of the following: 120=Robbery 210=Extortion/Blackmail 220=Burglary/Breaking & Entering 23D=Theft From Building 23F=Theft From Motor Vehicle 24H=All Other Larceny 240=Motor Vehicle Theft 26A=False Pretenses/Swindle/Confidence Game 26B=Credit Card/Automated Teller Machine Fraud 26C=Impersonation 26E=Wire Fraud 270=Embezzlement 510=Bribery"),
+/**
+ * 151 not implemented	
+ */
 	_151("151","Admin Segment","REPORT INDICATOR MUST BE BLANK OR R","This field must be blank if the incident date is known. If the incident date is unknown, then the report date would be entered instead and must be indicated with an R in the Report Indicator field within the Administrative Segment."),
 	_152("152","Admin Segment","INVALID HOUR ENTRY","If Hour is entered within Data Element 3 (Incident Date/Hour), it must be 00 through 23. If 00=Midnight is entered, be careful that the Incident Date is entered as if the time was 1 minute past midnight. Note: When an incident occurs exactly at midnight, Data Element 3 (Incident Date) would be entered as if the time is 1 minute past midnight. For example, when a crime occurred exactly at midnight on Thursday, Friday’s date would be entered."),
 	_153("153","Admin Segment","VALUE ENTERED CONFLICTS WITH PRESENCE OF AN ENTRY IN EXCEPTIONAL CLEARANCE DATE","Data Element 4 (Cleared Exceptionally) cannot be N=Not Applicable if Data Element 5 (Exceptional Clearance Date) is entered."),
 	_155("155","Admin Segment","CLEARANCE DATE [yyyymmdd] PREDATES INCIDENT DATE [yyyymmdd]","Data Element 5 (Exceptional Clearance Date) is earlier than Data Element 3 (Incident Date/Hour)."),
 	_156("156","Admin Segment","AN ENTRY MUST BE MADE WHEN CLEARED EXCEPTIONALLY HAS ENTRIES OF A-E","Data Element 5 (Exceptional Clearance Date) must be present if the case was cleared exceptionally. Data Element 4 (Cleared Exceptionally) has an entry of A through E; therefore, the date must also be entered."),
 	_170("170","Admin Segment","INCIDENT DATE CANNOT BE AFTER YEAR [yyyy] AND MONTH [mm] OF ELECTRONIC SUBMISSION","Data Element 3 The date cannot be later than the year and month the electronic submission represents. For example, the May 1999 electronic submission cannot contain incidents happening after this date."),
+/**
+ * 171 not in 3.1	
+ */
 	_171("171","Admin Segment","INCIDENT DATE IS OUTSIDE THE BASE DATE CALCULATION","A Group “A� Incident Report was submitted with a date entered into Data Element 3 (Incident Date/Hour) that is earlier than January 1 of the previous year, using the Month of Tape and Year of Tape as a reference point. For example, if the Month of Tape and Year of Tape contain a value of 01/1999, but the incident date is 12/25/1997, the incident will be rejected. Volume 2, section I, provides specifications concerning the FBI’s 2- year database. Note: The exception is when an exceptional clearance is being submitted with a Segment Action Type of W=Time-Window Submission. The incident date may be any past date, but cannot be any earlier than January 1, 1950."),
 	_172("172","Admin Segment","INCIDENT DATE/HOUR FOR “I� RECORDS CANNOT PREDATE 01/01/1991","Data Element 3 (Incident Date) cannot be earlier than 01/01/1991. This edit will preclude dates that are obviously incorrect since the FBI began accepting NIBRS data on this date."),
+/**
+ * 173 cannot be implemented	
+ */
 	_173("173","Admin Segment","INCIDENT DATE CANNOT BE BEFORE DATE ORI WENT IBR","A Group “A� Incident Report was submitted with Data Element 3 (Incident Date/Hour) containing a date that occurred before the agency converted over to NIBRS. Because of this, the record was rejected. At some point, the participant will convert its local agencies from Summary reporting to Incident-Based Reporting. Once the participant starts to send NIBRS data for a converted agency to the FBI, any data received from this agency that could possibly be interpreted as duplicate reporting within both the Summary System and NIBRS for the same month will be rejected by the FBI. In other words, if the participant sends IBR data for an agency for the first time on September 1999, monthly submittal, dates for incidents, recovered property, and arrests must be within September. The exception is when exceptional clearances occur for a pre-IBR incident. In this case, Data Element 3 (Incident Date/Hour) may be earlier than September 1999, but Data Element 5 (Exceptional Clearance Date) must be within September 1999. The FBI will reject data submitted for prior months. Thereafter, all data coming from this agency must have dates subsequent to the initial start date of September 1999, except as mentioned previously. The Summary System already contains aggregate data for the months prior to NIBRS conversion. If the FBI were to accept IBR data for months previously reported with Summary data, the result would be duplicate reporting for those months."),
+/**
+ * 175 not implemented	
+ */
 	_175("175","Admin Segment","CANNOT CALCULATE BASE DATE FROM INCIDENT DATE [yyymmdd]","The electronic submission control date (positions 7 through 12, month and year) and Data Element 3 (Incident Date/Hour) must both be valid dates for calculating timeframes."),
+/**
+ * 178 not implemented	
+ */
 	_178("178","Admin Segment","THIS ADMINISTRATIVE SEGMENT HAS A CONFLICTING LENGTH","Segment Length for the Administrative Segment (Level 1) must be 87 characters (not reporting Cargo Theft) or 88 characters (reporting Cargo Theft). All Administrative Segments in a submission must be formatted in only one of these two lengths."),
+/**
+ * 197 not implemented	
+ */
+	_197("197","Admin Segment","MISSING INCIDENT DATE FOR DELETE","Data Element 3 (Incident Date) is missing for a Group A Incident Report with a Segment Action Type of D = Delete; must be populated with a valid data value and cannot be blank."),
+/**
+ * 198 cannot be validated
+ */
+/**
+ * 199 cannot be validated
+ */
 	_201("201","Offense Segment","MUST BE PRESENT— MANDATORY FIELD","The referenced data element in an Incident must contain data when the referenced data element is mandatory or when the conditions are met for data that must be entered into a conditionally mandatory field."),
+/**
+ * 202 not implemented	
+ */
 	_202("202","Offense Segment","CONTAINS NONNUMERIC ENTRY","Data Element 10 (Number of Premises Entered) is not a numeric entry of 01 through 99."),
 	_204("204","Offense Segment","INVALID DATA VALUE","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_205("205","Offense Segment","ERROR–INVALID OFFENSE CODE FOR LOCATION TYPE CYBERSPACE","Data Element 9 (Location Type)=Cyberspace Can only be entered when Data Element 6 Offense Code is one of the violations listed below: 210=Extortion/Blackmail 250=Counterfeiting/Forgery 270=Embezzlement 280=Stolen Property Offenses 290=Destruction/Damage/Vandalism of Property 370=Pornography/Obscene Material 510=Bribery 26A =False Pretenses/Swindle/Confidence Game 26B =Credit Card/Automated Teller Machine Fraud 26C =Impersonation 26D =Welfare Fraud 26E =Wire Fraud 26F =Identity Theft 26G =Hacking/Computer Invasion 9A =Betting/Wagering 39B =Operating/Promoting/Assisting Gambling 39D =Gambling Equipment Violations 13C =Intimidation 35A =Drug/Narcotic Violations 35B =Drug Equipment Violations 520=Weapon Law Violations 64A =Human Trafficking, Commercial Sex Acts 64B =Human Trafficking, Involuntary Servitude 40A =Prostitution 40B =Assisting or Promoting Prostitution 40C =Purchasing Prostitution"),
 	_206("206","Offense Segment","ERROR - DUPLICATE VALUE=[value]","The referenced data element in error is one that contains multiple data values. When more than one code is entered, none can be duplicate codes."),
 	_207("207","Offense Segment","ERROR - MUTUALLY EXCLUSIVE VALUE=[value]","The data element in error can have multiple data values and was entered with multiple values. However, the entry shown cannot be entered with any other data value. Value N=None/Unknown is mutually exclusive with any other information codes."),
+/**
+ * 215 not implemented	
+ */
 	_215("215","Offense Segment","CANNOT CONTAIN EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
+/**
+ * 216 not implemented	
+ */
 	_216("216","Offense Segment","MUST BE LEFT-JUSTIFIED– BLANK DETECTED IN FIRST POSITION","Must be left-justified with blank right-fill if under 12 characters in length."),
+/**
+ * 217 not implemented	
+ */
 	_217("217","Offense Segment","CANNOT HAVE CHARACTERS OTHER THAN A–Z, 0–9, AND/OR HYPHEN, AND/OR BLANKS","Must contain a valid character combination of the following: A–Z (capital letters only) 0–9 Hyphen Example: 11-123-SC is valid, but 11+123*SC is not valid."),
 	_219("219","Offense Segment","DATA CAN ONLY BE ENTERED FOR SPECIFIC OFFENSES","Data Element 12 (Type Criminal Activity/Gang Information) Type criminal activity codes of “B�, “C�, “D�, “E�, “O�, “P�, “T�, or “U� can only be entered when the UCR Offense Code is: 250=Counterfeiting/Forgery 280=Stolen Property Offenses 35A=Drug/Narcotic Violations 35B=Drug Equipment Violations 39C=Gambling Equipment Violations 370=Pornography/Obscene Material 520=Weapon Law Violations (Type Criminal Activity/Gang Information) Gang information codes of “J�, “G�, and “N� can only be entered when the UCR Offense Code is:09A=Murder and Non-negligent Manslaughter 09B=Negligent Manslaughter 100=Kidnapping/Abduction 11A=Rape 11B=Sodomy 11C=Sexual Assault With An Object 11D=Fondling 120=Robbery 13A=Aggravated Assault 13B=Simple Assault 13C=Intimidation (Type Criminal Activity/Gang Information) Criminal Activity codes of “A�, “F�, “I�, and “S� can only be entered when the UCR Offense Code is: 720=Animal Cruelty"),
 	_220("220","Offense Segment","DATA MUST BE ENTERED FOR SPECIFIC OFFENSES","Data Element 12 (Type Criminal Activity/Gang Information) Must be populated with a valid data value and cannot be blank when Data Element 6 (UCR Offense Code) is: 250=Counterfeiting/Forgery 280=Stolen Property Offenses 35A=Drug/Narcotic Violations 35B=Drug Equipment Violations 39C=Gambling Equipment Violations 370=Pornography/Obscene Material 520=Weapon Law Violations 720=Animal Cruelty"),
 	_221("221","Offense Segment","DATA MUST BE ENTERED FOR SPECIFIC OFFENSES","Data Element 13 (Type Weapon/Force Involved) must be populated with a valid data value and cannot be blank when Data Element 6 (UCR Offense Code) is: 09A=Murder and Non-negligent Manslaughter 09B=Negligent Manslaughter 09C=Justifiable Homicide 100=Kidnapping/Abduction 11A=Rape 11B=Sodomy 11C=Sexual Assault With An Object 11D=Fondling 120=Robbery 13A=Aggravated Assault 13B=Simple Assault 210=Extortion/Blackmail 520=Weapon Law Violations 64A=Human Trafficking, Commercial Sex Acts 64B=Human Trafficking, Involuntary Servitude"),
+/**
+ * 222 new in 3.1	
+ */
+	_222("222","Offense Segment","DATA CAN ONLY BE BE ENTERED FOR SPECIFIC OFFENSES","Data Element 13 (Type Weapon/Force Involved) must be populated with a valid data value and cannot be blank when Data Element 6 (UCR Offense Code) is: 09A=Murder and Non-negligent Manslaughter 09B=Negligent Manslaughter 09C=Justifiable Homicide 100=Kidnapping/Abduction 11A=Rape 11B=Sodomy 11C=Sexual Assault With An Object 11D=Fondling 120=Robbery 13A=Aggravated Assault 13B=Simple Assault 210=Extortion/Blackmail 520=Weapon Law Violations 64A=Human Trafficking, Commercial Sex Acts 64B=Human Trafficking, Involuntary Servitude"),
 	_251("251","Offense Segment","INVALID CODE","(Offense Attempted/Completed) Must be a valid code of A=Attempted or C=Completed."),
 	_252("252","Offense Segment","OFFENSE CODE MUST BE 220 WITH A LOCATION TYPE OF 14 OR 19 FOR DATA TO BE ENTERED","When Data Element 10 (Number of Premises Entered) is entered, Data Element 9 (Location Type) must be 14=Hotel/Motel/Etc. or 19=Rental Storage Facility, and Data Element 6 (UCR Offense Code) must be 220 (Burglary)."),
 	_253("253","Offense Segment","MUST BE PRESENT WHEN OFFENSE CODE IS 220","Data Element was not entered; it must be entered when UCR Offense Code of 220=Burglary has been entered."),
@@ -93,8 +177,14 @@ public enum NIBRSErrorCode {
 	_268("268","Offense Segment","A LARCENY OFFENSE CANNOT HAVE A MOTOR VEHICLE PROPERTY DESCRIPTION ENTERED","Cannot be submitted with a data value for a motor vehicle in Data Element 15 (Property Description) when Data Element 6 (UCR Offense Code) contains an offense of (23A–23H)=Larceny/Theft Offenses; stolen vehicles cannot be reported for a larceny"),
 	_269("269","Offense Segment","POSSIBLE CLASSIFICATION ERROR OF AGGRAVATED ASSAULT 13A CODED AS SIMPLE 13B","If Data Element 6 (UCR Offense Code) is 13B=Simple Assault and the weapon involved is 11=Firearm, 12=Handgun, 13=Rifle, 14=Shotgun, or 15=Other Firearm, then the offense should instead be classified as 13A=Aggravated Assault."),
 	_270("270","Offense Segment","JUSTIFIABLE HOMICIDE MUST BE CODED AS NON-BIAS MOTIVATED","Must be 88=None when Data Element 6 (UCR Offense Code) is 09C=Justifiable Homicide."),
+/**
+ * 284 not implemented	
+ */
 	_284("284","Offense Segment","THIS OFFENSE SEGMENT HAS A CONFLICTING LENGTH","Segment Length for the Offense Segment (Level 2) must be 63 characters (reporting only Bias Motivation #1) or 71 characters (reporting Bias Motivations #2–#5). All Offense Segments in a submission must be formatted in only one of these two lengths."),
 	_301("301","Property Segment","MUST BE PRESENT— MANDATORY FIELD","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
+/**
+ * 302 not implemented	
+ */
 	_302("302","Property Segment","CONTAINS NONNUMERIC ENTRY","Must be numeric entry with zero left-fill. If Data Element 21 (Estimated Quantity) has the error, note that any decimal fractional quantity must be expressed in thousandths as three numeric digits. If no fractional quantity was involved, then all zeros should be entered."),
 	_304("304","Property Segment","INVALID DATA VALUE","The referenced data element must contain a valid data value when it is entered; Blank is permissible on non-mandatory fields."),
 	_305("305","Property Segment","DATE RECOVERED IS INVALID","Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31 days). The date cannot be later than that entered within the Month of Electronic Submission and Year of Electronic submission fields on the data record. For example, if Month of Electronic Submission and Year of Electronic Submission are 06/1999, the recovered date cannot contain any date 07/01/1999 or later. Cannot be earlier than Data Element 3 (Incident Date/Hour)."),
@@ -103,10 +193,16 @@ public enum NIBRSErrorCode {
 	_316("316","Property Segment","MUST BE LEFT-JUSTIFIED– BLANK DETECTED IN FIRST POSITION","Data Element 2 (Incident Number) Must be left- justified with blank right-fill if under 12 characters in length."),
 	_317("317","Property Segment","CANNOT HAVE CHARACTERS OTHER THAN A–Z, 0–9, AND/OR HYPHEN, AND/OR BLANKS","Must contain a valid character combination of the following: A–Z (capital letters only) 0–9 Hyphen Example: 11-123-SC is valid, but 11+123*SC is not valid."),
 /**
-* Rules 320 342 343 not in 3.1
+* 320 not in 3.1
 */
 	_320("320","Property Segment","RECOVERED DATE PREDATES STOLEN DATE","The date property is recovered cannot be before the date it is stolen"),
+/**
+ * 342 not in 3.1	
+ */
 	_342("342","Property Segment","WARNING - PROPERTY DESC(15) HAD VALUE (16) THAT EXCEEDED THRESHOLD OF [$1,000,000]","When referenced data element contains a value that exceeds an FBI-assigned threshold amount, a warning message will be created. The participant is asked to check to see if the value entered was a data entry error, or if it was intended to be entered. A warning message is always produced when the value is $1,000,000 or greater. For example, if the value of a property is $12,000.99 but is inadvertently entered as $1,200,099 in the computer record sent to the FBI, a warning message will be generated. In this case, the cents were entered as whole dollars."),
+/**
+ * 343 not in 3.1	
+ */
 	_343("343","Property Segment","WARNING - 280 OFFENSE HAS RECOVERED VEHICLE BUT 240 DOESN'T SHOW STOLEN","This is a warning message only. This warning is generated when a 280 Stolen Property Offense and a 240 Motor Vehicle Theft are submitted that contain questionable property reporting. When the incident contains a recovered vehicle but does not also have a stolen vehicle, this warning message is created. The incident should be reviewed and if there was indeed a stolen vehicle, the incident should be resubmitted reflecting both stolen and recovered vehicles."),
 	_351("351","Property Segment","PROPERTY VALUE OF ZERO IS NOT ALLOWED","Data Element 16 (Value of Property) Cannot be zero unless Data Element 15 (Property Description) is: Mandatory zero 09=Credit/Debit Cards 22=Nonnegotiable Instruments 48=Documents–Personal or Business 65=Identity Documents 66=Identity–Intangible Optional zero 77=Other 99=(blank)–this data value is not currently used by the FBI.by the FBI"),
 	_352("352","Property Segment","DATA ELEMENTS 15 - 22 MUST BE BLANK WHEN PROPERTY LOSS CODE=1 OR 8","When this error occurs, data were found in one or more of the referenced data elements. These data elements must be blank based on other data element values that prohibit data being entered in these data elements. For example, if Data Element 14 (Type property Loss/Etc.) is 8=Unknown, Data Elements 15 through 22 must be blank. If it is 1=None and offense is 35A, then Data Elements 15 through 19 and 21 through 22 must be blank. If it is 1=None and offense is not 35A, then Data Elements 15 through 22 must be blank. The exception to this rule is when Data Element 6 (UCR Offense Code) is 35A=Drug/ Narcotic Violations and Data Element 14 (Type Property Loss/Etc.) is 1=None; Data Element 20 (Suspected Drug Type) must be entered."),
@@ -140,6 +236,9 @@ public enum NIBRSErrorCode {
 	_384("384","Property Segment","DRUG QUANTITY MUST BE NONE WHEN DRUG MEASUREMENT IS NOT REPORTED","Data Element 21 (Estimated Drug Quantity) must be 000000001000=None (i.e., 1) when Data Element 22 (Type Drug Measurement) is XX=Not Reported indicating the drugs were sent to a laboratory for analysis. When the drug analysis is received by the LEA, Data Element 21 and Data Element 22 should be updated with the correct data values."),
 	_387("387","Property Segment","WITH A PROPERTY LOSS=6 AND ONLY OFFENSE 35A CANNOT HAVE DESCRIPTION 11 or WITH A PROPERTY LOSS=6 AND ONLY OFFENSE 35B CANNOT HAVE DESCRIPTION 10","To ensure that 35A-35B Drug/Narcotic Offenses- Drug Equipment Violations are properly reported, Data Element 15 (Property Description) of 11=Drug/Narcotic Equipment is not allowed with only a 35A Drug/Narcotic Violation. Similarly, 10=Drugs/Narcotics is not allowed with only a 35B Drug Equipment Violation. And Data Element 14 (Type Property Loss/Etc.) is 6=Seized."),
 	_388("388","Property Segment","NUMBER STOLEN IS LESS THAN NUMBER OF VEHICLE CODES","More than one vehicle code was entered in Data Element 15 (Property Description), but the number stolen in Data Element 18 (Number of Stolen Motor Vehicles) is less than this number. For example, if vehicle codes of 03=Automobiles and 05=Buses were entered as being stolen, then the number stolen must be at least 2, unless the number stolen was unknown (00). The exception to this rule is when 00=Unknown is entered in Data Element 18."),
+/**
+ * 389 not implemented	
+ */
 	_389("389","Property Segment","NUMBER RECOVERED IS LESS THAN NUMBER OF VEHICLE CODES","More than one vehicle code was entered in Data Element 15 (Property Description), but the number recovered in Data Element 19 (Number of Recovered Motor Vehicles) was less than this number. For example, if vehicle codes of 03=Automobiles and 05=Buses were entered as being recovered, then the number recovered must be at least 2, unless the number recovered was unknown (00). The exception to this rule is when 00=Unknown is entered in Data Element 18."),
 	_390("390","Property Segment","ILLOGICAL PROPERTY DESCRIPTION FOR THE OFFENSE SUBMITTED","Data Element 15 (Property Description) must contain a data value that is logical for one or more of the offenses entered in Data Element 6 (UCR Offense Code). Illogical combinations include: 1) Property descriptions for structures are illogical with 220=Burglary/Breaking & Entering or 240=Motor Vehicle Theft 2) Property descriptions for items that would not fit in a purse or pocket (aircraft, vehicles, structures, a person’s identity, watercraft, etc.) are illogical with 23A=Pocket-picking or 23B=Purse- snatching 3) Property descriptions that cannot be shoplifted due to other UCR definitions (aircraft, vehicles, structures, a person’s identity, watercraft, etc.) are illogical with 23C=Shoplifting 4) Property descriptions for vehicles and structures are illogical with 23D=Theft from Building, 23E=Theft from Coin-Operated Machine or Device, 23F=Theft from Motor Vehicle, and 23G=Theft of Motor Vehicle Parts or Accessories Property descriptions for vehicles are illogical with 23H=All Other Larceny"),
 	_391("391","Property Segment","PROPERTY VALUE MUST BE ZERO FOR DESCRIPTION SUBMITTED","Data Element 15 (Property Description) has a code that requires a zero value in Data Element 16 (Value of Property). Either the wrong property description code was entered or the property value was not entered. (This error was formerly error number 340, a warning message.) Data Element 16 (Value of Property) must be zero when Data Element 15 (Property Description) is: 09=Credit/Debit Cards 22=Nonnegotiable Instruments 48=Documents–Personal or Business 65=Identity Documents 66=Identity–Intangible"),
@@ -159,10 +258,16 @@ public enum NIBRSErrorCode {
 	_409("409","Victim Segment","CONTAINS NONNUMERIC ENTRY","Data Element 26 (Age of Victim) contains more than two characters indicating a possible age-range was being attempted. If so, the field must contain numeric entry of four digits."),
 	_410("410","Victim Segment","FIRST AGE MUST BE LESS THAN SECOND FOR AGE RANGE","Data Element 26 (Age of Victim) was entered as an age-range. Accordingly, the first age component must be less than the second age."),
 /**
- * 415 416 417 not implemented
+ * 415 not implemented
  */
 	_415("415","Victim Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NONBLANK CHARACTERS","Data Element 2 (Incident Number) Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
+/**
+ * 416 not implemented	
+ */
 	_416("416","Victim Segment","MUST BE LEFT- JUSTIFIED–BLANK DETECTED IN FIRST POSITION","Data Element 2 (Incident Number) Must be left-justified with blank right-fill if under 12 characters in length."),
+/**
+ * 417 not implemented	
+ */
 	_417("417","Victim Segment","CANNOT HAVE CHARACTERS OTHER THAN A–Z, 0–9, AND/OR HYPHEN, AND/OR BLANKS","Data Element 2 (Incident Number)Must contain a valid character combination of the following: A–Z (capital letters only) 0–9 Hyphen Example: 11-123-SC is valid, but 11+123*SC is not valid."),
 	_419("419","Victim Segment","DATA CAN ONLY BE ENTERED FOR SPECIFIC OFFENSES","Data Element 31 (Aggravated Assault/Homicide Circumstances) can only be entered when one or more of the offenses in Data Element 24 (Victim Connected to UCR Offense Code) are: 09A=Murder and Non-negligent Manslaughter 09B=Negligent Manslaughter 09C=Justifiable Homicide 13A=Aggravated Assault Data Element 33 (Type Injury) can only be entered when one or more of the offenses in Data Element 24 (Victim Connected to UCR Offense Code) are: 100=Kidnapping/Abduction 11A=Rape 11B=Sodomy 11C=Sexual Assault With An Object 11D=Fondling 120=Robbery 13A=Aggravated Assault 13B=Simple Assault 210=Extortion/Blackmail 64A=Human Trafficking, Commercial Sex Acts 64B=Human Trafficking, Involuntary Servitude"),
 	_422("422","Victim Segment","AGE RANGE CANNOT HAVE “00�  IN FIRST TWO POSITIONS","Data Element 26 (Age of Victim) was entered as an age-range. Therefore, the first age component cannot be 00 (unknown)."),
@@ -180,9 +285,9 @@ public enum NIBRSErrorCode {
 	_458("458","Victim Segment","VICTIM TYPE (25) MUST BE 'I' OR 'L' FOR DATA TO BE ENTERED","The Data Element associated with this error cannot be entered when Data Element 25 (Type of Victim) is not I=Individual or L=Law Enforcement Officer when Data Element 24 (Victim Connected to UCR Offense Code) contains a Crime Against Person."),
 	_459("459","Victim Segment","NEED A CRIME AGAINST PERSON OR ROBBERY FOR DATA TO BE ENTERED","Data Element 34 (Offender Numbers To Be Related) was entered but should only be entered if one or more of the offenses entered into Data Element 24 [Victim Connected to UCR Offense Code(s)] is a Crime Against Person or is a Robbery Offense (120). None of these types of offenses were entered."),
 	_460("460","Victim Segment","RELATIONSHIP MUST BE ENTERED WHEN AN OFFENDER NUMBER (34) EXISTS","Corresponding Data Element 35 (Relationship of Victim to Offenders) data must be entered when Data Element 34 (Offender Numbers To Be Related) is entered with a value greater than 00."),
-	/**
-	 * 461 not in 3.1
-	 */
+/**
+ * 461 not in 3.1
+ */
 	_461("461","Victim Segment","VICTIM TYPE CANNOT EQUAL “S�  WITH AN OFFENSE OF 220","Data Element 25 (Type of Victim) cannot have a value of S=Society/Public when the offense is 220=Burglary/Breaking and Entering."),
 	_462("462","Victim Segment","INVALID AGGRAVATED ASSAULT/HOMICIDE FOR 13A OFFENSE","An Offense Segment (Level 2) was submitted for 13A=Aggravated Assault. Accordingly, Data Element 31 (Aggravated Assault/Homicide Circumstances) can only have codes of 01 through 06 and 08 through 10. All other codes, including 07=Mercy Killing, are not valid because they do not relate to an aggravated assault"),
 	_463("463","Victim Segment","INVALID AGGRAVATED ASSAULT/HOMICIDE FOR 09C OFFENSE","When a Justifiable Homicide is reported, Data Element 31 (Aggravated Assault/Homicide Circumstances) can only have codes of 20=Criminal Killed by Private Citizen or 21=Criminal Killed by Police Officer. In this case, a code other than the two mentioned was entered."),
@@ -206,24 +311,48 @@ public enum NIBRSErrorCode {
 	_482("482","Victim Segment","LEOKA VICTIM MUST BE CONNECTED TO MURDER OR ASSAULT OFFENSE","Data Element 25 (Type of Victim) cannot be L=Law Enforcement Officer unless Data Element 24 (Victim Connected to UCR Offense Code) is one of the following: 09A=Murder & Non-negligent Manslaughter 13A=Aggravated Assault 13B=Simple Assault 13C=Intimidation"),
 	_483("483","Victim Segment","VICTIM MUST BE LAW ENFORCEMENT OFFICER TO ENTER LEOKA DATA","Data Element 25A (Type of Officer Activity/Circumstance), Data Element 25B (Officer Assignment Type), Data Element 25C (Officer–ORI Other Jurisdiction), Data Element 26 (Age of Victim), Data Element 27 (Sex of Victim), Data Element 28 (Race of Victim), Data Element 29 (Ethnicity of Victim), Data Element 30 (Resident Status of Victim), and Data Element 34 (Offender Number to be Related) can only be entered when Data Element 25 (Type of Victim) is I=Individual or L=Law Enforcement Officer."),
 /**
- * 484 490 not implemented	
+ * 484 not implemented	
  */
 	_484("484","Victim Segment","THIS VICTIM SEGMENT HAS A CONFLICTING LENGTH","Segment Length for the Victim Segment (Level 4) must be 129 characters (not reporting LEOKA) or 141 characters (reporting LEOKA). All Victim Segments in a submission must be formatted in only one of these two lengths."),
+/**
+ * 490 not implemented	
+ */
 	_490("490","Victim Segment","INCIDENT DATE/HOUR MUST CONTAIN A VALID ENTRY WITHEN VICTIM IS L=LAW ENFORCEMENT OFFICER","When Type of VIctim i L=Law Enforcement Officer and Data Element 24 (Victim Connected to UCR Offense Code) is one of the following: 09A=Murder & Non-negligent Manslaughter 13A=Aggrewavated Assault 13B=Simple Assault 13C=Intimidation Data Element 3 (Incident Date/Hour) must be populated with a valid hour (00-23) and cannot be blank "),
 	_501("501","Offender Segment","MUST BE PRESENT— MANDATORY FIELD","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
+/**
+ *  502 not implemented
+ */
 	_502("502","Offender Segment","CONTAINS NONNUMERIC ENTRY","Data Element 36 (Offender Sequence Number) must contain numeric entry (00 through 99) with zero left-fill."),
 	_504("504","Offender Segment","INVALID DATA VALUE","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
+/**
+ * 508 not implemented	
+ */
 	_508("508","Offender Segment","EXACT AGE MUST BE IN FIRST TWO POSITIONS","Data Element 37 (Age of Offender) contains data but is not left-justified. A single two-character age must be in positions 1 through 2 of the field."),
 	_509("509","Offender Segment","CONTAINS NONNUMERIC ENTRY","Data Element 37 (Age of Offender) contains more than two characters indicating a possible age- range is being attempted. If so, the field must contain a numeric entry of four digits."),
 	_510("510","Offender Segment","FIRST AGE MUST BE LESS THAN SECOND FOR AGE RANGE","Data Element 37 (Age of Offender) was entered as an age-range. Accordingly, the first age component must be less than the second age."),
+/**
+ * 515 not implemented	
+ */
 	_515("515","Offender Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
+/** 
+ * 516 not implemented	
+ */
 	_516("516","Offender Segment","MUST BE LEFT-JUSTIFIED– BLANK DETECTED IN FIRST POSITION","Must be left-justified with blank right-fill if under 12 characters in length."),
+/**
+ * 517 not implemented	
+ */
 	_517("517","Offender Segment","CANNOT HAVE CHARACTERS OTHER THAN A–Z, 0–9, AND/OR HYPHEN, AND/OR BLANKS","Must contain a valid character combination of the following: A–Z (capital letters only) 0–9 Hyphen Example: 11-123-SC is valid, but 11+123*SC is not valid."),
 	_522("522","Offender Segment","AGE RANGE CANNOT HAVE “00�  IN FIRST TWO POSITIONS","Data Element 37 (Age of Offender) was entered as an age-range. Therefore, the first age component cannot be 00 (unknown)."),
+/**
+ * 549 not in 3.1	
+ */
 	_549("549","Offender Segment","WARNING–OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 18","Data Element 37 (Age of Offender) cannot be less than 18 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse."),
 	_550("550","Offender Segment","OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 10","Cannot be less than 10 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse."),
 	_551("551","Offender Segment","DUPLICATE OFFENDER SEGMENT","When a Group “A�  Incident Report is submitted, the individual segments comprising the incident cannot contain duplicates. In this case, two Offender Segments were submitted having the same entry in Data Element 36 (Offender Sequence Number)."),
 	_552("552","Offender Segment","CANNOT BE PRESENT WHEN OFFENDER NUMBER IS “00�  UNKNOWN","Data Element 37 (Age of Offender) cannot be entered when Data Element 36 (Offender Sequence Number) is 00=Unknown."),
+/**
+ * 553 not in 3.1	
+ */
 	_553("553","Offender Segment","SEX OF VICTIM AND OFFENDER DOES NOT REFLECT THE RELATIONSHIP","Data Element 35 (Relationship of Victim to Offenders) has a relationship that is inconsistent with the offender’s sex. The sex of the victim and/or offender must reflect the implied relationship. For example, if the relationship of the victim to offender is Homosexual Relationship, then the victim’s sex must be the same as the offender’s sex. The following relationships must reflect either the Same or Different sex codes depending upon this relationship: Relationship Sex Code BG=Victim was Boyfriend/Girlfriend Different XS=Victim was Ex-Spouse Different SE=Victim was Spouse Different CS=Victim was Common-Law Spouse Different HR=Homosexual Relationship Same"),
 	_554("554","Offender Segment","AGE OF VICTIM AND OFFENDER DOES NOT REFLECT THE RELATIONSHIP","Data Element 35 (Relationship of Victim to Offenders) has a relationship that is inconsistent with the offender’s age. The age of the victim and/or offender must reflect the implied relationship. For example, if the relationship of the victim to offender is PA=Parent, then the victim’s age must be greater than the offender’s age. The following relationships must be consistent with the victim’s age in relation to the offender’s age: Relationship Victim’s Age Is CH=Victim was Child Younger PA=Victim was Parent Older GP=Victim was Grandparent Older GC=Victim was Grandchild Younger"),
 	_555("555","Offender Segment","OFFENDER “00�  EXISTS— CANNOT SUBMIT MORE OFFENDERS","When multiple Offender Segments are submitted, none can contain a 00=Unknown value because the presence of 00 indicates that the number of offenders is unknown. In this case, multiple offenders were submitted, but one of the segments contains the 00=Unknown value."),
@@ -232,23 +361,47 @@ public enum NIBRSErrorCode {
 	_558("558","Offender Segment","AT LEAST ONE OFFENDER MUST BE COMPLETELY KNOWN","None of the Offender Segments contain all known values for Age, Sex, and Race. When an Incident is cleared exceptionally (Data Element 4 contains an A through E), one offender must have all known values."),
 	_559("559","Offender Segment","OFFENDER DATA MUST BE PRESENT IF OFFENSE CODE IS 09C, JUSTIFIABLE HOMICIDE","The incident was submitted with Data Element 6 (UCR Offense Code) value of 09C=Justifiable Homicide, but unknown information was submitted for all the offender(s). At least one of the offenders must have known information for Age, Sex, and Race."),
 	_560("560","Offender Segment","VICTIM’S SEX CANNOT BE SAME FOR ALL OFFENDERS FOR OFFENSES OF RAPE","Segment Level 5 (Offender Segment) must contain a data value for at least one offender in Data Element 38 (Sex of Offender) that is not the same sex that is entered in Data Element 27 (Sex of Victim) when Data Element 6 (UCR Offense Code) is 11A=Rape."),
+/**
+ * 572 not in 3.1	
+ */
 	_572("572","Offender Segment","RELATIONSHIP UNKNOWN IF OFFENDER INFO MISSING","Data Element 37 (Age of Offender) If Data Element 37 (Age of Offender) is 00=Unknown, Data Element 38 (Sex of Offender) is U=Unknown, and Data Element 39 (Race of Offender) is U=Unknown then Data Element 35 (Relationship of Victim to Offender) must be RU=Relationship Unknown."),
+/**
+ * 584 not implemented	
+ */
 	_584("584","Offender Segment","THIS OFFENDER SEGMENT HAS A CONFLICTING LENGTH","Segment Length for the Offender Segment (Level 5) must be 45 characters (not reporting Offender Ethnicity) or 46 characters (reporting Offender Ethnicity). All Offender Segments in a submission must be formatted in only one of these two lengths."),
 	_601("601","Arrestee Segment","MUST BE PRESENT— MANDATORY FIELD","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
+/**
+ * 602 not implemented	
+ */
 	_602("602","Arrestee Segment","CONTAINS NONNUMERIC ENTRY","Data Element 40 (Arrestee Sequence Number) must be numeric entry of 01 to 99 with zero left- fill."),
 	_604("604","Arrestee Segment","INVALID DATA VALUE -- NOT ON FBI VALIDATION TABLE","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_605("605","Arrestee Segment","INVALID ARREST DATE","Data Element 42 (Arrest Date) Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31 days). The date cannot exceed the current date. The date cannot be later than that entered within the Month of Electronic submission and Year of Electronic submission fields on the data record. For example, if Month of Electronic submission and Year of Electronic submission are 06/1999, the arrest date cannot contain any date 07/01/1999 or later."),
 	_606("606","Arrestee Segment","ERROR - DUPLICATE VALUE=[value]","Data Element 46 (Arrestee Was Armed With) The referenced data element in error is one that contains multiple data values. When more than one code is entered, none can be duplicate codes."),
 	_607("607","Arrestee Segment","ERROR - MUTUALLY EXCLUSIVE VALUE=[value]","Data Element 46 (Arrestee Was Armed With) can have multiple data values and was entered with multiple values. However, the entry shown between the brackets in [value] above cannot be entered with any other data value."),
+/**
+ * 608 not implemented	
+ */
 	_608("608","Arrestee Segment","EXACT AGE MUST BE IN FIRST TWO POSITIONS","Data Element 47 (Age of Arrestee) contains data, but is not left-justified. A single two-character age must be in positions 1 through 2 of the field."),
 	_609("609","Arrestee Segment","CONTAINS NONNUMERIC ENTRY","Data Element 47 (Age of Arrestee) contains more than two characters indicating a possible age- range is being attempted. If so, the field must contain a numeric entry of four digits."),
 	_610("610","Arrestee Segment","FIRST AGE MUST BE LESS THAN SECOND FOR AGE RANGE","Data Element 47 (Age of Arrestee) was entered as an age-range. Accordingly, the first age component must be less than the second age."),
 	_615("615","Arrestee Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
+/**
+ * 616 not implemented	
+ */
 	_616("616","Arrestee Segment","MUST BE LEFT-JUSTIFIED— BLANK DETECTED IN FIRST POSITION","Data Element 2 (Incident Number) and Data Element 41 (Arrest Transaction Number) must be left justified with blank right-fill when less than 12 characters in length."),
 	_617("617","Arrestee Segment","CANNOT HAVE CHARACTERS OTHER THAN A-Z, 0-9, HYPHENS, AND/OR BLANKS","Data Element 2 (Incident Number) Must contain a valid character combination of the following: A–Z (capital letters only) 0–9 Hyphen Example: 11-123-SC is valid, but 11+123*SC is not valid."),
-	_618("618","Arrestee Segment","AGENCY IS IN COVERED-BY STATUS","Data Element 42 (Arrest Date) cannot contain a date on or after the date a LEA is placed in Covered-by Status. When data are received for a LEA in Covered-by Status, the FBI will remove the agency from Covered-by Status, process the submission, and notify the agency. Additionally, adjustments to previously- submitted data from an agency now in Covered-by Status will be processed and no error will be generated."),
+/**
+ * 618 cannot be validated	
+ */
+	_618("618","Arrestee Segment","ARREST DATE CANNOT BE ON OR AFTER THE INACTIVE DATE OF THE ORI","Data Element 42 (Arrest Date) The UCR Program has determined that an ORI will no longer be submitting data to the FBI as of an inactive date. No arrest data from this ORI will be accepted after this date."),
 	_622("622","Arrestee Segment","AGE RANGE CANNOT HAVE “00�  IN FIRST TWO POSITIONS","Data Element 47 (Age of Arrestee) was entered as an age-range. Therefore, the first age component cannot be 00 (unknown)."),
+/**
+ * 623 not in 3.1	
+ */
 	_623("623","Arrestee Segment","CLEARANCE INDICATOR AND CLEARANCE OFFENSE CODE MUST BE BLANK","Clearance Indicator and Clearance Offense Code must be blank when Segment Action Type on Level 6 (Arrestee Segment) is I=Incident."),
+/**
+ * 640 not in 3.1	
+ */
 	_640("640","Arrestee Segment","WARNING–NO DISPOSITION FOR POSSIBLE JUVENILE ARRESTEE","Data Element 52 (Disposition of Arrestee Under 18) was not entered, but Data Element 47 (Age of Arrestee) indicates an age-range for a juvenile. The low age is a juvenile and the high age is an adult, but the average age is a juvenile. Note: When an age-range is not entered and the age is a juvenile, then the disposition must be entered. These circumstances were flagged by the computer as a possible discrepancy between age and disposition and should be checked for possible correction by the participant."),
 	_641("641","Arrestee Segment","WARNING - ARRESTEE HAD AN AGE OF 99 OR OLDER","Data Element 47 (Age of Arrestee) was entered with a value of 99 which means the arrestee was over 98 years old. Verify that the submitter of data is not confusing the 99=Over 98 Years Old with 00=Unknown."),
 	_652("652","Arrestee Segment","DISPOSITION MUST BE ENTERED WHEN AGE IS LESS THAN 18","Data Element 52 (Disposition of Juvenile) was not entered, but Data Element 47 (Age of Arrestee) is under 18. Whenever an arrestee’s age indicates a juvenile, the disposition must be entered."),
@@ -257,6 +410,9 @@ public enum NIBRSErrorCode {
 	_655("655","Arrestee Segment","WEAPON TYPE MUST=11, 12, 13, 14, OR 15 FOR AN “A�  IN THE AUTO INDICATOR","In Data Element 46 (Arrestee Was Armed With), A=Automatic is the third character of code. It is valid only with codes: 11=Firearm (Type Not Stated) 12=Handgun 13=Rifle 14=Shotgun 15=Other Firearm A weapon code other than those mentioned was entered with the automatic indicator. An automatic weapon is, by definition, a firearm."),
 	_656("656","Arrestee Segment","THIS ARRESTEE EXCEEDED THE NUMBER OF OFFENDERS ON THE GROUP 'A' INCIDENT","A Group “A�  Incident Report was submitted with more arrestees than offenders. The number (nn) of offenders is shown within the message. The incident must be resubmitted with additional Offender Segments. This message will also occur if an arrestee was submitted and Data Element 36 (Offender Sequence Number) was 00=Unknown. The exception to this rule is when an additional arrest is reported for a pre-NIBRS incident. In this case, Segment Level 6 (Arrestee Segment) will contain A=Add, but the data value in Data Element 2 (Incident Number) will not match an incident already on file in the national UCR database. The segment will be processed, but used only for SRS purposes and will not be included in the agency’s NIBRS figures."),
 	_661("661","Arrestee Segment","ARRESTEE SEQUENCE NUMBER ALREADY EXISTS","Segment Level 6 (Arrestee Segment) cannot contain duplicate data values in Data Element 40 (Arrestee Sequence Number) when two or more Arrestee Segments are submitted for the same incident."),
+/**
+ * 664 not implemented	
+ */
 	_664("664","Arrestee Segment","ARRESTEE AGE MUST BE NUMERIC DIGITS","Data Element 47 (Age of Arrestee) does not contain a numeric entry of 00 through 99 for an exact age."),
 	_665("665","Arrestee Segment","ARREST DATE CANNOT BE BEFORE THE INCIDENT START DATE","Data Element 42 (Arrest Date) cannot be earlier than Data Element 3 (Incident Date/Hour). A person cannot be arrested before the incident occurred."),
 	_667("667","Arrestee Segment","INVALID ARRESTEE SEX VALUE","Data Element 48 (Sex of Arrestee) does not contain a valid code of M=Male or F=Female. Note: U=Unknown (if entered) is not a valid sex for an arrestee."),
@@ -268,37 +424,118 @@ public enum NIBRSErrorCode {
 	_705("705","Group B Arrest Segment","INVALID ARREST DATE","Data Element 42 (Arrest Date) Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31 days). The date cannot exceed the current date. The date cannot be later than that entered within the Month of Electronic submission and Year of Electronic submission fields on the data record. For example, if Month of Electronic submission and Year of Electronic submission are 06/1999, the arrest date cannot contain any date 07/01/1999 or later."),
 	_706("706","Group B Arrest Segment","ERROR - DUPLICATE VALUE=[value]","Data Element 46 (Arrestee Was Armed With) cannot contain duplicate data values although more than one data value is allowed."),
 	_707("707","Group B Arrest Segment","ERROR - MUTUALLY EXCLUSIVE VALUE=[value]","Data Element 46 (Arrestee Was Armed With) can have multiple data values and was entered with multiple values. However, the entry shown between the brackets in [value] above cannot be entered with any other data value."),
+/**
+ * 708 not implemented	
+ */
 	_708("708","Group B Arrest Segment","EXACT AGE MUST BE IN FIRST TWO POSITIONS","Data Element 47 (Age of Arrestee) contains data, but is not left-justified. A single two-character age must be in positions 1 through 2 of the field."),
 	_709("709","Group B Arrest Segment","CONTAINS NONNUMERIC ENTRY","Data Element 47 (Age of Arrestee) contains more than two characters indicating a possible age-range is being attempted. If so, the field must contain numeric entry of four digits."),
 	_710("710","Group B Arrest Segment","FIRST AGE MUST BE LESS THAN SECOND FOR AGE RANGE","Data Element 47 (Age of Arrestee) was entered as an age-range. Accordingly, the first age component must be less than the second age."),
 	_715("715","Group B Arrest Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
+/**
+ * 716 not implemented	
+ */
 	_716("716","Group B Arrest Segment","MUST BE LEFT-JUSTIFIED– BLANK DETECTED IN FIRST POSITION","Must be left-justified with blank right-fill if under 12 characters in length."),
 	_717("717","Group B Arrest Segment","CANNOT HAVE CHARACTERS OTHER THAN A–Z, 0–9, AND/OR HYPHENS, AND/OR BLANKS","Must contain a valid character combination of the following: A–Z (capital letters only) 0–9 Hyphen Example: 11-123-SC is valid, but 11+123*SC is not valid."),
-	_718("718","Group B Arrest Segment","AGENCY IS IN COVERED-BY STATUS","Data Element 42 (Arrest Date) cannot contain a date on or after the date a LEA is placed in Covered-by Status. When data are received for a LEA in Covered-by Status, the FBI will remove the agency from Covered-by Status, process the submission, and notify the agency. Additionally, adjustments to previously submitted data from an agency now in Covered-by Status will be processed and no error will be generated."),
+/**
+ * 718 cannot be validated	
+ */
+	_718("718","Group B Arrest Segment","ARREST DATE CANNOT BE ON OR AFTER THE INACTIVE DATE OF THE ORI","Data Element 42 (Arrest Date) The UCR Program has determined that an ORI will no longer be submitting data to the FBI as of an inactive date. No arrest data from this ORI will be accepted after this date."),
+/**
+ * 720 not implemented	
+ */
 	_720("720","Group B Arrest Segment","ARREST DATE CANNOT PREDATE BASE DATE","Group “B�  Arrest Report (Level 7) submitted with a Segment Action Type of A=Add cannot have Data Element 42 (Arrest Date) earlier than the Base Date."),
 	_722("722","Group B Arrest Segment","AGE RANGE CANNOT HAVE “00�  IN FIRST TWO POSITIONS","Data Element 47 (Age of Arrestee) was entered as an age-range. Therefore, the first age component cannot be 00 (unknown)."),
+/**
+ * 740 not in 3.1	
+ */
 	_740("740","Group B Arrest Segment","WARNING–NO DISPOSITION FOR POSSIBLE JUVENILE ARRESTEE","Data Element 52 (Disposition of Arrestee Under 18) was not entered, but Data Element 47 (Age of Arrestee) indicates an age-range for a juvenile. The low age is a juvenile and the high age is an adult, but the average age is a juvenile. Note: When an age-range is not entered and the age is a juvenile, the disposition must be entered. These circumstances were flagged by the computer as a possible discrepancy between age and disposition and should be checked for possible correction by the participant"),
 	_741("741","Group B Arrest Segment","WARNING–ARRESTEE IS OVER AGE 98","Data Element 47 (Age of Arrestee) was entered with a value of 99, which means the arrestee is over 98 years old. The submitter should verify that 99=Over 98 Years Old is not being confused the with 00=Unknown."),
+/**
+ * 751 not implemented
+ */
 	_751("751","Group B Arrest Segment","ARRESTEE SEQUENCE NUMBER ALREADY EXISTS","When a Group “B�  Arrest Report (Level 7) has two or more arrestees, the individual segments comprising the report cannot contain duplicates. In this case, two arrestee segments were submitted having the same entry in Data Element 40 (Arrestee Sequence Number)."),
 	_752("752","Group B Arrest Segment","DISPOSITION MUST BE ENTERED WHEN AGE IS LESS THAN 18","Data Element 52 (Disposition of Juvenile) was not entered, but Data Element 47 (Age of Arrestee) is under 18. Whenever an arrestee’s age indicates a juvenile, the disposition must be entered."),
 	_753("753","Group B Arrest Segment","FOR AGE GREATER THAN 17 DISPOSITION SHOULD NOT BE ENTERED","Data Element 52 (Disposition of Juvenile) was entered, but Data Element 47 (Age of Arrestee) is 18 or greater. Whenever an arrestee’s age indicates an adult, the juvenile disposition cannot be entered because it does not apply."),
 	_754("754","Group B Arrest Segment","AUTOMATIC INDICATOR MUST BE BLANK OR “A� ","Data Element 46 (Arrestee Was Armed With) does not have A=Automatic or a blank in the third position of field."),
 	_755("755","Group B Arrest Segment","WEAPON TYPE MUST=11, 12, 13, 14, OR 15 FOR AN “A�  IN THE AUTO INDICATOR","If Data Element 46 (Arrestee Was Armed With) weapon is an Automatic, add A as the third character of code; valid only with codes of: 11=Firearm (Type Not Stated) 12=Handgun 13=Rifle 14=Shotgun 15=Other Firearm A weapon code other than those mentioned was entered with the automatic indicator. An automatic weapon is, by definition, a firearm."),
+/**
+ * 757 not implemented	
+ */
 	_757("757","Group B Arrest Segment","ARRESTEE AGE MUST BE NUMERIC DIGITS","Data Element 47 (Age of Arrestee) does not contain a numeric entry of 00 through 99 for an exact age."),
 	_758("758","Group B Arrest Segment","INVALID ARRESTEE SEX VALUE","Data Element 48 (Sex of Arrestee) does not contain a valid code of M=Male or F=Female. Note that U=Unknown (if entered) is not a valid sex for an arrestee."),
+/**
+ * 759 cannot be validated	
+ */
 	_759("759","Group B Arrest Segment","DUPLICATE GROUP “B�  ARREST REPORT SEGMENT ON FILE","The Group “B�  Arrest Report (Level 7) submitted as an Add is currently active in the FBI’s database; therefore, it was rejected. If multiple arrestees are involved in the incident, ensure that Data Element 40 (Arrestee Sequence Number) is unique for each Arrestee Segment submitted so that duplication does not occur."),
 	_760("760","Group B Arrest Segment","LEVEL 7 ARRESTS MUST HAVE A GROUP “B�  OFFENSE","Group “B�  Arrest Reports (Level 7) must contain a Group “B�  Offense Code in Data Element 45 (UCR Arrest Offense). The offense code submitted is not a Group “B�  offense code."),
+/**
+ * 761 not in 3.1	
+ */
 	_761("761","Group B Arrest Segment","ARRESTEE AGE MUST BE 01–17 FOR A RUNAWAY OFFENSE","Data Element 47 (Age of Arrestee) must be 01 through 17 for offense code of 90I=Runaway on a Group “B�  Arrest Report."),
+/**
+ *797 new to 3.1	
+ */
+	_797("797","Group B Arrest Segment","MISSING ARREST DATE FOR DELETE OF GROUP B ARREST","Data Element 42 (Arrest Date) is missing for a Group B Arrest Report with a Segment Action Type of D=Delete;must be populated with a valid data value and cannot be blank."),
+/**
+ *798 cannot be validated	
+ */
+	_798("798","Group B Arrest Segment","MISSING ARREST DATE FOR DELETE -ARREST TRANSACTION NUMBER MATCHES GROUP B ARREST REPORT WITH ARREST DATE OUTSIDE TWO YEAR WINDOW","Data Element 42 (Arrest Date) is missing for a Group B Arrest Report with a Segment Action Type of D=Delete; at least one Group B Arrest Report is on file that matches Data Element 41 (Arrest Transaction Number) with an Arrest Date outside the two year window."),
+/**
+ *799 new to 3.1	
+ */
+	_799("799","Group B Arrest Segment","MISSING ARREST DATE FOR DELETE -ARREST TRANSACTION NUMBER MATCHES MULTIPLE GROUP B ARREST REPORTS","Data Element 42 (Arrest Date) is missing for a Group B Arrest Report with a Segment Action Type of D=Delete; multiple Group B Arrest Reports are on file that match Data Element 41 (Arrest Transasction Number)."),	
+
 	_001("001","Zero Report Segment","MUST BE POPULATED WITH A VALID DATA VALUE– MANDATORY FIELD","Mandatory Data Elements (Mandatory=Yes) must be populated with a valid data value and cannot be blank."),
+/**
+ * 090 not implemented	
+ */
 	_090_StructureCheck("090","Structure Check","ZERO-REPORTING MONTH IS NOT 01-12","A Segment Level 0 was submitted that had an invalid reporting month in positions 38 through 39. The data entered must be a valid month of 01 through 12."),
+/**
+ * 092 not implemented	
+ */
 	_092_StructureCheck("092","Structure Check","ZERO-REPORTING INCIDENT NUMBER MUST BE ALL ZEROS","A Segment Level 0 was submitted, but the incident number entered into positions 26 through 37 was not all zeros."),
-	_093_StructureCheck("093","Structure Check","ZERO-REPORTING MONTH/YEAR WAS PRIOR TO THE BASE DATE","A Segment Level 0 was submitted with a month and year entered into positions 38 through 43 that is earlier than January 1 of the previous year or before the date the agency converted over to NIBRS."),
-	_094_StructureCheck("094","Structure Check","ZERO-REPORTING MONTH/YEAR EXCEEDED MONTH/YEAR OF ELECTRONIC SUBMISSION","A Segment Level 0 was submitted with a month and year entered into positions 38 through 43 that was later than the Month of Electronic submission and Year of Electronic submission entered into positions 7 through 12. Note: Error Numbers 001, 015, 016, and 017 are also Zero-Reporting segment errors."),
+/**
+ * 093 cannot be validated	
+ */
+	_093_structurecheck("093","Structure Check","ZERO-REPORTING MONTH/YEAR WAS PRIOR TO THE BASE DATE","A Segment Level 0 was submitted with a month and year entered into positions 38 through 43 that is earlier than January 1 of the previous year or before the date the agency converted over to NIBRS."),
+/**
+ * 094 not implemented	
+ */
+	_094_structurecheck("094","Structure Check","ZERO-REPORTING MONTH/YEAR EXCEEDED MONTH/YEAR OF ELECTRONIC SUBMISSION","A Segment Level 0 was submitted with a month and year entered into positions 38 through 43 that was later than the Month of Electronic submission and Year of Electronic submission entered into positions 7 through 12. Note: Error Numbers 001, 015, 016, and 017 are also Zero-Reporting segment errors."),
+/**
+ * 090 Zero Report not implemented	
+ */
 	_090_ZeroReport("090","Zero Report Segment","ZERO REPORT MONTH IS NOT 01–12","Zero Report Month must be a valid month, data values 01 through 12."),
+/**
+ * 092 Zero Report not implemented	
+ */
 	_092_ZeroReport("092","Zero Report Segment","ZERO REPORT INCIDENT NUMBER MUST BE ALL ZEROS","Data Element 2 (Incident Number) in the Zero Report Segment (Level 0) must contain 12 zeros."),
+/**
+ * 093 Zero Report cannot be implemented
+ */
 	_093_ZeroReport("093","Zero Report Segment","ZERO REPORT MONTH/YEAR IS PRIOR TO AGENCY CONVERSION TO THE NIBRS","Zero Report Month and Zero Report Year must be later than the month and year in the date the LEA converted to the NIBRS."),
+/**
+ * 094 not implemented
+ */
 	_094_ZeroReport("094","Zero Report Segment","ZERO REPORT MONTH/YEAR EXCEEDED MONTH/YEAR OF SUBMISSION","Zero Report Month and Zero Report Year must be earlier than Month of Submission and Year of Submission.");
-		
+/**
+ * 930 cannot be implemented
+ */
+	/**
+	 * 931 cannot be implemented
+	 */
+	/**
+	 * 932 cannot be implemented
+	 */
+	/**
+	 * 933 cannot be implemented
+	 */
+	/**
+	 * 934 cannot be implemented
+	 */
+	/**
+	 * 952 cannot be implemented
+	 */
 	private String code;
 	public String type;
 	public String message;
