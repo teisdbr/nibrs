@@ -21,6 +21,8 @@ import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.YearMonth;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -57,9 +59,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import java.time.YearMonth;
-import java.time.format.DateTimeParseException;
 /**
  * Builder class that constructs incidents from a stream of NIBRS report data.
  * Incidents are broadcast to listeners as events; this keeps the class as
@@ -91,7 +90,7 @@ public class XmlIncidentBuilder {
 	public XmlIncidentBuilder() throws ParserConfigurationException {
 		listeners = new ArrayList<ReportListener>();
 		listeners.add(logListener);
-		dateFormat = new SimpleDateFormat("yyyyMMdd");
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
 		
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -143,47 +142,18 @@ public class XmlIncidentBuilder {
 				List<NIBRSError> reportBaseDataErrors = reportBaseData.setData(reportSource, reportNode);
 				errorList.addAll(reportBaseDataErrors);
 
-				currentReport = buildReport(errorList, reportNode, readerLocationName, reportBaseData);
-				errorList = new ArrayList<NIBRSError>();
-				handleNewReport(currentReport, errorList);
+				if (reportBaseDataErrors.isEmpty()){
+					currentReport = buildReport(errorList, reportNode, readerLocationName, reportBaseData);
+					errorList = new ArrayList<NIBRSError>();
+					handleNewReport(currentReport, errorList);
+				}
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			log.error(e.getMessage());
 		}
 		
 		
-		
-//		while ((line = br.readLine()) != null) {
-//			Segment s = new Segment();
-//			ReportSource reportSource = new ReportSource();
-//			reportSource.setSourceLocation(String.valueOf(lineNumber));
-//			reportSource.setSourceName(readerLocationName);
-//			List<NIBRSError> segmentErrors = s.setData(reportSource, line);
-//			errorList.addAll(segmentErrors);
-//			if (segmentErrors.isEmpty()) {
-//				char level = s.getSegmentLevel();
-//				if (level == ZeroReport.ZERO_REPORT_TYPE_IDENTIFIER 
-//						|| level == GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER 
-//						|| level == ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER 
-//						|| !Objects.equals(currentReport.getIdentifier(), s.getSegmentUniqueIdentifier())) {
-//					handleNewReport(currentReport, errorList);
-//					errorList = new ArrayList<NIBRSError>();
-//					currentReport = buildReport(errorList, s, readerLocationName);
-//				} else {
-//					int errorListSize = errorList.size();
-//					if (currentReport instanceof GroupAIncidentReport){
-//						addSegmentToIncident((GroupAIncidentReport) currentReport, s, errorList);
-//					}
-//					if (errorList.size() > errorListSize && currentReport != null) {
-//						currentReport.setHasUpstreamErrors(true);
-//					}
-//				}
-//			}
-//			lineNumber++;
-//		}
-//		
 		log.info("finished processing file");
 		log.info("Encountered " + logListener.errorCount + " error(s).");
 		log.info("Created " + logListener.reportCount + " incident(s).");
@@ -198,10 +168,10 @@ public class XmlIncidentBuilder {
 		
 		switch (nibrsReportCategoryCode){
 		case "GROUP A INCIDENT REPORT":
-			ret = buildGroupAIncidentReport(reportElement, errorList); 
+			ret = buildGroupAIncidentReport(reportBaseData, errorList); 
 			break; 
 		case "GROUP B ARREST REPORT": 
-			ret = builGroupBArrestReport(reportElement, errorList);
+			ret = builGroupBArrestReport(reportBaseData, errorList);
 			break; 
 		case "ZERO REPORT": 
 			ret = buildZeroReport(reportBaseData, errorList); 
@@ -216,35 +186,12 @@ public class XmlIncidentBuilder {
 	}
 
 	private AbstractReport buildZeroReport(ReportBaseData reportBaseData, List<NIBRSError> errorList) throws Exception {
-		List<NIBRSError> newErrorList = new ArrayList<>();
 		ZeroReport ret = new ZeroReport();
 		ret.setOri(reportBaseData.getOri());
 		ret.setReportActionType(reportBaseData.getActionType());
 		ret.setIncidentNumber(reportBaseData.getIncidentNumber());
 		
-		String submissionDateString = XmlUtils.xPathStringSearch(reportBaseData.getReportElement(), "nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate");
-		
-		try {
-			if (StringUtils.isNotBlank(submissionDateString) && submissionDateString.length() == 7){
-				YearMonth submissionDate = YearMonth.parse(submissionDateString);
-				ret.setYearOfTape(submissionDate.getYear());
-				ret.setMonthOfTape(submissionDate.getMonth().getValue());
-			}
-		}
-		catch (DateTimeParseException e){
-			log.info(e);
-			NIBRSError nibrsError = new NIBRSError();
-			nibrsError.setContext(reportBaseData.getReportSource());
-			nibrsError.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
-			nibrsError.setNIBRSErrorCode(NIBRSErrorCode._001);
-			nibrsError.setValue(submissionDateString);
-			nibrsError.setSegmentType('0');
-			errorList.add(nibrsError);
-			log.debug("Error in DateTimeParse conversion: lineNumber=" + reportBaseData.getReportSource()
-				+ ", xPath = 'nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate'"
-				+ ", value=" + StringUtils.trimToEmpty(submissionDateString));
-
-		}
+		List<NIBRSError> newErrorList = getSubmissionYearMonth(reportBaseData, ret, NIBRSErrorCode._001);
 		
 		//TODO find out Zero Report Year and Zero report Month xPath.
 		//TODO find out city indicator's xPath
@@ -259,137 +206,124 @@ public class XmlIncidentBuilder {
 		return ret;
 	}
 
-	private AbstractReport builGroupBArrestReport(Element reportElement, List<NIBRSError> errorList) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private AbstractReport buildGroupAIncidentReport(Element reportElement, List<NIBRSError> errorList) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private ZeroReport buildZeroReport(Segment s, List<NIBRSError> errorList) {
+	private List<NIBRSError> getSubmissionYearMonth(ReportBaseData reportBaseData, 
+			AbstractReport ret, NIBRSErrorCode nibrsErrorCode) {
+		List<NIBRSError> errorList = new ArrayList<>();
+		String submissionDateString = ""; 
 		
-		List<NIBRSError> newErrorList = new ArrayList<>();
-		ZeroReport ret = new ZeroReport();
-		ret.setOri(s.getOri());
-		ret.setReportActionType(s.getActionType());
-		int length = s.getSegmentLength();
-		
-		if (length == 43) {
-			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._001));
-			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._001));
-			ret.setCityIndicator(NibrsStringUtils.getStringBetween(13, 16, s.getData()));
-		} else {
-			NIBRSError e = new NIBRSError();
-			e.setContext(s.getReportSource());
-			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-			e.setSegmentType(s.getSegmentType());
-			e.setValue(length);
-			e.setNIBRSErrorCode(NIBRSErrorCode._001);
-			newErrorList.add(e);
+		try {
+			
+			submissionDateString = XmlUtils.xPathStringSearch(reportBaseData.getReportElement(), "nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate");
+			if (StringUtils.isNotBlank(submissionDateString) && submissionDateString.length() == 7){
+				YearMonth submissionDate = YearMonth.parse(submissionDateString);
+				ret.setYearOfTape(submissionDate.getYear());
+				ret.setMonthOfTape(submissionDate.getMonth().getValue());
+			}
+		}
+		catch (DateTimeParseException e){
+			log.info(e);
+			NIBRSError nibrsError = new NIBRSError();
+			nibrsError.setContext(reportBaseData.getReportSource());
+			nibrsError.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
+			nibrsError.setNIBRSErrorCode(nibrsErrorCode);
+			nibrsError.setValue(submissionDateString);
+			nibrsError.setSegmentType('0');
+			errorList.add(nibrsError);
+			log.debug("Error in DateTimeParse conversion: position=" + reportBaseData.getReportSource()
+				+ ", xPath = 'nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate'"
+				+ ", value=" + StringUtils.trimToEmpty(submissionDateString));
+
 		}
 		
-		for (NIBRSError e : newErrorList) {
-			e.setReport(ret);
-		}
-		
-		errorList.addAll(newErrorList);
-		
-		return ret;
-		
+		return errorList;
 	}
 
-	private AbstractReport buildGroupBIncidentReport(Segment s, List<NIBRSError> errorList) {
+	private AbstractReport builGroupBArrestReport(ReportBaseData reportBaseData, List<NIBRSError> errorList) {
 		List<NIBRSError> newErrorList = new ArrayList<>();
 		GroupBArrestReport ret = new GroupBArrestReport();
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
-		String segmentData = s.getData();
-		ret.setOri(s.getOri());
-		ret.setReportActionType(s.getActionType());
-		int length = s.getSegmentLength();
-		if (length == 66) {
-			ret.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._701));
-			ret.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._701));
-			ret.setCityIndicator(NibrsStringUtils.getStringBetween(13, 16, segmentData));
-			
-			ParsedObject<Integer> sequenceNumber = arrestee.getArresteeSequenceNumber();
-			sequenceNumber.setMissing(false);
-			sequenceNumber.setInvalid(false);
-			String sequenceNumberString = NibrsStringUtils.getStringBetween(38, 39, segmentData);
-			if (sequenceNumberString == null) {
-				sequenceNumber.setMissing(true);
-				sequenceNumber.setValue(null);
-			} else {
-				try {
-					Integer sequenceNumberI = Integer.parseInt(sequenceNumberString);
-					sequenceNumber.setValue(sequenceNumberI);
-				} catch (NumberFormatException nfe) {
-					NIBRSError e = new NIBRSError();
-					e.setContext(s.getReportSource());
-					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-					e.setSegmentType(s.getSegmentType());
-					e.setValue(sequenceNumberString);
-					e.setNIBRSErrorCode(NIBRSErrorCode._701);
-					e.setDataElementIdentifier("40");
-					errorList.add(e);
-					sequenceNumber.setInvalid(true);
-					sequenceNumber.setValidationError(e);
-				}
-			}
-			
-			arrestee.setArresteeSequenceNumber(sequenceNumber);
-			
-			arrestee.setArrestTransactionNumber(NibrsStringUtils.getStringBetween(26, 37, segmentData));
-			
-			ParsedObject<Date> arrestDate = arrestee.getArrestDate();
-			arrestDate.setMissing(false);
-			arrestDate.setInvalid(false);
-			String arrestDateString = NibrsStringUtils.getStringBetween(40, 47, segmentData);
-			if (arrestDateString == null) {
-				arrestDate.setMissing(true);
-				arrestDate.setValue(null);
-			} else {
-				try {
-					Date d = dateFormat.parse(arrestDateString);
-					arrestDate.setValue(d);
-				} catch (ParseException pe) {
-					NIBRSError e = new NIBRSError();
-					e.setContext(s.getReportSource());
-					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-					e.setSegmentType(s.getSegmentType());
-					e.setValue(arrestDateString);
-					e.setNIBRSErrorCode(NIBRSErrorCode._705);
-					e.setDataElementIdentifier("42");
-					newErrorList.add(e);
-					arrestDate.setInvalid(true);
-					arrestDate.setValidationError(e);
-				}
-			}
-			arrestee.setArrestDate(arrestDate);
-			
-			arrestee.setTypeOfArrest(NibrsStringUtils.getStringBetween(48, 48, segmentData));
-			arrestee.setUcrArrestOffenseCode(NibrsStringUtils.getStringBetween(49, 51, segmentData));
-			for (int i = 0; i < 2; i++) {
-				arrestee.setArresteeArmedWith(i, NibrsStringUtils.getStringBetween(52 + 3 * i, 53 + 3 * i, segmentData));
-				arrestee.setAutomaticWeaponIndicator(i, NibrsStringUtils.getStringBetween(54 + 3 * i, 54 + 3 * i, segmentData));
-			}
-			arrestee.setAgeString(NibrsStringUtils.getStringBetween(58, 61, segmentData));
-			arrestee.setSex(NibrsStringUtils.getStringBetween(62, 62, segmentData));
-			arrestee.setRace(NibrsStringUtils.getStringBetween(63, 63, segmentData));
-			arrestee.setEthnicity(NibrsStringUtils.getStringBetween(64, 64, segmentData));
-			arrestee.setResidentStatus(NibrsStringUtils.getStringBetween(65, 65, segmentData));
-			arrestee.setDispositionOfArresteeUnder18(NibrsStringUtils.getStringBetween(66, 66, segmentData));
+		
+		Element reportElement = reportBaseData.getReportElement();
+		ret.setOri(reportBaseData.getOri());
+		ret.setReportActionType(reportBaseData.getActionType());
+		
+		newErrorList.addAll(getSubmissionYearMonth(reportBaseData,  ret, NIBRSErrorCode._701));
+
+		//TODO find out cityIndicator's xPath.
+//			ret.setCityIndicator(NibrsStringUtils.getStringBetween(13, 16, segmentData));
+		
+		ParsedObject<Integer> sequenceNumber = arrestee.getArresteeSequenceNumber();
+		sequenceNumber.setMissing(false);
+		sequenceNumber.setInvalid(false);
+		String sequenceNumberString = XmlUtils.xPathStringSearch(reportElement, "j:Arrestee/j:ArrestSequenceID");
+		if (sequenceNumberString == null) {
+			sequenceNumber.setMissing(true);
+			sequenceNumber.setValue(null);
 		} else {
-			NIBRSError e = new NIBRSError();
-			e.setContext(s.getReportSource());
-			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-			e.setSegmentType(s.getSegmentType());
-			e.setValue(length);
-			e.setNIBRSErrorCode(NIBRSErrorCode._701);
-			newErrorList.add(e);
+			getIntegerValue(newErrorList, sequenceNumber, sequenceNumberString, NIBRSErrorCode._701, "40", reportBaseData );
 		}
+			
+		arrestee.setArresteeSequenceNumber(sequenceNumber);
+		
+		String arrestTransactionNumber = XmlUtils.xPathStringSearch(reportElement, "j:Arrest/nc:ActivityIdentification/nc:IdentificationID");
+		arrestee.setArrestTransactionNumber(arrestTransactionNumber);
+
+		
+		ParsedObject<Date> arrestDate = arrestee.getArrestDate();
+		arrestDate.setMissing(false);
+		arrestDate.setInvalid(false);
+		
+		String arrestDateString = XmlUtils.xPathStringSearch(reportElement, "j:Arrest/nc:ActivityDate/nc:Date");
+		if (arrestDateString == null) {
+			arrestDate.setMissing(true);
+			arrestDate.setValue(null);
+		} else {
+			try {
+				Date d = dateFormat.parse(arrestDateString);
+				arrestDate.setValue(d);
+			} catch (ParseException pe) {
+				NIBRSError e = new NIBRSError();
+				e.setContext(reportBaseData.getReportSource());
+				e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
+				e.setSegmentType(reportBaseData.getSegmentType());
+				e.setValue(arrestDateString);
+				e.setNIBRSErrorCode(NIBRSErrorCode._705);
+				e.setDataElementIdentifier("42");
+				newErrorList.add(e);
+				arrestDate.setInvalid(true);
+				arrestDate.setValidationError(e);
+			}
+		}
+		arrestee.setArrestDate(arrestDate);
+
+		arrestee.setTypeOfArrest(XmlUtils.xPathStringSearch(reportElement, "j:Arrest/j:ArrestCategoryCode"));
+		arrestee.setUcrArrestOffenseCode(XmlUtils.xPathStringSearch(reportElement, "j:Arrest/j:ArrestCharge/nibrs:ChargeUCRCode"));
+		
+		NodeList arresteeArmedWithElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "j:Arrestee/j:ArresteeArmedWithCode");
+		
+		for(int i=0; i < arresteeArmedWithElements.getLength() && i < 2; i++){
+			Element arresteeArmedWithElement = (Element)arresteeArmedWithElements.item(i);
+			arrestee.setArresteeArmedWith(i , arresteeArmedWithElement.getTextContent());
+			
+			//TODO did not find the Automatic weapon indicator  in the xml schema. 
+//			arrestee.setAutomaticWeaponIndicator(i, NibrsStringUtils.getStringBetween(54 + 3 * i, 54 + 3 * i, segmentData));
+		}
+
+		
+		String ageString = XmlUtils.xPathStringSearch(reportElement, "nc:Person/nc:PersonAgeMeasure/nc:MeasureIntegerValue"); 
+		if (StringUtils.isBlank(ageString)){
+			String ageMinString = XmlUtils.xPathStringSearch(reportElement, "nc:Person/nc:PersonAgeMeasure/nc:MeasureIntegerRange/nc:RangeMinimumIntegerValue"); 
+			String ageMaxString = XmlUtils.xPathStringSearch(reportElement, "nc:Person/nc:PersonAgeMeasure/nc:MeasureIntegerRange/nc:RangeMaximumIntegerValue");
+			ageString = StringUtils.join(ageMinString, ageMaxString); 
+		}
+		
+		arrestee.setAgeString(ageString);
+		
+		arrestee.setSex(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonSexCode"));
+		arrestee.setRace(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonRaceNDExCode"));
+		arrestee.setEthnicity(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonEthnicityCode"));
+		arrestee.setResidentStatus(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonResidentCode"));
+		arrestee.setDispositionOfArresteeUnder18(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:ArresteeJuvenileDispositionCode"));
 		
 		for (NIBRSError e : newErrorList) {
 			e.setReport(ret);
@@ -400,6 +334,31 @@ public class XmlIncidentBuilder {
 	
 		return ret;
 	}
+
+	private void getIntegerValue(List<NIBRSError> errorList, ParsedObject<Integer> parsedObject,
+			String stringValue, NIBRSErrorCode nibrsErrorCode,  String dataElementId, ReportBaseData reportBaseData) {
+		try {
+			Integer sequenceNumberI = Integer.parseInt(stringValue);
+			parsedObject.setValue(sequenceNumberI);
+		} catch (NumberFormatException nfe) {
+			NIBRSError e = new NIBRSError();
+			e.setContext(reportBaseData.getReportSource());
+			e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
+			e.setSegmentType(reportBaseData.getSegmentType());
+			e.setValue(stringValue);
+			e.setNIBRSErrorCode(nibrsErrorCode);
+			e.setDataElementIdentifier(dataElementId);
+			errorList.add(e);
+			parsedObject.setInvalid(true);
+			parsedObject.setValidationError(e);
+		}
+	}
+
+	private AbstractReport buildGroupAIncidentReport(ReportBaseData reportBaseData, List<NIBRSError> errorList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	private final void handleNewReport(AbstractReport newReport, List<NIBRSError> errorList) {
 		if (newReport != null) {

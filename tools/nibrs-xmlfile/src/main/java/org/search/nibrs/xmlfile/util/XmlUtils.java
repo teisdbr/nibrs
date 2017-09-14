@@ -44,6 +44,7 @@ import javax.xml.validation.Validator;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Attr;
@@ -178,17 +179,25 @@ public class XmlUtils {
      * @param xPath
      *            the xpath query
      * @return the matching string, or null if no match
-     * @throws Exception
      */
-    public static final String xPathStringSearch(Node context, String xPath) throws Exception {
+    public static final String xPathStringSearch(Node context, String xPath) {
         if (xPath == null)
         {
             return null;
         }
         XPath xpath = XPathFactory.newInstance().newXPath();
         xpath.setNamespaceContext(NIBRS_NAMESPACE_CONTEXT);
-        XPathExpression expression = xpath.compile(xPath);
-        return org.apache.commons.lang3.StringUtils.trimToNull((String) expression.evaluate(context, XPathConstants.STRING));
+        XPathExpression expression;
+        
+        String value = null;
+		try {
+			expression = xpath.compile(xPath);
+			value = (String) expression.evaluate(context, XPathConstants.STRING);
+		} catch (XPathExpressionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return org.apache.commons.lang3.StringUtils.trimToNull(value);
     }
     
     /**
@@ -196,17 +205,25 @@ public class XmlUtils {
      * @param context the node that's the context for the xpath
      * @param xPath the xpath query
      * @return the matching node, or null if no match
-     * @throws Exception
      */
-    public static final NodeList xPathNodeListSearch(Node context, String xPath) throws Exception {
+    public static final NodeList xPathNodeListSearch(Node context, String xPath) {
         if (xPath == null)
         {
             return null;
         }
         XPath xpath = XPathFactory.newInstance().newXPath();
         xpath.setNamespaceContext(NIBRS_NAMESPACE_CONTEXT);
-        XPathExpression expression = xpath.compile(xPath);
-        return (NodeList) expression.evaluate(context, XPathConstants.NODESET);
+        XPathExpression expression;
+        NodeList result = null;
+		try {
+			expression = xpath.compile(xPath);
+			result = (NodeList) expression.evaluate(context, XPathConstants.NODESET);
+		} catch (XPathExpressionException e) {
+			
+			e.printStackTrace();
+		}
+        		
+        return result;
         
     }
 

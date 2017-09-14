@@ -58,29 +58,36 @@ public class ReportBaseData
         
 		try {
 			String ori = XmlUtils.xPathStringSearch(reportElement, "nibrs:ReportHeader/nibrs:ReportingAgency/j:OrganizationAugmentation/j:OrganizationORIIdentification/nc:IdentificationID");
-			this.ori = ori;
-			
 			String reportActionType = XmlUtils.xPathStringSearch(reportElement, "nibrs:ReportHeader/nibrs:ReportActionCategoryCode");
-			if (StringUtils.isNotBlank(reportActionType)){
-				this.actionType = reportActionType.charAt(0);
-			}
-	
-			String incidentNumber = XmlUtils.xPathStringSearch(reportElement, "nc:Incident/nc:ActivityIdentification/nc:IdentificationID");
-			this.incidentNumber = incidentNumber;
-	
+			
 			this.nibrsReportCategoryCode = XmlUtils.xPathStringSearch(reportElement, "nibrs:ReportHeader/nibrs:NIBRSReportCategoryCode");
+			String incidentNumber = null;
 			
 			switch (this.nibrsReportCategoryCode){
 			case "GROUP A INCIDENT REPORT":
 				this.segmentLevel= '1'; 
+				incidentNumber = XmlUtils.xPathStringSearch(reportElement, "nc:Incident/nc:ActivityIdentification/nc:IdentificationID");
 				break; 
 			case "GROUP B ARREST REPORT": 
 				this.segmentLevel = '7'; 
+				incidentNumber = XmlUtils.xPathStringSearch(reportElement, "j:Arrest/nc:ActivityIdentification/nc:IdentificationID");
 				break; 
 			case "ZERO REPORT": 
 				this.segmentLevel = '0'; 
+				incidentNumber = XmlUtils.xPathStringSearch(reportElement, "nc:Incident/nc:ActivityIdentification/nc:IdentificationID");
 				break;
 			}
+			
+			if (StringUtils.isBlank(ori) 
+					|| StringUtils.isBlank(reportActionType)
+					|| StringUtils.isBlank(incidentNumber)){
+				throw new IllegalArgumentException("Ori, reportActionType and incidentNumber may not be empty."); 
+			}
+	
+			this.ori = ori;
+			this.actionType = reportActionType.charAt(0);
+			this.incidentNumber = incidentNumber;
+	
 			
 		} catch (Exception e1) {
 			log.error(e1);

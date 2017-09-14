@@ -29,7 +29,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.ZeroReport;
 
-public class XmlIncidentBuilderTest {
+public class XmlIncidentBuilderZeroReportTest {
 	private DefaultReportListener incidentListener;
 	
 	@Before
