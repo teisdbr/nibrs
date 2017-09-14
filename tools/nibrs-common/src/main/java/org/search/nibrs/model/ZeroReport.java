@@ -23,6 +23,8 @@ public class ZeroReport extends AbstractReport {
 
 	public static final char ZERO_REPORT_TYPE_IDENTIFIER = '0';
 
+	private String incidentNumber;
+
 	public ZeroReport() {
         super(ZERO_REPORT_TYPE_IDENTIFIER);
 	}
@@ -50,18 +52,18 @@ public class ZeroReport extends AbstractReport {
 	public String getGloballyUniqueReportIdentifier() {
 		return getOri() + "." + getIncidentNumber();
 	}
-	
+
+	public String getIncidentNumber() {
+		return incidentNumber;
+	}
+
+	public void setIncidentNumber(String incidentNumber) {
+		this.incidentNumber = incidentNumber;
+	}
+
 	@Override
 	public String getIdentifier() {
 		return getIncidentNumber();
 	}
-
-	/**
-	 * Get the "incident number" for the zero report, which will always be twelve zeros.
-	 * @return the "incident number"
-	 */
-	public String getIncidentNumber() {
-		return "000000000000";
-	}
-
+	
 }
