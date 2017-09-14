@@ -20,7 +20,7 @@ import java.util.Date;
 import org.search.nibrs.common.ParsedObject;
 
 /**
- * Representation of an individual "Zero Report" in a NIBRS submission.  A zero report is submitted by an agency to signify that no crime occurred in that month in that agency.
+ * Representation of an individual Bad Segment Level report in a NIBRS submission. 
  *
  */
 public class BadSegmentLevelReport extends AbstractReport {
