@@ -27,9 +27,6 @@ public enum NIBRSErrorCode {
  * 017 not implemented
  */	
 	_017("017","Structure Check","CANNOT HAVE CHARACTERS OTHER THAN A-Z, 0-9, HYPHENS, AND/OR BLANKS","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit discovered characters other than A through Z, 0 through 9, hyphens, and/or blanks had been entered."),
-/**
- * 050 not implemented
- */
 	_050("050","Structure Check","SEGMENT LEVELS ARE OUT OF NUMERICAL ORDER FOR THIS INCIDENT","Segment Levels in a Group A Incident Report must be organized in numerical order. For example, an incident having segments 1, 2, 2, 3, 4, 4, 4, 5 must be written in that order, not as 1, 2, 2, 5, 3, 4, 4, 4."),
 	_051("051","Structure Check","INVALID RECORD LEVEL ON SUBMISSION","Segment Level must contain data values 0–7."),
 /**
@@ -80,9 +77,6 @@ public enum NIBRSErrorCode {
 	_091("091","Structure Check","ZERO-REPORTING YEAR IS INVALID","A Segment Level 0 was submitted that did not have four numeric digits in positions 40 through 43."),
 	_101("101","Admin Segment","MANDATORY FIELDS MISSING IN ADMIN SEGMENT","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_104("104","Admin Segment","INVALID DATA VALUE—NOT ON FBI VALIDATION TABLE","The referenced data element must contain a valid data value when it is entered."),
-/**
- * 105 not implemented	
- */
 	_105("105","Admin Segment","INVALID DATA VALUE FOR DATE","The data element in error contains a date that is not entered correctly. Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31days). Also, the date cannot exceed the current date."),
 	_115("115","Admin Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","(Incident Number) Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
 /**
