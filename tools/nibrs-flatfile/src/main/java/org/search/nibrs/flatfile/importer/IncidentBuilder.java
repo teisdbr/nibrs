@@ -357,9 +357,23 @@ public class IncidentBuilder {
 			hour.setInvalid(false);
 			if (hourString != null && hourString.trim().length() > 0) {
 				try {
+					
+					if (hourString.length() != 2){
+						throw new NumberFormatException(); 
+					}
 					Integer hourI = new Integer(hourString);
 					hour.setValue(hourI);
 				} catch(NumberFormatException nfe) {
+					
+					NIBRSError e152 = new NIBRSError();
+					e152.setContext(s.getReportSource());
+					e152.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
+					e152.setSegmentType(s.getSegmentType());
+					e152.setValue(hourString);
+					e152.setNIBRSErrorCode(NIBRSErrorCode._152);
+					e152.setDataElementIdentifier("3");
+					newErrorList.add(e152);
+					
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
