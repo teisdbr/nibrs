@@ -160,15 +160,20 @@ public class XmlUtils {
      * @return the matching node, or null if no match
      * @throws Exception
      */
-    public static final Node xPathNodeSearch(Node context, String xPath) throws Exception {
+    public static final Node xPathNodeSearch(Node context, String xPath) {
         if (xPath == null)
         {
             return null;
         }
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        xpath.setNamespaceContext(NIBRS_NAMESPACE_CONTEXT);
-        XPathExpression expression = xpath.compile(xPath);
-        return (Node) expression.evaluate(context, XPathConstants.NODE);
+        try{
+	        XPath xpath = XPathFactory.newInstance().newXPath();
+	        xpath.setNamespaceContext(NIBRS_NAMESPACE_CONTEXT);
+	        XPathExpression expression = xpath.compile(xPath);
+	        return (Node) expression.evaluate(context, XPathConstants.NODE);
+        }
+        catch (Exception e){
+        	return null; 
+        }
     }
     
     /**

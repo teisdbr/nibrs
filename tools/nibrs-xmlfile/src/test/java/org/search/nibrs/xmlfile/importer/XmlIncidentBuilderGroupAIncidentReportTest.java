@@ -1,0 +1,171 @@
+/*
+ * Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.search.nibrs.xmlfile.importer;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.model.ArresteeSegment;
+import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.OffenderSegment;
+import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.ZeroReport;
+import org.search.nibrs.xmlfile.util.DateUtils;
+
+public class XmlIncidentBuilderGroupAIncidentReportTest {
+	private DefaultReportListener incidentListener;
+	
+	@Before
+	public void setUp() throws Exception {
+		InputStream inputStream = new FileInputStream(new File("src/test/resources/iep-sample/nibrs_AllFields_Sample.xml"));
+		incidentListener = new DefaultReportListener();
+		
+		XmlIncidentBuilder incidentBuilder = new XmlIncidentBuilder();
+		incidentBuilder.addIncidentListener(incidentListener);
+		incidentBuilder.buildIncidents(inputStream, getClass().getName());
+		List<NIBRSError> errorList = incidentListener.getErrorList();
+		assertEquals(0, errorList.size());
+	}
+
+	@Test
+	public void test() {
+		List<GroupBArrestReport> groupBArrestReports = incidentListener.getGroupBIncidentList();
+		assertThat(groupBArrestReports.size(), is(0));
+		List<ZeroReport> zeroIncidentList = incidentListener.getZeroReportList();
+		assertEquals(0, zeroIncidentList.size());
+		
+		List<GroupAIncidentReport> groupAIncidentList = incidentListener.getGroupAIncidentList();
+		assertThat(groupAIncidentList.size(), is(1));
+		
+		GroupAIncidentReport groupAIncident = groupAIncidentList.get(0); 
+		assertNotNull(groupAIncident);
+		
+		assertThat(groupAIncident.getAdminSegmentLevel(), is('1'));
+		assertThat(groupAIncident.getIncidentNumber(), is("54236732")); 
+		assertThat(groupAIncident.getOri(), is("WVNDX0100"));
+		assertThat(groupAIncident.getIncidentDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 19)));
+		assertThat(groupAIncident.getIncidentHour().getValue(), is(Integer.valueOf(10)));
+		assertThat(groupAIncident.getReportDateIndicator(), is(""));
+		assertThat(groupAIncident.getCargoTheftIndicator(), is("Y"));
+		
+		assertThat(groupAIncident.getExceptionalClearanceCode(), is("A"));
+		assertThat(groupAIncident.getExceptionalClearanceDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 25)));
+		
+		assertThat(groupAIncident.getOffenseCount(), is(1));
+		OffenseSegment offenseSegment = groupAIncident.getOffenses().get(0);
+		assertThat(offenseSegment.getUcrOffenseCode(), is("64A"));
+		assertThat(offenseSegment.getTypeOfCriminalActivity()[0], is("N"));
+		assertThat(offenseSegment.getBiasMotivation()[0], is("NONE"));
+		assertThat(offenseSegment.getNumberOfPremisesEntered().getValue(), is(1));
+		assertThat(offenseSegment.getOffendersSuspectedOfUsing()[0], is("N"));
+		assertThat(offenseSegment.getMethodOfEntry(), is("F"));
+		assertThat(offenseSegment.getTypeOfWeaponForceInvolved(0), is("11A"));
+		assertThat(offenseSegment.getOffenseAttemptedIndicator(), is(false));
+		assertThat(offenseSegment.getLocationType(), is("58"));
+		assertThat(offenseSegment.getPopulatedBiasMotivationCount(), is(1));
+		assertThat(offenseSegment.getPopulatedTypeOfCriminalActivityCount(), is(1));
+		assertThat(offenseSegment.getPopulatedOffendersSuspectedOfUsingCount(), is(1));
+		assertThat(offenseSegment.getPopulatedTypeOfWeaponForceInvolvedCount(), is(1));
+		
+		assertThat(groupAIncident.getOffenderCount(), is(1));
+		OffenderSegment offenderSegment = groupAIncident.getOffenders().get(0);
+		assertThat(offenderSegment.getOffenderSequenceNumber().getValue(), is(1));
+		assertThat(offenderSegment.getAge().getAgeMin(), is(25));
+		assertThat(offenderSegment.getAge().getAgeMax(), is(30));
+		assertThat(offenderSegment.getEthnicity(), is("N"));
+		assertThat(offenderSegment.getRace(), is("W"));
+		assertThat(offenderSegment.getSex(), is("F"));
+
+		assertThat(groupAIncident.getVictimCount(), is(2));
+		VictimSegment victimSegment1 = groupAIncident.getVictims().get(0);
+		assertThat(victimSegment1.getVictimSequenceNumber().getValue(), is(1));
+		assertThat(victimSegment1.getTypeOfInjury()[0], is("N"));
+		assertThat(victimSegment1.getTypeOfVictim(), is("L"));
+		assertThat(victimSegment1.getAggravatedAssaultHomicideCircumstances(0), is("01"));
+		assertThat(victimSegment1.getAdditionalJustifiableHomicideCircumstances(), is("C"));
+		assertThat(victimSegment1.getAge().getAgeMax(), is(32));
+		assertThat(victimSegment1.getAge().getAgeMin(), is(32));
+		assertThat(victimSegment1.getEthnicity(), is("N"));
+		assertThat(victimSegment1.getRace(), is("B"));
+		assertThat(victimSegment1.getResidentStatus(), is("R"));
+		assertThat(victimSegment1.getSex(), is("M"));
+		
+		assertThat(victimSegment1.getOffenderNumberRelated(0).getValue(), is(1));
+		assertThat(victimSegment1.getPopulatedOffenderNumberRelatedCount(), is(1));
+		assertThat(victimSegment1.getVictimOffenderRelationship(0), is("AQ"));
+		assertThat(victimSegment1.getUcrOffenseCodeConnection(0), is("64A")); 
+		assertThat(victimSegment1.getPopulatedUcrOffenseCodeConnectionCount(), is(1));
+		
+		assertThat(victimSegment1.getOfficerOtherJurisdictionORI(), is("WVNDX01"));
+		assertThat(victimSegment1.getOfficerAssignmentType(), is("G"));
+		assertThat(victimSegment1.getTypeOfOfficerActivityCircumstance(), is("10"));
+
+		VictimSegment victimSegment2 = groupAIncident.getVictims().get(1);
+		assertThat(victimSegment2.getVictimSequenceNumber().getValue(), is(2));
+		assertThat(victimSegment2.getTypeOfInjury()[0], is("N"));
+		assertThat(victimSegment2.getTypeOfVictim(), is("I"));
+		assertThat(victimSegment2.getAggravatedAssaultHomicideCircumstances(0), is("10"));
+		assertThat(victimSegment2.getAdditionalJustifiableHomicideCircumstances(), is("G"));
+
+		assertThat(victimSegment2.getAge().getAgeMax(), is(0));
+		assertThat(victimSegment2.getAge().getAgeMin(), is(0));
+		assertThat(victimSegment2.getAge().getNonNumericAge(), is("BB"));
+		assertThat(victimSegment2.getEthnicity(), is("U"));
+		assertThat(victimSegment2.getRace(), is("W"));
+		assertThat(victimSegment2.getResidentStatus(), is("R"));
+		assertThat(victimSegment2.getSex(), is("M"));
+		
+		assertThat(victimSegment2.getOffenderNumberRelated(0).getValue(), is(1));
+		assertThat(victimSegment2.getPopulatedOffenderNumberRelatedCount(), is(1));
+		assertThat(victimSegment2.getVictimOffenderRelationship(0), is("ST"));
+		assertThat(victimSegment2.getUcrOffenseCodeConnection(0), is("64A")); 
+		assertThat(victimSegment2.getPopulatedUcrOffenseCodeConnectionCount(), is(1));
+
+		assertThat(groupAIncident.getArresteeCount(), is(1));
+		ArresteeSegment arrestee = groupAIncident.getArrestees().get(0);
+		assertThat(arrestee.getAge().getAgeMin(), is(25));
+		assertThat(arrestee.getRace(), is("W"));
+		assertThat(arrestee.getEthnicity(), is("N"));
+		assertThat(arrestee.getResidentStatus(), is("R"));
+		assertThat(arrestee.getSex(), is("F"));
+		assertThat(arrestee.getDispositionOfArresteeUnder18(), is("H"));
+		assertThat(arrestee.getArresteeSequenceNumber().getValue(), is(1));
+		
+		assertThat(arrestee.getArrestDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 28))); 
+		assertThat(arrestee.getArrestTransactionNumber(), is("12345"));
+		assertThat(arrestee.getTypeOfArrest(), is("O"));
+		assertThat(arrestee.getUcrArrestOffenseCode(), is("64A"));
+		
+		assertThat(arrestee.getArresteeArmedWith(0), is("12"));
+		assertThat(arrestee.getMultipleArresteeSegmentsIndicator(), is("N"));
+		
+	}
+
+}
