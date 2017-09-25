@@ -35,6 +35,7 @@ import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.flatfile.util.DateUtils;
+import org.search.nibrs.importer.DefaultReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;

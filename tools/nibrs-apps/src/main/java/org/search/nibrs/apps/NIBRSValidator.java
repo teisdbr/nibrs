@@ -39,7 +39,7 @@ import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.errorexport.ErrorExporter;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
-import org.search.nibrs.flatfile.importer.ReportListener;
+import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.validation.SubmissionValidator;
 

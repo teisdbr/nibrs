@@ -63,7 +63,7 @@ public class TestXMLExporter {
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
 		assertTrue(errorList.isEmpty());
 		assertNotNull(d);
-		//XmlUtils.printNode(d, System.out);
+		//ArrayUtils.printNode(d, System.out);
 	}
 	
 	@Test
@@ -77,7 +77,7 @@ public class TestXMLExporter {
 		String xml = baos.toString();
 		Document d = XmlUtils.toDocument(xml);
 		assertNotNull(d);
-		//XmlUtils.printNode(d);
+		//ArrayUtils.printNode(d);
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class TestXMLExporter {
 		report.addReport(baseIncident);
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
-		//XmlUtils.printNode(d);
+		//ArrayUtils.printNode(d);
 		assertEquals(baseIncident.getYearOfTape() + "-" + new DecimalFormat("00").format(baseIncident.getMonthOfTape()),
 				XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate"));
 		assertEquals(baseIncident.getOri(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nibrs:ReportHeader/nibrs:ReportingAgency/j:OrganizationAugmentation/j:OrganizationORIIdentification/nc:IdentificationID"));
@@ -128,7 +128,7 @@ public class TestXMLExporter {
 		report.addReport(baseIncident);
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		Document d = new XMLExporter().convertNIBRSSubmissionToDocument(report, errorList);
-		//XmlUtils.printNode(d);
+		//ArrayUtils.printNode(d);
 		assertEquals(baseIncident.getYearOfTape() + "-" + new DecimalFormat("00").format(baseIncident.getMonthOfTape()),
 				XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nibrs:ReportHeader/nibrs:ReportDate/nc:YearMonthDate"));
 		assertEquals(baseIncident.getOri(), XmlUtils.xPathStringSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nibrs:ReportHeader/nibrs:ReportingAgency/j:OrganizationAugmentation/j:OrganizationORIIdentification/nc:IdentificationID"));
@@ -196,11 +196,11 @@ public class TestXMLExporter {
 			}
 			for (int i=0; i < p.getPopulatedSuspectedDrugTypeCount(); i++) {
 				String drugType = p.getSuspectedDrugType(i);
-				Double drugQuantity = p.getEstimatedDrugQuantity(i);
+				ParsedObject<Double> drugQuantity = p.getEstimatedDrugQuantity(i);
 				String measurement = p.getTypeDrugMeasurement(i);
 				assertNotNull(XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Substance[" +
 						"j:DrugCategoryCode='" + drugType + "' and " +
-						"nc:SubstanceQuantityMeasure/nc:MeasureDecimalValue='" + drugQuantity + "' and " +
+						"nc:SubstanceQuantityMeasure/nc:MeasureDecimalValue='" + drugQuantity.getValue() + "' and " +
 						"nc:SubstanceQuantityMeasure/j:SubstanceUnitCode='" + measurement + "']"));
 			}
 		}
@@ -375,7 +375,7 @@ public class TestXMLExporter {
 		p.setTypeOfPropertyLoss("6");
 		// seized 24 oz of LSD
 		p.setPropertyDescription(0, "10");
-		p.setEstimatedDrugQuantity(0, 24.0);
+		p.setEstimatedDrugQuantity(0, new ParsedObject<>(24.0));
 		p.setTypeDrugMeasurement(0, "OZ");
 		p.setSuspectedDrugType(0, "I");
 		p.setValueOfProperty(0, new ParsedObject<>(500));

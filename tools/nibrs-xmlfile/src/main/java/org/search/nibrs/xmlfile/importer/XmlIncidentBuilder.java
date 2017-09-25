@@ -18,7 +18,6 @@ package org.search.nibrs.xmlfile.importer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
@@ -29,7 +28,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,6 +40,8 @@ import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
+import org.search.nibrs.importer.AbstractIncidentBuilder;
+import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.BadSegmentLevelReport;
@@ -73,33 +73,16 @@ import org.xml.sax.SAXException;
  * 
  */
 @Component
-public class XmlIncidentBuilder {
+public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 	private static final Log log = LogFactory.getLog(XmlIncidentBuilder.class);;
 	
-	private static final class LogListener implements ReportListener {
-		public int reportCount = 0;
-		public int errorCount = 0;
-		public void newReport(AbstractReport newReport, List<NIBRSError> errorList) {
-			log.info("Created " + newReport.getUniqueReportDescription());
-			reportCount++;
-			errorCount += errorList.size();
-		}
-	}
-	
-	private List<ReportListener> listeners;
-	private LogListener logListener = new LogListener();
-	private DateFormat dateFormat;
 	private DocumentBuilder documentBuilder; 
 	private Map<String, String> victimToSubjectRelationshipCodeMap = new HashMap<>(); 
 
 	public XmlIncidentBuilder() throws ParserConfigurationException {
-		listeners = new ArrayList<ReportListener>();
-		listeners.add(logListener);
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		
+		super();
+		setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 		initDocumentBuilder();
-		
 		initVictimToSubjectRelationshipCodeMap();
 	}
 
@@ -166,11 +149,11 @@ public class XmlIncidentBuilder {
 	}
 
 	public void addIncidentListener(ReportListener listener) {
-		listeners.add(listener);
+		getListeners().add(listener);
 	}
 
 	public void removeIncidentListener(ReportListener listener) {
-		listeners.remove(listener);
+		getListeners().remove(listener);
 	}
 
 	/**
@@ -217,8 +200,8 @@ public class XmlIncidentBuilder {
 		
 		
 		log.info("finished processing file");
-		log.info("Encountered " + logListener.errorCount + " error(s).");
-		log.info("Created " + logListener.reportCount + " incident(s).");
+		log.info("Encountered " + getLogListener().errorCount + " error(s).");
+		log.info("Created " + getLogListener().reportCount + " incident(s).");
 
 	}
 
@@ -341,14 +324,12 @@ public class XmlIncidentBuilder {
 			arrestDate.setValue(null);
 		} else {
 			try {
-				Date d = dateFormat.parse(arrestDateString);
+				Date d = getDateFormat().parse(arrestDateString);
 				arrestDate.setValue(d);
 			} catch (ParseException pe) {
 				NIBRSError e = new NIBRSError();
 				ReportSource reportSource = new ReportSource(reportBaseData.getReportSource()); 
-				
-				Node arrestDateNode = XmlUtils.xPathNodeSearch(reportElement, "j:Arrest/nc:ActivityDate/nc:Date"); 
-				reportSource.setSourceLocation((String)arrestDateNode.getUserData("lineNumber"));
+				reportSource.setSourceLocation((String)XmlUtils.xPathStringSearch(reportElement, "j:Arrest/@s:id"));
 				e.setContext(reportBaseData.getReportSource());
 				e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
 				e.setSegmentType(reportBaseData.getSegmentType());
@@ -468,11 +449,11 @@ public class XmlIncidentBuilder {
 			try {
 				
 				if (StringUtils.isNotBlank(incidentDateString)){
-					Date d = dateFormat.parse(incidentDateString);
+					Date d = getDateFormat().parse(incidentDateString);
 					incidentDate.setValue(d);
 				}
 				else {
-					Date d = dateFormat.parse(incidentDatetimeString.substring(0, 10));
+					Date d = getDateFormat().parse(incidentDatetimeString.substring(0, 10));
 					incidentDate.setValue(d);
 				}
 			} catch (ParseException pe) {
@@ -545,7 +526,7 @@ public class XmlIncidentBuilder {
 			clearanceDate.setValue(null);
 		} else {
 			try {
-				Date d = dateFormat.parse(clearanceDateString);
+				Date d = getDateFormat().parse(clearanceDateString);
 				clearanceDate.setValue(d);
 			} catch (ParseException pe) {
 				NIBRSError e = new NIBRSError();
@@ -636,7 +617,7 @@ public class XmlIncidentBuilder {
 					arrestDate.setValue(null);
 				} else {
 					try {
-						Date d = dateFormat.parse(arrestDateString);
+						Date d = getDateFormat().parse(arrestDateString);
 						arrestDate.setValue(d);
 					} catch (ParseException pe) {
 						NIBRSError e = new NIBRSError();
@@ -1124,55 +1105,11 @@ public class XmlIncidentBuilder {
 
 	private final void handleNewReport(AbstractReport newReport, List<NIBRSError> errorList) {
 		if (newReport != null) {
-			for (Iterator<ReportListener> it = listeners.iterator(); it.hasNext();) {
+			for (Iterator<ReportListener> it = getListeners().iterator(); it.hasNext();) {
 				ReportListener listener = it.next();
 				listener.newReport(newReport, errorList);
 			}
 		}
-	}
-
-	private final AbstractReport buildBadSegmentLevelIncidentSegment(Segment s, List<NIBRSError> errorList) {
-		List<NIBRSError> newErrorList = new ArrayList<>();
-		BadSegmentLevelReport newIncident = new BadSegmentLevelReport();
-		newIncident.setIncidentNumber(s.getSegmentUniqueIdentifier());
-		newIncident.setOri(s.getOri());
-		newIncident.setReportActionType(s.getActionType());
-		String segmentData = s.getData();
-		int length = s.getSegmentLength();
-		if (length >=38 ) {
-			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._101));
-			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._101));
-			newIncident.setCityIndicator(NibrsStringUtils.getStringBetween(13, 16, segmentData));
-		}
-		
-		NIBRSError e = new NIBRSError();
-		e.setContext(s.getReportSource());
-		e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-		e.setNIBRSErrorCode(NIBRSErrorCode._050);
-		e.setCrossSegment(true);
-		newErrorList.add(e);
-		
-		e.setReport(newIncident);
-		errorList.addAll(newErrorList);
-		return newIncident;
-	}
-
-	private Integer getIntValueFromSegment(Segment s, int startPos, int endPos, List<NIBRSError> errorList, NIBRSErrorCode errorCode) {
-		String sv = NibrsStringUtils.getStringBetween(startPos, endPos, s.getData());
-		Integer i = null;
-		try {
-			i = new Integer(sv);
-		} catch (NumberFormatException nfe) {
-			NIBRSError e = new NIBRSError();
-			e.setContext(s.getReportSource());
-			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-			e.setNIBRSErrorCode(errorCode);
-			e.setValue(sv);
-			e.setSegmentType(s.getSegmentType());
-			errorList.add(e);
-			log.debug("Error in int conversion: lineNumber=" + s.getReportSource() + ", value=" + sv);
-		}
-		return i;
 	}
 
 	private Integer getIntValueFromXpath(ReportBaseData reportBaseData, String xPath,  List<NIBRSError> errorList, NIBRSErrorCode errorCode) 
@@ -1256,7 +1193,7 @@ public class XmlIncidentBuilder {
 					d.setValue(null);
 				} else {
 					try {
-						Date dd = dateFormat.parse(ds);
+						Date dd = getDateFormat().parse(ds);
 						d.setValue(dd);
 					} catch (ParseException pe) {
 						NIBRSError e = new NIBRSError();

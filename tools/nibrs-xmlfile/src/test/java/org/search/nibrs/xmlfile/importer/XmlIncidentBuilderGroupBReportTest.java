@@ -30,6 +30,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
+import org.search.nibrs.importer.DefaultReportListener;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;

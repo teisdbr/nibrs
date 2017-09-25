@@ -33,7 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
-import org.search.nibrs.flatfile.importer.ReportListener;
+import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.validation.SubmissionValidator;
 import org.springframework.stereotype.Controller;
@@ -108,6 +108,12 @@ public class FlatfileController {
 	}
 	
 
+	/**
+	 * Get only the first entry of the zipped resource. 
+	 * @param multipartFile
+	 * @return
+	 * @throws IOException
+	 */
 	private InputStream getUnzippedInputStream(MultipartFile multipartFile) throws IOException {
 		ZipInputStream zippedStream = new ZipInputStream(multipartFile.getInputStream());
 		

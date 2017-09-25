@@ -18,9 +18,7 @@ package org.search.nibrs.flatfile.importer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -33,6 +31,8 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.flatfile.util.StringUtils;
+import org.search.nibrs.importer.AbstractIncidentBuilder;
+import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.BadSegmentLevelReport;
@@ -44,6 +44,7 @@ import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -56,37 +57,21 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class IncidentBuilder {
+@Scope("prototype")
+public class IncidentBuilder extends AbstractIncidentBuilder {
 	
-	private static final class LogListener implements ReportListener {
-		public int reportCount = 0;
-		public int errorCount = 0;
-		public void newReport(AbstractReport newReport, List<NIBRSError> errorList) {
-			log.info("Created " + newReport.getUniqueReportDescription());
-			reportCount++;
-			errorCount += errorList.size();
-		}
-	}
-
 	private static final Log log = LogFactory.getLog(IncidentBuilder.class);;
 
-	private List<ReportListener> listeners;
-	private LogListener logListener = new LogListener();
-	private DateFormat dateFormat;
-
 	public IncidentBuilder() {
-		listeners = new ArrayList<ReportListener>();
-		listeners.add(logListener);
-		dateFormat = new SimpleDateFormat("yyyyMMdd");
-		dateFormat.setLenient(false);
+		super();
 	}
 
 	public void addIncidentListener(ReportListener listener) {
-		listeners.add(listener);
+		getListeners().add(listener);
 	}
 
 	public void removeIncidentListener(ReportListener listener) {
-		listeners.remove(listener);
+		getListeners().remove(listener);
 	}
 
 	/**
@@ -94,6 +79,7 @@ public class IncidentBuilder {
 	 * @param reader the source of the data
 	 * @throws IOException exception encountered in addressing the Reader
 	 */
+	@Override
 	public void buildIncidents(Reader reader, String readerLocationName) throws IOException {
 
 		BufferedReader br = null;
@@ -145,8 +131,8 @@ public class IncidentBuilder {
 		handleNewReport(currentReport, errorList);
 
 		log.info("finished processing file, read " + (lineNumber - 1) + " lines.");
-		log.info("Encountered " + logListener.errorCount + " error(s).");
-		log.info("Created " + logListener.reportCount + " incident(s).");
+		log.info("Encountered " + getLogListener().errorCount + " error(s).");
+		log.info("Created " + getLogListener().reportCount + " incident(s).");
 
 	}
 
@@ -253,7 +239,7 @@ public class IncidentBuilder {
 				arrestDate.setValue(null);
 			} else {
 				try {
-					Date d = dateFormat.parse(arrestDateString);
+					Date d = getDateFormat().parse(arrestDateString);
 					arrestDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -304,7 +290,7 @@ public class IncidentBuilder {
 
 	private final void handleNewReport(AbstractReport newReport, List<NIBRSError> errorList) {
 		if (newReport != null) {
-			for (Iterator<ReportListener> it = listeners.iterator(); it.hasNext();) {
+			for (Iterator<ReportListener> it = getListeners().iterator(); it.hasNext();) {
 				ReportListener listener = it.next();
 				listener.newReport(newReport, errorList);
 			}
@@ -332,7 +318,7 @@ public class IncidentBuilder {
 				incidentDate.setValue(null);
 			} else {
 				try {
-					Date d = dateFormat.parse(incidentDateString);
+					Date d = getDateFormat().parse(incidentDateString);
 					incidentDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -400,7 +386,7 @@ public class IncidentBuilder {
 				clearanceDate.setValue(null);
 			} else {
 				try {
-					Date d = dateFormat.parse(clearanceDateString);
+					Date d = getDateFormat().parse(clearanceDateString);
 					clearanceDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -575,7 +561,7 @@ public class IncidentBuilder {
 				arrestDate.setValue(null);
 			} else {
 				try {
-					Date d = dateFormat.parse(arrestDateString);
+					Date d = getDateFormat().parse(arrestDateString);
 					arrestDate.setValue(d);
 				} catch (ParseException pe) {
 					NIBRSError e = new NIBRSError();
@@ -836,7 +822,7 @@ public class IncidentBuilder {
 					d.setValue(null);
 				} else {
 					try {
-						Date dd = dateFormat.parse(ds);
+						Date dd = getDateFormat().parse(ds);
 						d.setValue(dd);
 					} catch (ParseException pe) {
 						NIBRSError e = new NIBRSError();

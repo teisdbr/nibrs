@@ -28,6 +28,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
+import org.search.nibrs.importer.DefaultReportListener;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.OffenderSegment;
