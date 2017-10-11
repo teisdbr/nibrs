@@ -2,6 +2,8 @@
 #include <fstream>
 using namespace Rcpp;
 
+// [[Rcpp::plugins(cpp11)]]
+
 //' Filter the (very large) ICPSR data files to include only the records for a single state
 //' @export
 //' @param filePaths paths to the files to filter
