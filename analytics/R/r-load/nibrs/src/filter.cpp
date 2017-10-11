@@ -2,8 +2,6 @@
 #include <fstream>
 using namespace Rcpp;
 
-// [[Rcpp::plugins(cpp11)]]
-
 //' Filter the (very large) ICPSR data files to include only the records for a single state
 //' @export
 //' @param filePaths paths to the files to filter
@@ -26,11 +24,13 @@ StringVector filterICPSRFiles(StringVector filePaths, std::string state, std::st
   for (int i=0;i < nFiles;i++) {
 
     std::string inputFilePath = Rcpp::as<std::string>(filePaths[i]);
-    std::string outputFilePath = outputDir + "/" + state + "-" + std::to_string(i+1) + ".txt";
+    char istr[10];
+    sprintf(istr, "%i", i+1);
+    std::string outputFilePath = outputDir + "/" + state + "-" + istr + ".txt";
     //std::cout << "input path: " + inputFilePath + ", output path: " + outputFilePath + "\n";
 
-    std::ifstream infile(inputFilePath);
-    std::ofstream outfile(outputFilePath);
+    std::ifstream infile(inputFilePath, std::ios::in);
+    std::ofstream outfile(outputFilePath, std::ios::out | std::ios::trunc);
 
     std::string line;
     while (getline(infile, line)) {
