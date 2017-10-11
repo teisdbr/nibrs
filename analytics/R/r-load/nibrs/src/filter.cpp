@@ -29,8 +29,8 @@ StringVector filterICPSRFiles(StringVector filePaths, std::string state, std::st
     std::string outputFilePath = outputDir + "/" + state + "-" + istr + ".txt";
     //std::cout << "input path: " + inputFilePath + ", output path: " + outputFilePath + "\n";
 
-    std::ifstream infile(inputFilePath, std::ios::in);
-    std::ofstream outfile(outputFilePath, std::ios::out | std::ios::trunc);
+    std::ifstream infile(inputFilePath, std::ios_base::in);
+    std::ofstream outfile(outputFilePath, std::ios_base::out | std::ios_base::trunc);
 
     std::string line;
     while (getline(infile, line)) {
