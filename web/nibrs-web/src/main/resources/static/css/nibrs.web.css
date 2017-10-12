@@ -156,3 +156,10 @@ code {
     text-align: center;
     margin:0 auto;
 }
+
+.paddingBottom{
+	padding-bottom: .5em;
+}
+.marginBottom{
+	margin-bottom: .5em;
+}

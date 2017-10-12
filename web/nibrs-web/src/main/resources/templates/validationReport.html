@@ -23,7 +23,7 @@
  				  $(function() {
 					  $('#errorReport').DataTable({
 						  dom: 'lBfrtip',
-						  
+						  pagingType: "full_numbers",
 				    	  colReorder: true,
 				          buttons: [
 				              'excelHtml5',
@@ -37,14 +37,16 @@
 					  
  					  $("#errorReport_length").addClass("col-sm-2");
 					  $("div.dt_buttons").addClass("col-sm-2");
+					  $("div.dt_buttons").addClass("marginBottom paddingBottom");
 					  $("div.dataTables_info").addClass("col-sm-6");
+					  
 				  });
 
  			</script>
 	
 			<!-- The styling of width and border-spacing is important to make the responsive feature working properly. -->
-			<table id="errorReport" class="table table-striped table-bordered dt-responsive display" style="width: 100%; border-spacing: 0;">
-			<!-- <table id="errorReport" class="display responsive" style="width: 100%; border-spacing: 0;"> -->
+			<table id="errorReport" class="table table-striped table-bordered dt-responsive display responsive" style="width: 100%; border-spacing: 0;">
+<!--  			<table id="errorReport" class="display responsive" style="width: 100%; border-spacing: 0;"> -->
 				<thead>
 					<tr>
 						<th>Tape Date</th>
