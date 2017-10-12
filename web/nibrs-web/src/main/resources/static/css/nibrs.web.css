@@ -156,9 +156,9 @@ code {
     margin:0 auto;
 }
 
-.paddingBottom{
-	padding-bottom: .5em;
-}
-.marginBottom{
-	margin-bottom: .5em;
+.hint{
+	color:gray; 
+	font-size: small; 
+	font-weight: bold; 
+	padding: 1em;
 }
