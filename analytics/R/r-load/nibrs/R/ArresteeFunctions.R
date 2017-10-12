@@ -101,7 +101,7 @@ writeArresteeSegments <- function(conn, rawIncidentsDataFrame, segmentActionType
   ) %>%
     filter(ArresteeSequenceNumber > 0) %>% select(-starts_with("V_")) %>%
     mutate(ArrestDate=ifelse(ArrestDate %in% c(-5,-8), NA, ArrestDate)) %>%
-    mutate(ArrestDate=ymd(ArrestDate)) %>%
+    mutate(ArrestDate=ymd(ArrestDate), ArrestDateID=createKeyFromDate(ArrestDate)) %>%
     mutate(AgeOfArresteeMin=ifelse(AgeOfArresteeMin < 0, NA, AgeOfArresteeMin),
            AgeOfArresteeMax=AgeOfArresteeMin,
            SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
@@ -193,7 +193,7 @@ writeArrestReportSegments <- function(conn, rawArresteeDataFrame, segmentActionT
            ArrestReportSegmentID
            ) %>%
     mutate(ArrestDate=ifelse(ArrestDate %in% c(-5,-8), NA, ArrestDate)) %>%
-    mutate(ArrestDate=ymd(ArrestDate)) %>%
+    mutate(ArrestDate=ymd(ArrestDate), ArrestDateID=createKeyFromDate(ArrestDate)) %>%
     mutate(AgeOfArresteeMin=ifelse(AgeOfArresteeMin < 0, NA, AgeOfArresteeMin),
            AgeOfArresteeMax=AgeOfArresteeMin,
            SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),

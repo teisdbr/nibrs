@@ -21,6 +21,7 @@ truncateProperty <- function(conn) {
 #' @import dplyr
 #' @import tibble
 #' @importFrom DBI dbWriteTable
+#' @importFrom lubridate ymd
 writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) {
 
   ret <- list()
@@ -43,7 +44,7 @@ writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
 
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, V30091:V30093) %>%
-      gather(V_DateRecovered, DateRecovered, V30091:V30093) %>%
+      gather(V_DateRecovered, RecoveredDate, V30091:V30093) %>%
       select(-AdministrativeSegmentID),
 
     rawIncidentsDataFrame %>%
@@ -58,17 +59,18 @@ writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
 
   ) %>%
     filter(TypePropertyLossEtcTypeID != -8) %>% select(-starts_with("V_")) %>%
+    mutate(RecoveredDate=ifelse(RecoveredDate < 0, NA, RecoveredDate)) %>%
     mutate(TypePropertyLossEtcTypeID=ifelse(TypePropertyLossEtcTypeID < 0, 9, TypePropertyLossEtcTypeID),
            PropertyDescriptionTypeID=ifelse(PropertyDescriptionTypeID < 0, 99, PropertyDescriptionTypeID),
            ValueOfProperty=ifelse(ValueOfProperty < 0, NA, ValueOfProperty),
-           DateRecovered=as.Date(
-             ifelse(DateRecovered < 0, NA, as.Date(as.character(DateRecovered), format="%Y%m%d")), origin="1970-01-01"),
+           RecoveredDate=ymd(RecoveredDate),
+           RecoveredDateID=createKeyFromDate(RecoveredDate),
            NumberOfStolenMotorVehicles=ifelse(NumberOfStolenMotorVehicles < 0, NA, NumberOfStolenMotorVehicles),
            NumberOfRecoveredMotorVehicles=ifelse(NumberOfRecoveredMotorVehicles < 0, NA, NumberOfRecoveredMotorVehicles),
            SegmentActionTypeTypeID=segmentActionTypeTypeID)
 
   PropertyType <- PropertySegment %>%
-    select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID, PropertyDescriptionTypeID, ValueOfProperty, DateRecovered) %>%
+    select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID, PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate) %>%
     mutate(PropertyTypeID=row_number())
 
   PropertySegment <- PropertySegment %>%
@@ -80,7 +82,7 @@ writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
   PropertyType <- PropertyType %>%
     inner_join(PropertySegment %>% select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID, PropertySegmentID),
                by=c('SegmentActionTypeTypeID', 'AdministrativeSegmentID', 'TypePropertyLossEtcTypeID')) %>%
-    select(PropertyTypeID, PropertySegmentID, PropertyDescriptionTypeID, ValueOfProperty, DateRecovered)
+    select(PropertyTypeID, PropertySegmentID, PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate)
 
   writeLines(paste0("Writing ", nrow(PropertySegment), " property segments to database"))
   writeLines(paste0("Writing ", nrow(PropertyType), " PropertyType rows to database"))

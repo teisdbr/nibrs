@@ -45,6 +45,7 @@ writeIncidents <- function(conn, rawIncidentDataFrame, segmentActionTypeTypeID, 
            ReportDateIndicator=V1006) %>%
     mutate(INCDATE=ifelse(INCDATE==-5, NA, INCDATE)) %>%
     mutate(IncidentDate=ymd(INCDATE),
+           IncidentDateID=createKeyFromDate(IncidentDate),
            MonthOfTape=currentMonth, YearOfTape=currentYear, CityIndicator=NA, SegmentActionTypeTypeID=segmentActionTypeTypeID,
            ClearedExceptionallyTypeID=ifelse(ClearedExceptionallyTypeID==-6, 6L, ClearedExceptionallyTypeID),
            IncidentHour=ifelse(IncidentHour < 0, NA_integer_, IncidentHour)) %>%

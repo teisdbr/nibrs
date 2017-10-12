@@ -79,6 +79,18 @@ loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbn
     ret$ArrestReportSegment <- writeArrestReportSegments(conn, rawArrestees, 9L, agencies)
     ret$ArrestReportSegmentWasArmedWith <- writeArrestReportSegmentWasArmedWith(conn, ret$ArrestReportSegment, rawArrestees)
 
+    allDates <- c(
+      ret$AdministrativeSegment$IncidentDate,
+      ret$PropertyType$RecoveredDate,
+      ret$ArresteeSegment$ArrestDate,
+      ret$ArrestReportSegment$ArrestDate
+    ) %>% unique()
+
+    minDate <- min(allDates, na.rm=TRUE)
+    maxDate <- max(allDates, na.rm=TRUE)
+
+    ret$Date <- buildDateDimensionTable(minDate, maxDate)
+
     ret
 
   }, finally = {
@@ -88,3 +100,46 @@ loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbn
 
 }
 
+UNKNOWN_DATE_VALUE <- 99998
+
+createKeyFromDate <- function(d) {
+  as.integer(format(d, "%Y%m%d"))
+}
+
+#' @importFrom lubridate as_date year quarter month wday day
+#' @import dplyr
+#' @import tibble
+buildDateDimensionTable <- function(minDate, maxDate, datesToExclude=as_date(x = integer(0)),
+                                    unknownCodeTableValue=UNKNOWN_DATE_VALUE) {
+  minDate <- as_date(minDate)
+  maxDate <- as_date(maxDate)
+  writeLines(paste0("Building date dimension, earliest date=", minDate, ", latestDate=", maxDate))
+  DateDf <- tibble(CalendarDate=seq(minDate, maxDate, by="days")) %>%
+    mutate(DateTypeID=createKeyFromDate(CalendarDate),
+           Year=year(CalendarDate),
+           YearLabel=as.character(Year),
+           CalendarQuarter=quarter(CalendarDate),
+           Month=month(CalendarDate),
+           MonthName=as.character(month(CalendarDate, label=TRUE, abbr=FALSE)),
+           FullMonth=format(CalendarDate, paste0(Year, "-", Month)),
+           Day=day(CalendarDate),
+           DayOfWeek=as.character(wday(CalendarDate, label=TRUE, abbr=FALSE)),
+           DayOfWeekSort=wday(CalendarDate),
+           DateMMDDYYYY=format(CalendarDate, "%m%d%Y")
+    ) %>%
+    bind_rows(tibble(CalendarDate=as_date("1899-01-01"),
+                     DateTypeID=unknownCodeTableValue,
+                     Year=0,
+                     YearLabel='Unk',
+                     CalendarQuarter=0,
+                     Month=0,
+                     MonthName='Unknown',
+                     FullMonth='Unknown',
+                     Day=0,
+                     DayOfWeek='Unknown',
+                     DayOfWeekSort=0,
+                     DateMMDDYYYY='Unknown'))
+  DateDf <- DateDf %>% filter(!(CalendarDate %in% datesToExclude))
+  writeLines(paste0("Adding ", nrow(DateDf), " new dates to the Date dimension"))
+  DateDf
+}
