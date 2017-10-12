@@ -42,7 +42,7 @@
 			  <div class="col-sm-2"><img th:src="@{/images/search.png}" height="40px"/></div>
 			  <div class="col-sm-8" align="center">
 		  			<img th:src="@{/images/ncsxlogo.jpeg}" height="27px" style="padding-top: 3px;"/><br/>
-					<strong>The National Incident-Based Reporting System (NIBRS) Pre-Certification Tool</strong> 
+					<strong>The National Incident-Based Reporting System</strong> 
 			  </div>
 			  <div class="col-sm-2"><img th:src="@{/images/bjs.png}" height="40px"/></div>
 			</div>
@@ -59,11 +59,14 @@
 		  </div>
 		
 		  <!-- Collect the nav links, forms, and other content for toggling -->
-		  <strong id="version-alert">Beta Version</strong>
+		  <strong id="version-alert"> (NIBRS) Pre-Certification Tool <span style="color:#659EC7; font-size:small;">(Beta Version)</span></strong>
 		 
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 				  <li><a th:href="@{/}">Home</a></li>
+				  <li><a th:href="@{/resources}">Resources</a></li>
+				  <li><a th:href="@{/toolLimintations}">Tool Limintations</a></li>
+				  <li><a th:href="@{/testFiles}">Test Files</a></li>
 				  <li><a th:href="@{/about}" id="aboutLink">About</a></li>
 				</ul>
 		  </div><!-- /.navbar-collapse -->
