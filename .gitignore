@@ -6,7 +6,10 @@
 **/.DS_Store
 
 **/.Rproj.user
-**/man/
 **/*.RData
 .Rproj.user
 tools/nibrs-apps/tmp
+RcppExports.o
+nibrs.so
+filter.o
+tools/r-packages/nibrs/man
