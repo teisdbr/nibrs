@@ -15,6 +15,7 @@
 #' @importFrom DBI dbSendQuery dbClearResult
 truncateProperty <- function(conn) {
   dbClearResult(dbSendQuery(conn, "truncate PropertySegment"))
+  dbClearResult(dbSendQuery(conn, "truncate PropertyType"))
   dbClearResult(dbSendQuery(conn, "truncate SuspectedDrugType"))
 }
 
@@ -70,7 +71,8 @@ writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
            SegmentActionTypeTypeID=segmentActionTypeTypeID)
 
   PropertyType <- PropertySegment %>%
-    select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID, PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate) %>%
+    select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID,
+           PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate, RecoveredDateID) %>%
     mutate(PropertyTypeID=row_number())
 
   PropertySegment <- PropertySegment %>%
@@ -82,7 +84,7 @@ writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
   PropertyType <- PropertyType %>%
     inner_join(PropertySegment %>% select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID, PropertySegmentID),
                by=c('SegmentActionTypeTypeID', 'AdministrativeSegmentID', 'TypePropertyLossEtcTypeID')) %>%
-    select(PropertyTypeID, PropertySegmentID, PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate)
+    select(PropertyTypeID, PropertySegmentID, PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate, RecoveredDateID)
 
   writeLines(paste0("Writing ", nrow(PropertySegment), " property segments to database"))
   writeLines(paste0("Writing ", nrow(PropertyType), " PropertyType rows to database"))

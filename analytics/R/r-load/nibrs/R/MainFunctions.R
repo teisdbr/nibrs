@@ -91,12 +91,38 @@ loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbn
 
     ret$Date <- buildDateDimensionTable(minDate, maxDate)
 
+    ret$OffenseSegment <- select(ret$OffenseSegment, -OffenseCode)
+
+    materializedViewsSqlFile=system.file("raw", 'MaterializedViews.sql', package=getPackageName())
+    createMaterializedViews(conn, materializedViewsSqlFile)
+
     ret
 
   }, finally = {
     writeLines("Disconnecting from db...")
     DBI::dbDisconnect(conn)
   })
+
+}
+
+#' @importFrom readr read_file
+#' @importFrom stringr str_split str_length
+#' @importFrom DBI dbClearResult dbSendStatement
+createMaterializedViews <- function(conn, sqlFile) {
+
+  writeLines('Creating materialized views...')
+
+  sql <- read_file(sqlFile)
+  sql <- str_split(sql, ";")[[1]]
+  count <- 0
+  for (s in sql) {
+    if (str_length(trimws(s))) {
+      dbClearResult(dbSendStatement(conn, s))
+      count <- count + 1
+    }
+  }
+
+  writeLines(paste0(count, ' materialized view sql statements executed.'))
 
 }
 
