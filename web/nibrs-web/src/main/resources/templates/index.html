@@ -23,7 +23,21 @@
 	<div th:replace="fragments/header :: header"></div>
 	<div id="mainContent">
 	 	<div id="content" class="container">
-	 		<div style="padding: 10px;">The NIBRS Pre-Certification Tool validates NIBRS submissions according to the NIBRS flat file format defined in the <a href="https://ucr.fbi.gov/nibrs_technical_specification_version_3.1_pdf ">NIBRS 3.1 Standard </a></div>
+<!-- 	 		<div style="padding: 10px;">The NIBRS Pre-Certification Tool validates NIBRS submissions according to the NIBRS flat file format defined in the <a href="https://ucr.fbi.gov/nibrs_technical_specification_version_3.1_pdf ">NIBRS 3.1 Standard </a></div>
+ -->
+ 	 		<div style="padding: 10px;">
+ 	 			<p>The <strong>NIBRS Pre-Certification Tool</strong> provides law enforcement agencies responsible for submitting Incident-Based Reports (IBR) data to State Uniform Crime Reporting (UCR) programs, the ability to test their submissions in advance of its formal delivery. State UCR programs may also use the Pre-Certification Tool to test their IBR submissions before beginning the NIBRS certification process with the FBI. 
+				The Pre-Certification Tool exercises the NIBRS data edit and validation rules and provides formatted output of errors, so that submitters may correct their data submissions and, ultimately, speed the FBI CJIS and/or state IBR certification process.
+				</p>
+				<p><strong>Important notes:</strong></p>
+				<p>
+					<ul>
+						<li>The validation rules included in this Tool only reflect the FBI’s NIBRS data and do not include state-specific data elements and rules. Likewise, the Tool cannot validate some NIBRS rules specific to the submitting agency. <a th:href="@{/toolLimitations}">Tool Limitations</a></li>
+						<li>The Pre-Certification Tool is intended to assist the user in understanding how well its data aligns with the <a href="https://ucr.fbi.gov/nibrs_technical_specification_version_3.1_pdf">FBI NIBRS standard version 3.1</a>. It is not intended to substitute for FBI NIBRS or state certification.</li>
+					</ul>
+				</p>
+				<p>The Pre-Certification Tool is available for free under an open source license that allows the source code to be used with or incorporated into other products. It may be modified to meet state-specific reporting requirements. A link to the source code is available under the “Resources” tab.</p>
+			</div>
 	 		<div class="jumbotron">
 				<div id="loadingAjaxPane" ></div>
 				<div id="errorMsg"></div>

@@ -62,7 +62,7 @@ code {
 	height: 100%;
 	border: 2px dashed #ccc;
 	color: darkgray ; 
-	line-height: calc(100vh - 365px);  
+	line-height: calc(100vh - 590px);  
 	text-align: center;
 }
 
@@ -148,7 +148,6 @@ code {
 }
 
 #version-alert{
-	color:red; 
 	font-size:small;
 	position: absolute;
     width: 100%;
@@ -157,9 +156,9 @@ code {
     margin:0 auto;
 }
 
-.paddingBottom{
-	padding-bottom: .5em;
-}
-.marginBottom{
-	margin-bottom: .5em;
+.hint{
+	color:gray; 
+	font-size: small; 
+	font-weight: bold; 
+	padding: 1em;
 }

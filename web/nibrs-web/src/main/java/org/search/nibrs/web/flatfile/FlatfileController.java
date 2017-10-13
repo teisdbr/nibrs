@@ -107,6 +107,24 @@ public class FlatfileController {
 	    return "about";
 	}
 	
+	@GetMapping("/toolLimitations")
+	public String getToolLimitations(Model model){
+		
+		return "toolLimitations";
+	}
+	
+	@GetMapping("/resources")
+	public String getResources(Model model){
+		
+		return "underConstruction";
+	}
+	
+	@GetMapping("/testFiles")
+	public String getTestFiles(Model model){
+		
+		return "underConstruction";
+	}
+	
 
 	/**
 	 * Get only the first entry of the zipped resource. 
