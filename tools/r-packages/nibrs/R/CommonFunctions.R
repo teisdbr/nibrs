@@ -1,20 +1,44 @@
-# Unless explicitly acquired and licensed from Licensor under another license, the contents of
-# this file are subject to the Reciprocal Public License ("RPL") Version 1.5, or subsequent
-# versions as allowed by the RPL, and You may not copy or use this file in either source code
-# or executable form, except in compliance with the terms and conditions of the RPL
-# All software distributed under the RPL is provided strictly on an "AS IS" basis, WITHOUT
-# WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH
-# WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-# PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language
-# governing rights and limitations under the RPL.
+# Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
-# http://opensource.org/licenses/RPL-1.5
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Copyright 2012-2016 SEARCH--The National Consortium for Justice Information and Statistics
-
-# common functions
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 getChildSegmentID <- function(incidentID, childSegmentSequenceNumber) {
   # different implementation needed if there were ever more than 10 child sequence numbers in NIBRS...but that's unlikely
   (incidentID*10) + (childSegmentSequenceNumber - 1)
 }
+
+processingMessage <- function(df, name) {
+  writeLines(paste0('Processing ', nrow(df), ' raw ', name, ' records.'))
+  df
+}
+
+#' @importFrom readr read_delim
+getColumnSpecs <- function(fileName) {
+
+  df <- read_delim(file=fileName, delim=" ", col_names=c("name", "pos", "type"), col_types="ccc")
+  p <- "(.+)\\-(.+)"
+  start <- gsub(pattern=p, x = df$pos, replacement="\\1")
+  end <- gsub(pattern=p, x = df$pos, replacement="\\2")
+
+  df$start <- as.integer(start)
+  df$end <- as.integer(end)
+
+  df
+
+}
+
+TypeOfWeaponForceInvolvedTranslationDf <- tibble(
+  icpsrCode=c(1,110,111,120,121,130,131,140,141,150,151,200,300,350,400,500,600,650,700,850,900,990),
+  AutomaticWeaponIndicator=c("N","N","Y","N","Y","N","Y","N","Y","N","Y","N","N","N","N","N","N","N","N","N","N","N")
+)
+

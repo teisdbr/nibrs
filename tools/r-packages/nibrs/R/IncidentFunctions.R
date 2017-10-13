@@ -1,39 +1,72 @@
-# Unless explicitly acquired and licensed from Licensor under another license, the contents of
-# this file are subject to the Reciprocal Public License ("RPL") Version 1.5, or subsequent
-# versions as allowed by the RPL, and You may not copy or use this file in either source code
-# or executable form, except in compliance with the terms and conditions of the RPL
-# All software distributed under the RPL is provided strictly on an "AS IS" basis, WITHOUT
-# WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH
-# WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-# PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language
-# governing rights and limitations under the RPL.
+# Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
-# http://opensource.org/licenses/RPL-1.5
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Copyright 2012-2015 Open Justice Broker Consortium
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-# functions related to Incident data manipulation
+# #' @importFrom readr read_fwf
+# loadIncidentFile <- function(file, maxRecords = -1) {
+#   columnSpecsFile <- system.file("raw", "IncidentFileFormat.txt", package=getPackageName())
+#   columnSpecs <- getColumnSpecs(columnSpecsFile)
+#   read_fwf(file=file, col_positions = fwf_positions(start = columnSpecs$start, end = columnSpecs$end, col_names = columnSpecs$name),
+#            col_types=paste(columnSpecs$type, collapse=""), n_max = maxRecords) %>% ungroup() %>% mutate(AdministrativeSegmentID=row_number())
+# }
 
-#' @importFrom lubridate year month
+#' @importFrom readr read_fwf
+loadIncidentFile <- function(file, versionYear, maxRecords = -1) {
+  columnSpecsFile <- system.file("raw", paste0('IncidentFileFormat-', versionYear, '.txt'), package=getPackageName())
+  columnSpecs <- getColumnSpecs(columnSpecsFile)
+  read_fwf(file=file, col_positions = fwf_positions(start = columnSpecs$start, end = columnSpecs$end, col_names = columnSpecs$name),
+           col_types=paste(columnSpecs$type, collapse=""), n_max = maxRecords, progress=FALSE) %>%
+    ungroup() %>% mutate(AdministrativeSegmentID=row_number())
+}
+
 #' @import dplyr
-#' @import stringr
-buildAdministrativeSegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID, agencyDataFrame) {
+addAdministrativeSegmentID <- function(rawIncidentsDataFrame) {
+  rawIncidentsDataFrame %>% ungroup() %>% mutate(AdministrativeSegmentID=row_number())
+}
+
+#' @importFrom DBI dbClearResult dbSendQuery
+truncateIncidents <- function(conn) {
+  dbClearResult(dbSendQuery(conn, "truncate AdministrativeSegment"))
+}
+
+#' @import dplyr
+#' @importFrom DBI dbWriteTable
+#' @importFrom lubridate month year ymd
+writeIncidents <- function(conn, rawIncidentDataFrame, segmentActionTypeTypeID, agencyDataFrame) {
 
   currentMonth <- formatC(month(Sys.Date()), width=2, flag="0")
-  currentYear <- year(Sys.Date())
+  currentYear <- year(Sys.Date()) %>% as.integer()
 
-  AdministrativeSegment <- rawIncidentsDataFrame %>%
+  AdministrativeSegment <- rawIncidentDataFrame %>%
+    processingMessage('Incident') %>%
     select(AdministrativeSegmentID, ORI, IncidentNumber=INCNUM, INCDATE, IncidentHour=V1007,
            ClearedExceptionallyTypeID=V1013,
            ReportDateIndicator=V1006) %>%
-    mutate(IncidentDate=as.Date(ifelse(INCDATE==-5, NA, as.Date(as.character(INCDATE), format="%Y%m%d")), origin="1970-01-01"),
+    mutate(INCDATE=ifelse(INCDATE==-5, NA, INCDATE)) %>%
+    mutate(IncidentDate=ymd(INCDATE),
+           IncidentDateID=createKeyFromDate(IncidentDate),
            MonthOfTape=currentMonth, YearOfTape=currentYear, CityIndicator=NA, SegmentActionTypeTypeID=segmentActionTypeTypeID,
-           ClearedExceptionallyTypeID=ifelse(ClearedExceptionallyTypeID==-6, 6, ClearedExceptionallyTypeID),
-           IncidentHour=ifelse(IncidentHour < 0, NA, IncidentHour)) %>%
-    select(-INCDATE)
+           ClearedExceptionallyTypeID=ifelse(ClearedExceptionallyTypeID==-6, 6L, ClearedExceptionallyTypeID),
+           IncidentHour=ifelse(IncidentHour < 0, NA_integer_, IncidentHour)) %>%
+    select(-INCDATE) %>%
+    left_join(agencyDataFrame %>% select(AgencyID, ORI=AgencyORI), by='ORI')
 
-  ORI_IDmap <- agencyDataFrame %>% select(AgencyID, ORI=AgencyORI)
-  AdministrativeSegment <- left_join(AdministrativeSegment, ORI_IDmap, by=c("ORI"="ORI"))
+  writeLines(paste0("Writing ", nrow(AdministrativeSegment), " administrative segments to database"))
+
+  dbWriteTable(conn=conn, name="AdministrativeSegment", value=AdministrativeSegment, append=TRUE, row.names = FALSE)
+
+  attr(AdministrativeSegment, 'type') <- 'FT'
+
   AdministrativeSegment
 
 }

@@ -1,24 +1,31 @@
-# Unless explicitly acquired and licensed from Licensor under another license, the contents of
-# this file are subject to the Reciprocal Public License ("RPL") Version 1.5, or subsequent
-# versions as allowed by the RPL, and You may not copy or use this file in either source code
-# or executable form, except in compliance with the terms and conditions of the RPL
-# All software distributed under the RPL is provided strictly on an "AS IS" basis, WITHOUT
-# WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH
-# WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-# PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language
-# governing rights and limitations under the RPL.
+# Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
-# http://opensource.org/licenses/RPL-1.5
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Copyright 2012-2016 SEARCH--The National Consortium for Justice Information and Statistics
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-# functions related to Agency data manipulation
-
+#' @importFrom DBI dbWriteTable dbSendQuery dbClearResult
+#' @importFrom readr read_fwf fwf_positions
 #' @import dplyr
-#' @import tidyr
-buildAgencyTable <- function(rawAgencyDataFrame) {
+loadAgencies <- function(conn, file) {
 
-  Agency <- rawAgencyDataFrame %>%
+  dbClearResult(dbSendQuery(conn, "truncate Agency"))
+
+  columnSpecsFile <- system.file("raw", "AgencyFileFormat.txt", package=getPackageName())
+  columnSpecs <- getColumnSpecs(columnSpecsFile)
+
+  Agency <- read_fwf(file=file,
+                     col_positions=fwf_positions(
+                       start=columnSpecs$start, end=columnSpecs$end, col_names=columnSpecs$name),
+                     col_types=paste(columnSpecs$type, collapse='')) %>%
     select(AgencyName=NAME,
            AgencyORI=ORI9,
            UCRPopulation=U_TPOP,
@@ -27,10 +34,15 @@ buildAgencyTable <- function(rawAgencyDataFrame) {
            CountyCode=FIPS_COUNTY,
            StateName=STATENAME,
            CountyName=COUNTYNAME) %>%
-    mutate(CensusPopulation=ifelse(CensusPopulation==888888888,NA,CensusPopulation),
-           UCRPopulation=ifelse(UCRPopulation==-1 | UCRPopulation==0,NA,UCRPopulation))
+    mutate(CensusPopulation=ifelse(CensusPopulation==888888888, NA, CensusPopulation),
+           UCRPopulation=ifelse(UCRPopulation==-1 | UCRPopulation==0, NA, UCRPopulation)) %>%
+    mutate(AgencyID=row_number())
 
-  Agency$AgencyID <- 1:nrow(Agency)
+  writeLines(paste0("Writing ", nrow(Agency), " Agency rows to database"))
+
+  dbWriteTable(conn=conn, name="Agency", value=Agency, append=TRUE, row.names = FALSE)
+
+  attr(Agency, 'type') <- 'FT'
 
   Agency
 

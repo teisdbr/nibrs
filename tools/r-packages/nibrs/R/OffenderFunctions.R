@@ -1,24 +1,28 @@
-# Unless explicitly acquired and licensed from Licensor under another license, the contents of
-# this file are subject to the Reciprocal Public License ("RPL") Version 1.5, or subsequent
-# versions as allowed by the RPL, and You may not copy or use this file in either source code
-# or executable form, except in compliance with the terms and conditions of the RPL
-# All software distributed under the RPL is provided strictly on an "AS IS" basis, WITHOUT
-# WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH
-# WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-# PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language
-# governing rights and limitations under the RPL.
+# Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
-# http://opensource.org/licenses/RPL-1.5
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Copyright 2012-2016 SEARCH--The National Consortium for Justice Information and Statistics
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-# functions related to Offender data manipulation
+#' @importFrom DBI dbClearResult dbSendQuery
+truncateOffender <- function(conn) {
+  dbClearResult(dbSendQuery(conn, 'truncate OffenderSegment'))
+}
 
 #' @import dplyr
 #' @import tidyr
-buildOffenderSegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID) {
+#' @importFrom DBI dbWriteTable
+writeOffenders <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) {
 
-  OffenderSegment <- cbind(
+  OffenderSegment <- bind_cols(
 
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, V50061:V50063) %>%
@@ -26,7 +30,7 @@ buildOffenderSegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID)
 
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, V50071:V50073) %>%
-      gather(V_OffenderAge, AgeOfOffender, V50071:V50073) %>%
+      gather(V_OffenderAge, AgeOfOffenderMin, V50071:V50073) %>%
       select(-AdministrativeSegmentID),
 
     rawIncidentsDataFrame %>%
@@ -44,14 +48,23 @@ buildOffenderSegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID)
       gather(V_OffenderEthnicity, EthnicityOfPersonTypeID, V50111:V50113) %>%
       select(-AdministrativeSegmentID)
 
-  ) %>% filter(OffenderSequenceNumber > 0) %>% select(-starts_with("V_")) %>%
-    mutate(AgeOfOffender=ifelse(AgeOfOffender < 0, NA, AgeOfOffender),
+  ) %>%
+    filter(OffenderSequenceNumber > 0) %>% select(-starts_with('V_')) %>%
+    mutate(AgeOfOffenderMin=ifelse(AgeOfOffenderMin < 0, NA, AgeOfOffenderMin),
+           AgeOfOffenderMax=AgeOfOffenderMin,
            SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
            RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 9, RaceOfPersonTypeID),
            EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 9, EthnicityOfPersonTypeID),
-           SegmentActionTypeTypeID=segmentActionTypeTypeID)
+           SegmentActionTypeTypeID=segmentActionTypeTypeID) %>%
+    ungroup() %>%
+    mutate(OffenderSegmentID=row_number())
 
-  OffenderSegment$OffenderSegmentID = 1:nrow(OffenderSegment)
+  writeLines(paste0('Writing ', nrow(OffenderSegment), ' offender segments to database'))
+
+  dbWriteTable(conn=conn, name='OffenderSegment', value=OffenderSegment, append=TRUE, row.names = FALSE)
+
+  attr(OffenderSegment, 'type') <- 'FT'
+
   OffenderSegment
 
 }

@@ -1,22 +1,30 @@
-# Unless explicitly acquired and licensed from Licensor under another license, the contents of
-# this file are subject to the Reciprocal Public License ("RPL") Version 1.5, or subsequent
-# versions as allowed by the RPL, and You may not copy or use this file in either source code
-# or executable form, except in compliance with the terms and conditions of the RPL
-# All software distributed under the RPL is provided strictly on an "AS IS" basis, WITHOUT
-# WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH
-# WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-# PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language
-# governing rights and limitations under the RPL.
+# Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
-# http://opensource.org/licenses/RPL-1.5
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Copyright 2012-2016 SEARCH--The National Consortium for Justice Information and Statistics
-
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # functions related to Offense data manipulation
 
+#' @importFrom DBI dbSendQuery dbClearResult
+truncateOffenses <- function(conn) {
+  dbClearResult(dbSendQuery(conn, "truncate OffenseSegment"))
+  dbClearResult(dbSendQuery(conn, "truncate OffenderSuspectedOfUsing"))
+  dbClearResult(dbSendQuery(conn, "truncate TypeCriminalActivity"))
+  dbClearResult(dbSendQuery(conn, "truncate TypeOfWeaponForceInvolved"))
+}
+
 #' @import dplyr
-#' @import tidyr
-buildOffenderSuspectedOfUsing <- function(offenseSegmentDataFrame, rawIncidentsDataFrame) {
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeOffenderSuspectedOfUsing <- function(conn, offenseSegmentDataFrame, rawIncidentsDataFrame) {
 
   tempDf <- bind_rows(
     rawIncidentsDataFrame %>%
@@ -47,18 +55,24 @@ buildOffenderSuspectedOfUsing <- function(offenseSegmentDataFrame, rawIncidentsD
   missingSegmentIDs <- setdiff(offenseSegmentDataFrame$OffenseSegmentID, OffenderSuspectedOfUsing$OffenseSegmentID)
 
   OffenderSuspectedOfUsing <- bind_rows(OffenderSuspectedOfUsing,
-                                        data.frame(OffenseSegmentID=missingSegmentIDs,
-                                                   OffenderSuspectedOfUsingTypeID=rep(x=4, times=length(missingSegmentIDs))))
+                                        tibble(OffenseSegmentID=missingSegmentIDs,
+                                                   OffenderSuspectedOfUsingTypeID=rep(x=4, times=length(missingSegmentIDs)))) %>%
+    mutate(OffenderSuspectedOfUsingID=row_number())
 
-  OffenderSuspectedOfUsing$OffenderSuspectedOfUsingID <- 1:nrow(OffenderSuspectedOfUsing)
+  writeLines(paste0("Writing ", nrow(OffenderSuspectedOfUsing), " OffenderSuspectedOfUsing association rows to database"))
+
+  dbWriteTable(conn=conn, name="OffenderSuspectedOfUsing", value=OffenderSuspectedOfUsing, append=TRUE, row.names = FALSE)
+
+  attr(OffenderSuspectedOfUsing, 'type') <- 'AT'
 
   OffenderSuspectedOfUsing
 
 }
 
 #' @import dplyr
-#' @import tidyr
-buildTypeOfWeaponForceInvolved <- function(offenseSegmentDataFrame, rawIncidentsDataFrame) {
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeTypeOfWeaponForceInvolved <- function(conn, offenseSegmentDataFrame, rawIncidentsDataFrame) {
 
   tempDf <- bind_rows(
     rawIncidentsDataFrame %>%
@@ -81,31 +95,29 @@ buildTypeOfWeaponForceInvolved <- function(offenseSegmentDataFrame, rawIncidents
       filter(Pivot > 0)
   )
 
-  codeTranslationDf <- data.frame(
-    icpsrCode=c(110,111,120,121,130,131,140,141,150,151,200,300,350,400,500,600,650,700,850,900,990),
-    ourCode=c(1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 17),
-    AutomaticWeaponIndicator=c("N","Y","N","Y","N","Y","N","Y","N","Y","N","N","N","N","N","N","N","N","N","N","N"),
-    stringsAsFactors=FALSE
-  )
-
   TypeOfWeaponForceInvolved <- left_join(tempDf,
                                         select(offenseSegmentDataFrame, AdministrativeSegmentID, OffenseCode, OffenseSegmentID),
                                         by=c("AdministrativeSegmentID", "OffenseCode")) %>%
     select(OffenseSegmentID, TypeOfWeaponForceInvolvedTypeID=Pivot)
 
-  TypeOfWeaponForceInvolved <- left_join(TypeOfWeaponForceInvolved, codeTranslationDf,
+  # TypeOfWeaponForceInvolvedTranslationDf defined in CommonFunctions.R
+  TypeOfWeaponForceInvolved <- left_join(TypeOfWeaponForceInvolved, TypeOfWeaponForceInvolvedTranslationDf,
                                    by=c("TypeOfWeaponForceInvolvedTypeID"="icpsrCode")) %>%
-    select(-TypeOfWeaponForceInvolvedTypeID) %>%
-    rename(TypeOfWeaponForceInvolvedTypeID=ourCode)
+    mutate(TypeOfWeaponForceInvolvedTypeID=ifelse(is.na(TypeOfWeaponForceInvolvedTypeID), 999, TypeOfWeaponForceInvolvedTypeID))
 
   missingSegmentIDs <- setdiff(offenseSegmentDataFrame$OffenseSegmentID, TypeOfWeaponForceInvolved$OffenseSegmentID)
 
   TypeOfWeaponForceInvolved <- bind_rows(TypeOfWeaponForceInvolved,
-                                        data.frame(OffenseSegmentID=missingSegmentIDs,
-                                                   TypeOfWeaponForceInvolvedTypeID=rep(x=17, times=length(missingSegmentIDs)),
-                                                   AutomaticWeaponIndicator=rep(x="N", times=length(missingSegmentIDs))))
+                                        tibble(OffenseSegmentID=missingSegmentIDs,
+                                                   TypeOfWeaponForceInvolvedTypeID=rep(x=990, times=length(missingSegmentIDs)),
+                                                   AutomaticWeaponIndicator=rep(x="N", times=length(missingSegmentIDs)))) %>%
+    mutate(TypeOfWeaponForceInvolvedID=row_number())
 
-  TypeOfWeaponForceInvolved$TypeOfWeaponForceInvolvedID <- 1:nrow(TypeOfWeaponForceInvolved)
+  writeLines(paste0("Writing ", nrow(TypeOfWeaponForceInvolved), " TypeOfWeaponForceInvolved association rows to database"))
+
+  dbWriteTable(conn=conn, name="TypeOfWeaponForceInvolved", value=TypeOfWeaponForceInvolved, append=TRUE, row.names = FALSE)
+
+  attr(TypeOfWeaponForceInvolved, 'type') <- 'AT'
 
   TypeOfWeaponForceInvolved
 
@@ -113,7 +125,9 @@ buildTypeOfWeaponForceInvolved <- function(offenseSegmentDataFrame, rawIncidents
 
 #' @import dplyr
 #' @import tidyr
-buildTypeCriminalActivity <- function(offenseSegmentDataFrame, rawIncidentsDataFrame) {
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeTypeCriminalActivity <- function(conn, offenseSegmentDataFrame, rawIncidentsDataFrame) {
 
   tempDf <- bind_rows(
     rawIncidentsDataFrame %>%
@@ -144,20 +158,25 @@ buildTypeCriminalActivity <- function(offenseSegmentDataFrame, rawIncidentsDataF
   missingSegmentIDs <- setdiff(offenseSegmentDataFrame$OffenseSegmentID, TypeCriminalActivity$OffenseSegmentID)
 
   TypeCriminalActivity <- bind_rows(TypeCriminalActivity,
-                                        data.frame(OffenseSegmentID=missingSegmentIDs,
-                                                   TypeOfCriminalActivityTypeID=rep(x=99, times=length(missingSegmentIDs))))
+                                        tibble(OffenseSegmentID=missingSegmentIDs,
+                                                   TypeOfCriminalActivityTypeID=rep(x=99, times=length(missingSegmentIDs)))) %>%
+    mutate(TypeCriminalActivityID=row_number())
 
-  TypeCriminalActivity$TypeCriminalActivityID <- 1:nrow(TypeCriminalActivity)
+  writeLines(paste0("Writing ", nrow(TypeCriminalActivity), " TypeCriminalActivity association rows to database"))
+
+  dbWriteTable(conn=conn, name="TypeCriminalActivity", value=TypeCriminalActivity, append=TRUE, row.names = FALSE)
+
+  attr(TypeCriminalActivity, 'type') <- 'AT'
 
   TypeCriminalActivity
 
 }
 
 #' @import dplyr
-#' @import tidyr
-buildOffenseSegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID) {
+#' @importFrom DBI dbWriteTable
+writeOffenses <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) {
 
-  OffenseSegment <- cbind(
+  OffenseSegment <- bind_cols(
 
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, V20061:V20063) %>%
@@ -190,12 +209,19 @@ buildOffenseSegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID) 
 
   ) %>%
     filter(OffenseCode != -8) %>% select(-starts_with("V_")) %>%
-    mutate(MethodOfEntryTypeID=ifelse(MethodOfEntryTypeID < 0, 9, MethodOfEntryTypeID),
+    mutate(MethodOfEntryTypeID=ifelse(MethodOfEntryTypeID < 0, 9L, MethodOfEntryTypeID),
            NumberOfPremisesEntered=ifelse(NumberOfPremisesEntered < 0, NA, NumberOfPremisesEntered),
-           LocationTypeTypeID=ifelse(LocationTypeTypeID < 0, 99, LocationTypeTypeID),
-           SegmentActionTypeTypeID=segmentActionTypeTypeID, UCROffenseCodeTypeID=OffenseCode)
+           LocationTypeTypeID=ifelse(LocationTypeTypeID < 0, 99L, LocationTypeTypeID),
+           SegmentActionTypeTypeID=segmentActionTypeTypeID,
+           UCROffenseCodeTypeID=ifelse(OffenseCode < 0, 999, OffenseCode)) %>%
+    mutate(OffenseSegmentID=row_number())
 
-  OffenseSegment$OffenseSegmentID = 1:nrow(OffenseSegment)
+  writeLines(paste0("Writing ", nrow(OffenseSegment), " offense segments to database"))
+
+  dbWriteTable(conn=conn, name="OffenseSegment", value=select(OffenseSegment, -OffenseCode), append=TRUE, row.names = FALSE)
+
+  attr(OffenseSegment, 'type') <- 'FT'
+
   OffenseSegment
 
 }

@@ -1,23 +1,114 @@
-# Unless explicitly acquired and licensed from Licensor under another license, the contents of
-# this file are subject to the Reciprocal Public License ("RPL") Version 1.5, or subsequent
-# versions as allowed by the RPL, and You may not copy or use this file in either source code
-# or executable form, except in compliance with the terms and conditions of the RPL
-# All software distributed under the RPL is provided strictly on an "AS IS" basis, WITHOUT
-# WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH
-# WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-# PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language
-# governing rights and limitations under the RPL.
+# Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
-# http://opensource.org/licenses/RPL-1.5
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Copyright 2012-2016 SEARCH--The National Consortium for Justice Information and Statistics
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-# functions related to Victim data manipulation
+#' @importFrom DBI dbClearResult dbSendQuery
+truncateVictim <- function(conn) {
+  dbClearResult(dbSendQuery(conn, "truncate VictimSegment"))
+  dbClearResult(dbSendQuery(conn, "truncate VictimOffenderAssociation"))
+  dbClearResult(dbSendQuery(conn, "truncate VictimOffenseAssociation"))
+  dbClearResult(dbSendQuery(conn, "truncate AggravatedAssaultHomicideCircumstances"))
+}
 
 #' @import dplyr
 #' @import tidyr
-buildAggravatedAssaultHomicideCircumstances <- function(victimSegmentDataFrame, rawIncidentsDataFrame) {
+#' @importFrom DBI dbWriteTable
+writeVictims <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) {
 
+  VictimSegment <- bind_cols(
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40061:V40063) %>%
+      gather(V_VictimSequenceNumber, VictimSequenceNumber, V40061:V40063),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40171:V40173) %>%
+      gather(V_TypeOfVictimTypeID, TypeOfVictimTypeID, V40171:V40173) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V4017A1:V4017A3) %>%
+      gather(V_OfficerActivityCircumstanceTypeID, OfficerActivityCircumstanceTypeID, V4017A1:V4017A3) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V4017B1:V4017B3) %>%
+      gather(V_OfficerAssignmentTypeTypeID, OfficerAssignmentTypeTypeID, V4017B1:V4017B3) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40191:V40193) %>%
+      gather(V_SexOfPersonTypeID, SexOfPersonTypeID, V40191:V40193) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40181:V40183) %>%
+      gather(V_AgeRaw, AgeRaw, V40181:V40183) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40201:V40203) %>%
+      gather(V_RaceOfPersonTypeID, RaceOfPersonTypeID, V40201:V40203) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40211:V40213) %>%
+      gather(V_EthnicityOfPersonTypeID, EthnicityOfPersonTypeID, V40211:V40213) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40221:V40223) %>%
+      gather(V_ResidentStatusOfPersonTypeID, ResidentStatusOfPersonTypeID, V40221:V40223) %>%
+      select(-AdministrativeSegmentID),
+
+    rawIncidentsDataFrame %>%
+      select(AdministrativeSegmentID, V40251:V40253) %>%
+      gather(V_AdditionalJustifiableHomicideCircumstancesID, AdditionalJustifiableHomicideCircumstancesTypeID, V40251:V40253) %>%
+      select(-AdministrativeSegmentID)
+
+  )  %>% filter(VictimSequenceNumber > 0) %>% select(-starts_with("V_")) %>%
+    mutate(AgeOfVictimMin=as.integer(ifelse(AgeRaw < 1, NA, AgeRaw)),
+           AgeOfVictimMax=AgeOfVictimMin,
+           AgeNeonateIndicator=ifelse(AgeRaw == 0.1, 1, 0),
+           AgeFirstWeekIndicator=ifelse(AgeRaw == 0.2, 1, 0),
+           AgeFirstYearIndicator=ifelse(AgeRaw == 0.5, 1, 0),
+           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
+           TypeOfVictimTypeID=ifelse(TypeOfVictimTypeID < 0, 9, TypeOfVictimTypeID),
+           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 9, RaceOfPersonTypeID),
+           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 9, EthnicityOfPersonTypeID),
+           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 9, ResidentStatusOfPersonTypeID+1),
+           OfficerActivityCircumstanceTypeID=ifelse(OfficerActivityCircumstanceTypeID < 0, 99, OfficerActivityCircumstanceTypeID),
+           OfficerAssignmentTypeTypeID=ifelse(OfficerAssignmentTypeTypeID < 0, 9, OfficerAssignmentTypeTypeID),
+           AdditionalJustifiableHomicideCircumstancesTypeID=ifelse(AdditionalJustifiableHomicideCircumstancesTypeID < 0, 9, AdditionalJustifiableHomicideCircumstancesTypeID),
+           SegmentActionTypeTypeID=segmentActionTypeTypeID)  %>%
+    select(-AgeRaw) %>%
+    mutate(VictimSegmentID=row_number())
+
+  writeLines(paste0("Writing ", nrow(VictimSegment), " victim segments to database"))
+
+  dbWriteTable(conn=conn, name="VictimSegment", value=VictimSegment, append=TRUE, row.names = FALSE)
+
+  attr(VictimSegment, 'type') <- 'FT'
+
+  VictimSegment
+
+}
+
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeAggravatedAssaultHomicideCircumstances <- function(conn, victimSegmentDataFrame, rawIncidentsDataFrame) {
 
   tempDf <- bind_rows(
     rawIncidentsDataFrame %>%
@@ -58,19 +149,26 @@ buildAggravatedAssaultHomicideCircumstances <- function(victimSegmentDataFrame, 
   missingSegmentIDs <- setdiff(victimSegmentDataFrame$VictimSegmentID, AggravatedAssaultHomicideCircumstances$VictimSegmentID)
 
   AggravatedAssaultHomicideCircumstances <- bind_rows(AggravatedAssaultHomicideCircumstances,
-                                         data.frame(VictimSegmentID=missingSegmentIDs,
-                                                    AggravatedAssaultHomicideCircumstancesTypeID=rep(x=99, times=length(missingSegmentIDs))))
+                                         tibble(VictimSegmentID=missingSegmentIDs,
+                                                    AggravatedAssaultHomicideCircumstancesTypeID=rep(x=99, times=length(missingSegmentIDs)))) %>%
+    mutate(AggravatedAssaultHomicideCircumstancesID=row_number())
 
-  AggravatedAssaultHomicideCircumstances$AggravatedAssaultHomicideCircumstancesID <- 1:nrow(AggravatedAssaultHomicideCircumstances)
+  writeLines(paste0("Writing ", nrow(AggravatedAssaultHomicideCircumstances), " AggravatedAssaultHomicideCircumstances association rows to database"))
+
+  dbWriteTable(conn=conn, name="AggravatedAssaultHomicideCircumstances", value=AggravatedAssaultHomicideCircumstances, append=TRUE, row.names = FALSE)
+
+  attr(AggravatedAssaultHomicideCircumstances, 'type') <- 'AT'
+
   AggravatedAssaultHomicideCircumstances
 
 }
 
 #' @import dplyr
 #' @import tidyr
-buildVictimOffenderAssociation <- function(victimSegmentDataFrame, offenderSegmentDataFrame, rawIncidentsDataFrame) {
+#' @importFrom DBI dbWriteTable
+writeVictimOffenderAssociation <- function(conn, victimSegmentDataFrame, offenderSegmentDataFrame, rawIncidentsDataFrame) {
 
-  tempDf <- cbind(
+  tempDf <- bind_cols(
     bind_rows(
       rawIncidentsDataFrame %>%
         select(
@@ -159,16 +257,30 @@ buildVictimOffenderAssociation <- function(victimSegmentDataFrame, offenderSegme
     ),
     by = c("AdministrativeSegmentID", "OffenderSequenceNumber")
   ) %>%
-    select(VictimSegmentID, OffenderSegmentID, VictimOffenderRelationshipTypeID)
+    select(VictimSegmentID, OffenderSegmentID, VictimOffenderRelationshipTypeID) %>%
+    ungroup() %>%
+    mutate(VictimOffenderAssociationID=row_number())
 
-  VictimOffenderAssociation$VictimOffenderAssociationID <- 1:nrow(VictimOffenderAssociation)
+  writeLines(paste0(
+    "Writing ", nrow(VictimOffenderAssociation), " VictimOffenderAssociation association rows to database"
+  ))
+
+  dbWriteTable(
+    conn = conn, name = "VictimOffenderAssociation", value = VictimOffenderAssociation, append =
+      TRUE, row.names = FALSE
+  )
+
+  attr(VictimOffenderAssociation, 'type') <- 'AT'
+
   VictimOffenderAssociation
 
 }
 
 #' @import dplyr
 #' @import tidyr
-buildVictimOffenseAssociation <- function(victimSegmentDataFrame, offenseSegmentDataFrame, rawIncidentsDataFrame) {
+#' @importFrom DBI dbWriteTable
+writeVictimOffenseAssociation <- function(conn, victimSegmentDataFrame, offenseSegmentDataFrame, rawIncidentsDataFrame) {
+
   tempDf <- bind_rows(
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, VictimSequenceNumber=V40061, V40071, V40081, V40091, V40101, V40111,
@@ -212,16 +324,25 @@ buildVictimOffenseAssociation <- function(victimSegmentDataFrame, offenseSegment
     ),
     by = c("AdministrativeSegmentID", "OffenseCode")
   ) %>%
-    select(VictimSegmentID, OffenseSegmentID)
+    select(VictimSegmentID, OffenseSegmentID) %>%
+    mutate(VictimOffenseAssociationID=row_number())
 
-  VictimOffenseAssociation$VictimOffenseAssociationID <- 1:nrow(VictimOffenseAssociation)
+  writeLines(paste0("Writing ", nrow(VictimOffenseAssociation), " VictimOffenseAssociation association rows to database"))
+
+  dbWriteTable(conn=conn, name="VictimOffenseAssociation", value=VictimOffenseAssociation, append=TRUE, row.names = FALSE)
+
+  attr(VictimOffenseAssociation, 'type') <- 'AT'
+
   VictimOffenseAssociation
 
 }
 
 #' @import dplyr
 #' @import tidyr
-buildVictimTypeInjury <- function(victimSegmentDataFrame, rawIncidentsDataFrame) {
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeVictimTypeInjury <- function(conn, victimSegmentDataFrame, rawIncidentsDataFrame) {
+
   tempDf <- bind_rows(
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, VictimSequenceNumber=V40061, V40261, V40271, V40281, V40291, V40301) %>%
@@ -251,94 +372,17 @@ buildVictimTypeInjury <- function(victimSegmentDataFrame, rawIncidentsDataFrame)
   missingSegmentIDs <- setdiff(victimSegmentDataFrame$VictimSegmentID, TypeInjury$VictimSegmentID)
 
   TypeInjury <- bind_rows(TypeInjury,
-                          data.frame(VictimSegmentID=missingSegmentIDs,
-                                     TypeInjuryTypeID=rep(x=1, times=length(missingSegmentIDs))))
+                          tibble(VictimSegmentID=missingSegmentIDs,
+                                     TypeInjuryTypeID=rep(x=1, times=length(missingSegmentIDs)))) %>%
+    mutate(TypeInjuryID=row_number())
 
-  TypeInjury$TypeInjuryID <- 1:nrow(TypeInjury)
+  writeLines(paste0("Writing ", nrow(TypeInjury), " TypeInjury association rows to database"))
+
+  dbWriteTable(conn=conn, name="TypeInjury", value=TypeInjury, append=TRUE, row.names = FALSE)
+
+  attr(TypeInjury, 'type') <- 'AT'
+
   TypeInjury
 
 }
 
-#' @import dplyr
-#' @import tidyr
-buildVictimSegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID) {
-
-  VictimSegment <- cbind(
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40061:V40063) %>%
-      gather(V_VictimSequenceNumber, VictimSequenceNumber, V40061:V40063),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40171:V40173) %>%
-      gather(V_TypeOfVictimTypeID, TypeOfVictimTypeID, V40171:V40173) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V4017A1:V4017A3) %>%
-      gather(V_OfficerActivityCircumstanceTypeID, OfficerActivityCircumstanceTypeID, V4017A1:V4017A3) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V4017B1:V4017B3) %>%
-      gather(V_OfficerAssignmentTypeTypeID, OfficerAssignmentTypeTypeID, V4017B1:V4017B3) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40191:V40193) %>%
-      gather(V_SexOfPersonTypeID, SexOfPersonTypeID, V40191:V40193) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40181:V40183) %>%
-      gather(V_AgeRaw, AgeRaw, V40181:V40183) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40201:V40203) %>%
-      gather(V_RaceOfPersonTypeID, RaceOfPersonTypeID, V40201:V40203) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40211:V40213) %>%
-      gather(V_EthnicityOfPersonTypeID, EthnicityOfPersonTypeID, V40211:V40213) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40221:V40223) %>%
-      gather(V_ResidentStatusOfPersonTypeID, ResidentStatusOfPersonTypeID, V40221:V40223) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V40251:V40253) %>%
-      gather(V_AdditionalJustifiableHomicideCircumstancesTypeID, AdditionalJustifiableHomicideCircumstancesTypeID, V40251:V40253) %>%
-      select(-AdministrativeSegmentID)
-
-  )  %>% filter(VictimSequenceNumber > 0) %>% select(-starts_with("V_")) %>%
-    mutate(AgeOfVictim=as.integer(ifelse(AgeRaw < 1, NA, AgeRaw)),
-           AgeNeonateIndicator=ifelse(AgeRaw == 0.1, 1, 0),
-           AgeFirstWeekIndicator=ifelse(AgeRaw == 0.2, 1, 0),
-           AgeFirstYearIndicator=ifelse(AgeRaw == 0.5, 1, 0),
-           VictimAgeGroup1=ifelse(AgeRaw < 0, NA,
-                                  ifelse(AgeRaw <= 11, "< 11",
-                                         ifelse(AgeRaw <= 17, "12-17",
-                                                ifelse(AgeRaw <= 24, "18-24",
-                                                       ifelse(AgeRaw <= 34, "25-34",
-                                                              ifelse(AgeRaw <= 49, "35-49",
-                                                                     ifelse(AgeRaw <= 64, "50-64",
-                                                                            "65+"))))))),
-           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
-           TypeOfVictimTypeID=ifelse(TypeOfVictimTypeID < 0, 9, TypeOfVictimTypeID),
-           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 9, RaceOfPersonTypeID),
-           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 9, EthnicityOfPersonTypeID),
-           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 9, ResidentStatusOfPersonTypeID),
-           OfficerActivityCircumstanceTypeID=ifelse(OfficerActivityCircumstanceTypeID < 0, 99, OfficerActivityCircumstanceTypeID),
-           OfficerAssignmentTypeTypeID=ifelse(OfficerAssignmentTypeTypeID < 0, 9, OfficerAssignmentTypeTypeID),
-           AdditionalJustifiableHomicideCircumstancesTypeID=ifelse(AdditionalJustifiableHomicideCircumstancesTypeID < 0, 9, AdditionalJustifiableHomicideCircumstancesTypeID),
-           SegmentActionTypeTypeID=segmentActionTypeTypeID)  %>%
-    select(-AgeRaw)
-
-  VictimSegment$VictimSegmentID = 1:nrow(VictimSegment)
-  VictimSegment
-
-}

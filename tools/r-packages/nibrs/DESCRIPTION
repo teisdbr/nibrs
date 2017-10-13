@@ -1,19 +1,18 @@
 Package: nibrs
 Type: Package
-Title: Provides tools for processing NIBRS data
-Version: 1.0
-Date: 2016-08-31
-Authors@R: person("SEARCH--The National Consortium for Justice Information and Statistics", email = "info@search.org",
+Title: Support for Processing FBI NIBRS Data
+Version: 1.0.0
+Authors@R: person("SEARCH - The National Consortium for Justice Information and Statistics", email = "info@search.org",
   role = c("aut", "cre"))
-Description: This package provides tools for reading National Incident Based Reporting System (NIBRS) data in various formats and creating data frames suitable for analysis.
-License: Reciprocal Public License, Version 1.5
-LazyData: TRUE
-RoxygenNote: 5.0.1
-Imports: RMySQL,
-  dplyr,
-  tidyr,
-  lubridate,
-  data.table,
+Description: This package provides support for processing National Incident Based Reporting System (NIBRS) data in various formats.
+License: Apache License, Version 2.0
+Encoding: UTF-8
+LinkingTo: Rcpp
+Imports: Rcpp,
+  tidyverse,
+  DBI,
+  RMySQL,
   openxlsx,
-  stringr,
-  readr
+  lubridate
+LazyData: true
+RoxygenNote: 6.0.1

@@ -1,24 +1,33 @@
-# Unless explicitly acquired and licensed from Licensor under another license, the contents of
-# this file are subject to the Reciprocal Public License ("RPL") Version 1.5, or subsequent
-# versions as allowed by the RPL, and You may not copy or use this file in either source code
-# or executable form, except in compliance with the terms and conditions of the RPL
-# All software distributed under the RPL is provided strictly on an "AS IS" basis, WITHOUT
-# WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH
-# WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-# PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language
-# governing rights and limitations under the RPL.
+# Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
-# http://opensource.org/licenses/RPL-1.5
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# Copyright 2012-2016 SEARCH--The National Consortium for Justice Information and Statistics
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-# functions related to Property data manipulation
+#' @importFrom DBI dbSendQuery dbClearResult
+truncateProperty <- function(conn) {
+  dbClearResult(dbSendQuery(conn, "truncate PropertySegment"))
+  dbClearResult(dbSendQuery(conn, "truncate PropertyType"))
+  dbClearResult(dbSendQuery(conn, "truncate SuspectedDrugType"))
+}
 
 #' @import dplyr
-#' @import tidyr
-buildPropertySegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID) {
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+#' @importFrom lubridate ymd
+writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) {
 
-  PropertySegment <- cbind(
+  ret <- list()
+
+  PropertySegment <- bind_cols(
 
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, V30061:V30063) %>%
@@ -36,7 +45,7 @@ buildPropertySegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID)
 
     rawIncidentsDataFrame %>%
       select(AdministrativeSegmentID, V30091:V30093) %>%
-      gather(V_DateRecovered, DateRecovered, V30091:V30093) %>%
+      gather(V_DateRecovered, RecoveredDate, V30091:V30093) %>%
       select(-AdministrativeSegmentID),
 
     rawIncidentsDataFrame %>%
@@ -51,25 +60,54 @@ buildPropertySegment <- function(rawIncidentsDataFrame, segmentActionTypeTypeID)
 
   ) %>%
     filter(TypePropertyLossEtcTypeID != -8) %>% select(-starts_with("V_")) %>%
+    mutate(RecoveredDate=ifelse(RecoveredDate < 0, NA, RecoveredDate)) %>%
     mutate(TypePropertyLossEtcTypeID=ifelse(TypePropertyLossEtcTypeID < 0, 9, TypePropertyLossEtcTypeID),
            PropertyDescriptionTypeID=ifelse(PropertyDescriptionTypeID < 0, 99, PropertyDescriptionTypeID),
            ValueOfProperty=ifelse(ValueOfProperty < 0, NA, ValueOfProperty),
-           DateRecovered=as.Date(
-             ifelse(DateRecovered < 0, NA, as.Date(as.character(DateRecovered), format="%Y%m%d")), origin="1970-01-01"),
+           RecoveredDate=ymd(RecoveredDate),
+           RecoveredDateID=createKeyFromDate(RecoveredDate),
            NumberOfStolenMotorVehicles=ifelse(NumberOfStolenMotorVehicles < 0, NA, NumberOfStolenMotorVehicles),
            NumberOfRecoveredMotorVehicles=ifelse(NumberOfRecoveredMotorVehicles < 0, NA, NumberOfRecoveredMotorVehicles),
            SegmentActionTypeTypeID=segmentActionTypeTypeID)
 
-  PropertySegment$PropertySegmentID = 1:nrow(PropertySegment)
-  PropertySegment
+  PropertyType <- PropertySegment %>%
+    select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID,
+           PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate, RecoveredDateID) %>%
+    mutate(PropertyTypeID=row_number())
+
+  PropertySegment <- PropertySegment %>%
+    group_by(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID) %>%
+    summarize_at(vars(starts_with('NumberOf')), sum, na.rm=TRUE) %>%
+    ungroup() %>%
+    mutate(PropertySegmentID=row_number())
+
+  PropertyType <- PropertyType %>%
+    inner_join(PropertySegment %>% select(SegmentActionTypeTypeID, AdministrativeSegmentID, TypePropertyLossEtcTypeID, PropertySegmentID),
+               by=c('SegmentActionTypeTypeID', 'AdministrativeSegmentID', 'TypePropertyLossEtcTypeID')) %>%
+    select(PropertyTypeID, PropertySegmentID, PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate, RecoveredDateID)
+
+  writeLines(paste0("Writing ", nrow(PropertySegment), " property segments to database"))
+  writeLines(paste0("Writing ", nrow(PropertyType), " PropertyType rows to database"))
+
+  dbWriteTable(conn=conn, name="PropertySegment", value=PropertySegment, append=TRUE, row.names = FALSE)
+  dbWriteTable(conn=conn, name="PropertyType", value=PropertyType, append=TRUE, row.names = FALSE)
+
+  attr(PropertySegment, 'type') <- 'FT'
+  attr(PropertyType, 'type') <- 'AT'
+
+  ret <- list()
+  ret$PropertySegment <- PropertySegment
+  ret$PropertyType <- PropertyType
+  ret
 
 }
 
 #' @import dplyr
-#' @import tidyr
-buildSuspectedDrugType <- function(propertySegmentDataFrame, rawIncidentsDataFrame) {
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeSuspectedDrugType <- function(conn, propertySegmentDataFrame, propertyTypeDataFrame, rawIncidentsDataFrame) {
 
-  tempDf <- cbind(
+  tempDf <- bind_cols(
     bind_rows(
       rawIncidentsDataFrame %>%
         select(AdministrativeSegmentID, PropertyDescription = V30071, V30121:V30123) %>%
@@ -140,6 +178,8 @@ buildSuspectedDrugType <- function(propertySegmentDataFrame, rawIncidentsDataFra
     ) %>% select(-PropertyDescription, -V_Pivot)
   )  %>% filter(SuspectedDrugTypeTypeID > 0) %>% rename(PropertyDescriptionTypeID=PropertyDescription)
 
+  propertySegmentDataFrame <- inner_join(propertySegmentDataFrame, propertyTypeDataFrame, by='PropertySegmentID')
+
   SuspectedDrugType <- left_join(tempDf,
                                         select(propertySegmentDataFrame, AdministrativeSegmentID,PropertyDescriptionTypeID, PropertySegmentID),
                                         by=c("AdministrativeSegmentID", "PropertyDescriptionTypeID")) %>%
@@ -148,9 +188,15 @@ buildSuspectedDrugType <- function(propertySegmentDataFrame, rawIncidentsDataFra
                                           (ifelse(EstimatedDrugQuantityFractionalPart < 0, 0,
                                                   as.numeric(EstimatedDrugQuantityFractionalPart/1000))))),
            TypeDrugMeasurementTypeID=as.integer(ifelse(TypeMeasurement < 0, 99, TypeMeasurement))) %>%
-    select(PropertySegmentID, SuspectedDrugTypeTypeID, TypeDrugMeasurementTypeID, EstimatedDrugQuantity)
+    select(PropertySegmentID, SuspectedDrugTypeTypeID, TypeDrugMeasurementTypeID, EstimatedDrugQuantity) %>%
+    mutate(SuspectedDrugTypeID=row_number())
 
-  SuspectedDrugType$SuspectedDrugTypeID <- 1:nrow(SuspectedDrugType)
+  writeLines(paste0("Writing ", nrow(SuspectedDrugType), " SuspectedDrugType association rows to database"))
+
+  dbWriteTable(conn=conn, name="SuspectedDrugType", value=SuspectedDrugType, append=TRUE, row.names = FALSE)
+
+  attr(SuspectedDrugType, 'type') <- 'AT'
+
   SuspectedDrugType
 
 }
