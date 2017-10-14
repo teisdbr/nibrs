@@ -32,10 +32,6 @@ These extracts are available at no cost for public download (after registering a
 
 The package makes use of the Incident-level file (DS0001) and the Arrestee-level file (DS0004).
 
-You will also need to download the Law Enforcement Agency Identifiers crosswalk file, which contains definitions for Agency ORIs.  Unfortunately, 2012
-is the most recent year for which this file is available, so ORIs that have been added since then are not available.  The crosswalk file is available at
-http://www.icpsr.umich.edu/icpsrweb/NACJD/studies/35158.  In the examples that follow, we assume this file is downloaded and unzipped at `/opt/data/NIBRS/ICPSR_35158`.
-
 Once the data are downloaded, the next step is to filter the (rather large) files for the state of interest.  (The package will support the loading
 of data from multiple states, or all of them, but this is usually unnecessary and creates a somewhat unwieldy database.)  In the examples that follow,
 we assume you have downloaded and unzipped the extracts covering 2013 to `/opt/data/NIBRS/2013/ICPSR_36121`.  Note that the package only makes use
@@ -50,8 +46,7 @@ nibrs::filterICPSRFiles('/opt/data/NIBRS/2013/ICPSR_36121/DS0001/36121-0001-Data
 Then:
 
 ```
-dfs <- loadICPSR(agencyFile='/opt/data/NIBRS/ICPSR_35158/DS0001/35158-0001-Data.txt',
-	incidentFile='/opt/data/NIBRS/2013/ICPSR_36121/DS0001/OH-1.txt',
+dfs <- loadICPSR(incidentFile='/opt/data/NIBRS/2013/ICPSR_36121/DS0001/OH-1.txt',
 	arresteeFile='/opt/data/NIBRS/2013/ICPSR_36121/DS0004/OH-1.txt', versionYear=2013)
 ```
 
