@@ -15,28 +15,32 @@
 #' @importFrom DBI dbWriteTable dbSendQuery dbClearResult
 #' @importFrom readr read_fwf fwf_positions
 #' @import dplyr
-loadAgencies <- function(conn, file) {
+loadAgencies <- function(conn, rawIncidents, rawArrestees) {
 
   dbClearResult(dbSendQuery(conn, "truncate Agency"))
 
-  columnSpecsFile <- system.file("raw", "AgencyFileFormat.txt", package=getPackageName())
-  columnSpecs <- getColumnSpecs(columnSpecsFile)
-
-  Agency <- read_fwf(file=file,
-                     col_positions=fwf_positions(
-                       start=columnSpecs$start, end=columnSpecs$end, col_names=columnSpecs$name),
-                     col_types=paste(columnSpecs$type, collapse='')) %>%
-    select(AgencyName=NAME,
-           AgencyORI=ORI9,
-           UCRPopulation=U_TPOP,
-           CensusPopulation=LG_POPULATION,
-           StateCode=FIPS_ST,
-           CountyCode=FIPS_COUNTY,
-           StateName=STATENAME,
-           CountyName=COUNTYNAME) %>%
-    mutate(CensusPopulation=ifelse(CensusPopulation==888888888, NA, CensusPopulation),
-           UCRPopulation=ifelse(UCRPopulation==-1 | UCRPopulation==0, NA, UCRPopulation)) %>%
-    mutate(AgencyID=row_number())
+  Agency <- rawIncidents %>%
+    select(AgencyORI=ORI,
+           AgencyName=BH007,
+           BH012,
+           StateCode=BH008) %>%
+    bind_rows(
+      rawArrestees %>%
+        select(AgencyORI=ORI,
+               AgencyName=BH007,
+               BH012,
+               StateCode=BH008)
+    ) %>%
+    mutate(StateName=stateLookup[StateCode],
+           AgencyTypeID=ifelse(is.na(BH012), 99, BH012+1)) %>%
+    select(-BH012) %>%
+    distinct() %>%
+    mutate(AgencyID=row_number()) %>%
+    mutate(AgencyName=case_when(
+      AgencyTypeID==3 ~ paste0(AgencyName, ' COUNTY SO'),
+      AgencyTypeID==2 ~ paste0(AgencyName, ' PD'),
+      TRUE ~ AgencyName
+    ))
 
   writeLines(paste0("Writing ", nrow(Agency), " Agency rows to database"))
 
@@ -47,3 +51,63 @@ loadAgencies <- function(conn, file) {
   Agency
 
 }
+
+stateLookup <- c(
+  'AL'='Alabama',
+  'AK'='Alaska',
+  'AZ'='Arizona',
+  'AR'='Arkansas',
+  'CA'='California',
+  'CO'='Colorado',
+  'CT'='Connecticut',
+  'DE'='Delaware',
+  'DC'='District of Columbia',
+  'FL'='Florida',
+  'GA'='Georgia',
+  'HI'='Hawaii',
+  'ID'='Idaho',
+  'IL'='Illinois',
+  'IN'='Indiana',
+  'IA'='Iowa',
+  'KS'='Kansas',
+  'KY'='Kentucky',
+  'LA'='Louisiana',
+  'ME'='Maine',
+  'MD'='Maryland',
+  'MA'='Massachusetts',
+  'MI'='Michigan',
+  'MN'='Minnesota',
+  'MS'='Mississippi',
+  'MO'='Missouri',
+  'MT'='Montana',
+  'NE'='Nebraska',
+  'NV'='Nevada',
+  'NH'='New Hampshire',
+  'NJ'='New Jersey',
+  'NM'='New Mexico',
+  'NY'='New York',
+  'NC'='North Carolina',
+  'ND'='North Dakota',
+  'OH'='Ohio',
+  'OK'='Oklahoma',
+  'OR'='Oregon',
+  'PA'='Pennsylvania',
+  'RI'='Rhode Island',
+  'SC'='South Carolina',
+  'SD'='South Dakota',
+  'TN'='Tennessee',
+  'TX'='Texas',
+  'UT'='Utah',
+  'VT'='Vermont',
+  'VA'='Virginia',
+  'WA'='Washington',
+  'WV'='West Virginia',
+  'WI'='Wisconsin',
+  'WY'='Wyoming',
+  'AS'='American Samoa',
+  'GU'='Guam',
+  'MP'='Northern Mariana Islands',
+  'PR'='Puerto Rico',
+  'UM'='U.S. Minor Outlying Islands',
+  'VI'='U.S. Virgin Islands'
+)

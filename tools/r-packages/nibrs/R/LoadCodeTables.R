@@ -31,6 +31,8 @@ loadCodeTables <- function(spreadsheetFile, conn) {
                         'OffenseCategory2', 'OffenseCategory3', 'OffenseCategory4')
     } else if (codeTableName=='BiasMotivationType') {
       colnames(ct) <- c('BiasMotivationTypeID', 'BiasMotivationCode', 'BiasMotivationDescription', 'BiasMotivationCategory')
+    } else if (codeTableName=='AgencyType') {
+      colnames(ct) <- c('AgencyTypeID', 'AgencyTypeCode', 'AgencyTypeDescription')
     } else {
       colnames(ct) <- c(paste0(codeTableName, 'ID'), paste0(gsub(x=codeTableName, pattern='(.+)Type', replacement='\\1'), c('Code','Description')))
     }

@@ -25,7 +25,6 @@ NULL
 #' @importFrom RMySQL dbClearResult dbSendQuery
 #' @import tidyverse
 #' @param conn the database connection to use
-#' @param agencyFile path to the ICPSR agency file
 #' @param incidentFile path to the ICPSR NIBRS incident-level file
 #' @param arresteeFile path to the ICPSR NIBRS arrestee-level file
 #' @param versionYear the year covered by the incident and arrest files (ICPSR changes the format of the files each year)
@@ -34,7 +33,7 @@ NULL
 #' @return a list of tibbles, where the name of each list member is the name of the table in the database
 #' @export
 loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbname="nibrs_analytics", username="root"),
-                      agencyFile, incidentFile, arresteeFile, versionYear, incidentRecords=-1, arresteeRecords=-1) {
+                      incidentFile, arresteeFile, versionYear, incidentRecords=-1, arresteeRecords=-1) {
 
   tryCatch({
 
@@ -44,9 +43,6 @@ loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbn
 
     ret <- loadCodeTables(spreadsheetFile, conn)
 
-    agencies <- loadAgencies(conn, agencyFile)
-    ret$Agency <- agencies
-
     truncateIncidents(conn)
     truncateOffenses(conn)
     truncateProperty(conn)
@@ -54,6 +50,10 @@ loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbn
     truncateVictim(conn)
 
     rawIncidents <- loadIncidentFile(incidentFile, versionYear, incidentRecords)
+    rawArrestees <- loadArresteeFile(arresteeFile, versionYear, arresteeRecords)
+
+    agencies <- loadAgencies(conn, rawIncidents, rawArrestees)
+    ret$Agency <- agencies
 
     ret$AdministrativeSegment <- writeIncidents(conn, rawIncidents, 9L, agencies)
 
@@ -76,7 +76,6 @@ loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbn
     ret$ArresteeSegment <- writeArresteeSegments(conn, rawIncidents, 9L)
     ret$ArresteeSegmentWasArmedWith <- writeArresteeSegmentWasArmedWith(conn, ret$ArresteeSegment, rawIncidents)
 
-    rawArrestees <- loadArresteeFile(arresteeFile, versionYear, arresteeRecords)
     ret$ArrestReportSegment <- writeArrestReportSegments(conn, rawArrestees, 9L, agencies)
     ret$ArrestReportSegmentWasArmedWith <- writeArrestReportSegmentWasArmedWith(conn, ret$ArrestReportSegment, rawArrestees)
 
