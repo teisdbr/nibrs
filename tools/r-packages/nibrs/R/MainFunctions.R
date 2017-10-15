@@ -89,7 +89,7 @@ loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbn
     minDate <- min(allDates, na.rm=TRUE)
     maxDate <- max(allDates, na.rm=TRUE)
 
-    ret$Date <- buildDateDimensionTable(minDate, maxDate)
+    ret$Date <- writeDateDimensionTable(conn, minDate, maxDate)
 
     ret$OffenseSegment <- select(ret$OffenseSegment, -OffenseCode)
 
@@ -135,13 +135,13 @@ createKeyFromDate <- function(d) {
 #' @importFrom lubridate as_date year quarter month wday day
 #' @import dplyr
 #' @import tibble
-buildDateDimensionTable <- function(minDate, maxDate, datesToExclude=as_date(x = integer(0)),
+writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_date(x = integer(0)),
                                     unknownCodeTableValue=UNKNOWN_DATE_VALUE) {
   minDate <- as_date(minDate)
   maxDate <- as_date(maxDate)
   writeLines(paste0("Building date dimension, earliest date=", minDate, ", latestDate=", maxDate))
   DateDf <- tibble(CalendarDate=seq(minDate, maxDate, by="days")) %>%
-    mutate(DateTypeID=createKeyFromDate(CalendarDate),
+    mutate(DateID=createKeyFromDate(CalendarDate),
            Year=year(CalendarDate),
            YearLabel=as.character(Year),
            CalendarQuarter=quarter(CalendarDate),
@@ -154,7 +154,7 @@ buildDateDimensionTable <- function(minDate, maxDate, datesToExclude=as_date(x =
            DateMMDDYYYY=format(CalendarDate, "%m%d%Y")
     ) %>%
     bind_rows(tibble(CalendarDate=as_date("1899-01-01"),
-                     DateTypeID=unknownCodeTableValue,
+                     DateID=unknownCodeTableValue,
                      Year=0,
                      YearLabel='Unk',
                      CalendarQuarter=0,
@@ -167,6 +167,11 @@ buildDateDimensionTable <- function(minDate, maxDate, datesToExclude=as_date(x =
                      DateMMDDYYYY='Unknown'))
   DateDf <- DateDf %>% filter(!(CalendarDate %in% datesToExclude))
   writeLines(paste0("Adding ", nrow(DateDf), " new dates to the Date dimension"))
+
+  writeLines(paste0("Writing ", nrow(DateDf), " Date rows to database"))
+  dbWriteTable(conn=conn, name="Date", value=DateDf, append=TRUE, row.names = FALSE)
+
   attr(DateDf, 'type') <- 'CT'
   DateDf
+
 }
