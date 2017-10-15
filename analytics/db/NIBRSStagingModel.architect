@@ -710,7 +710,7 @@
     <column id="COL200" populated="true" UUID="f236de08-ff6b-478c-aa04-8e13f8245599" autoIncrement="false" autoIncrementSequenceName="RaceOfPersonType_RaceOfPersonCode_seq" defaultValue="" name="RaceOfPersonCode" nullable="0" physicalName="RaceOfPersonCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL201" populated="true" UUID="9b7489ad-fe4f-4756-a398-986b775812df" autoIncrement="false" autoIncrementSequenceName="RaceOfPersonType_RaceOfPersonDescription_seq" defaultValue="" name="RaceOfPersonDescription" nullable="0" physicalName="RaceOfPersonDescription" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL201" populated="true" UUID="9b7489ad-fe4f-4756-a398-986b775812df" autoIncrement="false" autoIncrementSequenceName="RaceOfPersonType_RaceOfPersonDescription_seq" defaultValue="" name="RaceOfPersonDescription" nullable="0" physicalName="RaceOfPersonDescription" precision="42" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -989,7 +989,7 @@
     <column id="COL273" populated="true" UUID="a9dd572d-12f5-4a3b-9e92-7bce77bb3b73" autoIncrement="false" autoIncrementSequenceName="ArresteeSegment_ArresteeArmedWith_seq" defaultValue="" name="ArresteeWasArmedWithCode" nullable="0" physicalName="ArresteeWasArmedWithCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL274" populated="true" UUID="a4892fee-b715-4879-b041-764a04cf9dca" autoIncrement="false" autoIncrementSequenceName="ArresteeSegment_ArresteeArmedWith_seq_1" defaultValue="" name="ArresteeWasArmedWithDescription" nullable="0" physicalName="ArresteeWasArmedWithDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL274" populated="true" UUID="a4892fee-b715-4879-b041-764a04cf9dca" autoIncrement="false" autoIncrementSequenceName="ArresteeSegment_ArresteeArmedWith_seq_1" defaultValue="" name="ArresteeWasArmedWithDescription" nullable="0" physicalName="ArresteeWasArmedWithDescription" precision="30" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1204,7 +1204,7 @@
     <column id="COL333" populated="true" UUID="02d9ff57-315a-45a0-bee0-976c65677aef" autoIncrement="false" autoIncrementSequenceName="SuspectedDrugTypeType_SuspectedDrugTypeCode_seq" defaultValue="" name="SuspectedDrugTypeCode" nullable="0" physicalName="SuspectedDrugTypeCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL334" populated="true" UUID="483eb757-b839-4b36-a018-4e5b13310d77" autoIncrement="false" autoIncrementSequenceName="SuspectedDrugTypeType_SuspectedDrugTypeCode_seq_1" defaultValue="" name="SuspectedDrugTypeDescription" nullable="0" physicalName="SuspectedDrugTypeDescription" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL334" populated="true" UUID="483eb757-b839-4b36-a018-4e5b13310d77" autoIncrement="false" autoIncrementSequenceName="SuspectedDrugTypeType_SuspectedDrugTypeCode_seq_1" defaultValue="" name="SuspectedDrugTypeDescription" nullable="0" physicalName="SuspectedDrugTypeDescription" precision="32" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1293,7 +1293,7 @@
     <column id="COL356" populated="true" UUID="47526ed9-4d09-4035-bb80-890d0bad34cd" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimTypeID_seq_2" defaultValue="" name="OfficerActivityCircumstanceTypeID" nullable="0" physicalName="OfficerActivityCircumstanceTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL357" populated="true" UUID="73e9cc0f-e7d1-401b-ba10-94d11fec5c8d" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq" defaultValue="" name="OfficerActivityCircumstanceCode" nullable="0" physicalName="OfficerActivityCircumstanceCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL357" populated="true" UUID="73e9cc0f-e7d1-401b-ba10-94d11fec5c8d" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq" defaultValue="" name="OfficerActivityCircumstanceCode" nullable="0" physicalName="OfficerActivityCircumstanceCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL358" populated="true" UUID="ec7dfa8b-48a6-4de1-a5fa-a44c7fdceb3b" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimDescription_seq" defaultValue="" name="OfficerActivityCircumstanceDescription" nullable="0" physicalName="OfficerActivityCircumstanceDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1759,7 +1759,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.MySqlDDLGenerator" allow-connection="false"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.6595236053843678" viewportX="920" viewportY="200" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.6595236053843678" viewportX="920" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="1100" y="696" bgColor="0xbfd6ff" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB17" x="2040" y="1222" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB24" x="1141" y="478" bgColor="0xbfd6ff" fgColor="0x000000" rounded="false" dashed="false"/>
