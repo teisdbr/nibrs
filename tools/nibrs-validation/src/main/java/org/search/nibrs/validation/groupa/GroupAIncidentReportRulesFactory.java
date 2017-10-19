@@ -1302,6 +1302,11 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				List<OffenseSegment> offenses = subject.getOffenses();
+				
+				if (!subject.includesCargoTheft()){
+					return null;
+				}
+				
 				boolean cargoTheftIncident = offenses.stream()
 						.anyMatch(offense -> cargoTheftOffenses.contains(offense.getUcrOffenseCode()));
 				
