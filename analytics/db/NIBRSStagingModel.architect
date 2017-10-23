@@ -1449,43 +1449,43 @@
     </index>
    </folder>
   </table>
-  <table id="TAB399" populated="true" UUID="abc0b876-69d4-4fd9-82a7-e2dfabcc247e" name="Date" objectType="TABLE" physicalName="Date" >
+  <table id="TAB399" populated="true" UUID="abc0b876-69d4-4fd9-82a7-e2dfabcc247e" name="DateType" objectType="TABLE" physicalName="DateType" >
    <remarks></remarks>
    <folder id="FOLTAB3991" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL400" populated="true" UUID="fffe2482-e317-4345-b4ae-119b10946bb7" autoIncrement="false" autoIncrementSequenceName="Date_DateID_seq" defaultValue="" name="DateID" nullable="0" physicalName="DateID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL400" populated="true" UUID="fffe2482-e317-4345-b4ae-119b10946bb7" autoIncrement="false" autoIncrementSequenceName="DateType_DateTypeID_seq" defaultValue="" name="DateTypeID" nullable="0" physicalName="DateTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL401" populated="true" UUID="a3c0594b-2e80-4b23-ac06-f22ae67ee743" autoIncrement="false" autoIncrementSequenceName="Date_CalendarDate_seq" defaultValue="" name="CalendarDate" nullable="0" physicalName="CalendarDate" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+    <column id="COL401" populated="true" UUID="a3c0594b-2e80-4b23-ac06-f22ae67ee743" autoIncrement="false" autoIncrementSequenceName="DateType_CalendarDate_seq" defaultValue="" name="CalendarDate" nullable="0" physicalName="CalendarDate" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
      <remarks></remarks>
     </column>
-    <column id="COL402" populated="true" UUID="b49f5aae-f246-4270-baab-5fd2f149aac2" autoIncrement="false" autoIncrementSequenceName="Date_Year_seq" defaultValue="" name="Year" nullable="0" physicalName="Year" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL402" populated="true" UUID="b49f5aae-f246-4270-baab-5fd2f149aac2" autoIncrement="false" autoIncrementSequenceName="DateType_Year_seq" defaultValue="" name="Year" nullable="0" physicalName="Year" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL403" populated="true" UUID="d6f6e169-2eb5-42c5-8941-5fb2c0904788" autoIncrement="false" autoIncrementSequenceName="Date_YearLabel_seq" defaultValue="" name="YearLabel" nullable="0" physicalName="YearLabel" precision="4" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+    <column id="COL403" populated="true" UUID="d6f6e169-2eb5-42c5-8941-5fb2c0904788" autoIncrement="false" autoIncrementSequenceName="DateType_YearLabel_seq" defaultValue="" name="YearLabel" nullable="0" physicalName="YearLabel" precision="4" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
      <remarks></remarks>
     </column>
-    <column id="COL404" populated="true" UUID="0d83577f-abef-4740-8432-d49f47c1c9ce" autoIncrement="false" autoIncrementSequenceName="Date_CalendarQuarter_seq" defaultValue="" name="CalendarQuarter" nullable="0" physicalName="CalendarQuarter" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL404" populated="true" UUID="0d83577f-abef-4740-8432-d49f47c1c9ce" autoIncrement="false" autoIncrementSequenceName="DateType_CalendarQuarter_seq" defaultValue="" name="CalendarQuarter" nullable="0" physicalName="CalendarQuarter" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL405" populated="true" UUID="00b09a47-ec9d-4595-9ea4-8c1612e6fda1" autoIncrement="false" autoIncrementSequenceName="Date_Month_seq" defaultValue="" name="Month" nullable="0" physicalName="Month" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL405" populated="true" UUID="00b09a47-ec9d-4595-9ea4-8c1612e6fda1" autoIncrement="false" autoIncrementSequenceName="DateType_Month_seq" defaultValue="" name="Month" nullable="0" physicalName="Month" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL406" populated="true" UUID="cf226dd7-7c5c-4138-a880-1e6d9c9435d4" autoIncrement="false" autoIncrementSequenceName="Date_MonthName_seq" defaultValue="" name="MonthName" nullable="0" physicalName="MonthName" precision="12" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL406" populated="true" UUID="cf226dd7-7c5c-4138-a880-1e6d9c9435d4" autoIncrement="false" autoIncrementSequenceName="DateType_MonthName_seq" defaultValue="" name="MonthName" nullable="0" physicalName="MonthName" precision="12" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL407" populated="true" UUID="e1990214-3bfa-4913-b63d-609bbab1debe" autoIncrement="false" autoIncrementSequenceName="Date_FullMonth_seq" defaultValue="" name="FullMonth" nullable="0" physicalName="FullMonth" precision="7" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+    <column id="COL407" populated="true" UUID="e1990214-3bfa-4913-b63d-609bbab1debe" autoIncrement="false" autoIncrementSequenceName="DateType_FullMonth_seq" defaultValue="" name="FullMonth" nullable="0" physicalName="FullMonth" precision="7" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
      <remarks></remarks>
     </column>
-    <column id="COL408" populated="true" UUID="4e6682fe-1bc7-46b9-a44b-095b40e1ec8e" autoIncrement="false" autoIncrementSequenceName="Date_Day_seq" defaultValue="" name="Day" nullable="0" physicalName="Day" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL408" populated="true" UUID="4e6682fe-1bc7-46b9-a44b-095b40e1ec8e" autoIncrement="false" autoIncrementSequenceName="DateType_Day_seq" defaultValue="" name="Day" nullable="0" physicalName="Day" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL409" populated="true" UUID="bb6807ea-8fa2-4339-9598-1336fe8c6642" autoIncrement="false" autoIncrementSequenceName="Date_DayOfWeek_seq" defaultValue="" name="DayOfWeek" nullable="0" physicalName="DayOfWeek" precision="9" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL409" populated="true" UUID="bb6807ea-8fa2-4339-9598-1336fe8c6642" autoIncrement="false" autoIncrementSequenceName="DateType_DayOfWeek_seq" defaultValue="" name="DayOfWeek" nullable="0" physicalName="DayOfWeek" precision="9" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL410" populated="true" UUID="cbb406b2-567d-4f12-a1d2-13389b799e1a" autoIncrement="false" autoIncrementSequenceName="Date_DayOfWeekSort_seq" defaultValue="" name="DayOfWeekSort" nullable="0" physicalName="DayOfWeekSort" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL410" populated="true" UUID="cbb406b2-567d-4f12-a1d2-13389b799e1a" autoIncrement="false" autoIncrementSequenceName="DateType_DayOfWeekSort_seq" defaultValue="" name="DayOfWeekSort" nullable="0" physicalName="DayOfWeekSort" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL411" populated="true" UUID="e13529ed-7075-45e5-a960-3002134b5ee0" autoIncrement="false" autoIncrementSequenceName="Date_DateMMDDYYYY_seq" defaultValue="" name="DateMMDDYYYY" nullable="0" physicalName="DateMMDDYYYY" precision="10" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+    <column id="COL411" populated="true" UUID="e13529ed-7075-45e5-a960-3002134b5ee0" autoIncrement="false" autoIncrementSequenceName="DateType_DateMMDDYYYY_seq" defaultValue="" name="DateMMDDYYYY" nullable="0" physicalName="DateMMDDYYYY" precision="10" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1494,8 +1494,8 @@
     <folder id="FOLTAB3992" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB3994" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX412" populated="true" UUID="a58496d8-5b0b-42db-9141-fb5b6c08e99f" clustered="false" name="DateID" physicalName="dateid" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC413" populated="true" UUID="2b896e5b-9621-4eb1-baa7-227cf849b63e" ascendingOrDescending="UNSPECIFIED" column-ref="COL400" name="DateID" physicalName="DateID" />
+    <index id="IDX412" populated="true" UUID="a58496d8-5b0b-42db-9141-fb5b6c08e99f" clustered="false" name="DateTypeID" physicalName="datetypeid" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC413" populated="true" UUID="2b896e5b-9621-4eb1-baa7-227cf849b63e" ascendingOrDescending="UNSPECIFIED" column-ref="COL400" name="DateTypeID" physicalName="DateTypeID" />
     </index>
    </folder>
   </table>
@@ -1759,7 +1759,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.MySqlDDLGenerator" allow-connection="false"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.6595236053843678" viewportX="920" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.6595236053843678" viewportX="0" viewportY="200" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="1100" y="696" bgColor="0xbfd6ff" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB17" x="2040" y="1222" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB24" x="1141" y="478" bgColor="0xbfd6ff" fgColor="0x000000" rounded="false" dashed="false"/>

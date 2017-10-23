@@ -165,11 +165,12 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
                      DayOfWeek='Unknown',
                      DayOfWeekSort=0,
                      DateMMDDYYYY='Unknown'))
-  DateDf <- DateDf %>% filter(!(CalendarDate %in% datesToExclude))
+  DateDf <- DateDf %>% filter(!(CalendarDate %in% datesToExclude)) %>%
+    rename(DateTypeID=DateID)
   writeLines(paste0("Adding ", nrow(DateDf), " new dates to the Date dimension"))
 
   writeLines(paste0("Writing ", nrow(DateDf), " Date rows to database"))
-  dbWriteTable(conn=conn, name="Date", value=DateDf, append=TRUE, row.names = FALSE)
+  dbWriteTable(conn=conn, name="DateType", value=DateDf, append=TRUE, row.names = FALSE)
 
   attr(DateDf, 'type') <- 'CT'
   DateDf
