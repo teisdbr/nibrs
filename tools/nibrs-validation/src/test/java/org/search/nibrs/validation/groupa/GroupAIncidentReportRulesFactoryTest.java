@@ -1348,6 +1348,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 	public void testRule122() {
 		Rule<GroupAIncidentReport> rule122 = rulesFactory.getRule122();
 		GroupAIncidentReport report = buildBaseReport();
+		report.setIncludesCargoTheft(true);
 		report.setCargoTheftIndicator("Y");
 		OffenseSegment o = new OffenseSegment();
 		report.addOffense(o);
@@ -1371,6 +1372,11 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(report.getSource(), e.getContext());
 		assertEquals(e.getDataElementIdentifier(), "2A");
 		assertNull(e.getValue());
+		
+		report.setIncludesCargoTheft(false);
+		e = rule122.apply(report);
+		assertNull(e);
+
 	}
 	
 	@Test
