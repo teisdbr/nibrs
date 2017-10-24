@@ -31,6 +31,7 @@ import org.search.nibrs.stagingdata.repository.DateType;
 import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18Type;
 import org.search.nibrs.stagingdata.repository.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.repository.RaceOfPersonType;
+import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonType;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.repository.SexOfPersonType;
 import org.search.nibrs.stagingdata.repository.TypeOfArrestType;
@@ -75,9 +76,9 @@ public class ArrestReportSegment {
 	@ManyToOne
 	@JoinColumn(name="ethnicityOfPersonTypeId") 
 	private EthnicityOfPersonType ethnicityOfPersonType;
-	
-	private Integer residentStatusOfPersonTypeId;
-	
+	@ManyToOne
+	@JoinColumn(name="residentStatusOfPersonTypeId") 
+	private ResidentStatusOfPersonType residentStatusOfPersonType;
 	@ManyToOne
 	@JoinColumn(name="dispositionOfArresteeUnder18TypeId") 
 	private DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type;
@@ -146,12 +147,6 @@ public class ArrestReportSegment {
 	public void setAgeOfArresteeMax(Integer ageOfArresteeMax) {
 		this.ageOfArresteeMax = ageOfArresteeMax;
 	}
-	public Integer getResidentStatusOfPersonTypeId() {
-		return residentStatusOfPersonTypeId;
-	}
-	public void setResidentStatusOfPersonTypeId(Integer residentStatusOfPersonTypeId) {
-		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeId;
-	}
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
@@ -208,5 +203,11 @@ public class ArrestReportSegment {
 	}
 	public void setSegmentActionType(SegmentActionTypeType segmentActionType) {
 		this.segmentActionType = segmentActionType;
+	}
+	public ResidentStatusOfPersonType getResidentStatusOfPersonType() {
+		return residentStatusOfPersonType;
+	}
+	public void setResidentStatusOfPersonType(ResidentStatusOfPersonType residentStatusOfPersonType) {
+		this.residentStatusOfPersonType = residentStatusOfPersonType;
 	}
 }

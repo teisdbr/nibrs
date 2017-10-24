@@ -36,6 +36,8 @@ import org.search.nibrs.stagingdata.repository.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.repository.EthnicityOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.RaceOfPersonType;
 import org.search.nibrs.stagingdata.repository.RaceOfPersonTypeRepository;
+import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonType;
+import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.repository.SexOfPersonType;
@@ -72,6 +74,8 @@ public class ArrestReportServiceTest {
 	public SegmentActionTypeRepository segmentActionTypeRepository; 
 	@Autowired
 	public TypeOfArrestTypeRepository typeOfArrestTypeRepository; 
+	@Autowired
+	public ResidentStatusOfPersonTypeRepository residentStatusOfPersonTypeRepository; 
 	
 	@Test
 	public void test() {
@@ -96,7 +100,7 @@ public class ArrestReportServiceTest {
 		assertThat(persisted.getMonthOfTape(), equalTo("12"));
 		assertThat(persisted.getOri(), equalTo("ori"));;
 		assertThat(persisted.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(persisted.getResidentStatusOfPersonTypeId(), equalTo(1));
+		assertThat(persisted.getResidentStatusOfPersonType().getResidentStatusOfPersonTypeId(), equalTo(1));
 		assertThat(persisted.getSegmentActionType().getSegmentActionTypeTypeId(), equalTo(1));
 		assertThat(persisted.getSexOfPersonType().getSexOfPersonCode(), equalTo("F"));
 		assertThat(persisted.getTypeOfArrestType().getTypeOfArrestTypeID(), equalTo(1));
@@ -131,7 +135,9 @@ public class ArrestReportServiceTest {
 		
 		RaceOfPersonType raceOfPersonType = raceOfPersonTypeRepository.findByRaceOfPersonCode("W").get(0);
 		arrestReportSegment.setRaceOfPersonType(raceOfPersonType);
-		arrestReportSegment.setResidentStatusOfPersonTypeId(1);
+		
+		ResidentStatusOfPersonType residentStatusOfPersonType = residentStatusOfPersonTypeRepository.findByResidentStatusOfPersonCode("N").get(0);
+		arrestReportSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
 		
 		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findBySegmentActionTypeCode("I").get(0);
 		arrestReportSegment.setSegmentActionType(segmentActionTypeType);
