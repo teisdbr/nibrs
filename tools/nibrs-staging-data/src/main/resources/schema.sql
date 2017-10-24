@@ -22,9 +22,9 @@ CREATE TABLE AgencyType (AgencyTypeID INT NOT NULL auto_increment, AgencyTypeCod
 
 ALTER TABLE AgencyType ADD CONSTRAINT agencytypeid PRIMARY KEY (AgencyTypeID);
 
-CREATE TABLE Date (DateID INT NOT NULL auto_increment, CalendarDate date NOT NULL, Year INT NOT NULL, YearLabel CHAR(4) NOT NULL, CalendarQuarter INT NOT NULL, Month INT NOT NULL, MonthName VARCHAR(12) NOT NULL, FullMonth CHAR(7) NOT NULL, Day INT NOT NULL, DayOfWeek VARCHAR(9) NOT NULL, DayOfWeekSort INT NOT NULL, DateMMDDYYYY CHAR(10) NOT NULL);
+CREATE TABLE DateType (DateTypeID INT NOT NULL auto_increment, CalendarDate date NOT NULL, Year INT NOT NULL, YearLabel CHAR(4) NOT NULL, CalendarQuarter INT NOT NULL, Month INT NOT NULL, MonthName VARCHAR(12) NOT NULL, FullMonth CHAR(7) NOT NULL, Day INT NOT NULL, DayOfWeek VARCHAR(9) NOT NULL, DayOfWeekSort INT NOT NULL, DateMMDDYYYY CHAR(10) NOT NULL);
 
-ALTER TABLE Date ADD CONSTRAINT dateid PRIMARY KEY (DateID);
+ALTER TABLE DateType ADD CONSTRAINT datetypeid PRIMARY KEY (DateTypeID);
 
 CREATE TABLE Agency (AgencyID INT NOT NULL auto_increment, AgencyORI CHAR(9) NOT NULL, AgencyName VARCHAR(60) NOT NULL, AgencyTypeID INT NOT NULL, StateCode CHAR(2) NOT NULL, StateName VARCHAR(20) NOT NULL, Population INT);
 
@@ -42,7 +42,7 @@ CREATE TABLE TypeOfWeaponForceInvolvedType (TypeOfWeaponForceInvolvedTypeID INT 
 
 ALTER TABLE TypeOfWeaponForceInvolvedType ADD CONSTRAINT typeofweaponforceinvolvedtype_pk PRIMARY KEY (TypeOfWeaponForceInvolvedTypeID);
 
-CREATE TABLE SuspectedDrugTypeType (SuspectedDrugTypeTypeID INT NOT NULL auto_increment, SuspectedDrugTypeCode VARCHAR(1) NOT NULL, SuspectedDrugTypeDescription VARCHAR(50) NOT NULL);
+CREATE TABLE SuspectedDrugTypeType (SuspectedDrugTypeTypeID INT NOT NULL auto_increment, SuspectedDrugTypeCode VARCHAR(1) NOT NULL, SuspectedDrugTypeDescription VARCHAR(32) NOT NULL);
 
 ALTER TABLE SuspectedDrugTypeType ADD CONSTRAINT suspecteddrugtypetype_pk PRIMARY KEY (SuspectedDrugTypeTypeID);
 
@@ -106,7 +106,7 @@ CREATE TABLE PropertyDescriptionType (PropertyDescriptionTypeID INT NOT NULL aut
 
 ALTER TABLE PropertyDescriptionType ADD CONSTRAINT propertydescriptiontype_pk PRIMARY KEY (PropertyDescriptionTypeID);
 
-CREATE TABLE RaceOfPersonType (RaceOfPersonTypeID INT NOT NULL auto_increment, RaceOfPersonCode VARCHAR(1) NOT NULL, RaceOfPersonDescription VARCHAR(50) NOT NULL);
+CREATE TABLE RaceOfPersonType (RaceOfPersonTypeID INT NOT NULL auto_increment, RaceOfPersonCode VARCHAR(1) NOT NULL, RaceOfPersonDescription VARCHAR(42) NOT NULL);
 
 ALTER TABLE RaceOfPersonType ADD CONSTRAINT raceofpersontype_pk PRIMARY KEY (RaceOfPersonTypeID);
 
@@ -224,15 +224,15 @@ ALTER TABLE LEOKASegment ADD CONSTRAINT idleokasegment PRIMARY KEY (LEOKASegment
 
 ALTER TABLE Agency ADD CONSTRAINT AgencyType_Agency_fk FOREIGN KEY (AgencyTypeID) REFERENCES AgencyType (AgencyTypeID);
 
-ALTER TABLE AdministrativeSegment ADD CONSTRAINT Date_AdministrativeSegment_fk FOREIGN KEY (IncidentDateID) REFERENCES Date (DateID);
+ALTER TABLE AdministrativeSegment ADD CONSTRAINT Date_AdministrativeSegment_fk FOREIGN KEY (IncidentDateID) REFERENCES DateType (DateTypeID);
 
-ALTER TABLE PropertyType ADD CONSTRAINT Date_PropertyType_fk FOREIGN KEY (RecoveredDateID) REFERENCES Date (DateID);
+ALTER TABLE PropertyType ADD CONSTRAINT Date_PropertyType_fk FOREIGN KEY (RecoveredDateID) REFERENCES DateType (DateTypeID);
 
-ALTER TABLE ArresteeSegment ADD CONSTRAINT Date_ArresteeSegment_fk FOREIGN KEY (ArrestDateID) REFERENCES Date (DateID);
+ALTER TABLE ArresteeSegment ADD CONSTRAINT Date_ArresteeSegment_fk FOREIGN KEY (ArrestDateID) REFERENCES DateType (DateTypeID);
 
-ALTER TABLE ArrestReportSegment ADD CONSTRAINT Date_ArrestReportSegment_fk FOREIGN KEY (ArrestDateID) REFERENCES Date (DateID);
+ALTER TABLE ArrestReportSegment ADD CONSTRAINT Date_ArrestReportSegment_fk FOREIGN KEY (ArrestDateID) REFERENCES DateType (DateTypeID);
 
-ALTER TABLE ZeroReportingSegment ADD CONSTRAINT Date_ZeroReportingSegment_fk FOREIGN KEY (IncidentDateID) REFERENCES Date (DateID);
+ALTER TABLE ZeroReportingSegment ADD CONSTRAINT Date_ZeroReportingSegment_fk FOREIGN KEY (IncidentDateID) REFERENCES DateType (DateTypeID);
 
 ALTER TABLE AdministrativeSegment ADD CONSTRAINT Agency_AdministrativeSegment_fk FOREIGN KEY (AgencyID) REFERENCES Agency (AgencyID);
 

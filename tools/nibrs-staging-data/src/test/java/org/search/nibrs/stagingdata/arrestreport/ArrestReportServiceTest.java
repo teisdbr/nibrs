@@ -58,7 +58,7 @@ public class ArrestReportServiceTest {
 		
 		//TODO get the arrestDateObject
 //		assertThat(persisted.getArrestDateId(), equalTo(2315));
-		assertThat(persisted.getDateType().getDateID(), equalTo(2355));
+		assertThat(persisted.getDateType().getDateTypeId(), equalTo(2355));
 		assertThat(persisted.getDateType().getDateMMDDYYYY(), equalTo("06122016"));
 		
 		assertThat(persisted.getArresteeSequenceNumber(), equalTo(1));

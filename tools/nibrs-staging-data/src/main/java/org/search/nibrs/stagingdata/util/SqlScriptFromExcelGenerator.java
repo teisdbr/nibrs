@@ -120,7 +120,7 @@ public class SqlScriptFromExcelGenerator {
     	
     	LocalDate localDate = LocalDate.of(2010, 1, 1);
     	LocalDate endDate = LocalDate.of(2100, 12, 31);
-    	String baseString = "insert into Date " + 
+    	String baseString = "insert into DateType " + 
     			"  values (";
     	int i = 1; 
     	while (!localDate.isAfter(endDate)){

@@ -25,11 +25,11 @@ import javax.persistence.Id;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-@Entity(name="Date")
+@Entity
 public class DateType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer dateID; 
+	private Integer dateTypeId; 
 	
 	@Column(name="calendardate")
 	private Date calendarDate; 
@@ -48,16 +48,16 @@ public class DateType {
 		super();
 	}
 	
-	public DateType(Integer dateID) {
+	public DateType(Integer dateTypeId) {
 		super();
-		this.dateID = dateID;
+		this.dateTypeId = dateTypeId;
 	}
 	
-	public DateType(Integer dateID, Date calendarDate, Integer year, String yearLabel, Integer calendarQuarter,
+	public DateType(Integer dateTypeId, Date calendarDate, Integer year, String yearLabel, Integer calendarQuarter,
 			Integer month, String monthName, String fullMonth, Integer day, String dayOfWeek, Integer dayOfWeekSort,
 			String dateMMDDYYYY) {
 		this();
-		this.dateID = dateID;
+		this.dateTypeId = dateTypeId;
 		this.calendarDate = calendarDate;
 		this.year = year;
 		this.yearLabel = yearLabel;
@@ -75,12 +75,12 @@ public class DateType {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-	public Integer getDateID() {
-		return dateID;
+	public Integer getDateTypeId() {
+		return dateTypeId;
 	}
 
-	public void setDateID(Integer dateID) {
-		this.dateID = dateID;
+	public void setDateTypeID(Integer dateTypeId) {
+		this.dateTypeId = dateTypeId;
 	}
 
 	public Date getCalendarDate() {
