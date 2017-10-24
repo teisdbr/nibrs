@@ -26,48 +26,66 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.search.nibrs.stagingdata.model.DateType;
-import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
+import org.search.nibrs.stagingdata.repository.Agency;
+import org.search.nibrs.stagingdata.repository.DateType;
+import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18Type;
+import org.search.nibrs.stagingdata.repository.EthnicityOfPersonType;
+import org.search.nibrs.stagingdata.repository.RaceOfPersonType;
+import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.repository.SexOfPersonType;
+import org.search.nibrs.stagingdata.repository.TypeOfArrestType;
+import org.search.nibrs.stagingdata.repository.UcrOffenseCodeType;
 
 @Entity
 public class ArrestReportSegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer arrestReportSegmentId; 
-	private Integer segmentActionTypeTypeID; 
+	private Integer arrestReportSegmentId;
+	
+	@ManyToOne
+	@JoinColumn(name="segmentActionTypeTypeID") 
+	private SegmentActionTypeType segmentActionType; 
 	private String monthOfTape; 
 	private String yearOfTape; 
-	private String cityIndicator; 
-	private Integer agencyId; 
+	private String cityIndicator;
+	
+	@ManyToOne
+	@JoinColumn(name="agencyId")
+	private Agency agency; 
 	private String ori; 
 	private String arrestTransactionNumber; 
 	private Integer arresteeSequenceNumber; 
 	private Date arrestDate;
 	
-//	private Integer arrestDateId; 
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="arrestDateId")
 	private DateType arrestDateType; 
-	private Integer typeOfArrestTypeId; 
+
+	@ManyToOne
+	@JoinColumn(name="typeOfArrestTypeId") 
+	private TypeOfArrestType typeOfArrestType; 
 	private Integer ageOfArresteeMin; 
 	private Integer ageOfArresteeMax; 
-	private Integer sexOfPersonTypeId; 
-	private Integer raceOfPersonTypeId;
-	private Integer ethnicityOfPersonTypeId;
-	private Integer residentStatusOfPersonTypeId;
-	private Integer dispositionOfArresteeUnder18TypeId;
+	@ManyToOne
+	@JoinColumn(name="sexOfPersonTypeId") 
+	private SexOfPersonType sexOfPersonType; 
+	@ManyToOne
+	@JoinColumn(name="raceOfPersonTypeId") 
+	private RaceOfPersonType raceOfPersonType;
+	@ManyToOne
+	@JoinColumn(name="ethnicityOfPersonTypeId") 
+	private EthnicityOfPersonType ethnicityOfPersonType;
 	
-//	private Integer ucrOffenseCodeTypeId;
+	private Integer residentStatusOfPersonTypeId;
+	
+	@ManyToOne
+	@JoinColumn(name="dispositionOfArresteeUnder18TypeId") 
+	private DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type;
+	
 	@ManyToOne
 	@JoinColumn(name="ucrOffenseCodeTypeId")
 	private UcrOffenseCodeType ucrOffenseCodeType;
 	
-	public Integer getSegmentActionTypeTypeID() {
-		return segmentActionTypeTypeID;
-	}
-	public void setSegmentActionTypeTypeID(Integer segmentActionTypeTypeID) {
-		this.segmentActionTypeTypeID = segmentActionTypeTypeID;
-	}
 	public Integer getArrestReportSegmentId() {
 		return arrestReportSegmentId;
 	}
@@ -91,12 +109,6 @@ public class ArrestReportSegment {
 	}
 	public void setCityIndicator(String cityIndicator) {
 		this.cityIndicator = cityIndicator;
-	}
-	public Integer getAgencyId() {
-		return agencyId;
-	}
-	public void setAgencyId(Integer agencyId) {
-		this.agencyId = agencyId;
 	}
 	public String getOri() {
 		return ori;
@@ -122,12 +134,6 @@ public class ArrestReportSegment {
 	public void setArrestDate(Date arrestDate) {
 		this.arrestDate = arrestDate;
 	}
-	public Integer getTypeOfArrestTypeId() {
-		return typeOfArrestTypeId;
-	}
-	public void setTypeOfArrestTypeId(Integer typeOfArrestTypeId) {
-		this.typeOfArrestTypeId = typeOfArrestTypeId;
-	}
 	public Integer getAgeOfArresteeMin() {
 		return ageOfArresteeMin;
 	}
@@ -140,35 +146,11 @@ public class ArrestReportSegment {
 	public void setAgeOfArresteeMax(Integer ageOfArresteeMax) {
 		this.ageOfArresteeMax = ageOfArresteeMax;
 	}
-	public Integer getSexOfPersonTypeId() {
-		return sexOfPersonTypeId;
-	}
-	public void setSexOfPersonTypeId(Integer sexOfPersonTypeId) {
-		this.sexOfPersonTypeId = sexOfPersonTypeId;
-	}
-	public Integer getRaceOfPersonTypeId() {
-		return raceOfPersonTypeId;
-	}
-	public void setRaceOfPersonTypeId(Integer raceOfPersonTypeId) {
-		this.raceOfPersonTypeId = raceOfPersonTypeId;
-	}
-	public Integer getEthnicityOfPersonTypeId() {
-		return ethnicityOfPersonTypeId;
-	}
-	public void setEthnicityOfPersonTypeId(Integer ethnicityOfPersonTypeId) {
-		this.ethnicityOfPersonTypeId = ethnicityOfPersonTypeId;
-	}
 	public Integer getResidentStatusOfPersonTypeId() {
 		return residentStatusOfPersonTypeId;
 	}
 	public void setResidentStatusOfPersonTypeId(Integer residentStatusOfPersonTypeId) {
 		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeId;
-	}
-	public Integer getDispositionOfArresteeUnder18TypeId() {
-		return dispositionOfArresteeUnder18TypeId;
-	}
-	public void setDispositionOfArresteeUnder18TypeId(Integer dispositionOfArresteeUnder18TypeId) {
-		this.dispositionOfArresteeUnder18TypeId = dispositionOfArresteeUnder18TypeId;
 	}
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
@@ -185,16 +167,46 @@ public class ArrestReportSegment {
 	public void setArrestDateType(DateType dateType) {
 		this.arrestDateType = dateType;
 	}
-//	public Integer getArrestDateId() {
-//		return arrestDateId;
-//	}
-//	public void setArrestDateId(Integer arrestDateId) {
-//		this.arrestDateId = arrestDateId;
-//	}
-//	public Integer getUcrOffenseCodeTypeId() {
-//		return ucrOffenseCodeTypeId;
-//	}
-//	public void setUcrOffenseCodeTypeId(Integer ucrOffenseCodeTypeId) {
-//		this.ucrOffenseCodeTypeId = ucrOffenseCodeTypeId;
-//	}
+	public DispositionOfArresteeUnder18Type getDispositionOfArresteeUnder18Type() {
+		return dispositionOfArresteeUnder18Type;
+	}
+	public void setDispositionOfArresteeUnder18Type(DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type) {
+		this.dispositionOfArresteeUnder18Type = dispositionOfArresteeUnder18Type;
+	}
+	public EthnicityOfPersonType getEthnicityOfPersonType() {
+		return ethnicityOfPersonType;
+	}
+	public void setEthnicityOfPersonType(EthnicityOfPersonType ethnicityOfPersonType) {
+		this.ethnicityOfPersonType = ethnicityOfPersonType;
+	}
+	public RaceOfPersonType getRaceOfPersonType() {
+		return raceOfPersonType;
+	}
+	public void setRaceOfPersonType(RaceOfPersonType raceOfPersonType) {
+		this.raceOfPersonType = raceOfPersonType;
+	}
+	public SexOfPersonType getSexOfPersonType() {
+		return sexOfPersonType;
+	}
+	public void setSexOfPersonType(SexOfPersonType sexOfPersonType) {
+		this.sexOfPersonType = sexOfPersonType;
+	}
+	public TypeOfArrestType getTypeOfArrestType() {
+		return typeOfArrestType;
+	}
+	public void setTypeOfArrestType(TypeOfArrestType typeOfArrestType) {
+		this.typeOfArrestType = typeOfArrestType;
+	}
+	public Agency getAgency() {
+		return agency;
+	}
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+	public SegmentActionTypeType getSegmentActionType() {
+		return segmentActionType;
+	}
+	public void setSegmentActionType(SegmentActionTypeType segmentActionType) {
+		this.segmentActionType = segmentActionType;
+	}
 }

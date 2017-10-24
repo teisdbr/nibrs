@@ -18,7 +18,6 @@ package org.search.nibrs.stagingdata.repository;
 import java.util.Date;
 import java.util.List;
 
-import org.search.nibrs.stagingdata.model.DateType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DateTypeRepository extends CrudRepository<DateType, Integer>{

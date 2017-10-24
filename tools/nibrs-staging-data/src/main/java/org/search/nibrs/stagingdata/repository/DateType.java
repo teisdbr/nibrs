@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.model;
+package org.search.nibrs.stagingdata.repository;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,7 +30,6 @@ public class DateType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer dateTypeId; 
 	
-	@Column(name="calendardate")
 	private Date calendarDate; 
 	private Integer year; 
 	private String yearLabel; 

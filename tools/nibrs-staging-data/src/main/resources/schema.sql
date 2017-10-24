@@ -276,6 +276,8 @@ ALTER TABLE VictimSegment ADD CONSTRAINT ResidentStatusOfPersonType_VictimSegmen
 
 ALTER TABLE ArresteeSegment ADD CONSTRAINT ResidentStatusOfPersonType_ArresteeSegment_fk FOREIGN KEY (ResidentStatusOfPersonTypeID) REFERENCES ResidentStatusOfPersonType (ResidentStatusOfPersonTypeID);
 
+ALTER TABLE ArrestReportSegment ADD CONSTRAINT ResidentStatusOfPersonType_ArrestReportSegment_fk FOREIGN KEY (ResidentStatusOfPersonTypeID) REFERENCES ResidentStatusOfPersonType (ResidentStatusOfPersonTypeID);
+
 ALTER TABLE VictimSegment ADD CONSTRAINT EthnicityOfPersonType_VictimSegment_fk FOREIGN KEY (EthnicityOfPersonTypeID) REFERENCES EthnicityOfPersonType (EthnicityOfPersonTypeID);
 
 ALTER TABLE ArresteeSegment ADD CONSTRAINT EthnicityOfPersonType_ArresteeSegment_fk FOREIGN KEY (EthnicityOfPersonTypeID) REFERENCES EthnicityOfPersonType (EthnicityOfPersonTypeID);

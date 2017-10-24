@@ -19,6 +19,6 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface UcrOffenseCodeTypeRepository extends CrudRepository<UcrOffenseCodeType, Integer>{
-	public List<UcrOffenseCodeType> findByUcrOffenseCode(String ucrOffenseCode);
+public interface DispositionOfArresteeUnder18TypeRepository extends CrudRepository<DispositionOfArresteeUnder18Type, Integer>{
+	public List<DispositionOfArresteeUnder18Type> findByDispositionOfArresteeUnder18Code(String dispositionOfArresteeUnder18Code);
 }
