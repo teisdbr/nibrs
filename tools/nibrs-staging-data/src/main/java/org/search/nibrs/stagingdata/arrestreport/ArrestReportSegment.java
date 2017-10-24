@@ -17,17 +17,18 @@ package org.search.nibrs.stagingdata.arrestreport;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.search.nibrs.stagingdata.model.DateType;
+import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 
-/**
- * Service to process Group B Arrest Report.  
- *
- */
 @Entity
 public class ArrestReportSegment {
 	@Id
@@ -40,9 +41,13 @@ public class ArrestReportSegment {
 	private Integer agencyId; 
 	private String ori; 
 	private String arrestTransactionNumber; 
-	private String arresteeSequenceNumber; 
-	private Date arrestDate; 
-	private Integer arrestDateId; 
+	private Integer arresteeSequenceNumber; 
+	private Date arrestDate;
+	
+//	private Integer arrestDateId; 
+	@ManyToOne(cascade=CascadeType.MERGE)
+	@JoinColumn(name="arrestDateId")
+	private DateType arrestDateType; 
 	private Integer typeOfArrestTypeId; 
 	private Integer ageOfArresteeMin; 
 	private Integer ageOfArresteeMax; 
@@ -51,7 +56,11 @@ public class ArrestReportSegment {
 	private Integer ethnicityOfPersonTypeId;
 	private Integer residentStatusOfPersonTypeId;
 	private Integer dispositionOfArresteeUnder18TypeId;
-	private Integer ucrOffenseCodeTypeId;
+	
+//	private Integer ucrOffenseCodeTypeId;
+	@ManyToOne
+	@JoinColumn(name="ucrOffenseCodeTypeId")
+	private UcrOffenseCodeType ucrOffenseCodeType;
 	
 	public Integer getSegmentActionTypeTypeID() {
 		return segmentActionTypeTypeID;
@@ -101,10 +110,10 @@ public class ArrestReportSegment {
 	public void setArrestTransactionNumber(String arrestTransactionNumber) {
 		this.arrestTransactionNumber = arrestTransactionNumber;
 	}
-	public String getArresteeSequenceNumber() {
+	public Integer getArresteeSequenceNumber() {
 		return arresteeSequenceNumber;
 	}
-	public void setArresteeSequenceNumber(String arresteeSequenceNumber) {
+	public void setArresteeSequenceNumber(Integer arresteeSequenceNumber) {
 		this.arresteeSequenceNumber = arresteeSequenceNumber;
 	}
 	public Date getArrestDate() {
@@ -112,12 +121,6 @@ public class ArrestReportSegment {
 	}
 	public void setArrestDate(Date arrestDate) {
 		this.arrestDate = arrestDate;
-	}
-	public Integer getArrestDateId() {
-		return arrestDateId;
-	}
-	public void setArrestDateId(Integer arrestDateId) {
-		this.arrestDateId = arrestDateId;
 	}
 	public Integer getTypeOfArrestTypeId() {
 		return typeOfArrestTypeId;
@@ -167,14 +170,31 @@ public class ArrestReportSegment {
 	public void setDispositionOfArresteeUnder18TypeId(Integer dispositionOfArresteeUnder18TypeId) {
 		this.dispositionOfArresteeUnder18TypeId = dispositionOfArresteeUnder18TypeId;
 	}
-	public Integer getUcrOffenseCodeTypeId() {
-		return ucrOffenseCodeTypeId;
-	}
-	public void setUcrOffenseCodeTypeId(Integer ucrOffenseCodeTypeId) {
-		this.ucrOffenseCodeTypeId = ucrOffenseCodeTypeId;
-	}
-	
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
+	public UcrOffenseCodeType getUcrOffenseCodeType() {
+		return ucrOffenseCodeType;
+	}
+	public void setUcrOffenseCodeType(UcrOffenseCodeType ucrOffenseCodeType) {
+		this.ucrOffenseCodeType = ucrOffenseCodeType;
+	}
+	public DateType getDateType() {
+		return arrestDateType;
+	}
+	public void setArrestDateType(DateType dateType) {
+		this.arrestDateType = dateType;
+	}
+//	public Integer getArrestDateId() {
+//		return arrestDateId;
+//	}
+//	public void setArrestDateId(Integer arrestDateId) {
+//		this.arrestDateId = arrestDateId;
+//	}
+//	public Integer getUcrOffenseCodeTypeId() {
+//		return ucrOffenseCodeTypeId;
+//	}
+//	public void setUcrOffenseCodeTypeId(Integer ucrOffenseCodeTypeId) {
+//		this.ucrOffenseCodeTypeId = ucrOffenseCodeTypeId;
+//	}
 }

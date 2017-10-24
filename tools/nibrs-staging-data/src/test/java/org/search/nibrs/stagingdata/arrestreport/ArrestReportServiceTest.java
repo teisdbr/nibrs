@@ -16,7 +16,8 @@
 package org.search.nibrs.stagingdata.arrestreport;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,6 +26,10 @@ import java.util.Date;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.search.nibrs.stagingdata.model.DateType;
+import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
+import org.search.nibrs.stagingdata.repository.DateTypeRepository;
+import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,6 +40,10 @@ public class ArrestReportServiceTest {
 
 	@Autowired
 	public ArrestReportService arrestReportService; 
+	@Autowired
+	public DateTypeRepository dateTypeRepository; 
+	@Autowired
+	public UcrOffenseCodeTypeRepository ucrOffenseCodeTypeRepository; 
 	
 	@Test
 	public void test() {
@@ -45,14 +54,16 @@ public class ArrestReportServiceTest {
 				arrestReportService.findArrestReportSegment(arrestReportSegment.getArrestReportSegmentId());
 		assertThat(persisted.getAgeOfArresteeMax(), equalTo(25));
 		assertThat(persisted.getAgeOfArresteeMin(), equalTo(22));
-		assertTrue(DateUtils.isSameInstant(persisted.getArrestDate(), Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		assertTrue(DateUtils.isSameDay(persisted.getArrestDate(), Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		
 		//TODO get the arrestDateObject
-		assertThat(persisted.getArrestDateId(), equalTo(1));
+//		assertThat(persisted.getArrestDateId(), equalTo(2315));
+		assertThat(persisted.getDateType().getDateID(), equalTo(2355));
+		assertThat(persisted.getDateType().getDateMMDDYYYY(), equalTo("06122016"));
 		
-		assertThat(persisted.getArresteeSequenceNumber(), equalTo("arrestSequenceNumber"));
+		assertThat(persisted.getArresteeSequenceNumber(), equalTo(1));
 		assertThat(persisted.getAgencyId(), equalTo(1));
-		assertThat(persisted.getArrestTransactionNumber(), equalTo("arerstTransactionNumber"));
+		assertThat(persisted.getArrestTransactionNumber(), equalTo("arrestTr"));
 		assertThat(persisted.getCityIndicator(), equalTo("Y"));
 		assertThat(persisted.getDispositionOfArresteeUnder18TypeId(), equalTo(1));
 		assertThat(persisted.getEthnicityOfPersonTypeId(), equalTo(1));
@@ -63,7 +74,8 @@ public class ArrestReportServiceTest {
 		assertThat(persisted.getSegmentActionTypeTypeID(), equalTo(1));
 		assertThat(persisted.getSexOfPersonTypeId(), equalTo(1));
 		assertThat(persisted.getTypeOfArrestTypeId(), equalTo(1));
-		assertThat(persisted.getUcrOffenseCodeTypeId(), equalTo(1));
+//		assertThat(persisted.getUcrOffenseCodeTypeId(), equalTo(520));
+		assertThat(persisted.getUcrOffenseCodeType().getUcrOffenseCodeTypeID(), equalTo(520));
 		assertThat(persisted.getYearOfTape(), equalTo("2016"));
 	}
 	
@@ -74,11 +86,13 @@ public class ArrestReportServiceTest {
 		arrestReportSegment.setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 		
 		//TODO get the arrestDateObject
-		arrestReportSegment.setArrestDateId(1);
+//		arrestReportSegment.setArrestDateId(2315);
+		DateType arrestDateType = dateTypeRepository.findByDateMMDDYYYY("06122016").get(0);
+		arrestReportSegment.setArrestDateType(arrestDateType);
 		
-		arrestReportSegment.setArresteeSequenceNumber("arrestSequenceNumber");
+		arrestReportSegment.setArresteeSequenceNumber(1);
 		arrestReportSegment.setAgencyId(1);
-		arrestReportSegment.setArrestTransactionNumber("arerstTransactionNumber");
+		arrestReportSegment.setArrestTransactionNumber("arrestTr");
 		arrestReportSegment.setCityIndicator("Y");
 		arrestReportSegment.setDispositionOfArresteeUnder18TypeId(1);
 		arrestReportSegment.setEthnicityOfPersonTypeId(1);
@@ -89,7 +103,9 @@ public class ArrestReportServiceTest {
 		arrestReportSegment.setSegmentActionTypeTypeID(1);
 		arrestReportSegment.setSexOfPersonTypeId(1);
 		arrestReportSegment.setTypeOfArrestTypeId(1);
-		arrestReportSegment.setUcrOffenseCodeTypeId(1);
+//		arrestReportSegment.setUcrOffenseCodeTypeId(520);
+		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findByUcrOffenseCode("520").get(0);
+		arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCode);
 		arrestReportSegment.setYearOfTape("2016");
 		
 		return arrestReportSegment; 

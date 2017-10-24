@@ -18,207 +18,207 @@ Drop schema if exists ojbc_nibrs_staging;
 CREATE schema ojbc_nibrs_staging;
 
 
-CREATE TABLE AgencyType (AgencyTypeID INT NOT NULL, AgencyTypeCode VARCHAR(2) NOT NULL, AgencyTypeDescription VARCHAR(80) NOT NULL);
+CREATE TABLE AgencyType (AgencyTypeID INT NOT NULL auto_increment, AgencyTypeCode VARCHAR(2) NOT NULL, AgencyTypeDescription VARCHAR(80) NOT NULL);
 
 ALTER TABLE AgencyType ADD CONSTRAINT agencytypeid PRIMARY KEY (AgencyTypeID);
 
-CREATE TABLE Date (DateID INT NOT NULL, CalendarDate date NOT NULL, Year INT NOT NULL, YearLabel CHAR(4) NOT NULL, CalendarQuarter INT NOT NULL, Month INT NOT NULL, MonthName VARCHAR(12) NOT NULL, FullMonth CHAR(7) NOT NULL, Day INT NOT NULL, DayOfWeek VARCHAR(9) NOT NULL, DayOfWeekSort INT NOT NULL, DateMMDDYYYY CHAR(10) NOT NULL);
+CREATE TABLE Date (DateID INT NOT NULL auto_increment, CalendarDate date NOT NULL, Year INT NOT NULL, YearLabel CHAR(4) NOT NULL, CalendarQuarter INT NOT NULL, Month INT NOT NULL, MonthName VARCHAR(12) NOT NULL, FullMonth CHAR(7) NOT NULL, Day INT NOT NULL, DayOfWeek VARCHAR(9) NOT NULL, DayOfWeekSort INT NOT NULL, DateMMDDYYYY CHAR(10) NOT NULL);
 
 ALTER TABLE Date ADD CONSTRAINT dateid PRIMARY KEY (DateID);
 
-CREATE TABLE Agency (AgencyID INT NOT NULL, AgencyORI CHAR(9) NOT NULL, AgencyName VARCHAR(60) NOT NULL, AgencyTypeID INT NOT NULL, StateCode CHAR(2) NOT NULL, StateName VARCHAR(20) NOT NULL, Population INT);
+CREATE TABLE Agency (AgencyID INT NOT NULL auto_increment, AgencyORI CHAR(9) NOT NULL, AgencyName VARCHAR(60) NOT NULL, AgencyTypeID INT NOT NULL, StateCode CHAR(2) NOT NULL, StateName VARCHAR(20) NOT NULL, Population INT);
 
 ALTER TABLE Agency ADD CONSTRAINT agency_pk PRIMARY KEY (AgencyID);
 
-CREATE TABLE OfficerAssignmentTypeType (OfficerAssignmentTypeTypeID INT NOT NULL, OfficerAssignmentTypeCode VARCHAR(1) NOT NULL, OfficerAssignmentTypeDescription VARCHAR(100) NOT NULL);
+CREATE TABLE OfficerAssignmentTypeType (OfficerAssignmentTypeTypeID INT NOT NULL auto_increment, OfficerAssignmentTypeCode VARCHAR(1) NOT NULL, OfficerAssignmentTypeDescription VARCHAR(100) NOT NULL);
 
 ALTER TABLE OfficerAssignmentTypeType ADD CONSTRAINT officerassignmenttypetype_pk PRIMARY KEY (OfficerAssignmentTypeTypeID);
 
-CREATE TABLE OfficerActivityCircumstanceType (OfficerActivityCircumstanceTypeID INT NOT NULL, OfficerActivityCircumstanceCode VARCHAR(2) NOT NULL, OfficerActivityCircumstanceDescription VARCHAR(75) NOT NULL);
+CREATE TABLE OfficerActivityCircumstanceType (OfficerActivityCircumstanceTypeID INT NOT NULL auto_increment, OfficerActivityCircumstanceCode VARCHAR(2) NOT NULL, OfficerActivityCircumstanceDescription VARCHAR(75) NOT NULL);
 
 ALTER TABLE OfficerActivityCircumstanceType ADD CONSTRAINT officeractivitycircumstancetype_pk PRIMARY KEY (OfficerActivityCircumstanceTypeID);
 
-CREATE TABLE TypeOfWeaponForceInvolvedType (TypeOfWeaponForceInvolvedTypeID INT NOT NULL, TypeOfWeaponForceInvolvedCode VARCHAR(2) NOT NULL, TypeOfWeaponForceInvolvedDescription VARCHAR(30) NOT NULL);
+CREATE TABLE TypeOfWeaponForceInvolvedType (TypeOfWeaponForceInvolvedTypeID INT NOT NULL auto_increment, TypeOfWeaponForceInvolvedCode VARCHAR(2) NOT NULL, TypeOfWeaponForceInvolvedDescription VARCHAR(30) NOT NULL);
 
 ALTER TABLE TypeOfWeaponForceInvolvedType ADD CONSTRAINT typeofweaponforceinvolvedtype_pk PRIMARY KEY (TypeOfWeaponForceInvolvedTypeID);
 
-CREATE TABLE SuspectedDrugTypeType (SuspectedDrugTypeTypeID INT NOT NULL, SuspectedDrugTypeCode VARCHAR(1) NOT NULL, SuspectedDrugTypeDescription VARCHAR(50) NOT NULL);
+CREATE TABLE SuspectedDrugTypeType (SuspectedDrugTypeTypeID INT NOT NULL auto_increment, SuspectedDrugTypeCode VARCHAR(1) NOT NULL, SuspectedDrugTypeDescription VARCHAR(50) NOT NULL);
 
 ALTER TABLE SuspectedDrugTypeType ADD CONSTRAINT suspecteddrugtypetype_pk PRIMARY KEY (SuspectedDrugTypeTypeID);
 
-CREATE TABLE BiasMotivationType (BiasMotivationTypeID INT NOT NULL, BiasMotivationCode VARCHAR(2) NOT NULL, BiasMotivationDescription VARCHAR(60) NOT NULL, BiasMotivationCategory VARCHAR(30) NOT NULL);
+CREATE TABLE BiasMotivationType (BiasMotivationTypeID INT NOT NULL auto_increment, BiasMotivationCode VARCHAR(2) NOT NULL, BiasMotivationDescription VARCHAR(60) NOT NULL, BiasMotivationCategory VARCHAR(30) NOT NULL);
 
 ALTER TABLE BiasMotivationType ADD CONSTRAINT biasmotivationtype_pk PRIMARY KEY (BiasMotivationTypeID);
 
-CREATE TABLE MethodOfEntryType (MethodOfEntryTypeID INT NOT NULL, MethodOfEntryCode VARCHAR(1) NOT NULL, MethodOfEntryDescription VARCHAR(10) NOT NULL);
+CREATE TABLE MethodOfEntryType (MethodOfEntryTypeID INT NOT NULL auto_increment, MethodOfEntryCode VARCHAR(1) NOT NULL, MethodOfEntryDescription VARCHAR(10) NOT NULL);
 
 ALTER TABLE MethodOfEntryType ADD CONSTRAINT methodofentrytype_pk PRIMARY KEY (MethodOfEntryTypeID);
 
-CREATE TABLE LocationTypeType (LocationTypeTypeID INT NOT NULL, LocationTypeCode VARCHAR(2) NOT NULL, LocationTypeDescription VARCHAR(45) NOT NULL);
+CREATE TABLE LocationTypeType (LocationTypeTypeID INT NOT NULL auto_increment, LocationTypeCode VARCHAR(2) NOT NULL, LocationTypeDescription VARCHAR(45) NOT NULL);
 
 ALTER TABLE LocationTypeType ADD CONSTRAINT locationtypetype_pk PRIMARY KEY (LocationTypeTypeID);
 
-CREATE TABLE ClearedExceptionallyType (ClearedExceptionallyTypeID INT NOT NULL, ClearedExceptionallyCode VARCHAR(1) NOT NULL, ClearedExceptionallyDescription VARCHAR(220) NOT NULL);
+CREATE TABLE ClearedExceptionallyType (ClearedExceptionallyTypeID INT NOT NULL auto_increment, ClearedExceptionallyCode VARCHAR(1) NOT NULL, ClearedExceptionallyDescription VARCHAR(220) NOT NULL);
 
 ALTER TABLE ClearedExceptionallyType ADD CONSTRAINT clearedexceptionallytype_pk PRIMARY KEY (ClearedExceptionallyTypeID);
 
-CREATE TABLE DispositionOfArresteeUnder18Type (DispositionOfArresteeUnder18TypeID INT NOT NULL, DispositionOfArresteeUnder18Code VARCHAR(1) NOT NULL, DispositionOfArresteeUnder18Description VARCHAR(30) NOT NULL);
+CREATE TABLE DispositionOfArresteeUnder18Type (DispositionOfArresteeUnder18TypeID INT NOT NULL auto_increment, DispositionOfArresteeUnder18Code VARCHAR(1) NOT NULL, DispositionOfArresteeUnder18Description VARCHAR(30) NOT NULL);
 
 ALTER TABLE DispositionOfArresteeUnder18Type ADD CONSTRAINT dispositionofarresteeunder18type_pk PRIMARY KEY (DispositionOfArresteeUnder18TypeID);
 
-CREATE TABLE ArresteeWasArmedWithType (ArresteeWasArmedWithTypeID INT NOT NULL, ArresteeWasArmedWithCode VARCHAR(3) NOT NULL, ArresteeWasArmedWithDescription VARCHAR(75) NOT NULL);
+CREATE TABLE ArresteeWasArmedWithType (ArresteeWasArmedWithTypeID INT NOT NULL auto_increment, ArresteeWasArmedWithCode VARCHAR(3) NOT NULL, ArresteeWasArmedWithDescription VARCHAR(75) NOT NULL);
 
 ALTER TABLE ArresteeWasArmedWithType ADD CONSTRAINT arresteewasarmedwithtype_pk PRIMARY KEY (ArresteeWasArmedWithTypeID);
 
-CREATE TABLE MultipleArresteeSegmentsIndicatorType (MultipleArresteeSegmentsIndicatorTypeID INT NOT NULL, MultipleArresteeSegmentsIndicatorCode VARCHAR(1) NOT NULL, MultipleArresteeSegmentsIndicatorDescription VARCHAR(15) NOT NULL);
+CREATE TABLE MultipleArresteeSegmentsIndicatorType (MultipleArresteeSegmentsIndicatorTypeID INT NOT NULL auto_increment, MultipleArresteeSegmentsIndicatorCode VARCHAR(1) NOT NULL, MultipleArresteeSegmentsIndicatorDescription VARCHAR(15) NOT NULL);
 
 ALTER TABLE MultipleArresteeSegmentsIndicatorType ADD CONSTRAINT multiplearresteesegmentsindicatortype_pk PRIMARY KEY (MultipleArresteeSegmentsIndicatorTypeID);
 
-CREATE TABLE TypeOfArrestType (TypeOfArrestTypeID INT NOT NULL, TypeOfArrestCode VARCHAR(1) NOT NULL, TypeOfArrestDescription VARCHAR(20) NOT NULL);
+CREATE TABLE TypeOfArrestType (TypeOfArrestTypeID INT NOT NULL auto_increment, TypeOfArrestCode VARCHAR(1) NOT NULL, TypeOfArrestDescription VARCHAR(20) NOT NULL);
 
 ALTER TABLE TypeOfArrestType ADD CONSTRAINT typeofarresttype_pk PRIMARY KEY (TypeOfArrestTypeID);
 
-CREATE TABLE AdditionalJustifiableHomicideCircumstancesType (AdditionalJustifiableHomicideCircumstancesTypeID INT NOT NULL, AdditionalJustifiableHomicideCircumstancesCode VARCHAR(1) NOT NULL, AdditionalJustifiableHomicideCircumstancesDescription VARCHAR(80) NOT NULL);
+CREATE TABLE AdditionalJustifiableHomicideCircumstancesType (AdditionalJustifiableHomicideCircumstancesTypeID INT NOT NULL auto_increment, AdditionalJustifiableHomicideCircumstancesCode VARCHAR(1) NOT NULL, AdditionalJustifiableHomicideCircumstancesDescription VARCHAR(80) NOT NULL);
 
 ALTER TABLE AdditionalJustifiableHomicideCircumstancesType ADD CONSTRAINT additionaljustifiablehomicidecircumstancestype_pk PRIMARY KEY (AdditionalJustifiableHomicideCircumstancesTypeID);
 
-CREATE TABLE TypeInjuryType (TypeInjuryTypeID INT NOT NULL, TypeInjuryCode VARCHAR(1) NOT NULL, TypeInjuryDescription VARCHAR(25) NOT NULL);
+CREATE TABLE TypeInjuryType (TypeInjuryTypeID INT NOT NULL auto_increment, TypeInjuryCode VARCHAR(1) NOT NULL, TypeInjuryDescription VARCHAR(25) NOT NULL);
 
 ALTER TABLE TypeInjuryType ADD CONSTRAINT typeinjurytype_pk PRIMARY KEY (TypeInjuryTypeID);
 
-CREATE TABLE ResidentStatusOfPersonType (ResidentStatusOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonCode VARCHAR(1) NOT NULL, ResidentStatusOfPersonDescription VARCHAR(15) NOT NULL);
+CREATE TABLE ResidentStatusOfPersonType (ResidentStatusOfPersonTypeID INT NOT NULL auto_increment, ResidentStatusOfPersonCode VARCHAR(1) NOT NULL, ResidentStatusOfPersonDescription VARCHAR(15) NOT NULL);
 
 ALTER TABLE ResidentStatusOfPersonType ADD CONSTRAINT residentstatusofpersontype_pk PRIMARY KEY (ResidentStatusOfPersonTypeID);
 
-CREATE TABLE EthnicityOfPersonType (EthnicityOfPersonTypeID INT NOT NULL, EthnicityOfPersonCode VARCHAR(1) NOT NULL, EthnicityOfPersonDescription VARCHAR(25) NOT NULL);
+CREATE TABLE EthnicityOfPersonType (EthnicityOfPersonTypeID INT NOT NULL auto_increment, EthnicityOfPersonCode VARCHAR(1) NOT NULL, EthnicityOfPersonDescription VARCHAR(25) NOT NULL);
 
 ALTER TABLE EthnicityOfPersonType ADD CONSTRAINT ethnicityofpersontype_pk PRIMARY KEY (EthnicityOfPersonTypeID);
 
-CREATE TABLE TypeOfVictimType (TypeOfVictimTypeID INT NOT NULL, TypeOfVictimCode VARCHAR(1) NOT NULL, TypeOfVictimDescription VARCHAR(75) NOT NULL);
+CREATE TABLE TypeOfVictimType (TypeOfVictimTypeID INT NOT NULL auto_increment, TypeOfVictimCode VARCHAR(1) NOT NULL, TypeOfVictimDescription VARCHAR(75) NOT NULL);
 
 ALTER TABLE TypeOfVictimType ADD CONSTRAINT typeofvictimtype_pk PRIMARY KEY (TypeOfVictimTypeID);
 
-CREATE TABLE TypeDrugMeasurementType (TypeDrugMeasurementTypeID INT NOT NULL, TypeDrugMeasurementCode VARCHAR(2) NOT NULL, TypeDrugMeasurementDescription VARCHAR(20) NOT NULL);
+CREATE TABLE TypeDrugMeasurementType (TypeDrugMeasurementTypeID INT NOT NULL auto_increment, TypeDrugMeasurementCode VARCHAR(2) NOT NULL, TypeDrugMeasurementDescription VARCHAR(20) NOT NULL);
 
 ALTER TABLE TypeDrugMeasurementType ADD CONSTRAINT typedrugmeasurementtype_pk PRIMARY KEY (TypeDrugMeasurementTypeID);
 
-CREATE TABLE PropertyDescriptionType (PropertyDescriptionTypeID INT NOT NULL, PropertyDescriptionCode VARCHAR(2) NOT NULL, PropertyDescriptionDescription VARCHAR(70) NOT NULL);
+CREATE TABLE PropertyDescriptionType (PropertyDescriptionTypeID INT NOT NULL auto_increment, PropertyDescriptionCode VARCHAR(2) NOT NULL, PropertyDescriptionDescription VARCHAR(70) NOT NULL);
 
 ALTER TABLE PropertyDescriptionType ADD CONSTRAINT propertydescriptiontype_pk PRIMARY KEY (PropertyDescriptionTypeID);
 
-CREATE TABLE RaceOfPersonType (RaceOfPersonTypeID INT NOT NULL, RaceOfPersonCode VARCHAR(1) NOT NULL, RaceOfPersonDescription VARCHAR(50) NOT NULL);
+CREATE TABLE RaceOfPersonType (RaceOfPersonTypeID INT NOT NULL auto_increment, RaceOfPersonCode VARCHAR(1) NOT NULL, RaceOfPersonDescription VARCHAR(50) NOT NULL);
 
 ALTER TABLE RaceOfPersonType ADD CONSTRAINT raceofpersontype_pk PRIMARY KEY (RaceOfPersonTypeID);
 
-CREATE TABLE SexOfPersonType (SexOfPersonTypeID INT NOT NULL, SexOfPersonCode VARCHAR(1) NOT NULL, SexOfPersonDescription VARCHAR(35) NOT NULL);
+CREATE TABLE SexOfPersonType (SexOfPersonTypeID INT NOT NULL auto_increment, SexOfPersonCode VARCHAR(1) NOT NULL, SexOfPersonDescription VARCHAR(35) NOT NULL);
 
 ALTER TABLE SexOfPersonType ADD CONSTRAINT sexofpersontype_pk PRIMARY KEY (SexOfPersonTypeID);
 
-CREATE TABLE TypeOfCriminalActivityType (TypeOfCriminalActivityTypeID INT NOT NULL, TypeOfCriminalActivityCode VARCHAR(1) NOT NULL, TypeOfCriminalActivityDescription VARCHAR(80) NOT NULL);
+CREATE TABLE TypeOfCriminalActivityType (TypeOfCriminalActivityTypeID INT NOT NULL auto_increment, TypeOfCriminalActivityCode VARCHAR(1) NOT NULL, TypeOfCriminalActivityDescription VARCHAR(80) NOT NULL);
 
 ALTER TABLE TypeOfCriminalActivityType ADD CONSTRAINT typeofcriminalactivitytype_pk PRIMARY KEY (TypeOfCriminalActivityTypeID);
 
-CREATE TABLE OffenderSuspectedOfUsingType (OffenderSuspectedOfUsingTypeID INT NOT NULL, OffenderSuspectedOfUsingCode VARCHAR(1) NOT NULL, OffenderSuspectedOfUsingDescription VARCHAR(20) NOT NULL);
+CREATE TABLE OffenderSuspectedOfUsingType (OffenderSuspectedOfUsingTypeID INT NOT NULL auto_increment, OffenderSuspectedOfUsingCode VARCHAR(1) NOT NULL, OffenderSuspectedOfUsingDescription VARCHAR(20) NOT NULL);
 
 ALTER TABLE OffenderSuspectedOfUsingType ADD CONSTRAINT offendersuspectedofusingtype_pk PRIMARY KEY (OffenderSuspectedOfUsingTypeID);
 
-CREATE TABLE SegmentActionTypeType (SegmentActionTypeTypeID INT NOT NULL, SegmentActionTypeCode VARCHAR(1) NOT NULL, SegmentActionTypeDescription VARCHAR(25) NOT NULL);
+CREATE TABLE SegmentActionTypeType (SegmentActionTypeTypeID INT NOT NULL auto_increment, SegmentActionTypeCode VARCHAR(1) NOT NULL, SegmentActionTypeDescription VARCHAR(25) NOT NULL);
 
 ALTER TABLE SegmentActionTypeType ADD CONSTRAINT segmentactiontypetype_pk PRIMARY KEY (SegmentActionTypeTypeID);
 
-CREATE TABLE VictimOffenderRelationshipType (VictimOffenderRelationshipTypeID INT NOT NULL, VictimOffenderRelationshipCode VARCHAR(2) NOT NULL, VictimOffenderRelationshipDescription VARCHAR(50) NOT NULL);
+CREATE TABLE VictimOffenderRelationshipType (VictimOffenderRelationshipTypeID INT NOT NULL auto_increment, VictimOffenderRelationshipCode VARCHAR(2) NOT NULL, VictimOffenderRelationshipDescription VARCHAR(50) NOT NULL);
 
 ALTER TABLE VictimOffenderRelationshipType ADD CONSTRAINT victimoffenderrelationshiptype_pk PRIMARY KEY (VictimOffenderRelationshipTypeID);
 
-CREATE TABLE AggravatedAssaultHomicideCircumstancesType (AggravatedAssaultHomicideCircumstancesTypeID INT NOT NULL, AggravatedAssaultHomicideCircumstancesCode VARCHAR(3) NOT NULL, AggravatedAssaultHomicideCircumstancesDescription VARCHAR(55) NOT NULL);
+CREATE TABLE AggravatedAssaultHomicideCircumstancesType (AggravatedAssaultHomicideCircumstancesTypeID INT NOT NULL auto_increment, AggravatedAssaultHomicideCircumstancesCode VARCHAR(3) NOT NULL, AggravatedAssaultHomicideCircumstancesDescription VARCHAR(55) NOT NULL);
 
 ALTER TABLE AggravatedAssaultHomicideCircumstancesType ADD CONSTRAINT aggravatedassaulthomicidecircumstancestype_pk PRIMARY KEY (AggravatedAssaultHomicideCircumstancesTypeID);
 
-CREATE TABLE TypePropertyLossEtcType (TypePropertyLossEtcTypeID INT NOT NULL, TypePropertyLossEtcCode VARCHAR(1) NOT NULL, TypePropertyLossEtcDescription VARCHAR(85) NOT NULL);
+CREATE TABLE TypePropertyLossEtcType (TypePropertyLossEtcTypeID INT NOT NULL auto_increment, TypePropertyLossEtcCode VARCHAR(1) NOT NULL, TypePropertyLossEtcDescription VARCHAR(85) NOT NULL);
 
 ALTER TABLE TypePropertyLossEtcType ADD CONSTRAINT typepropertylossetctype_pk PRIMARY KEY (TypePropertyLossEtcTypeID);
 
-CREATE TABLE UCROffenseCodeType (UCROffenseCodeTypeID INT NOT NULL, UCROffenseCode VARCHAR(3) NOT NULL, UCROffenseCodeDescription VARCHAR(70) NOT NULL, OffenseCategory1 VARCHAR(70) NOT NULL, OffenseCategory2 VARCHAR(70) NOT NULL, OffenseCategory3 VARCHAR(70) NOT NULL, OffenseCategory4 VARCHAR(70) NOT NULL);
+CREATE TABLE UCROffenseCodeType (UCROffenseCodeTypeID INT NOT NULL auto_increment, UCROffenseCode VARCHAR(3) NOT NULL, UCROffenseCodeDescription VARCHAR(70) NOT NULL, OffenseCategory1 VARCHAR(70) NOT NULL, OffenseCategory2 VARCHAR(70) NOT NULL, OffenseCategory3 VARCHAR(70) NOT NULL, OffenseCategory4 VARCHAR(70) NOT NULL);
 
 ALTER TABLE UCROffenseCodeType ADD CONSTRAINT ucroffensecode_pk PRIMARY KEY (UCROffenseCodeTypeID);
 
-CREATE TABLE ArrestReportSegment (ArrestReportSegmentID INT NOT NULL, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), AgencyID INT NOT NULL, ORI VARCHAR(9), ArrestTransactionNumber VARCHAR(12), ArresteeSequenceNumber INT NOT NULL, ArrestDate date, ArrestDateID INT NOT NULL, TypeOfArrestTypeID INT NOT NULL, AgeOfArresteeMin INT, AgeOfArresteeMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT, DispositionOfArresteeUnder18TypeID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL);
+CREATE TABLE ArrestReportSegment (ArrestReportSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), AgencyID INT NOT NULL, ORI VARCHAR(9), ArrestTransactionNumber VARCHAR(12), ArresteeSequenceNumber INT NOT NULL, ArrestDate date, ArrestDateID INT NOT NULL, TypeOfArrestTypeID INT NOT NULL, AgeOfArresteeMin INT, AgeOfArresteeMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT, DispositionOfArresteeUnder18TypeID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL);
 
 ALTER TABLE ArrestReportSegment ADD CONSTRAINT arrestereport_pk PRIMARY KEY (ArrestReportSegmentID);
 
-CREATE TABLE ArrestReportSegmentWasArmedWith (ArrestReportSegmentWasArmedWithID INT NOT NULL, ArrestReportSegmentID INT NOT NULL, ArresteeWasArmedWithTypeID INT NOT NULL, AutomaticWeaponIndicator VARCHAR(1));
+CREATE TABLE ArrestReportSegmentWasArmedWith (ArrestReportSegmentWasArmedWithID INT NOT NULL auto_increment, ArrestReportSegmentID INT NOT NULL, ArresteeWasArmedWithTypeID INT NOT NULL, AutomaticWeaponIndicator VARCHAR(1));
 
 ALTER TABLE ArrestReportSegmentWasArmedWith ADD CONSTRAINT arrestreportsegmentwasarmedwithid PRIMARY KEY (ArrestReportSegmentWasArmedWithID);
 
-CREATE TABLE AdministrativeSegment (AdministrativeSegmentID INT NOT NULL, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), ORI VARCHAR(9), AgencyID INT NOT NULL, IncidentNumber VARCHAR(12), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour INT NOT NULL, ClearedExceptionallyTypeID INT NOT NULL);
+CREATE TABLE AdministrativeSegment (AdministrativeSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), ORI VARCHAR(9), AgencyID INT NOT NULL, IncidentNumber VARCHAR(12), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour INT NOT NULL, ClearedExceptionallyTypeID INT NOT NULL);
 
 ALTER TABLE AdministrativeSegment ADD CONSTRAINT administrativesegment_pk PRIMARY KEY (AdministrativeSegmentID);
 
-CREATE TABLE ArresteeSegment (ArresteeSegmentID INT NOT NULL, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, ArresteeSequenceNumber INT NOT NULL, ArrestTransactionNumber VARCHAR(12), ArrestDate date, ArrestDateID INT NOT NULL, TypeOfArrestTypeID INT NOT NULL, MultipleArresteeSegmentsIndicatorTypeID INT NOT NULL, AgeOfArresteeMin INT, AgeOfArresteeMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT NOT NULL, DispositionOfArresteeUnder18TypeID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL);
+CREATE TABLE ArresteeSegment (ArresteeSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, ArresteeSequenceNumber INT NOT NULL, ArrestTransactionNumber VARCHAR(12), ArrestDate date, ArrestDateID INT NOT NULL, TypeOfArrestTypeID INT NOT NULL, MultipleArresteeSegmentsIndicatorTypeID INT NOT NULL, AgeOfArresteeMin INT, AgeOfArresteeMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT NOT NULL, DispositionOfArresteeUnder18TypeID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL);
 
 ALTER TABLE ArresteeSegment ADD CONSTRAINT arrestee_pk PRIMARY KEY (ArresteeSegmentID);
 
-CREATE TABLE ArresteeSegmentWasArmedWith (ArresteeSegmentWasArmedWithID INT NOT NULL, ArresteeSegmentID INT NOT NULL, ArresteeWasArmedWithTypeID INT NOT NULL, AutomaticWeaponIndicator VARCHAR(1));
+CREATE TABLE ArresteeSegmentWasArmedWith (ArresteeSegmentWasArmedWithID INT NOT NULL auto_increment, ArresteeSegmentID INT NOT NULL, ArresteeWasArmedWithTypeID INT NOT NULL, AutomaticWeaponIndicator VARCHAR(1));
 
 ALTER TABLE ArresteeSegmentWasArmedWith ADD CONSTRAINT arresteesegmentwasarmedwithid PRIMARY KEY (ArresteeSegmentWasArmedWithID);
 
-CREATE TABLE OffenderSegment (OffenderSegmentID INT NOT NULL, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, OffenderSequenceNumber INT, AgeOfOffenderMin INT, AgeOfOffenderMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL);
+CREATE TABLE OffenderSegment (OffenderSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, OffenderSequenceNumber INT, AgeOfOffenderMin INT, AgeOfOffenderMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL);
 
 ALTER TABLE OffenderSegment ADD CONSTRAINT offendersegment_pk PRIMARY KEY (OffenderSegmentID);
 
-CREATE TABLE VictimSegment (VictimSegmentID INT NOT NULL, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, VictimSequenceNumber INT, TypeOfVictimTypeID INT NOT NULL, OfficerActivityCircumstanceTypeID INT NOT NULL, OfficerAssignmentTypeTypeID INT NOT NULL, AgeOfVictimMin INT, AgeOfVictimMax INT, AgeNeonateIndicator INT NOT NULL, AgeFirstWeekIndicator INT NOT NULL, AgeFirstYearIndicator INT NOT NULL, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT NOT NULL, AdditionalJustifiableHomicideCircumstancesTypeID INT NOT NULL);
+CREATE TABLE VictimSegment (VictimSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, VictimSequenceNumber INT, TypeOfVictimTypeID INT NOT NULL, OfficerActivityCircumstanceTypeID INT NOT NULL, OfficerAssignmentTypeTypeID INT NOT NULL, AgeOfVictimMin INT, AgeOfVictimMax INT, AgeNeonateIndicator INT NOT NULL, AgeFirstWeekIndicator INT NOT NULL, AgeFirstYearIndicator INT NOT NULL, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT NOT NULL, AdditionalJustifiableHomicideCircumstancesTypeID INT NOT NULL);
 
 ALTER TABLE VictimSegment ADD CONSTRAINT victimsegment_pk PRIMARY KEY (VictimSegmentID);
 
-CREATE TABLE TypeInjury (TypeInjuryID INT NOT NULL, VictimSegmentID INT NOT NULL, TypeInjuryTypeID INT NOT NULL);
+CREATE TABLE TypeInjury (TypeInjuryID INT NOT NULL auto_increment, VictimSegmentID INT NOT NULL, TypeInjuryTypeID INT NOT NULL);
 
 ALTER TABLE TypeInjury ADD CONSTRAINT typeinjury_pk PRIMARY KEY (TypeInjuryID);
 
-CREATE TABLE AggravatedAssaultHomicideCircumstances (AggravatedAssaultHomicideCircumstancesID INT NOT NULL, VictimSegmentID INT NOT NULL, AggravatedAssaultHomicideCircumstancesTypeID INT NOT NULL);
+CREATE TABLE AggravatedAssaultHomicideCircumstances (AggravatedAssaultHomicideCircumstancesID INT NOT NULL auto_increment, VictimSegmentID INT NOT NULL, AggravatedAssaultHomicideCircumstancesTypeID INT NOT NULL);
 
 ALTER TABLE AggravatedAssaultHomicideCircumstances ADD CONSTRAINT aggravatedassaulthomicidecircumstances_pk PRIMARY KEY (AggravatedAssaultHomicideCircumstancesID);
 
-CREATE TABLE VictimOffenderAssociation (VictimOffenderAssociationID INT NOT NULL, VictimSegmentID INT NOT NULL, OffenderSegmentID INT NOT NULL, VictimOffenderRelationshipTypeID INT NOT NULL);
+CREATE TABLE VictimOffenderAssociation (VictimOffenderAssociationID INT NOT NULL auto_increment, VictimSegmentID INT NOT NULL, OffenderSegmentID INT NOT NULL, VictimOffenderRelationshipTypeID INT NOT NULL);
 
 ALTER TABLE VictimOffenderAssociation ADD CONSTRAINT victimoffenderassociation_pk PRIMARY KEY (VictimOffenderAssociationID);
 
-CREATE TABLE PropertySegment (PropertySegmentID INT NOT NULL, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, TypePropertyLossEtcTypeID INT NOT NULL, NumberOfStolenMotorVehicles INT, NumberOfRecoveredMotorVehicles INT);
+CREATE TABLE PropertySegment (PropertySegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, TypePropertyLossEtcTypeID INT NOT NULL, NumberOfStolenMotorVehicles INT, NumberOfRecoveredMotorVehicles INT);
 
 ALTER TABLE PropertySegment ADD CONSTRAINT propertysegmentpk PRIMARY KEY (PropertySegmentID);
 
-CREATE TABLE PropertyType (PropertyTypeID INT NOT NULL, PropertySegmentID INT NOT NULL, PropertyDescriptionTypeID INT NOT NULL, ValueOfProperty NUMBER(0, 0) NOT NULL, RecoveredDate date, RecoveredDateID INT NOT NULL);
+CREATE TABLE PropertyType (PropertyTypeID INT NOT NULL auto_increment, PropertySegmentID INT NOT NULL, PropertyDescriptionTypeID INT NOT NULL, ValueOfProperty NUMBER(0, 0) NOT NULL, RecoveredDate date, RecoveredDateID INT NOT NULL);
 
 ALTER TABLE PropertyType ADD CONSTRAINT propertytypeid PRIMARY KEY (PropertyTypeID);
 
-CREATE TABLE SuspectedDrugType (SuspectedDrugTypeID INT NOT NULL, PropertySegmentID INT NOT NULL, SuspectedDrugTypeTypeID INT NOT NULL, TypeDrugMeasurementTypeID INT NOT NULL, EstimatedDrugQuantity DECIMAL(10, 3) NOT NULL);
+CREATE TABLE SuspectedDrugType (SuspectedDrugTypeID INT NOT NULL auto_increment, PropertySegmentID INT NOT NULL, SuspectedDrugTypeTypeID INT NOT NULL, TypeDrugMeasurementTypeID INT NOT NULL, EstimatedDrugQuantity DECIMAL(10, 3) NOT NULL);
 
 ALTER TABLE SuspectedDrugType ADD CONSTRAINT suspecteddrugtype_pk PRIMARY KEY (SuspectedDrugTypeID);
 
-CREATE TABLE OffenseSegment (OffenseSegmentID INT NOT NULL, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL, OffenseAttemptedCompleted VARCHAR(1), LocationTypeTypeID INT NOT NULL, NumberOfPremisesEntered INT, MethodOfEntryTypeID INT NOT NULL, BiasMotivationTypeID INT NOT NULL);
+CREATE TABLE OffenseSegment (OffenseSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL, OffenseAttemptedCompleted VARCHAR(1), LocationTypeTypeID INT NOT NULL, NumberOfPremisesEntered INT, MethodOfEntryTypeID INT NOT NULL, BiasMotivationTypeID INT NOT NULL);
 
 ALTER TABLE OffenseSegment ADD CONSTRAINT offense_pk PRIMARY KEY (OffenseSegmentID);
 
-CREATE TABLE VictimOffenseAssociation (VictimOffenseAssociationID INT NOT NULL, VictimSegmentID INT NOT NULL, OffenseSegmentID INT NOT NULL);
+CREATE TABLE VictimOffenseAssociation (VictimOffenseAssociationID INT NOT NULL auto_increment, VictimSegmentID INT NOT NULL, OffenseSegmentID INT NOT NULL);
 
 ALTER TABLE VictimOffenseAssociation ADD CONSTRAINT victimoffenseassociation_pk PRIMARY KEY (VictimOffenseAssociationID);
 
-CREATE TABLE TypeOfWeaponForceInvolved (TypeOfWeaponForceInvolvedID INT NOT NULL, AutomaticWeaponIndicator VARCHAR(1) NOT NULL, OffenseSegmentID INT NOT NULL, TypeOfWeaponForceInvolvedTypeID INT NOT NULL);
+CREATE TABLE TypeOfWeaponForceInvolved (TypeOfWeaponForceInvolvedID INT NOT NULL auto_increment, AutomaticWeaponIndicator VARCHAR(1) NOT NULL, OffenseSegmentID INT NOT NULL, TypeOfWeaponForceInvolvedTypeID INT NOT NULL);
 
 ALTER TABLE TypeOfWeaponForceInvolved ADD CONSTRAINT typeofweaponforceinvolved_pk PRIMARY KEY (TypeOfWeaponForceInvolvedID);
 
-CREATE TABLE TypeCriminalActivity (TypeCriminalActivityID INT NOT NULL, OffenseSegmentID INT NOT NULL, TypeOfCriminalActivityTypeID INT NOT NULL);
+CREATE TABLE TypeCriminalActivity (TypeCriminalActivityID INT NOT NULL auto_increment, OffenseSegmentID INT NOT NULL, TypeOfCriminalActivityTypeID INT NOT NULL);
 
 ALTER TABLE TypeCriminalActivity ADD CONSTRAINT typecriminalactivity_pk PRIMARY KEY (TypeCriminalActivityID);
 
-CREATE TABLE OffenderSuspectedOfUsing (OffenderSuspectedOfUsingID INT NOT NULL, OffenseSegmentID INT NOT NULL, OffenderSuspectedOfUsingTypeID INT NOT NULL);
+CREATE TABLE OffenderSuspectedOfUsing (OffenderSuspectedOfUsingID INT NOT NULL auto_increment, OffenseSegmentID INT NOT NULL, OffenderSuspectedOfUsingTypeID INT NOT NULL);
 
 ALTER TABLE OffenderSuspectedOfUsing ADD CONSTRAINT offendersuspectedofusing_pk PRIMARY KEY (OffenderSuspectedOfUsingID);
 
-CREATE TABLE ZeroReportingSegment (ZeroReportingSegmentID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, RecordDescriptionWord VARCHAR(4), SegmentLevel VARCHAR(1), MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour VARCHAR(4), CleardExceptionally VARCHAR(1), ExceptionalClearanceDate date);
+CREATE TABLE ZeroReportingSegment (ZeroReportingSegmentID INT NOT NULL auto_increment, AdministrativeSegmentID INT NOT NULL, RecordDescriptionWord VARCHAR(4), SegmentLevel VARCHAR(1), MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour VARCHAR(4), CleardExceptionally VARCHAR(1), ExceptionalClearanceDate date);
 
 ALTER TABLE ZeroReportingSegment ADD CONSTRAINT zeroreportingsegment_pk PRIMARY KEY (ZeroReportingSegmentID);
 
-CREATE TABLE LEOKASegment (LEOKASegmentID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, RecordDescriptionWord VARCHAR(4), SegmentLevel VARCHAR(1), MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), Filler VARCHAR(12), LEOKAData VARCHAR(600));
+CREATE TABLE LEOKASegment (LEOKASegmentID INT NOT NULL auto_increment, AdministrativeSegmentID INT NOT NULL, RecordDescriptionWord VARCHAR(4), SegmentLevel VARCHAR(1), MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), Filler VARCHAR(12), LEOKAData VARCHAR(600));
 
 ALTER TABLE LEOKASegment ADD CONSTRAINT idleokasegment PRIMARY KEY (LEOKASegmentID);
 
