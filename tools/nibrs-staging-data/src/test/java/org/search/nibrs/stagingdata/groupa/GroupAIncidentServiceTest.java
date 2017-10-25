@@ -1,25 +1,50 @@
+/*
+ * Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.search.nibrs.stagingdata.groupa;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.stagingdata.repository.Agency;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
+import org.search.nibrs.stagingdata.repository.BiasMotivationType;
+import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepository;
 import org.search.nibrs.stagingdata.repository.DateType;
 import org.search.nibrs.stagingdata.repository.DateTypeRepository;
+import org.search.nibrs.stagingdata.repository.LocationType;
+import org.search.nibrs.stagingdata.repository.LocationTypeRepository;
+import org.search.nibrs.stagingdata.repository.MethodOfEntryType;
+import org.search.nibrs.stagingdata.repository.MethodOfEntryTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.repository.UcrOffenseCodeType;
+import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,6 +60,14 @@ public class GroupAIncidentServiceTest {
 	public SegmentActionTypeRepository segmentActionTypeRepository; 
 	@Autowired
 	public ClearedExceptionallyTypeRepository clearedExceptionallyTypeRepository; 
+	@Autowired
+	public UcrOffenseCodeTypeRepository ucrOffenseCodeTypeRepository; 
+	@Autowired
+	public LocationTypeRepository locationTypeRepository; 
+	@Autowired
+	public MethodOfEntryTypeRepository methodOfEntryTypeRepository; 
+	@Autowired
+	public BiasMotivationTypeRepository biasMotivationTypeRepository; 
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
 
@@ -82,6 +115,30 @@ public class GroupAIncidentServiceTest {
 			= clearedExceptionallyTypeRepository.findByClearedExceptionallyCode("B").get(0);
 		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
 		
+		
+//		Offense segment 1 
+		Set<OffenseSegment> offenseSegments = new HashSet<>();
+		OffenseSegment offenseSegment = new OffenseSegment();
+		offenseSegment.setSegmentActionType(segmentActionTypeType);
+		
+		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findByUcrOffenseCode("520").get(0);
+		offenseSegment.setUcrOffenseCodeType(ucrOffenseCode);
+		
+		offenseSegment.setOffenseAttemptedCompleted("C");  //Allowed values C or A 
+		
+		LocationType locationType = locationTypeRepository.findByLocationTypeCode("04").get(0);
+		offenseSegment.setLocationType(locationType);
+		
+		offenseSegment.setNumberOfPremisesEntered(2);
+		
+		MethodOfEntryType methodOfEntryType = methodOfEntryTypeRepository.findByMethodOfEntryCode("F").get(0);
+		offenseSegment.setMethodOfEntryType(methodOfEntryType);
+		BiasMotivationType biasMotivationType = biasMotivationTypeRepository.findByBiasMotivationCode("11").get(0);
+		offenseSegment.setBiasMotivationType(biasMotivationType);;
+		offenseSegment.setAdministrativeSegment(administrativeSegment);
+		
+		offenseSegments.add(offenseSegment);
+		administrativeSegment.setOffenseSegments(offenseSegments);
 		return administrativeSegment; 
 	}
 

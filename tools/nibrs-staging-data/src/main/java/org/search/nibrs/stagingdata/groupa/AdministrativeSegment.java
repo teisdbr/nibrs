@@ -16,14 +16,17 @@
 package org.search.nibrs.stagingdata.groupa;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.search.nibrs.stagingdata.repository.Agency;
@@ -43,7 +46,10 @@ public class AdministrativeSegment {
 	private String monthOfTape; 
 	private String yearOfTape; 
 	private String cityIndicator;
-	private String ori; 
+	private String ori;
+	
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<OffenseSegment> offenseSegments;
 	
 	@ManyToOne
 	@JoinColumn(name="agencyId")
@@ -51,7 +57,7 @@ public class AdministrativeSegment {
 	private String incidentNumber; 
 	private Date incidentDate;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="incidentDateId")
 	private DateType incidentDateType; 
 
@@ -60,6 +66,15 @@ public class AdministrativeSegment {
 	@ManyToOne
 	@JoinColumn(name="clearedExceptionallyTypeId") 
 	private ClearedExceptionallyType clearedExceptionallyType; 
+	
+    public Set<OffenseSegment> getOffenseSegments() {
+        return offenseSegments;
+    }
+
+    public void setOffenseSegments(Set<OffenseSegment> offenseSegments) {
+    	this.offenseSegments = offenseSegments;
+    }
+    
 	
 	public String getMonthOfTape() {
 		return monthOfTape;

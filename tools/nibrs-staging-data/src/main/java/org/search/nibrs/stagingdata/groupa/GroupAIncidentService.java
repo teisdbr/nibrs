@@ -15,6 +15,8 @@
  */
 package org.search.nibrs.stagingdata.groupa;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ import org.springframework.stereotype.Service;
 public class GroupAIncidentService {
 	@Autowired
 	AdministrativeSegmentRepository administrativeSegmentRepository;
+	@Autowired
+	OffenseSegmentRepository offenseSegmentRepository;
 	
 	public AdministrativeSegment saveAdministrativeSegment(AdministrativeSegment administrativeSegment){
 		return administrativeSegmentRepository.save(administrativeSegment);
@@ -34,4 +38,13 @@ public class GroupAIncidentService {
 	public AdministrativeSegment findAdministrativeSegment(Integer id){
 		return administrativeSegmentRepository.findOne(id);
 	}
+	
+	public OffenseSegment saveOffenseSegment(OffenseSegment offenseSegment){
+		return offenseSegmentRepository.save(offenseSegment);
+	}
+	
+	public Iterable<OffenseSegment> saveOffenseSegment(List<OffenseSegment> offenseSegments){
+		return offenseSegmentRepository.save(offenseSegments);
+	}
+	
 }
