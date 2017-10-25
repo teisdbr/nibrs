@@ -1,432 +1,1047 @@
-<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<Schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="ojbc_booking_analytics" metamodelVersion="4.0" xsi:noNamespaceSchemaLocation="mondrian4.xsd">
 
-    Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+  <PhysicalSchema>
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+    <Table name="AdditionalJustifiableHomicideCircumstancesType"/>
+    <Table name="AggravatedAssaultHomicideCircumstancesType"/>
+    <Table name="ArresteeWasArmedWithType"/>
+    <Table name="BiasMotivationType"/>
+    <Table name="ClearedExceptionallyType"/>
+    <Table name="DispositionOfArresteeUnder18Type"/>
+    <Table name="EthnicityOfPersonType"/>
+    <Table name="MethodOfEntryType"/>
+    <Table name="OffenderSuspectedOfUsingType"/>
+    <Table name="OfficerActivityCircumstanceType"/>
+    <Table name="OfficerAssignmentTypeType"/>
+    <Table name="PropertyDescriptionType"/>
+    <Table name="RaceOfPersonType"/>
+    <Table name="ResidentStatusOfPersonType"/>
+    <Table name="SexOfPersonType"/>
+    <Table name="SuspectedDrugTypeType"/>
+    <Table name="TypeDrugMeasurementType"/>
+    <Table name="TypeInjuryType"/>
+    <Table name="TypeOfArrestType"/>
+    <Table name="TypeOfCriminalActivityType"/>
+    <Table name="TypeOfVictimType"/>
+    <Table name="TypeOfWeaponForceInvolvedType"/>
+    <Table name="TypePropertyLossEtcType"/>
+    <Table name="UCROffenseCodeType"/>
+    <Table name="DateType"/>
 
-       http://www.apache.org/licenses/LICENSE-2.0
+    <Table name="Agency" keyColumn="AgencyID"/>
+    <Table name="AgencyType" keyColumn="AgencyTypeID"/>
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    <Link source="AgencyType" target="Agency">
+		<ForeignKey>
+			<Column name="AgencyTypeID"/>
+		</ForeignKey>
+	</Link>
 
--->
-<Schema name="NIBRS Analytics">
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="TypePropertyLossEtc">
-		<Hierarchy name="TypePropertyLossEtc" visible="true" hasAll="true" allMemberName="All Loss Types" allMemberCaption="All Loss Types" primaryKey="TypePropertyLossEtcTypeID">
-			<Table name="TypePropertyLossEtcType"/>
-			<Level name="TypePropertyLossEtc" visible="true" column="TypePropertyLossEtcDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="PropertyDescription">
-		<Hierarchy name="PropertyDescription" visible="true" hasAll="true" allMemberName="All Property Descriptions" allMemberCaption="All Property Descriptions" primaryKey="PropertyDescriptionTypeID">
-			<Table name="PropertyDescriptionType"/>
-			<Level name="PropertyDescription" visible="true" column="PropertyDescriptionDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="SuspectedDrugType">
-		<Hierarchy name="SuspectedDrugType" visible="true" hasAll="true" allMemberName="All Suspected Drug Types" allMemberCaption="All Suspected Drug Types" primaryKey="SuspectedDrugTypeTypeID">
-			<Table name="SuspectedDrugTypeType"/>
-			<Level name="SuspectedDrugType" visible="true" column="SuspectedDrugTypeDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="VictimOffenderRelationship">
-		<Hierarchy name="VictimOffenderRelationship" visible="true" hasAll="true" allMemberName="All Victim Offender Relationships" allMemberCaption="All Victim Offender Relationships" primaryKey="VictimOffenderRelationshipTypeID">
-			<Table name="VictimOffenderRelationshipType"/>
-			<Level name="VictimOffenderRelationship" visible="true" column="VictimOffenderRelationshipDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="TypeOfVictim">
-		<Hierarchy name="TypeOfVictim" visible="true" hasAll="true" allMemberName="All Victim Types" allMemberCaption="All Victim Types" primaryKey="TypeOfVictimTypeID">
-			<Table name="TypeOfVictimType"/>
-			<Level name="TypeOfVictim" visible="true" column="TypeOfVictimDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="OfficerActivityCircumstance">
-		<Hierarchy name="OfficerActivityCircumstance" visible="true" hasAll="true" allMemberName="All Officer Activity Circumstances" allMemberCaption="All Officer Activity Circumstances" primaryKey="OfficerActivityCircumstanceTypeID">
-			<Table name="OfficerActivityCircumstanceType"/>
-			<Level name="OfficerActivityCircumstance" visible="true" column="OfficerActivityCircumstanceDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="OfficerAssignmentType">
-		<Hierarchy name="OfficerAssignmentType" visible="true" hasAll="true" allMemberName="All Officer Assignment Types" allMemberCaption="All Officer Assignment Types" primaryKey="OfficerAssignmentTypeTypeID">
-			<Table name="OfficerAssignmentTypeType"/>
-			<Level name="OfficerAssignmentType" visible="true" column="OfficerAssignmentTypeDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="ResidentStatusOfPerson">
-		<Hierarchy name="ResidentStatusOfPerson" visible="true" hasAll="true" allMemberName="All Residence Statuses" allMemberCaption="All Residence Statuses" primaryKey="ResidentStatusOfPersonTypeID">
-			<Table name="ResidentStatusOfPersonType"/>
-			<Level name="ResidentStatusOfPerson" visible="true" column="ResidentStatusOfPersonDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="AggravatedAssaultHomicideCircumstances">
-		<Hierarchy name="AggravatedAssaultHomicideCircumstances" visible="true" hasAll="true" allMemberName="All Circumstances" allMemberCaption="All Circumstances" primaryKey="AggravatedAssaultHomicideCircumstancesTypeID">
-			<Table name="AggravatedAssaultHomicideCircumstancesType"/>
-			<Level name="AggravatedAssaultHomicideCircumstances" visible="true" column="AggravatedAssaultHomicideCircumstancesDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="AdditionalJustifiableHomicideCircumstances">
-		<Hierarchy name="AdditionalJustifiableHomicideCircumstances" visible="true" hasAll="true" allMemberName="All Additional Justifiable Homicide Circumstances" allMemberCaption="All Additional Justifiable Homicide Circumstances" primaryKey="AdditionalJustifiableHomicideCircumstancesTypeID">
-			<Table name="AdditionalJustifiableHomicideCircumstancesType"/>
-			<Level name="AdditionalJustifiableHomicideCircumstances" visible="true" column="AdditionalJustifiableHomicideCircumstancesDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="TypeInjury">
-		<Hierarchy name="TypeInjury" visible="true" hasAll="true" allMemberName="All Injury Types" allMemberCaption="All Injury Types" primaryKey="TypeInjuryTypeID">
-			<Table name="TypeInjuryType"/>
-			<Level name="TypeInjury" visible="true" column="TypeInjuryDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="SexOfPerson">
-		<Hierarchy name="SexOfPerson" visible="true" hasAll="true" allMemberName="All Sexes" allMemberCaption="All Sexes" primaryKey="SexOfPersonTypeID">
-			<Table name="SexOfPersonType"/>
-			<Level name="SexOfPerson" visible="true" column="SexOfPersonDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="RaceOfPerson">
-		<Hierarchy name="RaceOfPerson" visible="true" hasAll="true" allMemberName="All Races" allMemberCaption="All Races" primaryKey="RaceOfPersonTypeID">
-			<Table name="RaceOfPersonType"/>
-			<Level name="RaceOfPerson" visible="true" column="RaceOfPersonDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="EthnicityOfPerson">
-		<Hierarchy name="EthnicityOfPerson" visible="true" hasAll="true" allMemberName="All Ethnicities" allMemberCaption="All Ethnicities" primaryKey="EthnicityOfPersonTypeID">
-			<Table name="EthnicityOfPersonType"/>
-			<Level name="EthnicityOfPerson" visible="true" column="EthnicityOfPersonDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="TypeOfCriminalActivity">
-		<Hierarchy name="TypeOfCriminalActivity" visible="true" hasAll="true" allMemberName="All Criminal Activity Types" allMemberCaption="All Criminal Activity Types" primaryKey="TypeOfCriminalActivityTypeID">
-			<Table name="TypeOfCriminalActivityType"/>
-			<Level name="TypeOfCriminalActivity" visible="true" column="TypeOfCriminalActivityDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="BiasMotivation">
-		<Hierarchy name="BiasMotivation" visible="true" hasAll="true" allMemberName="All Bias Motivations" allMemberCaption="All Bias Motivations" primaryKey="BiasMotivationTypeID">
-			<Table name="BiasMotivationType"/>
-			<Level name="BiasMotivation" visible="true" column="BiasMotivationDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="LocationType">
-		<Hierarchy name="LocationType" visible="true" hasAll="true" allMemberName="All Location Types" allMemberCaption="All Location Types" primaryKey="LocationTypeTypeID">
-			<Table name="LocationTypeType"/>
-			<Level name="LocationType" visible="true" column="LocationTypeDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="MethodOfEntry">
-		<Hierarchy name="MethodOfEntry" visible="true" hasAll="true" allMemberName="All Methods Of Entry" allMemberCaption="All Methods Of Entry" primaryKey="MethodOfEntryTypeID">
-			<Table name="MethodOfEntryType"/>
-			<Level name="MethodOfEntry" visible="true" column="MethodOfEntryDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="UCROffenseCode">
-		<Hierarchy name="UCROffenseCode" visible="true" hasAll="true" allMemberName="All Offense Types" allMemberCaption="All Offense Types" primaryKey="UCROffenseCodeTypeID">
-			<Table name="UCROffenseCodeType"/>
-			<Level name="UCROffenseCode" visible="true" column="UCROffenseCodeDescription" caption="Offense Type" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="UCROffenseCodeGrouped">
-		<Hierarchy name="UCROffenseCode" visible="true" hasAll="true" allMemberName="All Offense Types" allMemberCaption="All Offense Types" primaryKey="UCROffenseCodeTypeID">
-			<Table name="UCROffenseCodeType"/>
-			<Level name="OffenseCategory1" visible="true" column="OffenseCategory1" caption="Offense Category" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-			<Level name="UCROffenseCode" visible="true" column="UCROffenseCodeDescription" caption="Offense Type" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="OffenderSuspectedOfUsing">
-		<Hierarchy name="OffenderSuspectedOfUsing" visible="true" hasAll="true" allMemberName="All Suspected Usages" allMemberCaption="All Suspected Usages" primaryKey="OffenderSuspectedOfUsingTypeID">
-			<Table name="OffenderSuspectedOfUsingType"/>
-			<Level name="OffenderSuspectedOfUsing" visible="true" column="OffenderSuspectedOfUsingDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="Agency">
-		<Hierarchy name="Agency" visible="true" hasAll="true" allMemberName="All Agencies" allMemberCaption="All Agencies" primaryKey="AgencyID">
-			<Table name="Agency"/>
-			<Level name="Agency" visible="true" column="AgencyName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="TypeOfWeaponForceInvolved">
-		<Hierarchy name="TypeOfWeaponForceInvolved" visible="true" hasAll="true" allMemberName="All Weapon/Force Types" allMemberCaption="All Weapon/Force Types" primaryKey="TypeOfWeaponForceInvolvedTypeID">
-			<Table name="TypeOfWeaponForceInvolvedType"/>
-			<Level name="TypeOfWeaponForceInvolved" visible="true" column="TypeOfWeaponForceInvolvedDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="County">
-		<Hierarchy name="County" visible="true" hasAll="true" allMemberName="All Counties" allMemberCaption="All Counties" primaryKey="AgencyID">
-			<View alias="AgencyCounty">
-			<SQL dialect="mysql"><![CDATA[select AgencyID, CountyName from Agency]]></SQL>
-			</View>
-			<Level name="County" visible="true" column="CountyName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Dimension type="StandardDimension" visible="true" highCardinality="false" name="ClearedExceptionally">
-		<Hierarchy name="ClearedExceptionally" visible="true" hasAll="true" allMemberName="All Exceptional Clearances" allMemberCaption="All Exceptional Clearances" primaryKey="ClearedExceptionallyTypeID">
-			<Table name="ClearedExceptionallyType"/>
-			<Level name="ClearedExceptionally" visible="true" column="ClearedExceptionallyDescription" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never"/>
-		</Hierarchy>
-	</Dimension>
-	<Cube name="VictimOffender" caption="Victim-Offender Relationship" visible="true" enabled="true">
-		<View alias="VictimOffender">
-			<SQL dialect="mysql"><![CDATA[select VictimSegment.*,
-				OffenderSegment.AgeOfOffender, OffenderSegment.SexOfPersonTypeID as SexOfPersonTypeID_Offender,
-				OffenderSegment.RaceOfPersonTypeID as RaceOfPersonTypeID_Offender,
-				OffenderSegment.EthnicityOfPersonTypeID as EthnicityOfPersonTypeID_Offender,   
-				VictimOffenderAssociationID, VictimOffenderRelationshipTypeID, AdministrativeSegment.AgencyID, AdministrativeSegment.ClearedExceptionallyTypeID
-			from VictimSegment, OffenderSegment, AdministrativeSegment, VictimOffenderAssociation
-			where VictimSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and
-				OffenderSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and
-				VictimOffenderAssociation.OffenderSegmentID=OffenderSegment.OffenderSegmentID and
-				VictimOffenderAssociation.VictimSegmentID=VictimSegment.VictimSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="ClearedExceptionally" name="ClearedExceptionally" caption="Exceptional Clearance" visible="true" foreignKey="ClearedExceptionallyTypeID" highCardinality="false"/>
-		<DimensionUsage source="SexOfPerson" name="SexOfPerson_Victim" caption="Victim Sex" visible="true" foreignKey="SexOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="RaceOfPerson" name="RaceOfPerson_Victim" caption="Victim Race" visible="true" foreignKey="RaceOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="EthnicityOfPerson" name="EthnicityOfPerson_Victim" caption="Victim Ethnicity" visible="true" foreignKey="EthnicityOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="ResidentStatusOfPerson" name="ResidentStatusOfPerson_Victim" caption="Victim Residence Status" visible="true" foreignKey="ResidentStatusOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeOfVictim" name="TypeOfVictim" caption="Victim Type" visible="true" foreignKey="TypeOfVictimTypeID" highCardinality="false"/>
-		<Dimension name="AgeOfPerson_Victim" caption="Victim Age">
-			<Hierarchy hasAll="true">
-				<Level name="Victim Age" column="AgeOfVictim" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<DimensionUsage source="SexOfPerson" name="SexOfPerson_Offender" caption="Offender Sex" visible="true" foreignKey="SexOfPersonTypeID_Offender" highCardinality="false"/>
-		<DimensionUsage source="RaceOfPerson" name="RaceOfPerson_Offender" caption="Offender Race" visible="true" foreignKey="RaceOfPersonTypeID_Offender" highCardinality="false"/>
-		<DimensionUsage source="EthnicityOfPerson" name="EthnicityOfPerson_Offender" caption="Offender Ethnicity" visible="true" foreignKey="EthnicityOfPersonTypeID_Offender" highCardinality="false"/>
-		<Dimension name="AgeOfPerson_Offender" caption="Offender Age">
-			<Hierarchy hasAll="true">
-				<Level name="Offender Age" column="AgeOfOffender" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<DimensionUsage source="VictimOffenderRelationship" name="VictimOffenderRelationship" caption="Relationship" visible="true" foreignKey="VictimOffenderRelationshipTypeID" highCardinality="false"/>
-		<Measure name="VictimOffenderCount" column="VictimOffenderAssociationID" datatype="Integer" aggregator="count" caption="Victim-Offender Count" visible="true"/>
+    <Table name="LocationTypeType">
+    	<ColumnDefs>
+    		<CalculatedColumnDef name='LocationTypeDetailCategoryDescription' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="LocationTypeTypeID"/> IN (2,3,5,6,7,8,12,14,17,19,21,23,24,37,38,40,41,44,45,47,48,54,55) THEN "Commercial" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (1,11,22,39,57) THEN "Public" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (4) THEN "Religious" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (9) THEN "Health Facility" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (10,16,42,50,51) THEN "Outdoors" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (13,18) THEN "Roadway" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (15) THEN "Public Safety" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (20) THEN "Residence" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (25,99) THEN "Other/Unknown" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (46) THEN "Farm" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (49) THEN "Military" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (52,53) THEN "Educational Institution" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (56) THEN "Tribal" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (58) THEN "Cyberspace" 
+    						 ELSE "Unknown" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    		<CalculatedColumnDef name='LocationTypeCategoryDescription' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="LocationTypeTypeID"/> IN (20) THEN "Residence" 
+    						 WHEN <Column name="LocationTypeTypeID"/> IN (25,99) THEN "Other/Unknown" 
+    						 ELSE "Non-Residence" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    	</ColumnDefs>
+    </Table>
+
+    <Table name="VictimOffenderRelationshipType">
+    	<ColumnDefs>
+    		<CalculatedColumnDef name='VictimOffenderRelationshipCategoryDescription' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="VictimOffenderRelationshipTypeID"/> IN (1,2,3,4,5,6,7,8,9,10,11,12) THEN "Victim was Family" 
+    						 WHEN <Column name="VictimOffenderRelationshipTypeID"/> IN (18,20) THEN "Victim was Intimate Partner" 
+    						 WHEN <Column name="VictimOffenderRelationshipTypeID"/> IN (14,15,16,17,19,21,22,23,24) THEN "Victim was Otherwise Known" 
+    						 WHEN <Column name="VictimOffenderRelationshipTypeID"/> IN (25) THEN "Victim was Stranger" 
+    						 WHEN <Column name="VictimOffenderRelationshipTypeID"/> IN (99) THEN "Relationship Unknown" 
+    						 WHEN <Column name="VictimOffenderRelationshipTypeID"/> IN (98) THEN "None" 
+    						 WHEN <Column name="VictimOffenderRelationshipTypeID"/> IN (13) THEN "Victim Was Offender" 
+    						 ELSE "Unknown" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    	</ColumnDefs>
+    </Table>
+
+    <Table name="FullVictimOffenseView">
+    	<ColumnDefs>
+    		<CalculatedColumnDef name='VictimAgeGroup' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "Infant" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 5 THEN "Day Care Age" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 10 THEN "6-10" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 15 THEN "11-15" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 20 THEN "16-20" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 25 THEN "21-25" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 30 THEN "26-30" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN "31-35" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 40 THEN "36-40" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 50 THEN "41-50" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 60 THEN "51-60" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 70 THEN "61-70" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 70 THEN "70+" 
+    						 ELSE "Unknown" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    		<CalculatedColumnDef name='VictimAgeGroupSort' type='Integer'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN 1
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 5 THEN 2
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 10 THEN 3
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 15 THEN 4
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 20 THEN 5
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 25 THEN 6
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 30 THEN 7
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN 8 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 40 THEN 9
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 50 THEN 10
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 60 THEN 11
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 70 THEN 12
+    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 70 THEN 13
+    						 ELSE 100 END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    	</ColumnDefs>
+    </Table>
+
+    <Table name="FullVictimOffenderView">
+    	<ColumnDefs>
+    		<CalculatedColumnDef name='VictimAgeGroup' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "Infant" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 6 THEN "Day Care Age" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 11 THEN "6-10" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 16 THEN "11-15" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 21 THEN "16-20" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 26 THEN "21-25" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 31 THEN "26-30" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 36 THEN "31-35" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 41 THEN "36-40" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 51 THEN "41-50" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 61 THEN "51-60" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 71 THEN "61-70" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 71 THEN "71+" 
+    						 ELSE "Unknown" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    		<CalculatedColumnDef name='VictimAgeGroupSort' type='Integer'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN 1
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 6 THEN 2
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 11 THEN 3
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 16 THEN 4
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 21 THEN 5
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 26 THEN 6
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 31 THEN 7
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN 8 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 41 THEN 9
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 51 THEN 10
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 61 THEN 11
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 71 THEN 12
+    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 71 THEN 13
+    						 ELSE 100 END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    		<CalculatedColumnDef name='OffenderAgeGroup' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN "Infant" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 6 THEN "Day Care Age" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 12 THEN "Elementary School" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 15 THEN "Middle School" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 19 THEN "High School" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 22 THEN "19-21" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 26 THEN "22-25" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 30 THEN "26-29" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 40 THEN "30-39" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 50 THEN "40-49" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 60 THEN "50-59" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 70 THEN "60-69" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &gt;= 70 THEN "70+" 
+    						 ELSE "Unknown" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+   			<CalculatedColumnDef name='OffenderAgeGroupSort' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN 1
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 6 THEN 2
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 12 THEN 3
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 15 THEN 4 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 19 THEN 5
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 22 THEN 6
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 26 THEN 7
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 30 THEN 8
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 40 THEN 9
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 50 THEN 10
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 60 THEN 11
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 70 THEN 12
+    						 WHEN <Column name="AgeOfOffenderMin"/> &gt;= 70 THEN 13
+    						 ELSE 100 END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    	</ColumnDefs>
+    </Table>
+
+    <Table name="FullGroupAArrestView">
+    	<ColumnDefs>
+    		<CalculatedColumnDef name='ArresteeAgeGroup' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN "Infant" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN "Day Care Age" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN "Elementary School" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN "Middle School" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN "High School" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN "19-21" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN "22-25" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN "26-29" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN "30-39" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN "40-49" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN "50-59" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN "60-69" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN "70+" 
+    						 ELSE "Unknown" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+   			<CalculatedColumnDef name='ArresteeAgeGroupSort' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN 1
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN 2
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN 3
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN 4 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN 5
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN 6
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN 7
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN 8
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN 9
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN 10
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN 11
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN 12
+    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN 13
+    						 ELSE 100 END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    	</ColumnDefs>
+    </Table>
+
+    <Table name="FullGroupBArrestView">
+    	<ColumnDefs>
+    		<CalculatedColumnDef name='ArresteeAgeGroup' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN "Infant" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN "Day Care Age" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN "Elementary School" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN "Middle School" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN "High School" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN "19-21" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN "22-25" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN "26-29" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN "30-39" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN "40-49" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN "50-59" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN "60-69" 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN "70+" 
+    						 ELSE "Unknown" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+   			<CalculatedColumnDef name='ArresteeAgeGroupSort' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN 1
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN 2
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN 3
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN 4 
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN 5
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN 6
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN 7
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN 8
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN 9
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN 10
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN 11
+    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN 12
+    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN 13
+    						 ELSE 100 END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    	</ColumnDefs>
+    </Table>
+
+    <Table name="FullPropertyView">
+    	<ColumnDefs>
+    		<CalculatedColumnDef name='StolenMotorVehiclesDim' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="NumberOfStolenMotorVehicles"/> = 0 THEN "0"
+    						 WHEN <Column name="NumberOfStolenMotorVehicles"/> = 1 THEN "1"
+    						 WHEN <Column name="NumberOfStolenMotorVehicles"/> = 2 THEN "2"
+    						 ELSE "3+" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+   		<CalculatedColumnDef name='RecoveredMotorVehiclesDim' type='String'>
+    			<ExpressionView>
+    				<SQL dialect="mysql">
+    					CASE WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 0 THEN "0"
+    						 WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 1 THEN "1"
+    						 WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 2 THEN "2"
+    						 ELSE "3+" END
+    				</SQL>
+    			</ExpressionView>
+    		</CalculatedColumnDef>
+    	</ColumnDefs>
+    </Table>
+
+    <InlineTable alias="CompletionStatusType">
+		<ColumnDefs>
+			<ColumnDef name="CompletionStatusTypeID" type="Integer"/>
+			<ColumnDef name="CompletionStatusDescription" type="String"/>
+		</ColumnDefs>
+		<Rows>
+			<Row>
+				<Value column="CompletionStatusTypeID">1</Value>
+				<Value column="CompletionStatusDescription">Completed</Value>
+			</Row>
+			<Row>
+				<Value column="CompletionStatusTypeID">0</Value>
+				<Value column="CompletionStatusDescription">Attempted</Value>
+			</Row>
+		</Rows>
+	</InlineTable>
+
+  </PhysicalSchema>
+
+ <Dimension visible="true" name="Agency" key="AgencyID">
+ 	<Attributes>
+ 		<Attribute name="AgencyID" keyColumn="AgencyID" table="Agency" hasHierarchy="false"/>
+ 		<Attribute name="AgencyTypeDescription" keyColumn="AgencyTypeDescription" table="AgencyType" hasHierarchy="false"/>
+ 		<Attribute name="AgencyName" table="Agency" keyColumn="AgencyName" hasHierarchy="false"/>
+  	</Attributes>
+  	<Hierarchies>
+  		<Hierarchy name="Agency" caption="Agency" allMemberName="All Agencies">
+  			<Level attribute="AgencyTypeDescription" caption="Agency Type"/>
+  			<Level attribute="AgencyName" caption="Agency"/>
+  		</Hierarchy>
+  	</Hierarchies>
+  </Dimension>
+
+  <Dimension visible="true" name="AdditionalJustifiableHomicideCircumstances" table="AdditionalJustifiableHomicideCircumstancesType" key="AdditionalJustifiableHomicideCircumstancesTypeID" caption="Justifiable Homicide Circumstances">
+    <Attributes>
+      <Attribute name="AdditionalJustifiableHomicideCircumstancesTypeID" keyColumn="AdditionalJustifiableHomicideCircumstancesTypeID" hasHierarchy="false"/>
+      <Attribute name="AdditionalJustifiableHomicideCircumstancesDescription" keyColumn="AdditionalJustifiableHomicideCircumstancesDescription" caption="Justifiable Homicide Circumstances" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="AdditionalJustifiableHomicideCircumstances" allMemberName="All Circumstances" caption="Justifiable Homicide Circumstances">
+        <Level attribute="AdditionalJustifiableHomicideCircumstancesDescription" caption="Justifiable Homicide Circumstances"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="AggravatedAssaultHomicideCircumstances" table="AggravatedAssaultHomicideCircumstancesType" key="AggravatedAssaultHomicideCircumstancesTypeID" caption="Assault/Homicide Circumstances">
+    <Attributes>
+      <Attribute name="AggravatedAssaultHomicideCircumstancesTypeID" keyColumn="AggravatedAssaultHomicideCircumstancesTypeID" hasHierarchy="false"/>
+      <Attribute name="AggravatedAssaultHomicideCircumstancesDescription" keyColumn="AggravatedAssaultHomicideCircumstancesDescription" caption="Assault/Homicide Circumstances" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="AggravatedAssaultHomicideCircumstances" allMemberName="All Circumstances" caption="Assault/Homicide Circumstances">
+        <Level attribute="AggravatedAssaultHomicideCircumstancesDescription" caption="Assault/Homicide Circumstances"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="ArresteeWasArmedWith" table="ArresteeWasArmedWithType" key="ArresteeWasArmedWithTypeID" caption="Weapons Armed With">
+    <Attributes>
+      <Attribute name="ArresteeWasArmedWithTypeID" keyColumn="ArresteeWasArmedWithTypeID" hasHierarchy="false"/>
+      <Attribute name="ArresteeWasArmedWithDescription" keyColumn="ArresteeWasArmedWithDescription" caption="Weapons Armed With" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="ArresteeWasArmedWith" allMemberName="All Weapons" caption="Weapons Armed With">
+        <Level attribute="ArresteeWasArmedWithDescription" caption="Weapons Armed With"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="BiasMotivation" table="BiasMotivationType" key="BiasMotivationTypeID" caption="Bias Motivation">
+    <Attributes>
+      <Attribute name="BiasMotivationTypeID" keyColumn="BiasMotivationTypeID" hasHierarchy="false"/>
+      <Attribute name="BiasMotivationDescription" keyColumn="BiasMotivationDescription" caption="Bias Motivation" hasHierarchy="false"/>
+      <Attribute name="BiasMotivationCategory" keyColumn="BiasMotivationCategory" caption="Bias Category" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="BiasMotivation" allMemberName="All Bias Motivations" caption="Bias Motivation">
+        <Level attribute="BiasMotivationCategory" caption="Bias Category"/>
+        <Level attribute="BiasMotivationDescription" caption="Bias Motivation"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="ClearedExceptionally" table="ClearedExceptionallyType" key="ClearedExceptionallyTypeID" caption="Exceptional Clearance">
+    <Attributes>
+      <Attribute name="ClearedExceptionallyTypeID" keyColumn="ClearedExceptionallyTypeID" hasHierarchy="false"/>
+      <Attribute name="ClearedExceptionallyDescription" keyColumn="ClearedExceptionallyDescription" caption="Exceptional Clearance" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="ClearedExceptionally" allMemberName="All Exceptional Clearances" caption="Exceptional Clearance">
+        <Level attribute="ClearedExceptionallyDescription" caption="Exceptional Clearance"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="DispositionOfArresteeUnder18" table="DispositionOfArresteeUnder18Type" key="DispositionOfArresteeUnder18TypeID" caption="Disposition of Arrestee &lt;18">
+    <Attributes>
+      <Attribute name="DispositionOfArresteeUnder18TypeID" keyColumn="DispositionOfArresteeUnder18TypeID" hasHierarchy="false"/>
+      <Attribute name="DispositionOfArresteeUnder18Description" keyColumn="DispositionOfArresteeUnder18Description" caption="Disposition" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="DispositionOfArresteeUnder18" allMemberName="All Dispositions" caption="Disposition of Arrestee &lt;18">
+        <Level attribute="DispositionOfArresteeUnder18Description" caption="Disposition"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="EthnicityOfPerson" table="EthnicityOfPersonType" key="EthnicityOfPersonTypeID" caption="Ethnicity">
+    <Attributes>
+      <Attribute name="EthnicityOfPersonTypeID" keyColumn="EthnicityOfPersonTypeID" hasHierarchy="false"/>
+      <Attribute name="EthnicityOfPersonDescription" keyColumn="EthnicityOfPersonDescription" caption="Ethnicity" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="EthnicityOfPerson" allMemberName="All Ethnicities" caption="Ethnicity">
+        <Level attribute="EthnicityOfPersonDescription" caption="Ethnicity"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="LocationType" key="LocationTypeTypeID" table="LocationTypeType" caption="Location Type">
+    <Attributes>
+      <Attribute name="LocationTypeTypeID" keyColumn="LocationTypeTypeID" hasHierarchy="false"/>
+      <Attribute name="LocationTypeDescription" keyColumn="LocationTypeDescription" caption="Location Type" hasHierarchy="false"/>
+      <Attribute name="LocationTypeCategoryDescription" keyColumn="LocationTypeCategoryDescription" caption="Location Category" hasHierarchy="false"/>
+      <Attribute name="LocationTypeDetailCategoryDescription" keyColumn="LocationTypeDetailCategoryDescription" caption="Location Detail Category" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="LocationType" allMemberName="All Location Types" caption="Location Type">
+        <Level attribute="LocationTypeCategoryDescription" caption="Location Category"/>
+        <Level attribute="LocationTypeDetailCategoryDescription" caption="Location Detail Category"/>
+        <Level attribute="LocationTypeDescription" caption="Location Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="MethodOfEntry" table="MethodOfEntryType" key="MethodOfEntryTypeID" caption="Entry Method">
+    <Attributes>
+      <Attribute name="MethodOfEntryTypeID" keyColumn="MethodOfEntryTypeID" hasHierarchy="false"/>
+      <Attribute name="MethodOfEntryDescription" keyColumn="MethodOfEntryDescription" caption="Entry Method" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="MethodOfEntry" allMemberName="All Entry Methods" caption="Entry Method">
+        <Level attribute="MethodOfEntryDescription" caption="Entry Method"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="OffenderSuspectedOfUsing" table="OffenderSuspectedOfUsingType" key="OffenderSuspectedOfUsingTypeID" caption="Suspected Items Used">
+    <Attributes>
+      <Attribute name="OffenderSuspectedOfUsingTypeID" keyColumn="OffenderSuspectedOfUsingTypeID" hasHierarchy="false"/>
+      <Attribute name="OffenderSuspectedOfUsingDescription" keyColumn="OffenderSuspectedOfUsingDescription" caption="Suspected Items Used" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="OffenderSuspectedOfUsing" allMemberName="All Items" caption="Suspected Items Used">
+        <Level attribute="OffenderSuspectedOfUsingDescription" caption="Suspected Items Used"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="OfficerActivityCircumstance" table="OfficerActivityCircumstanceType" key="OfficerActivityCircumstanceTypeID" caption="Activity Circumstances">
+    <Attributes>
+      <Attribute name="OfficerActivityCircumstanceTypeID" keyColumn="OfficerActivityCircumstanceTypeID" hasHierarchy="false"/>
+      <Attribute name="OfficerActivityCircumstanceDescription" keyColumn="OfficerActivityCircumstanceDescription" caption="Activity Circumstances" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="OfficerActivityCircumstance" allMemberName="All Activity Circumstances" caption="Activity Circumstances">
+        <Level attribute="OfficerActivityCircumstanceDescription" caption="Activity Circumstances"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="OfficerAssignmentType" table="OfficerAssignmentTypeType" key="OfficerAssignmentTypeTypeID" caption="Assignment Type">
+    <Attributes>
+      <Attribute name="OfficerAssignmentTypeTypeID" keyColumn="OfficerAssignmentTypeTypeID" hasHierarchy="false"/>
+      <Attribute name="OfficerAssignmentTypeDescription" keyColumn="OfficerAssignmentTypeDescription" caption="Assignment Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="OfficerAssignmentType" allMemberName="All Assignment Types" caption="Assignment Type">
+        <Level attribute="OfficerAssignmentTypeDescription" caption="Assignment Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="PropertyDescription" table="PropertyDescriptionType" key="PropertyDescriptionTypeID" caption="Property Type">
+    <Attributes>
+      <Attribute name="PropertyDescriptionTypeID" keyColumn="PropertyDescriptionTypeID" hasHierarchy="false"/>
+      <Attribute name="PropertyDescriptionDescription" keyColumn="PropertyDescriptionDescription" caption="Property Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="PropertyDescription" allMemberName="All Property Types" caption="Property Type">
+        <Level attribute="PropertyDescriptionDescription" caption="Property Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="RaceOfPerson" table="RaceOfPersonType" key="RaceOfPersonTypeID" caption="Race">
+    <Attributes>
+      <Attribute name="RaceOfPersonTypeID" keyColumn="RaceOfPersonTypeID" hasHierarchy="false"/>
+      <Attribute name="RaceOfPersonDescription" keyColumn="RaceOfPersonDescription" caption="Race" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="RaceOfPerson" allMemberName="All Races" caption="Race">
+        <Level attribute="RaceOfPersonDescription" caption="Race"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="VictimOffenderRelationship" table="VictimOffenderRelationshipType" key="VictimOffenderRelationshipTypeID" caption="Victim/Offender Relationship">
+    <Attributes>
+      <Attribute name="VictimOffenderRelationshipTypeID" keyColumn="VictimOffenderRelationshipTypeID" hasHierarchy="false"/>
+      <Attribute name="VictimOffenderRelationshipDescription" keyColumn="VictimOffenderRelationshipDescription" caption="Victim/Offender Relationship" hasHierarchy="false"/>
+      <Attribute name="VictimOffenderRelationshipCategoryDescription" keyColumn="VictimOffenderRelationshipCategoryDescription" caption="Victim/Offender Relationship Category" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="VictimOffenderRelationship" allMemberName="All Relationships" caption="Victim/Offender Relationship">
+        <Level attribute="VictimOffenderRelationshipCategoryDescription" caption="Victim/Offender Relationship Category"/>
+        <Level attribute="VictimOffenderRelationshipDescription" caption="Victim/Offender Relationship"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="ResidentStatusOfPerson" table="ResidentStatusOfPersonType" key="ResidentStatusOfPersonTypeID" caption="Resident Status">
+    <Attributes>
+      <Attribute name="ResidentStatusOfPersonTypeID" keyColumn="ResidentStatusOfPersonTypeID" hasHierarchy="false"/>
+      <Attribute name="ResidentStatusOfPersonDescription" keyColumn="ResidentStatusOfPersonDescription" caption="Resident Status" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="ResidentStatusOfPerson" allMemberName="All Resident Statuses" caption="Resident Status">
+        <Level attribute="ResidentStatusOfPersonDescription" caption="Resident Status"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="SexOfPerson" table="SexOfPersonType" key="SexOfPersonTypeID" caption="Sex">
+    <Attributes>
+      <Attribute name="SexOfPersonTypeID" keyColumn="SexOfPersonTypeID" hasHierarchy="false"/>
+      <Attribute name="SexOfPersonDescription" keyColumn="SexOfPersonDescription" caption="Sex" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="SexOfPerson" allMemberName="All Sexes" caption="Sex">
+        <Level attribute="SexOfPersonDescription" caption="Sex"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="SuspectedDrugType" table="SuspectedDrugTypeType" key="SuspectedDrugTypeTypeID" caption="Drug Type">
+    <Attributes>
+      <Attribute name="SuspectedDrugTypeTypeID" keyColumn="SuspectedDrugTypeTypeID" hasHierarchy="false"/>
+      <Attribute name="SuspectedDrugTypeDescription" keyColumn="SuspectedDrugTypeDescription" caption="Drug Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="SuspectedDrugType" allMemberName="All Drug Types" caption="Drug Type">
+        <Level attribute="SuspectedDrugTypeDescription" caption="Drug Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="TypeDrugMeasurement" table="TypeDrugMeasurementType" key="TypeDrugMeasurementTypeID" caption="Drug Measurement Type">
+    <Attributes>
+      <Attribute name="TypeDrugMeasurementTypeID" keyColumn="TypeDrugMeasurementTypeID" hasHierarchy="false"/>
+      <Attribute name="TypeDrugMeasurementDescription" keyColumn="TypeDrugMeasurementDescription" caption="Drug Measurement Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="TypeDrugMeasurement" allMemberName="All Measurement Types">
+        <Level attribute="TypeDrugMeasurementDescription" caption="Drug Measurement Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="TypeInjury" table="TypeInjuryType" key="TypeInjuryTypeID" caption="Injury Type">
+    <Attributes>
+      <Attribute name="TypeInjuryTypeID" keyColumn="TypeInjuryTypeID" hasHierarchy="false"/>
+      <Attribute name="TypeInjuryDescription" keyColumn="TypeInjuryDescription" caption="Injury Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="TypeInjury" allMemberName="All Injury Types" caption="Injury Type">
+        <Level attribute="TypeInjuryDescription" caption="Injury Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="TypeOfArrest" table="TypeOfArrestType" key="TypeOfArrestTypeID" caption="Arrest Type">
+    <Attributes>
+      <Attribute name="TypeOfArrestTypeID" keyColumn="TypeOfArrestTypeID" hasHierarchy="false"/>
+      <Attribute name="TypeOfArrestDescription" keyColumn="TypeOfArrestDescription" caption="Arrest Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="TypeOfArrest" allMemberName="All Arrest Types" caption="Arrest Type">
+        <Level attribute="TypeOfArrestDescription" caption="Arrest Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="TypeOfCriminalActivity" table="TypeOfCriminalActivityType" key="TypeOfCriminalActivityTypeID" caption="Criminal Activity Type">
+    <Attributes>
+      <Attribute name="TypeOfCriminalActivityTypeID" keyColumn="TypeOfCriminalActivityTypeID" hasHierarchy="false"/>
+      <Attribute name="TypeOfCriminalActivityDescription" keyColumn="TypeOfCriminalActivityDescription" caption="Criminal Activity Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="TypeOfCriminalActivity" allMemberName="All Criminal Activity Types" caption="Criminal Activity Type">
+        <Level attribute="TypeOfCriminalActivityDescription" caption="Criminal Activity Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="TypeOfVictim" table="TypeOfVictimType" key="TypeOfVictimTypeID" caption="Victim Type">
+    <Attributes>
+      <Attribute name="TypeOfVictimTypeID" keyColumn="TypeOfVictimTypeID" hasHierarchy="false"/>
+      <Attribute name="TypeOfVictimDescription" keyColumn="TypeOfVictimDescription" caption="Victim Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="TypeOfVictim" allMemberName="All Victim Types" caption="Victim Type">
+        <Level attribute="TypeOfVictimDescription" caption="Victim Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="TypeOfWeaponForceInvolved" table="TypeOfWeaponForceInvolvedType" key="TypeOfWeaponForceInvolvedTypeID" caption="Weapon/Force Type">
+    <Attributes>
+      <Attribute name="TypeOfWeaponForceInvolvedTypeID" keyColumn="TypeOfWeaponForceInvolvedTypeID" hasHierarchy="false"/>
+      <Attribute name="TypeOfWeaponForceInvolvedDescription" keyColumn="TypeOfWeaponForceInvolvedDescription" caption="Weapon/Force Type" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="TypeOfWeaponForceInvolved" allMemberName="All Weapon/Force Types" caption="Weapon/Force Type">
+        <Level attribute="TypeOfWeaponForceInvolvedDescription" caption="Weapon/Force Type"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="TypePropertyLossEtc" table="TypePropertyLossEtcType" key="TypePropertyLossEtcTypeID" caption="Type of Loss">
+    <Attributes>
+      <Attribute name="TypePropertyLossEtcTypeID" keyColumn="TypePropertyLossEtcTypeID" hasHierarchy="false"/>
+      <Attribute name="TypePropertyLossEtcDescription" keyColumn="TypePropertyLossEtcDescription" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="TypePropertyLossEtc" allMemberName="All Loss Types" caption="Type of Loss">
+        <Level attribute="TypePropertyLossEtcDescription" caption="Type of Loss"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="CompletionStatus" table="CompletionStatusType" key="CompletionStatusTypeID" caption="Completion Status">
+    <Attributes>
+      <Attribute name="CompletionStatusTypeID" keyColumn="CompletionStatusTypeID" hasHierarchy="false"/>
+      <Attribute name="CompletionStatusDescription" keyColumn="CompletionStatusDescription" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="CompletionStatus" allMemberName="All Statuses" caption="Completion Status">
+        <Level attribute="CompletionStatusDescription" caption="Completion Status"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="UCROffenseCode" table="UCROffenseCodeType" key="UCROffenseCodeTypeID" caption="Offense">
+    <Attributes>
+      <Attribute name="UCROffenseCodeTypeID" keyColumn="UCROffenseCodeTypeID" hasHierarchy="false"/>
+      <Attribute name="UCROffenseCodeDescription" keyColumn="UCROffenseCodeDescription" hasHierarchy="false"/>
+      <Attribute name="OffenseCategory1" keyColumn="OffenseCategory1" hasHierarchy="false"/>
+      <Attribute name="OffenseCategory3" keyColumn="OffenseCategory3" hasHierarchy="false"/>
+      <Attribute name="OffenseCategory4" keyColumn="OffenseCategory4" hasHierarchy="false"/>
+    </Attributes>
+    <Hierarchies>
+      <Hierarchy name="Group" allMemberName="All Offenses" caption="Offense Group">
+        <Level attribute="OffenseCategory1" caption="Group"/>
+        <Level attribute="UCROffenseCodeDescription" caption="Offense"/>
+      </Hierarchy>
+      <Hierarchy name="Type" allMemberName="All Offenses" caption="Offense Type">
+        <Level attribute="OffenseCategory4" caption="Category"/>
+        <Level attribute="OffenseCategory3" caption="Type"/>
+        <Level attribute="UCROffenseCodeDescription" caption="Offense"/>
+      </Hierarchy>
+    </Hierarchies>
+  </Dimension>
+  <Dimension visible="true" name="Date" table="DateType" key="DateTypeID" type="TIME">
+	<Attributes>
+		<Attribute name="DateTypeID" keyColumn="DateTypeID" hasHierarchy="false"/>
+		<Attribute name="Year" keyColumn="YearLabel" hasHierarchy="false"/>
+		<Attribute name="Quarter" hasHierarchy="false" levelType="TimeQuarters">
+			<Key>
+				<Column name="YearLabel"/>
+				<Column name="CalendarQuarter"/>
+			</Key>
+			<Name>
+				<Column name="CalendarQuarter"/>
+			</Name>
+		</Attribute>
+		<Attribute name="Month" hasHierarchy="false" levelType="TimeMonths" orderByColumn="Month">
+			<Key>
+				<Column name="YearLabel"/>
+				<Column name="CalendarQuarter"/>
+				<Column name="MonthName"/>
+			</Key>
+			<Name>
+				<Column name="MonthName"/>
+			</Name>
+		</Attribute>
+		<Attribute name="Day" hasHierarchy="false" levelType="TimeDays">
+			<Key>
+				<Column name="YearLabel"/>
+				<Column name="CalendarQuarter"/>
+				<Column name="MonthName"/>
+				<Column name="Day"/>
+			</Key>
+			<Name>
+				<Column name="Day"/>
+			</Name>
+		</Attribute>
+		<Attribute name="Date" keyColumn="CalendarDate" hasHierarchy="false" levelType="TimeDays"/>            
+		<Attribute name="Day of Week" keyColumn="DayOfWeek" hasHierarchy="false" levelType="TimeDays"/>  
+	</Attributes>
+	 <Hierarchies>
+	    <Hierarchy name="DateYMD" caption="Year/Month/Day" allMemberName="All Years" allMemberCaption="All Years">
+			<Level attribute="Year" />
+	        <Level attribute="Quarter" />
+	        <Level attribute="Month" />
+	        <Level attribute="Day" />
+	    </Hierarchy>
+	    <Hierarchy name="CalDate" caption="Calendar Date" allMemberName="All Dates" allMemberCaption="All Dates">
+	        <Level attribute="Date"/>
+	    </Hierarchy>
+	    <Hierarchy name="Day of Week" caption="Day of Week" allMemberName="All Days" allMemberCaption="All Days">
+	        <Level attribute="Day of Week"/>
+	    </Hierarchy>
+	</Hierarchies>
+  </Dimension>
+
+  <Cube name="VictimOffense" visible="true" caption="Victim/Offense">
+		<Dimensions>
+			<Dimension source="TypeInjury"/>
+			<Dimension source="Date"/>
+			<Dimension source="Agency"/>
+			<Dimension source="ClearedExceptionally"/>
+			<Dimension source="LocationType"/>
+			<Dimension source="MethodOfEntry"/>
+			<Dimension source="BiasMotivation"/>
+			<Dimension source="UCROffenseCode"/>
+			<Dimension source="TypeOfVictim"/>
+			<Dimension source="OfficerActivityCircumstance"/>
+			<Dimension source="OfficerAssignmentType"/>
+			<Dimension source="SexOfPerson" caption="Victim Sex"/>
+			<Dimension source="RaceOfPerson" caption="Victim Race"/>
+			<Dimension source="EthnicityOfPerson" caption="Victim Ethnicity"/>
+			<Dimension source="ResidentStatusOfPerson" caption="Victim Resident Status"/>
+			<Dimension source="AdditionalJustifiableHomicideCircumstances"/>
+			<Dimension source="CompletionStatus" caption="Offense Completed?"/>
+			<Dimension visible="true" name="Premises Entered">
+				<Attributes>
+					<Attribute name="Premises Entered" keyColumn="NumberOfPremisesEnteredDim" hasHierarchy="false" table="FullVictimOffenseView"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Premises Entered"  visible="true" hasAll="true"  allMemberCaption="All Counts">
+						<Level attribute="Premises Entered" caption="# Premises Entered"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<Dimension source="TypeOfCriminalActivity"/>
+			<Dimension source="AggravatedAssaultHomicideCircumstances"/>
+			<Dimension source="OffenderSuspectedOfUsing"/>
+			<Dimension source="TypeOfWeaponForceInvolved"/>
+			<Dimension visible="true" name="Victim Age" key="Victim Age">
+				<Attributes>
+					<Attribute name="Victim Age" keyColumn="VictimAgeDim" hasHierarchy="false" table="FullVictimOffenseView" orderByColumn="AgeOfVictimMin"/>
+					<Attribute name="Victim Age Group" keyColumn="VictimAgeGroup" hasHierarchy="false" table="FullVictimOffenseView" orderByColumn="VictimAgeGroupSort"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Victim Age"  visible="true" hasAll="true"  allMemberCaption="All Ages">
+						<Level attribute="Victim Age Group" caption="Victim Age Group"/>
+						<Level attribute="Victim Age" caption="Victim Age"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<!-- TODO: AutomaticWeaponIndicator -->
+		</Dimensions>
+		<MeasureGroups>
+    		<MeasureGroup table="FullVictimOffenseView" name="Victim-Offense">
+	    		<Measures>
+	    			<Measure name="Victim-Offense Count" column="AdministrativeSegmentID" aggregator="count" visible="true" caption="Victim+Offense Count"/>
+	    			<Measure name="Victim Count" column="VictimSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Victim Count"/>
+	    			<Measure name="Offense Count" column="OffenseSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Offense Count"/>
+	    		</Measures>
+	    		<DimensionLinks>
+	    			<ForeignKeyLink dimension="TypeInjury" foreignKeyColumn="TypeInjuryTypeID"/>
+	    			<ForeignKeyLink dimension="Date" foreignKeyColumn="IncidentDateID"/>
+	    			<ForeignKeyLink dimension="Agency" foreignKeyColumn="AgencyID"/>
+	    			<ForeignKeyLink dimension="ClearedExceptionally" foreignKeyColumn="ClearedExceptionallyTypeID"/>
+	    			<ForeignKeyLink dimension="LocationType" foreignKeyColumn="LocationTypeTypeID"/>
+					<ForeignKeyLink dimension="MethodOfEntry" foreignKeyColumn="MethodOfEntryTypeID"/>
+					<ForeignKeyLink dimension="BiasMotivation" foreignKeyColumn="BiasMotivationTypeID"/>
+					<ForeignKeyLink dimension="UCROffenseCode" foreignKeyColumn="UCROffenseCodeTypeID"/>
+					<ForeignKeyLink dimension="TypeOfVictim" foreignKeyColumn="TypeOfVictimTypeID"/>
+					<ForeignKeyLink dimension="OfficerActivityCircumstance" foreignKeyColumn="OfficerActivityCircumstanceTypeID"/>
+					<ForeignKeyLink dimension="OfficerAssignmentType" foreignKeyColumn="OfficerAssignmentTypeTypeID"/>
+					<ForeignKeyLink dimension="SexOfPerson" foreignKeyColumn="SexOfPersonTypeID"/>
+					<ForeignKeyLink dimension="RaceOfPerson" foreignKeyColumn="RaceOfPersonTypeID"/>
+					<ForeignKeyLink dimension="EthnicityOfPerson" foreignKeyColumn="EthnicityOfPersonTypeID"/>
+					<ForeignKeyLink dimension="ResidentStatusOfPerson" foreignKeyColumn="ResidentStatusOfPersonTypeID"/>
+					<ForeignKeyLink dimension="AdditionalJustifiableHomicideCircumstances" foreignKeyColumn="AdditionalJustifiableHomicideCircumstancesTypeID"/>
+					<ForeignKeyLink dimension="CompletionStatus" foreignKeyColumn="OffenseAttemptedCompleted"/>
+					<FactLink dimension="Premises Entered"/>
+					<FactLink dimension="Victim Age"/>
+					<ForeignKeyLink dimension="TypeOfCriminalActivity" foreignKeyColumn="TypeOfCriminalActivityTypeID"/>
+					<ForeignKeyLink dimension="AggravatedAssaultHomicideCircumstances" foreignKeyColumn="AggravatedAssaultHomicideCircumstancesTypeID"/>
+					<ForeignKeyLink dimension="OffenderSuspectedOfUsing" foreignKeyColumn="OffenderSuspectedOfUsingTypeID"/>
+					<ForeignKeyLink dimension="TypeOfWeaponForceInvolved" foreignKeyColumn="TypeOfWeaponForceInvolvedTypeID"/>
+	    		</DimensionLinks>
+	    	</MeasureGroup>
+	    </MeasureGroups>
 	</Cube>
-	<Cube name="VictimOffense" visible="true" enabled="true">
-		<View alias="VictimOffense">
-			<SQL dialect="mysql"><![CDATA[select VictimSegment.*, AdministrativeSegment.AgencyID, AdministrativeSegment.ClearedExceptionallyTypeID,
-				OffenseSegment.UCROffenseCodeTypeID
-				from VictimSegment, AdministrativeSegment, VictimOffenseAssociation, OffenseSegment
-				where VictimSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and
-				VictimSegment.VictimSegmentID=VictimOffenseAssociation.VictimSegmentID and
-				OffenseSegment.OffenseSegmentID=VictimOffenseAssociation.OffenseSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="ClearedExceptionally" name="ClearedExceptionally" caption="Exceptional Clearance" visible="true" foreignKey="ClearedExceptionallyTypeID" highCardinality="false"/>
-		<DimensionUsage source="SexOfPerson" name="SexOfPerson" caption="Victim Sex" visible="true" foreignKey="SexOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="RaceOfPerson" name="RaceOfPerson" caption="Victim Race" visible="true" foreignKey="RaceOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="EthnicityOfPerson" name="EthnicityOfPerson" caption="Victim Ethnicity" visible="true" foreignKey="EthnicityOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="ResidentStatusOfPerson" name="ResidentStatusOfPerson" caption="Victim Residence Status" visible="true" foreignKey="ResidentStatusOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeOfVictim" name="TypeOfVictim" caption="Victim Type" visible="true" foreignKey="TypeOfVictimTypeID" highCardinality="false"/>
-		<DimensionUsage source="UCROffenseCodeGrouped" name="UCROffenseCodeGrouped" caption="Offense Type" visible="true" foreignKey="UCROffenseCodeTypeID" highCardinality="false"/>
-		<Dimension name="AgeOfPersonGroup" caption="Victim Age Range">
-			<Hierarchy hasAll="true">
-				<Level name="Victim Age Range" column="VictimAgeGroup1" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Dimension name="AgeOfPerson" caption="Victim Age">
-			<Hierarchy hasAll="true">
-				<Level name="Victim Age" column="AgeOfVictim" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="VictimCount" column="VictimSegmentID" datatype="Integer" aggregator="count" caption="Victim Count" visible="true"/>
+
+	<Cube name="VictimOffender" visible="true" caption="Victim/Offender">
+		<Dimensions>
+			<Dimension source="TypeInjury"/>
+			<Dimension source="Date"/>
+			<Dimension source="Agency"/>
+			<Dimension source="ClearedExceptionally"/>
+			<Dimension source="TypeOfVictim"/>
+			<Dimension source="OfficerActivityCircumstance"/>
+			<Dimension source="OfficerAssignmentType"/>
+			<Dimension source="SexOfPerson" caption="Victim Sex" name="VictimSex"/>
+			<Dimension source="RaceOfPerson" caption="Victim Race" name="VictimRace"/>
+			<Dimension source="EthnicityOfPerson" caption="Victim Ethnicity" name="VictimEthnicity"/>
+			<Dimension source="ResidentStatusOfPerson" caption="Victim Resident Status"/>
+			<Dimension source="AdditionalJustifiableHomicideCircumstances"/>
+			<Dimension source="AggravatedAssaultHomicideCircumstances"/>
+			<Dimension source="SexOfPerson" caption="Offender Sex" name="OffenderSex"/>
+			<Dimension source="RaceOfPerson" caption="Offender Race" name="OffenderRace"/>
+			<Dimension source="EthnicityOfPerson" caption="Offender Ethnicity" name="OffenderEthnicity"/>
+			<Dimension visible="true" name="Victim Age" key="Victim Age">
+				<Attributes>
+					<Attribute name="Victim Age" keyColumn="VictimAgeDim" hasHierarchy="false" table="FullVictimOffenderView" orderByColumn="AgeOfVictimMin"/>
+					<Attribute name="Victim Age Group" keyColumn="VictimAgeGroup" hasHierarchy="false" table="FullVictimOffenderView" orderByColumn="VictimAgeGroupSort"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Victim Age"  visible="true" hasAll="true"  allMemberCaption="All Ages">
+						<Level attribute="Victim Age Group" caption="Victim Age Group"/>
+						<Level attribute="Victim Age" caption="Victim Age"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<Dimension visible="true" name="Offender Age" key="Offender Age">
+				<Attributes>
+					<Attribute name="Offender Age" keyColumn="OffenderAgeDim" hasHierarchy="false" table="FullVictimOffenderView" orderByColumn="AgeOfOffenderMin"/>
+					<Attribute name="Offender Age Group" keyColumn="OffenderAgeGroup" hasHierarchy="false" table="FullVictimOffenderView" orderByColumn="OffenderAgeGroupSort"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Offender Age"  visible="true" hasAll="true"  allMemberCaption="All Ages">
+						<Level attribute="Offender Age Group" caption="Offender Age Group"/>
+						<Level attribute="Offender Age" caption="Offender Age"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<Dimension source="VictimOffenderRelationship"/>
+		</Dimensions>
+		<MeasureGroups>
+    		<MeasureGroup table="FullVictimOffenderView" name="Victim-Offender">
+	    		<Measures>
+	    			<Measure name="Victim-Offender Count" column="AdministrativeSegmentID" aggregator="count" visible="true" caption="Victim+Offender Count"/>
+	    			<Measure name="Victim Count" column="VictimSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Victim Count"/>
+	    			<Measure name="Offender Count" column="OffenderSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Offender Count"/>
+	    		</Measures>
+	    		<DimensionLinks>
+	    			<ForeignKeyLink dimension="TypeInjury" foreignKeyColumn="TypeInjuryTypeID"/>
+	    			<ForeignKeyLink dimension="Date" foreignKeyColumn="IncidentDateID"/>
+	    			<ForeignKeyLink dimension="Agency" foreignKeyColumn="AgencyID"/>
+	    			<ForeignKeyLink dimension="ClearedExceptionally" foreignKeyColumn="ClearedExceptionallyTypeID"/>
+					<ForeignKeyLink dimension="TypeOfVictim" foreignKeyColumn="TypeOfVictimTypeID"/>
+					<ForeignKeyLink dimension="OfficerActivityCircumstance" foreignKeyColumn="OfficerActivityCircumstanceTypeID"/>
+					<ForeignKeyLink dimension="OfficerAssignmentType" foreignKeyColumn="OfficerAssignmentTypeTypeID"/>
+					<ForeignKeyLink dimension="VictimSex" foreignKeyColumn="VictimSexOfPersonTypeID"/>
+					<ForeignKeyLink dimension="VictimRace" foreignKeyColumn="VictimRaceOfPersonTypeID"/>
+					<ForeignKeyLink dimension="VictimEthnicity" foreignKeyColumn="VictimEthnicityOfPersonTypeID"/>
+					<ForeignKeyLink dimension="ResidentStatusOfPerson" foreignKeyColumn="VictimResidentStatusOfPersonTypeID"/>
+					<ForeignKeyLink dimension="OffenderSex" foreignKeyColumn="OffenderSexOfPersonTypeID"/>
+					<ForeignKeyLink dimension="OffenderRace" foreignKeyColumn="OffenderRaceOfPersonTypeID"/>
+					<ForeignKeyLink dimension="OffenderEthnicity" foreignKeyColumn="OffenderEthnicityOfPersonTypeID"/>
+					<ForeignKeyLink dimension="AdditionalJustifiableHomicideCircumstances" foreignKeyColumn="AdditionalJustifiableHomicideCircumstancesTypeID"/>
+					<FactLink dimension="Victim Age"/>
+					<FactLink dimension="Offender Age"/>
+					<ForeignKeyLink dimension="AggravatedAssaultHomicideCircumstances" foreignKeyColumn="AggravatedAssaultHomicideCircumstancesTypeID"/>
+					<ForeignKeyLink dimension="VictimOffenderRelationship" foreignKeyColumn="VictimOffenderRelationshipTypeID"/>
+	    		</DimensionLinks>
+	    	</MeasureGroup>
+	    </MeasureGroups>
 	</Cube>
-	<Cube name="Victim" visible="true" enabled="true">
-		<View alias="Victim">
-			<SQL dialect="mysql"><![CDATA[select VictimSegment.*, AdministrativeSegment.AgencyID, AdministrativeSegment.ClearedExceptionallyTypeID from VictimSegment, AdministrativeSegment where VictimSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="ClearedExceptionally" name="ClearedExceptionally" caption="Exceptional Clearance" visible="true" foreignKey="ClearedExceptionallyTypeID" highCardinality="false"/>
-		<DimensionUsage source="SexOfPerson" name="SexOfPerson" caption="Victim Sex" visible="true" foreignKey="SexOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="RaceOfPerson" name="RaceOfPerson" caption="Victim Race" visible="true" foreignKey="RaceOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="EthnicityOfPerson" name="EthnicityOfPerson" caption="Victim Ethnicity" visible="true" foreignKey="EthnicityOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="ResidentStatusOfPerson" name="ResidentStatusOfPerson" caption="Victim Residence Status" visible="true" foreignKey="ResidentStatusOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeOfVictim" name="TypeOfVictim" caption="Victim Type" visible="true" foreignKey="TypeOfVictimTypeID" highCardinality="false"/>
-		<DimensionUsage source="OfficerActivityCircumstance" name="OfficerActivityCircumstance" caption="Officer Activity Circumstance" visible="true" foreignKey="OfficerActivityCircumstanceTypeID" highCardinality="false"/>
-		<DimensionUsage source="OfficerAssignmentType" name="OfficerAssignmentType" caption="Officer Assignment Type" visible="true" foreignKey="OfficerAssignmentTypeTypeID" highCardinality="false"/>
-		<DimensionUsage source="AdditionalJustifiableHomicideCircumstances" name="AdditionalJustifiableHomicideCircumstances" caption="Additional Justifiable Homicide Circumstances" visible="true" foreignKey="AdditionalJustifiableHomicideCircumstancesID" highCardinality="false"/>
-		<Dimension name="AgeOfPerson" caption="Victim Age">
-			<Hierarchy hasAll="true">
-				<Level name="Victim Age" column="AgeOfVictim" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="VictimCount" column="VictimSegmentID" datatype="Integer" aggregator="count" caption="Victim Count" visible="true"/>
+
+	<Cube name="GroupA" visible="true" caption="Group A Arrestee">
+		<Dimensions>
+			<Dimension source="Date" caption="Incident Date" name="IncidentDate"/>
+			<Dimension source="Date" caption="Arrest Date" name="ArrestDate"/>
+			<Dimension source="Agency"/>
+			<Dimension source="ClearedExceptionally"/>
+			<Dimension source="SexOfPerson" caption="Arrestee Sex"/>
+			<Dimension source="RaceOfPerson" caption="Arrestee Race"/>
+			<Dimension source="EthnicityOfPerson" caption="Arrestee Ethnicity"/>
+			<Dimension source="ResidentStatusOfPerson" caption="Arrestee Resident Status"/>
+			<Dimension visible="true" name="Arrestee Age" key="Arrestee Age">
+				<Attributes>
+					<Attribute name="Arrestee Age" keyColumn="ArresteeAgeDim" hasHierarchy="false" table="FullGroupAArrestView" orderByColumn="AgeOfArresteeMin"/>
+					<Attribute name="Arrestee Age Group" keyColumn="ArresteeAgeGroup" hasHierarchy="false" table="FullGroupAArrestView" orderByColumn="ArresteeAgeGroupSort"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Arrestee Age" visible="true" hasAll="true"  allMemberCaption="All Ages">
+						<Level attribute="Arrestee Age Group" caption="Arrestee Age Group"/>
+						<Level attribute="Arrestee Age" caption="Arrestee Age"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<Dimension source="ArresteeWasArmedWith" caption="Weapon Armed With"/>
+			<Dimension source="TypeOfArrest" caption="Type of Arrest"/>
+			<Dimension source="DispositionOfArresteeUnder18" caption="Disposition Arrestee &lt; 18"/>
+		</Dimensions>
+		<MeasureGroups>
+    		<MeasureGroup table="FullGroupAArrestView" name="Group A Arrestee">
+	    		<Measures>
+	    			<Measure name="Incident Count" column="AdministrativeSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Incident Count"/>
+	    			<Measure name="Arrestee Count" column="ArresteeSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Arrestee Count"/>
+	    			<Measure name="Arrestee-Weapon Count" column="ArresteeSegmentID" aggregator="count" visible="true" caption="Arrestee+Weapon Count"/>
+	    		</Measures>
+	    		<DimensionLinks>
+	    			<ForeignKeyLink dimension="IncidentDate" foreignKeyColumn="IncidentDateID"/>
+	    			<ForeignKeyLink dimension="Agency" foreignKeyColumn="AgencyID"/>
+	    			<ForeignKeyLink dimension="ArrestDate" foreignKeyColumn="ArrestDateID"/>
+	    			<ForeignKeyLink dimension="ClearedExceptionally" foreignKeyColumn="ClearedExceptionallyTypeID"/>
+					<ForeignKeyLink dimension="SexOfPerson" foreignKeyColumn="SexOfPersonTypeID"/>
+					<ForeignKeyLink dimension="RaceOfPerson" foreignKeyColumn="RaceOfPersonTypeID"/>
+					<ForeignKeyLink dimension="EthnicityOfPerson" foreignKeyColumn="EthnicityOfPersonTypeID"/>
+					<ForeignKeyLink dimension="ResidentStatusOfPerson" foreignKeyColumn="ResidentStatusOfPersonTypeID"/>
+					<FactLink dimension="Arrestee Age"/>
+					<ForeignKeyLink dimension="ArresteeWasArmedWith" foreignKeyColumn="ArresteeWasArmedWithTypeID"/>
+					<ForeignKeyLink dimension="DispositionOfArresteeUnder18" foreignKeyColumn="DispositionOfArresteeUnder18TypeID"/>
+					<ForeignKeyLink dimension="TypeOfArrest" foreignKeyColumn="TypeOfArrestTypeID"/>
+	    		</DimensionLinks>
+	    	</MeasureGroup>
+	    </MeasureGroups>
 	</Cube>
-	<Cube name="Victim Injury" visible="true" enabled="true">
-		<View alias="VictimInjury">
-			<SQL dialect="mysql"><![CDATA[select VictimSegment.*, TypeInjuryTypeID,
-				AdministrativeSegment.AgencyID, AdministrativeSegment.ClearedExceptionallyTypeID
-				from VictimSegment, AdministrativeSegment, TypeInjury
-				where VictimSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and
-					VictimSegment.VictimSegmentID=TypeInjury.VictimSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="ClearedExceptionally" name="ClearedExceptionally" caption="Exceptional Clearance" visible="true" foreignKey="ClearedExceptionallyTypeID" highCardinality="false"/>
-		<DimensionUsage source="SexOfPerson" name="SexOfPerson" caption="Victim Sex" visible="true" foreignKey="SexOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="RaceOfPerson" name="RaceOfPerson" caption="Victim Race" visible="true" foreignKey="RaceOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="EthnicityOfPerson" name="EthnicityOfPerson" caption="Victim Ethnicity" visible="true" foreignKey="EthnicityOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="ResidentStatusOfPerson" name="ResidentStatusOfPerson" caption="Victim Residence Status" visible="true" foreignKey="ResidentStatusOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeOfVictim" name="TypeOfVictim" caption="Victim Type" visible="true" foreignKey="TypeOfVictimTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeInjury" name="TypeInjury" caption="Injury Type" visible="true" foreignKey="TypeInjuryTypeID" highCardinality="false"/>
-		<Dimension name="AgeOfPerson" caption="Victim Age">
-			<Hierarchy hasAll="true">
-				<Level name="Victim Age" column="AgeOfVictim" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="VictimCount" column="VictimSegmentID" datatype="Integer" aggregator="count" caption="Victim Count" visible="true"/>
+
+	<Cube name="GroupB" visible="true" caption="Group B Arrestee">
+		<Dimensions>
+			<Dimension source="Date" caption="Arrest Date" name="ArrestDate"/>
+			<Dimension source="Agency"/>
+			<Dimension source="SexOfPerson" caption="Arrestee Sex"/>
+			<Dimension source="RaceOfPerson" caption="Arrestee Race"/>
+			<Dimension source="EthnicityOfPerson" caption="Arrestee Ethnicity"/>
+			<Dimension source="ResidentStatusOfPerson" caption="Arrestee Resident Status"/>
+			<Dimension visible="true" name="Arrestee Age" key="Arrestee Age">
+				<Attributes>
+					<Attribute name="Arrestee Age" keyColumn="ArresteeAgeDim" hasHierarchy="false" table="FullGroupBArrestView" orderByColumn="AgeOfArresteeMin"/>
+					<Attribute name="Arrestee Age Group" keyColumn="ArresteeAgeGroup" hasHierarchy="false" table="FullGroupBArrestView" orderByColumn="ArresteeAgeGroupSort"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Arrestee Age" visible="true" hasAll="true"  allMemberCaption="All Ages">
+						<Level attribute="Arrestee Age Group" caption="Arrestee Age Group"/>
+						<Level attribute="Arrestee Age" caption="Arrestee Age"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<Dimension source="TypeOfArrest" caption="Type of Arrest"/>
+			<Dimension source="DispositionOfArresteeUnder18" caption="Disposition Arrestee &lt; 18"/>
+			<Dimension source="ArresteeWasArmedWith" caption="Weapon Armed With"/>
+		</Dimensions>
+		<MeasureGroups>
+    		<MeasureGroup table="FullGroupBArrestView" name="Group B Arrestee">
+	    		<Measures>
+	    			<Measure name="Arrestee Count" column="ArrestReportSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Arrestee Count"/>
+	    			<Measure name="Arrestee-Weapon Count" column="ArrestReportSegmentID" aggregator="count" visible="true" caption="Arrestee+Weapon Count"/>
+	    		</Measures>
+	    		<DimensionLinks>
+	    			<ForeignKeyLink dimension="Agency" foreignKeyColumn="AgencyID"/>
+	    			<ForeignKeyLink dimension="ArrestDate" foreignKeyColumn="ArrestDateID"/>
+					<ForeignKeyLink dimension="SexOfPerson" foreignKeyColumn="SexOfPersonTypeID"/>
+					<ForeignKeyLink dimension="RaceOfPerson" foreignKeyColumn="RaceOfPersonTypeID"/>
+					<ForeignKeyLink dimension="EthnicityOfPerson" foreignKeyColumn="EthnicityOfPersonTypeID"/>
+					<ForeignKeyLink dimension="ResidentStatusOfPerson" foreignKeyColumn="ResidentStatusOfPersonTypeID"/>
+					<FactLink dimension="Arrestee Age"/>
+					<ForeignKeyLink dimension="ArresteeWasArmedWith" foreignKeyColumn="ArresteeWasArmedWithTypeID"/>
+					<ForeignKeyLink dimension="DispositionOfArresteeUnder18" foreignKeyColumn="DispositionOfArresteeUnder18TypeID"/>
+					<ForeignKeyLink dimension="TypeOfArrest" foreignKeyColumn="TypeOfArrestTypeID"/>
+	    		</DimensionLinks>
+	    	</MeasureGroup>
+	    </MeasureGroups>
 	</Cube>
-	<Cube name="Assault-Homicide Circumstances" visible="true" enabled="true">
-		<View alias="AHC">
-			<SQL dialect="mysql"><![CDATA[select VictimSegment.*, AggravatedAssaultHomicideCircumstancesTypeID,
-				AdministrativeSegment.AgencyID, AdministrativeSegment.ClearedExceptionallyTypeID
-				from VictimSegment, AdministrativeSegment, AggravatedAssaultHomicideCircumstances
-				where VictimSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and
-					VictimSegment.VictimSegmentID=AggravatedAssaultHomicideCircumstances.VictimSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="ClearedExceptionally" name="ClearedExceptionally" caption="Exceptional Clearance" visible="true" foreignKey="ClearedExceptionallyTypeID" highCardinality="false"/>
-		<DimensionUsage source="SexOfPerson" name="SexOfPerson" caption="Victim Sex" visible="true" foreignKey="SexOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="RaceOfPerson" name="RaceOfPerson" caption="Victim Race" visible="true" foreignKey="RaceOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="EthnicityOfPerson" name="EthnicityOfPerson" caption="Victim Ethnicity" visible="true" foreignKey="EthnicityOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="ResidentStatusOfPerson" name="ResidentStatusOfPerson" caption="Victim Residence Status" visible="true" foreignKey="ResidentStatusOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeOfVictim" name="TypeOfVictim" caption="Victim Type" visible="true" foreignKey="TypeOfVictimTypeID" highCardinality="false"/>
-		<DimensionUsage source="AggravatedAssaultHomicideCircumstances" name="AggravatedAssaultHomicideCircumstances" caption="Assault-Homicide Circumstances" visible="true" foreignKey="AggravatedAssaultHomicideCircumstancesTypeID" highCardinality="false"/>
-		<Dimension name="AgeOfPerson" caption="Victim Age">
-			<Hierarchy hasAll="true">
-				<Level name="Victim Age" column="AgeOfVictim" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="CircumstancesCount" column="VictimSegmentID" datatype="Integer" aggregator="count" caption="Assault-Homicide Count" visible="true"/>
+
+	<Cube name="Property" visible="true" caption="Property">
+		<Dimensions>
+			<Dimension source="Date"/>
+			<Dimension source="Agency"/>
+			<Dimension source="ClearedExceptionally"/>
+			<Dimension visible="true" name="Stolen Motor Vehicles">
+				<Attributes>
+					<Attribute name="Stolen Motor Vehicles" keyColumn="StolenMotorVehiclesDim" hasHierarchy="false" table="FullPropertyView"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Stolen Motor Vehicles"  visible="true" hasAll="true"  allMemberCaption="All Counts">
+						<Level attribute="Stolen Motor Vehicles" caption="# Stolen Motor Vehicles"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<Dimension visible="true" name="Recovered Motor Vehicles">
+				<Attributes>
+					<Attribute name="Recovered Motor Vehicles" keyColumn="RecoveredMotorVehiclesDim" hasHierarchy="false" table="FullPropertyView"/>
+				</Attributes>
+				<Hierarchies>
+					<Hierarchy name="Recovered Motor Vehicles"  visible="true" hasAll="true"  allMemberCaption="All Counts">
+						<Level attribute="Recovered Motor Vehicles" caption="# Recovered Motor Vehicles"/>
+					</Hierarchy>
+				</Hierarchies>
+			</Dimension>
+			<Dimension source="TypePropertyLossEtc"/>
+			<Dimension source="PropertyDescription"/>
+			<Dimension source="SuspectedDrugType"/>
+		</Dimensions>
+		<MeasureGroups>
+    		<MeasureGroup table="FullPropertyView" name="Property">
+	    		<Measures>
+	    			<Measure name="Incident Count" column="AdministrativeSegmentID" aggregator="distinct-count" visible="true" caption="Distinct Incident Count"/>
+	    			<Measure name="Property Item Count" column="PropertySegmentID" aggregator="distinct-count" visible="true" caption="Distinct Property Item Count"/>
+	    			<Measure name="Drug Item Count" column="SuspectedDrugTypeID" aggregator="distinct-count" visible="true" caption="Distinct Drug Item Count"/>
+	    			<Measure name="Property Value" column="ValueOfProperty" aggregator="sum" visible="true" caption="Property Value"/>
+	    		</Measures>
+	    		<DimensionLinks>
+	    			<ForeignKeyLink dimension="Agency" foreignKeyColumn="AgencyID"/>
+	    			<ForeignKeyLink dimension="Date" foreignKeyColumn="IncidentDateID"/>
+	    			<ForeignKeyLink dimension="ClearedExceptionally" foreignKeyColumn="ClearedExceptionallyTypeID"/>
+					<FactLink dimension="Stolen Motor Vehicles"/>
+					<FactLink dimension="Recovered Motor Vehicles"/>
+	    			<ForeignKeyLink dimension="TypePropertyLossEtc" foreignKeyColumn="TypePropertyLossEtcTypeID"/>
+	    			<ForeignKeyLink dimension="PropertyDescription" foreignKeyColumn="PropertyDescriptionTypeID"/>
+	    			<ForeignKeyLink dimension="SuspectedDrugType" foreignKeyColumn="SuspectedDrugTypeID"/>
+	    		</DimensionLinks>
+	    	</MeasureGroup>
+	    </MeasureGroups>
 	</Cube>
-	<Cube name="Offender" visible="true" enabled="true">
-		<View alias="Offender">
-			<SQL dialect="mysql"><![CDATA[select OffenderSegment.*, AdministrativeSegment.AgencyID, AdministrativeSegment.ClearedExceptionallyTypeID from OffenderSegment, AdministrativeSegment where OffenderSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="ClearedExceptionally" name="ClearedExceptionally" caption="Exceptional Clearance" visible="true" foreignKey="ClearedExceptionallyTypeID" highCardinality="false"/>
-		<DimensionUsage source="SexOfPerson" name="SexOfPerson" caption="Offender Sex" visible="true" foreignKey="SexOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="RaceOfPerson" name="RaceOfPerson" caption="Offender Race" visible="true" foreignKey="RaceOfPersonTypeID" highCardinality="false"/>
-		<DimensionUsage source="EthnicityOfPerson" name="EthnicityOfPerson" caption="Offender Ethnicity" visible="true" foreignKey="EthnicityOfPersonTypeID" highCardinality="false"/>
-		<Dimension name="AgeOfPerson" caption="Offender Age">
-			<Hierarchy hasAll="true">
-				<Level name="Offender Age" column="AgeOfOffender" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="OffenderCount" column="OffenderSegmentID" datatype="Integer" aggregator="count" caption="Offender Count" visible="true"/>
-	</Cube>
-	<Cube name="Offense" visible="true" enabled="true">
-		<View alias="Offense">
-			<SQL dialect="mysql"><![CDATA[select OffenseSegment.*, IncidentHour,
-			if(OffenseAttemptedCompleted='1', 'Y', 'N') as OffenseAttemptedCompletedYN,
-			AdministrativeSegment.AgencyID, AdministrativeSegment.ClearedExceptionallyTypeID from OffenseSegment, AdministrativeSegment where OffenseSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="ClearedExceptionally" name="ClearedExceptionally" caption="Exceptional Clearance"  visible="true" foreignKey="ClearedExceptionallyTypeID" highCardinality="false"/>
-		<DimensionUsage source="LocationType" name="LocationType" caption="Location Type" visible="true" foreignKey="LocationTypeTypeID" highCardinality="false"/>
-		<DimensionUsage source="MethodOfEntry" name="MethodOfEntry" caption="Method of Entry" visible="true" foreignKey="MethodOfEntryTypeID" highCardinality="false"/>
-		<DimensionUsage source="BiasMotivation" name="BiasMotivation" caption="Bias Motivation" visible="true" foreignKey="BiasMotivationTypeID" highCardinality="false"/>
-		<DimensionUsage source="UCROffenseCode" name="UCROffenseCode" caption="Offense Type" visible="true" foreignKey="UCROffenseCodeTypeID" highCardinality="false"/>
-		<Dimension name="Completed" caption="Offense Completed">
-			<Hierarchy hasAll="true">
-				<Level name="Offense Completed" column="OffenseAttemptedCompletedYN" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Dimension name="Hour" caption="Hour of Day">
-			<Hierarchy hasAll="true">
-				<Level name="Hour of Day" column="IncidentHour" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="OffenseCount" column="OffenseSegmentID" datatype="Integer" aggregator="count" caption="Offense Count" visible="true"/>
-	</Cube>
-	<Cube name="OffenseOffenderSuspectedOfUsing" visible="true" enabled="true" caption="Offense - Offender Suspected Usage">
-		<View alias="OffenseOffenderSuspectedOfUsing">
-			<SQL dialect="mysql"><![CDATA[select OffenseSegment.*, AdministrativeSegment.AgencyID, OffenderSuspectedOfUsingTypeID	from OffenseSegment, AdministrativeSegment, OffenderSuspectedOfUsing where OffenseSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and	OffenseSegment.OffenseSegmentID=OffenderSuspectedOfUsing.OffenseSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="LocationType" name="LocationType" caption="Location Type" visible="true" foreignKey="LocationTypeTypeID" highCardinality="false"/>
-		<DimensionUsage source="MethodOfEntry" name="MethodOfEntry" caption="Method of Entry" visible="true" foreignKey="MethodOfEntryTypeID" highCardinality="false"/>
-		<DimensionUsage source="BiasMotivation" name="BiasMotivation" caption="Bias Motivation" visible="true" foreignKey="BiasMotivationTypeID" highCardinality="false"/>
-		<DimensionUsage source="UCROffenseCode" name="UCROffenseCode" caption="Offense Type" visible="true" foreignKey="UCROffenseCodeTypeID" highCardinality="false"/>
-		<DimensionUsage source="OffenderSuspectedOfUsing" name="OffenderSuspectedOfUsing" caption="Offender Suspected Of Using" visible="true" foreignKey="OffenderSuspectedOfUsingTypeID" highCardinality="false"/>
-		<Dimension name="Completed" caption="Offense Completed">
-			<Hierarchy hasAll="true">
-				<Level name="Offense Completed" column="OffenseAttemptedCompletedYN" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="OffenseCount" column="OffenseSegmentID" datatype="Integer" aggregator="count" caption="Offense Count" visible="true"/>
-	</Cube>
-	<Cube name="OffenseCriminalActivity" visible="true" enabled="true" caption="Offense - Criminal Activity">
-		<View alias="OffenseCriminalActivity">
-			<SQL dialect="mysql"><![CDATA[select OffenseSegment.*, AdministrativeSegment.AgencyID, TypeOfCriminalActivityTypeID	from OffenseSegment, AdministrativeSegment, TypeCriminalActivity where OffenseSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and	OffenseSegment.OffenseSegmentID=TypeCriminalActivity.OffenseSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="LocationType" name="LocationType" caption="Location Type" visible="true" foreignKey="LocationTypeTypeID" highCardinality="false"/>
-		<DimensionUsage source="MethodOfEntry" name="MethodOfEntry" caption="Method of Entry" visible="true" foreignKey="MethodOfEntryTypeID" highCardinality="false"/>
-		<DimensionUsage source="BiasMotivation" name="BiasMotivation" caption="Bias Motivation" visible="true" foreignKey="BiasMotivationTypeID" highCardinality="false"/>
-		<DimensionUsage source="UCROffenseCode" name="UCROffenseCode" caption="Offense Type" visible="true" foreignKey="UCROffenseCodeTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeOfCriminalActivity" name="TypeOfCriminalActivity" caption="Criminal Activity Type" visible="true" foreignKey="TypeOfCriminalActivityTypeID" highCardinality="false"/>
-		<Dimension name="Completed" caption="Offense Completed">
-			<Hierarchy hasAll="true">
-				<Level name="Offense Completed" column="OffenseAttemptedCompletedYN" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="OffenseCount" column="OffenseSegmentID" datatype="Integer" aggregator="count" caption="Offense Count" visible="true"/>
-	</Cube>
-	<Cube name="OffenseWeaponForce" visible="true" enabled="true" caption="Offense - Weapon/Force">
-		<View alias="OffenseWeaponForce">
-			<SQL dialect="mysql"><![CDATA[select OffenseSegment.*, AdministrativeSegment.AgencyID, TypeOfWeaponForceInvolvedTypeID	from OffenseSegment, AdministrativeSegment, TypeOfWeaponForceInvolved where OffenseSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and OffenseSegment.OffenseSegmentID=TypeOfWeaponForceInvolved.TypeOfWeaponForceInvolvedTypeID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="LocationType" name="LocationType" caption="Location Type" visible="true" foreignKey="LocationTypeTypeID" highCardinality="false"/>
-		<DimensionUsage source="MethodOfEntry" name="MethodOfEntry" caption="Method of Entry" visible="true" foreignKey="MethodOfEntryTypeID" highCardinality="false"/>
-		<DimensionUsage source="BiasMotivation" name="BiasMotivation" caption="Bias Motivation" visible="true" foreignKey="BiasMotivationTypeID" highCardinality="false"/>
-		<DimensionUsage source="UCROffenseCode" name="UCROffenseCode" caption="Offense Type" visible="true" foreignKey="UCROffenseCodeTypeID" highCardinality="false"/>
-		<DimensionUsage source="TypeOfWeaponForceInvolved" name="TypeOfWeaponForceInvolved" caption="Type Weapon/Force Involved" visible="true" foreignKey="TypeOfWeaponForceInvolvedTypeID" highCardinality="false"/>
-		<Dimension name="Completed" caption="Offense Completed">
-			<Hierarchy hasAll="true">
-				<Level name="Offense Completed" column="OffenseAttemptedCompletedYN" uniqueMembers="true"/>
-			</Hierarchy>
-		</Dimension>
-		<Measure name="OffenseCount" column="OffenseSegmentID" datatype="Integer" aggregator="count" caption="Offense Count" visible="true"/>
-	</Cube>
-	<Cube name="Property" visible="true" enabled="true" caption="Property">
-		<View alias="Property">
-			<SQL dialect="mysql"><![CDATA[select PropertySegment.*, AdministrativeSegment.AgencyID from PropertySegment, AdministrativeSegment where PropertySegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="TypePropertyLossEtc" name="TypePropertyLossEtc" caption="Type Property Loss" visible="true" foreignKey="TypePropertyLossEtcTypeID" highCardinality="false"/>
-		<DimensionUsage source="PropertyDescription" name="PropertyDescription" caption="Type Property" visible="true" foreignKey="PropertyDescriptionTypeID" highCardinality="false"/>
-		<Measure name="PropertyCount" column="PropertySegmentID" datatype="Integer" aggregator="count" caption="Property Item Count" visible="true"/>
-		<Measure name="PropertyValue" column="ValueOfProperty" datatype="Numeric" aggregator="sum" caption="Property Value Total" visible="true"/>
-		<Measure name="StolenMV" column="NumberOfStolenMotorVehicles" datatype="Integer" aggregator="sum" caption="# of Stolen Motor Vehicles" visible="true"/>
-		<Measure name="RecoveredMV" column="NumberOfRecoveredMotorVehicles" datatype="Integer" aggregator="sum" caption="# of Recovered Motor Vehicles" visible="true"/>
-	</Cube>
-	<Cube name="PropertyDrugType" visible="true" enabled="true" caption="Suspected Drug Type">
-		<View alias="PropertyDrugType">
-			<SQL dialect="mysql"><![CDATA[select PropertySegment.*, SuspectedDrugTypeTypeID, AdministrativeSegment.AgencyID
-			from PropertySegment, AdministrativeSegment, SuspectedDrugType
-			where PropertySegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID and
-				PropertySegment.PropertySegmentID=SuspectedDrugType.PropertySegmentID]]></SQL>
-		</View>
-		<DimensionUsage source="County" name="County" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="Agency" name="Agency" visible="true" foreignKey="AgencyID" highCardinality="false"/>
-		<DimensionUsage source="TypePropertyLossEtc" name="TypePropertyLossEtc" caption="Type Property Loss" visible="true" foreignKey="TypePropertyLossEtcTypeID" highCardinality="false"/>
-		<DimensionUsage source="PropertyDescription" name="PropertyDescription" caption="Type Property" visible="true" foreignKey="PropertyDescriptionTypeID" highCardinality="false"/>
-		<DimensionUsage source="SuspectedDrugType" name="SuspectedDrugType" caption="Drug Type" visible="true" foreignKey="SuspectedDrugTypeTypeID" highCardinality="false"/>
-		<Measure name="PropertyCount" column="PropertySegmentID" datatype="Integer" aggregator="count" caption="Property Item Count" visible="true"/>
-	</Cube>
+
 </Schema>
