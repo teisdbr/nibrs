@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.groupa;
+package org.search.nibrs.stagingdata.service;
 
 import java.util.List;
 
+import org.search.nibrs.stagingdata.model.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.OffenseSegment;
+import org.search.nibrs.stagingdata.repository.AdministrativeSegmentRepository;
+import org.search.nibrs.stagingdata.repository.OffenseSegmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository;
+package org.search.nibrs.stagingdata.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,23 +23,23 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-public class RaceOfPersonType {
+public class SexOfPersonType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer raceOfPersonTypeId; 
+	private Integer sexOfPersonTypeId; 
 	
-	private String raceOfPersonCode; 
-	private String raceOfPersonDescription; 
+	private String sexOfPersonCode; 
+	private String sexOfPersonDescription; 
 	
-	public RaceOfPersonType() {
+	public SexOfPersonType() {
 		super();
 	}
 
-	public RaceOfPersonType(Integer raceOfPersonTypeId, String raceOfPersonCode, String raceOfPersonDescription) {
+	public SexOfPersonType(Integer sexOfPersonTypeId, String sexOfPersonCode, String sexOfPersonDescription) {
 		super();
-		this.setRaceOfPersonTypeId(raceOfPersonTypeId);
-		setRaceOfPersonCode(raceOfPersonCode);
-		setRaceOfPersonDescription(raceOfPersonDescription);
+		setSexOfPersonTypeId(sexOfPersonTypeId);
+		setSexOfPersonCode(sexOfPersonCode);
+		setSexOfPersonDescription(sexOfPersonDescription);
 	}
 
 
@@ -48,31 +48,31 @@ public class RaceOfPersonType {
 	}
 
 
-	public String getRaceOfPersonCode() {
-		return raceOfPersonCode;
+	public String getSexOfPersonCode() {
+		return sexOfPersonCode;
 	}
 
 
-	public void setRaceOfPersonCode(String raceOfPersonCode) {
-		this.raceOfPersonCode = raceOfPersonCode;
+	public void setSexOfPersonCode(String sexOfPersonCode) {
+		this.sexOfPersonCode = sexOfPersonCode;
 	}
 
 
-	public String getRaceOfPersonDescription() {
-		return raceOfPersonDescription;
+	public String getSexOfPersonDescription() {
+		return sexOfPersonDescription;
 	}
 
 
-	public void setRaceOfPersonDescription(String raceOfPersonDescription) {
-		this.raceOfPersonDescription = raceOfPersonDescription;
+	public void setSexOfPersonDescription(String sexOfPersonDescription) {
+		this.sexOfPersonDescription = sexOfPersonDescription;
 	}
 
-	public Integer getRaceOfPersonTypeId() {
-		return raceOfPersonTypeId;
+	public Integer getSexOfPersonTypeId() {
+		return sexOfPersonTypeId;
 	}
 
-	public void setRaceOfPersonTypeId(Integer raceOfPersonTypeId) {
-		this.raceOfPersonTypeId = raceOfPersonTypeId;
+	public void setSexOfPersonTypeId(Integer sexOfPersonTypeId) {
+		this.sexOfPersonTypeId = sexOfPersonTypeId;
 	}
 
 }

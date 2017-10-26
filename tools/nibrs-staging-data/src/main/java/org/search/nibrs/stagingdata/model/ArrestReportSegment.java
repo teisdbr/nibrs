@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.arrestreport;
+package org.search.nibrs.stagingdata.model;
 
 import java.util.Date;
 
@@ -26,16 +26,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.search.nibrs.stagingdata.repository.Agency;
-import org.search.nibrs.stagingdata.repository.DateType;
-import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18Type;
-import org.search.nibrs.stagingdata.repository.EthnicityOfPersonType;
-import org.search.nibrs.stagingdata.repository.RaceOfPersonType;
-import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonType;
-import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
-import org.search.nibrs.stagingdata.repository.SexOfPersonType;
-import org.search.nibrs.stagingdata.repository.TypeOfArrestType;
-import org.search.nibrs.stagingdata.repository.UcrOffenseCodeType;
 
 @Entity
 public class ArrestReportSegment {

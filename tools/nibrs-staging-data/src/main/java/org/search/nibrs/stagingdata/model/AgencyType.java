@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository;
+package org.search.nibrs.stagingdata.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,51 +23,51 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-public class TypeOfArrestType {
+public class AgencyType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer typeOfArrestTypeID; 
+	private Integer agencyTypeId; 
 	
-	private String typeOfArrestCode; 
-	private String typeOfArrestDescription; 
+	private String agencyTypeCode; 
+	private String agencyTypeDescription; 
 	
-	public TypeOfArrestType() {
+	public AgencyType() {
 		super();
 	}
 
-	public TypeOfArrestType(Integer typeOfArrestTypeID, String typeOfArrestCode, String typeOfArrestDescription) {
+	public AgencyType(Integer agencyTypeId, String agencyTypeCode, String agencyTypeDescription) {
 		super();
-		this.typeOfArrestTypeID = typeOfArrestTypeID;
-		this.typeOfArrestCode = typeOfArrestCode;
-		this.typeOfArrestDescription = typeOfArrestDescription;
+		this.agencyTypeId = agencyTypeId;
+		this.agencyTypeCode = agencyTypeCode;
+		this.agencyTypeDescription = agencyTypeDescription;
 	}
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-	public String getTypeOfArrestCode() {
-		return typeOfArrestCode;
+	public String getAgencyTypeCode() {
+		return agencyTypeCode;
 	}
 
-	public void setTypeOfArrestCode(String typeOfArrestCode) {
-		this.typeOfArrestCode = typeOfArrestCode;
+	public void setAgencyTypeCode(String agencyTypeCode) {
+		this.agencyTypeCode = agencyTypeCode;
 	}
 
-	public String getTypeOfArrestDescription() {
-		return typeOfArrestDescription;
+	public String getAgencyTypeDescription() {
+		return agencyTypeDescription;
 	}
 
-	public void setTypeOfArrestDescription(String typeOfArrestDescription) {
-		this.typeOfArrestDescription = typeOfArrestDescription;
+	public void setAgencyTypeDescription(String agencyTypeDescription) {
+		this.agencyTypeDescription = agencyTypeDescription;
 	}
 
-	public Integer getTypeOfArrestTypeID() {
-		return typeOfArrestTypeID;
+	public Integer getAgencyTypeId() {
+		return agencyTypeId;
 	}
 
-	public void setTypeOfArrestTypeID(Integer typeOfArrestTypeID) {
-		this.typeOfArrestTypeID = typeOfArrestTypeID;
+	public void setAgencyTypeId(Integer agencyTypeId) {
+		this.agencyTypeId = agencyTypeId;
 	}
 
 }

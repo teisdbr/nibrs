@@ -17,6 +17,7 @@ package org.search.nibrs.stagingdata.repository;
 
 import java.util.List;
 
+import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UcrOffenseCodeTypeRepository extends CrudRepository<UcrOffenseCodeType, Integer>{

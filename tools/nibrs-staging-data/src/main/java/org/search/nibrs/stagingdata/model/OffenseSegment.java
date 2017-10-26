@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.groupa;
+package org.search.nibrs.stagingdata.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,11 +24,6 @@ import javax.persistence.ManyToOne;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.search.nibrs.stagingdata.repository.BiasMotivationType;
-import org.search.nibrs.stagingdata.repository.LocationType;
-import org.search.nibrs.stagingdata.repository.MethodOfEntryType;
-import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
-import org.search.nibrs.stagingdata.repository.UcrOffenseCodeType;
 
 @Entity
 public class OffenseSegment {

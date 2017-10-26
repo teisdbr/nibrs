@@ -17,6 +17,7 @@ package org.search.nibrs.stagingdata.repository;
 
 import java.util.List;
 
+import org.search.nibrs.stagingdata.model.LocationType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface LocationTypeRepository extends CrudRepository<LocationType, Integer>{

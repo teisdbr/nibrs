@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.groupa;
+package org.search.nibrs.stagingdata.model;
 
 import java.util.Date;
 import java.util.Set;
@@ -29,10 +29,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.search.nibrs.stagingdata.repository.Agency;
-import org.search.nibrs.stagingdata.repository.ClearedExceptionallyType;
-import org.search.nibrs.stagingdata.repository.DateType;
-import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
 
 @Entity
 public class AdministrativeSegment {

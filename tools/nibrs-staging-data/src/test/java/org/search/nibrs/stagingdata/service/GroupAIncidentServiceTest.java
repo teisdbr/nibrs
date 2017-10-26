@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.groupa;
+package org.search.nibrs.stagingdata.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNull;
@@ -24,28 +24,28 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.search.nibrs.stagingdata.repository.Agency;
+import org.search.nibrs.stagingdata.model.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.BiasMotivationType;
+import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
+import org.search.nibrs.stagingdata.model.DateType;
+import org.search.nibrs.stagingdata.model.LocationType;
+import org.search.nibrs.stagingdata.model.MethodOfEntryType;
+import org.search.nibrs.stagingdata.model.OffenseSegment;
+import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
-import org.search.nibrs.stagingdata.repository.BiasMotivationType;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
-import org.search.nibrs.stagingdata.repository.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepository;
-import org.search.nibrs.stagingdata.repository.DateType;
 import org.search.nibrs.stagingdata.repository.DateTypeRepository;
-import org.search.nibrs.stagingdata.repository.LocationType;
 import org.search.nibrs.stagingdata.repository.LocationTypeRepository;
-import org.search.nibrs.stagingdata.repository.MethodOfEntryType;
 import org.search.nibrs.stagingdata.repository.MethodOfEntryTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
-import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
-import org.search.nibrs.stagingdata.repository.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -93,25 +93,29 @@ public class GroupAIncidentServiceTest {
 		assertThat(persisted.getIncidentHour(), equalTo(13));
 		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("B"));
 		
-		List<OffenseSegment> offenseSegments = persisted.getOffenseSegments().stream().collect(Collectors.toList());
+		Set<OffenseSegment> offenseSegments = persisted.getOffenseSegments();
 		assertThat(offenseSegments.size(), equalTo(2));
-		OffenseSegment offenseSegment1 = offenseSegments.get(0); 
-		assertThat(offenseSegment1.getBiasMotivationType().getBiasMotivationCode(), equalTo("11"));
-		assertThat(offenseSegment1.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-		assertThat(offenseSegment1.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("520"));
-		assertThat(offenseSegment1.getOffenseAttemptedCompleted(), equalTo("C"));
-		assertThat(offenseSegment1.getLocationType().getLocationTypeCode(), equalTo("04"));
-		assertThat(offenseSegment1.getNumberOfPremisesEntered(), equalTo(2));
-		assertThat(offenseSegment1.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
 		
-		OffenseSegment offenseSegment2 = offenseSegments.get(1); 
-		assertThat(offenseSegment2.getBiasMotivationType().getBiasMotivationCode(), equalTo("12"));
-		assertThat(offenseSegment2.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-		assertThat(offenseSegment2.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("35A"));
-		assertThat(offenseSegment2.getOffenseAttemptedCompleted(), equalTo("A"));
-		assertThat(offenseSegment2.getLocationType().getLocationTypeCode(), equalTo("02"));
-		assertThat(offenseSegment2.getNumberOfPremisesEntered(), equalTo(1));
-		assertThat(offenseSegment2.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+		for (OffenseSegment offenseSegment: offenseSegments){
+			if (offenseSegment.getOffenseSegmentId() == 1){
+				assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("11"));
+				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("520"));
+				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
+				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("04"));
+				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(2));
+				assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+			}
+			else {
+				assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("12"));
+				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("35A"));
+				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("A"));
+				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("02"));
+				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(1));
+				assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+			}
+		}
 	}
 	
 	public AdministrativeSegment getBasicAdministrativeSegment(){

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.arrestreport;
+package org.search.nibrs.stagingdata.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -26,26 +26,28 @@ import java.util.Date;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.search.nibrs.stagingdata.repository.Agency;
+import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.ArrestReportSegment;
+import org.search.nibrs.stagingdata.model.DateType;
+import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
+import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
+import org.search.nibrs.stagingdata.model.RaceOfPersonType;
+import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
+import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.model.SexOfPersonType;
+import org.search.nibrs.stagingdata.model.TypeOfArrestType;
+import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
-import org.search.nibrs.stagingdata.repository.DateType;
 import org.search.nibrs.stagingdata.repository.DateTypeRepository;
-import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18Type;
 import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18TypeRepository;
-import org.search.nibrs.stagingdata.repository.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.repository.EthnicityOfPersonTypeRepository;
-import org.search.nibrs.stagingdata.repository.RaceOfPersonType;
 import org.search.nibrs.stagingdata.repository.RaceOfPersonTypeRepository;
-import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonType;
 import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
-import org.search.nibrs.stagingdata.repository.SegmentActionTypeType;
-import org.search.nibrs.stagingdata.repository.SexOfPersonType;
 import org.search.nibrs.stagingdata.repository.SexOfPersonTypeRepository;
-import org.search.nibrs.stagingdata.repository.TypeOfArrestType;
 import org.search.nibrs.stagingdata.repository.TypeOfArrestTypeRepository;
-import org.search.nibrs.stagingdata.repository.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
+import org.search.nibrs.stagingdata.service.ArrestReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;

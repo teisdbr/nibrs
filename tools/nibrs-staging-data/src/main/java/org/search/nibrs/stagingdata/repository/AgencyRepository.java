@@ -17,6 +17,7 @@ package org.search.nibrs.stagingdata.repository;
 
 import java.util.List;
 
+import org.search.nibrs.stagingdata.model.Agency;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AgencyRepository extends CrudRepository<Agency, Integer>{

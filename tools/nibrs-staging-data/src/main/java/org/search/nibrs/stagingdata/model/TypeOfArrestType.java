@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository;
+package org.search.nibrs.stagingdata.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,56 +23,51 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-public class SexOfPersonType {
+public class TypeOfArrestType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer sexOfPersonTypeId; 
+	private Integer typeOfArrestTypeID; 
 	
-	private String sexOfPersonCode; 
-	private String sexOfPersonDescription; 
+	private String typeOfArrestCode; 
+	private String typeOfArrestDescription; 
 	
-	public SexOfPersonType() {
+	public TypeOfArrestType() {
 		super();
 	}
 
-	public SexOfPersonType(Integer sexOfPersonTypeId, String sexOfPersonCode, String sexOfPersonDescription) {
+	public TypeOfArrestType(Integer typeOfArrestTypeID, String typeOfArrestCode, String typeOfArrestDescription) {
 		super();
-		setSexOfPersonTypeId(sexOfPersonTypeId);
-		setSexOfPersonCode(sexOfPersonCode);
-		setSexOfPersonDescription(sexOfPersonDescription);
+		this.typeOfArrestTypeID = typeOfArrestTypeID;
+		this.typeOfArrestCode = typeOfArrestCode;
+		this.typeOfArrestDescription = typeOfArrestDescription;
 	}
-
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-
-	public String getSexOfPersonCode() {
-		return sexOfPersonCode;
+	public String getTypeOfArrestCode() {
+		return typeOfArrestCode;
 	}
 
-
-	public void setSexOfPersonCode(String sexOfPersonCode) {
-		this.sexOfPersonCode = sexOfPersonCode;
+	public void setTypeOfArrestCode(String typeOfArrestCode) {
+		this.typeOfArrestCode = typeOfArrestCode;
 	}
 
-
-	public String getSexOfPersonDescription() {
-		return sexOfPersonDescription;
+	public String getTypeOfArrestDescription() {
+		return typeOfArrestDescription;
 	}
 
-
-	public void setSexOfPersonDescription(String sexOfPersonDescription) {
-		this.sexOfPersonDescription = sexOfPersonDescription;
+	public void setTypeOfArrestDescription(String typeOfArrestDescription) {
+		this.typeOfArrestDescription = typeOfArrestDescription;
 	}
 
-	public Integer getSexOfPersonTypeId() {
-		return sexOfPersonTypeId;
+	public Integer getTypeOfArrestTypeID() {
+		return typeOfArrestTypeID;
 	}
 
-	public void setSexOfPersonTypeId(Integer sexOfPersonTypeId) {
-		this.sexOfPersonTypeId = sexOfPersonTypeId;
+	public void setTypeOfArrestTypeID(Integer typeOfArrestTypeID) {
+		this.typeOfArrestTypeID = typeOfArrestTypeID;
 	}
 
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository;
+package org.search.nibrs.stagingdata.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,51 +23,56 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-public class AgencyType {
+public class RaceOfPersonType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer agencyTypeId; 
+	private Integer raceOfPersonTypeId; 
 	
-	private String agencyTypeCode; 
-	private String agencyTypeDescription; 
+	private String raceOfPersonCode; 
+	private String raceOfPersonDescription; 
 	
-	public AgencyType() {
+	public RaceOfPersonType() {
 		super();
 	}
 
-	public AgencyType(Integer agencyTypeId, String agencyTypeCode, String agencyTypeDescription) {
+	public RaceOfPersonType(Integer raceOfPersonTypeId, String raceOfPersonCode, String raceOfPersonDescription) {
 		super();
-		this.agencyTypeId = agencyTypeId;
-		this.agencyTypeCode = agencyTypeCode;
-		this.agencyTypeDescription = agencyTypeDescription;
+		this.setRaceOfPersonTypeId(raceOfPersonTypeId);
+		setRaceOfPersonCode(raceOfPersonCode);
+		setRaceOfPersonDescription(raceOfPersonDescription);
 	}
+
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-	public String getAgencyTypeCode() {
-		return agencyTypeCode;
+
+	public String getRaceOfPersonCode() {
+		return raceOfPersonCode;
 	}
 
-	public void setAgencyTypeCode(String agencyTypeCode) {
-		this.agencyTypeCode = agencyTypeCode;
+
+	public void setRaceOfPersonCode(String raceOfPersonCode) {
+		this.raceOfPersonCode = raceOfPersonCode;
 	}
 
-	public String getAgencyTypeDescription() {
-		return agencyTypeDescription;
+
+	public String getRaceOfPersonDescription() {
+		return raceOfPersonDescription;
 	}
 
-	public void setAgencyTypeDescription(String agencyTypeDescription) {
-		this.agencyTypeDescription = agencyTypeDescription;
+
+	public void setRaceOfPersonDescription(String raceOfPersonDescription) {
+		this.raceOfPersonDescription = raceOfPersonDescription;
 	}
 
-	public Integer getAgencyTypeId() {
-		return agencyTypeId;
+	public Integer getRaceOfPersonTypeId() {
+		return raceOfPersonTypeId;
 	}
 
-	public void setAgencyTypeId(Integer agencyTypeId) {
-		this.agencyTypeId = agencyTypeId;
+	public void setRaceOfPersonTypeId(Integer raceOfPersonTypeId) {
+		this.raceOfPersonTypeId = raceOfPersonTypeId;
 	}
 
 }

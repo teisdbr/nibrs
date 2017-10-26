@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.arrestreport;
+package org.search.nibrs.stagingdata.service;
 
-import org.springframework.data.repository.CrudRepository;
-
-public interface ArrestReportSegmentRepository 
-	extends CrudRepository<ArrestReportSegment, Integer>{
+public class IncidentService {
 
 }
