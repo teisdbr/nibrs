@@ -15,13 +15,10 @@
  */
 package org.search.nibrs.stagingdata.model;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
