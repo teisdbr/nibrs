@@ -15,10 +15,13 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -30,6 +33,9 @@ public class TypeOfWeaponForceInvolvedType {
 	
 	private String typeOfWeaponForceInvolvedCode; 
 	private String typeOfWeaponForceInvolvedDescription; 
+	
+	@OneToMany(mappedBy = "typeOfWeaponForceInvolvedType")
+	private Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds;
 	
 	public TypeOfWeaponForceInvolvedType() {
 		super();
@@ -69,6 +75,14 @@ public class TypeOfWeaponForceInvolvedType {
 
 	public void setTypeOfWeaponForceInvolvedDescription(String typeOfWeaponForceInvolvedDescription) {
 		this.typeOfWeaponForceInvolvedDescription = typeOfWeaponForceInvolvedDescription;
+	}
+
+	public Set<TypeOfWeaponForceInvolved> getTypeOfWeaponForceInvolveds() {
+		return typeOfWeaponForceInvolveds;
+	}
+
+	public void setTypeOfWeaponForceInvolveds(Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds) {
+		this.typeOfWeaponForceInvolveds = typeOfWeaponForceInvolveds;
 	}
 
 }

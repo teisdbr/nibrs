@@ -40,6 +40,7 @@ import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.OffenseSegment;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
+import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
@@ -127,6 +128,21 @@ public class GroupAIncidentServiceTest {
 						offenseSegment.getTypeOfCriminalActivityTypes(); 
 				assertThat(typeOfCriminalActivityTypes.size(), equalTo(0));
 
+				Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds = 
+						offenseSegment.getTypeOfWeaponForceInvolveds();
+				assertThat(typeOfWeaponForceInvolveds.size(), equalTo(2));
+				
+				for (TypeOfWeaponForceInvolved typeOfWeaponForceInvolved: typeOfWeaponForceInvolveds){
+					assertThat(typeOfWeaponForceInvolved.getOffenseSegment().getOffenseSegmentId(), equalTo(offenseSegment.getOffenseSegmentId()));
+					if (typeOfWeaponForceInvolved.getAutomaticWeaponIndicator().equals("A")){
+						assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedTypeId(), equalTo(120));
+					}
+					else{
+						assertThat(typeOfWeaponForceInvolved.getAutomaticWeaponIndicator(), equalTo(""));
+						assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedTypeId(), equalTo(110));
+					}
+				}
+				
 			}
 			else {
 				assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("12"));
@@ -145,6 +161,10 @@ public class GroupAIncidentServiceTest {
 				assertThat(typeOfCriminalActivityTypes.size(), equalTo(2));
 				assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findOne(3)));
 				assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findOne(4)));
+				
+				Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds = 
+						offenseSegment.getTypeOfWeaponForceInvolveds();
+				assertThat(typeOfWeaponForceInvolveds.size(), equalTo(0));
 			}
 		}
 	}
@@ -200,10 +220,20 @@ public class GroupAIncidentServiceTest {
 			add(offenderSuspectedOfUsingTypeRepository.findOne(2));
 		}});
 		
-//		offenseSegment.setTypeOfWeaponForceInvolvedTypes(new HashSet<TypeOfWeaponForceInvolvedType>(){{
-//			add(typeOfWeaponForceInvolvedTypeRepository.findOne(110));
-//			add(typeOfWeaponForceInvolvedTypeRepository.findOne(120));
-//			}});
+		TypeOfWeaponForceInvolved typeOfWeaponForceInvolved1 = new TypeOfWeaponForceInvolved();
+		typeOfWeaponForceInvolved1.setOffenseSegment(offenseSegment);
+		typeOfWeaponForceInvolved1.setAutomaticWeaponIndicator("A");
+		typeOfWeaponForceInvolved1.setTypeOfWeaponForceInvolvedType(typeOfWeaponForceInvolvedTypeRepository.findOne(120));
+		
+		TypeOfWeaponForceInvolved typeOfWeaponForceInvolved2 = new TypeOfWeaponForceInvolved();
+		typeOfWeaponForceInvolved2.setOffenseSegment(offenseSegment);
+		typeOfWeaponForceInvolved2.setAutomaticWeaponIndicator("");
+		typeOfWeaponForceInvolved2.setTypeOfWeaponForceInvolvedType(typeOfWeaponForceInvolvedTypeRepository.findOne(110));
+		
+		offenseSegment.setTypeOfWeaponForceInvolveds(new HashSet<TypeOfWeaponForceInvolved>(){{
+			add(typeOfWeaponForceInvolved1);
+			add(typeOfWeaponForceInvolved2);
+		}});
 		
 		offenseSegments.add(offenseSegment);
 //		Offense segment 2 

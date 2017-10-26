@@ -28,6 +28,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -64,11 +65,8 @@ public class OffenseSegment {
 	@JoinColumn(name="biasMotivationTypeId")
 	private BiasMotivationType biasMotivationType;
 	
-//	@ManyToMany(cascade = CascadeType.MERGE)
-//    @JoinTable(name = "typeOfWeaponForceInvolved", 
-//    	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
-//    	inverseJoinColumns = @JoinColumn(name = "typeOfWeaponForceInvolvedTypeId", referencedColumnName = "typeOfWeaponForceInvolvedTypeId"))
-//	private Set<TypeOfWeaponForceInvolvedType> typeOfWeaponForceInvolvedTypes;
+	@OneToMany(mappedBy = "offenseSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds;
 	
 	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
 	@JoinTable(name = "offenderSuspectedOfUsing", 
@@ -156,5 +154,11 @@ public class OffenseSegment {
 	}
 	public void setTypeOfCriminalActivityTypes(Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes) {
 		this.typeOfCriminalActivityTypes = typeOfCriminalActivityTypes;
+	}
+	public Set<TypeOfWeaponForceInvolved> getTypeOfWeaponForceInvolveds() {
+		return typeOfWeaponForceInvolveds;
+	}
+	public void setTypeOfWeaponForceInvolveds(Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds) {
+		this.typeOfWeaponForceInvolveds = typeOfWeaponForceInvolveds;
 	}
 }
