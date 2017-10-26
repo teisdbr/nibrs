@@ -1,0 +1,1 @@
+{"connectionname":"Analytics","connectiontype":"MONDRIAN","jdbcurl":"jdbc:mysql://db-analytics-nibrs/nibrs_analytics","schema":"/datasources/Analytics.xml","driver":"com.mysql.jdbc.Driver","username":"analytics","password":"","security_type":null}

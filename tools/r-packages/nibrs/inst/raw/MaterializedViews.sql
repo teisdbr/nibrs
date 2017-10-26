@@ -13,6 +13,7 @@ select
 	OffenseSegment.OffenseAttemptedCompleted,
 	OffenseSegment.LocationTypeTypeID,
 	OffenseSegment.NumberOfPremisesEntered,
+	convert(ifnull(OffenseSegment.NumberOfPremisesEntered, 'N/A'), char(4)) as NumberOfPremisesEnteredDim,
 	OffenseSegment.MethodOfEntryTypeID,
 	OffenseSegment.BiasMotivationTypeID,
 	OffenseSegment.UCROffenseCodeTypeID,
@@ -30,6 +31,15 @@ select
 	VictimSegment.AgeNeonateIndicator,
 	VictimSegment.AgeFirstWeekIndicator,
 	VictimSegment.AgeFirstYearIndicator,
+	(
+    CASE 
+        WHEN VictimSegment.AgeNeonateIndicator = 1 THEN '< 24 hours'
+        WHEN VictimSegment.AgeFirstWeekIndicator = 1 THEN '< 1 week'
+        WHEN VictimSegment.AgeFirstYearIndicator = 1 THEN '< 1 year'
+        WHEN VictimSegment.AgeOfVictimMin = 99 THEN '> 98 years'
+        WHEN VictimSegment.AgeOfVictimMin IS NULL THEN 'N/A'
+        ELSE convert(VictimSegment.AgeOfVictimMin, char(12))
+    END) AS VictimAgeDim,
 	VictimSegment.VictimSegmentID,
 	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 98) as AggravatedAssaultHomicideCircumstancesTypeID,
 	ifnull(OffenderSuspectedOfUsing.OffenderSuspectedOfUsingTypeID, 9) as OffenderSuspectedOfUsingTypeID,
@@ -62,10 +72,16 @@ select
 	AdministrativeSegment.AgencyID,
 	OffenderSegment.OffenderSequenceNumber,
 	OffenderSegment.AgeOfOffenderMin,
+	OffenderSegment.AgeOfOffenderMax,
+	(
+    CASE 
+        WHEN OffenderSegment.AgeOfOffenderMin = 99 THEN '> 98 years'
+        WHEN OffenderSegment.AgeOfOffenderMin IS NULL THEN 'N/A'
+        ELSE convert(OffenderSegment.AgeOfOffenderMin, char(12))
+    END) AS OffenderAgeDim,
 	OffenderSegment.SexOfPersonTypeID as OffenderSexOfPersonTypeID,
 	OffenderSegment.RaceOfPersonTypeID as OffenderRaceOfPersonTypeID,
 	OffenderSegment.EthnicityOfPersonTypeID as OffenderEthnicityOfPersonTypeID,
-	OffenderSegment.AgeOfOffenderMax,
 	OffenderSegment.OffenderSegmentID,
 	VictimSegment.VictimSequenceNumber,
 	VictimSegment.TypeOfVictimTypeID,
@@ -81,7 +97,16 @@ select
 	VictimSegment.AgeNeonateIndicator,
 	VictimSegment.AgeFirstWeekIndicator,
 	VictimSegment.AgeFirstYearIndicator,
-	VictimSegment.VictimSegmentID,
+	(
+    CASE 
+        WHEN VictimSegment.AgeNeonateIndicator = 1 THEN '< 24 hours'
+        WHEN VictimSegment.AgeFirstWeekIndicator = 1 THEN '< 1 week'
+        WHEN VictimSegment.AgeFirstYearIndicator = 1 THEN '< 1 year'
+        WHEN VictimSegment.AgeOfVictimMin = 99 THEN '> 98 years'
+        WHEN VictimSegment.AgeOfVictimMin IS NULL THEN 'N/A'
+        ELSE convert(VictimSegment.AgeOfVictimMin, char(12))
+    END) AS VictimAgeDim,
+    VictimSegment.VictimSegmentID,
 	VictimOffenderAssociation.VictimOffenderRelationshipTypeID,
 	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 98) as AggravatedAssaultHomicideCircumstancesTypeID,
 	ifnull(TypeInjury.TypeInjuryTypeID, 1) as TypeInjuryTypeID
@@ -110,6 +135,13 @@ select
 	ArresteeSegment.TypeOfArrestTypeID,
 	ArresteeSegment.MultipleArresteeSegmentsIndicatorTypeID,
 	ArresteeSegment.AgeOfArresteeMin,
+	ArresteeSegment.AgeOfArresteeMax,
+	(
+    CASE 
+        WHEN ArresteeSegment.AgeOfArresteeMin = 99 THEN '> 98 years'
+        WHEN ArresteeSegment.AgeOfArresteeMin IS NULL THEN 'N/A'
+        ELSE convert(ArresteeSegment.AgeOfArresteeMin, char(12))
+    END) AS ArresteeAgeDim,
 	ArresteeSegment.SexOfPersonTypeID,
 	ArresteeSegment.RaceOfPersonTypeID,
 	ArresteeSegment.EthnicityOfPersonTypeID,
@@ -117,7 +149,6 @@ select
 	ArresteeSegment.DispositionOfArresteeUnder18TypeID,
 	ArresteeSegment.UCROffenseCodeTypeID,
 	ifnull(ArresteeSegment.ArrestDateID, 99998) as ArrestDateID,
-	ArresteeSegment.AgeOfArresteeMax,
 	ArresteeSegment.ArresteeSegmentID,
 	ifnull(ArresteeSegmentWasArmedWith.ArresteeWasArmedWithTypeID, 1) as ArresteeWasArmedWithTypeID,
 	ifnull(ArresteeSegmentWasArmedWith.AutomaticWeaponIndicator, 'N') as AutomaticWeaponIndicator
@@ -125,9 +156,9 @@ from
 	AdministrativeSegment inner join ArresteeSegment on AdministrativeSegment.AdministrativeSegmentID=ArresteeSegment.AdministrativeSegmentID
 	left join ArresteeSegmentWasArmedWith on ArresteeSegment.ArresteeSegmentID=ArresteeSegmentWasArmedWith.ArresteeSegmentID;
 
-drop table if exists FullGroupAPropertyView;
+drop table if exists FullPropertyView;
 
-create table FullGroupAPropertyView as
+create table FullPropertyView as
 select
 	AdministrativeSegment.AdministrativeSegmentID,
 	AdministrativeSegment.ORI,
@@ -145,6 +176,7 @@ select
 	ifnull(PropertyType.ValueOfProperty, 0) as ValueOfProperty,
 	PropertyType.RecoveredDate,
 	ifnull(PropertyType.RecoveredDateID, 99998) as RecoveredDateID,
+	SuspectedDrugType.SuspectedDrugTypeID,
 	ifnull(SuspectedDrugType.SuspectedDrugTypeTypeID, 98) as SuspectedDrugTypeTypeID,
 	ifnull(SuspectedDrugType.TypeDrugMeasurementTypeID,  98) as TypeDrugMeasurementTypeID,
 	ifnull(SuspectedDrugType.EstimatedDrugQuantity, 0) as EstimatedDrugQuantity
@@ -152,8 +184,6 @@ from
 	AdministrativeSegment inner join PropertySegment on AdministrativeSegment.AdministrativeSegmentID=PropertySegment.AdministrativeSegmentID
 	left join PropertyType on PropertySegment.PropertySegmentID=PropertyType.PropertySegmentID
 	left join SuspectedDrugType on PropertySegment.PropertySegmentID=SuspectedDrugType.PropertySegmentID;
-
-
 
 drop table if exists FullGroupBArrestView;
 
@@ -165,6 +195,13 @@ select
 	ArrestReportSegment.TypeOfArrestTypeID,
 	ArrestReportSegment.UCROffenseCodeTypeID,
 	ArrestReportSegment.AgeOfArresteeMin,
+	ArrestReportSegment.AgeOfArresteeMax,
+	(
+    CASE 
+        WHEN ArrestReportSegment.AgeOfArresteeMin = 99 THEN '> 98 years'
+        WHEN ArrestReportSegment.AgeOfArresteeMin IS NULL THEN 'N/A'
+        ELSE convert(ArrestReportSegment.AgeOfArresteeMin, char(12))
+    END) AS ArresteeAgeDim,
 	ArrestReportSegment.SexOfPersonTypeID,
 	ArrestReportSegment.RaceOfPersonTypeID,
 	ArrestReportSegment.EthnicityOfPersonTypeID,
@@ -173,7 +210,6 @@ select
 	ArrestReportSegment.ORI,
 	ArrestReportSegment.ArrestReportSegmentID,
 	ifnull(ArrestReportSegment.ArrestDateID, 99998) as ArrestDateID,
-	ArrestReportSegment.AgeOfArresteeMax,
 	ArrestReportSegment.AgencyID,
 	ifnull(ArrestReportSegmentWasArmedWith.ArresteeWasArmedWithTypeID, 1) as ArresteeWasArmedWithTypeID,
 	ifnull(ArrestReportSegmentWasArmedWith.AutomaticWeaponIndicator, 'N') as AutomaticWeaponIndicator
