@@ -24,7 +24,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
@@ -90,6 +92,26 @@ public class GroupAIncidentServiceTest {
 		assertNull(persisted.getReportDateIndicator());
 		assertThat(persisted.getIncidentHour(), equalTo(13));
 		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("B"));
+		
+		List<OffenseSegment> offenseSegments = persisted.getOffenseSegments().stream().collect(Collectors.toList());
+		assertThat(offenseSegments.size(), equalTo(2));
+		OffenseSegment offenseSegment1 = offenseSegments.get(0); 
+		assertThat(offenseSegment1.getBiasMotivationType().getBiasMotivationCode(), equalTo("11"));
+		assertThat(offenseSegment1.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(offenseSegment1.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("520"));
+		assertThat(offenseSegment1.getOffenseAttemptedCompleted(), equalTo("C"));
+		assertThat(offenseSegment1.getLocationType().getLocationTypeCode(), equalTo("04"));
+		assertThat(offenseSegment1.getNumberOfPremisesEntered(), equalTo(2));
+		assertThat(offenseSegment1.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+		
+		OffenseSegment offenseSegment2 = offenseSegments.get(1); 
+		assertThat(offenseSegment2.getBiasMotivationType().getBiasMotivationCode(), equalTo("12"));
+		assertThat(offenseSegment2.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(offenseSegment2.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("35A"));
+		assertThat(offenseSegment2.getOffenseAttemptedCompleted(), equalTo("A"));
+		assertThat(offenseSegment2.getLocationType().getLocationTypeCode(), equalTo("02"));
+		assertThat(offenseSegment2.getNumberOfPremisesEntered(), equalTo(1));
+		assertThat(offenseSegment2.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
 	}
 	
 	public AdministrativeSegment getBasicAdministrativeSegment(){
@@ -138,6 +160,27 @@ public class GroupAIncidentServiceTest {
 		offenseSegment.setAdministrativeSegment(administrativeSegment);
 		
 		offenseSegments.add(offenseSegment);
+//		Offense segment 2 
+		OffenseSegment offenseSegment2 = new OffenseSegment();
+		offenseSegment2.setSegmentActionType(segmentActionTypeType);
+		
+		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findByUcrOffenseCode("35A").get(0);
+		offenseSegment2.setUcrOffenseCodeType(ucrOffenseCode2);
+		
+		offenseSegment2.setOffenseAttemptedCompleted("A");  //Allowed values C or A 
+		
+		LocationType locationType2 = locationTypeRepository.findByLocationTypeCode("02").get(0);
+		offenseSegment2.setLocationType(locationType2);
+		
+		offenseSegment2.setNumberOfPremisesEntered(1);
+		
+		MethodOfEntryType methodOfEntryType2 = methodOfEntryTypeRepository.findByMethodOfEntryCode("F").get(0);
+		offenseSegment2.setMethodOfEntryType(methodOfEntryType2);
+		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findByBiasMotivationCode("12").get(0);
+		offenseSegment2.setBiasMotivationType(biasMotivationType2);;
+		offenseSegment2.setAdministrativeSegment(administrativeSegment);
+		
+		offenseSegments.add(offenseSegment2);
 		administrativeSegment.setOffenseSegments(offenseSegments);
 		return administrativeSegment; 
 	}
