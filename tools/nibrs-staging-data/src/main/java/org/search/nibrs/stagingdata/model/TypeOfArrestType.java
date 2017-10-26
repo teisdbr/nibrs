@@ -15,6 +15,8 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +25,7 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-public class TypeOfArrestType {
+public class TypeOfArrestType implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeOfArrestTypeID; 

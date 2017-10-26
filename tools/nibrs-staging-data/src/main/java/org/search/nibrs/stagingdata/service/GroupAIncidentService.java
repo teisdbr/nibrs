@@ -17,6 +17,8 @@ package org.search.nibrs.stagingdata.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.search.nibrs.stagingdata.model.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.OffenseSegment;
 import org.search.nibrs.stagingdata.repository.AdministrativeSegmentRepository;
@@ -35,10 +37,12 @@ public class GroupAIncidentService {
 	@Autowired
 	OffenseSegmentRepository offenseSegmentRepository;
 	
+	@Transactional
 	public AdministrativeSegment saveAdministrativeSegment(AdministrativeSegment administrativeSegment){
 		return administrativeSegmentRepository.save(administrativeSegment);
 	}
 	
+	@Transactional
 	public AdministrativeSegment findAdministrativeSegment(Integer id){
 		return administrativeSegmentRepository.findOne(id);
 	}

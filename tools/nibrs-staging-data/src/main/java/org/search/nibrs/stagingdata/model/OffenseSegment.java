@@ -15,14 +15,21 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity
@@ -57,8 +64,32 @@ public class OffenseSegment {
 	@JoinColumn(name="biasMotivationTypeId")
 	private BiasMotivationType biasMotivationType;
 	
+//	@ManyToMany(cascade = CascadeType.MERGE)
+//    @JoinTable(name = "typeOfWeaponForceInvolved", 
+//    	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
+//    	inverseJoinColumns = @JoinColumn(name = "typeOfWeaponForceInvolvedTypeId", referencedColumnName = "typeOfWeaponForceInvolvedTypeId"))
+//	private Set<TypeOfWeaponForceInvolvedType> typeOfWeaponForceInvolvedTypes;
+	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinTable(name = "offenderSuspectedOfUsing", 
+	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
+	inverseJoinColumns = @JoinColumn(name = "offenderSuspectedOfUsingTypeId", referencedColumnName = "offenderSuspectedOfUsingTypeId"))
+	private Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes;     
+	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinTable(name = "typeCriminalActivity", 
+	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
+	inverseJoinColumns = @JoinColumn(name = "typeOfCriminalActivityTypeId", referencedColumnName = "typeOfCriminalActivityTypeId"))
+	private Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes;     
+	
+	public OffenseSegment() {
+		super();
+		offenderSuspectedOfUsingTypes = new HashSet<>();
+//		typeOfWeaponForceInvolvedTypes = new HashSet<>();
+	}
 	public String toString(){
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
+        return ReflectionToStringBuilder.toStringExclude(this, "administrativeSegment");		
 	}
 	public SegmentActionTypeType getSegmentActionType() {
 		return segmentActionType;
@@ -113,5 +144,17 @@ public class OffenseSegment {
 	}
 	public void setBiasMotivationType(BiasMotivationType biasMotivationType) {
 		this.biasMotivationType = biasMotivationType;
+	}
+	public Set<OffenderSuspectedOfUsingType> getOffenderSuspectedOfUsingTypes() {
+		return offenderSuspectedOfUsingTypes;
+	}
+	public void setOffenderSuspectedOfUsingTypes(Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes) {
+		this.offenderSuspectedOfUsingTypes = offenderSuspectedOfUsingTypes;
+	}
+	public Set<TypeOfCriminalActivityType> getTypeOfCriminalActivityTypes() {
+		return typeOfCriminalActivityTypes;
+	}
+	public void setTypeOfCriminalActivityTypes(Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes) {
+		this.typeOfCriminalActivityTypes = typeOfCriminalActivityTypes;
 	}
 }

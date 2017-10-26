@@ -36,8 +36,10 @@ import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.model.DateType;
 import org.search.nibrs.stagingdata.model.LocationType;
 import org.search.nibrs.stagingdata.model.MethodOfEntryType;
+import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.OffenseSegment;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
@@ -45,7 +47,10 @@ import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepositor
 import org.search.nibrs.stagingdata.repository.DateTypeRepository;
 import org.search.nibrs.stagingdata.repository.LocationTypeRepository;
 import org.search.nibrs.stagingdata.repository.MethodOfEntryTypeRepository;
+import org.search.nibrs.stagingdata.repository.OffenderSuspectedOfUsingTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
+import org.search.nibrs.stagingdata.repository.TypeOfCriminalActivityTypeRepository;
+import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -70,6 +75,12 @@ public class GroupAIncidentServiceTest {
 	public MethodOfEntryTypeRepository methodOfEntryTypeRepository; 
 	@Autowired
 	public BiasMotivationTypeRepository biasMotivationTypeRepository; 
+	@Autowired
+	public TypeOfWeaponForceInvolvedTypeRepository typeOfWeaponForceInvolvedTypeRepository; 
+	@Autowired
+	public OffenderSuspectedOfUsingTypeRepository offenderSuspectedOfUsingTypeRepository; 
+	@Autowired
+	public TypeOfCriminalActivityTypeRepository typeOfCriminalActivityTypeRepository; 
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
 
@@ -97,14 +108,25 @@ public class GroupAIncidentServiceTest {
 		assertThat(offenseSegments.size(), equalTo(2));
 		
 		for (OffenseSegment offenseSegment: offenseSegments){
-			if (offenseSegment.getOffenseSegmentId() == 1){
-				assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("11"));
+			if (offenseSegment.getBiasMotivationType().getBiasMotivationCode().equals("11")){
+//				System.out.println(offenseSegment.getOffenderSuspectedOfUsingTypes()); 
 				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
 				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("520"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
 				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("04"));
 				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(2));
 				assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+				
+				Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
+						offenseSegment.getOffenderSuspectedOfUsingTypes();  
+				assertThat(offenderSuspectedOfUsingTypes.size(), equalTo(2));
+				assertTrue(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findOne(1)));
+				assertTrue(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findOne(2)));
+				
+				Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes = 
+						offenseSegment.getTypeOfCriminalActivityTypes(); 
+				assertThat(typeOfCriminalActivityTypes.size(), equalTo(0));
+
 			}
 			else {
 				assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("12"));
@@ -114,10 +136,20 @@ public class GroupAIncidentServiceTest {
 				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("02"));
 				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(1));
 				assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+				Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
+						offenseSegment.getOffenderSuspectedOfUsingTypes();  
+				assertThat(offenderSuspectedOfUsingTypes.size(), equalTo(0));
+				
+				Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes = 
+						offenseSegment.getTypeOfCriminalActivityTypes(); 
+				assertThat(typeOfCriminalActivityTypes.size(), equalTo(2));
+				assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findOne(3)));
+				assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findOne(4)));
 			}
 		}
 	}
 	
+	@SuppressWarnings("serial")
 	public AdministrativeSegment getBasicAdministrativeSegment(){
 		
 		AdministrativeSegment administrativeSegment = new AdministrativeSegment();
@@ -163,6 +195,16 @@ public class GroupAIncidentServiceTest {
 		offenseSegment.setBiasMotivationType(biasMotivationType);;
 		offenseSegment.setAdministrativeSegment(administrativeSegment);
 		
+		offenseSegment.setOffenderSuspectedOfUsingTypes(new HashSet<OffenderSuspectedOfUsingType>(){{
+			add(offenderSuspectedOfUsingTypeRepository.findOne(1));
+			add(offenderSuspectedOfUsingTypeRepository.findOne(2));
+		}});
+		
+//		offenseSegment.setTypeOfWeaponForceInvolvedTypes(new HashSet<TypeOfWeaponForceInvolvedType>(){{
+//			add(typeOfWeaponForceInvolvedTypeRepository.findOne(110));
+//			add(typeOfWeaponForceInvolvedTypeRepository.findOne(120));
+//			}});
+		
 		offenseSegments.add(offenseSegment);
 //		Offense segment 2 
 		OffenseSegment offenseSegment2 = new OffenseSegment();
@@ -183,7 +225,12 @@ public class GroupAIncidentServiceTest {
 		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findByBiasMotivationCode("12").get(0);
 		offenseSegment2.setBiasMotivationType(biasMotivationType2);;
 		offenseSegment2.setAdministrativeSegment(administrativeSegment);
-		
+
+		offenseSegment2.setTypeOfCriminalActivityTypes(new HashSet<TypeOfCriminalActivityType>(){{
+			add(typeOfCriminalActivityTypeRepository.findOne(3));
+			add(typeOfCriminalActivityTypeRepository.findOne(4));
+		}});
+
 		offenseSegments.add(offenseSegment2);
 		administrativeSegment.setOffenseSegments(offenseSegments);
 		return administrativeSegment; 
