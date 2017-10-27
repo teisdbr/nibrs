@@ -22,9 +22,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
@@ -174,6 +177,19 @@ public class GroupAIncidentServiceTest {
 		Set<PropertySegment> propertySegments = persisted.getPropertySegments();
 		assertThat(propertySegments.size(), equalTo(1));
 		
+		List<String> typeOfPropertyLossCodes = propertySegments.stream()
+				.map(i->i.getTypePropertyLossEtcType().getTypePropertyLossEtcCode())
+				.collect(Collectors.toList());
+		assertThat(typeOfPropertyLossCodes, equalTo(Arrays.asList("7")));
+		
+		for (PropertySegment propertySegment: propertySegments){
+			if (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode().equals("7")){
+				assertThat(propertySegment.getAdministrativeSegment(), equalTo(persisted));
+				assertThat(propertySegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(0));
+				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(1));
+			}
+		}
 
 	}
 	
