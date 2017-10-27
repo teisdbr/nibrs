@@ -15,11 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SegmentActionTypeRepository extends CrudRepository<SegmentActionTypeType, Integer>{
-	public List<SegmentActionTypeType> findBySegmentActionTypeCode(String segmentActionTypeCode);
+	public SegmentActionTypeType findFirstBySegmentActionTypeCode(String segmentActionTypeCode);
 }

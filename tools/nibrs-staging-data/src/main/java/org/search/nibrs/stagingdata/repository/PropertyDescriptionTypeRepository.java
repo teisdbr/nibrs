@@ -15,9 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import org.search.nibrs.stagingdata.model.SexOfPersonType;
+import org.search.nibrs.stagingdata.model.PropertyDescriptionType;
 import org.springframework.data.repository.CrudRepository;
 
-public interface SexOfPersonTypeRepository extends CrudRepository<SexOfPersonType, Integer>{
-	public SexOfPersonType findFirstBySexOfPersonCode(String sexOfPersonCode);
+public interface PropertyDescriptionTypeRepository extends CrudRepository<PropertyDescriptionType, Integer>{
+	public PropertyDescriptionType findFirstByPropertyDescriptionCode(String propertyDescriptionCode);
 }

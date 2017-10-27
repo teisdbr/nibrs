@@ -16,13 +16,16 @@
 package org.search.nibrs.stagingdata.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +45,9 @@ import org.search.nibrs.stagingdata.model.MethodOfEntryType;
 import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.OffenseSegment;
 import org.search.nibrs.stagingdata.model.PropertySegment;
+import org.search.nibrs.stagingdata.model.PropertyType;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.model.SuspectedDrugType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
@@ -53,7 +58,10 @@ import org.search.nibrs.stagingdata.repository.DateTypeRepository;
 import org.search.nibrs.stagingdata.repository.LocationTypeRepository;
 import org.search.nibrs.stagingdata.repository.MethodOfEntryTypeRepository;
 import org.search.nibrs.stagingdata.repository.OffenderSuspectedOfUsingTypeRepository;
+import org.search.nibrs.stagingdata.repository.PropertyDescriptionTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
+import org.search.nibrs.stagingdata.repository.SuspectedDrugTypeTypeRepository;
+import org.search.nibrs.stagingdata.repository.TypeDrugMeasurementTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfCriminalActivityTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository;
@@ -89,6 +97,12 @@ public class GroupAIncidentServiceTest {
 	public TypeOfCriminalActivityTypeRepository typeOfCriminalActivityTypeRepository; 
 	@Autowired
 	public TypePropertyLossEtcTypeRepository typePropertyLossEtcTypeRepository; 
+	@Autowired
+	public TypeDrugMeasurementTypeRepository typeDrugMeasurementTypeRepository; 
+	@Autowired
+	public PropertyDescriptionTypeRepository propertyDescriptionTypeRepository; 
+	@Autowired
+	public SuspectedDrugTypeTypeRepository suspectedDrugTypeTypeRepository; 
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
 
@@ -175,19 +189,60 @@ public class GroupAIncidentServiceTest {
 		}
 		
 		Set<PropertySegment> propertySegments = persisted.getPropertySegments();
-		assertThat(propertySegments.size(), equalTo(1));
+		assertThat(propertySegments.size(), equalTo(2));
 		
 		List<String> typeOfPropertyLossCodes = propertySegments.stream()
 				.map(i->i.getTypePropertyLossEtcType().getTypePropertyLossEtcCode())
-				.collect(Collectors.toList());
-		assertThat(typeOfPropertyLossCodes, equalTo(Arrays.asList("7")));
+				.collect(Collectors.toList()); 
+		Collections.sort(typeOfPropertyLossCodes);
+		assertThat(typeOfPropertyLossCodes, equalTo(Arrays.asList("4", "7")));
 		
 		for (PropertySegment propertySegment: propertySegments){
-			if (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode().equals("7")){
+			Set<PropertyType> propertyTypes = propertySegment.getPropertyTypes();
+			Set<SuspectedDrugType> suspectedDrugTypes = propertySegment.getSuspectedDrugTypes();
+			
+			switch (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()){
+			case "7":
 				assertThat(propertySegment.getAdministrativeSegment(), equalTo(persisted));
 				assertThat(propertySegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
 				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(0));
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(1));
+				
+				assertThat(propertyTypes.size(), equalTo(1));
+				PropertyType propertyType = propertyTypes.toArray(new PropertyType[]{})[0];
+				assertNotNull(propertyType);
+				assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("03")); 
+				assertNull(propertyType.getRecoveredDate()); 
+				assertNull(propertyType.getRecoveredDateType());
+				assertThat(propertyType.getValueOfProperty(), equalTo(10000.0));
+				
+				assertThat(suspectedDrugTypes.size(), equalTo(0));
+				break; 
+			case "4": 
+				assertThat(propertySegment.getAdministrativeSegment(), equalTo(persisted));
+				assertThat(propertySegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(0));
+				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(0));
+				
+				assertThat(propertyTypes.size(), equalTo(0));
+				assertThat(suspectedDrugTypes.size(), equalTo(2));
+				
+				for (SuspectedDrugType suspectedDrugType: suspectedDrugTypes){
+					if (suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode().equals("A")){
+						assertThat(suspectedDrugType.getPropertySegment(), equalTo(propertySegment));
+						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(1.0));
+						assertThat(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementTypeId(), equalTo(1)); 
+					}
+					else{
+						assertThat(suspectedDrugType.getPropertySegment(), equalTo(propertySegment));
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("D"));
+						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(1.0));
+						assertThat(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode(), equalTo("OZ")); 
+					}
+				}
+				break; 
+			default: 
+				fail("Unexpected property loss type"); 
 			}
 		}
 
@@ -197,24 +252,24 @@ public class GroupAIncidentServiceTest {
 	public AdministrativeSegment getBasicAdministrativeSegment(){
 		
 		AdministrativeSegment administrativeSegment = new AdministrativeSegment();
-		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findBySegmentActionTypeCode("I").get(0);
+		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I");
 		administrativeSegment.setSegmentActionType(segmentActionTypeType);
 		administrativeSegment.setMonthOfTape("12");
 		administrativeSegment.setYearOfTape("2016");
 		administrativeSegment.setCityIndicator("Y");
 		administrativeSegment.setOri("ori");;
 		
-		Agency agency = agencyRepository.findByAgencyOri("agencyORI").get(0);
+		Agency agency = agencyRepository.findFirstByAgencyOri("agencyORI");
 		administrativeSegment.setAgency(agency);
 		administrativeSegment.setIncidentNumber("1234568910");
 		administrativeSegment.setIncidentDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-		DateType incidentDateType = dateTypeRepository.findByDateMMDDYYYY("06122016").get(0);
+		DateType incidentDateType = dateTypeRepository.findFirstByDateMMDDYYYY("06122016");
 		administrativeSegment.setIncidentDateType(incidentDateType);
 		
 		administrativeSegment.setReportDateIndicator(null);  //'R' for report. Must be empty when incident is known.    
 		administrativeSegment.setIncidentHour(13);  // allowed value 0-23.  
 		ClearedExceptionallyType clearedExceptionallyType
-			= clearedExceptionallyTypeRepository.findByClearedExceptionallyCode("B").get(0);
+			= clearedExceptionallyTypeRepository.findFirstByClearedExceptionallyCode("B");
 		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
 		
 		
@@ -223,19 +278,19 @@ public class GroupAIncidentServiceTest {
 		OffenseSegment offenseSegment = new OffenseSegment();
 		offenseSegment.setSegmentActionType(segmentActionTypeType);
 		
-		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findByUcrOffenseCode("520").get(0);
+		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("520");
 		offenseSegment.setUcrOffenseCodeType(ucrOffenseCode);
 		
 		offenseSegment.setOffenseAttemptedCompleted("C");  //Allowed values C or A 
 		
-		LocationType locationType = locationTypeRepository.findByLocationTypeCode("04").get(0);
+		LocationType locationType = locationTypeRepository.findFirstByLocationTypeCode("04");
 		offenseSegment.setLocationType(locationType);
 		
 		offenseSegment.setNumberOfPremisesEntered(2);
 		
-		MethodOfEntryType methodOfEntryType = methodOfEntryTypeRepository.findByMethodOfEntryCode("F").get(0);
+		MethodOfEntryType methodOfEntryType = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
 		offenseSegment.setMethodOfEntryType(methodOfEntryType);
-		BiasMotivationType biasMotivationType = biasMotivationTypeRepository.findByBiasMotivationCode("11").get(0);
+		BiasMotivationType biasMotivationType = biasMotivationTypeRepository.findFirstByBiasMotivationCode("11");
 		offenseSegment.setBiasMotivationType(biasMotivationType);;
 		offenseSegment.setAdministrativeSegment(administrativeSegment);
 		
@@ -264,19 +319,19 @@ public class GroupAIncidentServiceTest {
 		OffenseSegment offenseSegment2 = new OffenseSegment();
 		offenseSegment2.setSegmentActionType(segmentActionTypeType);
 		
-		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findByUcrOffenseCode("35A").get(0);
+		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("35A");
 		offenseSegment2.setUcrOffenseCodeType(ucrOffenseCode2);
 		
 		offenseSegment2.setOffenseAttemptedCompleted("A");  //Allowed values C or A 
 		
-		LocationType locationType2 = locationTypeRepository.findByLocationTypeCode("02").get(0);
+		LocationType locationType2 = locationTypeRepository.findFirstByLocationTypeCode("02");
 		offenseSegment2.setLocationType(locationType2);
 		
 		offenseSegment2.setNumberOfPremisesEntered(1);
 		
-		MethodOfEntryType methodOfEntryType2 = methodOfEntryTypeRepository.findByMethodOfEntryCode("F").get(0);
+		MethodOfEntryType methodOfEntryType2 = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
 		offenseSegment2.setMethodOfEntryType(methodOfEntryType2);
-		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findByBiasMotivationCode("12").get(0);
+		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findFirstByBiasMotivationCode("12");
 		offenseSegment2.setBiasMotivationType(biasMotivationType2);;
 		offenseSegment2.setAdministrativeSegment(administrativeSegment);
 
@@ -296,11 +351,46 @@ public class GroupAIncidentServiceTest {
 		propertySegment1.setNumberOfRecoveredMotorVehicles(0);
 		propertySegment1.setNumberOfStolenMotorVehicles(1);
 		
+		PropertyType propertyType1 = new PropertyType();
+		propertyType1.setPropertySegment(propertySegment1);
+		propertyType1.setPropertyDescriptionType(propertyDescriptionTypeRepository.findFirstByPropertyDescriptionCode("03"));
+		propertyType1.setValueOfProperty(10000.0);
+		
+		propertySegment1.setPropertyTypes(new HashSet<PropertyType>(){{
+			add(propertyType1);
+		}});
+		
 		Set<PropertySegment> propertySegments = new HashSet<>();
 		propertySegments.add(propertySegment1);
 		
-		administrativeSegment.setPropertySegments(propertySegments);
+//		PropertySegment 2
+		PropertySegment propertySegment2 = new PropertySegment();
+		propertySegment2.setSegmentActionType(segmentActionTypeType);
+		propertySegment2.setAdministrativeSegment(administrativeSegment);
+		propertySegment2.setTypePropertyLossEtcType(typePropertyLossEtcTypeRepository.findOne(4));
+		propertySegment2.setNumberOfRecoveredMotorVehicles(0);
+		propertySegment2.setNumberOfStolenMotorVehicles(0);
 		
+		SuspectedDrugType suspectedDrugType1 = new SuspectedDrugType();
+		suspectedDrugType1.setPropertySegment(propertySegment2);
+		suspectedDrugType1.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstBySuspectedDrugTypeCode("A"));
+		suspectedDrugType1.setEstimatedDrugQuantity(1.0);
+		suspectedDrugType1.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findOne(1));
+		
+		SuspectedDrugType suspectedDrugType2 = new SuspectedDrugType();
+		suspectedDrugType2.setPropertySegment(propertySegment2);
+		suspectedDrugType2.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstBySuspectedDrugTypeCode("D"));
+		suspectedDrugType2.setEstimatedDrugQuantity(1.0);
+		suspectedDrugType2.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findFirstByTypeDrugMeasurementCode("OZ"));
+		
+		propertySegment2.setSuspectedDrugTypes(new HashSet<SuspectedDrugType>(){{
+			add(suspectedDrugType1);
+			add(suspectedDrugType2);
+		}});
+		
+		propertySegments.add(propertySegment2);
+		
+		administrativeSegment.setPropertySegments(propertySegments);
 		return administrativeSegment; 
 	}
 

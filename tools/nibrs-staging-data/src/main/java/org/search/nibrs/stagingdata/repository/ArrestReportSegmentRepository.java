@@ -18,7 +18,5 @@ package org.search.nibrs.stagingdata.repository;
 import org.search.nibrs.stagingdata.model.ArrestReportSegment;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ArrestReportSegmentRepository 
-	extends CrudRepository<ArrestReportSegment, Integer>{
-
+public interface ArrestReportSegmentRepository extends CrudRepository<ArrestReportSegment, Integer>{
 }

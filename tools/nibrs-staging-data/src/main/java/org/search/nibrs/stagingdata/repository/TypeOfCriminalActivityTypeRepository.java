@@ -15,11 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeOfCriminalActivityTypeRepository extends CrudRepository<TypeOfCriminalActivityType, Integer>{
-	public List<TypeOfCriminalActivityType> findByTypeOfCriminalActivityCode(String typeOfCriminalActivityCode);
+	public TypeOfCriminalActivityType findFirstByTypeOfCriminalActivityCode(String typeOfCriminalActivityCode);
 }

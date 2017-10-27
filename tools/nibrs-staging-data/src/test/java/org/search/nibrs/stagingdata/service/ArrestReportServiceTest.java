@@ -47,7 +47,6 @@ import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
 import org.search.nibrs.stagingdata.repository.SexOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfArrestTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
-import org.search.nibrs.stagingdata.service.ArrestReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -116,40 +115,40 @@ public class ArrestReportServiceTest {
 		arrestReportSegment.setAgeOfArresteeMin(22);
 		arrestReportSegment.setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 		
-		DateType arrestDateType = dateTypeRepository.findByDateMMDDYYYY("06122016").get(0);
+		DateType arrestDateType = dateTypeRepository.findFirstByDateMMDDYYYY("06122016");
 		arrestReportSegment.setArrestDateType(arrestDateType);
 		
 		arrestReportSegment.setArresteeSequenceNumber(1);
 		
-		Agency agency = agencyRepository.findByAgencyOri("agencyORI").get(0);
+		Agency agency = agencyRepository.findFirstByAgencyOri("agencyORI");
 		arrestReportSegment.setAgency(agency);
 		arrestReportSegment.setArrestTransactionNumber("arrestTr");
 		arrestReportSegment.setCityIndicator("Y");
 		
 		DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type
-			= dispositionOfArresteeUnder18TypeRepository.findByDispositionOfArresteeUnder18Code("H").get(0);
+			= dispositionOfArresteeUnder18TypeRepository.findFirstByDispositionOfArresteeUnder18Code("H");
 		arrestReportSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type);
 		
-		EthnicityOfPersonType ethnicityOfPersonType = ethnicityOfPersonTypeRepository.findByEthnicityOfPersonCode("N").get(0);
+		EthnicityOfPersonType ethnicityOfPersonType = ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("N");
 		arrestReportSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
 		arrestReportSegment.setMonthOfTape("12");
 		arrestReportSegment.setOri("ori");;
 		
-		RaceOfPersonType raceOfPersonType = raceOfPersonTypeRepository.findByRaceOfPersonCode("W").get(0);
+		RaceOfPersonType raceOfPersonType = raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("W");
 		arrestReportSegment.setRaceOfPersonType(raceOfPersonType);
 		
-		ResidentStatusOfPersonType residentStatusOfPersonType = residentStatusOfPersonTypeRepository.findByResidentStatusOfPersonCode("N").get(0);
+		ResidentStatusOfPersonType residentStatusOfPersonType = residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("N");
 		arrestReportSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
 		
-		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findBySegmentActionTypeCode("I").get(0);
+		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I");
 		arrestReportSegment.setSegmentActionType(segmentActionTypeType);
 		
-		SexOfPersonType sexOfPersonType = sexOfPersonTypeRepository.findBySexOfPersonCode("F").get(0);
+		SexOfPersonType sexOfPersonType = sexOfPersonTypeRepository.findFirstBySexOfPersonCode("F");
 		arrestReportSegment.setSexOfPersonType(sexOfPersonType);
 		
-		TypeOfArrestType typeOfArrestType = typeOfArrestTypeRepository.findByTypeOfArrestCode("O").get(0);
+		TypeOfArrestType typeOfArrestType = typeOfArrestTypeRepository.findFirstByTypeOfArrestCode("O");
 		arrestReportSegment.setTypeOfArrestType(typeOfArrestType);
-		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findByUcrOffenseCode("520").get(0);
+		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("520");
 		arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCode);
 		arrestReportSegment.setYearOfTape("2016");
 		

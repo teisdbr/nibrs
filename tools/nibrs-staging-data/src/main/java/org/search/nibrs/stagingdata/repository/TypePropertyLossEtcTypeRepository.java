@@ -15,11 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
 import org.search.nibrs.stagingdata.model.TypePropertyLossEtcType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypePropertyLossEtcTypeRepository extends CrudRepository<TypePropertyLossEtcType, Integer>{
-	public List<TypePropertyLossEtcType> findByTypePropertyLossEtcCode(String typePropertyLossEtcCode);
+	public TypePropertyLossEtcType findFirstByTypePropertyLossEtcCode(String typePropertyLossEtcCode);
 }

@@ -15,11 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
 import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ResidentStatusOfPersonTypeRepository extends CrudRepository<ResidentStatusOfPersonType, Integer>{
-	public List<ResidentStatusOfPersonType> findByResidentStatusOfPersonCode(String residentStatusOfPersonCode);
+	public ResidentStatusOfPersonType findFirstByResidentStatusOfPersonCode(String residentStatusOfPersonCode);
 }

@@ -15,11 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeOfWeaponForceInvolvedTypeRepository extends CrudRepository<TypeOfWeaponForceInvolvedType, Integer>{
-	public List<TypeOfWeaponForceInvolvedType> findByTypeOfWeaponForceInvolvedCode(String typeOfWeaponForceInvolvedCode);
+	public TypeOfWeaponForceInvolvedType findFirstByTypeOfWeaponForceInvolvedCode(String typeOfWeaponForceInvolvedCode);
 }

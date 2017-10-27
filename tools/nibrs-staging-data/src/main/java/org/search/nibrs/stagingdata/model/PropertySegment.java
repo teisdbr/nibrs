@@ -15,12 +15,17 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -41,6 +46,12 @@ public class PropertySegment {
 	@ManyToOne
 	@JoinColumn(name="typePropertyLossEtcTypeId")
 	private TypePropertyLossEtcType typePropertyLossEtcType;
+	
+	@OneToMany(mappedBy = "propertySegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<SuspectedDrugType> suspectedDrugTypes;
+
+	@OneToMany(mappedBy = "propertySegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<PropertyType> propertyTypes;
 	
 	private Integer numberOfStolenMotorVehicles;
 	private Integer numberOfRecoveredMotorVehicles;
@@ -100,5 +111,21 @@ public class PropertySegment {
 
 	public void setNumberOfRecoveredMotorVehicles(Integer numberOfRecoveredMotorVehicles) {
 		this.numberOfRecoveredMotorVehicles = numberOfRecoveredMotorVehicles;
+	}
+
+	public Set<SuspectedDrugType> getSuspectedDrugTypes() {
+		return suspectedDrugTypes;
+	}
+
+	public void setSuspectedDrugTypes(Set<SuspectedDrugType> suspectedDrugTypes) {
+		this.suspectedDrugTypes = suspectedDrugTypes;
+	}
+
+	public Set<PropertyType> getPropertyTypes() {
+		return propertyTypes;
+	}
+
+	public void setPropertyTypes(Set<PropertyType> propertyTypes) {
+		this.propertyTypes = propertyTypes;
 	}
 }

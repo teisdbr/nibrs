@@ -186,7 +186,7 @@ CREATE TABLE PropertySegment (PropertySegmentID INT NOT NULL auto_increment, Seg
 
 ALTER TABLE PropertySegment ADD CONSTRAINT propertysegmentpk PRIMARY KEY (PropertySegmentID);
 
-CREATE TABLE PropertyType (PropertyTypeID INT NOT NULL auto_increment, PropertySegmentID INT NOT NULL, PropertyDescriptionTypeID INT NOT NULL, ValueOfProperty NUMBER(0, 0) NOT NULL, RecoveredDate date, RecoveredDateID INT NOT NULL);
+CREATE TABLE PropertyType (PropertyTypeID INT NOT NULL auto_increment, PropertySegmentID INT NOT NULL, PropertyDescriptionTypeID INT NOT NULL, ValueOfProperty NUMBER(0, 0) NOT NULL, RecoveredDate date, RecoveredDateID INT);
 
 ALTER TABLE PropertyType ADD CONSTRAINT propertytypeid PRIMARY KEY (PropertyTypeID);
 

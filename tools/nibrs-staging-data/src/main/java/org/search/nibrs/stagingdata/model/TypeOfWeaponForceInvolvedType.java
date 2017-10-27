@@ -24,7 +24,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
 public class TypeOfWeaponForceInvolvedType {

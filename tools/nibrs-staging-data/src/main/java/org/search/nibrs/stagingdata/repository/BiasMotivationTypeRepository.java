@@ -15,11 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface BiasMotivationTypeRepository extends CrudRepository<BiasMotivationType, Integer>{
-	public List<BiasMotivationType> findByBiasMotivationCode(String biasMotivationCode);
+	public BiasMotivationType findFirstByBiasMotivationCode(String biasMotivationCode);
 }
