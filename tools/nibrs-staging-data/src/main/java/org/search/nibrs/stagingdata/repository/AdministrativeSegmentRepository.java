@@ -15,9 +15,10 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import org.search.nibrs.stagingdata.model.SexOfPersonType;
+import org.search.nibrs.stagingdata.model.AdministrativeSegment;
 import org.springframework.data.repository.CrudRepository;
 
-public interface SexOfPersonTypeRepository extends CrudRepository<SexOfPersonType, Integer>{
-	public SexOfPersonType findFirstBySexOfPersonCode(String sexOfPersonCode);
+public interface AdministrativeSegmentRepository 
+	extends CrudRepository<AdministrativeSegment, Integer>{
+
 }

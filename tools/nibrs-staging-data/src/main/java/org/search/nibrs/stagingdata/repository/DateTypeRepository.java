@@ -16,16 +16,16 @@
 package org.search.nibrs.stagingdata.repository;
 
 import java.util.Date;
-import java.util.List;
 
+import org.search.nibrs.stagingdata.model.DateType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DateTypeRepository extends CrudRepository<DateType, Integer>{
-	public List<DateType> findByCalendarDate(Date calendarDate);
+	public DateType findFirstByCalendarDate(Date calendarDate);
 	/**
 	 * Find the DateType based on the dateString in the format of "MMDDYYYY"("12312016"). 
 	 * @param dateMMDDYYYY  
 	 * @return
 	 */
-	public List<DateType> findByDateMMDDYYYY(String dateMMDDYYYY);
+	public DateType findFirstByDateMMDDYYYY(String dateMMDDYYYY);
 }

@@ -15,10 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
+import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeOfArrestTypeRepository extends CrudRepository<TypeOfArrestType, Integer>{
-	public List<TypeOfArrestType> findByTypeOfArrestCode(String typeOfArrestCode);
+	public TypeOfArrestType findFirstByTypeOfArrestCode(String typeOfArrestCode);
 }

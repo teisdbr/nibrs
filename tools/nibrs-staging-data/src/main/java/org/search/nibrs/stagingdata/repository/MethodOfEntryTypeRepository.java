@@ -15,10 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
+import org.search.nibrs.stagingdata.model.MethodOfEntryType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MethodOfEntryTypeRepository extends CrudRepository<MethodOfEntryType, Integer>{
-	public List<MethodOfEntryType> findByMethodOfEntryCode(String methodOfEntryCode);
+	public MethodOfEntryType findFirstByMethodOfEntryCode(String methodOfEntryCode);
 }

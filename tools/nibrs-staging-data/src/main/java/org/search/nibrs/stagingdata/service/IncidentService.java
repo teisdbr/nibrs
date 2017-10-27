@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository;
+package org.search.nibrs.stagingdata.service;
 
-import org.search.nibrs.stagingdata.model.SexOfPersonType;
-import org.springframework.data.repository.CrudRepository;
+public class IncidentService {
 
-public interface SexOfPersonTypeRepository extends CrudRepository<SexOfPersonType, Integer>{
-	public SexOfPersonType findFirstBySexOfPersonCode(String sexOfPersonCode);
 }

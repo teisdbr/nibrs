@@ -15,10 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
+import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DispositionOfArresteeUnder18TypeRepository extends CrudRepository<DispositionOfArresteeUnder18Type, Integer>{
-	public List<DispositionOfArresteeUnder18Type> findByDispositionOfArresteeUnder18Code(String dispositionOfArresteeUnder18Code);
+	public DispositionOfArresteeUnder18Type findFirstByDispositionOfArresteeUnder18Code(String dispositionOfArresteeUnder18Code);
 }

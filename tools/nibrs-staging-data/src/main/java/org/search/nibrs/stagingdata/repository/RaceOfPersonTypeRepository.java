@@ -15,10 +15,9 @@
  */
 package org.search.nibrs.stagingdata.repository;
 
-import java.util.List;
-
+import org.search.nibrs.stagingdata.model.RaceOfPersonType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RaceOfPersonTypeRepository extends CrudRepository<RaceOfPersonType, Integer>{
-	public List<RaceOfPersonType> findByRaceOfPersonCode(String raceOfPersonCode);
+	public RaceOfPersonType findFirstByRaceOfPersonCode(String raceOfPersonCode);
 }
