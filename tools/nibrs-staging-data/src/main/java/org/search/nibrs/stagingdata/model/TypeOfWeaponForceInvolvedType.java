@@ -23,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
@@ -50,7 +51,7 @@ public class TypeOfWeaponForceInvolvedType {
 	}
 
 	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
+		return ReflectionToStringBuilder.toStringExclude(this, "typeOfWeaponForceInvolveds");
 	}
 
 	public Integer getTypeOfWeaponForceInvolvedTypeId() {

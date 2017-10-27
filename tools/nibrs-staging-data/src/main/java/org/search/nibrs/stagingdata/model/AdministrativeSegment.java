@@ -48,6 +48,9 @@ public class AdministrativeSegment {
     @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<OffenseSegment> offenseSegments;
 	
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<PropertySegment> propertySegments;
+    
 	@ManyToOne
 	@JoinColumn(name="agencyId")
 	private Agency agency; 
@@ -153,5 +156,13 @@ public class AdministrativeSegment {
 	}
 	public void setClearedExceptionallyType(ClearedExceptionallyType clearedExceptionallyType) {
 		this.clearedExceptionallyType = clearedExceptionallyType;
+	}
+
+	public Set<PropertySegment> getPropertySegments() {
+		return propertySegments;
+	}
+
+	public void setPropertySegments(Set<PropertySegment> propertySegments) {
+		this.propertySegments = propertySegments;
 	}
 }

@@ -38,6 +38,7 @@ import org.search.nibrs.stagingdata.model.LocationType;
 import org.search.nibrs.stagingdata.model.MethodOfEntryType;
 import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.OffenseSegment;
+import org.search.nibrs.stagingdata.model.PropertySegment;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
@@ -52,6 +53,7 @@ import org.search.nibrs.stagingdata.repository.OffenderSuspectedOfUsingTypeRepos
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfCriminalActivityTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepository;
+import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -83,6 +85,8 @@ public class GroupAIncidentServiceTest {
 	@Autowired
 	public TypeOfCriminalActivityTypeRepository typeOfCriminalActivityTypeRepository; 
 	@Autowired
+	public TypePropertyLossEtcTypeRepository typePropertyLossEtcTypeRepository; 
+	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
 
 	@Test
@@ -110,7 +114,6 @@ public class GroupAIncidentServiceTest {
 		
 		for (OffenseSegment offenseSegment: offenseSegments){
 			if (offenseSegment.getBiasMotivationType().getBiasMotivationCode().equals("11")){
-//				System.out.println(offenseSegment.getOffenderSuspectedOfUsingTypes()); 
 				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
 				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("520"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
@@ -167,6 +170,11 @@ public class GroupAIncidentServiceTest {
 				assertThat(typeOfWeaponForceInvolveds.size(), equalTo(0));
 			}
 		}
+		
+		Set<PropertySegment> propertySegments = persisted.getPropertySegments();
+		assertThat(propertySegments.size(), equalTo(1));
+		
+
 	}
 	
 	@SuppressWarnings("serial")
@@ -263,6 +271,20 @@ public class GroupAIncidentServiceTest {
 
 		offenseSegments.add(offenseSegment2);
 		administrativeSegment.setOffenseSegments(offenseSegments);
+		
+//		PropertySegment 1
+		PropertySegment propertySegment1 = new PropertySegment();
+		propertySegment1.setSegmentActionType(segmentActionTypeType);
+		propertySegment1.setAdministrativeSegment(administrativeSegment);
+		propertySegment1.setTypePropertyLossEtcType(typePropertyLossEtcTypeRepository.findOne(7));
+		propertySegment1.setNumberOfRecoveredMotorVehicles(0);
+		propertySegment1.setNumberOfStolenMotorVehicles(1);
+		
+		Set<PropertySegment> propertySegments = new HashSet<>();
+		propertySegments.add(propertySegment1);
+		
+		administrativeSegment.setPropertySegments(propertySegments);
+		
 		return administrativeSegment; 
 	}
 

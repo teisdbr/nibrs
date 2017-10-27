@@ -52,6 +52,7 @@ public class TypeOfWeaponForceInvolved implements Serializable{
 	}
 
 	public String toString(){
+		//TODO  need to add the offenseSegment's Id into the returned string. 
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
         return ReflectionToStringBuilder.toStringExclude(this, "offenseSegment");		
 	}
