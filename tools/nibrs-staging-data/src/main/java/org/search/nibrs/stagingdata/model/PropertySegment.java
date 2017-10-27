@@ -22,6 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -50,7 +51,12 @@ public class PropertySegment {
 	
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
-        return ReflectionToStringBuilder.toStringExclude(this, "administrativeSegment");		
+		String resultWithoutOffenseSegment = ReflectionToStringBuilder.toStringExclude(this, "administrativeSegment");
+		int index = StringUtils.indexOf(resultWithoutOffenseSegment, ",");
+		
+		StringBuilder sb = new StringBuilder(resultWithoutOffenseSegment);
+		sb.insert(index + 1, "administrativeSegmentId=" + administrativeSegment.getAdministrativeSegmentId() + ",");
+		return sb.toString();
 	}
 	public SegmentActionTypeType getSegmentActionType() {
 		return segmentActionType;

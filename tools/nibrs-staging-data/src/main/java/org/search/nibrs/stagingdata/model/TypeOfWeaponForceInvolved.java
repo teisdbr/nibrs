@@ -25,8 +25,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
 
 @Entity
 public class TypeOfWeaponForceInvolved implements Serializable{
@@ -52,9 +54,14 @@ public class TypeOfWeaponForceInvolved implements Serializable{
 	}
 
 	public String toString(){
-		//TODO  need to add the offenseSegment's Id into the returned string. 
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
-        return ReflectionToStringBuilder.toStringExclude(this, "offenseSegment");		
+		String resultWithoutOffenseSegment = ReflectionToStringBuilder.toStringExclude(this, "offenseSegment");
+		int index = StringUtils.indexOf(resultWithoutOffenseSegment, ",");
+		
+		StringBuilder sb = new StringBuilder(resultWithoutOffenseSegment);
+		sb.insert(index + 1, "offenseSegmentId=" + offenseSegment.getOffenseSegmentId() + ",");
+		
+        return sb.toString();
 	}
 	public Integer getTypeOfWeaponForceInvolvedId() {
 		return typeOfWeaponForceInvolvedId;
