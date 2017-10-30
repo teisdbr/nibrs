@@ -51,6 +51,7 @@ import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
+import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
@@ -322,6 +323,35 @@ public class GroupAIncidentServiceTest {
 			}
 
 		}
+		
+//		2 OffenderSegment Segments:
+//		OffenderSegment [age=00, sex=M, race=B, ethnicity=null, offenderSequenceNumber=01]
+//		OffenderSegment [age=33, sex=M, race=B, ethnicity=null, offenderSequenceNumber=02]
+		Set<OffenderSegment> offenderSegments = persisted.getOffenderSegments();
+		assertThat(offenderSegments.size(), equalTo(2));
+		
+		for (OffenderSegment offenderSegment: offenderSegments){
+			if (offenderSegment.getOffenderSequenceNumber().equals(1)){
+				assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(0));
+				assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(0));
+				assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+				assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B"));
+				assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+			}
+			else if (offenderSegment.getOffenderSequenceNumber().equals(2)){
+				assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(33));
+				assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(33));
+				assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+				assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B"));
+				assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+			}
+			else {
+				fail("Unexpected offender sequence number"); 
+			}
+		}
+
 	}
 	
 	@SuppressWarnings("serial")
@@ -517,7 +547,36 @@ public class GroupAIncidentServiceTest {
 		administrativeSegment.setArresteeSegments(new HashSet<ArresteeSegment>(){{
 			add(arresteeSegment);
 		}});
+
+//		2 OffenderSegment Segments:
+//		OffenderSegment [age=00, sex=M, race=B, ethnicity=null, offenderSequenceNumber=01]
+//		OffenderSegment [age=33, sex=M, race=B, ethnicity=null, offenderSequenceNumber=02]
+		OffenderSegment offenderSegment1 = new OffenderSegment();
+		offenderSegment1.setAdministrativeSegment(administrativeSegment);
+		offenderSegment1.setSegmentActionType(segmentActionTypeType);
+		offenderSegment1.setAgeOfOffenderMax(0);
+		offenderSegment1.setAgeOfOffenderMin(0);
 		
+		offenderSegment1.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
+		offenderSegment1.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
+		offenderSegment1.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
+		offenderSegment1.setOffenderSequenceNumber(1);
+
+		OffenderSegment offenderSegment2 = new OffenderSegment();
+		offenderSegment2.setAdministrativeSegment(administrativeSegment);
+		offenderSegment2.setSegmentActionType(segmentActionTypeType);
+		offenderSegment2.setAgeOfOffenderMax(0);
+		offenderSegment2.setAgeOfOffenderMin(0);
+		
+		offenderSegment2.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
+		offenderSegment2.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
+		offenderSegment2.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
+		offenderSegment2.setOffenderSequenceNumber(1);
+		
+		administrativeSegment.setOffenderSegments(new HashSet<OffenderSegment>(){{
+			add(offenderSegment1);
+			add(offenderSegment2);
+		}});
 		return administrativeSegment; 
 	}
 

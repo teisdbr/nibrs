@@ -58,6 +58,9 @@ public class AdministrativeSegment {
     @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ArresteeSegment> arresteeSegments;
     
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<OffenderSegment> offenderSegments;
+    
 	@ManyToOne
 	@JoinColumn(name="agencyId")
 	private Agency agency; 
@@ -179,5 +182,13 @@ public class AdministrativeSegment {
 
 	public void setArresteeSegments(Set<ArresteeSegment> arresteeSegments) {
 		this.arresteeSegments = arresteeSegments;
+	}
+
+	public Set<OffenderSegment> getOffenderSegments() {
+		return offenderSegments;
+	}
+
+	public void setOffenderSegments(Set<OffenderSegment> offenderSegments) {
+		this.offenderSegments = offenderSegments;
 	}
 }
