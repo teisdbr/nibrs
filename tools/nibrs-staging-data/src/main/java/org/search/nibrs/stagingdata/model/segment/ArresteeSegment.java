@@ -29,11 +29,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.search.nibrs.stagingdata.model.Agency;
-import org.search.nibrs.stagingdata.model.ArrestReportSegmentWasArmedWith;
+import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.DateType;
 import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
 import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
+import org.search.nibrs.stagingdata.model.MultipleArresteeSegmentsIndicatorType;
 import org.search.nibrs.stagingdata.model.RaceOfPersonType;
 import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
@@ -42,33 +42,33 @@ import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 
 @Entity
-public class ArrestReportSegment {
+public class ArresteeSegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer arrestReportSegmentId;
+	private Integer arresteeSegmentId;
 	
 	@ManyToOne
 	@JoinColumn(name="segmentActionTypeTypeID") 
 	private SegmentActionTypeType segmentActionType; 
-	private String monthOfTape; 
-	private String yearOfTape; 
-	private String cityIndicator;
-	
 	@ManyToOne
-	@JoinColumn(name="agencyId")
-	private Agency agency; 
-	private String ori; 
-	private String arrestTransactionNumber; 
+	@JoinColumn(name="administrativeSegmentId") 
+	private AdministrativeSegment administrativeSegment; 
 	private Integer arresteeSequenceNumber; 
+	private String arrestTransactionNumber; 
 	private Date arrestDate;
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="arrestDateId")
 	private DateType arrestDateType; 
-
+	
 	@ManyToOne
 	@JoinColumn(name="typeOfArrestTypeId") 
-	private TypeOfArrestType typeOfArrestType; 
+	private TypeOfArrestType typeOfArrestType;
+	
+	@ManyToOne
+	@JoinColumn(name="multipleArresteeSegmentsIndicatorTypeId") 
+	private MultipleArresteeSegmentsIndicatorType multipleArresteeSegmentsIndicatorType;
+	
 	private Integer ageOfArresteeMin; 
 	private Integer ageOfArresteeMax; 
 	@ManyToOne
@@ -91,39 +91,9 @@ public class ArrestReportSegment {
 	@JoinColumn(name="ucrOffenseCodeTypeId")
 	private UcrOffenseCodeType ucrOffenseCodeType;
 	
-	@OneToMany(mappedBy = "arrestReportSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private Set<ArrestReportSegmentWasArmedWith> arrestReportSegmentWasArmedWiths;
+	@OneToMany(mappedBy = "arresteeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths;
 	
-	public Integer getArrestReportSegmentId() {
-		return arrestReportSegmentId;
-	}
-	public void setArrestReportSegmentId(Integer arrestReportSegmentId) {
-		this.arrestReportSegmentId = arrestReportSegmentId;
-	}
-	public String getMonthOfTape() {
-		return monthOfTape;
-	}
-	public void setMonthOfTape(String monthOfTape) {
-		this.monthOfTape = monthOfTape;
-	}
-	public String getYearOfTape() {
-		return yearOfTape;
-	}
-	public void setYearOfTape(String yearOfTape) {
-		this.yearOfTape = yearOfTape;
-	}
-	public String getCityIndicator() {
-		return cityIndicator;
-	}
-	public void setCityIndicator(String cityIndicator) {
-		this.cityIndicator = cityIndicator;
-	}
-	public String getOri() {
-		return ori;
-	}
-	public void setOri(String ori) {
-		this.ori = ori;
-	}
 	public String getArrestTransactionNumber() {
 		return arrestTransactionNumber;
 	}
@@ -199,12 +169,6 @@ public class ArrestReportSegment {
 	public void setTypeOfArrestType(TypeOfArrestType typeOfArrestType) {
 		this.typeOfArrestType = typeOfArrestType;
 	}
-	public Agency getAgency() {
-		return agency;
-	}
-	public void setAgency(Agency agency) {
-		this.agency = agency;
-	}
 	public SegmentActionTypeType getSegmentActionType() {
 		return segmentActionType;
 	}
@@ -217,10 +181,28 @@ public class ArrestReportSegment {
 	public void setResidentStatusOfPersonType(ResidentStatusOfPersonType residentStatusOfPersonType) {
 		this.residentStatusOfPersonType = residentStatusOfPersonType;
 	}
-	public Set<ArrestReportSegmentWasArmedWith> getArrestReportSegmentWasArmedWiths() {
-		return arrestReportSegmentWasArmedWiths;
+	public AdministrativeSegment getAdministrativeSegment() {
+		return administrativeSegment;
 	}
-	public void setArrestReportSegmentWasArmedWiths(Set<ArrestReportSegmentWasArmedWith> arrestReportSegmentWasArmedWiths) {
-		this.arrestReportSegmentWasArmedWiths = arrestReportSegmentWasArmedWiths;
+	public void setAdministrativeSegment(AdministrativeSegment administrativeSegment) {
+		this.administrativeSegment = administrativeSegment;
+	}
+	public MultipleArresteeSegmentsIndicatorType getMultipleArresteeSegmentsIndicatorType() {
+		return multipleArresteeSegmentsIndicatorType;
+	}
+	public void setMultipleArresteeSegmentsIndicatorType(MultipleArresteeSegmentsIndicatorType multipleArresteeSegmentsIndicatorType) {
+		this.multipleArresteeSegmentsIndicatorType = multipleArresteeSegmentsIndicatorType;
+	}
+	public Integer getArresteeSegmentId() {
+		return arresteeSegmentId;
+	}
+	public void setArresteeSegmentId(Integer arresteeSegmentId) {
+		this.arresteeSegmentId = arresteeSegmentId;
+	}
+	public Set<ArresteeSegmentWasArmedWith> getArresteeSegmentWasArmedWiths() {
+		return arresteeSegmentWasArmedWiths;
+	}
+	public void setArresteeSegmentWasArmedWiths(Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths) {
+		this.arresteeSegmentWasArmedWiths = arresteeSegmentWasArmedWiths;
 	}
 }

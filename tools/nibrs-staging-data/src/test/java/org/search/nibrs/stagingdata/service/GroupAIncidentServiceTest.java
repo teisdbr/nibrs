@@ -36,6 +36,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.model.DateType;
@@ -49,19 +50,28 @@ import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
+import org.search.nibrs.stagingdata.repository.ArresteeWasArmedWithTypeRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepository;
 import org.search.nibrs.stagingdata.repository.DateTypeRepository;
+import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18TypeRepository;
+import org.search.nibrs.stagingdata.repository.EthnicityOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.LocationTypeRepository;
 import org.search.nibrs.stagingdata.repository.MethodOfEntryTypeRepository;
+import org.search.nibrs.stagingdata.repository.MultipleArresteeSegmentsIndicatorTypeRepository;
 import org.search.nibrs.stagingdata.repository.OffenderSuspectedOfUsingTypeRepository;
 import org.search.nibrs.stagingdata.repository.PropertyDescriptionTypeRepository;
+import org.search.nibrs.stagingdata.repository.RaceOfPersonTypeRepository;
+import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
+import org.search.nibrs.stagingdata.repository.SexOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.SuspectedDrugTypeTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeDrugMeasurementTypeRepository;
+import org.search.nibrs.stagingdata.repository.TypeOfArrestTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfCriminalActivityTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository;
@@ -103,6 +113,23 @@ public class GroupAIncidentServiceTest {
 	public PropertyDescriptionTypeRepository propertyDescriptionTypeRepository; 
 	@Autowired
 	public SuspectedDrugTypeTypeRepository suspectedDrugTypeTypeRepository; 
+	@Autowired
+	public DispositionOfArresteeUnder18TypeRepository dispositionOfArresteeUnder18TypeRepository; 
+	@Autowired
+	public EthnicityOfPersonTypeRepository ethnicityOfPersonTypeRepository; 
+	@Autowired
+	public RaceOfPersonTypeRepository raceOfPersonTypeRepository; 
+	@Autowired
+	public SexOfPersonTypeRepository sexOfPersonTypeRepository; 
+	@Autowired
+	public TypeOfArrestTypeRepository typeOfArrestTypeRepository; 
+	@Autowired
+	public ResidentStatusOfPersonTypeRepository residentStatusOfPersonTypeRepository; 
+	@Autowired
+	public MultipleArresteeSegmentsIndicatorTypeRepository multipleArresteeSegmentsIndicatorTypeRepository; 
+	@Autowired
+	public ArresteeWasArmedWithTypeRepository arresteeWasArmedWithTypeRepository; 
+	
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
 
@@ -245,7 +272,56 @@ public class GroupAIncidentServiceTest {
 				fail("Unexpected property loss type"); 
 			}
 		}
+		
+		Set<ArresteeSegment> arresteeSegments = persisted.getArresteeSegments();
+		assertThat(arresteeSegments.size(), equalTo(1));
+		
+		for (ArresteeSegment arresteeSegment: arresteeSegments){
+			if (arresteeSegment.getArrestTransactionNumber().equals("201040889")){
+//				ArresteeSegment[arresteeSequenceNumber=01,arrestTransactionNumber=201040889,arrestDate=Tue Aug 23 00:00:00 CDT 2016,
+				//typeOfArrest=S,multipleArresteeSegmentsIndicator=N,ucrArrestOffenseCode=23D,arresteeArmedWith={01,<null>},
+				//automaticWeaponIndicator={<null>,<null>},residentStatus=U,dispositionOfArresteeUnder18=<null>,
+				//age=33,sex=M,race=B,ethnicity=U
+				assertThat(arresteeSegment.getArrestTransactionNumber(), equalTo("201040889"));
+				assertThat(arresteeSegment.getArresteeSequenceNumber(), equalTo(1));
+				assertTrue(DateUtils.isSameDay(arresteeSegment.getArrestDate(), Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+				
+				assertThat(arresteeSegment.getArrestDateType().getDateTypeId(), equalTo(2355));
+				assertThat(arresteeSegment.getArrestDateType().getDateMMDDYYYY(), equalTo("06122016"));
+				assertThat(arresteeSegment.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("S"));
+				assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getMultipleArresteeSegmentsIndicatorCode(), 
+						equalTo("N"));
+				assertThat(arresteeSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("23D"));
+				assertThat(arresteeSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("U"));
+				assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18Code(), equalTo("9"));
+				assertThat(arresteeSegment.getAgeOfArresteeMax(), equalTo(33));
+				assertThat(arresteeSegment.getAgeOfArresteeMin(), equalTo(33));
+				assertThat(arresteeSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+				assertThat(arresteeSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B"));
+				assertThat(arresteeSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+				
+				Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths = 
+						arresteeSegment.getArresteeSegmentWasArmedWiths();
+				assertThat(arresteeSegmentWasArmedWiths.size(), equalTo(2));
+				
+				for (ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith: arresteeSegmentWasArmedWiths){
+					if (arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator().equals("A")){
+						assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("12"));
+					}
+					else if (arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator().equals("")){
+						assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("11"));
+					}
+					else {
+						fail("Unexpected reportSegmentWasArmedWith.getAutomaticWeaponIndicator() value");
+					}
+				}
 
+			}
+			else {
+				fail("Unexpected arrestee arrest transaction number");
+			}
+
+		}
 	}
 	
 	@SuppressWarnings("serial")
@@ -391,6 +467,57 @@ public class GroupAIncidentServiceTest {
 		propertySegments.add(propertySegment2);
 		
 		administrativeSegment.setPropertySegments(propertySegments);
+		
+		
+//		1 arrestee segment 
+//		ArresteeSegment[arresteeSequenceNumber=01,arrestTransactionNumber=201040889,arrestDate=Tue Aug 23 00:00:00 CDT 2016,
+		//typeOfArrest=S,multipleArresteeSegmentsIndicator=N,ucrArrestOffenseCode=23D,arresteeArmedWith={01,<null>},
+		//automaticWeaponIndicator={<null>,<null>},residentStatus=U,dispositionOfArresteeUnder18=<null>,
+		//age=33,sex=M,race=B,ethnicity=U
+		
+		ArresteeSegment arresteeSegment = new ArresteeSegment();
+		arresteeSegment.setAdministrativeSegment(administrativeSegment);
+		arresteeSegment.setAgeOfArresteeMax(33);
+		arresteeSegment.setAgeOfArresteeMin(33);
+		arresteeSegment.setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+		
+		DateType arrestDateType = dateTypeRepository.findFirstByDateMMDDYYYY("06122016");
+		arresteeSegment.setArrestDateType(arrestDateType);
+		
+		arresteeSegment.setArresteeSequenceNumber(1);
+		arresteeSegment.setArrestTransactionNumber("201040889");
+		
+		arresteeSegment.setDispositionOfArresteeUnder18Type(
+				dispositionOfArresteeUnder18TypeRepository.findFirstByDispositionOfArresteeUnder18Code("9"));
+		arresteeSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
+		arresteeSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
+		arresteeSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("U"));
+		arresteeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I"));
+		arresteeSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
+		arresteeSegment.setTypeOfArrestType(typeOfArrestTypeRepository.findFirstByTypeOfArrestCode("S"));
+		arresteeSegment.setUcrOffenseCodeType(ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("23D"));
+		arresteeSegment.setMultipleArresteeSegmentsIndicatorType(
+				multipleArresteeSegmentsIndicatorTypeRepository.findFirstByMultipleArresteeSegmentsIndicatorCode("N"));
+		
+		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith1 = new ArresteeSegmentWasArmedWith();
+		arresteeSegmentWasArmedWith1.setArresteeSegment(arresteeSegment);
+		arresteeSegmentWasArmedWith1.setAutomaticWeaponIndicator("A");
+		arresteeSegmentWasArmedWith1.setArresteeWasArmedWithType(arresteeWasArmedWithTypeRepository.findOne(120));
+		
+		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith2 = new ArresteeSegmentWasArmedWith();
+		arresteeSegmentWasArmedWith2.setArresteeSegment(arresteeSegment);
+		arresteeSegmentWasArmedWith2.setAutomaticWeaponIndicator("");
+		arresteeSegmentWasArmedWith2.setArresteeWasArmedWithType(arresteeWasArmedWithTypeRepository.findOne(110));
+		
+		arresteeSegment.setArresteeSegmentWasArmedWiths(new HashSet<ArresteeSegmentWasArmedWith>(){{
+			add(arresteeSegmentWasArmedWith1);
+			add(arresteeSegmentWasArmedWith2);
+		}});
+		
+		administrativeSegment.setArresteeSegments(new HashSet<ArresteeSegment>(){{
+			add(arresteeSegment);
+		}});
+		
 		return administrativeSegment; 
 	}
 
