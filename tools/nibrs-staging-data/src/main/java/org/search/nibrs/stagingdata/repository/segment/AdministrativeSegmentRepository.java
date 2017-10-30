@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository;
+package org.search.nibrs.stagingdata.repository.segment;
 
-import org.search.nibrs.stagingdata.model.ArrestReportSegment;
+import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ArrestReportSegmentRepository extends CrudRepository<ArrestReportSegment, Integer>{
+public interface AdministrativeSegmentRepository 
+	extends CrudRepository<AdministrativeSegment, Integer>{
+
 }

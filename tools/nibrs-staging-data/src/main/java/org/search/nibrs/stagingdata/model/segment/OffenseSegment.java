@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.model;
+package org.search.nibrs.stagingdata.model.segment;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +33,14 @@ import javax.persistence.OneToMany;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.search.nibrs.stagingdata.model.BiasMotivationType;
+import org.search.nibrs.stagingdata.model.LocationType;
+import org.search.nibrs.stagingdata.model.MethodOfEntryType;
+import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
+import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
+import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
+import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 
 @Entity
 public class OffenseSegment {

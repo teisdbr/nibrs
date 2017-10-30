@@ -28,6 +28,7 @@ import javax.persistence.ManyToOne;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 
 
 @Entity

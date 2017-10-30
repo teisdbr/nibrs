@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.model;
+package org.search.nibrs.stagingdata.model.segment;
 
 import java.util.Date;
 import java.util.Set;
@@ -30,6 +30,10 @@ import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
+import org.search.nibrs.stagingdata.model.DateType;
+import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 
 @Entity
 public class AdministrativeSegment {

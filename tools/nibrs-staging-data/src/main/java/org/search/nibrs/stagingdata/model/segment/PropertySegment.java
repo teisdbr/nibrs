@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.model;
+package org.search.nibrs.stagingdata.model.segment;
 
 import java.util.Set;
 
@@ -30,6 +30,10 @@ import javax.persistence.OneToMany;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.search.nibrs.stagingdata.model.PropertyType;
+import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
+import org.search.nibrs.stagingdata.model.SuspectedDrugType;
+import org.search.nibrs.stagingdata.model.TypePropertyLossEtcType;
 
 @Entity
 public class PropertySegment {

@@ -15,8 +15,8 @@
  */
 package org.search.nibrs.stagingdata.service;
 
-import org.search.nibrs.stagingdata.model.ArrestReportSegment;
-import org.search.nibrs.stagingdata.repository.ArrestReportSegmentRepository;
+import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
+import org.search.nibrs.stagingdata.repository.segment.ArrestReportSegmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

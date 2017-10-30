@@ -19,10 +19,10 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.search.nibrs.stagingdata.model.AdministrativeSegment;
-import org.search.nibrs.stagingdata.model.OffenseSegment;
-import org.search.nibrs.stagingdata.repository.AdministrativeSegmentRepository;
-import org.search.nibrs.stagingdata.repository.OffenseSegmentRepository;
+import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
+import org.search.nibrs.stagingdata.repository.segment.AdministrativeSegmentRepository;
+import org.search.nibrs.stagingdata.repository.segment.OffenseSegmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
