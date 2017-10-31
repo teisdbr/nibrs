@@ -27,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -42,6 +43,7 @@ import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.SexOfPersonType;
 import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.search.nibrs.stagingdata.model.TypeOfVictimType;
+import org.search.nibrs.stagingdata.model.VictimOffenderAssociation;
 
 @Entity
 public class VictimSegment {
@@ -109,6 +111,9 @@ public class VictimSegment {
 	inverseJoinColumns = @JoinColumn(name = "aggravatedAssaultHomicideCircumstancesTypeId", 
 				referencedColumnName = "aggravatedAssaultHomicideCircumstancesTypeId"))
 	private Set<AggravatedAssaultHomicideCircumstancesType> aggravatedAssaultHomicideCircumstancesTypes;     
+	
+	@OneToMany(mappedBy = "victimSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<VictimOffenderAssociation> VictimOffenderAssociations;
 	
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
@@ -233,5 +238,17 @@ public class VictimSegment {
 	}
 	public void setAggravatedAssaultHomicideCircumstancesTypes(Set<AggravatedAssaultHomicideCircumstancesType> aggravatedAssaultHomicideCircumstancesTypes) {
 		this.aggravatedAssaultHomicideCircumstancesTypes = aggravatedAssaultHomicideCircumstancesTypes;
+	}
+	public Integer getVictimSegmentId() {
+		return victimSegmentId;
+	}
+	public void setVictimSegmentId(Integer victimSegmentId) {
+		this.victimSegmentId = victimSegmentId;
+	}
+	public Set<VictimOffenderAssociation> getVictimOffenderAssociations() {
+		return VictimOffenderAssociations;
+	}
+	public void setVictimOffenderAssociations(Set<VictimOffenderAssociation> victimOffenderAssociations) {
+		VictimOffenderAssociations = victimOffenderAssociations;
 	}
 }

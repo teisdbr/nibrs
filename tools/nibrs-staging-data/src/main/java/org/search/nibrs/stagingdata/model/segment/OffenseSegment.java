@@ -89,7 +89,7 @@ public class OffenseSegment {
 	inverseJoinColumns = @JoinColumn(name = "typeOfCriminalActivityTypeId", referencedColumnName = "typeOfCriminalActivityTypeId"))
 	private Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes;  
 	
-	@ManyToMany(mappedBy = "offenseSegments", fetch=FetchType.LAZY)
+	@ManyToMany(mappedBy = "offenseSegments", fetch=FetchType.EAGER)
 	private Set<VictimSegment> victimSegments;
 	
 	public OffenseSegment() {

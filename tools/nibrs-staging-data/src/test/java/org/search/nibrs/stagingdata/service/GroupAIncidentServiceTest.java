@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -51,6 +52,7 @@ import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
+import org.search.nibrs.stagingdata.model.VictimOffenderAssociation;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
@@ -86,6 +88,7 @@ import org.search.nibrs.stagingdata.repository.TypeOfVictimTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
+import org.search.nibrs.stagingdata.repository.VictimOffenderRelationshipTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -151,6 +154,8 @@ public class GroupAIncidentServiceTest {
 	public TypeInjuryTypeRepository typeInjuryTypeRepository; 
 	@Autowired
 	public AggravatedAssaultHomicideCircumstancesTypeRepository aggravatedAssaultHomicideCircumstancesTypeRepository; 
+	@Autowired
+	public VictimOffenderRelationshipTypeRepository victimOffenderRelationshipTypeRepository; 
 	
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
@@ -406,6 +411,16 @@ public class GroupAIncidentServiceTest {
 				assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"))); 
 				
 				assertTrue(victimSegment.getOffenseSegments().containsAll(persisted.getOffenseSegments()));
+				
+				Set<VictimOffenderAssociation> victimOffenderAssociations = victimSegment.getVictimOffenderAssociations();
+				assertThat(victimOffenderAssociations.size(), equalTo(1));
+				
+				VictimOffenderAssociation victimOffenderAssociation = new ArrayList<>(victimOffenderAssociations).get(0);
+				
+				assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
+				assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
+				assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("AQ"));
+
 			}
 			else {
 				fail("Unexpected victim sequence number"); 
@@ -624,13 +639,13 @@ public class GroupAIncidentServiceTest {
 		OffenderSegment offenderSegment2 = new OffenderSegment();
 		offenderSegment2.setAdministrativeSegment(administrativeSegment);
 		offenderSegment2.setSegmentActionType(segmentActionTypeType);
-		offenderSegment2.setAgeOfOffenderMax(0);
-		offenderSegment2.setAgeOfOffenderMin(0);
+		offenderSegment2.setAgeOfOffenderMax(33);
+		offenderSegment2.setAgeOfOffenderMin(33);
 		
 		offenderSegment2.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
 		offenderSegment2.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
 		offenderSegment2.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
-		offenderSegment2.setOffenderSequenceNumber(1);
+		offenderSegment2.setOffenderSequenceNumber(2);
 		
 		administrativeSegment.setOffenderSegments(new HashSet<OffenderSegment>(){{
 			add(offenderSegment1);
@@ -682,7 +697,16 @@ public class GroupAIncidentServiceTest {
 			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02"));
 		}});
 		
+		VictimOffenderAssociation victimOffenderAssociation1 = new VictimOffenderAssociation();
+		victimOffenderAssociation1.setVictimSegment(victimSegment);
+		victimOffenderAssociation1.setOffenderSegment(offenderSegment1);
+		victimOffenderAssociation1.setVictimOffenderRelationshipType(
+				victimOffenderRelationshipTypeRepository.findFirstByVictimOffenderRelationshipCode("AQ"));;
 		
+		victimSegment.setVictimOffenderAssociations(new HashSet<VictimOffenderAssociation>(){{
+			add(victimOffenderAssociation1);
+		}});
+
 		administrativeSegment.setVictimSegments(new HashSet<VictimSegment>(){{
 			add(victimSegment);
 		}});

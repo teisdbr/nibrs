@@ -15,18 +15,25 @@
  */
 package org.search.nibrs.stagingdata.model.segment;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.model.RaceOfPersonType;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.SexOfPersonType;
+import org.search.nibrs.stagingdata.model.VictimOffenderAssociation;
 
 @Entity
 public class OffenderSegment {
@@ -52,11 +59,20 @@ public class OffenderSegment {
 	private RaceOfPersonType raceOfPersonType;
 	@ManyToOne
 	@JoinColumn(name="ethnicityOfPersonTypeId")
-	
 	private EthnicityOfPersonType ethnicityOfPersonType;
 	
+	@OneToMany(mappedBy = "offenderSegment", fetch=FetchType.EAGER)
+	private Set<VictimOffenderAssociation> victimOffenderAssociations;
+	
 	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
+		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
+		String resultWithoutParentSegment = 
+				ReflectionToStringBuilder.toStringExclude(this, "administrativeSegment", "victimOffenderAssociations");
+		int index = StringUtils.indexOf(resultWithoutParentSegment, ",");
+		
+		StringBuilder sb = new StringBuilder(resultWithoutParentSegment);
+		sb.insert(index + 1, "administrativeSegmentId=" + administrativeSegment.getAdministrativeSegmentId() + ",");
+		return sb.toString();
 	}
 	public EthnicityOfPersonType getEthnicityOfPersonType() {
 		return ethnicityOfPersonType;
@@ -111,5 +127,11 @@ public class OffenderSegment {
 	}
 	public void setOffenderSegmentId(Integer offenderSegmentId) {
 		this.offenderSegmentId = offenderSegmentId;
+	}
+	public Set<VictimOffenderAssociation> getVictimOffenderAssociations() {
+		return victimOffenderAssociations;
+	}
+	public void setVictimOffenderAssociations(Set<VictimOffenderAssociation> victimOffenderAssociations) {
+		this.victimOffenderAssociations = victimOffenderAssociations;
 	}
 }
