@@ -54,6 +54,8 @@ import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.model.segment.PropertySegment;
+import org.search.nibrs.stagingdata.model.segment.VictimSegment;
+import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.repository.ArresteeWasArmedWithTypeRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
@@ -65,6 +67,8 @@ import org.search.nibrs.stagingdata.repository.LocationTypeRepository;
 import org.search.nibrs.stagingdata.repository.MethodOfEntryTypeRepository;
 import org.search.nibrs.stagingdata.repository.MultipleArresteeSegmentsIndicatorTypeRepository;
 import org.search.nibrs.stagingdata.repository.OffenderSuspectedOfUsingTypeRepository;
+import org.search.nibrs.stagingdata.repository.OfficerActivityCircumstanceTypeRepository;
+import org.search.nibrs.stagingdata.repository.OfficerAssignmentTypeTypeRepository;
 import org.search.nibrs.stagingdata.repository.PropertyDescriptionTypeRepository;
 import org.search.nibrs.stagingdata.repository.RaceOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.ResidentStatusOfPersonTypeRepository;
@@ -74,6 +78,7 @@ import org.search.nibrs.stagingdata.repository.SuspectedDrugTypeTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeDrugMeasurementTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfArrestTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfCriminalActivityTypeRepository;
+import org.search.nibrs.stagingdata.repository.TypeOfVictimTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
@@ -130,6 +135,14 @@ public class GroupAIncidentServiceTest {
 	public MultipleArresteeSegmentsIndicatorTypeRepository multipleArresteeSegmentsIndicatorTypeRepository; 
 	@Autowired
 	public ArresteeWasArmedWithTypeRepository arresteeWasArmedWithTypeRepository; 
+	@Autowired
+	public TypeOfVictimTypeRepository typeOfVictimTypeRepository; 
+	@Autowired
+	public OfficerActivityCircumstanceTypeRepository officerActivityCircumstanceTypeRepository; 
+	@Autowired
+	public OfficerAssignmentTypeTypeRepository officerAssignmentTypeTypeRepository; 
+	@Autowired
+	public AdditionalJustifiableHomicideCircumstancesTypeRepository additionalJustifiableHomicideCircumstancesTypeRepository; 
 	
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
@@ -351,7 +364,35 @@ public class GroupAIncidentServiceTest {
 				fail("Unexpected offender sequence number"); 
 			}
 		}
-
+		
+		Set<VictimSegment> victimSegments = persisted.getVictimSegments();
+		assertThat(victimSegments.size(), equalTo(1));
+		
+		for (VictimSegment victimSegment: victimSegments){
+			if (victimSegment.getVictimSequenceNumber().equals(1)){
+				assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(1)); 
+				assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
+				assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("B")); 
+				assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode(), equalTo("99")); 
+				assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeCode(), equalTo("9")); 
+				
+				assertNull(victimSegment.getAgeOfVictimMax());
+				assertNull(victimSegment.getAgeOfVictimMin());
+				assertThat(victimSegment.getAgeNeonateIndicator(), equalTo(0));
+				assertThat(victimSegment.getAgeFirstWeekIndicator(), equalTo(0));
+				assertThat(victimSegment.getAgeFirstYearIndicator(), equalTo(0));
+				
+				assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("U")); 
+				assertThat(victimSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("U")); 
+				assertThat(victimSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U")); 
+				assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("U")); 
+				assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
+						.getAdditionalJustifiableHomicideCircumstancesCode(), equalTo("9"));
+			}
+			else {
+				fail("Unexpected victim sequence number"); 
+			}
+		}
 	}
 	
 	@SuppressWarnings("serial")
@@ -577,6 +618,40 @@ public class GroupAIncidentServiceTest {
 			add(offenderSegment1);
 			add(offenderSegment2);
 		}});
+		
+//		1 VictimSegment Segments:
+//		VictimSegment [age=null, sex=null, race=null, ethnicity=null, victimSequenceNumber=01, 
+//		ucrOffenseCodeConnection=[26B, 23D, null, null, null, null, null, null, null, null], 
+//		typeOfVictim=B, residentStatus=null, aggravatedAssaultHomicideCircumstances=[null, null], 
+//		additionalJustifiableHomicideCircumstances=null, typeOfInjury=[null, null, null, null, null], 
+//		offenderNumberRelated=[null, null, null, null, null, null, null, null, null, null], 
+//		victimOffenderRelationship=[null, null, null, null, null, null, null, null, null, null], 
+//		typeOfOfficerActivityCircumstance=null, officerAssignmentType=null, officerOtherJurisdictionORI=null, 
+//		populatedAggravatedAssaultHomicideCircumstancesCount=2, populatedTypeOfInjuryCount=5, 
+//		populatedUcrOffenseCodeConnectionCount=10, populatedOffenderNumberRelatedCount=0]
+		VictimSegment victimSegment = new VictimSegment();
+		victimSegment.setAdministrativeSegment(administrativeSegment);
+		victimSegment.setSegmentActionType(segmentActionTypeType);
+		victimSegment.setVictimSequenceNumber(1);
+		victimSegment.setTypeOfVictimType(typeOfVictimTypeRepository.findFirstByTypeOfVictimCode("B"));
+		victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceTypeRepository.findFirstByOfficerActivityCircumstanceCode("99"));
+		victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeTypeRepository.findFirstByOfficerAssignmentTypeCode("9"));
+		
+		victimSegment.setAgeNeonateIndicator(0);
+		victimSegment.setAgeFirstWeekIndicator(0);
+		victimSegment.setAgeFirstYearIndicator(0);
+		
+		victimSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("U"));
+		victimSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("U"));
+		victimSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
+		victimSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("U"));
+		
+		victimSegment.setAdditionalJustifiableHomicideCircumstancesType(
+				additionalJustifiableHomicideCircumstancesTypeRepository.findFirstByAdditionalJustifiableHomicideCircumstancesCode("9"));
+		administrativeSegment.setVictimSegments(new HashSet<VictimSegment>(){{
+			add(victimSegment);
+		}});
+
 		return administrativeSegment; 
 	}
 
