@@ -15,15 +15,24 @@
  */
 package org.search.nibrs.stagingdata.model.segment;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
+import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.model.OfficerActivityCircumstanceType;
 import org.search.nibrs.stagingdata.model.OfficerAssignmentTypeType;
@@ -31,6 +40,7 @@ import org.search.nibrs.stagingdata.model.RaceOfPersonType;
 import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.SexOfPersonType;
+import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.search.nibrs.stagingdata.model.TypeOfVictimType;
 
 @Entity
@@ -81,8 +91,33 @@ public class VictimSegment {
 	@JoinColumn(name="additionalJustifiableHomicideCircumstancesTypeId")
 	private AdditionalJustifiableHomicideCircumstancesType additionalJustifiableHomicideCircumstancesType;
 	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinTable(name = "typeInjury", 
+	joinColumns = @JoinColumn(name = "victimSegmentId", referencedColumnName = "victimSegmentId"), 
+	inverseJoinColumns = @JoinColumn(name = "typeInjuryTypeId", referencedColumnName = "typeInjuryTypeId"))
+	private Set<TypeInjuryType> typeInjuryTypes;     
+	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinTable(name = "victimOffenseAssociation", 
+	joinColumns = @JoinColumn(name = "victimSegmentId", referencedColumnName = "victimSegmentId"), 
+	inverseJoinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"))
+	private Set<OffenseSegment> offenseSegments;     
+	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinTable(name = "aggravatedAssaultHomicideCircumstances", 
+	joinColumns = @JoinColumn(name = "victimSegmentId", referencedColumnName = "victimSegmentId"), 
+	inverseJoinColumns = @JoinColumn(name = "aggravatedAssaultHomicideCircumstancesTypeId", 
+				referencedColumnName = "aggravatedAssaultHomicideCircumstancesTypeId"))
+	private Set<AggravatedAssaultHomicideCircumstancesType> aggravatedAssaultHomicideCircumstancesTypes;     
+	
 	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
+		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
+		String resultWithoutParentSegment = ReflectionToStringBuilder.toStringExclude(this, "administrativeSegment", "victimSegments");
+		int index = StringUtils.indexOf(resultWithoutParentSegment, ",");
+		
+		StringBuilder sb = new StringBuilder(resultWithoutParentSegment);
+		sb.insert(index + 1, "administrativeSegmentId=" + administrativeSegment.getAdministrativeSegmentId() + ",");
+		return sb.toString();
 	}
 	public EthnicityOfPersonType getEthnicityOfPersonType() {
 		return ethnicityOfPersonType;
@@ -180,5 +215,23 @@ public class VictimSegment {
 	public void setAdditionalJustifiableHomicideCircumstancesType(
 			AdditionalJustifiableHomicideCircumstancesType additionalJustifiableHomicideCircumstancesType) {
 		this.additionalJustifiableHomicideCircumstancesType = additionalJustifiableHomicideCircumstancesType;
+	}
+	public Set<TypeInjuryType> getTypeInjuryTypes() {
+		return typeInjuryTypes;
+	}
+	public void setTypeInjuryTypes(Set<TypeInjuryType> typeInjuryTypes) {
+		this.typeInjuryTypes = typeInjuryTypes;
+	}
+	public Set<OffenseSegment> getOffenseSegments() {
+		return offenseSegments;
+	}
+	public void setOffenseSegments(Set<OffenseSegment> offenseSegments) {
+		this.offenseSegments = offenseSegments;
+	}
+	public Set<AggravatedAssaultHomicideCircumstancesType> getAggravatedAssaultHomicideCircumstancesTypes() {
+		return aggravatedAssaultHomicideCircumstancesTypes;
+	}
+	public void setAggravatedAssaultHomicideCircumstancesTypes(Set<AggravatedAssaultHomicideCircumstancesType> aggravatedAssaultHomicideCircumstancesTypes) {
+		this.aggravatedAssaultHomicideCircumstancesTypes = aggravatedAssaultHomicideCircumstancesTypes;
 	}
 }

@@ -103,4 +103,65 @@ public class UcrOffenseCodeType {
 		this.ucrOffenseCodeTypeID = ucrOffenseCodeTypeID;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((offenseCategory1 == null) ? 0 : offenseCategory1.hashCode());
+		result = prime * result + ((offenseCategory2 == null) ? 0 : offenseCategory2.hashCode());
+		result = prime * result + ((offenseCategory3 == null) ? 0 : offenseCategory3.hashCode());
+		result = prime * result + ((offenseCategory4 == null) ? 0 : offenseCategory4.hashCode());
+		result = prime * result + ((ucrOffenseCode == null) ? 0 : ucrOffenseCode.hashCode());
+		result = prime * result + ((ucrOffenseCodeDescription == null) ? 0 : ucrOffenseCodeDescription.hashCode());
+		result = prime * result + ((ucrOffenseCodeTypeID == null) ? 0 : ucrOffenseCodeTypeID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UcrOffenseCodeType other = (UcrOffenseCodeType) obj;
+		if (offenseCategory1 == null) {
+			if (other.offenseCategory1 != null)
+				return false;
+		} else if (!offenseCategory1.equals(other.offenseCategory1))
+			return false;
+		if (offenseCategory2 == null) {
+			if (other.offenseCategory2 != null)
+				return false;
+		} else if (!offenseCategory2.equals(other.offenseCategory2))
+			return false;
+		if (offenseCategory3 == null) {
+			if (other.offenseCategory3 != null)
+				return false;
+		} else if (!offenseCategory3.equals(other.offenseCategory3))
+			return false;
+		if (offenseCategory4 == null) {
+			if (other.offenseCategory4 != null)
+				return false;
+		} else if (!offenseCategory4.equals(other.offenseCategory4))
+			return false;
+		if (ucrOffenseCode == null) {
+			if (other.ucrOffenseCode != null)
+				return false;
+		} else if (!ucrOffenseCode.equals(other.ucrOffenseCode))
+			return false;
+		if (ucrOffenseCodeDescription == null) {
+			if (other.ucrOffenseCodeDescription != null)
+				return false;
+		} else if (!ucrOffenseCodeDescription.equals(other.ucrOffenseCodeDescription))
+			return false;
+		if (ucrOffenseCodeTypeID == null) {
+			if (other.ucrOffenseCodeTypeID != null)
+				return false;
+		} else if (!ucrOffenseCodeTypeID.equals(other.ucrOffenseCodeTypeID))
+			return false;
+		return true;
+	}
+
 }

@@ -36,6 +36,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
@@ -46,6 +47,7 @@ import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.PropertyType;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.SuspectedDrugType;
+import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
@@ -57,6 +59,7 @@ import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
+import org.search.nibrs.stagingdata.repository.AggravatedAssaultHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.ArresteeWasArmedWithTypeRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepository;
@@ -76,6 +79,7 @@ import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
 import org.search.nibrs.stagingdata.repository.SexOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.SuspectedDrugTypeTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeDrugMeasurementTypeRepository;
+import org.search.nibrs.stagingdata.repository.TypeInjuryTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfArrestTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfCriminalActivityTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfVictimTypeRepository;
@@ -143,6 +147,10 @@ public class GroupAIncidentServiceTest {
 	public OfficerAssignmentTypeTypeRepository officerAssignmentTypeTypeRepository; 
 	@Autowired
 	public AdditionalJustifiableHomicideCircumstancesTypeRepository additionalJustifiableHomicideCircumstancesTypeRepository; 
+	@Autowired
+	public TypeInjuryTypeRepository typeInjuryTypeRepository; 
+	@Autowired
+	public AggravatedAssaultHomicideCircumstancesTypeRepository aggravatedAssaultHomicideCircumstancesTypeRepository; 
 	
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
@@ -173,7 +181,7 @@ public class GroupAIncidentServiceTest {
 		for (OffenseSegment offenseSegment: offenseSegments){
 			if (offenseSegment.getBiasMotivationType().getBiasMotivationCode().equals("11")){
 				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("520"));
+				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("23D"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
 				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("04"));
 				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(2));
@@ -208,7 +216,7 @@ public class GroupAIncidentServiceTest {
 			else {
 				assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("12"));
 				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("35A"));
+				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("26B"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("A"));
 				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("02"));
 				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(1));
@@ -388,6 +396,16 @@ public class GroupAIncidentServiceTest {
 				assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("U")); 
 				assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
 						.getAdditionalJustifiableHomicideCircumstancesCode(), equalTo("9"));
+
+				assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(2)); 
+				assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().containsAll(
+						Arrays.asList(
+								aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"), 
+								aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02") ))); 
+				assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
+				assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"))); 
+				
+				assertTrue(victimSegment.getOffenseSegments().containsAll(persisted.getOffenseSegments()));
 			}
 			else {
 				fail("Unexpected victim sequence number"); 
@@ -425,7 +443,7 @@ public class GroupAIncidentServiceTest {
 		OffenseSegment offenseSegment = new OffenseSegment();
 		offenseSegment.setSegmentActionType(segmentActionTypeType);
 		
-		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("520");
+		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("23D");
 		offenseSegment.setUcrOffenseCodeType(ucrOffenseCode);
 		
 		offenseSegment.setOffenseAttemptedCompleted("C");  //Allowed values C or A 
@@ -466,7 +484,7 @@ public class GroupAIncidentServiceTest {
 		OffenseSegment offenseSegment2 = new OffenseSegment();
 		offenseSegment2.setSegmentActionType(segmentActionTypeType);
 		
-		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("35A");
+		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("26B");
 		offenseSegment2.setUcrOffenseCodeType(ucrOffenseCode2);
 		
 		offenseSegment2.setOffenseAttemptedCompleted("A");  //Allowed values C or A 
@@ -648,10 +666,27 @@ public class GroupAIncidentServiceTest {
 		
 		victimSegment.setAdditionalJustifiableHomicideCircumstancesType(
 				additionalJustifiableHomicideCircumstancesTypeRepository.findFirstByAdditionalJustifiableHomicideCircumstancesCode("9"));
+		
+		
+		victimSegment.setTypeInjuryTypes(new HashSet<TypeInjuryType>(){{
+			add(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"));
+		}});
+
+		victimSegment.setOffenseSegments(new HashSet<OffenseSegment>(){{
+			add(offenseSegment);
+			add(offenseSegment2);
+		}});
+		
+		victimSegment.setAggravatedAssaultHomicideCircumstancesTypes(new HashSet<AggravatedAssaultHomicideCircumstancesType>(){{
+			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"));
+			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02"));
+		}});
+		
+		
 		administrativeSegment.setVictimSegments(new HashSet<VictimSegment>(){{
 			add(victimSegment);
 		}});
-
+		
 		return administrativeSegment; 
 	}
 

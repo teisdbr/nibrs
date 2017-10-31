@@ -15,12 +15,18 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 
 @Entity
 public class AggravatedAssaultHomicideCircumstancesType {
@@ -30,6 +36,9 @@ public class AggravatedAssaultHomicideCircumstancesType {
 	private String aggravatedAssaultHomicideCircumstancesCode; 
 	private String aggravatedAssaultHomicideCircumstancesDescription; 
 	
+	@ManyToMany(mappedBy = "aggravatedAssaultHomicideCircumstancesTypes", fetch=FetchType.LAZY)
+	private Set<VictimSegment> victimSegments;
+
 	public AggravatedAssaultHomicideCircumstancesType() {
 		super();
 	}
@@ -44,7 +53,8 @@ public class AggravatedAssaultHomicideCircumstancesType {
 	}
 
 	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
+		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
+        return ReflectionToStringBuilder.toStringExclude(this, "victimSegments");		
 	}
 
 	public Integer getAggravatedAssaultHomicideCircumstancesTypeId() {
@@ -70,5 +80,47 @@ public class AggravatedAssaultHomicideCircumstancesType {
 	public void setAggravatedAssaultHomicideCircumstancesDescription(
 			String aggravatedAssaultHomicideCircumstancesDescription) {
 		this.aggravatedAssaultHomicideCircumstancesDescription = aggravatedAssaultHomicideCircumstancesDescription;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((aggravatedAssaultHomicideCircumstancesCode == null) ? 0
+				: aggravatedAssaultHomicideCircumstancesCode.hashCode());
+		result = prime * result + ((aggravatedAssaultHomicideCircumstancesDescription == null) ? 0
+				: aggravatedAssaultHomicideCircumstancesDescription.hashCode());
+		result = prime * result + ((aggravatedAssaultHomicideCircumstancesTypeId == null) ? 0
+				: aggravatedAssaultHomicideCircumstancesTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AggravatedAssaultHomicideCircumstancesType other = (AggravatedAssaultHomicideCircumstancesType) obj;
+		if (aggravatedAssaultHomicideCircumstancesCode == null) {
+			if (other.aggravatedAssaultHomicideCircumstancesCode != null)
+				return false;
+		} else if (!aggravatedAssaultHomicideCircumstancesCode.equals(other.aggravatedAssaultHomicideCircumstancesCode))
+			return false;
+		if (aggravatedAssaultHomicideCircumstancesDescription == null) {
+			if (other.aggravatedAssaultHomicideCircumstancesDescription != null)
+				return false;
+		} else if (!aggravatedAssaultHomicideCircumstancesDescription
+				.equals(other.aggravatedAssaultHomicideCircumstancesDescription))
+			return false;
+		if (aggravatedAssaultHomicideCircumstancesTypeId == null) {
+			if (other.aggravatedAssaultHomicideCircumstancesTypeId != null)
+				return false;
+		} else if (!aggravatedAssaultHomicideCircumstancesTypeId
+				.equals(other.aggravatedAssaultHomicideCircumstancesTypeId))
+			return false;
+		return true;
 	}
 }

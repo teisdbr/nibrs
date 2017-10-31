@@ -169,4 +169,95 @@ public class DateType {
 		this.dateMMDDYYYY = dateMMDDYYYY;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((calendarDate == null) ? 0 : calendarDate.hashCode());
+		result = prime * result + ((calendarQuarter == null) ? 0 : calendarQuarter.hashCode());
+		result = prime * result + ((dateMMDDYYYY == null) ? 0 : dateMMDDYYYY.hashCode());
+		result = prime * result + ((dateTypeId == null) ? 0 : dateTypeId.hashCode());
+		result = prime * result + ((day == null) ? 0 : day.hashCode());
+		result = prime * result + ((dayOfWeek == null) ? 0 : dayOfWeek.hashCode());
+		result = prime * result + ((dayOfWeekSort == null) ? 0 : dayOfWeekSort.hashCode());
+		result = prime * result + ((fullMonth == null) ? 0 : fullMonth.hashCode());
+		result = prime * result + ((month == null) ? 0 : month.hashCode());
+		result = prime * result + ((monthName == null) ? 0 : monthName.hashCode());
+		result = prime * result + ((year == null) ? 0 : year.hashCode());
+		result = prime * result + ((yearLabel == null) ? 0 : yearLabel.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DateType other = (DateType) obj;
+		if (calendarDate == null) {
+			if (other.calendarDate != null)
+				return false;
+		} else if (!calendarDate.equals(other.calendarDate))
+			return false;
+		if (calendarQuarter == null) {
+			if (other.calendarQuarter != null)
+				return false;
+		} else if (!calendarQuarter.equals(other.calendarQuarter))
+			return false;
+		if (dateMMDDYYYY == null) {
+			if (other.dateMMDDYYYY != null)
+				return false;
+		} else if (!dateMMDDYYYY.equals(other.dateMMDDYYYY))
+			return false;
+		if (dateTypeId == null) {
+			if (other.dateTypeId != null)
+				return false;
+		} else if (!dateTypeId.equals(other.dateTypeId))
+			return false;
+		if (day == null) {
+			if (other.day != null)
+				return false;
+		} else if (!day.equals(other.day))
+			return false;
+		if (dayOfWeek == null) {
+			if (other.dayOfWeek != null)
+				return false;
+		} else if (!dayOfWeek.equals(other.dayOfWeek))
+			return false;
+		if (dayOfWeekSort == null) {
+			if (other.dayOfWeekSort != null)
+				return false;
+		} else if (!dayOfWeekSort.equals(other.dayOfWeekSort))
+			return false;
+		if (fullMonth == null) {
+			if (other.fullMonth != null)
+				return false;
+		} else if (!fullMonth.equals(other.fullMonth))
+			return false;
+		if (month == null) {
+			if (other.month != null)
+				return false;
+		} else if (!month.equals(other.month))
+			return false;
+		if (monthName == null) {
+			if (other.monthName != null)
+				return false;
+		} else if (!monthName.equals(other.monthName))
+			return false;
+		if (year == null) {
+			if (other.year != null)
+				return false;
+		} else if (!year.equals(other.year))
+			return false;
+		if (yearLabel == null) {
+			if (other.yearLabel != null)
+				return false;
+		} else if (!yearLabel.equals(other.yearLabel))
+			return false;
+		return true;
+	}
+
 }

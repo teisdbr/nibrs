@@ -202,4 +202,101 @@ public class AdministrativeSegment {
 	public void setVictimSegments(Set<VictimSegment> victimSegments) {
 		this.victimSegments = victimSegments;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((administrativeSegmentId == null) ? 0 : administrativeSegmentId.hashCode());
+		result = prime * result + ((agency == null) ? 0 : agency.hashCode());
+		result = prime * result + ((cityIndicator == null) ? 0 : cityIndicator.hashCode());
+		result = prime * result + ((clearedExceptionallyType == null) ? 0 : clearedExceptionallyType.hashCode());
+		result = prime * result + ((incidentDate == null) ? 0 : incidentDate.hashCode());
+		result = prime * result + ((incidentDateType == null) ? 0 : incidentDateType.hashCode());
+		result = prime * result + ((incidentHour == null) ? 0 : incidentHour.hashCode());
+		result = prime * result + ((incidentNumber == null) ? 0 : incidentNumber.hashCode());
+		result = prime * result + ((monthOfTape == null) ? 0 : monthOfTape.hashCode());
+		result = prime * result + ((ori == null) ? 0 : ori.hashCode());
+		result = prime * result + ((reportDateIndicator == null) ? 0 : reportDateIndicator.hashCode());
+		result = prime * result + ((segmentActionType == null) ? 0 : segmentActionType.hashCode());
+		result = prime * result + ((yearOfTape == null) ? 0 : yearOfTape.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AdministrativeSegment other = (AdministrativeSegment) obj;
+		if (administrativeSegmentId == null) {
+			if (other.administrativeSegmentId != null)
+				return false;
+		} else if (!administrativeSegmentId.equals(other.administrativeSegmentId))
+			return false;
+		if (agency == null) {
+			if (other.agency != null)
+				return false;
+		} else if (!agency.equals(other.agency))
+			return false;
+		if (cityIndicator == null) {
+			if (other.cityIndicator != null)
+				return false;
+		} else if (!cityIndicator.equals(other.cityIndicator))
+			return false;
+		if (clearedExceptionallyType == null) {
+			if (other.clearedExceptionallyType != null)
+				return false;
+		} else if (!clearedExceptionallyType.equals(other.clearedExceptionallyType))
+			return false;
+		if (incidentDate == null) {
+			if (other.incidentDate != null)
+				return false;
+		} else if (!incidentDate.equals(other.incidentDate))
+			return false;
+		if (incidentDateType == null) {
+			if (other.incidentDateType != null)
+				return false;
+		} else if (!incidentDateType.equals(other.incidentDateType))
+			return false;
+		if (incidentHour == null) {
+			if (other.incidentHour != null)
+				return false;
+		} else if (!incidentHour.equals(other.incidentHour))
+			return false;
+		if (incidentNumber == null) {
+			if (other.incidentNumber != null)
+				return false;
+		} else if (!incidentNumber.equals(other.incidentNumber))
+			return false;
+		if (monthOfTape == null) {
+			if (other.monthOfTape != null)
+				return false;
+		} else if (!monthOfTape.equals(other.monthOfTape))
+			return false;
+		if (ori == null) {
+			if (other.ori != null)
+				return false;
+		} else if (!ori.equals(other.ori))
+			return false;
+		if (reportDateIndicator == null) {
+			if (other.reportDateIndicator != null)
+				return false;
+		} else if (!reportDateIndicator.equals(other.reportDateIndicator))
+			return false;
+		if (segmentActionType == null) {
+			if (other.segmentActionType != null)
+				return false;
+		} else if (!segmentActionType.equals(other.segmentActionType))
+			return false;
+		if (yearOfTape == null) {
+			if (other.yearOfTape != null)
+				return false;
+		} else if (!yearOfTape.equals(other.yearOfTape))
+			return false;
+		return true;
+	}
 }

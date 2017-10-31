@@ -71,4 +71,41 @@ public class MethodOfEntryType {
 		this.methodOfEntryDescription = methodOfEntryDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((methodOfEntryCode == null) ? 0 : methodOfEntryCode.hashCode());
+		result = prime * result + ((methodOfEntryDescription == null) ? 0 : methodOfEntryDescription.hashCode());
+		result = prime * result + ((methodOfEntryTypeId == null) ? 0 : methodOfEntryTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MethodOfEntryType other = (MethodOfEntryType) obj;
+		if (methodOfEntryCode == null) {
+			if (other.methodOfEntryCode != null)
+				return false;
+		} else if (!methodOfEntryCode.equals(other.methodOfEntryCode))
+			return false;
+		if (methodOfEntryDescription == null) {
+			if (other.methodOfEntryDescription != null)
+				return false;
+		} else if (!methodOfEntryDescription.equals(other.methodOfEntryDescription))
+			return false;
+		if (methodOfEntryTypeId == null) {
+			if (other.methodOfEntryTypeId != null)
+				return false;
+		} else if (!methodOfEntryTypeId.equals(other.methodOfEntryTypeId))
+			return false;
+		return true;
+	}
+
 }

@@ -70,4 +70,41 @@ public class LocationType {
 		this.locationTypeDescription = locationTypeDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((locationTypeCode == null) ? 0 : locationTypeCode.hashCode());
+		result = prime * result + ((locationTypeDescription == null) ? 0 : locationTypeDescription.hashCode());
+		result = prime * result + ((locationTypeTypeId == null) ? 0 : locationTypeTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LocationType other = (LocationType) obj;
+		if (locationTypeCode == null) {
+			if (other.locationTypeCode != null)
+				return false;
+		} else if (!locationTypeCode.equals(other.locationTypeCode))
+			return false;
+		if (locationTypeDescription == null) {
+			if (other.locationTypeDescription != null)
+				return false;
+		} else if (!locationTypeDescription.equals(other.locationTypeDescription))
+			return false;
+		if (locationTypeTypeId == null) {
+			if (other.locationTypeTypeId != null)
+				return false;
+		} else if (!locationTypeTypeId.equals(other.locationTypeTypeId))
+			return false;
+		return true;
+	}
+
 }

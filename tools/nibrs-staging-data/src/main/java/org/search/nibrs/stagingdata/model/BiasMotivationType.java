@@ -81,4 +81,47 @@ public class BiasMotivationType {
 		this.biasMotivationCategory = biasMotivationCategory;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((biasMotivationCategory == null) ? 0 : biasMotivationCategory.hashCode());
+		result = prime * result + ((biasMotivationCode == null) ? 0 : biasMotivationCode.hashCode());
+		result = prime * result + ((biasMotivationDescription == null) ? 0 : biasMotivationDescription.hashCode());
+		result = prime * result + ((biasMotivationTypeID == null) ? 0 : biasMotivationTypeID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BiasMotivationType other = (BiasMotivationType) obj;
+		if (biasMotivationCategory == null) {
+			if (other.biasMotivationCategory != null)
+				return false;
+		} else if (!biasMotivationCategory.equals(other.biasMotivationCategory))
+			return false;
+		if (biasMotivationCode == null) {
+			if (other.biasMotivationCode != null)
+				return false;
+		} else if (!biasMotivationCode.equals(other.biasMotivationCode))
+			return false;
+		if (biasMotivationDescription == null) {
+			if (other.biasMotivationDescription != null)
+				return false;
+		} else if (!biasMotivationDescription.equals(other.biasMotivationDescription))
+			return false;
+		if (biasMotivationTypeID == null) {
+			if (other.biasMotivationTypeID != null)
+				return false;
+		} else if (!biasMotivationTypeID.equals(other.biasMotivationTypeID))
+			return false;
+		return true;
+	}
+
 }

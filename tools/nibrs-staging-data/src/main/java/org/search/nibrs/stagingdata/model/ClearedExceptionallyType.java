@@ -72,4 +72,42 @@ public class ClearedExceptionallyType {
 		this.clearedExceptionallyDescription = clearedExceptionallyDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((clearedExceptionallyCode == null) ? 0 : clearedExceptionallyCode.hashCode());
+		result = prime * result
+				+ ((clearedExceptionallyDescription == null) ? 0 : clearedExceptionallyDescription.hashCode());
+		result = prime * result + ((clearedExceptionallyTypeId == null) ? 0 : clearedExceptionallyTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ClearedExceptionallyType other = (ClearedExceptionallyType) obj;
+		if (clearedExceptionallyCode == null) {
+			if (other.clearedExceptionallyCode != null)
+				return false;
+		} else if (!clearedExceptionallyCode.equals(other.clearedExceptionallyCode))
+			return false;
+		if (clearedExceptionallyDescription == null) {
+			if (other.clearedExceptionallyDescription != null)
+				return false;
+		} else if (!clearedExceptionallyDescription.equals(other.clearedExceptionallyDescription))
+			return false;
+		if (clearedExceptionallyTypeId == null) {
+			if (other.clearedExceptionallyTypeId != null)
+				return false;
+		} else if (!clearedExceptionallyTypeId.equals(other.clearedExceptionallyTypeId))
+			return false;
+		return true;
+	}
+
 }

@@ -70,4 +70,41 @@ public class AgencyType {
 		this.agencyTypeId = agencyTypeId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((agencyTypeCode == null) ? 0 : agencyTypeCode.hashCode());
+		result = prime * result + ((agencyTypeDescription == null) ? 0 : agencyTypeDescription.hashCode());
+		result = prime * result + ((agencyTypeId == null) ? 0 : agencyTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AgencyType other = (AgencyType) obj;
+		if (agencyTypeCode == null) {
+			if (other.agencyTypeCode != null)
+				return false;
+		} else if (!agencyTypeCode.equals(other.agencyTypeCode))
+			return false;
+		if (agencyTypeDescription == null) {
+			if (other.agencyTypeDescription != null)
+				return false;
+		} else if (!agencyTypeDescription.equals(other.agencyTypeDescription))
+			return false;
+		if (agencyTypeId == null) {
+			if (other.agencyTypeId != null)
+				return false;
+		} else if (!agencyTypeId.equals(other.agencyTypeId))
+			return false;
+		return true;
+	}
+
 }

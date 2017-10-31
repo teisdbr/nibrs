@@ -87,7 +87,10 @@ public class OffenseSegment {
 	@JoinTable(name = "typeCriminalActivity", 
 	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "typeOfCriminalActivityTypeId", referencedColumnName = "typeOfCriminalActivityTypeId"))
-	private Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes;     
+	private Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes;  
+	
+	@ManyToMany(mappedBy = "offenseSegments", fetch=FetchType.LAZY)
+	private Set<VictimSegment> victimSegments;
 	
 	public OffenseSegment() {
 		super();
@@ -96,10 +99,10 @@ public class OffenseSegment {
 	}
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
-		String resultWithoutOffenseSegment = ReflectionToStringBuilder.toStringExclude(this, "administrativeSegment");
-		int index = StringUtils.indexOf(resultWithoutOffenseSegment, ",");
+		String resultWithoutParentSegment = ReflectionToStringBuilder.toStringExclude(this, "administrativeSegment", "victimSegments");
+		int index = StringUtils.indexOf(resultWithoutParentSegment, ",");
 		
-		StringBuilder sb = new StringBuilder(resultWithoutOffenseSegment);
+		StringBuilder sb = new StringBuilder(resultWithoutParentSegment);
 		sb.insert(index + 1, "administrativeSegmentId=" + administrativeSegment.getAdministrativeSegmentId() + ",");
 		return sb.toString();
 	}
@@ -174,5 +177,95 @@ public class OffenseSegment {
 	}
 	public void setTypeOfWeaponForceInvolveds(Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds) {
 		this.typeOfWeaponForceInvolveds = typeOfWeaponForceInvolveds;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((administrativeSegment == null) ? 0 : administrativeSegment.hashCode());
+		result = prime * result + ((biasMotivationType == null) ? 0 : biasMotivationType.hashCode());
+		result = prime * result + ((locationType == null) ? 0 : locationType.hashCode());
+		result = prime * result + ((methodOfEntryType == null) ? 0 : methodOfEntryType.hashCode());
+		result = prime * result + ((numberOfPremisesEntered == null) ? 0 : numberOfPremisesEntered.hashCode());
+		result = prime * result
+				+ ((offenderSuspectedOfUsingTypes == null) ? 0 : offenderSuspectedOfUsingTypes.hashCode());
+		result = prime * result + ((offenseAttemptedCompleted == null) ? 0 : offenseAttemptedCompleted.hashCode());
+		result = prime * result + ((offenseSegmentId == null) ? 0 : offenseSegmentId.hashCode());
+		result = prime * result + ((segmentActionType == null) ? 0 : segmentActionType.hashCode());
+		result = prime * result + ((typeOfCriminalActivityTypes == null) ? 0 : typeOfCriminalActivityTypes.hashCode());
+		result = prime * result + ((typeOfWeaponForceInvolveds == null) ? 0 : typeOfWeaponForceInvolveds.hashCode());
+		result = prime * result + ((ucrOffenseCodeType == null) ? 0 : ucrOffenseCodeType.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OffenseSegment other = (OffenseSegment) obj;
+		if (administrativeSegment == null) {
+			if (other.administrativeSegment != null)
+				return false;
+		} else if (!administrativeSegment.equals(other.administrativeSegment))
+			return false;
+		if (biasMotivationType == null) {
+			if (other.biasMotivationType != null)
+				return false;
+		} else if (!biasMotivationType.equals(other.biasMotivationType))
+			return false;
+		if (locationType == null) {
+			if (other.locationType != null)
+				return false;
+		} else if (!locationType.equals(other.locationType))
+			return false;
+		if (methodOfEntryType == null) {
+			if (other.methodOfEntryType != null)
+				return false;
+		} else if (!methodOfEntryType.equals(other.methodOfEntryType))
+			return false;
+		if (numberOfPremisesEntered == null) {
+			if (other.numberOfPremisesEntered != null)
+				return false;
+		} else if (!numberOfPremisesEntered.equals(other.numberOfPremisesEntered))
+			return false;
+		if (offenderSuspectedOfUsingTypes == null) {
+			if (other.offenderSuspectedOfUsingTypes != null)
+				return false;
+		} else if (!offenderSuspectedOfUsingTypes.equals(other.offenderSuspectedOfUsingTypes))
+			return false;
+		if (offenseAttemptedCompleted == null) {
+			if (other.offenseAttemptedCompleted != null)
+				return false;
+		} else if (!offenseAttemptedCompleted.equals(other.offenseAttemptedCompleted))
+			return false;
+		if (offenseSegmentId == null) {
+			if (other.offenseSegmentId != null)
+				return false;
+		} else if (!offenseSegmentId.equals(other.offenseSegmentId))
+			return false;
+		if (segmentActionType == null) {
+			if (other.segmentActionType != null)
+				return false;
+		} else if (!segmentActionType.equals(other.segmentActionType))
+			return false;
+		if (typeOfCriminalActivityTypes == null) {
+			if (other.typeOfCriminalActivityTypes != null)
+				return false;
+		} else if (!typeOfCriminalActivityTypes.equals(other.typeOfCriminalActivityTypes))
+			return false;
+		if (typeOfWeaponForceInvolveds == null) {
+			if (other.typeOfWeaponForceInvolveds != null)
+				return false;
+		} else if (!typeOfWeaponForceInvolveds.equals(other.typeOfWeaponForceInvolveds))
+			return false;
+		if (ucrOffenseCodeType == null) {
+			if (other.ucrOffenseCodeType != null)
+				return false;
+		} else if (!ucrOffenseCodeType.equals(other.ucrOffenseCodeType))
+			return false;
+		return true;
 	}
 }

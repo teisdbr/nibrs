@@ -72,4 +72,42 @@ public class SegmentActionTypeType {
 		this.segmentActionTypeTypeId = segmentActionTypeTypeId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((segmentActionTypeCode == null) ? 0 : segmentActionTypeCode.hashCode());
+		result = prime * result
+				+ ((segmentActionTypeDescription == null) ? 0 : segmentActionTypeDescription.hashCode());
+		result = prime * result + ((segmentActionTypeTypeId == null) ? 0 : segmentActionTypeTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SegmentActionTypeType other = (SegmentActionTypeType) obj;
+		if (segmentActionTypeCode == null) {
+			if (other.segmentActionTypeCode != null)
+				return false;
+		} else if (!segmentActionTypeCode.equals(other.segmentActionTypeCode))
+			return false;
+		if (segmentActionTypeDescription == null) {
+			if (other.segmentActionTypeDescription != null)
+				return false;
+		} else if (!segmentActionTypeDescription.equals(other.segmentActionTypeDescription))
+			return false;
+		if (segmentActionTypeTypeId == null) {
+			if (other.segmentActionTypeTypeId != null)
+				return false;
+		} else if (!segmentActionTypeTypeId.equals(other.segmentActionTypeTypeId))
+			return false;
+		return true;
+	}
+
 }

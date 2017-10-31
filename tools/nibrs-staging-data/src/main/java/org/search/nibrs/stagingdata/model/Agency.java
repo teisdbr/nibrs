@@ -104,4 +104,65 @@ public class Agency {
 		this.agencyType = agencyType;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((Population == null) ? 0 : Population.hashCode());
+		result = prime * result + ((agencyId == null) ? 0 : agencyId.hashCode());
+		result = prime * result + ((agencyName == null) ? 0 : agencyName.hashCode());
+		result = prime * result + ((agencyOri == null) ? 0 : agencyOri.hashCode());
+		result = prime * result + ((agencyType == null) ? 0 : agencyType.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateName == null) ? 0 : stateName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Agency other = (Agency) obj;
+		if (Population == null) {
+			if (other.Population != null)
+				return false;
+		} else if (!Population.equals(other.Population))
+			return false;
+		if (agencyId == null) {
+			if (other.agencyId != null)
+				return false;
+		} else if (!agencyId.equals(other.agencyId))
+			return false;
+		if (agencyName == null) {
+			if (other.agencyName != null)
+				return false;
+		} else if (!agencyName.equals(other.agencyName))
+			return false;
+		if (agencyOri == null) {
+			if (other.agencyOri != null)
+				return false;
+		} else if (!agencyOri.equals(other.agencyOri))
+			return false;
+		if (agencyType == null) {
+			if (other.agencyType != null)
+				return false;
+		} else if (!agencyType.equals(other.agencyType))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateName == null) {
+			if (other.stateName != null)
+				return false;
+		} else if (!stateName.equals(other.stateName))
+			return false;
+		return true;
+	}
+
 }
