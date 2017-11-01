@@ -20,7 +20,7 @@ html{
 
 body{
 	font-family:"Arial", sans-serif;
-	margin-bottom: 60px;
+	margin-bottom: 80px;
 }
 
 .footer {
@@ -28,8 +28,8 @@ body{
   text-align: center;
   bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 80px;
+  /* Set the fixed height of the footer here. this value needs to be the same as the body.margin-bottom to avoid hiding wanted elements on the result page. */
+  height: 80px;  
   background-color: #f5f5f5;
 }
 
@@ -46,8 +46,8 @@ body > .container {
 }
 
 .footer > .container-fluid {
-  padding-right: 15px;
-  padding-left: 15px;
+  margin:0;
+  padding: 0px 15px;
   font-size: small;
   font-style: italic;
 }
@@ -124,8 +124,22 @@ code {
 	background-image: url('../images/loading.gif');
 	background-position: center;
 	background-repeat: no-repeat;
-	
+	border-radius: 50%;
+	display:none; 
+	top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 	z-index: 10000;
+}
+
+#loading-img {
+	background-image: url('../images/loading.gif');
+	background-position: center;
+	background-repeat: no-repeat;
+    display: none;
+    height: 100px; /* for testing purposes */
+    z-index: 12;
 }
 
 /* .navbar {
@@ -133,7 +147,8 @@ code {
 }
  */
 .jumbotron{
-  margin-bottom:20px;	
+  margin-bottom:0px;
+  margin-top:0px;	
 }
 
 .jumbotron p{
@@ -162,4 +177,121 @@ code {
 	font-size: small; 
 	font-weight: bold; 
 	padding: 1em;
+}
+
+/* CSS from Diane*/
+ a.fg-button.ui-button.ui-state-default.ui-state-disabled {
+	color: #2d3092;
+	font-weight: 600;
+}
+td:last-of-type {
+	text-transform: lowercase;
+}
+table.dataTable.display tbody tr.odd > .sorting_1,
+table.dataTable.order-column.stripe tbody tr.odd > .sorting_1 {
+	background-color: rgba(123, 129, 221, 0.13);
+}
+table.dataTable.display tbody tr.even > .sorting_1,
+table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {
+	background-color: rgba(228, 230, 255, 0.27);
+}
+table.dataTable.hover tbody tr:hover,
+table.dataTable.display tbody tr:hover {
+	background-color: rgba(255, 182, 0, 0.09);
+}
+table.dataTable thead th.ui-state-default,
+table.dataTable tfoot th.ui-state-default {
+	border-left-width: 0;
+	border-right: 1px dotted #ddd;
+}
+div#errorReport_length {
+	padding-right: 2em;
+}
+th.sorting.ui-state-default {
+	color: #7b7a7a;
+	font-weight: 600;
+	letter-spacing: .015em;
+}
+button.dt-button,
+div.dt-button,
+a.dt-button {
+	padding: 0.2em 1em;
+	border: 1px solid #ccc;
+	border-radius: 3em;
+}
+input[type="search"] {
+	border-radius: 3em;
+}
+
+/*lose big gray box*/
+.jumbotron {
+	background-color: #fff;
+}
+
+/*dark orange center circle with dashed outline*/
+.dropzone {
+    overflow: visible;
+    padding: 3em 1em;
+    width: 15em;
+    height: 15em;
+    border: 2px dashed #fbb03b;
+    color: #fff;
+    text-align: center;
+    margin: auto;
+    position: relative;
+    border-radius: 50%;
+    background: #f66137;
+    position: relative;
+    z-index: 0;
+    line-height: 1.3em;
+}
+
+/*medium orange ring*/
+.dropzone:before {
+	content: " ";
+	position: absolute;
+	z-index: -1;
+	top: -20px;
+	left: -20px;
+	right: -20px;
+	bottom: -20px;
+	border: 18px solid #f68f20;
+	border-radius: 50%;
+}
+
+/*pale grey outer ring*/
+
+.dropzone:after {
+	content: " ";
+	position: absolute;
+	z-index: -2;
+	top: -30px;
+	left: -30px;
+	right: -30px;
+	bottom: -30px;
+	border: 18px solid #e8e7e6;
+	border-radius: 50%;
+}
+
+
+/*the text placement within the circle will need some small html edits to wrap the text in there in some tags: something like:
+
+<span>The file can be a single NIBRS text file or a zip file containing single NIBRS text file. <i>(drag-and-drop is not currently supported in IE)</i></span>
+
+styles below would be for that*/
+
+.dropzone span {
+    display: inline-block;
+    font-size: .8em;
+    line-height: 1.3em;
+    padding-top: 1em;
+}
+
+
+.dropzone span i {
+    color: #ffce8d;
+    font-size: .9em;
+    line-height: 1.2em;
+    display: inline-block;
+    font-weight: 500;
 }

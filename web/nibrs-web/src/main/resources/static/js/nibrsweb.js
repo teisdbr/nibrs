@@ -28,15 +28,9 @@ $(function(){
     ojbc.handleEsc();
 
  	$(document).ajaxStart(function(){
- 		var loadingDiv =  $("#loadingAjaxPane");
- 		var dropzone = $("#dropzone");
-		
- 		loadingDiv.height(dropzone.height());
- 		loadingDiv.width(dropzone.width());
- 		
-      	$("#loadingAjaxPane").show();          	
+      	$("#loadingAjaxPane").css({"display": "block"}); 
     }).ajaxStop(function() {
-        $("#loadingAjaxPane").hide();                
+        $("#loadingAjaxPane").css({"display": "none"});                
     });
 
 	var $form = $(".box");
