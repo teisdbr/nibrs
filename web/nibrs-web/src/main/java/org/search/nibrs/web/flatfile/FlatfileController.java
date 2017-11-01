@@ -116,13 +116,13 @@ public class FlatfileController {
 	@GetMapping("/resources")
 	public String getResources(Model model){
 		
-		return "underConstruction";
+		return "resources";
 	}
 	
 	@GetMapping("/testFiles")
 	public String getTestFiles(Model model){
 		
-		return "underConstruction";
+		return "testFiles";
 	}
 	
 
