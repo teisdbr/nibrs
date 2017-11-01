@@ -34,6 +34,7 @@
 	  <module>nibrs-flatfile</module>
 	  <module>nibrs-resources</module>
 	  <module>nibrs-validation</module>
+	  <module>nibrs-xmlfile</module>
       <module>nibrs-apps</module>
   </modules>
 
