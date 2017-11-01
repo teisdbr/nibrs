@@ -47,7 +47,7 @@ body > .container {
 .footer > .container-fluid {
   padding-right: 15px;
   padding-left: 15px;
-  font-size: x-small;
+  font-size: small;
   font-style: italic;
 }
 
