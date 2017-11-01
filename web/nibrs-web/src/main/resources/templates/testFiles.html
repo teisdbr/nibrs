@@ -24,18 +24,18 @@
 	<div id="mainContent">
 	 	<div id="content" class="container">
 	 		<div class="jumbotron">
-				<p><strong>Here are two submission files and their associated FBI EDS results file that you can be download and use to demonstrate PCT functionality. After downloading the test submission files, use 'drag and drop' or 'choose' to submit the file. Once processed, the tool will present results in the same window.</strong></p>
+				<p><strong>Below are two test cases consisting of a NIBRS submission file and its corresponding FBI EDS results file.  To demonstrate PCT functionality, you can download each NIBRS submission file and go <a th:href="@{/}">here</a> to use 'drag and drop' or 'choose' to submit the file. Once processed, the tool will present results in the same window and you can compare those results to the corresponding EDS file.</strong></p>
 				<ul>
-					<li>Test Submission 1
+					<li>Test Case 1
 						<ul>
-							<li><a th:href="@{/testFiles/Test-Submission-1.txt}">NIBRS Submission File #1</a></li>
-							<li><a th:href="@{/testFiles/Test-EDS-1.txt}">FBI EDS Results #1</a></li>
+							<li><a th:href="@{/testFiles/Test-Submission-1.txt}" download="Test-Submission-1">NIBRS Submission File #1</a></li>
+							<li><a th:href="@{/testFiles/Test-EDS-1.txt}" download="Test-EDS-1">FBI EDS Results #1</a></li>
 						</ul>
 					</li>
-					<li>Test Submission 2
+					<li>Test Case 2
 						<ul>
-							<li><a th:href="@{/testFiles/Test-Submission-2.txt}">NIBRS Submission File #2</a></li>
-							<li><a th:href="@{/testFiles/Test-EDS-2.txt}">FBI EDS Results #2</a></li>
+							<li><a th:href="@{/testFiles/Test-Submission-2.txt}" download="Test-Submission-2">NIBRS Submission File #2</a></li>
+							<li><a th:href="@{/testFiles/Test-EDS-2.txt}" download="Test-EDS-2">FBI EDS Results #2</a></li>
 						</ul>
 					</li>
 				</ul>
