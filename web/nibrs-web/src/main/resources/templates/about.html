@@ -23,10 +23,19 @@
 	<div th:replace="fragments/header :: header"></div>
 	<div id="mainContent">
 	 	<div id="content" class="container">
-	 		<div class="jumbotron">
-				<p>The NIBRS Pre-Certification Tool provides law enforcement agencies responsible for submitting incident data to state Incident-Based Reporting (IBR) programs the ability to test their submissions before formally submitting data to their state IBR programs.  State IBR programs can also use the Pre-Certification Tool to test their submissions before beginning the NIBRS certification process with the FBI.    </p>
-				<p>The Pre-Cert Tool exercises all of the NIBRS data edit and validation rules and provides formatted output of errors so submitters can correct their data submissions and, ultimately, speed the certification process.  Important note: The validation rules included in this tool only reflect the FBI’s NIBRS data and do not include state-specific data elements and rules.  Likewise, the tool cannot validate some NIBRS rules specific to the submitting agency (Add exceptions)  </p>
-				<p>The NIBRS Pre-Certification Tool is licensed under the open source <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0 </a>.  The source code is available <a href="https://goo.gl/9my95o">here</a>.</p>
+	 		
+ 	 		<div style="padding: 5px;">
+ 	 			<p>The <strong>NIBRS Pre-Certification Tool (PCT)</strong> provides law enforcement agencies, responsible for submitting Incident-Based Reports (IBR) data to State Uniform Crime Reporting (UCR) programs, the ability to test their submissions in advance of its formal delivery. State UCR programs may also use the NIBRS PCT to test their IBR submissions before beginning the NIBRS certification process with the FBI. 
+				The NIBRS PCT exercises the NIBRS data edit and validation rules and provides formatted output of errors, so that submitters may correct their data submissions and, ultimately, speed the FBI CJIS and/or state IBR certification process.
+				</p>
+				<p><strong>Important notes:</strong></p>
+				<p>
+					<ul>
+						<li>The validation rules implemented by the NIBRS PCT only reflect the FBI’s NIBRS rules and do not include state-specific data elements and rules. Likewise, the NIBRS PCT cannot validate some NIBRS rules specific to the submitting agency. See <a th:href="@{/toolLimitations}">Tool Limitations</a> for specific details.</li>
+						<li>The NIBRS PCT is intended to assist the user in understanding how well its data aligns with the <a href="https://ucr.fbi.gov/nibrs_technical_specification_version_3.1_pdf">FBI NIBRS standard version 3.1</a>. It is not intended to substitute for FBI NIBRS or State certification.</li>
+					</ul>
+				</p>
+				<p>The NIBRS PCT is licensed under the open source <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, version 2.0 </a>.  The source code is available <a href="https://goo.gl/9my95o">here</a>.</p>
 
 			</div>
 		</div>

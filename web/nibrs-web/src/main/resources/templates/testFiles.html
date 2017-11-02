@@ -24,21 +24,26 @@
 	<div id="mainContent">
 	 	<div id="content" class="container">
 	 		<div class="jumbotron">
-				<p><strong>Below are two test cases consisting of a NIBRS submission file and its corresponding FBI EDS results file.  To demonstrate PCT functionality, you can download each NIBRS submission file and go <a th:href="@{/}">here</a> to use 'drag and drop' or 'choose' to submit the file. Once processed, the tool will present results in the same window and you can compare those results to the corresponding EDS file.</strong></p>
-				<ul>
-					<li>Test Case 1
-						<ul>
-							<li><a th:href="@{/testFiles/Test-Submission-1.txt}" download="Test-Submission-1">NIBRS Submission File #1</a></li>
-							<li><a th:href="@{/testFiles/Test-EDS-1.txt}" download="Test-EDS-1">FBI EDS Results #1</a></li>
-						</ul>
-					</li>
-					<li>Test Case 2
-						<ul>
-							<li><a th:href="@{/testFiles/Test-Submission-2.txt}" download="Test-Submission-2">NIBRS Submission File #2</a></li>
-							<li><a th:href="@{/testFiles/Test-EDS-2.txt}" download="Test-EDS-2">FBI EDS Results #2</a></li>
-						</ul>
-					</li>
-				</ul>
+				<p><strong>This page contains test cases consisting of a NIBRS submission file and its corresponding FBI EDS results file.  To demonstrate NIBRS PCT functionality, you can download each NIBRS submission file and go <a th:href="@{/}">here</a> to use 'drag and drop' or 'choose' to submit the file. Once processed, the NIBRS PCT will present results in the same window and you can compare those results to the corresponding EDS file.</strong></p>
+<!-- 				<ul> -->
+<!-- 					<li>Test Case 1 -->
+<!-- 						<ul> -->
+<!-- 							<li><a th:href="@{/testFiles/Test-Submission-1.txt}" download="Test-Submission-1">NIBRS Submission File #1</a></li> -->
+<!-- 							<li><a th:href="@{/testFiles/Test-EDS-1.txt}" download="Test-EDS-1">FBI EDS Results #1</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</li> -->
+<!-- 					<li>Test Case 2 -->
+<!-- 						<ul> -->
+<!-- 							<li><a th:href="@{/testFiles/Test-Submission-2.txt}" download="Test-Submission-2">NIBRS Submission File #2</a></li> -->
+<!-- 							<li><a th:href="@{/testFiles/Test-EDS-2.txt}" download="Test-EDS-2">FBI EDS Results #2</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</li> -->
+<!-- 				</ul> -->
+				
+				<p align="center">Test Case 1: <a th:href="@{/testFiles/Test-Submission-1.txt}" download="Test-Submission-1">NIBRS Submission File</a> | <a th:href="@{/testFiles/Test-EDS-1.txt}" download="Test-EDS-1">FBI EDS Results</a></p>
+				<p/>
+				<p align="center">Test Case 2: <a th:href="@{/testFiles/Test-Submission-2.txt}" download="Test-Submission-2">NIBRS Submission File</a> | <a th:href="@{/testFiles/Test-EDS-2.txt}" download="Test-EDS-2">FBI EDS Results</a></p>
+				
 			</div>
 		</div>
 	</div>
