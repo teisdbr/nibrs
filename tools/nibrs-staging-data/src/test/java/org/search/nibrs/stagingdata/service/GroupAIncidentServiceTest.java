@@ -267,7 +267,7 @@ public class GroupAIncidentServiceTest {
 				assertNotNull(propertyType);
 				assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("03")); 
 				assertNull(propertyType.getRecoveredDate()); 
-				assertNull(propertyType.getRecoveredDateType());
+				assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
 				assertThat(propertyType.getValueOfProperty(), equalTo(10000.0));
 				
 				assertThat(suspectedDrugTypes.size(), equalTo(0));
@@ -535,6 +535,7 @@ public class GroupAIncidentServiceTest {
 		propertyType1.setPropertySegment(propertySegment1);
 		propertyType1.setPropertyDescriptionType(propertyDescriptionTypeRepository.findFirstByPropertyDescriptionCode("03"));
 		propertyType1.setValueOfProperty(10000.0);
+		propertyType1.setRecoveredDateType(dateTypeRepository.findOne(99998));
 		
 		propertySegment1.setPropertyTypes(new HashSet<PropertyType>(){{
 			add(propertyType1);

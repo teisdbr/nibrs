@@ -17,7 +17,6 @@ Drop schema if exists ojbc_nibrs_staging;
 
 CREATE schema ojbc_nibrs_staging;
 
-
 CREATE TABLE AgencyType (AgencyTypeID INT NOT NULL auto_increment, AgencyTypeCode VARCHAR(2) NOT NULL, AgencyTypeDescription VARCHAR(80) NOT NULL);
 
 ALTER TABLE AgencyType ADD CONSTRAINT agencytypeid PRIMARY KEY (AgencyTypeID);
@@ -66,7 +65,7 @@ CREATE TABLE DispositionOfArresteeUnder18Type (DispositionOfArresteeUnder18TypeI
 
 ALTER TABLE DispositionOfArresteeUnder18Type ADD CONSTRAINT dispositionofarresteeunder18type_pk PRIMARY KEY (DispositionOfArresteeUnder18TypeID);
 
-CREATE TABLE ArresteeWasArmedWithType (ArresteeWasArmedWithTypeID INT NOT NULL auto_increment, ArresteeWasArmedWithCode VARCHAR(3) NOT NULL, ArresteeWasArmedWithDescription VARCHAR(75) NOT NULL);
+CREATE TABLE ArresteeWasArmedWithType (ArresteeWasArmedWithTypeID INT NOT NULL auto_increment, ArresteeWasArmedWithCode VARCHAR(2) NOT NULL, ArresteeWasArmedWithDescription VARCHAR(30) NOT NULL);
 
 ALTER TABLE ArresteeWasArmedWithType ADD CONSTRAINT arresteewasarmedwithtype_pk PRIMARY KEY (ArresteeWasArmedWithTypeID);
 
@@ -142,7 +141,7 @@ CREATE TABLE UCROffenseCodeType (UCROffenseCodeTypeID INT NOT NULL auto_incremen
 
 ALTER TABLE UCROffenseCodeType ADD CONSTRAINT ucroffensecode_pk PRIMARY KEY (UCROffenseCodeTypeID);
 
-CREATE TABLE ArrestReportSegment (ArrestReportSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), AgencyID INT NOT NULL, ORI VARCHAR(9), ArrestTransactionNumber VARCHAR(12), ArresteeSequenceNumber INT NOT NULL, ArrestDate date, ArrestDateID INT NOT NULL, TypeOfArrestTypeID INT NOT NULL, AgeOfArresteeMin INT, AgeOfArresteeMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT, DispositionOfArresteeUnder18TypeID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL);
+CREATE TABLE ArrestReportSegment (ArrestReportSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), AgencyID INT NOT NULL, ORI VARCHAR(9), ArrestTransactionNumber VARCHAR(12), ArresteeSequenceNumber INT NOT NULL, ArrestDate date, ArrestDateID INT NOT NULL, TypeOfArrestTypeID INT NOT NULL, AgeOfArresteeMin INT, AgeOfArresteeMax INT, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT NOT NULL, DispositionOfArresteeUnder18TypeID INT NOT NULL, UCROffenseCodeTypeID INT NOT NULL);
 
 ALTER TABLE ArrestReportSegment ADD CONSTRAINT arrestereport_pk PRIMARY KEY (ArrestReportSegmentID);
 
@@ -150,7 +149,7 @@ CREATE TABLE ArrestReportSegmentWasArmedWith (ArrestReportSegmentWasArmedWithID 
 
 ALTER TABLE ArrestReportSegmentWasArmedWith ADD CONSTRAINT arrestreportsegmentwasarmedwithid PRIMARY KEY (ArrestReportSegmentWasArmedWithID);
 
-CREATE TABLE AdministrativeSegment (AdministrativeSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), ORI VARCHAR(9), AgencyID INT NOT NULL, IncidentNumber VARCHAR(12), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour INT NOT NULL, ClearedExceptionallyTypeID INT NOT NULL);
+CREATE TABLE AdministrativeSegment (AdministrativeSegmentID INT NOT NULL auto_increment, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), ORI VARCHAR(9), AgencyID INT NOT NULL, IncidentNumber VARCHAR(12), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour VARCHAR(2) NOT NULL, ClearedExceptionallyTypeID INT NOT NULL);
 
 ALTER TABLE AdministrativeSegment ADD CONSTRAINT administrativesegment_pk PRIMARY KEY (AdministrativeSegmentID);
 
@@ -186,7 +185,7 @@ CREATE TABLE PropertySegment (PropertySegmentID INT NOT NULL auto_increment, Seg
 
 ALTER TABLE PropertySegment ADD CONSTRAINT propertysegmentpk PRIMARY KEY (PropertySegmentID);
 
-CREATE TABLE PropertyType (PropertyTypeID INT NOT NULL auto_increment, PropertySegmentID INT NOT NULL, PropertyDescriptionTypeID INT NOT NULL, ValueOfProperty NUMBER(0, 0) NOT NULL, RecoveredDate date, RecoveredDateID INT);
+CREATE TABLE PropertyType (PropertyTypeID INT NOT NULL auto_increment, PropertySegmentID INT NOT NULL, PropertyDescriptionTypeID INT NOT NULL, ValueOfProperty NUMBER(0, 0) NOT NULL, RecoveredDate date, RecoveredDateID INT NOT NULL);
 
 ALTER TABLE PropertyType ADD CONSTRAINT propertytypeid PRIMARY KEY (PropertyTypeID);
 
