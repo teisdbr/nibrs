@@ -54,27 +54,30 @@ public class SqlScriptFromExcelGenerator {
         Workbook workbook = new XSSFWorkbook(inputStream);
         StringBuilder sb = new StringBuilder(); 
         sb.append("/*\n "
-        		+ "* Unless explicitly acquired and licensed from Licensor under another license, the contents of\n "
-        		+ "* this file are subject to the Reciprocal Public License (\"RPL\") Version 1.5, or subsequent\n "
-        		+ "* versions as allowed by the RPL, and You may not copy or use this file in either source code\n "
-        		+ "* or executable form, except in compliance with the terms and conditions of the RPL\n "
-        		+ "* \n "
-        		+ "* All software distributed under the RPL is provided strictly on an \"AS IS\" basis, WITHOUT\n "
-        		+ "* WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, AND LICENSOR HEREBY DISCLAIMS ALL SUCH\n "
-        		+ "* WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A\n "
-        		+ "* PARTICULAR PURPOSE, QUIET ENJOYMENT, OR NON-INFRINGEMENT. See the RPL for specific language\n "
-        		+ "* governing rights and limitations under the RPL.\n "
+        		+ "* Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics\n "
         		+ "*\n "
-        		+ "* http://opensource.org/licenses/RPL-1.5\n "
+        		+ "* Licensed under the Apache License, Version 2.0 (the \"License\");\n "
+        		+ "* you may not use this file except in compliance with the License.\n "
+        		+ "* You may obtain a copy of the License at\n "
         		+ "*\n "
-        		+ "* Copyright 2012-2017 Open Justice Broker Consortium\n "
+        		+ "*    http://www.apache.org/licenses/LICENSE-2.0\n "
+        		+ "*\n "
+        		+ "* Unless required by applicable law or agreed to in writing, software\n "
+        		+ "* distributed under the License is distributed on an \"AS IS\" BASIS,\n "
+        		+ "* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n "
+        		+ "* See the License for the specific language governing permissions and\n "
+        		+ "* limitations under the License.\n "
         		+ "*/\n");
         
         for (int i=0; i<workbook.getNumberOfSheets(); i++){
         	Sheet sheet = workbook.getSheetAt(i); 
         
+        	if (sheet.getSheetName().equals("TOC")){
+        		continue;
+        	}
+        	
         	if (isSqlServerInsert){
-        		sb.append("SET IDENTITY_INSERT dbo." + sheet.getSheetName() + " ON;\n");
+        		sb.append("SET IDENTITY_INSERT dbo." + getTableName(sheet.getSheetName()) + " ON;\n");
         	}
 
         	System.out.println("sheetName: " + sheet.getSheetName());
@@ -107,7 +110,7 @@ public class SqlScriptFromExcelGenerator {
             }
             
         	if (isSqlServerInsert){
-        		sb.append("SET IDENTITY_INSERT dbo." + sheet.getSheetName() + " OFF;\n");
+        		sb.append("SET IDENTITY_INSERT dbo." + getTableName(sheet.getSheetName()) + " OFF;\n");
         	}
         }
          
@@ -115,13 +118,13 @@ public class SqlScriptFromExcelGenerator {
         inputStream.close();
         
     	if (isSqlServerInsert){
-    		sb.append("SET IDENTITY_INSERT dbo.Date ON;\n");
+    		sb.append("SET IDENTITY_INSERT dbo.DateType ON;\n");
     	}
     	
     	LocalDate localDate = LocalDate.of(2010, 1, 1);
     	LocalDate endDate = LocalDate.of(2100, 12, 31);
     	String baseString = "insert into DateType " + 
-    			"  values (";
+    			" values (";
     	int i = 1; 
     	while (!localDate.isAfter(endDate)){
             StringBuilder insertString = new StringBuilder();
@@ -130,35 +133,45 @@ public class SqlScriptFromExcelGenerator {
             insertString.append("'"+ i + "'"); 
             i ++; 
             
-        	insertString.append(", '" + java.sql.Date.valueOf(localDate) + "' ");
-        	insertString.append(", " + localDate.getYear() + " ");
-        	insertString.append(", '" + String.valueOf(localDate.getYear()) + "'");
-        	insertString.append(", " + localDate.get(IsoFields.QUARTER_OF_YEAR) + " ");
-        	insertString.append(", " + localDate.getMonthValue() + " ");
-        	insertString.append(", '" + Month.of(localDate.getMonthValue()) + "'");
-        	insertString.append(", '" + localDate.toString().substring(0, 7) + "' ");
-        	insertString.append(", " +  localDate.getDayOfYear() + " ");
-        	insertString.append(", '" + localDate.getDayOfWeek().toString() + "'");
-        	insertString.append(", " + getDayOfWeekSort(localDate)  + "");
-        	
-        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
-        	insertString.append(", '" + localDate.format( formatter) + "'");
-        	insertString.append( ");\n");
+        	appendDateTypeFieldValues(localDate, insertString);
         	
         	localDate = localDate.plusDays(1);
         	sb.append(insertString);
     	}
     	
+    	localDate = LocalDate.of(1890, 01, 01);
+        StringBuilder insertString = new StringBuilder();
+        insertString.append(baseString);
+        insertString.append("'"+ 99999 + "'");
+    	appendDateTypeFieldValues(localDate, insertString);
+    	sb.append(insertString);
+        
     	if (isSqlServerInsert){
-    		sb.append("SET IDENTITY_INSERT dbo.Date OFF;\n");
+    		sb.append("SET IDENTITY_INSERT dbo.DateType OFF;\n");
     	}
-
         
         try (BufferedWriter writer = Files.newBufferedWriter(adamsSqlPath)) {
             writer.write(sb.toString());
         }
         
         System.out.println("Sql script " + sqlScriptPath + " generated. ");
+	}
+
+	private static void appendDateTypeFieldValues(LocalDate localDate, StringBuilder insertString) {
+		insertString.append(", '" + java.sql.Date.valueOf(localDate) + "' ");
+		insertString.append(", " + localDate.getYear() + " ");
+		insertString.append(", '" + String.valueOf(localDate.getYear()) + "'");
+		insertString.append(", " + localDate.get(IsoFields.QUARTER_OF_YEAR) + " ");
+		insertString.append(", " + localDate.getMonthValue() + " ");
+		insertString.append(", '" + Month.of(localDate.getMonthValue()) + "'");
+		insertString.append(", '" + localDate.toString().substring(0, 7) + "' ");
+		insertString.append(", " +  localDate.getDayOfYear() + " ");
+		insertString.append(", '" + localDate.getDayOfWeek().toString() + "'");
+		insertString.append(", " + getDayOfWeekSort(localDate)  + "");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
+		insertString.append(", '" + localDate.format( formatter) + "'");
+		insertString.append( ");\n");
 	}
 
 	private static String getTableName(String sheetName) {
