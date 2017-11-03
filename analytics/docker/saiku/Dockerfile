@@ -27,6 +27,8 @@ COPY files/NIBRSAnalyticsMondrianSchema.xml /tmp/
 RUN chmod a+x /tmp/server-config.sh
 RUN /tmp/server-config.sh
 
+RUN wget -P /opt/saiku-server/tomcat/webapps/saiku/WEB-INF/lib https://downloads.mariadb.com/Connectors/java/connector-java-2.1.2/mariadb-java-client-2.1.2.jar
+
 RUN cd /opt/saiku-server/tomcat
 
 CMD ["/opt/saiku-server/start-saiku.sh"]
