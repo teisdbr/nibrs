@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
+!--
 
     Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 
@@ -114,19 +114,19 @@
     		<CalculatedColumnDef name='VictimAgeGroup' type='String'>
     			<ExpressionView>
     				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "Infant" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 5 THEN "Day Care Age" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 10 THEN "6-10" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 15 THEN "11-15" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 20 THEN "16-20" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 25 THEN "21-25" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 30 THEN "26-30" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN "31-35" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 40 THEN "36-40" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 50 THEN "41-50" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 60 THEN "51-60" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 70 THEN "61-70" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 70 THEN "70+" 
+    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "1 or less" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt;= 5 THEN "2-5" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 10 THEN "6-10" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 13 THEN "11-13" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 17 THEN "14-17" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt;= 20 THEN "18-20" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 30 THEN "21-30" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 40 THEN "31-40" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 50 THEN "41-50" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 60 THEN "51-60" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 70 THEN "61-70" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 80 THEN "71-80" 
+    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 81 THEN "81+" 
     						 ELSE "Unknown" END
     				</SQL>
     			</ExpressionView>
@@ -135,18 +135,18 @@
     			<ExpressionView>
     				<SQL dialect="mysql">
     					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN 1
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 5 THEN 2
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 10 THEN 3
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 15 THEN 4
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 20 THEN 5
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 25 THEN 6
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 30 THEN 7
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN 8 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 40 THEN 9
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 50 THEN 10
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 60 THEN 11
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 70 THEN 12
-    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 70 THEN 13
+    						 WHEN <Column name="AgeOfVictimMin"/> &lt;= 5 THEN 2
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 10 THEN 3
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 13 THEN 4
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 17 THEN 5
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 20 THEN 6
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 30 THEN 7
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 40 THEN 8
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 50 THEN 9
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 60 THEN 10
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 70 THEN 11
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 80 THEN 12
+                             WHEN <Column name="AgeOfVictimMin"/> &gt;= 71 THEN 13
     						 ELSE 100 END
     				</SQL>
     			</ExpressionView>
@@ -154,20 +154,20 @@
     		<CalculatedColumnDef name='OffenderAgeGroup' type='String'>
     			<ExpressionView>
     				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN "Infant" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 6 THEN "Day Care Age" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 12 THEN "Elementary School" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 15 THEN "Middle School" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 19 THEN "High School" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 22 THEN "19-21" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 26 THEN "22-25" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 30 THEN "26-29" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 40 THEN "30-39" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 50 THEN "40-49" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 60 THEN "50-59" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 70 THEN "60-69" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &gt;= 70 THEN "70+" 
-    						 ELSE "Unknown" END
+    					CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN "1 or less" 
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt;= 5 THEN "2-5" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 10 THEN "6-10" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 13 THEN "11-13" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 17 THEN "14-17" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 20 THEN "18-20" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 30 THEN "21-30" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 40 THEN "31-40" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 50 THEN "41-50" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 60 THEN "51-60" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 70 THEN "61-70" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 80 THEN "71-80" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &gt;= 81 THEN "81+" 
+                             ELSE "Unknown" END
     				</SQL>
     			</ExpressionView>
     		</CalculatedColumnDef>
@@ -175,19 +175,19 @@
     			<ExpressionView>
     				<SQL dialect="mysql">
     					CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN 1
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 6 THEN 2
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 12 THEN 3
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 15 THEN 4 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 19 THEN 5
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 22 THEN 6
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 26 THEN 7
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 30 THEN 8
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 40 THEN 9
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 50 THEN 10
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 60 THEN 11
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 70 THEN 12
-    						 WHEN <Column name="AgeOfOffenderMin"/> &gt;= 70 THEN 13
-    						 ELSE 100 END
+    						 WHEN <Column name="AgeOfOffenderMin"/> &lt;= 5 THEN 2
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 10 THEN 3
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 13 THEN 4
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 17 THEN 5
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 20 THEN 6
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 30 THEN 7
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 40 THEN 8
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 50 THEN 9
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 60 THEN 10
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 70 THEN 11
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 80 THEN 12
+                             WHEN <Column name="AgeOfOffenderMin"/> &gt;= 71 THEN 13
+                             ELSE 100 END
     				</SQL>
     			</ExpressionView>
     		</CalculatedColumnDef>
@@ -217,221 +217,221 @@
     <Table name="FullVictimOffenseView">
     	<ColumnDefs>
     		<CalculatedColumnDef name='VictimAgeGroup' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "Infant" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 5 THEN "Day Care Age" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 10 THEN "6-10" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 15 THEN "11-15" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 20 THEN "16-20" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 25 THEN "21-25" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 30 THEN "26-30" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN "31-35" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 40 THEN "36-40" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 50 THEN "41-50" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 60 THEN "51-60" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 70 THEN "61-70" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 70 THEN "70+" 
-    						 ELSE "Unknown" END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
-    		<CalculatedColumnDef name='VictimAgeGroupSort' type='Integer'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN 1
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 5 THEN 2
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 10 THEN 3
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 15 THEN 4
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 20 THEN 5
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 25 THEN 6
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 30 THEN 7
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN 8 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 40 THEN 9
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 50 THEN 10
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 60 THEN 11
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 70 THEN 12
-    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 70 THEN 13
-    						 ELSE 100 END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "1 or less" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 5 THEN "2-5" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 10 THEN "6-10" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 13 THEN "11-13" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 17 THEN "14-17" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 20 THEN "18-20" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 30 THEN "21-30" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 40 THEN "31-40" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 50 THEN "41-50" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 60 THEN "51-60" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 70 THEN "61-70" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 80 THEN "71-80" 
+                             WHEN <Column name="AgeOfVictimMin"/> &gt;= 81 THEN "81+" 
+                             ELSE "Unknown" END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
+            <CalculatedColumnDef name='VictimAgeGroupSort' type='Integer'>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN 1
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 5 THEN 2
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 10 THEN 3
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 13 THEN 4
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 17 THEN 5
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 20 THEN 6
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 30 THEN 7
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 40 THEN 8
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 50 THEN 9
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 60 THEN 10
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 70 THEN 11
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 80 THEN 12
+                             WHEN <Column name="AgeOfVictimMin"/> &gt;= 71 THEN 13
+                             ELSE 100 END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
     	</ColumnDefs>
     </Table>
 
     <Table name="FullVictimOffenderView">
     	<ColumnDefs>
     		<CalculatedColumnDef name='VictimAgeGroup' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "Infant" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 6 THEN "Day Care Age" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 11 THEN "6-10" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 16 THEN "11-15" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 21 THEN "16-20" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 26 THEN "21-25" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 31 THEN "26-30" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 36 THEN "31-35" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 41 THEN "36-40" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 51 THEN "41-50" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 61 THEN "51-60" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 71 THEN "61-70" 
-    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 71 THEN "71+" 
-    						 ELSE "Unknown" END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
-    		<CalculatedColumnDef name='VictimAgeGroupSort' type='Integer'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN 1
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 6 THEN 2
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 11 THEN 3
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 16 THEN 4
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 21 THEN 5
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 26 THEN 6
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 31 THEN 7
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 35 THEN 8 
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 41 THEN 9
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 51 THEN 10
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 61 THEN 11
-    						 WHEN <Column name="AgeOfVictimMin"/> &lt; 71 THEN 12
-    						 WHEN <Column name="AgeOfVictimMin"/> &gt;= 71 THEN 13
-    						 ELSE 100 END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN "1 or less" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 5 THEN "2-5" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 10 THEN "6-10" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 13 THEN "11-13" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 17 THEN "14-17" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 20 THEN "18-20" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 30 THEN "21-30" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 40 THEN "31-40" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 50 THEN "41-50" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 60 THEN "51-60" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 70 THEN "61-70" 
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 80 THEN "71-80" 
+                             WHEN <Column name="AgeOfVictimMin"/> &gt;= 81 THEN "81+" 
+                             ELSE "Unknown" END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
+            <CalculatedColumnDef name='VictimAgeGroupSort' type='Integer'>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeNeonateIndicator"/> + <Column name="AgeFirstWeekIndicator"/> + <Column name="AgeFirstYearIndicator"/> &gt; 0 THEN 1
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 5 THEN 2
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 10 THEN 3
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 13 THEN 4
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 17 THEN 5
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 20 THEN 6
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 30 THEN 7
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 40 THEN 8
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 50 THEN 9
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 60 THEN 10
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 70 THEN 11
+                             WHEN <Column name="AgeOfVictimMin"/> &lt;= 80 THEN 12
+                             WHEN <Column name="AgeOfVictimMin"/> &gt;= 71 THEN 13
+                             ELSE 100 END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
     		<CalculatedColumnDef name='OffenderAgeGroup' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN "Infant" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 6 THEN "Day Care Age" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 12 THEN "Elementary School" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 15 THEN "Middle School" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 19 THEN "High School" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 22 THEN "19-21" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 26 THEN "22-25" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 30 THEN "26-29" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 40 THEN "30-39" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 50 THEN "40-49" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 60 THEN "50-59" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 70 THEN "60-69" 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &gt;= 70 THEN "70+" 
-    						 ELSE "Unknown" END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
-   			<CalculatedColumnDef name='OffenderAgeGroupSort' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN 1
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 6 THEN 2
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 12 THEN 3
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 15 THEN 4 
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 19 THEN 5
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 22 THEN 6
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 26 THEN 7
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 30 THEN 8
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 40 THEN 9
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 50 THEN 10
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 60 THEN 11
-    						 WHEN <Column name="AgeOfOffenderMin"/> &lt; 70 THEN 12
-    						 WHEN <Column name="AgeOfOffenderMin"/> &gt;= 70 THEN 13
-    						 ELSE 100 END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN "1 or less" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 5 THEN "2-5" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 10 THEN "6-10" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 13 THEN "11-13" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 17 THEN "14-17" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 20 THEN "18-20" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 30 THEN "21-30" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 40 THEN "31-40" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 50 THEN "41-50" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 60 THEN "51-60" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 70 THEN "61-70" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 80 THEN "71-80" 
+                             WHEN <Column name="AgeOfOffenderMin"/> &gt;= 81 THEN "81+" 
+                             ELSE "Unknown" END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
+            <CalculatedColumnDef name='OffenderAgeGroupSort' type='String'>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeOfOffenderMin"/> &lt; 1 THEN 1
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 5 THEN 2
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 10 THEN 3
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 13 THEN 4
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 17 THEN 5
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 20 THEN 6
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 30 THEN 7
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 40 THEN 8
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 50 THEN 9
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 60 THEN 10
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 70 THEN 11
+                             WHEN <Column name="AgeOfOffenderMin"/> &lt;= 80 THEN 12
+                             WHEN <Column name="AgeOfOffenderMin"/> &gt;= 71 THEN 13
+                             ELSE 100 END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
     	</ColumnDefs>
     </Table>
 
     <Table name="FullGroupAArrestView">
     	<ColumnDefs>
     		<CalculatedColumnDef name='ArresteeAgeGroup' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN "Infant" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN "Day Care Age" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN "Elementary School" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN "Middle School" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN "High School" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN "19-21" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN "22-25" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN "26-29" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN "30-39" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN "40-49" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN "50-59" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN "60-69" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN "70+" 
-    						 ELSE "Unknown" END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
-   			<CalculatedColumnDef name='ArresteeAgeGroupSort' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN 1
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN 2
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN 3
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN 4 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN 5
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN 6
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN 7
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN 8
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN 9
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN 10
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN 11
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN 12
-    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN 13
-    						 ELSE 100 END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN "1 or less" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 5 THEN "2-5" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 10 THEN "6-10" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 13 THEN "11-13" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 17 THEN "14-17" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 20 THEN "18-20" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 30 THEN "21-30" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 40 THEN "31-40" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 50 THEN "41-50" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 60 THEN "51-60" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 70 THEN "61-70" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 80 THEN "71-80" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &gt;= 81 THEN "81+" 
+                             ELSE "Unknown" END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
+            <CalculatedColumnDef name='ArresteeAgeGroupSort' type='String'>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN 1
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 5 THEN 2
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 10 THEN 3
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 13 THEN 4
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 17 THEN 5
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 20 THEN 6
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 30 THEN 7
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 40 THEN 8
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 50 THEN 9
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 60 THEN 10
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 70 THEN 11
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 80 THEN 12
+                             WHEN <Column name="AgeOfArresteeMin"/> &gt;= 71 THEN 13
+                             ELSE 100 END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
     	</ColumnDefs>
     </Table>
 
     <Table name="FullGroupBArrestView">
     	<ColumnDefs>
     		<CalculatedColumnDef name='ArresteeAgeGroup' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN "Infant" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN "Day Care Age" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN "Elementary School" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN "Middle School" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN "High School" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN "19-21" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN "22-25" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN "26-29" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN "30-39" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN "40-49" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN "50-59" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN "60-69" 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN "70+" 
-    						 ELSE "Unknown" END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
-   			<CalculatedColumnDef name='ArresteeAgeGroupSort' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN 1
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 6 THEN 2
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 12 THEN 3
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 15 THEN 4 
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 19 THEN 5
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 22 THEN 6
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 26 THEN 7
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 30 THEN 8
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 40 THEN 9
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 50 THEN 10
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 60 THEN 11
-    						 WHEN <Column name="AgeOfArresteeMin"/> &lt; 70 THEN 12
-    						 WHEN <Column name="AgeOfArresteeMin"/> &gt;= 70 THEN 13
-    						 ELSE 100 END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
-    	</ColumnDefs>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN "1 or less" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 5 THEN "2-5" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 10 THEN "6-10" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 13 THEN "11-13" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 17 THEN "14-17" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 20 THEN "18-20" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 30 THEN "21-30" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 40 THEN "31-40" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 50 THEN "41-50" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 60 THEN "51-60" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 70 THEN "61-70" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 80 THEN "71-80" 
+                             WHEN <Column name="AgeOfArresteeMin"/> &gt;= 81 THEN "81+" 
+                             ELSE "Unknown" END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
+            <CalculatedColumnDef name='ArresteeAgeGroupSort' type='String'>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="AgeOfArresteeMin"/> &lt; 1 THEN 1
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 5 THEN 2
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 10 THEN 3
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 13 THEN 4
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 17 THEN 5
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 20 THEN 6
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 30 THEN 7
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 40 THEN 8
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 50 THEN 9
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 60 THEN 10
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 70 THEN 11
+                             WHEN <Column name="AgeOfArresteeMin"/> &lt;= 80 THEN 12
+                             WHEN <Column name="AgeOfArresteeMin"/> &gt;= 71 THEN 13
+                             ELSE 100 END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
+        </ColumnDefs>
     </Table>
 
     <Table name="FullPropertyView">
@@ -542,158 +542,210 @@
 			<ColumnDef name="HourTypeID" type="Integer"/>
 			<ColumnDef name="HourTypeDescription" type="String"/>
 			<ColumnDef name="HourTypeDetailCategory" type="String"/>
-			<ColumnDef name="HourTypeCategory" type="String"/>
+            <ColumnDef name="HourTypeDetailCategorySort" type="Integer"/>
+            <ColumnDef name="HourTypeCategory" type="String"/>
+            <ColumnDef name="HourTypeCategorySort" type="Integer"/>
 		</ColumnDefs>
 		<Rows>
 			<Row>
 				<Value column="HourTypeID">0</Value>
 				<Value column="HourTypeDescription">0:00-1:00</Value>
-				<Value column="HourTypeDetailCategory">Early Morning</Value>
+                <Value column="HourTypeDetailCategory">Early Morning</Value>
+                <Value column="HourTypeDetailCategorySort">1</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">1</Value>
 				<Value column="HourTypeDescription">1:00-2:00</Value>
 				<Value column="HourTypeDetailCategory">Early Morning</Value>
+                <Value column="HourTypeDetailCategorySort">1</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">2</Value>
 				<Value column="HourTypeDescription">2:00-3:00</Value>
 				<Value column="HourTypeDetailCategory">Early Morning</Value>
+                <Value column="HourTypeDetailCategorySort">1</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">3</Value>
 				<Value column="HourTypeDescription">3:00-4:00</Value>
 				<Value column="HourTypeDetailCategory">Early Morning</Value>
+                <Value column="HourTypeDetailCategorySort">1</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">4</Value>
 				<Value column="HourTypeDescription">4:00-5:00</Value>
 				<Value column="HourTypeDetailCategory">Early Morning</Value>
+                <Value column="HourTypeDetailCategorySort">1</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">5</Value>
 				<Value column="HourTypeDescription">5:00-6:00</Value>
 				<Value column="HourTypeDetailCategory">Early Morning</Value>
+                <Value column="HourTypeDetailCategorySort">1</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">6</Value>
 				<Value column="HourTypeDescription">6:00-7:00</Value>
 				<Value column="HourTypeDetailCategory">Morning</Value>
+                <Value column="HourTypeDetailCategorySort">2</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">7</Value>
 				<Value column="HourTypeDescription">7:00-8:00</Value>
 				<Value column="HourTypeDetailCategory">Morning</Value>
+                <Value column="HourTypeDetailCategorySort">2</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">8</Value>
 				<Value column="HourTypeDescription">8:00-9:00</Value>
 				<Value column="HourTypeDetailCategory">Morning</Value>
+                <Value column="HourTypeDetailCategorySort">2</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">9</Value>
 				<Value column="HourTypeDescription">9:00-10:00</Value>
-				<Value column="HourTypeDetailCategory">Early Morning</Value>
+				<Value column="HourTypeDetailCategory">Morning</Value>
+                <Value column="HourTypeDetailCategorySort">2</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">10</Value>
 				<Value column="HourTypeDescription">10:00-11:00</Value>
 				<Value column="HourTypeDetailCategory">Morning</Value>
+                <Value column="HourTypeDetailCategorySort">2</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">11</Value>
 				<Value column="HourTypeDescription">11:00-12:00</Value>
 				<Value column="HourTypeDetailCategory">Morning</Value>
+                <Value column="HourTypeDetailCategorySort">2</Value>
 				<Value column="HourTypeCategory">AM</Value>
+                <Value column="HourTypeCategorySort">1</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">12</Value>
 				<Value column="HourTypeDescription">12:00-13:00</Value>
 				<Value column="HourTypeDetailCategory">Afternoon</Value>
+                <Value column="HourTypeDetailCategorySort">3</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">13</Value>
 				<Value column="HourTypeDescription">13:00-14:00</Value>
 				<Value column="HourTypeDetailCategory">Afternoon</Value>
+                <Value column="HourTypeDetailCategorySort">3</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">14</Value>
 				<Value column="HourTypeDescription">14:00-15:00</Value>
 				<Value column="HourTypeDetailCategory">Afternoon</Value>
+                <Value column="HourTypeDetailCategorySort">3</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">15</Value>
 				<Value column="HourTypeDescription">15:00-16:00</Value>
 				<Value column="HourTypeDetailCategory">Afternoon</Value>
+                <Value column="HourTypeDetailCategorySort">3</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">16</Value>
 				<Value column="HourTypeDescription">16:00-17:00</Value>
 				<Value column="HourTypeDetailCategory">Afternoon</Value>
+                <Value column="HourTypeDetailCategorySort">3</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">17</Value>
 				<Value column="HourTypeDescription">17:00-18:00</Value>
 				<Value column="HourTypeDetailCategory">Afternoon</Value>
+                <Value column="HourTypeDetailCategorySort">3</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">18</Value>
 				<Value column="HourTypeDescription">18:00-19:00</Value>
 				<Value column="HourTypeDetailCategory">Evening</Value>
+                <Value column="HourTypeDetailCategorySort">4</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">19</Value>
 				<Value column="HourTypeDescription">19:00-20:00</Value>
 				<Value column="HourTypeDetailCategory">Evening</Value>
+                <Value column="HourTypeDetailCategorySort">4</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">20</Value>
 				<Value column="HourTypeDescription">20:00-21:00</Value>
 				<Value column="HourTypeDetailCategory">Evening</Value>
+                <Value column="HourTypeDetailCategorySort">4</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">21</Value>
 				<Value column="HourTypeDescription">21:00-22:00</Value>
 				<Value column="HourTypeDetailCategory">Evening</Value>
+                <Value column="HourTypeDetailCategorySort">4</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">22</Value>
 				<Value column="HourTypeDescription">22:00-23:00</Value>
 				<Value column="HourTypeDetailCategory">Evening</Value>
+                <Value column="HourTypeDetailCategorySort">4</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">23</Value>
 				<Value column="HourTypeDescription">23:00-24:00</Value>
 				<Value column="HourTypeDetailCategory">Evening</Value>
+                <Value column="HourTypeDetailCategorySort">4</Value>
 				<Value column="HourTypeCategory">PM</Value>
+                <Value column="HourTypeCategorySort">2</Value>
 			</Row>
 			<Row>
 				<Value column="HourTypeID">99</Value>
 				<Value column="HourTypeDescription">Unknown</Value>
 				<Value column="HourTypeDetailCategory">Unknown</Value>
+                <Value column="HourTypeDetailCategorySort">100</Value>
 				<Value column="HourTypeCategory">Unknown</Value>
+                <Value column="HourTypeCategorySort">100</Value>
 			</Row>
 		</Rows>
 	</InlineTable>
@@ -703,9 +755,9 @@
  <Dimension visible="true" name="Hour" key="HourTypeID" table="HourType">
  	<Attributes>
  		<Attribute name="HourTypeID" keyColumn="HourTypeID" hasHierarchy="false"/>
- 		<Attribute name="HourTypeDescription" keyColumn="HourTypeDescription" hasHierarchy="false"/>
- 		<Attribute name="HourTypeDetailCategory" keyColumn="HourTypeDetailCategory" hasHierarchy="false"/>
- 		<Attribute name="HourTypeCategory" keyColumn="HourTypeCategory" hasHierarchy="false"/>
+ 		<Attribute name="HourTypeDescription" keyColumn="HourTypeDescription" hasHierarchy="false" orderByColumn="HourTypeID"/>
+ 		<Attribute name="HourTypeDetailCategory" keyColumn="HourTypeDetailCategory" hasHierarchy="false" orderByColumn="HourTypeDetailCategorySort"/>
+ 		<Attribute name="HourTypeCategory" keyColumn="HourTypeCategory" hasHierarchy="false" orderByColumn="HourTypeCategorySort"/>
   	</Attributes>
   	<Hierarchies>
   		<Hierarchy name="Hour" caption="Hour of Day" allMemberName="All Hours">
