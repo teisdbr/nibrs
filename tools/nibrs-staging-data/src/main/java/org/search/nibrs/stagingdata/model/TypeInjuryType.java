@@ -30,6 +30,11 @@ import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 
 @Entity
 public class TypeInjuryType {
+	public TypeInjuryType(Integer typeInjuryTypeId) {
+		super();
+		this.typeInjuryTypeId = typeInjuryTypeId;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeInjuryTypeId; 

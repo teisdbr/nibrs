@@ -36,6 +36,11 @@ public class SegmentActionTypeType {
 		super();
 	}
 
+	public SegmentActionTypeType(Integer segmentActionTypeTypeId) {
+		super();
+		this.segmentActionTypeTypeId = segmentActionTypeTypeId;
+	}
+
 	public SegmentActionTypeType(Integer segmentActionTypeTypeId, String segmentActionTypeCode,
 			String segmentActionTypeDescription) {
 		super();

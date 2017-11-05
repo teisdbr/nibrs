@@ -35,6 +35,11 @@ public class TypePropertyLossEtcType {
 		super();
 	}
 
+	public TypePropertyLossEtcType(Integer typePropertyLossEtcTypeId) {
+		super();
+		this.typePropertyLossEtcTypeId = typePropertyLossEtcTypeId;
+	}
+
 	public TypePropertyLossEtcType(Integer typePropertyLossEtcTypeId, String typePropertyLossEtcCode,
 			String typePropertyLossEtcDescription) {
 		super();

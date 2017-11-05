@@ -34,6 +34,11 @@ public class OfficerActivityCircumstanceType {
 		super();
 	}
 
+	public OfficerActivityCircumstanceType(Integer officerActivityCircumstanceTypeId) {
+		super();
+		this.officerActivityCircumstanceTypeId = officerActivityCircumstanceTypeId;
+	}
+
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}

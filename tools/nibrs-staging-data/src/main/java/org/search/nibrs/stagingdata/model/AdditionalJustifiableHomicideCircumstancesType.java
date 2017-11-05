@@ -34,6 +34,11 @@ public class AdditionalJustifiableHomicideCircumstancesType {
 		super();
 	}
 
+	public AdditionalJustifiableHomicideCircumstancesType(Integer additionalJustifiableHomicideCircumstancesTypeId) {
+		super();
+		this.additionalJustifiableHomicideCircumstancesTypeId = additionalJustifiableHomicideCircumstancesTypeId;
+	}
+
 	public AdditionalJustifiableHomicideCircumstancesType(Integer additionalJustifiableHomicideCircumstancesTypeId,
 			String additionalJustifiableHomicideCircumstancesCode,
 			String additionalJustifiableHomicideCircumstancesDescription) {

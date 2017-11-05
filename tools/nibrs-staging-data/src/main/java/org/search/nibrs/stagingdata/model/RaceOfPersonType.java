@@ -35,6 +35,11 @@ public class RaceOfPersonType {
 		super();
 	}
 
+	public RaceOfPersonType(Integer raceOfPersonTypeId) {
+		super();
+		this.raceOfPersonTypeId = raceOfPersonTypeId;
+	}
+
 	public RaceOfPersonType(Integer raceOfPersonTypeId, String raceOfPersonCode, String raceOfPersonDescription) {
 		super();
 		this.setRaceOfPersonTypeId(raceOfPersonTypeId);

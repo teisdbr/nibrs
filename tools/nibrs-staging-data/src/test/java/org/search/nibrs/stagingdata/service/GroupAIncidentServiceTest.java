@@ -177,7 +177,7 @@ public class GroupAIncidentServiceTest {
 		assertTrue(DateUtils.isSameDay(persisted.getIncidentDate(), Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		assertThat(persisted.getIncidentDateType().getDateTypeId(), equalTo(2355));
 		assertNull(persisted.getReportDateIndicator());
-		assertThat(persisted.getIncidentHour(), equalTo(13));
+		assertThat(persisted.getIncidentHour(), equalTo("13"));
 		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("B"));
 		
 		Set<OffenseSegment> offenseSegments = persisted.getOffenseSegments();
@@ -447,7 +447,7 @@ public class GroupAIncidentServiceTest {
 		administrativeSegment.setIncidentDateType(incidentDateType);
 		
 		administrativeSegment.setReportDateIndicator(null);  //'R' for report. Must be empty when incident is known.    
-		administrativeSegment.setIncidentHour(13);  // allowed value 0-23.  
+		administrativeSegment.setIncidentHour("13");  // allowed value 0-23.  
 		ClearedExceptionallyType clearedExceptionallyType
 			= clearedExceptionallyTypeRepository.findFirstByClearedExceptionallyCode("B");
 		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
@@ -715,5 +715,16 @@ public class GroupAIncidentServiceTest {
 		return administrativeSegment; 
 	}
 
+	@Test
+	public void getCodeTableTypeTest() {
+		SegmentActionTypeType segmentActionTypeType = 
+				groupAIncidentService.getCodeTableType("I", segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
+		assertThat(segmentActionTypeType.getSegmentActionTypeTypeId(), equalTo(1));
+		
+		SegmentActionTypeType segmentActionTypeTypeBlank = 
+				groupAIncidentService.getCodeTableType(null, segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
+		assertThat(segmentActionTypeTypeBlank.getSegmentActionTypeTypeId(), equalTo(99998));
+
+	}
 
 }

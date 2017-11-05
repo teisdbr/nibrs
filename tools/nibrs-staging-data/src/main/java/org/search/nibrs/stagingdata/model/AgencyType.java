@@ -35,6 +35,11 @@ public class AgencyType {
 		super();
 	}
 
+	public AgencyType(Integer agencyTypeId) {
+		super();
+		this.agencyTypeId = agencyTypeId;
+	}
+
 	public AgencyType(Integer agencyTypeId, String agencyTypeCode, String agencyTypeDescription) {
 		super();
 		this.agencyTypeId = agencyTypeId;

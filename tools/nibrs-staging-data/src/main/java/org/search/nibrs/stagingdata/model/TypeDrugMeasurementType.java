@@ -35,6 +35,11 @@ public class TypeDrugMeasurementType {
 		super();
 	}
 
+	public TypeDrugMeasurementType(Integer typeDrugMeasurementTypeId) {
+		super();
+		this.typeDrugMeasurementTypeId = typeDrugMeasurementTypeId;
+	}
+
 	public TypeDrugMeasurementType(Integer typeDrugMeasurementTypeId, String typeDrugMeasurementCode,
 			String typeDrugMeasurementDescription) {
 		super();

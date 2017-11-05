@@ -43,6 +43,11 @@ public class PropertyDescriptionType {
 		super();
 	}
 
+	public PropertyDescriptionType(Integer propertyDescriptionTypeId) {
+		super();
+		this.propertyDescriptionTypeId = propertyDescriptionTypeId;
+	}
+
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
         return ReflectionToStringBuilder.toStringExclude(this, "propertyTypes");		

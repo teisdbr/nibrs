@@ -34,6 +34,11 @@ public class VictimOffenderRelationshipType {
 		super();
 	}
 
+	public VictimOffenderRelationshipType(Integer victimOffenderRelationshipTypeId) {
+		super();
+		this.victimOffenderRelationshipTypeId = victimOffenderRelationshipTypeId;
+	}
+
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}

@@ -53,10 +53,6 @@ public class SuspectedDrugType implements Serializable{
     
 	private Double estimatedDrugQuantity; 
 	
-	public SuspectedDrugType() {
-		super();
-	}
-
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
 		String resultWithoutParentSegment = ReflectionToStringBuilder.toStringExclude(this, "propertySegment");

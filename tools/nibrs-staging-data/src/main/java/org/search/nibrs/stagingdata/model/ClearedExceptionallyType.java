@@ -35,6 +35,11 @@ public class ClearedExceptionallyType {
 		super();
 	}
 
+	public ClearedExceptionallyType(Integer clearedExceptionallyTypeId) {
+		super();
+		this.clearedExceptionallyTypeId = clearedExceptionallyTypeId;
+	}
+
 	public ClearedExceptionallyType(Integer clearedExceptionallyTypeId, String clearedExceptionallyCode,
 			String clearedExceptionallyDescription) {
 		super();

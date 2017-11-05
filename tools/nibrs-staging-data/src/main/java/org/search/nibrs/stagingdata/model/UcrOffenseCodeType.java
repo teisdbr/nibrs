@@ -26,7 +26,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class UcrOffenseCodeType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer ucrOffenseCodeTypeID; 
+	private Integer ucrOffenseCodeTypeId; 
 	private String ucrOffenseCode; 
 	private String ucrOffenseCodeDescription; 
 	private String offenseCategory1; 
@@ -38,11 +38,11 @@ public class UcrOffenseCodeType {
 		super();
 	}
 	
-	public UcrOffenseCodeType(Integer ucrOffenseCodeTypeID) {
-		this();
-		this.ucrOffenseCodeTypeID = ucrOffenseCodeTypeID;
+	public UcrOffenseCodeType(Integer ucrOffenseCodeTypeId) {
+		super();
+		this.ucrOffenseCodeTypeId = ucrOffenseCodeTypeId;
 	}
-	
+
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
@@ -95,14 +95,6 @@ public class UcrOffenseCodeType {
 		this.offenseCategory4 = offenseCategory4;
 	}
 
-	public Integer getUcrOffenseCodeTypeID() {
-		return ucrOffenseCodeTypeID;
-	}
-
-	public void setUcrOffenseCodeTypeID(Integer ucrOffenseCodeTypeID) {
-		this.ucrOffenseCodeTypeID = ucrOffenseCodeTypeID;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,7 +105,7 @@ public class UcrOffenseCodeType {
 		result = prime * result + ((offenseCategory4 == null) ? 0 : offenseCategory4.hashCode());
 		result = prime * result + ((ucrOffenseCode == null) ? 0 : ucrOffenseCode.hashCode());
 		result = prime * result + ((ucrOffenseCodeDescription == null) ? 0 : ucrOffenseCodeDescription.hashCode());
-		result = prime * result + ((ucrOffenseCodeTypeID == null) ? 0 : ucrOffenseCodeTypeID.hashCode());
+		result = prime * result + ((ucrOffenseCodeTypeId == null) ? 0 : ucrOffenseCodeTypeId.hashCode());
 		return result;
 	}
 
@@ -156,12 +148,20 @@ public class UcrOffenseCodeType {
 				return false;
 		} else if (!ucrOffenseCodeDescription.equals(other.ucrOffenseCodeDescription))
 			return false;
-		if (ucrOffenseCodeTypeID == null) {
-			if (other.ucrOffenseCodeTypeID != null)
+		if (ucrOffenseCodeTypeId == null) {
+			if (other.ucrOffenseCodeTypeId != null)
 				return false;
-		} else if (!ucrOffenseCodeTypeID.equals(other.ucrOffenseCodeTypeID))
+		} else if (!ucrOffenseCodeTypeId.equals(other.ucrOffenseCodeTypeId))
 			return false;
 		return true;
+	}
+
+	public Integer getUcrOffenseCodeTypeId() {
+		return ucrOffenseCodeTypeId;
+	}
+
+	public void setUcrOffenseCodeTypeId(Integer ucrOffenseCodeTypeId) {
+		this.ucrOffenseCodeTypeId = ucrOffenseCodeTypeId;
 	}
 
 }

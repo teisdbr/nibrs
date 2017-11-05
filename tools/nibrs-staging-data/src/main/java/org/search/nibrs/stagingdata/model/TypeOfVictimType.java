@@ -35,6 +35,11 @@ public class TypeOfVictimType {
 		super();
 	}
 
+	public TypeOfVictimType(Integer typeOfVictimTypeId) {
+		super();
+		this.typeOfVictimTypeId = typeOfVictimTypeId;
+	}
+
 	public TypeOfVictimType(Integer typeOfVictimTypeId, String typeOfVictimCode, String typeOfVictimDescription) {
 		super();
 		this.typeOfVictimTypeId = typeOfVictimTypeId;

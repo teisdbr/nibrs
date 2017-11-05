@@ -46,6 +46,11 @@ public class OffenderSuspectedOfUsingType {
 		offenseSegments = new HashSet<>();
 	}
 
+	public OffenderSuspectedOfUsingType(Integer offenderSuspectedOfUsingTypeId) {
+		super();
+		this.offenderSuspectedOfUsingTypeId = offenderSuspectedOfUsingTypeId;
+	}
+
 	public OffenderSuspectedOfUsingType(Integer offenderSuspectedOfUsingTypeId, String offenderSuspectedOfUsingCode,
 			String offenderSuspectedOfUsingDescription) {
 		super();

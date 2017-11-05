@@ -35,6 +35,11 @@ public class ResidentStatusOfPersonType {
 		super();
 	}
 
+	public ResidentStatusOfPersonType(Integer residentStatusOfPersonTypeId) {
+		super();
+		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeId;
+	}
+
 	public ResidentStatusOfPersonType(Integer residentStatusOfPersonTypeID, String residentStatusOfPersonCode,
 			String residentStatusOfPersonDescription) {
 		super();

@@ -15,7 +15,6 @@
  */
 package org.search.nibrs.stagingdata.model.segment;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -94,8 +93,6 @@ public class OffenseSegment {
 	
 	public OffenseSegment() {
 		super();
-		offenderSuspectedOfUsingTypes = new HashSet<>();
-//		typeOfWeaponForceInvolvedTypes = new HashSet<>();
 	}
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);

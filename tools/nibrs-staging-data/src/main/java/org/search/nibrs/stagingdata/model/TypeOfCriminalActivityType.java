@@ -30,6 +30,11 @@ import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 
 @Entity
 public class TypeOfCriminalActivityType {
+	public TypeOfCriminalActivityType(Integer typeOfCriminalActivityTypeId) {
+		super();
+		this.typeOfCriminalActivityTypeId = typeOfCriminalActivityTypeId;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeOfCriminalActivityTypeId; 

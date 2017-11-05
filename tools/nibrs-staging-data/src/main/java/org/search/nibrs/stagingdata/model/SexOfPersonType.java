@@ -35,6 +35,11 @@ public class SexOfPersonType {
 		super();
 	}
 
+	public SexOfPersonType(Integer sexOfPersonTypeId) {
+		super();
+		this.sexOfPersonTypeId = sexOfPersonTypeId;
+	}
+
 	public SexOfPersonType(Integer sexOfPersonTypeId, String sexOfPersonCode, String sexOfPersonDescription) {
 		super();
 		setSexOfPersonTypeId(sexOfPersonTypeId);

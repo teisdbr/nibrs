@@ -33,6 +33,7 @@ public class Agency {
 	private String agencyOri; 
 	private String agencyName;
 	private String stateCode;
+	
 	private String stateName;
 	private Integer Population;
 	
@@ -43,6 +44,11 @@ public class Agency {
 	public Agency() {
 		super();
 	}
+	public Agency(Integer agencyId) {
+		super();
+		this.agencyId = agencyId;
+	}
+	
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);

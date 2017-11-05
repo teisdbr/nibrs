@@ -35,6 +35,11 @@ public class LocationType {
 		super();
 	}
 
+	public LocationType(Integer locationTypeTypeId) {
+		super();
+		this.locationTypeTypeId = locationTypeTypeId;
+	}
+
 	public LocationType(Integer locationTypeTypeId, String locationTypeCode, String locationTypeDescription) {
 		super();
 		this.locationTypeTypeId = locationTypeTypeId;

@@ -34,6 +34,11 @@ public class OfficerAssignmentTypeType {
 		super();
 	}
 
+	public OfficerAssignmentTypeType(Integer officerAssignmentTypeTypeId) {
+		super();
+		this.officerAssignmentTypeTypeId = officerAssignmentTypeTypeId;
+	}
+
 	public OfficerAssignmentTypeType(Integer officerAssignmentTypeTypeId, String officerAssignmentTypeCode,
 			String officerAssignmentTypeDescription) {
 		super();

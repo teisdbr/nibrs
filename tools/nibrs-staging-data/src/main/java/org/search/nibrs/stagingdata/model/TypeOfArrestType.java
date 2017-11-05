@@ -26,7 +26,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class TypeOfArrestType{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer typeOfArrestTypeID; 
+	private Integer typeOfArrestTypeId; 
 	
 	private String typeOfArrestCode; 
 	private String typeOfArrestDescription; 
@@ -35,9 +35,14 @@ public class TypeOfArrestType{
 		super();
 	}
 
-	public TypeOfArrestType(Integer typeOfArrestTypeID, String typeOfArrestCode, String typeOfArrestDescription) {
+	public TypeOfArrestType(Integer typeOfArrestTypeId) {
 		super();
-		this.typeOfArrestTypeID = typeOfArrestTypeID;
+		this.setTypeOfArrestTypeId(typeOfArrestTypeId);
+	}
+
+	public TypeOfArrestType(Integer typeOfArrestTypeId, String typeOfArrestCode, String typeOfArrestDescription) {
+		super();
+		this.setTypeOfArrestTypeId(typeOfArrestTypeId);
 		this.typeOfArrestCode = typeOfArrestCode;
 		this.typeOfArrestDescription = typeOfArrestDescription;
 	}
@@ -62,12 +67,12 @@ public class TypeOfArrestType{
 		this.typeOfArrestDescription = typeOfArrestDescription;
 	}
 
-	public Integer getTypeOfArrestTypeID() {
-		return typeOfArrestTypeID;
+	public Integer getTypeOfArrestTypeId() {
+		return typeOfArrestTypeId;
 	}
 
-	public void setTypeOfArrestTypeID(Integer typeOfArrestTypeID) {
-		this.typeOfArrestTypeID = typeOfArrestTypeID;
+	public void setTypeOfArrestTypeId(Integer typeOfArrestTypeId) {
+		this.typeOfArrestTypeId = typeOfArrestTypeId;
 	}
 
 }

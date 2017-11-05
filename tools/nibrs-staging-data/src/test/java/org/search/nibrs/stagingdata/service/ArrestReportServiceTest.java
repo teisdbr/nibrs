@@ -111,8 +111,8 @@ public class ArrestReportServiceTest {
 		assertThat(persisted.getResidentStatusOfPersonType().getResidentStatusOfPersonTypeId(), equalTo(1));
 		assertThat(persisted.getSegmentActionType().getSegmentActionTypeTypeId(), equalTo(1));
 		assertThat(persisted.getSexOfPersonType().getSexOfPersonCode(), equalTo("F"));
-		assertThat(persisted.getTypeOfArrestType().getTypeOfArrestTypeID(), equalTo(1));
-		assertThat(persisted.getUcrOffenseCodeType().getUcrOffenseCodeTypeID(), equalTo(520));
+		assertThat(persisted.getTypeOfArrestType().getTypeOfArrestTypeId(), equalTo(1));
+		assertThat(persisted.getUcrOffenseCodeType().getUcrOffenseCodeTypeId(), equalTo(520));
 		assertThat(persisted.getYearOfTape(), equalTo("2016"));
 		
 		Set<ArrestReportSegmentWasArmedWith> arrestReportSegmentWasArmedWiths = 

@@ -44,6 +44,11 @@ public class ArresteeWasArmedWithType {
 		super();
 	}
 
+	public ArresteeWasArmedWithType(Integer arresteeWasArmedWithTypeId) {
+		super();
+		this.arresteeWasArmedWithTypeId = arresteeWasArmedWithTypeId;
+	}
+
 	public String toString(){
 		return ReflectionToStringBuilder.toStringExclude(this, "arresteeSegmentWasArmedWith", "arrestReportSegmentWasArmedWith");
 	}

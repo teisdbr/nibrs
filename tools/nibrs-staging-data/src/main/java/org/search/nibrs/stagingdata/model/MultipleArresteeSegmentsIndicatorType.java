@@ -35,6 +35,11 @@ public class MultipleArresteeSegmentsIndicatorType {
 		super();
 	}
 
+	public MultipleArresteeSegmentsIndicatorType(Integer multipleArresteeSegmentsIndicatorTypeId) {
+		super();
+		this.multipleArresteeSegmentsIndicatorTypeId = multipleArresteeSegmentsIndicatorTypeId;
+	}
+
 	public MultipleArresteeSegmentsIndicatorType(Integer multipleArresteeSegmentsIndicatorTypeId,
 			String multipleArresteeSegmentsIndicatorCode, String multipleArresteeSegmentsIndicatorDescription) {
 		super();

@@ -36,6 +36,11 @@ public class BiasMotivationType {
 		super();
 	}
 
+	public BiasMotivationType(Integer biasMotivationTypeID) {
+		super();
+		this.biasMotivationTypeID = biasMotivationTypeID;
+	}
+
 	public BiasMotivationType(Integer biasMotivationTypeID, String biasMotivationCode, String biasMotivationDescription,
 			String biasMotivationCategory) {
 		super();

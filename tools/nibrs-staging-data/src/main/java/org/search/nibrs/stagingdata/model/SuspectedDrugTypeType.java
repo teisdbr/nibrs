@@ -43,6 +43,11 @@ public class SuspectedDrugTypeType {
 		super();
 	}
 
+	public SuspectedDrugTypeType(Integer suspectedDrugTypeTypeId) {
+		super();
+		this.suspectedDrugTypeTypeId = suspectedDrugTypeTypeId;
+	}
+
 	public SuspectedDrugTypeType(Integer suspectedDrugTypeTypeId, String suspectedDrugTypeCode,
 			String suspectedDrugTypeDescription) {
 		super();

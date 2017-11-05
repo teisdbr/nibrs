@@ -35,6 +35,11 @@ public class MethodOfEntryType {
 		super();
 	}
 
+	public MethodOfEntryType(Integer methodOfEntryTypeId) {
+		super();
+		this.methodOfEntryTypeId = methodOfEntryTypeId;
+	}
+
 	public MethodOfEntryType(Integer methodOfEntryTypeId, String methodOfEntryCode,
 			String methodOfEntryDescription) {
 		super();

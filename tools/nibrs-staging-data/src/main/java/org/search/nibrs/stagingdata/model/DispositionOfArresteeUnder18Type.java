@@ -35,6 +35,11 @@ public class DispositionOfArresteeUnder18Type {
 		super();
 	}
 
+	public DispositionOfArresteeUnder18Type(Integer dispositionOfArresteeUnder18TypeId) {
+		super();
+		this.dispositionOfArresteeUnder18TypeId = dispositionOfArresteeUnder18TypeId;
+	}
+
 	public DispositionOfArresteeUnder18Type(Integer dispositionOfArresteeUnder18TypeId,
 			String dispositionOfArresteeUnder18Code, String dispositionOfArresteeUnder18Description) {
 		super();

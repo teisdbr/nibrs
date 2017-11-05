@@ -34,6 +34,11 @@ public class EthnicityOfPersonType {
 		super();
 	}
 
+	public EthnicityOfPersonType(Integer ethnicityOfPersonTypeId) {
+		super();
+		this.ethnicityOfPersonTypeId = ethnicityOfPersonTypeId;
+	}
+
 	public EthnicityOfPersonType(Integer ethnicityOfPersonTypeId, String ethnicityOfPersonCode, String raceOfPersonDescription) {
 		this();
 		this.setEthnicityOfPersonTypeId(ethnicityOfPersonTypeId);

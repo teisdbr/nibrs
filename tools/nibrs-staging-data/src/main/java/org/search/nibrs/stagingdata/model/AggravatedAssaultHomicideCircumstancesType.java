@@ -43,6 +43,11 @@ public class AggravatedAssaultHomicideCircumstancesType {
 		super();
 	}
 
+	public AggravatedAssaultHomicideCircumstancesType(Integer aggravatedAssaultHomicideCircumstancesTypeId) {
+		super();
+		this.aggravatedAssaultHomicideCircumstancesTypeId = aggravatedAssaultHomicideCircumstancesTypeId;
+	}
+
 	public AggravatedAssaultHomicideCircumstancesType(Integer aggravatedAssaultHomicideCircumstancesTypeId,
 			String aggravatedAssaultHomicideCircumstancesCode,
 			String aggravatedAssaultHomicideCircumstancesDescription) {

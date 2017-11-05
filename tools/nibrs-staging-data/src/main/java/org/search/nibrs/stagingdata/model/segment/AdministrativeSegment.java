@@ -75,7 +75,7 @@ public class AdministrativeSegment {
 	private DateType incidentDateType; 
 
 	private String reportDateIndicator; 
-	private Integer incidentHour;
+	private String incidentHour;
 	@ManyToOne
 	@JoinColumn(name="clearedExceptionallyTypeId") 
 	private ClearedExceptionallyType clearedExceptionallyType; 
@@ -134,10 +134,10 @@ public class AdministrativeSegment {
 	public void setReportDateIndicator(String reportDateIndicator) {
 		this.reportDateIndicator = reportDateIndicator;
 	}
-	public Integer getIncidentHour() {
+	public String getIncidentHour() {
 		return incidentHour;
 	}
-	public void setIncidentHour(Integer incidentHour) {
+	public void setIncidentHour(String incidentHour) {
 		this.incidentHour = incidentHour;
 	}
 	public Integer getAdministrativeSegmentId() {
