@@ -61,8 +61,8 @@ writeProperty <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
   ) %>%
     filter(TypePropertyLossEtcTypeID != -8) %>% select(-starts_with("V_")) %>%
     mutate(RecoveredDate=ifelse(RecoveredDate < 0, NA, RecoveredDate)) %>%
-    mutate(TypePropertyLossEtcTypeID=ifelse(TypePropertyLossEtcTypeID < 0, 9, TypePropertyLossEtcTypeID),
-           PropertyDescriptionTypeID=ifelse(PropertyDescriptionTypeID < 0, 99, PropertyDescriptionTypeID),
+    mutate(TypePropertyLossEtcTypeID=ifelse(TypePropertyLossEtcTypeID < 0, 99999, TypePropertyLossEtcTypeID),
+           PropertyDescriptionTypeID=ifelse(PropertyDescriptionTypeID < 0, 99999, PropertyDescriptionTypeID),
            ValueOfProperty=ifelse(ValueOfProperty < 0, NA, ValueOfProperty),
            RecoveredDate=ymd(RecoveredDate),
            RecoveredDateID=createKeyFromDate(RecoveredDate),
@@ -187,7 +187,7 @@ writeSuspectedDrugType <- function(conn, propertySegmentDataFrame, propertyTypeD
                                         EstimatedDrugQuantityWholePart +
                                           (ifelse(EstimatedDrugQuantityFractionalPart < 0, 0,
                                                   as.numeric(EstimatedDrugQuantityFractionalPart/1000))))),
-           TypeDrugMeasurementTypeID=as.integer(ifelse(TypeMeasurement < 0, 99, TypeMeasurement))) %>%
+           TypeDrugMeasurementTypeID=as.integer(ifelse(TypeMeasurement < 0, 99999, TypeMeasurement))) %>%
     select(PropertySegmentID, SuspectedDrugTypeTypeID, TypeDrugMeasurementTypeID, EstimatedDrugQuantity) %>%
     mutate(SuspectedDrugTypeID=row_number())
 

@@ -113,6 +113,7 @@ createMaterializedViews <- function(conn, sqlFile) {
   writeLines('Creating materialized views...')
 
   sql <- read_file(sqlFile)
+  sql <- gsub(x=sql, pattern='\\/\\*.+\\*\\/(.+)', replacement='\\1')
   sql <- str_split(sql, ";")[[1]]
   count <- 0
   for (s in sql) {

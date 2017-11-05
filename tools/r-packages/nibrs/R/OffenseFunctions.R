@@ -103,13 +103,13 @@ writeTypeOfWeaponForceInvolved <- function(conn, offenseSegmentDataFrame, rawInc
   # TypeOfWeaponForceInvolvedTranslationDf defined in CommonFunctions.R
   TypeOfWeaponForceInvolved <- left_join(TypeOfWeaponForceInvolved, TypeOfWeaponForceInvolvedTranslationDf,
                                    by=c("TypeOfWeaponForceInvolvedTypeID"="icpsrCode")) %>%
-    mutate(TypeOfWeaponForceInvolvedTypeID=ifelse(is.na(TypeOfWeaponForceInvolvedTypeID), 999, TypeOfWeaponForceInvolvedTypeID))
+    mutate(TypeOfWeaponForceInvolvedTypeID=ifelse(is.na(TypeOfWeaponForceInvolvedTypeID), 99999, TypeOfWeaponForceInvolvedTypeID))
 
   missingSegmentIDs <- setdiff(offenseSegmentDataFrame$OffenseSegmentID, TypeOfWeaponForceInvolved$OffenseSegmentID)
 
   TypeOfWeaponForceInvolved <- bind_rows(TypeOfWeaponForceInvolved,
                                         tibble(OffenseSegmentID=missingSegmentIDs,
-                                                   TypeOfWeaponForceInvolvedTypeID=rep(x=990, times=length(missingSegmentIDs)),
+                                                   TypeOfWeaponForceInvolvedTypeID=rep(x=99998, times=length(missingSegmentIDs)),
                                                    AutomaticWeaponIndicator=rep(x="N", times=length(missingSegmentIDs)))) %>%
     mutate(TypeOfWeaponForceInvolvedID=row_number())
 
@@ -159,7 +159,7 @@ writeTypeCriminalActivity <- function(conn, offenseSegmentDataFrame, rawIncident
 
   TypeCriminalActivity <- bind_rows(TypeCriminalActivity,
                                         tibble(OffenseSegmentID=missingSegmentIDs,
-                                                   TypeOfCriminalActivityTypeID=rep(x=99, times=length(missingSegmentIDs)))) %>%
+                                                   TypeOfCriminalActivityTypeID=rep(x=99999, times=length(missingSegmentIDs)))) %>%
     mutate(TypeCriminalActivityID=row_number())
 
   writeLines(paste0("Writing ", nrow(TypeCriminalActivity), " TypeCriminalActivity association rows to database"))
@@ -209,11 +209,11 @@ writeOffenses <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
 
   ) %>%
     filter(OffenseCode != -8) %>% select(-starts_with("V_")) %>%
-    mutate(MethodOfEntryTypeID=ifelse(MethodOfEntryTypeID < 0, 9L, MethodOfEntryTypeID),
+    mutate(MethodOfEntryTypeID=ifelse(MethodOfEntryTypeID < 0, 99999, MethodOfEntryTypeID),
            NumberOfPremisesEntered=ifelse(NumberOfPremisesEntered < 0, NA, NumberOfPremisesEntered),
-           LocationTypeTypeID=ifelse(LocationTypeTypeID < 0, 99L, LocationTypeTypeID),
+           LocationTypeTypeID=ifelse(LocationTypeTypeID < 0, 99999, LocationTypeTypeID),
            SegmentActionTypeTypeID=segmentActionTypeTypeID,
-           UCROffenseCodeTypeID=ifelse(OffenseCode < 0, 999, OffenseCode)) %>%
+           UCROffenseCodeTypeID=ifelse(OffenseCode < 0, 99999, OffenseCode)) %>%
     mutate(OffenseSegmentID=row_number())
 
   writeLines(paste0("Writing ", nrow(OffenseSegment), " offense segments to database"))

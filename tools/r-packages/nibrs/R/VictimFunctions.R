@@ -82,14 +82,14 @@ writeVictims <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) {
            AgeNeonateIndicator=ifelse(AgeRaw == 0.1, 1, 0),
            AgeFirstWeekIndicator=ifelse(AgeRaw == 0.2, 1, 0),
            AgeFirstYearIndicator=ifelse(AgeRaw == 0.5, 1, 0),
-           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
-           TypeOfVictimTypeID=ifelse(TypeOfVictimTypeID < 0, 9, TypeOfVictimTypeID),
-           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 9, RaceOfPersonTypeID),
-           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 9, EthnicityOfPersonTypeID),
-           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 9, ResidentStatusOfPersonTypeID+1),
-           OfficerActivityCircumstanceTypeID=ifelse(OfficerActivityCircumstanceTypeID < 0, 99, OfficerActivityCircumstanceTypeID),
-           OfficerAssignmentTypeTypeID=ifelse(OfficerAssignmentTypeTypeID < 0, 9, OfficerAssignmentTypeTypeID),
-           AdditionalJustifiableHomicideCircumstancesTypeID=ifelse(AdditionalJustifiableHomicideCircumstancesTypeID < 0, 9, AdditionalJustifiableHomicideCircumstancesTypeID),
+           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 99999, SexOfPersonTypeID+1),
+           TypeOfVictimTypeID=ifelse(TypeOfVictimTypeID < 0, 99999, TypeOfVictimTypeID),
+           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 99999, RaceOfPersonTypeID),
+           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 99999, EthnicityOfPersonTypeID),
+           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 99999, ResidentStatusOfPersonTypeID+1),
+           OfficerActivityCircumstanceTypeID=ifelse(OfficerActivityCircumstanceTypeID < 0, 99999, OfficerActivityCircumstanceTypeID),
+           OfficerAssignmentTypeTypeID=ifelse(OfficerAssignmentTypeTypeID < 0, 99999, OfficerAssignmentTypeTypeID),
+           AdditionalJustifiableHomicideCircumstancesTypeID=ifelse(AdditionalJustifiableHomicideCircumstancesTypeID < 0, 99999, AdditionalJustifiableHomicideCircumstancesTypeID),
            SegmentActionTypeTypeID=segmentActionTypeTypeID)  %>%
     select(-AgeRaw) %>%
     mutate(VictimSegmentID=row_number())
@@ -150,7 +150,7 @@ writeAggravatedAssaultHomicideCircumstances <- function(conn, victimSegmentDataF
 
   AggravatedAssaultHomicideCircumstances <- bind_rows(AggravatedAssaultHomicideCircumstances,
                                          tibble(VictimSegmentID=missingSegmentIDs,
-                                                    AggravatedAssaultHomicideCircumstancesTypeID=rep(x=99, times=length(missingSegmentIDs)))) %>%
+                                                    AggravatedAssaultHomicideCircumstancesTypeID=rep(x=99999, times=length(missingSegmentIDs)))) %>%
     mutate(AggravatedAssaultHomicideCircumstancesID=row_number())
 
   writeLines(paste0("Writing ", nrow(AggravatedAssaultHomicideCircumstances), " AggravatedAssaultHomicideCircumstances association rows to database"))
