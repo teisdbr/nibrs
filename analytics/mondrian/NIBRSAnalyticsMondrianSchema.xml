@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-!--
+<!--
 
     Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 
@@ -201,16 +201,28 @@
     				</SQL>
     			</ExpressionView>
     		</CalculatedColumnDef>
-   		<CalculatedColumnDef name='RecoveredMotorVehiclesDim' type='String'>
-    			<ExpressionView>
-    				<SQL dialect="mysql">
-    					CASE WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 0 THEN "0"
-    						 WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 1 THEN "1"
-    						 WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 2 THEN "2"
-    						 ELSE "3+" END
-    				</SQL>
-    			</ExpressionView>
-    		</CalculatedColumnDef>
+           <CalculatedColumnDef name='RecoveredMotorVehiclesDim' type='String'>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 0 THEN "0"
+                             WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 1 THEN "1"
+                             WHEN <Column name="NumberOfRecoveredMotorVehicles"/> = 2 THEN "2"
+                             ELSE "3+" END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
+           <CalculatedColumnDef name='OffensesPerIncidentDim' type='String'>
+                <ExpressionView>
+                    <SQL dialect="mysql">
+                        CASE WHEN <Column name="OffensesPerIncident"/> = 0 THEN "0"
+                             WHEN <Column name="OffensesPerIncident"/> = 1 THEN "1"
+                             WHEN <Column name="OffensesPerIncident"/> = 2 THEN "2"
+                             WHEN <Column name="OffensesPerIncident"/> = 3 THEN "3"
+                             WHEN <Column name="OffensesPerIncident"/> = 4 THEN "4"
+                             ELSE "5+" END
+                    </SQL>
+                </ExpressionView>
+            </CalculatedColumnDef>
     	</ColumnDefs>
     </Table>
 
@@ -1186,6 +1198,18 @@
 			<Dimension source="ResidentStatusOfPerson" caption="Victim Resident Status"/>
 			<Dimension source="AdditionalJustifiableHomicideCircumstances"/>
 			<Dimension source="CompletionStatus" caption="Offense Completed?"/>
+
+            <Dimension visible="true" name="Offenses Per Incident">
+                <Attributes>
+                    <Attribute name="Offenses Per Incident" keyColumn="OffensesPerIncidentDim" hasHierarchy="false" table="FullIncidentView"/>
+                </Attributes>
+                <Hierarchies>
+                    <Hierarchy name="Offenses Per Incident"  visible="true" hasAll="true"  allMemberCaption="All Counts">
+                        <Level attribute="Offenses Per Incident" caption="Offenses Per Incident"/>
+                    </Hierarchy>
+                </Hierarchies>
+            </Dimension>
+
 			<Dimension visible="true" name="Premises Entered">
 				<Attributes>
 					<Attribute name="Premises Entered" keyColumn="NumberOfPremisesEnteredDim" hasHierarchy="false" table="FullIncidentView"/>
@@ -1284,7 +1308,8 @@
 					<ForeignKeyLink dimension="ResidentStatusOfPerson" foreignKeyColumn="ResidentStatusOfPersonTypeID"/>
 					<ForeignKeyLink dimension="AdditionalJustifiableHomicideCircumstances" foreignKeyColumn="AdditionalJustifiableHomicideCircumstancesTypeID"/>
 					<ForeignKeyLink dimension="CompletionStatus" foreignKeyColumn="OffenseAttemptedCompleted"/>
-					<FactLink dimension="Premises Entered"/>
+                    <FactLink dimension="Offenses Per Incident"/>
+                    <FactLink dimension="Premises Entered"/>
 					<FactLink dimension="Victim Age"/>
 					<ForeignKeyLink dimension="TypeOfCriminalActivity" foreignKeyColumn="TypeOfCriminalActivityTypeID"/>
 					<ForeignKeyLink dimension="AggravatedAssaultHomicideCircumstances" foreignKeyColumn="AggravatedAssaultHomicideCircumstancesTypeID"/>

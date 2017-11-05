@@ -98,7 +98,8 @@ select
 	OffenseSegment.OffenseSegmentID,
 	OffenderSegment.OffenderSegmentID,
 	PropertySegment.PropertySegmentID,
-	PropertyType.PropertyTypeID
+	PropertyType.PropertyTypeID,
+	OffensesPerIncident
 from
 	AdministrativeSegment left join OffenseSegment on AdministrativeSegment.AdministrativeSegmentID=OffenseSegment.AdministrativeSegmentID
 	left join VictimOffenseAssociation on VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID
@@ -113,7 +114,9 @@ from
 	left join PropertySegment on AdministrativeSegment.AdministrativeSegmentID=PropertySegment.AdministrativeSegmentID
 	left join PropertyType on PropertySegment.PropertySegmentID=PropertyType.PropertySegmentID
 	left join SuspectedDrugType on PropertySegment.PropertySegmentID=SuspectedDrugType.PropertySegmentID
-	left join ArresteeSegment on ArresteeSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID;
+	left join ArresteeSegment on ArresteeSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID
+	inner join (select AdministrativeSegmentID, count(distinct OffenseSegmentID) as OffensesPerIncident from OffenseSegment group by AdministrativeSegmentID) as opi
+		on AdministrativeSegment.AdministrativeSegmentID=opi.AdministrativeSegmentID;
 
 drop table if exists FullVictimOffenseView;
 
