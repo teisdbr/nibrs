@@ -15,15 +15,17 @@
  */
 package org.search.nibrs.stagingdata.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.model.DateType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
@@ -134,6 +136,8 @@ public class GroupAIncidentService {
 	@Autowired
 	public VictimOffenderRelationshipTypeRepository victimOffenderRelationshipTypeRepository; 
 	
+	SimpleDateFormat formatter = new SimpleDateFormat("MMddyyyy");
+
 	@Transactional
 	public AdministrativeSegment saveAdministrativeSegment(AdministrativeSegment administrativeSegment){
 		return administrativeSegmentRepository.save(administrativeSegment);
@@ -151,17 +155,17 @@ public class GroupAIncidentService {
 		return offenseSegmentRepository.save(offenseSegments);
 	}
 	
-	public void save(GroupAIncidentReport groupAIncidentReport){
+	public AdministrativeSegment saveGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport){
 		AdministrativeSegment administrativeSegment = new AdministrativeSegment(); 
 		administrativeSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupAIncidentReport.getOri()));
 		
 		String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType());
 		administrativeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode(reportActionType));
 		
-		if (groupAIncidentReport.getMonthOfTape() != null){
-			String monthOfTape = StringUtils.leftPad(String.valueOf(groupAIncidentReport.getMonthOfTape()), 2);
-			administrativeSegment.setMonthOfTape(monthOfTape);
-		}
+		Optional<Integer> monthOfTape = Optional.ofNullable(groupAIncidentReport.getMonthOfTape());
+		monthOfTape.ifPresent( m-> {
+			administrativeSegment.setMonthOfTape(StringUtils.leftPad(String.valueOf(m), 2, '0'));
+		});
 		
 		if (groupAIncidentReport.getYearOfTape() != null){
 			administrativeSegment.setYearOfTape(String.valueOf(groupAIncidentReport.getYearOfTape()));
@@ -175,28 +179,26 @@ public class GroupAIncidentService {
 		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 		
-		Integer incidentHourInteger = groupAIncidentReport.getIncidentHour().getValue();
-		String incidentHour = incidentHourInteger == null? "":String.valueOf(incidentHourInteger);
-		administrativeSegment.setIncidentHour(incidentHour);
+		administrativeSegment.setIncidentHour(StringUtils.EMPTY);
+		Optional<Integer> incidentHour = Optional.ofNullable(groupAIncidentReport.getIncidentHour().getValue());
+		incidentHour.ifPresent( value->administrativeSegment.setIncidentHour(String.valueOf(value)));
 		
-		ClearedExceptionallyType clearedExceptionallyType = null; 
-		if (groupAIncidentReport.getExceptionalClearanceCode() != null){
-			clearedExceptionallyType = 
-					clearedExceptionallyTypeRepository.findFirstByClearedExceptionallyCode(groupAIncidentReport.getExceptionalClearanceCode());
-		}
-		
-		if (clearedExceptionallyType == null){
-			clearedExceptionallyType = new ClearedExceptionallyType(99998, null, null);
-		}
+		ClearedExceptionallyType clearedExceptionallyType = 
+				getCodeTableType(groupAIncidentReport.getExceptionalClearanceCode(), 
+						clearedExceptionallyTypeRepository::findFirstByClearedExceptionallyCode, 
+						ClearedExceptionallyType::new); 
 		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
 		
-		this.saveAdministrativeSegment(administrativeSegment);
+		Agency agency = getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
+		administrativeSegment.setAgency(agency);
+		
+		return this.saveAdministrativeSegment(administrativeSegment);
 	}
 
 	private DateType getDateType(Date date) {
 		DateType dateType = null;
 		if (date != null){
-			dateType = dateTypeRepository.findFirstByCalendarDate(date);
+			dateType = dateTypeRepository.findFirstByDateMMDDYYYY(formatter.format(date));
 		}
 		
 		if (dateType == null){

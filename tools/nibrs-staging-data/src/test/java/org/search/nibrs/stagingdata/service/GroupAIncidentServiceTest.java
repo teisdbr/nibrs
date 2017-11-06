@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
@@ -155,7 +157,7 @@ public class GroupAIncidentServiceTest {
 	@Autowired
 	public AggravatedAssaultHomicideCircumstancesTypeRepository aggravatedAssaultHomicideCircumstancesTypeRepository; 
 	@Autowired
-	public VictimOffenderRelationshipTypeRepository victimOffenderRelationshipTypeRepository; 
+	public VictimOffenderRelationshipTypeRepository victimOffenderRelationshipTypeRepository;
 	
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
@@ -727,4 +729,26 @@ public class GroupAIncidentServiceTest {
 
 	}
 
+	@Test
+	public void saveGroupAIncidentReportTest(){
+		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
+		AdministrativeSegment administrativeSegment = groupAIncidentService.saveGroupAIncidentReport(groupAIncidentReport);
+		
+		AdministrativeSegment persisted = 
+				groupAIncidentService.findAdministrativeSegment(administrativeSegment.getAdministrativeSegmentId());
+
+		assertNotNull(persisted);
+		assertThat(persisted.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(persisted.getMonthOfTape(), equalTo("05"));
+		assertThat(persisted.getYearOfTape(), equalTo("2016"));
+		assertThat(persisted.getCityIndicator(), equalTo("Y"));
+		assertThat(persisted.getOri(), equalTo("WA1234567"));
+		assertThat(persisted.getAgency().getAgencyId(), equalTo(99998));
+		assertThat(persisted.getIncidentNumber(), equalTo("54236732"));
+		assertTrue(DateUtils.isSameDay(persisted.getIncidentDate(), Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		assertThat(persisted.getIncidentDateType().getDateTypeId(), equalTo(2324));
+		assertNull(persisted.getReportDateIndicator());
+		assertThat(persisted.getIncidentHour(), equalTo(""));
+		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("A"));
+	}
 }
