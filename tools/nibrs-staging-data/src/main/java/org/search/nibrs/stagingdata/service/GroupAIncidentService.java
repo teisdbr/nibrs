@@ -196,14 +196,14 @@ public class GroupAIncidentService {
 	}
 
 	private DateType getDateType(Date date) {
-		DateType dateType = null;
+		String dateString = null; 
 		if (date != null){
-			dateType = dateTypeRepository.findFirstByDateMMDDYYYY(formatter.format(date));
+			dateString = formatter.format(date);
 		}
 		
-		if (dateType == null){
-			dateType = new DateType(99998);
-		}
+		DateType dateType = getCodeTableType( dateString, 
+				dateTypeRepository::findFirstByDateMMDDYYYY, 
+				DateType::new);  
 		return dateType;
 	}
 	
