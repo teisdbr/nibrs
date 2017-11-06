@@ -113,13 +113,13 @@ writeArresteeSegments <- function(conn, rawIncidentsDataFrame, segmentActionType
     mutate(ArrestDate=ymd(ArrestDate), ArrestDateID=createKeyFromDate(ArrestDate)) %>%
     mutate(AgeOfArresteeMin=ifelse(AgeOfArresteeMin < 0, NA, AgeOfArresteeMin),
            AgeOfArresteeMax=AgeOfArresteeMin,
-           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
-           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 9, RaceOfPersonTypeID),
-           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 9, EthnicityOfPersonTypeID),
-           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 9, ResidentStatusOfPersonTypeID+1),
-           DispositionOfArresteeUnder18TypeID=ifelse(DispositionOfArresteeUnder18TypeID < 0, 9, DispositionOfArresteeUnder18TypeID+1),
-           UCROffenseCodeTypeID=ifelse(UCROffenseCodeTypeID < 0, 999, UCROffenseCodeTypeID),
-           MultipleArresteeSegmentsIndicatorTypeID=ifelse(MultipleArresteeSegmentsIndicatorTypeID < 0, 9, MultipleArresteeSegmentsIndicatorTypeID),
+           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 99999, SexOfPersonTypeID+1),
+           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 99999, RaceOfPersonTypeID),
+           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 99999, EthnicityOfPersonTypeID),
+           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 99999, ResidentStatusOfPersonTypeID+1),
+           DispositionOfArresteeUnder18TypeID=ifelse(DispositionOfArresteeUnder18TypeID < 0, 99999, DispositionOfArresteeUnder18TypeID+1),
+           UCROffenseCodeTypeID=ifelse(UCROffenseCodeTypeID < 0, 99999, UCROffenseCodeTypeID),
+           MultipleArresteeSegmentsIndicatorTypeID=ifelse(MultipleArresteeSegmentsIndicatorTypeID < 0, 99999, MultipleArresteeSegmentsIndicatorTypeID),
            SegmentActionTypeTypeID=segmentActionTypeTypeID) %>%
     ungroup() %>%
     mutate(ArresteeSegmentID=row_number())
@@ -161,13 +161,13 @@ writeArresteeSegmentWasArmedWith <- function(conn, arresteeSegmentDataFrame, raw
   # TypeOfWeaponForceInvolvedTranslationDf defined in CommonFunctions.R
   ArresteeSegmentWasArmedWith <- left_join(ArresteeSegmentWasArmedWith, TypeOfWeaponForceInvolvedTranslationDf,
                                          by=c("ArresteeWasArmedWithTypeID"="icpsrCode")) %>%
-    mutate(ArresteeWasArmedWithTypeID=ifelse(is.na(ArresteeWasArmedWithTypeID), 999, ArresteeWasArmedWithTypeID))
+    mutate(ArresteeWasArmedWithTypeID=ifelse(is.na(ArresteeWasArmedWithTypeID), 99999, ArresteeWasArmedWithTypeID))
 
   missingSegmentIDs <- setdiff(arresteeSegmentDataFrame$ArresteeSegmentID, ArresteeSegmentWasArmedWith$ArresteeSegmentID)
 
   ArresteeSegmentWasArmedWith <- bind_rows(ArresteeSegmentWasArmedWith,
                                          tibble(ArresteeSegmentID=missingSegmentIDs,
-                                                ArresteeWasArmedWithTypeID=rep(x=990, times=length(missingSegmentIDs)),
+                                                ArresteeWasArmedWithTypeID=rep(x=99998, times=length(missingSegmentIDs)),
                                                 AutomaticWeaponIndicator=rep(x="N", times=length(missingSegmentIDs)))) %>%
     mutate(ArresteeSegmentWasArmedWithID=row_number())
 
@@ -209,12 +209,12 @@ writeArrestReportSegments <- function(conn, rawArresteeDataFrame, segmentActionT
     mutate(ArrestDate=ymd(ArrestDate), ArrestDateID=createKeyFromDate(ArrestDate)) %>%
     mutate(AgeOfArresteeMin=ifelse(AgeOfArresteeMin < 0, NA, AgeOfArresteeMin),
            AgeOfArresteeMax=AgeOfArresteeMin,
-           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
-           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 9, RaceOfPersonTypeID),
-           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 9, EthnicityOfPersonTypeID),
-           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 9, ResidentStatusOfPersonTypeID+1),
-           DispositionOfArresteeUnder18TypeID=ifelse(DispositionOfArresteeUnder18TypeID < 0, 9, DispositionOfArresteeUnder18TypeID+1),
-           UCROffenseCodeTypeID=ifelse(UCROffenseCodeTypeID < 0, 999, UCROffenseCodeTypeID),
+           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 99999, SexOfPersonTypeID+1),
+           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 99999, RaceOfPersonTypeID),
+           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 99999, EthnicityOfPersonTypeID),
+           ResidentStatusOfPersonTypeID=ifelse(ResidentStatusOfPersonTypeID < 0, 99999, ResidentStatusOfPersonTypeID+1),
+           DispositionOfArresteeUnder18TypeID=ifelse(DispositionOfArresteeUnder18TypeID < 0, 99999, DispositionOfArresteeUnder18TypeID+1),
+           UCROffenseCodeTypeID=ifelse(UCROffenseCodeTypeID < 0, 99999, UCROffenseCodeTypeID),
            MonthOfTape=currentMonth, YearOfTape=currentYear, CityIndicator=NA, SegmentActionTypeTypeID=segmentActionTypeTypeID
     ) %>%
     ungroup() %>%
@@ -243,14 +243,14 @@ writeArrestReportSegmentWasArmedWith <- function(conn, arrestReportSegmentDataFr
   # TypeOfWeaponForceInvolvedTranslationDf defined in CommonFunctions.R
   ArrestReportSegmentWasArmedWith <- left_join(ArrestReportSegmentWasArmedWith, TypeOfWeaponForceInvolvedTranslationDf,
                                            by=c("ArresteeWasArmedWithTypeID"="icpsrCode")) %>%
-    mutate(ArresteeWasArmedWithTypeID=ifelse(is.na(ArresteeWasArmedWithTypeID), 999, ArresteeWasArmedWithTypeID))
+    mutate(ArresteeWasArmedWithTypeID=ifelse(is.na(ArresteeWasArmedWithTypeID), 99999, ArresteeWasArmedWithTypeID))
 
   missingSegmentIDs <- setdiff(arrestReportSegmentDataFrame$ArrestReportSegmentID, ArrestReportSegmentWasArmedWith$ArrestReportSegmentID)
 
   if (length(missingSegmentIDs) > 0) {
     ArrestReportSegmentWasArmedWith <- bind_rows(ArrestReportSegmentWasArmedWith,
                                                  tibble(ArrestReportSegmentID=missingSegmentIDs,
-                                                        ArresteeWasArmedWithTypeID=rep(x=990, times=length(missingSegmentIDs)),
+                                                        ArresteeWasArmedWithTypeID=rep(x=99998, times=length(missingSegmentIDs)),
                                                         AutomaticWeaponIndicator=rep(x="N", times=length(missingSegmentIDs))))
   }
 

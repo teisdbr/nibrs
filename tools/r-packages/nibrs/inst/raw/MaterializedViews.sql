@@ -63,10 +63,10 @@ select
 	OffenderSegment.SexOfPersonTypeID as OffenderSexOfPersonTypeID,
 	OffenderSegment.RaceOfPersonTypeID as OffenderRaceOfPersonTypeID,
 	OffenderSegment.EthnicityOfPersonTypeID as OffenderEthnicityOfPersonTypeID,
-	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 98) as AggravatedAssaultHomicideCircumstancesTypeID,
+	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 99998) as AggravatedAssaultHomicideCircumstancesTypeID,
 	ifnull(OffenderSuspectedOfUsing.OffenderSuspectedOfUsingTypeID, 9) as OffenderSuspectedOfUsingTypeID,
 	ifnull(TypeCriminalActivity.TypeOfCriminalActivityTypeID, 7) as TypeOfCriminalActivityTypeID,
-	ifnull(TypeOfWeaponForceInvolved.TypeOfWeaponForceInvolvedTypeID, 99) as TypeOfWeaponForceInvolvedTypeID,
+	ifnull(TypeOfWeaponForceInvolved.TypeOfWeaponForceInvolvedTypeID, 99999) as TypeOfWeaponForceInvolvedTypeID,
 	ifnull(TypeOfWeaponForceInvolved.AutomaticWeaponIndicator, 'N') as AutomaticWeaponIndicator,
 	ifnull(TypeInjury.TypeInjuryTypeID, 1) as TypeInjuryTypeID,
 	ifnull(VictimOffenseAssociationID, -1) as VictimOffenseAssociationID,
@@ -75,12 +75,12 @@ select
 	ifnull(PropertySegment.TypePropertyLossEtcTypeID, 1) as TypePropertyLossEtcTypeID,
 	ifnull(PropertySegment.NumberOfStolenMotorVehicles, 0) as NumberOfStolenMotorVehicles,
 	ifnull(PropertySegment.NumberOfRecoveredMotorVehicles, 0) as NumberOfRecoveredMotorVehicles,
-	ifnull(PropertyType.PropertyDescriptionTypeID, 98) as PropertyDescriptionTypeID,
+	ifnull(PropertyType.PropertyDescriptionTypeID, 99998) as PropertyDescriptionTypeID,
 	ifnull(PropertyType.ValueOfProperty, 0) as ValueOfProperty,
 	PropertyType.RecoveredDate,
 	ifnull(PropertyType.RecoveredDateID, 99998) as RecoveredDateID,
-	ifnull(SuspectedDrugType.SuspectedDrugTypeTypeID, 98) as SuspectedDrugTypeTypeID,
-	ifnull(SuspectedDrugType.TypeDrugMeasurementTypeID,  98) as TypeDrugMeasurementTypeID,
+	ifnull(SuspectedDrugType.SuspectedDrugTypeTypeID, 99998) as SuspectedDrugTypeTypeID,
+	ifnull(SuspectedDrugType.TypeDrugMeasurementTypeID,  99998) as TypeDrugMeasurementTypeID,
 	ifnull(SuspectedDrugType.EstimatedDrugQuantity, 0) as EstimatedDrugQuantity,
 	(
 		CASE
@@ -98,7 +98,8 @@ select
 	OffenseSegment.OffenseSegmentID,
 	OffenderSegment.OffenderSegmentID,
 	PropertySegment.PropertySegmentID,
-	PropertyType.PropertyTypeID
+	PropertyType.PropertyTypeID,
+	OffensesPerIncident
 from
 	AdministrativeSegment left join OffenseSegment on AdministrativeSegment.AdministrativeSegmentID=OffenseSegment.AdministrativeSegmentID
 	left join VictimOffenseAssociation on VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID
@@ -113,7 +114,9 @@ from
 	left join PropertySegment on AdministrativeSegment.AdministrativeSegmentID=PropertySegment.AdministrativeSegmentID
 	left join PropertyType on PropertySegment.PropertySegmentID=PropertyType.PropertySegmentID
 	left join SuspectedDrugType on PropertySegment.PropertySegmentID=SuspectedDrugType.PropertySegmentID
-	left join ArresteeSegment on ArresteeSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID;
+	left join ArresteeSegment on ArresteeSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID
+	inner join (select AdministrativeSegmentID, count(distinct OffenseSegmentID) as OffensesPerIncident from OffenseSegment group by AdministrativeSegmentID) as opi
+		on AdministrativeSegment.AdministrativeSegmentID=opi.AdministrativeSegmentID;
 
 drop table if exists FullVictimOffenseView;
 
@@ -156,10 +159,10 @@ select
         ELSE convert(VictimSegment.AgeOfVictimMin, char(12))
     END) AS VictimAgeDim,
 	VictimSegment.VictimSegmentID,
-	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 98) as AggravatedAssaultHomicideCircumstancesTypeID,
+	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 99998) as AggravatedAssaultHomicideCircumstancesTypeID,
 	ifnull(OffenderSuspectedOfUsing.OffenderSuspectedOfUsingTypeID, 9) as OffenderSuspectedOfUsingTypeID,
 	ifnull(TypeCriminalActivity.TypeOfCriminalActivityTypeID, 7) as TypeOfCriminalActivityTypeID,
-	ifnull(TypeOfWeaponForceInvolved.TypeOfWeaponForceInvolvedTypeID, 99) as TypeOfWeaponForceInvolvedTypeID,
+	ifnull(TypeOfWeaponForceInvolved.TypeOfWeaponForceInvolvedTypeID, 99999) as TypeOfWeaponForceInvolvedTypeID,
 	ifnull(TypeOfWeaponForceInvolved.AutomaticWeaponIndicator, 'N') as AutomaticWeaponIndicator,
 	ifnull(TypeInjury.TypeInjuryTypeID, 1) as TypeInjuryTypeID,
 	ifnull(VictimOffenseAssociationID, -1) as VictimOffenseAssociationID,
@@ -235,7 +238,7 @@ select
     END) AS VictimAgeDim,
     VictimSegment.VictimSegmentID,
 	VictimOffenderAssociation.VictimOffenderRelationshipTypeID,
-	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 98) as AggravatedAssaultHomicideCircumstancesTypeID,
+	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 99998) as AggravatedAssaultHomicideCircumstancesTypeID,
 	ifnull(TypeInjury.TypeInjuryTypeID, 1) as TypeInjuryTypeID,
 	ifnull(VictimOffenderAssociationID, -1) as VictimOffenderAssociationID,
 	(
@@ -310,14 +313,14 @@ select
 	ifnull(PropertySegment.NumberOfStolenMotorVehicles, 0) as NumberOfStolenMotorVehicles,
 	ifnull(PropertySegment.NumberOfRecoveredMotorVehicles, 0) as NumberOfRecoveredMotorVehicles,
 	PropertySegment.PropertySegmentID,
-	ifnull(PropertyType.PropertyDescriptionTypeID, 98) as PropertyDescriptionTypeID,
+	ifnull(PropertyType.PropertyDescriptionTypeID, 99998) as PropertyDescriptionTypeID,
 	ifnull(PropertyType.ValueOfProperty, 0) as ValueOfProperty,
 	PropertyType.RecoveredDate,
 	ifnull(PropertyType.RecoveredDateID, 99998) as RecoveredDateID,
 	SuspectedDrugType.SuspectedDrugTypeID,
 	PropertyType.PropertyTypeID,
-	ifnull(SuspectedDrugType.SuspectedDrugTypeTypeID, 98) as SuspectedDrugTypeTypeID,
-	ifnull(SuspectedDrugType.TypeDrugMeasurementTypeID,  98) as TypeDrugMeasurementTypeID,
+	ifnull(SuspectedDrugType.SuspectedDrugTypeTypeID, 99998) as SuspectedDrugTypeTypeID,
+	ifnull(SuspectedDrugType.TypeDrugMeasurementTypeID,  99998) as TypeDrugMeasurementTypeID,
 	ifnull(SuspectedDrugType.EstimatedDrugQuantity, 0) as EstimatedDrugQuantity,
 	(
 		CASE

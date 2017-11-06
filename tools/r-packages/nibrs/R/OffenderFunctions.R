@@ -52,9 +52,9 @@ writeOffenders <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID)
     filter(OffenderSequenceNumber > 0) %>% select(-starts_with('V_')) %>%
     mutate(AgeOfOffenderMin=ifelse(AgeOfOffenderMin < 0, NA, AgeOfOffenderMin),
            AgeOfOffenderMax=AgeOfOffenderMin,
-           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 9, SexOfPersonTypeID+1),
-           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 9, RaceOfPersonTypeID),
-           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 9, EthnicityOfPersonTypeID),
+           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 99999, SexOfPersonTypeID+1),
+           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 99999, RaceOfPersonTypeID),
+           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 99999, EthnicityOfPersonTypeID),
            SegmentActionTypeTypeID=segmentActionTypeTypeID) %>%
     ungroup() %>%
     mutate(OffenderSegmentID=row_number())
