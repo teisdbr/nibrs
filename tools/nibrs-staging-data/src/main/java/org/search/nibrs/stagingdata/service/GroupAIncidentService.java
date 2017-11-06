@@ -179,9 +179,8 @@ public class GroupAIncidentService {
 		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 		
-		administrativeSegment.setIncidentHour(StringUtils.EMPTY);
 		Optional<Integer> incidentHour = Optional.ofNullable(groupAIncidentReport.getIncidentHour().getValue());
-		incidentHour.ifPresent( value->administrativeSegment.setIncidentHour(String.valueOf(value)));
+		administrativeSegment.setIncidentHour(incidentHour.map(String::valueOf).orElse(""));
 		
 		ClearedExceptionallyType clearedExceptionallyType = 
 				getCodeTableType(groupAIncidentReport.getExceptionalClearanceCode(), 
@@ -196,12 +195,11 @@ public class GroupAIncidentService {
 	}
 
 	private DateType getDateType(Date date) {
-		String dateString = null; 
-		if (date != null){
-			dateString = formatter.format(date);
-		}
 		
-		DateType dateType = getCodeTableType( dateString, 
+		Optional<Date> optionalDate = Optional.ofNullable(date); 
+		
+		DateType dateType = getCodeTableType( 
+				optionalDate.map(d -> formatter.format(d)).orElse(""), 
 				dateTypeRepository::findFirstByDateMMDDYYYY, 
 				DateType::new);  
 		return dateType;
