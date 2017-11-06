@@ -15,6 +15,8 @@
  */
 package org.search.nibrs.stagingdata.service;
 
+import javax.transaction.Transactional;
+
 import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 import org.search.nibrs.stagingdata.repository.segment.ArrestReportSegmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class ArrestReportService {
 	@Autowired
 	ArrestReportSegmentRepository arrestReportSegmentRepository;
 	
+	@Transactional
 	public ArrestReportSegment saveArrestReportSegment(ArrestReportSegment arrestReportSegment){
 		return arrestReportSegmentRepository.save(arrestReportSegment);
 	}
