@@ -15,11 +15,8 @@
  */
 package org.search.nibrs.stagingdata.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
@@ -27,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
-import org.search.nibrs.stagingdata.model.DateType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
@@ -36,7 +32,6 @@ import org.search.nibrs.stagingdata.repository.AggravatedAssaultHomicideCircumst
 import org.search.nibrs.stagingdata.repository.ArresteeWasArmedWithTypeRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepository;
-import org.search.nibrs.stagingdata.repository.DateTypeRepository;
 import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18TypeRepository;
 import org.search.nibrs.stagingdata.repository.EthnicityOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.LocationTypeRepository;
@@ -75,8 +70,6 @@ public class GroupAIncidentService {
 	AdministrativeSegmentRepository administrativeSegmentRepository;
 	@Autowired
 	OffenseSegmentRepository offenseSegmentRepository;
-	@Autowired
-	public DateTypeRepository dateTypeRepository; 
 	@Autowired
 	public AgencyRepository agencyRepository; 
 	@Autowired
@@ -135,9 +128,9 @@ public class GroupAIncidentService {
 	public AggravatedAssaultHomicideCircumstancesTypeRepository aggravatedAssaultHomicideCircumstancesTypeRepository; 
 	@Autowired
 	public VictimOffenderRelationshipTypeRepository victimOffenderRelationshipTypeRepository; 
+	@Autowired
+	public CodeTableService codeTableService; 
 	
-	SimpleDateFormat formatter = new SimpleDateFormat("MMddyyyy");
-
 	@Transactional
 	public AdministrativeSegment saveAdministrativeSegment(AdministrativeSegment administrativeSegment){
 		return administrativeSegmentRepository.save(administrativeSegment);
@@ -175,7 +168,7 @@ public class GroupAIncidentService {
 		administrativeSegment.setOri(groupAIncidentReport.getOri());
 		administrativeSegment.setIncidentNumber(groupAIncidentReport.getIncidentNumber());
 		administrativeSegment.setIncidentDate(groupAIncidentReport.getIncidentDate().getValue());
-		administrativeSegment.setIncidentDateType(getDateType(groupAIncidentReport.getIncidentDate().getValue()));
+		administrativeSegment.setIncidentDateType(codeTableService.getDateType(groupAIncidentReport.getIncidentDate().getValue()));
 		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 		
@@ -183,38 +176,21 @@ public class GroupAIncidentService {
 		administrativeSegment.setIncidentHour(incidentHour.map(String::valueOf).orElse(""));
 		
 		ClearedExceptionallyType clearedExceptionallyType = 
-				getCodeTableType(groupAIncidentReport.getExceptionalClearanceCode(), 
+				codeTableService.getCodeTableType(groupAIncidentReport.getExceptionalClearanceCode(), 
 						clearedExceptionallyTypeRepository::findFirstByClearedExceptionallyCode, 
 						ClearedExceptionallyType::new); 
 		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
 		
-		Agency agency = getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
+		Agency agency = codeTableService.getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
 		administrativeSegment.setAgency(agency);
 		
+		process(groupAIncidentReport.getOffenses());
 		return this.saveAdministrativeSegment(administrativeSegment);
 	}
 
-	private DateType getDateType(Date date) {
+	private void process(List<org.search.nibrs.model.OffenseSegment> offenses) {
+		// TODO Auto-generated method stub
 		
-		Optional<Date> optionalDate = Optional.ofNullable(date); 
-		
-		DateType dateType = getCodeTableType( 
-				optionalDate.map(d -> formatter.format(d)).orElse(""), 
-				dateTypeRepository::findFirstByDateMMDDYYYY, 
-				DateType::new);  
-		return dateType;
 	}
-	
-	public <R> R getCodeTableType(String code,  Function<String, R> findByCodeFunction, Function<Integer, R> constructorFunction ) {
-		R r = null;
-		if (StringUtils.isNotBlank(code)){
-			r = findByCodeFunction.apply(code);
-		}
-		
-		if (r == null){
-			r = constructorFunction.apply(99998);
-		}
-		return r;
-	}
-	
+
 }

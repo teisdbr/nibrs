@@ -24,7 +24,6 @@ import static org.junit.Assert.fail;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -715,18 +714,6 @@ public class GroupAIncidentServiceTest {
 		}});
 		
 		return administrativeSegment; 
-	}
-
-	@Test
-	public void getCodeTableTypeTest() {
-		SegmentActionTypeType segmentActionTypeType = 
-				groupAIncidentService.getCodeTableType("I", segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
-		assertThat(segmentActionTypeType.getSegmentActionTypeTypeId(), equalTo(1));
-		
-		SegmentActionTypeType segmentActionTypeTypeBlank = 
-				groupAIncidentService.getCodeTableType(null, segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
-		assertThat(segmentActionTypeTypeBlank.getSegmentActionTypeTypeId(), equalTo(99998));
-
 	}
 
 	@Test
