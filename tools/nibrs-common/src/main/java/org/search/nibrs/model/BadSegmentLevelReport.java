@@ -15,16 +15,13 @@
  */
 package org.search.nibrs.model;
 
-import java.util.Date;
-
-import org.search.nibrs.common.ParsedObject;
-
 /**
  * Representation of an individual Bad Segment Level report in a NIBRS submission. 
  *
  */
 public class BadSegmentLevelReport extends AbstractReport {
 
+	private static final long serialVersionUID = 8654360348776063734L;
 	public static final char BAD_SEGMENT_REPORT_TYPE_IDENTIFIER = 'X';
 	private String incidentNumber;
 

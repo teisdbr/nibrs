@@ -18,6 +18,9 @@ package org.search.nibrs.stagingdata.service;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
+import java.util.Optional;
+
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
@@ -44,7 +47,6 @@ public class CodeTableServiceTest {
 		SegmentActionTypeType segmentActionTypeTypeBlank = 
 				codeTableService.getCodeTableType(null, segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
 		assertThat(segmentActionTypeTypeBlank.getSegmentActionTypeTypeId(), equalTo(99998));
-
 	}
 
 

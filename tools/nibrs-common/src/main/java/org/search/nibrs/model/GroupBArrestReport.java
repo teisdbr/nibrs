@@ -15,12 +15,16 @@
  */
 package org.search.nibrs.model;
 
+import java.util.Date;
+
 /**
  * Representation of an individual Group B incident in a NIBRS submission.
  *
  */
 public class GroupBArrestReport extends AbstractReport {
 	
+	private static final long serialVersionUID = 8378083693700302541L;
+
 	public GroupBArrestReport() {
         super(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 	}
@@ -52,6 +56,18 @@ public class GroupBArrestReport extends AbstractReport {
 	@Override
 	public String getIdentifier() {
 		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArrestTransactionNumber();
+	}
+	
+	public Integer getArresteeSequenceNumber() {
+		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArresteeSequenceNumber().getValue();
+	}
+	
+	public Date getArrestDate() {
+		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArrestDate().getValue();
+	}
+	
+	public ArresteeSegment getArrestee() {
+		return getArresteeCount() == 0 ? null : getArrestees().get(0);
 	}
 	
 	private String getATNOrEmpty() {

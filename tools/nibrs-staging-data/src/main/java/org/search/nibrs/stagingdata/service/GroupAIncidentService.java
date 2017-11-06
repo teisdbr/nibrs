@@ -152,7 +152,7 @@ public class GroupAIncidentService {
 		AdministrativeSegment administrativeSegment = new AdministrativeSegment(); 
 		administrativeSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupAIncidentReport.getOri()));
 		
-		String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType());
+		String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType()).trim();
 		administrativeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode(reportActionType));
 		
 		Optional<Integer> monthOfTape = Optional.ofNullable(groupAIncidentReport.getMonthOfTape());

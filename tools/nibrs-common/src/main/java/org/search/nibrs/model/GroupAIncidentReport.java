@@ -37,6 +37,8 @@ import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 public class GroupAIncidentReport extends AbstractReport
 {
     
+	private static final long serialVersionUID = 1953997233584944586L;
+
 	public static final char ADMIN_SEGMENT_TYPE_IDENTIFIER = '1';
 
 	@SuppressWarnings("unused")

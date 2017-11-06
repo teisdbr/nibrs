@@ -16,6 +16,7 @@
 package org.search.nibrs.stagingdata.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -29,6 +30,7 @@ import java.util.Set;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ArrestReportSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.DateType;
@@ -193,6 +195,36 @@ public class ArrestReportServiceTest {
 		}});
 		
 		return arrestReportSegment; 
+	}
+	
+	@Test
+	public void processGroupBArrestReportTest(){
+		GroupBArrestReport groupBArrestReport = BaselineIncidentFactory.getBaselineGroupBArrestReport();
+		ArrestReportSegment arrestReportSegment = arrestReportService.processGroupBArrestReport(groupBArrestReport);
+		
+		ArrestReportSegment persisted = 
+				arrestReportService.findArrestReportSegment(arrestReportSegment.getArrestReportSegmentId());
+
+		assertNotNull(persisted);
+		assertThat(persisted.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(persisted.getMonthOfTape(), equalTo(null));
+		assertThat(persisted.getYearOfTape(), equalTo("2017"));
+		assertThat(persisted.getCityIndicator(), equalTo("Y"));
+		assertThat(persisted.getOri(), equalTo("agencyORI"));
+		assertThat(persisted.getAgency().getAgencyOri(), equalTo("agencyORI"));
+		assertThat(persisted.getArrestTransactionNumber(), equalTo("12345"));
+		assertThat(persisted.getArresteeSequenceNumber(), equalTo(1));
+		assertTrue(DateUtils.isSameDay(persisted.getArrestDate(), Date.from(LocalDateTime.of(2017, 5, 16, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant())));
+		assertThat(persisted.getArrestDateType().getDateTypeId(), equalTo(2693));
+		assertThat(persisted.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("O"));
+		assertThat(persisted.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("90A"));
+		assertThat(persisted.getAgeOfArresteeMin(), equalTo(22));
+		assertThat(persisted.getAgeOfArresteeMax(), equalTo(22));
+		assertThat(persisted.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+		assertThat(persisted.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
+		assertThat(persisted.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+		assertThat(persisted.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
+		assertThat(persisted.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(99998));
 	}
 
 }

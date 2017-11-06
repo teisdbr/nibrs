@@ -126,11 +126,16 @@ final class BaselineIncidentFactory {
 		source.setSourceName(BaselineIncidentFactory.class.getName());
 		report.setSource(source);
 		
+		report.setReportActionType('I');
+		report.setMonthOfTape(null);
+		report.setYearOfTape(2017);
+		report.setCityIndicator("Y");;
+		report.setOri("agencyORI");
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		report.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2017, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
 		arrestee.setTypeOfArrest("O");
 		arrestee.setUcrArrestOffenseCode("90A");
 		arrestee.setArresteeArmedWith(0, "01");

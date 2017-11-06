@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -30,7 +31,9 @@ import org.search.nibrs.common.ValidationTarget;
  * Abstract class of objects representing types of "reports" in NIBRS...  Group A incident reports, Group B arrest reports, and Zero Reports.
  *
  */
-public abstract class AbstractReport implements ValidationTarget, Identifiable {
+public abstract class AbstractReport implements ValidationTarget, Identifiable, Serializable {
+
+	private static final long serialVersionUID = 8536244849582893682L;
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(AbstractReport.class);
