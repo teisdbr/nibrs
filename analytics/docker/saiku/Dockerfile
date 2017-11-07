@@ -35,7 +35,7 @@ RUN wget -P /opt/saiku-server/tomcat/webapps/saiku/WEB-INF/lib https://downloads
 
 COPY files/help.html /opt/saiku-server/tomcat/webapps/saiku-ui/
 RUN sed -i "182,184d" /opt/saiku-server/tomcat/webapps/saiku-ui/index.html
-RUN sed -i "186i <a href='#' onclick='window.open(\"help.html\");return false;'>Help for this Dataset</a>" /opt/saiku-server/tomcat/webapps/saiku-ui/index.html
+RUN sed -i "186i <a href='#' onclick='window.open(\"help.html\");return false;'>About this dataset...</a>" /opt/saiku-server/tomcat/webapps/saiku-ui/index.html
 
 RUN cd /opt/saiku-server/tomcat
 
