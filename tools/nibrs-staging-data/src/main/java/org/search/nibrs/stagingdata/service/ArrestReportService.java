@@ -155,8 +155,7 @@ public class ArrestReportService {
 	
 	public List<ArrestReportSegment> findAllArrestReportSegment(){
 		List<ArrestReportSegment> arrestReportSegments = new ArrayList<>();
-		arrestReportSegmentRepository.findAll()
-			.forEach(arrestReportSegments::add);
+		arrestReportSegmentRepository.findAll().forEach(arrestReportSegments::add);
 		return arrestReportSegments;
 	}
 	

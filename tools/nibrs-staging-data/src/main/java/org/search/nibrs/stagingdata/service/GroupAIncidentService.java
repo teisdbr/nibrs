@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.stagingdata.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
@@ -138,6 +140,12 @@ public class GroupAIncidentService {
 	
 	public AdministrativeSegment findAdministrativeSegment(Integer id){
 		return administrativeSegmentRepository.findOne(id);
+	}
+	
+	public List<AdministrativeSegment> findAllAdministrativeSegments(){
+		List<AdministrativeSegment> administrativeSegments = new ArrayList<>();
+		administrativeSegmentRepository.findAll().forEach(administrativeSegments::add);
+		return administrativeSegments;
 	}
 	
 	public OffenseSegment saveOffenseSegment(OffenseSegment offenseSegment){
