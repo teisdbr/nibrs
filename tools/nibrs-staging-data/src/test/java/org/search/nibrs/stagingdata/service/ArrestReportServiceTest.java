@@ -226,6 +226,13 @@ public class ArrestReportServiceTest {
 		assertThat(persisted.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
 		assertThat(persisted.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
 		assertThat(persisted.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(99998));
+		
+		assertThat(persisted.getArrestReportSegmentWasArmedWiths().isEmpty(), equalTo(false));
+		assertThat(persisted.getArrestReportSegmentWasArmedWiths().size(), equalTo(1));
+		
+		ArrestReportSegmentWasArmedWith arrestReportSegmentWasArmedWith = persisted.getArrestReportSegmentWasArmedWiths().stream().findFirst().get();
+		assertThat(arrestReportSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
+		assertThat(arrestReportSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(null));
 	}
 
 }

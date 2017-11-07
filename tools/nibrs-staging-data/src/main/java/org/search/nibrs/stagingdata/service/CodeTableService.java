@@ -54,7 +54,7 @@ public class CodeTableService {
 			r = findByCodeFunction.apply(code);
 		}
 		
-		if (r == null){
+		if (r == null && constructorFunction != null){
 			r = constructorFunction.apply(99998);
 		}
 		return r;

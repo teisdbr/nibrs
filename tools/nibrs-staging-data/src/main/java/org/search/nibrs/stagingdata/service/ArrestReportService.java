@@ -16,8 +16,10 @@
 package org.search.nibrs.stagingdata.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -27,6 +29,8 @@ import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.ArrestReportSegmentWasArmedWith;
+import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
 import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
 import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.model.RaceOfPersonType;
@@ -230,9 +234,37 @@ public class ArrestReportService {
 				UcrOffenseCodeType::new);;
 		arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
 		
-		//TODO process arrestReportSegment was armed with.... 
+		setArrestReportSegmentArmedWiths(arrestReportSegment, arrestee);
 		
 		return this.saveArrestReportSegment(arrestReportSegment);
+	}
+
+	private void setArrestReportSegmentArmedWiths(ArrestReportSegment arrestReportSegment, ArresteeSegment arrestee) {
+		Set<ArrestReportSegmentWasArmedWith> armedWiths = new HashSet<>();  
+		
+		if (arrestee.containsArresteeArmedWith()){
+			for (int i = 0; i < ArresteeSegment.ARRESTEE_ARMED_WITH_COUNT; i++){
+				String arresteeArmedWithCode = 
+						StringUtils.trimToNull(arrestee.getArresteeArmedWith(i));
+				String automaticWeaponIndicator = 
+						StringUtils.trimToNull(arrestee.getAutomaticWeaponIndicator(i));
+				
+				if (StringUtils.isNotBlank(arresteeArmedWithCode)){
+					Optional<ArresteeWasArmedWithType> arresteeWasArmedWithType = 
+							Optional.ofNullable(codeTableService.getCodeTableType(arresteeArmedWithCode,
+									arresteeWasArmedWithTypeRepository::findFirstByArresteeWasArmedWithCode, 
+									null));
+					arresteeWasArmedWithType.ifPresent( type ->
+						armedWiths.add(new ArrestReportSegmentWasArmedWith(
+								null, arrestReportSegment, type, automaticWeaponIndicator))
+					);
+				}
+			}
+		}
+		
+		if (!armedWiths.isEmpty()){
+			arrestReportSegment.setArrestReportSegmentWasArmedWiths(armedWiths);
+		}
 	}
 
 

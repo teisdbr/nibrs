@@ -18,6 +18,7 @@ package org.search.nibrs.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -262,6 +263,13 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	@Override
 	public boolean isUnknown() {
 		return false;
+	}
+	
+	public boolean containsArresteeArmedWith(){
+		return Arrays.asList(arresteeArmedWith)
+				.stream()
+				.filter(Objects::nonNull)
+				.count() > 0;
 	}
 	
 	public char getReportActionType() {

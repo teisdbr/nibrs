@@ -29,6 +29,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class ArrestReportSegmentWasArmedWith implements Serializable{
@@ -41,6 +43,7 @@ public class ArrestReportSegmentWasArmedWith implements Serializable{
 	
     @ManyToOne
     @JoinColumn(name = "arrestReportSegmentId")
+    @JsonIgnore
 	private ArrestReportSegment arrestReportSegment; 
     
     @ManyToOne
@@ -51,6 +54,16 @@ public class ArrestReportSegmentWasArmedWith implements Serializable{
 	
 	public ArrestReportSegmentWasArmedWith() {
 		super();
+	}
+
+	public ArrestReportSegmentWasArmedWith(Integer arrestReportSegmentWasArmedWithId,
+			ArrestReportSegment arrestReportSegment, ArresteeWasArmedWithType arresteeWasArmedWithType,
+			String automaticWeaponIndicator) {
+		super();
+		this.arrestReportSegmentWasArmedWithId = arrestReportSegmentWasArmedWithId;
+		this.arrestReportSegment = arrestReportSegment;
+		this.arresteeWasArmedWithType = arresteeWasArmedWithType;
+		this.automaticWeaponIndicator = automaticWeaponIndicator;
 	}
 
 	public String toString(){
