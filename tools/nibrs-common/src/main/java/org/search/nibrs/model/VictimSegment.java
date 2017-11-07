@@ -28,6 +28,8 @@ import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Representation of a VictimSegment reported within an Incident in a NIBRS report. Note that we extend AbstractPersonSegment even though some types of victims are not people (e.g., Business)...since
  * NIBRS represents them all with the same data structure.
@@ -118,6 +120,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		return victimOffenderRelationship[position];
 	}
 
+	@JsonIgnore
 	public List<String> getVictimOffenderRelationshipList() {
 		return Collections.unmodifiableList(Arrays.asList(victimOffenderRelationship));
 	}
@@ -130,6 +133,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		return offenderNumberRelated[position];
 	}
 
+	@JsonIgnore
 	public List<ParsedObject<Integer>> getOffenderNumberRelatedList() {
 		return Collections.unmodifiableList(Arrays.asList(offenderNumberRelated));
 	}
@@ -151,6 +155,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		return typeOfInjury[position];
 	}
 
+	@JsonIgnore
 	public List<String> getTypeOfInjuryList() {
 		return Collections.unmodifiableList(Arrays.asList(typeOfInjury));
 	}
@@ -194,6 +199,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		return ucrOffenseCodeConnection[position];
 	}
 
+	@JsonIgnore
 	public List<String> getUcrOffenseCodeList() {
 		return Collections.unmodifiableList(Arrays.asList(ucrOffenseCodeConnection));
 	}

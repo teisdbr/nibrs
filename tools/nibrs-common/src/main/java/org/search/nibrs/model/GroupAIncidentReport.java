@@ -278,6 +278,10 @@ public class GroupAIncidentReport extends AbstractReport
     	return Collections.unmodifiableList(offenseSegmentList);
     }
     
+    public void setOffenses(List<OffenseSegment> offenseSegmentList) {
+    	this.offenseSegmentList = offenseSegmentList;
+    }
+    
     public void addProperty(PropertySegment property)
     {
         propertySegmentList.add(property);
@@ -298,6 +302,10 @@ public class GroupAIncidentReport extends AbstractReport
 		return Collections.unmodifiableList(propertySegmentList);
 	}
 
+    public void setProperties(List<PropertySegment> properties) {
+    	this.propertySegmentList = properties;
+    }
+    
 	public void addVictim(VictimSegment victim)
     {
         victimSegmentList.add(victim);
@@ -318,6 +326,10 @@ public class GroupAIncidentReport extends AbstractReport
 		return Collections.unmodifiableList(victimSegmentList);
 	}
 
+    public void setVictims(List<VictimSegment> victims) {
+    	this.victimSegmentList = victims;
+    }
+    
     public void addOffender(OffenderSegment offender)
     {
         offenderSegmentList.add(offender);
@@ -338,6 +350,10 @@ public class GroupAIncidentReport extends AbstractReport
 		return Collections.unmodifiableList(offenderSegmentList);
 	}
 
+    public void setOffenders(List<OffenderSegment> offenders) {
+    	this.offenderSegmentList = offenders;
+    }
+    
     public String getExceptionalClearanceCode()
     {
         return exceptionalClearanceCode;
