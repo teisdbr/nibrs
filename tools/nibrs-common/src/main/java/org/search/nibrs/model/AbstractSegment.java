@@ -18,6 +18,8 @@ package org.search.nibrs.model;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ValidationTarget;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Base class for NIBRS segments
  */
@@ -50,6 +52,7 @@ public abstract class AbstractSegment implements ValidationTarget {
 		this.parentReport = parentReport;
 	}
 
+	@JsonIgnore
 	public AbstractReport getParentReport() {
 		return parentReport;
 	}

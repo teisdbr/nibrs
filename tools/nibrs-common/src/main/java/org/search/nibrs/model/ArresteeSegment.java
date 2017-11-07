@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -28,9 +29,10 @@ import org.search.nibrs.common.ParsedObject;
  * Representation of an Arrestee reported within an Incident (either Group A or Group B) in a NIBRS report.
  *
  */
-public class ArresteeSegment extends AbstractPersonSegment implements Identifiable
+public class ArresteeSegment extends AbstractPersonSegment implements Identifiable, Serializable
 {
     
+	private static final long serialVersionUID = 8224865100768564724L;
 	public static final int AUTOMATIC_WEAPON_INDICATOR_COUNT = 2;
 	public static final int ARRESTEE_ARMED_WITH_COUNT = 2;
 	public static final char GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER = '6';
@@ -50,7 +52,15 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     private String residentStatus;
     private String dispositionOfArresteeUnder18;
 
-    public ArresteeSegment(char segmentType)
+    public ArresteeSegment() {
+		super();
+	}
+
+	public ArresteeSegment(AbstractPersonSegment p) {
+		super(p);
+	}
+
+	public ArresteeSegment(char segmentType)
     {
         arresteeArmedWith = new String[ARRESTEE_ARMED_WITH_COUNT];
         automaticWeaponIndicator = new String[AUTOMATIC_WEAPON_INDICATOR_COUNT];
