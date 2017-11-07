@@ -1,4 +1,4 @@
-# 
+#
 # Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,11 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# 
+#
 
 # Dockerfile that extends base saiku to add demo data sources
 
 FROM ojbc/saiku
+
+# set this arg to dev to create an image where the default (admin) saiku user has admin privileges
+# do this by passing --build-arg MODE=dev
+ARG MODE=prod
 
 WORKDIR /tmp
 
@@ -25,9 +29,13 @@ COPY files/Analytics.connection.json /tmp/
 COPY files/NIBRSAnalyticsMondrianSchema.xml /tmp/
 
 RUN chmod a+x /tmp/server-config.sh
-RUN /tmp/server-config.sh
+RUN /tmp/server-config.sh ${MODE}
 
 RUN wget -P /opt/saiku-server/tomcat/webapps/saiku/WEB-INF/lib https://downloads.mariadb.com/Connectors/java/connector-java-2.1.2/mariadb-java-client-2.1.2.jar
+
+COPY files/help.html /opt/saiku-server/tomcat/webapps/saiku-ui/
+RUN sed -i "182,184d" /opt/saiku-server/tomcat/webapps/saiku-ui/index.html
+RUN sed -i "186i <a href='#' onclick='window.open(\"help.html\");return false;'>Help for this Dataset</a>" /opt/saiku-server/tomcat/webapps/saiku-ui/index.html
 
 RUN cd /opt/saiku-server/tomcat
 
