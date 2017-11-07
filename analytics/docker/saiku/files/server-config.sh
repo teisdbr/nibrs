@@ -45,6 +45,14 @@ echo "Installing data sources..."
 
 curl -s -X POST -u admin:admin --header "Content-Type: application/json" -T /tmp/Analytics.connection.json http://localhost/saiku/rest/saiku/admin/datasources
 
+if [ "$1" = "dev" ]
+then
+  echo "\nGenerating admin user with admin privileges (dev mode)"
+else
+  echo "\nChanging admin user to be a non-admin..."
+  curl -s -X PUT -u admin:admin --header "Content-Type: application/json" --data-binary '{"username":"admin","email":"test@admin.com","password":null,"roles":["ROLE_USER"],"id":1}' 'http://localhost/saiku/rest/saiku/admin/users/admin'
+fi
+
 echo "\nFinal setup:"
 
 echo "\nUsers:"
@@ -55,6 +63,8 @@ curl -sSl -u admin:admin http://localhost/saiku/rest/saiku/admin/schema
 
 echo "\nData sources:"
 curl -sSl -u admin:admin http://localhost/saiku/rest/saiku/admin/datasources
+
+#-H 'Pragma: no-cache' -H 'Origin: http://localhost:8011' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.8' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36' -H 'Content-Type: application/json' -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' -H 'X-Requested-With: XMLHttpRequest' -H 'Cookie: JSESSIONID=741BDC26D2E7CBCE2A8FCBB9D321C0F0; JSESSIONID=AFD7E37B7FC1A21C72969840989EC363; session=.eJyl0EluAyEQheG71Lolhh4ouEpktRiK0AoJFpBYVpS7B8VbL2xlXd__FvUNe6zUEphoc6MJ9iOAgTk6tyqhZ8WDFE5EETTGhYLHTfkZYQLfatx7eaOP4a2WFh0XTkmOXA69aMUlX9YtrKjiOm6Emx9dLt5mGs0IJzjbV9rT0XqpVzAvkHo_G8b-UCqtG-SoWcuHp_cSKH8ddGF5eDbi-7hblx_GTy0H25IrtoZ_rZ8m-GxUb48W8PMLhJ5-8w.DFvOQw.c7M2HtwqusgsXhQFdOILGrchJYI' -H 'Connection: keep-alive' -H 'Referer: http://localhost:8011/saiku-ui/' --data-binary '{"username":"admin","email":"test@admin.com","password":null,"roles":["ROLE_USER"],"id":1}' --compressed
 
 apk del jq
 
