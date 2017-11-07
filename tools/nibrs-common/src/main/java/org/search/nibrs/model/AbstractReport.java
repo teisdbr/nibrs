@@ -17,6 +17,7 @@ package org.search.nibrs.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -137,7 +138,7 @@ public abstract class AbstractReport implements ValidationTarget, Identifiable, 
 	    return getArrestees().iterator();
 	}
 	public List<ArresteeSegment> getArrestees() {
-		return new ArrayList<>(arresteeSegmentList);
+		return Collections.unmodifiableList(arresteeSegmentList);
 	}
 	public void setArrestees(List<ArresteeSegment> arresteeSegmentList) {
 		this.arresteeSegmentList = arresteeSegmentList;
