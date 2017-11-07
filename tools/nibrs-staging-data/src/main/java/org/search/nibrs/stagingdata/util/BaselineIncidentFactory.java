@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.service;
+package org.search.nibrs.stagingdata.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,7 +33,7 @@ import org.search.nibrs.model.VictimSegment;
  * Utility class that creates test incidents.
  *
  */
-final class BaselineIncidentFactory {
+public final class BaselineIncidentFactory {
 	
 	private static final BaselineIncidentFactory INSTANCE = new BaselineIncidentFactory();
 	
@@ -41,7 +41,7 @@ final class BaselineIncidentFactory {
 		return INSTANCE;
 	}
 
-	static GroupAIncidentReport getBaselineIncident() {
+	public static GroupAIncidentReport getBaselineIncident() {
 		
 		GroupAIncidentReport incident = new GroupAIncidentReport();
 		
@@ -116,7 +116,7 @@ final class BaselineIncidentFactory {
 		
 	}
 	
-	static GroupBArrestReport getBaselineGroupBArrestReport() {
+	public static GroupBArrestReport getBaselineGroupBArrestReport() {
 		
 		GroupBArrestReport report = new GroupBArrestReport();
 		

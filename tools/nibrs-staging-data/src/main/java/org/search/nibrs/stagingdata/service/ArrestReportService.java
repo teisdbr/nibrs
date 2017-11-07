@@ -15,6 +15,8 @@
  */
 package org.search.nibrs.stagingdata.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -145,6 +147,13 @@ public class ArrestReportService {
 	
 	public ArrestReportSegment findArrestReportSegment(Integer id){
 		return arrestReportSegmentRepository.findOne(id);
+	}
+	
+	public List<ArrestReportSegment> findAllArrestReportSegment(){
+		List<ArrestReportSegment> arrestReportSegments = new ArrayList<>();
+		arrestReportSegmentRepository.findAll()
+			.forEach(arrestReportSegments::add);
+		return arrestReportSegments;
 	}
 	
 	public ArrestReportSegment processGroupBArrestReport(GroupBArrestReport groupBArrestReport){

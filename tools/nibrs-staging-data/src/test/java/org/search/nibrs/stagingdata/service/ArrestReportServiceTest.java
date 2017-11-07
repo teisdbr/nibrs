@@ -54,6 +54,7 @@ import org.search.nibrs.stagingdata.repository.SegmentActionTypeRepository;
 import org.search.nibrs.stagingdata.repository.SexOfPersonTypeRepository;
 import org.search.nibrs.stagingdata.repository.TypeOfArrestTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
+import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;

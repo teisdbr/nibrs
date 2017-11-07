@@ -117,11 +117,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -137,6 +132,7 @@
 			</plugin>
 			<plugin>
 			    <artifactId>maven-war-plugin</artifactId>
+			    <version>3.2.0</version>
 			    <configuration>
 			        <failOnMissingWebXml>false</failOnMissingWebXml>
 			    </configuration>
@@ -144,6 +140,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.4.RELEASE</version>
 				<executions>
 					<execution>
 						<goals>

@@ -90,6 +90,7 @@ import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepo
 import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.search.nibrs.stagingdata.repository.VictimOffenderRelationshipTypeRepository;
+import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
