@@ -28,14 +28,18 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
+import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.model.LocationType;
 import org.search.nibrs.stagingdata.model.MethodOfEntryType;
 import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
+import org.search.nibrs.stagingdata.model.RaceOfPersonType;
+import org.search.nibrs.stagingdata.model.SexOfPersonType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
@@ -201,12 +205,45 @@ public class GroupAIncidentService {
 		Agency agency = codeTableService.getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
 		administrativeSegment.setAgency(agency);
 		
-		process(administrativeSegment, groupAIncidentReport);
+		processOffenses(administrativeSegment, groupAIncidentReport);
+		processOffenders(administrativeSegment, groupAIncidentReport);
 		return this.saveAdministrativeSegment(administrativeSegment);
 	}
 
-	private void process(AdministrativeSegment administrativeSegment, GroupAIncidentReport groupAIncidentReport) {
+	private void processOffenders(AdministrativeSegment administrativeSegment,
+			GroupAIncidentReport groupAIncidentReport) {
 		if (groupAIncidentReport.getOffenderCount() > 0){
+			Set<OffenderSegment> offenderSegments = new HashSet<>();
+			for (org.search.nibrs.model.OffenderSegment offender: groupAIncidentReport.getOffenders()){
+				OffenderSegment offenderSegment = new OffenderSegment();
+				offenderSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
+				offenderSegment.setAdministrativeSegment(administrativeSegment);
+				
+				offenderSegment.setAgeOfOffenderMax(offender.getAge().getAgeMax());
+				offenderSegment.setAgeOfOffenderMin(offender.getAge().getAgeMin());
+				offenderSegment.setOffenderSequenceNumber(offender.getOffenderSequenceNumber().getValue());
+				
+				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
+						offender.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+				offenderSegment.setSexOfPersonType(sexOfPersonType);
+				
+				RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
+						offender.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+				offenderSegment.setRaceOfPersonType(raceOfPersonType);
+				
+				EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
+						offender.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+				offenderSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
+
+				offenderSegments.add(offenderSegment);
+			}
+			
+			administrativeSegment.setOffenderSegments(offenderSegments);
+		}
+	}
+
+	private void processOffenses(AdministrativeSegment administrativeSegment, GroupAIncidentReport groupAIncidentReport) {
+		if (groupAIncidentReport.getOffenseCount() > 0){
 			Set<OffenseSegment> offenseSegments = new HashSet<>();
 			
 			for(org.search.nibrs.model.OffenseSegment offense: groupAIncidentReport.getOffenses()){

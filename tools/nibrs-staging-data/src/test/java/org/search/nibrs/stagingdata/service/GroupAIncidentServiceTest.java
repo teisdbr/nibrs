@@ -780,6 +780,41 @@ public class GroupAIncidentServiceTest {
 		assertThat(typeOfWeaponForceInvolved.getOffenseSegment().getOffenseSegmentId(), equalTo(offenseSegment.getOffenseSegmentId()));
 		assertThat(typeOfWeaponForceInvolved.getAutomaticWeaponIndicator(), equalTo(""));
 		assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode(), equalTo("14"));
+//	    "offenders": [
+//      {
+//          "segmentType": "5",
+//          "age": {
+//              "ageMin": 22,
+//              "ageMax": 22,
+//              "nonNumericAge": null,
+//              "error": null,
+//              "unknown": false,
+//              "nonNumeric": false,
+//              "average": 22,
+//              "ageRange": false
+//          },
+//          "sex": "M",
+//          "race": "W",
+//          "ethnicity": "H",
+//          "offenderSequenceNumber": {
+//              "value": 1,
+//              "missing": false,
+//              "invalid": false,
+//              "validationError": null
+//          },
+//      }
+//  ],
+		Set<OffenderSegment> offenderSegments = persisted.getOffenderSegments();
+		assertThat(offenderSegments.size(), equalTo(1));
+		OffenderSegment offenderSegment = offenderSegments.stream().findFirst().get();
+		
+		assertThat(offenderSegment.getOffenderSequenceNumber(), equalTo(1)); 
+		assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(22));
+		assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(22));
+		assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+		assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
+		assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("H"));
 
 	}
 }

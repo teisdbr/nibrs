@@ -16,11 +16,11 @@
 package org.search.nibrs.stagingdata.service;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
@@ -47,6 +47,11 @@ public class CodeTableServiceTest {
 		SegmentActionTypeType segmentActionTypeTypeBlank = 
 				codeTableService.getCodeTableType(null, segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
 		assertThat(segmentActionTypeTypeBlank.getSegmentActionTypeTypeId(), equalTo(99998));
+		
+		Map<String, SegmentActionTypeType> map = new HashMap<>();
+		segmentActionTypeRepository.findAll().forEach((i) -> map.put(i.getSegmentActionTypeCode(), i) );
+		
+		assertThat(map.size(), equalTo(7));
 	}
 
 
