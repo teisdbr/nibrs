@@ -32,7 +32,7 @@ loadAgencies <- function(conn, rawIncidents, rawArrestees) {
                StateCode=BH008)
     ) %>%
     mutate(StateName=stateLookup[StateCode],
-           AgencyTypeID=ifelse(is.na(BH012), 99, BH012+1)) %>%
+           AgencyTypeID=ifelse(is.na(BH012), 99998, BH012+1)) %>%
     select(-BH012) %>%
     distinct() %>%
     mutate(AgencyID=row_number()) %>%
@@ -49,6 +49,43 @@ loadAgencies <- function(conn, rawIncidents, rawArrestees) {
   attr(Agency, 'type') <- 'FT'
 
   Agency
+
+}
+
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeRawAgencyTables <- function(conn, inputDfList, state, tableList) {
+
+  dfName <- load(inputDfList[1])
+  batchHeaderDf <- get(dfName) %>%  mutate_if(is.factor, as.character)
+  rm(list=dfName)
+
+  Agency <- batchHeaderDf %>%
+    select(AgencyORI=BH003, StateCode=BH008, AgencyName=BH007, BH012) %>%
+    filter(StateCode==state) %>%
+    mutate(StateName=stateLookup[StateCode]) %>%
+    mutate(BH012=gsub(x=BH012, pattern='\\(([0-9])\\).+', replacement='\\1')) %>%
+    mutate(AgencyTypeID=ifelse(is.na(BH012), 99998L, as.integer(BH012)+1)) %>%
+    select(-BH012) %>%
+    distinct() %>%
+    mutate(AgencyID=row_number()) %>%
+    mutate(AgencyName=case_when(
+      AgencyTypeID==3 ~ paste0(AgencyName, ' COUNTY SO'),
+      AgencyTypeID==2 ~ paste0(AgencyName, ' PD'),
+      TRUE ~ AgencyName
+    )) %>% as_tibble()
+
+  rm(batchHeaderDf)
+
+  writeLines(paste0("Writing ", nrow(Agency), " Agency rows to database"))
+  dbWriteTable(conn=conn, name="Agency", value=Agency, append=TRUE, row.names = FALSE)
+  attr(Agency, 'type') <- 'FT'
+
+  tableList$Agency <- Agency
+
+  tableList
 
 }
 

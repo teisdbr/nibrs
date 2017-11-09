@@ -68,3 +68,47 @@ writeOffenders <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID)
   OffenderSegment
 
 }
+
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeRawOffenderSegmentTables <- function(conn, inputDfList, tableList) {
+
+  dfName <- load(inputDfList[6])
+  offenderSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V5003'='AgencyORI'))
+  rm(list=dfName)
+
+  offenderSegmentDf <- offenderSegmentDf %>%
+    inner_join(tableList$AdministrativeSegment %>% select(ORI, IncidentNumber, AdministrativeSegmentID), by=c('V5003'='ORI', 'V5004'='IncidentNumber')) %>%
+    mutate(OffenderSegmentID=row_number(), SegmentActionTypeTypeID=99998L)
+
+  OffenderSegment <- offenderSegmentDf %>%
+    mutate(OffenderSequenceNumber=as.integer(V5006),
+           AgeOfOffenderMin=as.integer(V5007),
+           AgeOfOffenderMax=AgeOfOffenderMin,
+           RaceOfPersonCode=V5009,
+           EthnicityOfPersonCode=V5011,
+           SexOfPersonCode=V5008) %>%
+    left_join(tableList$RaceOfPersonType %>% select(RaceOfPersonTypeID, RaceOfPersonCode), by='RaceOfPersonCode') %>%
+    left_join(tableList$SexOfPersonType %>% select(SexOfPersonTypeID, SexOfPersonCode), by='SexOfPersonCode') %>%
+    left_join(tableList$EthnicityOfPersonType %>% select(EthnicityOfPersonTypeID, EthnicityOfPersonCode), by='EthnicityOfPersonCode') %>%
+    mutate(RaceOfPersonTypeID=ifelse(is.na(RaceOfPersonTypeID), 99998L, RaceOfPersonTypeID),
+           EthnicityOfPersonTypeID=ifelse(is.na(EthnicityOfPersonTypeID), 99998L, EthnicityOfPersonTypeID),
+           SexOfPersonTypeID=ifelse(is.na(SexOfPersonTypeID), 99998L, SexOfPersonTypeID)) %>%
+    select(OffenderSegmentID, SegmentActionTypeTypeID, AdministrativeSegmentID, OffenderSequenceNumber, AgeOfOffenderMin, AgeOfOffenderMax,
+           SexOfPersonTypeID, RaceOfPersonTypeID, EthnicityOfPersonTypeID)
+
+  rm(offenderSegmentDf)
+
+  writeLines(paste0('Writing ', nrow(OffenderSegment), ' offender segments to database'))
+  dbWriteTable(conn=conn, name='OffenderSegment', value=OffenderSegment, append=TRUE, row.names = FALSE)
+  attr(OffenderSegment, 'type') <- 'FT'
+
+  tableList$OffenderSegment <- OffenderSegment
+
+  tableList
+
+}
+

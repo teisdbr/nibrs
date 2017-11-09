@@ -18,10 +18,12 @@
 NULL
 ### End C++ stuff
 
-#' Load NIBRS records from ICPSR input files
+#' Load NIBRS records from ICPSR extract files
 #'
-#' Load NIBRS records from the ICPSR input files, write them to the staging database (structured per the model provided in this package's same
+#' Load NIBRS records from the ICPSR extract files, write them to the staging database (structured per the model provided in this package's same
 #' GitHub repo), and return the loaded tables in a list of tibbles.
+#'
+#' Note that the extract files are limited in important ways.  For details, consult the ICPSR website (and in particular, the extract file codebooks).
 #' @importFrom RMySQL dbClearResult dbSendQuery
 #' @import tidyverse
 #' @param conn the database connection to use
@@ -32,7 +34,7 @@ NULL
 #' @param arresteeRecords number of records to read from the arrestee file, or -1 to read all records
 #' @return a list of tibbles, where the name of each list member is the name of the table in the database
 #' @export
-loadICPSR <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbname="nibrs_analytics", username="root"),
+loadICPSRExtract <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbname="nibrs_analytics", username="root"),
                       incidentFile, arresteeFile, versionYear, incidentRecords=-1, arresteeRecords=-1) {
 
   tryCatch({
@@ -127,7 +129,8 @@ createMaterializedViews <- function(conn, sqlFile) {
 
 }
 
-UNKNOWN_DATE_VALUE <- 99998
+UNKNOWN_DATE_VALUE <- 99999L
+BLANK_DATE_VALUE <- 99998L
 
 createKeyFromDate <- function(d) {
   as.integer(format(d, "%Y%m%d"))
@@ -136,8 +139,7 @@ createKeyFromDate <- function(d) {
 #' @importFrom lubridate as_date year quarter month wday day
 #' @import dplyr
 #' @import tibble
-writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_date(x = integer(0)),
-                                    unknownCodeTableValue=UNKNOWN_DATE_VALUE) {
+writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_date(x = integer(0))) {
   minDate <- as_date(minDate)
   maxDate <- as_date(maxDate)
   writeLines(paste0("Building date dimension, earliest date=", minDate, ", latestDate=", maxDate))
@@ -155,7 +157,7 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
            DateMMDDYYYY=format(CalendarDate, "%m%d%Y")
     ) %>%
     bind_rows(tibble(CalendarDate=as_date("1899-01-01"),
-                     DateID=unknownCodeTableValue,
+                     DateID=UNKNOWN_DATE_VALUE,
                      Year=0,
                      YearLabel='Unk',
                      CalendarQuarter=0,
@@ -165,7 +167,19 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
                      Day=0,
                      DayOfWeek='Unknown',
                      DayOfWeekSort=0,
-                     DateMMDDYYYY='Unknown'))
+                     DateMMDDYYYY='Unknown'),
+              tibble(CalendarDate=as_date("1899-01-01"),
+                     DateID=BLANK_DATE_VALUE,
+                     Year=0,
+                     YearLabel='Blk',
+                     CalendarQuarter=0,
+                     Month=0,
+                     MonthName='Blank',
+                     FullMonth='Blank',
+                     Day=0,
+                     DayOfWeek='Blank',
+                     DayOfWeekSort=0,
+                     DateMMDDYYYY='Blank'))
   DateDf <- DateDf %>% filter(!(CalendarDate %in% datesToExclude)) %>%
     rename(DateTypeID=DateID)
   writeLines(paste0("Adding ", nrow(DateDf), " new dates to the Date dimension"))
@@ -175,5 +189,75 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
 
   attr(DateDf, 'type') <- 'CT'
   DateDf
+
+}
+
+#' Load NIBRS records from ICPSR "raw" files
+#'
+#' Load NIBRS records from the ICPSR raw files, write them to the staging database (structured per the model provided in this package's same
+#' GitHub repo), and return the loaded tables in a list of tibbles.
+#'
+#' @importFrom RMySQL dbClearResult dbSendQuery
+#' @import tidyverse
+#' @importFrom stringr str_sub
+#' @param conn the database connection to use
+#' @param dataDir path to the root directory containing serialized R data frames in subdirectories
+#' @param state two-letter state code of data to extract
+#' @param records number of records to read for the specified state, or -1 to extract all records
+#' @return a list of tibbles, where the name of each list member is the name of the table in the database
+#' @export
+loadICPSRRaw <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbname="nibrs_analytics", username="root"),
+                             dataDir, state, records=-1) {
+
+  tryCatch({
+
+    dbClearResult(dbSendQuery(conn, "set foreign_key_checks=0"))
+
+    spreadsheetFile <- system.file("raw", "NIBRSCodeTables.xlsx", package=getPackageName())
+
+    ret <- loadCodeTables(spreadsheetFile, conn)
+
+    truncateIncidents(conn)
+    truncateOffenses(conn)
+    truncateProperty(conn)
+    truncateOffender(conn)
+    truncateVictim(conn)
+
+    inputDfList <- sort(list.files(path=dataDir, pattern='*.rda', full.names=TRUE, recursive=TRUE))
+
+    ret <- writeRawAgencyTables(conn, inputDfList, state, ret)
+    ret <- writeRawAdministrativeSegmentTables(conn, inputDfList, ret)
+    ret <- writeRawOffenseSegmentTables(conn, inputDfList, ret)
+    ret <- writeRawPropertySegmentTables(conn, inputDfList, ret)
+    ret <- writeRawOffenderSegmentTables(conn, inputDfList, ret)
+    ret <- writeRawVictimSegmentTables(conn, inputDfList, ret)
+    ret <- writeRawArresteeSegmentTables(conn, inputDfList, ret)
+    ret <- writeRawArrestReportSegmentTables(conn, inputDfList, ret)
+
+    allDates <- c(
+      ret$AdministrativeSegment$IncidentDate,
+      ret$PropertyType$RecoveredDate,
+      ret$ArresteeSegment$ArrestDate,
+      ret$ArrestReportSegment$ArrestDate
+    ) %>% unique()
+
+    minDate <- min(allDates, na.rm=TRUE)
+    maxDate <- max(allDates, na.rm=TRUE)
+
+    ret$Date <- writeDateDimensionTable(conn, minDate, maxDate)
+
+    ret$OffenseSegment <- select(ret$OffenseSegment, -UCROffenseCode)
+
+    materializedViewsSqlFile=system.file("raw", 'MaterializedViews.sql', package=getPackageName())
+    createMaterializedViews(conn, materializedViewsSqlFile)
+
+    ret
+
+  }, finally = {
+    writeLines("Disconnecting from db...")
+    DBI::dbDisconnect(conn)
+  })
+
+  ret
 
 }

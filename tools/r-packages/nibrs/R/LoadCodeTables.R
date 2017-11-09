@@ -17,6 +17,7 @@
 #' @import dplyr
 #' @import purrr
 #' @import tibble
+#' @export
 loadCodeTables <- function(spreadsheetFile, conn) {
 
   TOC <- read.xlsx(spreadsheetFile, sheet='TOC')
