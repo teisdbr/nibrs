@@ -225,3 +225,88 @@ writeOffenses <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) 
   OffenseSegment
 
 }
+
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @importFrom stringr str_sub
+#' @importFrom DBI dbWriteTable
+writeRawOffenseSegmentTables <- function(conn, inputDfList, tableList) {
+
+  dfName <- load(inputDfList[3])
+  offenseSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V2003'='AgencyORI'))
+  rm(list=dfName)
+
+  offenseSegmentDf <- offenseSegmentDf %>%
+    inner_join(tableList$AdministrativeSegment %>% select(ORI, IncidentNumber, AdministrativeSegmentID), by=c('V2003'='ORI', 'V2004'='IncidentNumber')) %>%
+    mutate(OffenseSegmentID=row_number(), SegmentActionTypeTypeID=99998L)
+
+  OffenseSegment <- offenseSegmentDf %>%
+    select(-V2001, -V2002, -V2005, -V2021) %>%
+    mutate(V2011=gsub(x=V2011, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
+           V2020=gsub(x=V2020, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
+           UCROffenseCode=V2006) %>%
+    left_join(tableList$UCROffenseCodeType %>% select(UCROffenseCodeTypeID, UCROffenseCode), by=c('V2006'='UCROffenseCode')) %>%
+    left_join(tableList$LocationTypeType %>% select(LocationTypeTypeID, LocationTypeCode), by=c('V2011'='LocationTypeCode')) %>%
+    left_join(tableList$MethodOfEntryType %>% select(MethodOfEntryTypeID, MethodOfEntryCode), by=c('V2013'='MethodOfEntryCode')) %>%
+    left_join(tableList$BiasMotivationType %>% select(BiasMotivationTypeID, BiasMotivationCode), by=c('V2020'='BiasMotivationCode')) %>%
+    select(OffenseSegmentID, SegmentActionTypeTypeID, AdministrativeSegmentID, UCROffenseCodeTypeID, OffenseAttemptedCompleted=V2007,
+           LocationTypeTypeID, NumberOfPremisesEntered=V2012, MethodOfEntryTypeID, BiasMotivationTypeID, UCROffenseCode) %>% as_tibble()
+
+  OffenderSuspectedOfUsing <- offenseSegmentDf %>%
+    select(AdministrativeSegmentID, OffenseSegmentID, V2008:V2010) %>%
+    gather(key=index, value=OffenderSuspectedOfUsingCode, V2008:V2010) %>% filter(OffenderSuspectedOfUsingCode != ' ') %>%
+    select(-index) %>%
+    inner_join(tableList$OffenderSuspectedOfUsingType %>% select(OffenderSuspectedOfUsingTypeID, OffenderSuspectedOfUsingCode), by='OffenderSuspectedOfUsingCode') %>%
+    mutate(OffenderSuspectedOfUsingID=row_number()) %>%
+    select(OffenderSuspectedOfUsingID, OffenseSegmentID, OffenderSuspectedOfUsingTypeID) %>%
+    as_tibble()
+
+  TypeCriminalActivity <- offenseSegmentDf %>%
+    select(AdministrativeSegmentID, OffenseSegmentID, V2014:V2016) %>%
+    gather(key=index, value=TypeOfCriminalActivityCode, V2014:V2016) %>% filter(TypeOfCriminalActivityCode != ' ') %>%
+    select(-index) %>%
+    inner_join(tableList$TypeOfCriminalActivityType %>% select(TypeOfCriminalActivityTypeID, TypeOfCriminalActivityCode), by='TypeOfCriminalActivityCode') %>%
+    mutate(TypeCriminalActivityID=row_number()) %>%
+    select(TypeCriminalActivityID, OffenseSegmentID, TypeOfCriminalActivityTypeID) %>%
+    as_tibble()
+
+  TypeOfWeaponForceInvolved <- offenseSegmentDf %>%
+    select(AdministrativeSegmentID, OffenseSegmentID, V2017:V2019) %>%
+    gather(key=index, value=TypeOfWeaponForceInvolvedCode, V2017:V2019) %>% filter(TypeOfWeaponForceInvolvedCode != ' ') %>%
+    select(-index) %>%
+    mutate(AutomaticWeaponIndicator=ifelse(str_length(TypeOfWeaponForceInvolvedCode)==3, str_sub(TypeOfWeaponForceInvolvedCode, 3, 3), NA_character_)) %>%
+    mutate(TypeOfWeaponForceInvolvedCode=str_sub(TypeOfWeaponForceInvolvedCode, 1, 2)) %>%
+    inner_join(tableList$TypeOfWeaponForceInvolvedType %>% select(TypeOfWeaponForceInvolvedTypeID, TypeOfWeaponForceInvolvedCode), by='TypeOfWeaponForceInvolvedCode') %>%
+    mutate(TypeOfWeaponForceInvolvedID=row_number()) %>%
+    select(TypeOfWeaponForceInvolvedID, OffenseSegmentID, TypeOfWeaponForceInvolvedTypeID, AutomaticWeaponIndicator) %>%
+    as_tibble()
+
+  rm(offenseSegmentDf)
+
+  writeLines(paste0("Writing ", nrow(OffenseSegment), " offense segments to database"))
+  dbWriteTable(conn=conn, name="OffenseSegment", value=select(OffenseSegment, -UCROffenseCode), append=TRUE, row.names = FALSE)
+  attr(OffenseSegment, 'type') <- 'FT'
+
+  writeLines(paste0("Writing ", nrow(OffenderSuspectedOfUsing), " OffenderSuspectedOfUsing records to database"))
+  dbWriteTable(conn=conn, name="OffenderSuspectedOfUsing", value=OffenderSuspectedOfUsing, append=TRUE, row.names = FALSE)
+  attr(OffenderSuspectedOfUsing, 'type') <- 'AT'
+
+  writeLines(paste0("Writing ", nrow(TypeCriminalActivity), " TypeCriminalActivity records to database"))
+  dbWriteTable(conn=conn, name="TypeCriminalActivity", value=TypeCriminalActivity, append=TRUE, row.names = FALSE)
+  attr(TypeCriminalActivity, 'type') <- 'AT'
+
+  writeLines(paste0("Writing ", nrow(TypeOfWeaponForceInvolved), " TypeOfWeaponForceInvolved records to database"))
+  dbWriteTable(conn=conn, name="TypeOfWeaponForceInvolved", value=TypeOfWeaponForceInvolved, append=TRUE, row.names = FALSE)
+  attr(TypeOfWeaponForceInvolved, 'type') <- 'AT'
+
+  tableList$OffenseSegment <- OffenseSegment
+  tableList$OffenderSuspectedOfUsing <- OffenderSuspectedOfUsing
+  tableList$TypeCriminalActivity <- TypeCriminalActivity
+  tableList$TypeOfWeaponForceInvolved <- TypeOfWeaponForceInvolved
+
+  tableList
+
+}
+

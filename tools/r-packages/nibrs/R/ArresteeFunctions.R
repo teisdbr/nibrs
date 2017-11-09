@@ -267,4 +267,168 @@ writeArrestReportSegmentWasArmedWith <- function(conn, arrestReportSegmentDataFr
 
 }
 
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @importFrom stringr str_sub
+#' @importFrom DBI dbWriteTable
+writeRawArresteeSegmentTables <- function(conn, inputDfList, tableList) {
 
+  dfName <- load(inputDfList[7])
+  arresteeSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V6003'='AgencyORI'))
+  rm(list=dfName)
+
+  arresteeSegmentDf <- arresteeSegmentDf %>%
+    inner_join(tableList$AdministrativeSegment %>% select(ORI, IncidentNumber, AdministrativeSegmentID), by=c('V6003'='ORI', 'V6004'='IncidentNumber')) %>%
+    mutate(ArresteeSegmentID=row_number(), SegmentActionTypeTypeID=99998L)
+
+  ArresteeSegment <- arresteeSegmentDf %>%
+    mutate(ArresteeSequenceNumber=as.integer(V6006),
+           ArrestTransactionNumber=V6007,
+           ArrestDate=as_date(ifelse(is.na(V6008), NA, ymd(V6008))),
+           ArrestDateID=createKeyFromDate(ArrestDate),
+           AgeOfArresteeMin=as.integer(V6014),
+           AgeOfArresteeMax=AgeOfArresteeMin,
+           RaceOfPersonCode=V6016,
+           EthnicityOfPersonCode=V6017,
+           ResidentStatusOfPersonCode=V6018,
+           SexOfPersonCode=V6015,
+           MultipleArresteeSegmentsIndicatorCode=V6010,
+           UCROffenseCode=V6011,
+           DispositionOfArresteeUnder18Code=V6019,
+           TypeOfArrestCode=V6009) %>%
+    left_join(tableList$MultipleArresteeSegmentsIndicatorType %>% select(MultipleArresteeSegmentsIndicatorTypeID, MultipleArresteeSegmentsIndicatorCode),
+              by='MultipleArresteeSegmentsIndicatorCode') %>%
+    left_join(tableList$RaceOfPersonType %>% select(RaceOfPersonTypeID, RaceOfPersonCode), by='RaceOfPersonCode') %>%
+    left_join(tableList$SexOfPersonType %>% select(SexOfPersonTypeID, SexOfPersonCode), by='SexOfPersonCode') %>%
+    left_join(tableList$EthnicityOfPersonType %>% select(EthnicityOfPersonTypeID, EthnicityOfPersonCode), by='EthnicityOfPersonCode') %>%
+    left_join(tableList$ResidentStatusOfPersonType %>% select(ResidentStatusOfPersonTypeID, ResidentStatusOfPersonCode), by='ResidentStatusOfPersonCode') %>%
+    left_join(tableList$DispositionOfArresteeUnder18Type %>% select(DispositionOfArresteeUnder18TypeID, DispositionOfArresteeUnder18Code),
+              by='DispositionOfArresteeUnder18Code') %>%
+    left_join(tableList$UCROffenseCodeType %>% select(UCROffenseCodeTypeID, UCROffenseCode), by='UCROffenseCode') %>%
+    left_join(tableList$TypeOfArrestType %>% select(TypeOfArrestTypeID, TypeOfArrestCode), by='TypeOfArrestCode') %>%
+    mutate(RaceOfPersonTypeID=ifelse(is.na(RaceOfPersonTypeID), 99998L, RaceOfPersonTypeID),
+           UCROffenseCodeTypeID=ifelse(is.na(UCROffenseCodeTypeID), 99998L, UCROffenseCodeTypeID),
+           EthnicityOfPersonTypeID=ifelse(is.na(EthnicityOfPersonTypeID), 99998L, EthnicityOfPersonTypeID),
+           TypeOfArrestTypeID=ifelse(is.na(TypeOfArrestTypeID), 99998L, TypeOfArrestTypeID),
+           MultipleArresteeSegmentsIndicatorTypeID=ifelse(is.na(MultipleArresteeSegmentsIndicatorTypeID), 99998L, MultipleArresteeSegmentsIndicatorTypeID),
+           ResidentStatusOfPersonTypeID=ifelse(is.na(ResidentStatusOfPersonTypeID), 99998L, ResidentStatusOfPersonTypeID),
+           DispositionOfArresteeUnder18TypeID=ifelse(is.na(DispositionOfArresteeUnder18TypeID), 99998L, DispositionOfArresteeUnder18TypeID),
+           SexOfPersonTypeID=ifelse(is.na(SexOfPersonTypeID), 99998L, SexOfPersonTypeID)) %>%
+    mutate(ArresteeSegmentID=row_number()) %>% as_tibble()
+
+  ArresteeSegmentWasArmedWith <- ArresteeSegment %>%
+    select(ArresteeSegmentID, V6012, V6013) %>%
+    gather(key='index', value='ArresteeWasArmedWithCode', V6012, V6013) %>%
+    select(-index) %>%
+    filter(trimws(ArresteeWasArmedWithCode) != '') %>%
+    mutate(AutomaticWeaponIndicator=str_sub(ArresteeWasArmedWithCode, 3, 3), ArresteeWasArmedWithCode=str_sub(ArresteeWasArmedWithCode, 1, 2)) %>%
+    left_join(tableList$ArresteeWasArmedWithType %>% select(ArresteeWasArmedWithTypeID, ArresteeWasArmedWithCode), by='ArresteeWasArmedWithCode') %>%
+    mutate(ArresteeSegmentWasArmedWithID=row_number()) %>%
+    select(ArresteeSegmentWasArmedWithID, ArresteeSegmentID, ArresteeWasArmedWithTypeID, AutomaticWeaponIndicator)
+
+  ArresteeSegment <- ArresteeSegment %>%
+    select(ArresteeSegmentID, SegmentActionTypeTypeID, AdministrativeSegmentID, ArresteeSequenceNumber, AgeOfArresteeMin, AgeOfArresteeMax,
+           SexOfPersonTypeID, RaceOfPersonTypeID, EthnicityOfPersonTypeID, ResidentStatusOfPersonTypeID, TypeOfArrestTypeID,
+           DispositionOfArresteeUnder18TypeID, UCROffenseCodeTypeID, ArrestDate, ArrestDateID, ArrestTransactionNumber,
+           MultipleArresteeSegmentsIndicatorTypeID)
+
+  rm(arresteeSegmentDf)
+
+  writeLines(paste0("Writing ", nrow(ArresteeSegment), " arrestee segments to database"))
+  dbWriteTable(conn=conn, name="ArresteeSegment", value=ArresteeSegment, append=TRUE, row.names = FALSE)
+  attr(ArresteeSegment, 'type') <- 'FT'
+
+  writeLines(paste0("Writing ", nrow(ArresteeSegmentWasArmedWith), " ArresteeSegmentWasArmedWith association rows to database"))
+  dbWriteTable(conn=conn, name="ArresteeSegmentWasArmedWith", value=ArresteeSegmentWasArmedWith, append=TRUE, row.names = FALSE)
+  attr(ArresteeSegmentWasArmedWith, 'type') <- 'AT'
+
+  tableList$ArresteeSegment <- ArresteeSegment
+  tableList$ArresteeSegmentWasArmedWith <- ArresteeSegmentWasArmedWith
+
+  tableList
+
+}
+
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @importFrom stringr str_sub
+#' @importFrom DBI dbWriteTable
+writeRawArrestReportSegmentTables <- function(conn, inputDfList, tableList) {
+
+  currentMonth <- formatC(month(Sys.Date()), width=2, flag="0")
+  currentYear <- year(Sys.Date()) %>% as.integer()
+
+  dfName <- load(inputDfList[8])
+  arresteeSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V7003'='AgencyORI')) %>%
+    mutate(ArrestReportSegmentID=row_number(), SegmentActionTypeTypeID=99998L)
+  rm(list=dfName)
+
+  ArrestReportSegment <- arresteeSegmentDf %>%
+    mutate(ArresteeSequenceNumber=as.integer(V7006),
+           ArrestTransactionNumber=V7004,
+           ORI=V7003,
+           MonthOfTape=currentMonth, YearOfTape=currentYear,
+           CityIndicator=NA_character_,
+           ArrestDate=as_date(ifelse(is.na(V7005), NA, ymd(V7005))),
+           ArrestDateID=createKeyFromDate(ArrestDate),
+           AgeOfArresteeMin=as.integer(V7012),
+           AgeOfArresteeMax=AgeOfArresteeMin,
+           RaceOfPersonCode=V7014,
+           EthnicityOfPersonCode=V7015,
+           ResidentStatusOfPersonCode=V7016,
+           SexOfPersonCode=V7013,
+           UCROffenseCode=V7009,
+           DispositionOfArresteeUnder18Code=V7017,
+           TypeOfArrestCode=V7008) %>%
+    left_join(tableList$RaceOfPersonType %>% select(RaceOfPersonTypeID, RaceOfPersonCode), by='RaceOfPersonCode') %>%
+    left_join(tableList$SexOfPersonType %>% select(SexOfPersonTypeID, SexOfPersonCode), by='SexOfPersonCode') %>%
+    left_join(tableList$EthnicityOfPersonType %>% select(EthnicityOfPersonTypeID, EthnicityOfPersonCode), by='EthnicityOfPersonCode') %>%
+    left_join(tableList$ResidentStatusOfPersonType %>% select(ResidentStatusOfPersonTypeID, ResidentStatusOfPersonCode), by='ResidentStatusOfPersonCode') %>%
+    left_join(tableList$DispositionOfArresteeUnder18Type %>% select(DispositionOfArresteeUnder18TypeID, DispositionOfArresteeUnder18Code),
+              by='DispositionOfArresteeUnder18Code') %>%
+    left_join(tableList$UCROffenseCodeType %>% select(UCROffenseCodeTypeID, UCROffenseCode), by='UCROffenseCode') %>%
+    left_join(tableList$TypeOfArrestType %>% select(TypeOfArrestTypeID, TypeOfArrestCode), by='TypeOfArrestCode') %>%
+    mutate(RaceOfPersonTypeID=ifelse(is.na(RaceOfPersonTypeID), 99998L, RaceOfPersonTypeID),
+           UCROffenseCodeTypeID=ifelse(is.na(UCROffenseCodeTypeID), 99998L, UCROffenseCodeTypeID),
+           EthnicityOfPersonTypeID=ifelse(is.na(EthnicityOfPersonTypeID), 99998L, EthnicityOfPersonTypeID),
+           TypeOfArrestTypeID=ifelse(is.na(TypeOfArrestTypeID), 99998L, TypeOfArrestTypeID),
+           ResidentStatusOfPersonTypeID=ifelse(is.na(ResidentStatusOfPersonTypeID), 99998L, ResidentStatusOfPersonTypeID),
+           DispositionOfArresteeUnder18TypeID=ifelse(is.na(DispositionOfArresteeUnder18TypeID), 99998L, DispositionOfArresteeUnder18TypeID),
+           SexOfPersonTypeID=ifelse(is.na(SexOfPersonTypeID), 99998L, SexOfPersonTypeID)) %>% as_tibble()
+
+  ArrestReportSegmentWasArmedWith <- ArrestReportSegment %>%
+    select(ArrestReportSegmentID, V7010, V7011) %>%
+    gather(key='index', value='ArresteeWasArmedWithCode', V7010, V7011) %>%
+    select(-index) %>%
+    filter(trimws(ArresteeWasArmedWithCode) != '') %>%
+    mutate(AutomaticWeaponIndicator=str_sub(ArresteeWasArmedWithCode, 3, 3), ArresteeWasArmedWithCode=str_sub(ArresteeWasArmedWithCode, 1, 2)) %>%
+    left_join(tableList$ArresteeWasArmedWithType %>% select(ArresteeWasArmedWithTypeID, ArresteeWasArmedWithCode), by='ArresteeWasArmedWithCode') %>%
+    mutate(ArrestReportSegmentWasArmedWithID=row_number()) %>%
+    select(ArrestReportSegmentWasArmedWithID, ArrestReportSegmentID, ArresteeWasArmedWithTypeID, AutomaticWeaponIndicator)
+
+  ArrestReportSegment <- ArrestReportSegment %>%
+    select(ArrestReportSegmentID, SegmentActionTypeTypeID, ORI, CityIndicator, ArresteeSequenceNumber, AgeOfArresteeMin, AgeOfArresteeMax,
+           SexOfPersonTypeID, RaceOfPersonTypeID, EthnicityOfPersonTypeID, ResidentStatusOfPersonTypeID, TypeOfArrestTypeID,
+           DispositionOfArresteeUnder18TypeID, UCROffenseCodeTypeID, ArrestDate, ArrestDateID, ArrestTransactionNumber,
+           MonthOfTape, YearOfTape)
+
+  rm(arresteeSegmentDf)
+
+  writeLines(paste0("Writing ", nrow(ArrestReportSegment), " arrest report segments to database"))
+  dbWriteTable(conn=conn, name="ArrestReportSegment", value=ArrestReportSegment, append=TRUE, row.names = FALSE)
+  attr(ArrestReportSegment, 'type') <- 'FT'
+
+  writeLines(paste0("Writing ", nrow(ArrestReportSegmentWasArmedWith), " ArrestReportSegmentWasArmedWith association rows to database"))
+  dbWriteTable(conn=conn, name="ArrestReportSegmentWasArmedWith", value=ArrestReportSegmentWasArmedWith, append=TRUE, row.names = FALSE)
+  attr(ArrestReportSegmentWasArmedWith, 'type') <- 'AT'
+
+  tableList$ArrestReportSegment <- ArrestReportSegment
+  tableList$ArrestReportSegmentWasArmedWith <- ArrestReportSegmentWasArmedWith
+
+  tableList
+
+}

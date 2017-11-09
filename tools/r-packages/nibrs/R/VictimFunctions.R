@@ -386,3 +386,141 @@ writeVictimTypeInjury <- function(conn, victimSegmentDataFrame, rawIncidentsData
 
 }
 
+#' @import dplyr
+#' @import tidyr
+#' @import tibble
+#' @importFrom DBI dbWriteTable
+writeRawVictimSegmentTables <- function(conn, inputDfList, tableList) {
+
+  dfName <- load(inputDfList[5])
+  victimSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V4003'='AgencyORI'))
+  rm(list=dfName)
+
+  victimSegmentDf <- victimSegmentDf %>%
+    inner_join(tableList$AdministrativeSegment %>% select(ORI, IncidentNumber, AdministrativeSegmentID), by=c('V4003'='ORI', 'V4004'='IncidentNumber')) %>%
+    mutate(VictimSegmentID=row_number(), SegmentActionTypeTypeID=99998L)
+
+  VictimSegment <- victimSegmentDf %>%
+    mutate(VictimSequenceNumber=as.integer(V4006),
+           V4017A=gsub(x=V4017A, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
+           V4023=gsub(x=V4023, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
+           V4024=gsub(x=V4024, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
+           V4018=trimws(V4018),
+           AgeOfVictimMin=case_when(
+             V4018 %in% c('NB','NN','BB') ~ '0',
+             V4018=='' | is.na(V4018) ~ NA_character_,
+             TRUE ~ V4018
+           ),
+           AgeOfVictimMin=as.integer(AgeOfVictimMin),
+           AgeOfVictimMax=AgeOfVictimMin,
+           AgeNeonateIndicator=ifelse(is.na(V4018) | V4018==' ', NA_integer_, V4018=='NN'),
+           AgeFirstWeekIndicator=ifelse(is.na(V4018) | V4018==' ', NA_integer_, V4018=='NB'),
+           AgeFirstYearIndicator=ifelse(is.na(V4018) | V4018==' ', NA_integer_, V4018=='BB')
+    ) %>%
+    left_join(tableList$TypeOfVictimType %>% select(TypeOfVictimTypeID, TypeOfVictimCode), by=c('V4017'='TypeOfVictimCode')) %>%
+    left_join(tableList$OfficerActivityCircumstanceType %>% select(OfficerActivityCircumstanceTypeID, OfficerActivityCircumstanceCode),
+              by=c('V4017A'='OfficerActivityCircumstanceCode')) %>%
+    left_join(tableList$OfficerAssignmentTypeType %>% select(OfficerAssignmentTypeTypeID, OfficerAssignmentTypeCode), by=c('V4017B'='OfficerAssignmentTypeCode')) %>%
+    left_join(tableList$SexOfPersonType %>% select(SexOfPersonTypeID, SexOfPersonCode), by=c('V4019'='SexOfPersonCode')) %>%
+    left_join(tableList$RaceOfPersonType %>% select(RaceOfPersonTypeID, RaceOfPersonCode), by=c('V4020'='RaceOfPersonCode')) %>%
+    left_join(tableList$EthnicityOfPersonType %>% select(EthnicityOfPersonTypeID, EthnicityOfPersonCode), by=c('V4021'='EthnicityOfPersonCode')) %>%
+    left_join(tableList$ResidentStatusOfPersonType %>% select(ResidentStatusOfPersonTypeID, ResidentStatusOfPersonCode),
+              by=c('V4022'='ResidentStatusOfPersonCode')) %>%
+    left_join(tableList$AdditionalJustifiableHomicideCircumstancesType %>%
+                select(AdditionalJustifiableHomicideCircumstancesTypeID, AdditionalJustifiableHomicideCircumstancesCode),
+              by=c('V4025'='AdditionalJustifiableHomicideCircumstancesCode')) %>%
+    mutate(VictimSegmentID=row_number()) %>% as_tibble()
+
+  VictimOffenseAssociation <- VictimSegment %>%
+    select(AdministrativeSegmentID, VictimSegmentID, V4007:V4016) %>%
+    gather(key='index', value='UCROffenseCode', V4007:V4016) %>%
+    select(-index) %>%
+    filter(trimws(UCROffenseCode) != '') %>%
+    inner_join(tableList$OffenseSegment %>% select(AdministrativeSegmentID, OffenseSegmentID, UCROffenseCode), by=c('AdministrativeSegmentID', 'UCROffenseCode')) %>%
+    mutate(VictimOffenseAssociationID=row_number()) %>%
+    select(VictimOffenseAssociationID, VictimSegmentID, OffenseSegmentID)
+
+  AggravatedAssaultHomicideCircumstances <- VictimSegment %>%
+    select(VictimSegmentID, V4023, V4024) %>%
+    gather(key='index', value='AggravatedAssaultHomicideCircumstancesCode', V4023, V4024) %>%
+    select(-index) %>%
+    filter(trimws(AggravatedAssaultHomicideCircumstancesCode) != '') %>%
+    inner_join(tableList$AggravatedAssaultHomicideCircumstancesType %>%
+                 select(AggravatedAssaultHomicideCircumstancesTypeID, AggravatedAssaultHomicideCircumstancesCode),
+               by='AggravatedAssaultHomicideCircumstancesCode') %>%
+    select(VictimSegmentID, AggravatedAssaultHomicideCircumstancesTypeID) %>%
+    mutate(AggravatedAssaultHomicideCircumstancesID=row_number())
+
+  TypeInjury <- VictimSegment %>%
+    select(VictimSegmentID, V4026:V4030) %>%
+    gather(key='index', value='TypeInjuryCode', V4026:V4030) %>%
+    select(-index) %>%
+    filter(trimws(TypeInjuryCode) != '') %>%
+    inner_join(tableList$TypeInjuryType %>% select(TypeInjuryTypeID, TypeInjuryCode), by='TypeInjuryCode') %>%
+    select(VictimSegmentID, TypeInjuryTypeID) %>%
+    mutate(TypeInjuryID=row_number())
+
+  VictimOffenderAssociation <- VictimSegment %>%
+    select(AdministrativeSegmentID, VictimSegmentID, V4031:V4050) %>%
+    gather(key='var', value='value', V4031:V4050) %>%
+    filter(trimws(value) != '') %>%
+    mutate(varnum=as.integer(str_sub(var, 2, 5))) %>%
+    mutate(
+      var=case_when(
+        varnum %% 2 == 1 ~ 'OffenderSequenceNumber',
+        TRUE ~ 'VictimOffenderRelationshipCode'
+      ),
+      seqnum=case_when(
+        var=='VictimOffenderRelationshipCode' ~ varnum-1L,
+        TRUE ~ varnum
+      ),
+      seqnum=seqnum-4030-(seqnum-4030-1)/2) %>%
+    select(-varnum) %>%
+    spread(key=var, value=value) %>%
+    mutate(OffenderSequenceNumber=as.integer(OffenderSequenceNumber)) %>%
+    inner_join(tableList$OffenderSegment %>% select(AdministrativeSegmentID, OffenderSegmentID, OffenderSequenceNumber),
+               by=c('AdministrativeSegmentID', 'OffenderSequenceNumber')) %>%
+    left_join(tableList$VictimOffenderRelationshipType %>% select(VictimOffenderRelationshipTypeID, VictimOffenderRelationshipCode),
+              by='VictimOffenderRelationshipCode') %>%
+    select(VictimSegmentID, OffenderSegmentID, VictimOffenderRelationshipTypeID) %>%
+    mutate(VictimOffenderAssociationID=row_number()) %>%
+    mutate(VictimOffenderRelationshipTypeID=ifelse(is.na(VictimOffenderRelationshipTypeID), 99998L, VictimOffenderRelationshipTypeID))
+
+  VictimSegment <- VictimSegment %>%
+    select(VictimSegmentID, AdministrativeSegmentID, SegmentActionTypeTypeID, VictimSequenceNumber, TypeOfVictimTypeID,
+           OfficerActivityCircumstanceTypeID, OfficerAssignmentTypeTypeID, AgeOfVictimMin, AgeOfVictimMax, AgeNeonateIndicator, AgeFirstWeekIndicator,
+           AgeFirstYearIndicator, SexOfPersonTypeID, RaceOfPersonTypeID, EthnicityOfPersonTypeID, ResidentStatusOfPersonTypeID,
+           AdditionalJustifiableHomicideCircumstancesTypeID)
+
+  rm(victimSegmentDf)
+
+  writeLines(paste0("Writing ", nrow(VictimSegment), " VictimSegment association rows to database"))
+  dbWriteTable(conn=conn, name="VictimSegment", value=VictimSegment, append=TRUE, row.names = FALSE)
+  attr(VictimSegment, 'type') <- 'FT'
+
+  writeLines(paste0("Writing ", nrow(VictimOffenseAssociation), " VictimOffenseAssociation association rows to database"))
+  dbWriteTable(conn=conn, name="VictimOffenseAssociation", value=VictimOffenseAssociation, append=TRUE, row.names = FALSE)
+  attr(VictimOffenseAssociation, 'type') <- 'AT'
+
+  writeLines(paste0("Writing ", nrow(VictimOffenderAssociation), " VictimOffenderAssociation association rows to database"))
+  dbWriteTable(conn=conn, name="VictimOffenderAssociation", value=VictimOffenderAssociation, append=TRUE, row.names = FALSE)
+  attr(VictimOffenderAssociation, 'type') <- 'AT'
+
+  writeLines(paste0("Writing ", nrow(AggravatedAssaultHomicideCircumstances), " AggravatedAssaultHomicideCircumstances association rows to database"))
+  dbWriteTable(conn=conn, name="AggravatedAssaultHomicideCircumstances", value=AggravatedAssaultHomicideCircumstances, append=TRUE, row.names = FALSE)
+  attr(AggravatedAssaultHomicideCircumstances, 'type') <- 'AT'
+
+  writeLines(paste0("Writing ", nrow(TypeInjury), " TypeInjury association rows to database"))
+  dbWriteTable(conn=conn, name="TypeInjury", value=TypeInjury, append=TRUE, row.names = FALSE)
+  attr(TypeInjury, 'type') <- 'AT'
+
+  tableList$VictimSegment <- VictimSegment
+  tableList$VictimOffenseAssociation <- VictimOffenseAssociation
+  tableList$VictimOffenderAssociation <- VictimOffenderAssociation
+  tableList$AggravatedAssaultHomicideCircumstances <- AggravatedAssaultHomicideCircumstances
+  tableList$TypeInjury <- TypeInjury
+
+  tableList
+
+}

@@ -1522,6 +1522,7 @@
       <Dimension source="ArresteeWasArmedWith" caption="Weapon Armed With"/>
       <Dimension source="TypeOfArrest" caption="Type of Arrest"/>
       <Dimension source="DispositionOfArresteeUnder18" caption="Disposition Arrestee &lt; 18"/>
+      <Dimension source="UCROffenseCode"/>
     </Dimensions>
     <MeasureGroups>
         <MeasureGroup table="FullGroupAArrestView" name="Group A Arrestee">
@@ -1543,6 +1544,7 @@
           <ForeignKeyLink dimension="ArresteeWasArmedWith" foreignKeyColumn="ArresteeWasArmedWithTypeID"/>
           <ForeignKeyLink dimension="DispositionOfArresteeUnder18" foreignKeyColumn="DispositionOfArresteeUnder18TypeID"/>
           <ForeignKeyLink dimension="TypeOfArrest" foreignKeyColumn="TypeOfArrestTypeID"/>
+          <ForeignKeyLink dimension="UCROffenseCode" foreignKeyColumn="UCROffenseCodeTypeID"/>
           </DimensionLinks>
         </MeasureGroup>
       </MeasureGroups>
@@ -1571,6 +1573,7 @@
       <Dimension source="TypeOfArrest" caption="Type of Arrest"/>
       <Dimension source="DispositionOfArresteeUnder18" caption="Disposition Arrestee &lt; 18"/>
       <Dimension source="ArresteeWasArmedWith" caption="Weapon Armed With"/>
+      <Dimension source="UCROffenseCode"/>
     </Dimensions>
     <MeasureGroups>
         <MeasureGroup table="FullGroupBArrestView" name="Group B Arrestee">
@@ -1589,6 +1592,7 @@
           <ForeignKeyLink dimension="ArresteeWasArmedWith" foreignKeyColumn="ArresteeWasArmedWithTypeID"/>
           <ForeignKeyLink dimension="DispositionOfArresteeUnder18" foreignKeyColumn="DispositionOfArresteeUnder18TypeID"/>
           <ForeignKeyLink dimension="TypeOfArrest" foreignKeyColumn="TypeOfArrestTypeID"/>
+          <ForeignKeyLink dimension="UCROffenseCode" foreignKeyColumn="UCROffenseCodeTypeID"/>
           </DimensionLinks>
         </MeasureGroup>
       </MeasureGroups>

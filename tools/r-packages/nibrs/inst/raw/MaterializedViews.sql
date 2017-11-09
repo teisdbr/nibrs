@@ -44,7 +44,7 @@ select
 	VictimSegment.AgeFirstWeekIndicator,
 	VictimSegment.AgeFirstYearIndicator,
 	(
-    CASE 
+    CASE
         WHEN VictimSegment.AgeNeonateIndicator = 1 THEN '< 24 hours'
         WHEN VictimSegment.AgeFirstWeekIndicator = 1 THEN '< 1 week'
         WHEN VictimSegment.AgeFirstYearIndicator = 1 THEN '< 1 year'
@@ -55,7 +55,7 @@ select
 	OffenderSegment.AgeOfOffenderMin,
 	OffenderSegment.AgeOfOffenderMax,
 	(
-    CASE 
+    CASE
         WHEN OffenderSegment.AgeOfOffenderMin = 99 THEN '> 98 years'
         WHEN OffenderSegment.AgeOfOffenderMin IS NULL THEN 'N/A'
         ELSE convert(OffenderSegment.AgeOfOffenderMin, char(12))
@@ -102,15 +102,17 @@ select
 	OffensesPerIncident
 from
 	AdministrativeSegment left join OffenseSegment on AdministrativeSegment.AdministrativeSegmentID=OffenseSegment.AdministrativeSegmentID
-	left join VictimOffenseAssociation on VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID
-	left join VictimSegment on VictimSegment.VictimSegmentID=VictimOffenseAssociation.VictimSegmentID
+	left join VictimSegment on AdministrativeSegment.AdministrativeSegmentID=VictimSegment.AdministrativeSegmentID
+	left join VictimOffenseAssociation on
+	  VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID and VictimOffenseAssociation.VictimSegmentID=VictimSegment.VictimSegmentID
 	left join OffenderSuspectedOfUsing on OffenseSegment.OffenseSegmentID=OffenderSuspectedOfUsing.OffenseSegmentID
 	left join TypeCriminalActivity on OffenseSegment.OffenseSegmentID=TypeCriminalActivity.OffenseSegmentID
 	left join TypeOfWeaponForceInvolved on OffenseSegment.OffenseSegmentID=TypeOfWeaponForceInvolved.OffenseSegmentID
 	left join TypeInjury on VictimSegment.VictimSegmentID=TypeInjury.VictimSegmentID
 	left join AggravatedAssaultHomicideCircumstances on VictimSegment.VictimSegmentID=AggravatedAssaultHomicideCircumstances.VictimSegmentID
 	left join OffenderSegment on AdministrativeSegment.AdministrativeSegmentID=OffenderSegment.AdministrativeSegmentID
-	left join VictimOffenderAssociation on VictimOffenderAssociation.OffenderSegmentID=OffenderSegment.OffenderSegmentID
+	left join VictimOffenderAssociation on
+	  VictimOffenderAssociation.OffenderSegmentID=OffenderSegment.OffenderSegmentID and VictimOffenderAssociation.VictimSegmentID=VictimSegment.VictimSegmentID
 	left join PropertySegment on AdministrativeSegment.AdministrativeSegmentID=PropertySegment.AdministrativeSegmentID
 	left join PropertyType on PropertySegment.PropertySegmentID=PropertyType.PropertySegmentID
 	left join SuspectedDrugType on PropertySegment.PropertySegmentID=SuspectedDrugType.PropertySegmentID
@@ -150,7 +152,7 @@ select
 	VictimSegment.AgeFirstWeekIndicator,
 	VictimSegment.AgeFirstYearIndicator,
 	(
-    CASE 
+    CASE
         WHEN VictimSegment.AgeNeonateIndicator = 1 THEN '< 24 hours'
         WHEN VictimSegment.AgeFirstWeekIndicator = 1 THEN '< 1 week'
         WHEN VictimSegment.AgeFirstYearIndicator = 1 THEN '< 1 year'
@@ -180,8 +182,9 @@ select
 		END) AS ClearanceType
 from
 	AdministrativeSegment left join OffenseSegment on AdministrativeSegment.AdministrativeSegmentID=OffenseSegment.AdministrativeSegmentID
-	left join VictimOffenseAssociation on VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID
-	left join VictimSegment on VictimSegment.VictimSegmentID=VictimOffenseAssociation.VictimSegmentID
+	left join VictimSegment on AdministrativeSegment.AdministrativeSegmentID=VictimSegment.AdministrativeSegmentID
+	left join VictimOffenseAssociation on
+	  VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID and VictimOffenseAssociation.VictimSegmentID=VictimSegment.VictimSegmentID
 	left join OffenderSuspectedOfUsing on OffenseSegment.OffenseSegmentID=OffenderSuspectedOfUsing.OffenseSegmentID
 	left join TypeCriminalActivity on OffenseSegment.OffenseSegmentID=TypeCriminalActivity.OffenseSegmentID
 	left join TypeOfWeaponForceInvolved on OffenseSegment.OffenseSegmentID=TypeOfWeaponForceInvolved.OffenseSegmentID
@@ -204,7 +207,7 @@ select
 	OffenderSegment.AgeOfOffenderMin,
 	OffenderSegment.AgeOfOffenderMax,
 	(
-    CASE 
+    CASE
         WHEN OffenderSegment.AgeOfOffenderMin = 99 THEN '> 98 years'
         WHEN OffenderSegment.AgeOfOffenderMin IS NULL THEN 'N/A'
         ELSE convert(OffenderSegment.AgeOfOffenderMin, char(12))
@@ -228,7 +231,7 @@ select
 	VictimSegment.AgeFirstWeekIndicator,
 	VictimSegment.AgeFirstYearIndicator,
 	(
-    CASE 
+    CASE
         WHEN VictimSegment.AgeNeonateIndicator = 1 THEN '< 24 hours'
         WHEN VictimSegment.AgeFirstWeekIndicator = 1 THEN '< 1 week'
         WHEN VictimSegment.AgeFirstYearIndicator = 1 THEN '< 1 year'
@@ -255,8 +258,9 @@ select
 		END) AS ClearanceType
 from
 	AdministrativeSegment left join OffenderSegment on AdministrativeSegment.AdministrativeSegmentID=OffenderSegment.AdministrativeSegmentID
-	left join VictimOffenderAssociation on VictimOffenderAssociation.OffenderSegmentID=OffenderSegment.OffenderSegmentID
-	left join VictimSegment on VictimSegment.VictimSegmentID=VictimOffenderAssociation.VictimSegmentID
+	left join VictimSegment on AdministrativeSegment.AdministrativeSegmentID=VictimSegment.AdministrativeSegmentID
+	left join VictimOffenderAssociation on
+	  VictimOffenderAssociation.OffenderSegmentID=OffenderSegment.OffenderSegmentID and VictimOffenderAssociation.VictimSegmentID=VictimSegment.VictimSegmentID
 	left join TypeInjury on VictimSegment.VictimSegmentID=TypeInjury.VictimSegmentID
 	left join AggravatedAssaultHomicideCircumstances on VictimSegment.VictimSegmentID=AggravatedAssaultHomicideCircumstances.VictimSegmentID
 	left join ArresteeSegment on ArresteeSegment.AdministrativeSegmentID=AdministrativeSegment.AdministrativeSegmentID;
@@ -279,7 +283,7 @@ select
 	ArresteeSegment.AgeOfArresteeMin,
 	ArresteeSegment.AgeOfArresteeMax,
 	(
-    CASE 
+    CASE
         WHEN ArresteeSegment.AgeOfArresteeMin = 99 THEN '> 98 years'
         WHEN ArresteeSegment.AgeOfArresteeMin IS NULL THEN 'N/A'
         ELSE convert(ArresteeSegment.AgeOfArresteeMin, char(12))
@@ -350,7 +354,7 @@ select
 	ArrestReportSegment.AgeOfArresteeMin,
 	ArrestReportSegment.AgeOfArresteeMax,
 	(
-    CASE 
+    CASE
         WHEN ArrestReportSegment.AgeOfArresteeMin = 99 THEN '> 98 years'
         WHEN ArrestReportSegment.AgeOfArresteeMin IS NULL THEN 'N/A'
         ELSE convert(ArrestReportSegment.AgeOfArresteeMin, char(12))
