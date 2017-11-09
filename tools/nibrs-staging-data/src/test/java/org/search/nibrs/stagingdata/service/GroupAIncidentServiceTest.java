@@ -93,10 +93,13 @@ import org.search.nibrs.stagingdata.repository.VictimOffenderRelationshipTypeRep
 import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.MethodMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@DirtiesContext(methodMode=MethodMode.BEFORE_METHOD)
 public class GroupAIncidentServiceTest {
 	@Autowired
 	public DateTypeRepository dateTypeRepository; 
@@ -786,21 +789,12 @@ public class GroupAIncidentServiceTest {
 //          "age": {
 //              "ageMin": 22,
 //              "ageMax": 22,
-//              "nonNumericAge": null,
-//              "error": null,
-//              "unknown": false,
-//              "nonNumeric": false,
-//              "average": 22,
-//              "ageRange": false
 //          },
 //          "sex": "M",
 //          "race": "W",
 //          "ethnicity": "H",
 //          "offenderSequenceNumber": {
 //              "value": 1,
-//              "missing": false,
-//              "invalid": false,
-//              "validationError": null
 //          },
 //      }
 //  ],
@@ -880,5 +874,59 @@ public class GroupAIncidentServiceTest {
 		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith = arresteeSegmentWasArmedWiths.stream().findFirst().get();
 		assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
 		assertThat(arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(""));
+		
+//		1 VictimSegment Segments:
+//		VictimSegment [age=20-22, sex=F, race=B, ethnicity=N, victimSequenceNumber=01, 
+//	ucrOffenseCodeConnection=[13A, null, null, null, null, null, null, null, null, null], 
+//	typeOfVictim=I, residentStatus=R, aggravatedAssaultHomicideCircumstances=[null, null], 
+//	additionalJustifiableHomicideCircumstances=null, typeOfInjury=[N, null, null, null, null], 
+//	offenderNumberRelated=[01, null, null, null, null, null, null, null, null, null], 
+//	victimOffenderRelationship=[SE, null, null, null, null, null, null, null, null, null], 
+//	typeOfOfficerActivityCircumstance=null, officerAssignmentType=null, officerOtherJurisdictionORI=null, 
+//	populatedAggravatedAssaultHomicideCircumstancesCount=0, 
+//	populatedTypeOfInjuryCount=1, populatedUcrOffenseCodeConnectionCount=1, populatedOffenderNumberRelatedCount=1]
+//	,segmentType=6]
+		Set<VictimSegment> victimSegments = persisted.getVictimSegments();
+		assertThat(victimSegments.size(), equalTo(1));
+		VictimSegment victimSegment = victimSegments.stream().findFirst().get();
+		
+		assertThat(victimSegment.getVictimSequenceNumber(), equalTo(1));
+		assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(persisted.getAdministrativeSegmentId())); 
+		assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
+		assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("I")); 
+		assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceTypeId(), equalTo(99998)); 
+		assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeTypeId(), equalTo(99998)); 
+		
+		assertThat(victimSegment.getAgeOfVictimMax(), equalTo(22));
+		assertThat(victimSegment.getAgeOfVictimMin(), equalTo(20));
+		assertThat(victimSegment.getAgeNeonateIndicator(), equalTo(0));
+		assertThat(victimSegment.getAgeFirstWeekIndicator(), equalTo(0));
+		assertThat(victimSegment.getAgeFirstYearIndicator(), equalTo(0));
+		
+		assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("F")); 
+		assertThat(victimSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B")); 
+		assertThat(victimSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("N")); 
+		assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R")); 
+		assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
+				.getAdditionalJustifiableHomicideCircumstancesTypeId(), equalTo(99998));
+
+//		assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(2)); 
+//		assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().containsAll(
+//				Arrays.asList(
+//						aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"), 
+//						aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02") ))); 
+//		assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
+//		assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"))); 
+//		
+//		assertTrue(victimSegment.getOffenseSegments().containsAll(persisted.getOffenseSegments()));
+//		
+//		Set<VictimOffenderAssociation> victimOffenderAssociations = victimSegment.getVictimOffenderAssociations();
+//		assertThat(victimOffenderAssociations.size(), equalTo(1));
+//		
+//		VictimOffenderAssociation victimOffenderAssociation = new ArrayList<>(victimOffenderAssociations).get(0);
+//		
+//		assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
+//		assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
+//		assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("AQ"));
 	}
 }

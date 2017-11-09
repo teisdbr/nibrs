@@ -176,6 +176,30 @@ public class NIBRSAge {
 		return "00".equals(nonNumericAge);
 	}
 	
+	/**
+	 * 1–6 Days Old
+	 * @return true if "NN" is the value
+	 */
+	public boolean isNN() {
+		return "NN".equals(nonNumericAge);
+	}
+	
+	/**
+	 * 1-6 days old 
+	 * @return true if "NB" is the value 
+	 */
+	public boolean isNB() {
+		return "NB".equals(nonNumericAge);
+	}
+	
+	/**
+	 * 7–364 Days Old
+	 * @return true if "BB" is the value 
+	 */
+	public boolean isBB() {
+		return "BB".equals(nonNumericAge);
+	}
+	
 	public boolean isAgeRange() {
 		boolean isAgeRange = false;
 		if (error == null && !isNonNumeric()) {

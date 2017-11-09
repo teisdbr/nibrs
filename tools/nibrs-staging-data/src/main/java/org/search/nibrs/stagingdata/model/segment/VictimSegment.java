@@ -45,7 +45,13 @@ import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.search.nibrs.stagingdata.model.TypeOfVictimType;
 import org.search.nibrs.stagingdata.model.VictimOffenderAssociation;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
+@JsonIdentityInfo(
+	generator = ObjectIdGenerators.PropertyGenerator.class, 
+	property = "victimSegmentId")
 public class VictimSegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

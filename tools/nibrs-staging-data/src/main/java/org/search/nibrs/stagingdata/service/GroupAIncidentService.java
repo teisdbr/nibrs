@@ -23,8 +23,10 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
@@ -36,11 +38,14 @@ import org.search.nibrs.stagingdata.model.LocationType;
 import org.search.nibrs.stagingdata.model.MethodOfEntryType;
 import org.search.nibrs.stagingdata.model.MultipleArresteeSegmentsIndicatorType;
 import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
+import org.search.nibrs.stagingdata.model.OfficerActivityCircumstanceType;
+import org.search.nibrs.stagingdata.model.OfficerAssignmentTypeType;
 import org.search.nibrs.stagingdata.model.RaceOfPersonType;
 import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
 import org.search.nibrs.stagingdata.model.SexOfPersonType;
 import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
+import org.search.nibrs.stagingdata.model.TypeOfVictimType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
@@ -48,6 +53,7 @@ import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
+import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.repository.AggravatedAssaultHomicideCircumstancesTypeRepository;
@@ -215,7 +221,105 @@ public class GroupAIncidentService {
 		processOffenses(administrativeSegment, groupAIncidentReport);
 		processOffenders(administrativeSegment, groupAIncidentReport);
 		processArrestees(administrativeSegment, groupAIncidentReport);
+		processVictims(administrativeSegment, groupAIncidentReport);
 		return this.saveAdministrativeSegment(administrativeSegment);
+	}
+//	1 VictimSegment Segments:
+//		VictimSegment [age=20-22, sex=F, race=B, ethnicity=N, victimSequenceNumber=01, 
+//	ucrOffenseCodeConnection=[13A, null, null, null, null, null, null, null, null, null], 
+//	typeOfVictim=I, residentStatus=R, aggravatedAssaultHomicideCircumstances=[null, null], 
+//	additionalJustifiableHomicideCircumstances=null, typeOfInjury=[N, null, null, null, null], 
+//	offenderNumberRelated=[01, null, null, null, null, null, null, null, null, null], 
+//	victimOffenderRelationship=[SE, null, null, null, null, null, null, null, null, null], 
+//	typeOfOfficerActivityCircumstance=null, officerAssignmentType=null, officerOtherJurisdictionORI=null, 
+//	populatedAggravatedAssaultHomicideCircumstancesCount=0, 
+//	populatedTypeOfInjuryCount=1, populatedUcrOffenseCodeConnectionCount=1, populatedOffenderNumberRelatedCount=1]
+//	,segmentType=6]
+
+	private void processVictims(AdministrativeSegment administrativeSegment,
+			GroupAIncidentReport groupAIncidentReport) {
+		if (groupAIncidentReport.getVictimCount() > 0){
+			Set<VictimSegment> victimSegments = new HashSet<>();
+			for (org.search.nibrs.model.VictimSegment victim: groupAIncidentReport.getVictims()){
+				VictimSegment victimSegment = new VictimSegment();
+				victimSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
+				victimSegment.setAdministrativeSegment(administrativeSegment);
+				victimSegment.setVictimSequenceNumber(victim.getVictimSequenceNumber().getValue());
+
+				TypeOfVictimType typeOfVictimType = 
+						codeTableService.getCodeTableType(victim.getTypeOfVictim(), typeOfVictimTypeRepository::findFirstByTypeOfVictimCode, TypeOfVictimType::new);
+				victimSegment.setTypeOfVictimType(typeOfVictimType);
+				
+				OfficerActivityCircumstanceType officerActivityCircumstanceType = 
+						codeTableService.getCodeTableType(victim.getTypeOfOfficerActivityCircumstance(), 
+								officerActivityCircumstanceTypeRepository::findFirstByOfficerActivityCircumstanceCode, 
+								OfficerActivityCircumstanceType::new);
+				victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceType);
+				
+				OfficerAssignmentTypeType officerAssignmentTypeType = 
+						codeTableService.getCodeTableType(victim.getOfficerAssignmentType(), 
+								officerAssignmentTypeTypeRepository::findFirstByOfficerAssignmentTypeCode, 
+								OfficerAssignmentTypeType::new);
+				victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeType);
+				
+				victimSegment.setAgeOfVictimMax(victim.getAge().getAgeMax());
+				victimSegment.setAgeOfVictimMin(victim.getAge().getAgeMin());
+				victimSegment.setAgeNeonateIndicator(BooleanUtils.toIntegerObject(victim.getAge().isNN()));
+				victimSegment.setAgeFirstWeekIndicator(BooleanUtils.toIntegerObject(victim.getAge().isNB()));
+				victimSegment.setAgeFirstYearIndicator(BooleanUtils.toIntegerObject(victim.getAge().isBB()));
+				
+				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
+						victim.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+				victimSegment.setSexOfPersonType(sexOfPersonType);
+				
+				RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
+						victim.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+				victimSegment.setRaceOfPersonType(raceOfPersonType);
+				
+				EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
+						victim.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+				victimSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
+				
+				ResidentStatusOfPersonType residentStatusOfPersonType = codeTableService.getCodeTableType(
+						victim.getResidentStatus(), 
+						residentStatusOfPersonTypeRepository::findFirstByResidentStatusOfPersonCode, 
+						ResidentStatusOfPersonType::new);
+				victimSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
+				
+				AdditionalJustifiableHomicideCircumstancesType additionalJustifiableHomicideCircumstancesType = codeTableService.getCodeTableType(
+						victim.getAdditionalJustifiableHomicideCircumstances(), 
+						additionalJustifiableHomicideCircumstancesTypeRepository::findFirstByAdditionalJustifiableHomicideCircumstancesCode, 
+						AdditionalJustifiableHomicideCircumstancesType::new);
+				victimSegment.setAdditionalJustifiableHomicideCircumstancesType(additionalJustifiableHomicideCircumstancesType);
+				
+//				victimSegment.setTypeInjuryTypes(new HashSet<TypeInjuryType>(){{
+//					add(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"));
+//				}});
+//
+//				victimSegment.setOffenseSegments(new HashSet<OffenseSegment>(){{
+//					add(offenseSegment);
+//					add(offenseSegment2);
+//				}});
+//				
+//				victimSegment.setAggravatedAssaultHomicideCircumstancesTypes(new HashSet<AggravatedAssaultHomicideCircumstancesType>(){{
+//					add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"));
+//					add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02"));
+//				}});
+//				
+//				VictimOffenderAssociation victimOffenderAssociation1 = new VictimOffenderAssociation();
+//				victimOffenderAssociation1.setVictimSegment(victimSegment);
+//				victimOffenderAssociation1.setOffenderSegment(offenderSegment1);
+//				victimOffenderAssociation1.setVictimOffenderRelationshipType(
+//						victimOffenderRelationshipTypeRepository.findFirstByVictimOffenderRelationshipCode("AQ"));;
+//				
+//				victimSegment.setVictimOffenderAssociations(new HashSet<VictimOffenderAssociation>(){{
+//					add(victimOffenderAssociation1);
+//				}});
+				victimSegments.add(victimSegment);
+			}
+			administrativeSegment.setVictimSegments(victimSegments);
+		}
+		
 	}
 
 	private void processArrestReportSegmentArmedWiths(ArresteeSegment arresteeSegment, org.search.nibrs.model.ArresteeSegment arrestee) {
