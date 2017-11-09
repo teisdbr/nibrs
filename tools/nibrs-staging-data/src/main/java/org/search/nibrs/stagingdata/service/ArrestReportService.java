@@ -246,7 +246,7 @@ public class ArrestReportService {
 				String arresteeArmedWithCode = 
 						StringUtils.trimToNull(arrestee.getArresteeArmedWith(i));
 				String automaticWeaponIndicator = 
-						StringUtils.trimToNull(arrestee.getAutomaticWeaponIndicator(i));
+						StringUtils.trimToEmpty(arrestee.getAutomaticWeaponIndicator(i));
 				
 				if (StringUtils.isNotBlank(arresteeArmedWithCode)){
 					Optional<ArresteeWasArmedWithType> arresteeWasArmedWithType = 

@@ -232,7 +232,7 @@ public class ArrestReportServiceTest {
 		
 		ArrestReportSegmentWasArmedWith arrestReportSegmentWasArmedWith = persisted.getArrestReportSegmentWasArmedWiths().stream().findFirst().get();
 		assertThat(arrestReportSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
-		assertThat(arrestReportSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(null));
+		assertThat(arrestReportSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(""));
 	}
 
 }

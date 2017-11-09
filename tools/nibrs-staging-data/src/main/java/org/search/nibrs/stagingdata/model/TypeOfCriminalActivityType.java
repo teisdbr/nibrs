@@ -28,6 +28,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class TypeOfCriminalActivityType {
 	public TypeOfCriminalActivityType(Integer typeOfCriminalActivityTypeId) {
@@ -43,6 +45,7 @@ public class TypeOfCriminalActivityType {
 	private String typeOfCriminalActivityDescription; 
 	
 	@ManyToMany(mappedBy = "typeOfCriminalActivityTypes", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private Set<OffenseSegment> offenseSegments;
 	
 	public TypeOfCriminalActivityType() {

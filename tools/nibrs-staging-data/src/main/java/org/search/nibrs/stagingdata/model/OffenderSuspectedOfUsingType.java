@@ -29,6 +29,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class OffenderSuspectedOfUsingType {
 	@Id
@@ -39,6 +41,7 @@ public class OffenderSuspectedOfUsingType {
 	private String offenderSuspectedOfUsingDescription; 
 	
 	@ManyToMany(mappedBy = "offenderSuspectedOfUsingTypes", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private Set<OffenseSegment> offenseSegments;
 	
 	public OffenderSuspectedOfUsingType() {

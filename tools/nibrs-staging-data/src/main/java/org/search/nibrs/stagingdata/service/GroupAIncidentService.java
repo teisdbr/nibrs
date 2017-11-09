@@ -16,17 +16,26 @@
 package org.search.nibrs.stagingdata.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
+import org.search.nibrs.stagingdata.model.LocationType;
+import org.search.nibrs.stagingdata.model.MethodOfEntryType;
+import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
+import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
+import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
+import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
+import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
-import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
@@ -192,13 +201,114 @@ public class GroupAIncidentService {
 		Agency agency = codeTableService.getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
 		administrativeSegment.setAgency(agency);
 		
-		process(groupAIncidentReport.getOffenses());
+		process(administrativeSegment, groupAIncidentReport);
 		return this.saveAdministrativeSegment(administrativeSegment);
 	}
 
-	private void process(List<org.search.nibrs.model.OffenseSegment> offenses) {
-		// TODO Auto-generated method stub
+	private void process(AdministrativeSegment administrativeSegment, GroupAIncidentReport groupAIncidentReport) {
+		if (groupAIncidentReport.getOffenderCount() > 0){
+			Set<OffenseSegment> offenseSegments = new HashSet<>();
+			
+			for(org.search.nibrs.model.OffenseSegment offense: groupAIncidentReport.getOffenses()){
+				OffenseSegment offenseSegment = new OffenseSegment();
+				offenseSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
+				offenseSegment.setAdministrativeSegment(administrativeSegment);
+				
+				UcrOffenseCodeType ucrOffenseCodeType = 
+						codeTableService.getCodeTableType(offense.getUcrOffenseCode(), 
+								ucrOffenseCodeTypeRepository::findFirstByUcrOffenseCode, UcrOffenseCodeType::new);
+				offenseSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
+				offenseSegment.setOffenseAttemptedCompleted(offense.getOffenseAttemptedCompleted());
+				
+				LocationType locationType = 
+						codeTableService.getCodeTableType(offense.getLocationType(), 
+								locationTypeRepository::findFirstByLocationTypeCode, LocationType::new);
+				offenseSegment.setLocationType(locationType);
+				
+				offenseSegment.setNumberOfPremisesEntered(offense.getNumberOfPremisesEntered().getValue());
+				
+				MethodOfEntryType methodOfEntryType = 
+						codeTableService.getCodeTableType(offense.getMethodOfEntry(), 
+								methodOfEntryTypeRepository::findFirstByMethodOfEntryCode, MethodOfEntryType::new);
+				offenseSegment.setMethodOfEntryType(methodOfEntryType);
+				processTypeOfWeaponForceInvolved(offenseSegment, offense); 
+				processTypeOfCriminalActivityCount(offenseSegment, offense); 
+				processOffendersSuspectedOfUsing(offenseSegment, offense);
+				
+				//TODO offense segment and BiasMotivationType should be a many to many relationship.  
+				//A joiner table is reqruied. 
+				BiasMotivationType biasMotivationType = 
+						codeTableService.getCodeTableType(offense.getBiasMotivation(0), 
+								biasMotivationTypeRepository::findFirstByBiasMotivationCode, BiasMotivationType::new);
+				offenseSegment.setBiasMotivationType(biasMotivationType);
+				
+				offenseSegments.add(offenseSegment);
+			}
+			administrativeSegment.setOffenseSegments(offenseSegments);
+		}
 		
+	}
+
+	private void processOffendersSuspectedOfUsing(OffenseSegment offenseSegment,
+			org.search.nibrs.model.OffenseSegment offense) {
+		if (offense.getPopulatedOffendersSuspectedOfUsingCount() > 0){
+			Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = new HashSet<>(); 
+			
+			for (int i = 0; i < offense.getPopulatedOffendersSuspectedOfUsingCount(); i++){
+				String offenderSuspectedUsingCode = StringUtils.trimToNull(offense.getOffendersSuspectedOfUsing(i));
+				OffenderSuspectedOfUsingType offenderSuspectedOfUsingType = 
+						codeTableService.getCodeTableType(offenderSuspectedUsingCode, offenderSuspectedOfUsingTypeRepository::findFirstByOffenderSuspectedOfUsingCode, null);
+				if (offenderSuspectedOfUsingType != null){
+					offenderSuspectedOfUsingTypes.add(offenderSuspectedOfUsingType); 
+				}
+			}
+			offenseSegment.setOffenderSuspectedOfUsingTypes(offenderSuspectedOfUsingTypes);
+		}
+	}
+
+	private void processTypeOfCriminalActivityCount(OffenseSegment offenseSegment,
+			org.search.nibrs.model.OffenseSegment offense) {
+		if (offense.getPopulatedTypeOfCriminalActivityCount() > 0){
+			Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes = new HashSet<>(); 
+			
+			for (int i = 0; i < offense.getPopulatedTypeOfCriminalActivityCount(); i++){
+				String typeOfCriminalActivityCode = StringUtils.trimToNull(offense.getTypeOfCriminalActivity(i));
+				TypeOfCriminalActivityType typeOfCriminalActivityType = 
+						codeTableService.getCodeTableType(typeOfCriminalActivityCode, typeOfCriminalActivityTypeRepository::findFirstByTypeOfCriminalActivityCode, null);
+				if (typeOfCriminalActivityType != null){
+					typeOfCriminalActivityTypes.add(typeOfCriminalActivityType); 
+				}
+			}
+			offenseSegment.setTypeOfCriminalActivityTypes(typeOfCriminalActivityTypes);
+		}
+	}
+
+	private void processTypeOfWeaponForceInvolved(OffenseSegment offenseSegment,
+			org.search.nibrs.model.OffenseSegment offense) {
+		Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds = new HashSet<>(); 
+		if (offense.getPopulatedTypeOfWeaponForceInvolvedCount() > 0){
+			for (int i = 0; i < offense.getPopulatedTypeOfWeaponForceInvolvedCount(); i++){
+				String typeOfWeaponForceInvolvedCode = 
+						StringUtils.trimToNull(offense.getTypeOfWeaponForceInvolved(i));
+				String automaticWeaponIndicator = 
+						StringUtils.trimToEmpty(offense.getAutomaticWeaponIndicator(i));
+				
+				if (StringUtils.isNotBlank(typeOfWeaponForceInvolvedCode)){
+					Optional<TypeOfWeaponForceInvolvedType> typeOfWeaponForceInvolvedType = 
+							Optional.ofNullable(codeTableService.getCodeTableType(typeOfWeaponForceInvolvedCode,
+									typeOfWeaponForceInvolvedTypeRepository::findFirstByTypeOfWeaponForceInvolvedCode, 
+									null));
+					typeOfWeaponForceInvolvedType.ifPresent( type ->
+						typeOfWeaponForceInvolveds.add(new TypeOfWeaponForceInvolved(
+								offenseSegment, type, automaticWeaponIndicator))
+					);
+				}
+			}
+		}
+		
+		if (!typeOfWeaponForceInvolveds.isEmpty()){
+			offenseSegment.setTypeOfWeaponForceInvolveds(typeOfWeaponForceInvolveds);
+		}
 	}
 
 }

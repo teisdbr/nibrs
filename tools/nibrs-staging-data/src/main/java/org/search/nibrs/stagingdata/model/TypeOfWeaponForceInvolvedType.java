@@ -25,6 +25,8 @@ import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class TypeOfWeaponForceInvolvedType {
 	@Id
@@ -35,6 +37,7 @@ public class TypeOfWeaponForceInvolvedType {
 	private String typeOfWeaponForceInvolvedDescription; 
 	
 	@OneToMany(mappedBy = "typeOfWeaponForceInvolvedType")
+	@JsonIgnore
 	private Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds;
 	
 	public TypeOfWeaponForceInvolvedType() {

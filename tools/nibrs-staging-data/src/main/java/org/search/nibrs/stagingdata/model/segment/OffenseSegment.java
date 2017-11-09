@@ -41,7 +41,13 @@ import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
+@JsonIdentityInfo(
+	generator = ObjectIdGenerators.PropertyGenerator.class, 
+	property = "offenseSegmentId")
 public class OffenseSegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -51,7 +57,7 @@ public class OffenseSegment {
 	@JoinColumn(name="segmentActionTypeTypeID") 
 	private SegmentActionTypeType segmentActionType; 
 	@ManyToOne
-	@JoinColumn(name="administrativeSegmentId") 
+	@JoinColumn(name="administrativeSegmentId")
 	private AdministrativeSegment administrativeSegment; 
 	@ManyToOne
 	@JoinColumn(name="ucrOffenseCodeTypeId")

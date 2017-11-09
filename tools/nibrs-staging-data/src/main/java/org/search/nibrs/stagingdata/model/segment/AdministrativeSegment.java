@@ -35,7 +35,13 @@ import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.model.DateType;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
+@JsonIdentityInfo(
+	generator = ObjectIdGenerators.PropertyGenerator.class, 
+	property = "administrativeSegmentId")
 public class AdministrativeSegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

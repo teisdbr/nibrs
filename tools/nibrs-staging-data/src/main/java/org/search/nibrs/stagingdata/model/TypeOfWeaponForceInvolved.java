@@ -54,6 +54,14 @@ public class TypeOfWeaponForceInvolved implements Serializable{
 		super();
 	}
 
+	public TypeOfWeaponForceInvolved(OffenseSegment offenseSegment,
+			TypeOfWeaponForceInvolvedType typeOfWeaponForceInvolvedType, String automaticWeaponIndicator) {
+		super();
+		this.offenseSegment = offenseSegment;
+		this.typeOfWeaponForceInvolvedType = typeOfWeaponForceInvolvedType;
+		this.automaticWeaponIndicator = automaticWeaponIndicator;
+	}
+	
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
 		String resultWithoutOffenseSegment = ReflectionToStringBuilder.toStringExclude(this, "offenseSegment");

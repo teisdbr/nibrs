@@ -738,5 +738,48 @@ public class GroupAIncidentServiceTest {
 		assertNull(persisted.getReportDateIndicator());
 		assertThat(persisted.getIncidentHour(), equalTo(""));
 		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("A"));
+		
+//		1 OffenseSegment Segments:
+//		OffenseSegment [ucrOffenseCode=13A, offenseAttemptedCompleted=C, 
+	//offendersSuspectedOfUsing=[N, null, null], locationType=15, numberOfPremisesEntered=null, 
+	//methodOfEntry=null, 
+	//typeOfCriminalActivity=[J, null, null], 
+	//typeOfWeaponForceInvolved=[14, null, null], 
+	//automaticWeaponIndicator=[ , null, null], 
+	//biasMotivation=[15, null, null, null, null], 
+	//populatedBiasMotivationCount=1, 
+	//populatedTypeOfWeaponForceInvolvedCount=1, 
+	//populatedTypeOfCriminalActivityCount=1, 
+	//populatedOffendersSuspectedOfUsingCount=1]
+
+		Set<OffenseSegment> offenseSegments = persisted.getOffenseSegments();
+		assertThat(offenseSegments.size(), equalTo(1));
+		
+		OffenseSegment offenseSegment = offenseSegments.stream().findFirst().get();
+		assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("15"));
+		assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
+		assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
+		assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("15"));
+		assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(null));
+		assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryTypeId(), equalTo(99998));
+		Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
+				offenseSegment.getOffenderSuspectedOfUsingTypes();  
+		assertThat(offenderSuspectedOfUsingTypes.size(), equalTo(1));
+		assertThat(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findFirstByOffenderSuspectedOfUsingCode("N")), equalTo(true));
+		
+		Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes = 
+				offenseSegment.getTypeOfCriminalActivityTypes(); 
+		assertThat(typeOfCriminalActivityTypes.size(), equalTo(1));
+		assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findFirstByTypeOfCriminalActivityCode("J")));
+		
+		Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds = 
+				offenseSegment.getTypeOfWeaponForceInvolveds();
+		assertThat(typeOfWeaponForceInvolveds.size(), equalTo(1));
+		TypeOfWeaponForceInvolved typeOfWeaponForceInvolved = typeOfWeaponForceInvolveds.stream().findFirst().get();
+		assertThat(typeOfWeaponForceInvolved.getOffenseSegment().getOffenseSegmentId(), equalTo(offenseSegment.getOffenseSegmentId()));
+		assertThat(typeOfWeaponForceInvolved.getAutomaticWeaponIndicator(), equalTo(""));
+		assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode(), equalTo("14"));
+
 	}
 }
