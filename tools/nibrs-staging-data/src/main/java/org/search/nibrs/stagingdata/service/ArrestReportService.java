@@ -233,12 +233,12 @@ public class ArrestReportService {
 				UcrOffenseCodeType::new);;
 		arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
 		
-		setArrestReportSegmentArmedWiths(arrestReportSegment, arrestee);
+		processArrestReportSegmentArmedWiths(arrestReportSegment, arrestee);
 		
 		return this.saveArrestReportSegment(arrestReportSegment);
 	}
 
-	private void setArrestReportSegmentArmedWiths(ArrestReportSegment arrestReportSegment, ArresteeSegment arrestee) {
+	private void processArrestReportSegmentArmedWiths(ArrestReportSegment arrestReportSegment, ArresteeSegment arrestee) {
 		Set<ArrestReportSegmentWasArmedWith> armedWiths = new HashSet<>();  
 		
 		if (arrestee.containsArresteeArmedWith()){
@@ -265,6 +265,4 @@ public class ArrestReportService {
 			arrestReportSegment.setArrestReportSegmentWasArmedWiths(armedWiths);
 		}
 	}
-
-
 }

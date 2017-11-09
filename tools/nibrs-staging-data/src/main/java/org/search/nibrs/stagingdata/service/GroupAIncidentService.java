@@ -26,19 +26,26 @@ import javax.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
+import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
+import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
 import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
 import org.search.nibrs.stagingdata.model.LocationType;
 import org.search.nibrs.stagingdata.model.MethodOfEntryType;
+import org.search.nibrs.stagingdata.model.MultipleArresteeSegmentsIndicatorType;
 import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.RaceOfPersonType;
+import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
 import org.search.nibrs.stagingdata.model.SexOfPersonType;
+import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
@@ -207,7 +214,101 @@ public class GroupAIncidentService {
 		
 		processOffenses(administrativeSegment, groupAIncidentReport);
 		processOffenders(administrativeSegment, groupAIncidentReport);
+		processArrestees(administrativeSegment, groupAIncidentReport);
 		return this.saveAdministrativeSegment(administrativeSegment);
+	}
+
+	private void processArrestReportSegmentArmedWiths(ArresteeSegment arresteeSegment, org.search.nibrs.model.ArresteeSegment arrestee) {
+		Set<ArresteeSegmentWasArmedWith> armedWiths = new HashSet<>();  
+		
+		if (arrestee.containsArresteeArmedWith()){
+			for (int i = 0; i < org.search.nibrs.model.ArresteeSegment.ARRESTEE_ARMED_WITH_COUNT; i++){
+				String arresteeArmedWithCode = 
+						StringUtils.trimToNull(arrestee.getArresteeArmedWith(i));
+				String automaticWeaponIndicator = 
+						StringUtils.trimToEmpty(arrestee.getAutomaticWeaponIndicator(i));
+				
+				if (StringUtils.isNotBlank(arresteeArmedWithCode)){
+					Optional<ArresteeWasArmedWithType> arresteeWasArmedWithType = 
+							Optional.ofNullable(codeTableService.getCodeTableType(arresteeArmedWithCode,
+									arresteeWasArmedWithTypeRepository::findFirstByArresteeWasArmedWithCode, 
+									null));
+					arresteeWasArmedWithType.ifPresent( type ->
+						armedWiths.add(new ArresteeSegmentWasArmedWith(
+								null, arresteeSegment, type, automaticWeaponIndicator))
+					);
+				}
+			}
+		}
+		
+		if (!armedWiths.isEmpty()){
+			arresteeSegment.setArresteeSegmentWasArmedWiths(armedWiths);
+		}
+	}
+	
+	private void processArrestees(AdministrativeSegment administrativeSegment,
+			GroupAIncidentReport groupAIncidentReport) {
+		if (groupAIncidentReport.getArresteeCount() > 0){
+			Set<ArresteeSegment> arresteeSegments = new HashSet<>();
+			for (org.search.nibrs.model.ArresteeSegment arrestee: groupAIncidentReport.getArrestees()){
+				ArresteeSegment arresteeSegment = new ArresteeSegment();
+				arresteeSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
+				arresteeSegment.setAdministrativeSegment(administrativeSegment);
+				arresteeSegment.setArresteeSequenceNumber(arrestee.getArresteeSequenceNumber().getValue());
+				arresteeSegment.setArrestTransactionNumber(arrestee.getArrestTransactionNumber());
+				arresteeSegment.setArrestDate(arrestee.getArrestDate().getValue());
+				arresteeSegment.setArrestDateType(codeTableService.getDateType(arrestee.getArrestDate().getValue()));
+				
+				TypeOfArrestType typeOfArrestType = codeTableService.getCodeTableType(
+						arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByTypeOfArrestCode, TypeOfArrestType::new);
+				arresteeSegment.setTypeOfArrestType(typeOfArrestType );
+				
+				MultipleArresteeSegmentsIndicatorType multipleArresteeSegmentsIndicatorType = 
+						codeTableService.getCodeTableType(
+							arrestee.getMultipleArresteeSegmentsIndicator(), 
+							multipleArresteeSegmentsIndicatorTypeRepository::findFirstByMultipleArresteeSegmentsIndicatorCode, 
+							MultipleArresteeSegmentsIndicatorType::new);
+				arresteeSegment.setMultipleArresteeSegmentsIndicatorType(multipleArresteeSegmentsIndicatorType);
+				
+				arresteeSegment.setAgeOfArresteeMin(arrestee.getAge().getAgeMin());
+				arresteeSegment.setAgeOfArresteeMax(arrestee.getAge().getAgeMax());
+
+				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
+						arrestee.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+				arresteeSegment.setSexOfPersonType(sexOfPersonType);
+				
+				RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
+						arrestee.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+				arresteeSegment.setRaceOfPersonType(raceOfPersonType);
+				
+				EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
+						arrestee.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+				arresteeSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
+				
+				ResidentStatusOfPersonType residentStatusOfPersonType = codeTableService.getCodeTableType(
+						arrestee.getResidentStatus(), 
+						residentStatusOfPersonTypeRepository::findFirstByResidentStatusOfPersonCode, 
+						ResidentStatusOfPersonType::new);
+				arresteeSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
+				
+				DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type = codeTableService.getCodeTableType(
+						arrestee.getDispositionOfArresteeUnder18(), 
+						dispositionOfArresteeUnder18TypeRepository::findFirstByDispositionOfArresteeUnder18Code, 
+						DispositionOfArresteeUnder18Type::new);
+				arresteeSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type );
+				
+				UcrOffenseCodeType ucrOffenseCodeType = codeTableService.getCodeTableType(
+						arrestee.getUcrArrestOffenseCode(), 
+						ucrOffenseCodeTypeRepository::findFirstByUcrOffenseCode, 
+						UcrOffenseCodeType::new);;
+				arresteeSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
+	
+				processArrestReportSegmentArmedWiths(arresteeSegment, arrestee);
+				arresteeSegments.add(arresteeSegment);
+			}
+			
+			administrativeSegment.setArresteeSegments(arresteeSegments);
+		}
 	}
 
 	private void processOffenders(AdministrativeSegment administrativeSegment,

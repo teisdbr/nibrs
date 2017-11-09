@@ -815,6 +815,70 @@ public class GroupAIncidentServiceTest {
 		assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
 		assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
 		assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("H"));
-
+//	    "arrestees": [
+//      {
+//          "segmentType": "6",
+//          "age": {
+//              "ageMin": 22,
+//              "ageMax": 22,
+//          },
+//          "sex": "M",
+//          "race": "W",
+//          "ethnicity": "U",
+//          "arresteeSequenceNumber": {
+//              "value": 1,
+//          },
+//          "arrestTransactionNumber": "12345",
+//          "arrestDate": { 05162015
+//              "value": 1431752400000,
+//          },
+//          "typeOfArrest": "O",
+//          "multipleArresteeSegmentsIndicator": "N",
+//          "ucrArrestOffenseCode": "13A",
+//          "arresteeArmedWith": [
+//              "01",
+//              null
+//          ],
+//          "automaticWeaponIndicator": [
+//              null,
+//              null
+//          ],
+//          "residentStatus": "R",
+//          "dispositionOfArresteeUnder18": null,
+//          "reportActionType": "I",
+//          "unknown": false,
+//          "identifier": "12345"
+//      }
+//  ]
+		Set<ArresteeSegment> arresteeSegments = persisted.getArresteeSegments();
+		assertThat(arresteeSegments.size(), equalTo(1));
+		
+		ArresteeSegment arresteeSegment = arresteeSegments.stream().findFirst().get();
+		
+		assertThat(arresteeSegment.getArrestTransactionNumber(), equalTo("12345"));
+		assertThat(arresteeSegment.getArresteeSequenceNumber(), equalTo(1));
+		assertTrue(DateUtils.isSameDay(arresteeSegment.getArrestDate(), Date.from(LocalDateTime.of(2015, 5, 16, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant())));
+		
+		assertThat(arresteeSegment.getArrestDateType().getDateTypeId(), equalTo(1962));
+		assertThat(arresteeSegment.getArrestDateType().getDateMMDDYYYY(), equalTo("05162015"));
+		assertThat(arresteeSegment.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("O"));
+		assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getMultipleArresteeSegmentsIndicatorCode(), 
+				equalTo("N"));
+		assertThat(arresteeSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
+		assertThat(arresteeSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
+		assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18Code(), equalTo(" "));
+		assertThat(arresteeSegment.getAgeOfArresteeMax(), equalTo(22));
+		assertThat(arresteeSegment.getAgeOfArresteeMin(), equalTo(22));
+		assertThat(arresteeSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+		assertThat(arresteeSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
+		assertThat(arresteeSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+		
+		Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths = 
+				arresteeSegment.getArresteeSegmentWasArmedWiths();
+		assertThat(arresteeSegmentWasArmedWiths.size(), equalTo(1));
+		
+		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith = arresteeSegmentWasArmedWiths.stream().findFirst().get();
+		assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
+		assertThat(arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(""));
 	}
 }

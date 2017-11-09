@@ -53,6 +53,15 @@ public class ArresteeSegmentWasArmedWith implements Serializable{
 		super();
 	}
 
+	public ArresteeSegmentWasArmedWith(Integer arresteeSegmentWasArmedWithId, ArresteeSegment arresteeSegment,
+			ArresteeWasArmedWithType arresteeWasArmedWithType, String automaticWeaponIndicator) {
+		super();
+		this.arresteeSegmentWasArmedWithId = arresteeSegmentWasArmedWithId;
+		this.arresteeSegment = arresteeSegment;
+		this.arresteeWasArmedWithType = arresteeWasArmedWithType;
+		this.automaticWeaponIndicator = automaticWeaponIndicator;
+	}
+
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
 		String resultWithoutParentSegment = ReflectionToStringBuilder.toStringExclude(this, "arresteeSegment");
