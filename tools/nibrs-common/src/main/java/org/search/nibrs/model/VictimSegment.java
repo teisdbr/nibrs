@@ -169,6 +169,7 @@ public class VictimSegment extends AbstractPersonSegment {
 		return aggravatedAssaultHomicideCircumstances[position];
 	}
 
+	@JsonIgnore
 	public List<String> getAggravatedAssaultHomicideCircumstancesList() {
 
 		List<String> aggravatedAssaultHomicideCircumstancesList = new ArrayList<String>();

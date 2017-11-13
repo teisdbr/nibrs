@@ -16,9 +16,13 @@
 package org.search.nibrs.stagingdata.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,6 +34,7 @@ import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
@@ -50,6 +55,7 @@ import org.search.nibrs.stagingdata.model.SexOfPersonType;
 import org.search.nibrs.stagingdata.model.SuspectedDrugType;
 import org.search.nibrs.stagingdata.model.SuspectedDrugTypeType;
 import org.search.nibrs.stagingdata.model.TypeDrugMeasurementType;
+import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfVictimType;
@@ -57,6 +63,8 @@ import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
 import org.search.nibrs.stagingdata.model.TypePropertyLossEtcType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
+import org.search.nibrs.stagingdata.model.VictimOffenderAssociation;
+import org.search.nibrs.stagingdata.model.VictimOffenderRelationshipType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
@@ -350,7 +358,19 @@ public class GroupAIncidentService {
 	
 	private void processVictims(AdministrativeSegment administrativeSegment,
 			GroupAIncidentReport groupAIncidentReport) {
+		
 		if (groupAIncidentReport.getVictimCount() > 0){
+			Map<String, OffenseSegment> offenseCodeOffenseMap = new HashMap<>(); 
+			Optional<Set<OffenseSegment>> offenseSegments= Optional.ofNullable(administrativeSegment.getOffenseSegments());
+			offenseSegments.ifPresent(offenses -> 
+			offenses.forEach(offense->offenseCodeOffenseMap.put(offense.getUcrOffenseCodeType().getUcrOffenseCode(), offense))
+					);
+			
+			Map<Integer, OffenderSegment> offenderSequenceNumberOffenderMap = new HashMap<>();
+			Optional<Set<OffenderSegment>> offenderSegments = Optional.ofNullable(administrativeSegment.getOffenderSegments()); 
+			offenderSegments.ifPresent( offenders -> 
+			offenders.forEach(offender->offenderSequenceNumberOffenderMap.put(offender.getOffenderSequenceNumber(), offender)));
+			
 			Set<VictimSegment> victimSegments = new HashSet<>();
 			for (org.search.nibrs.model.VictimSegment victim: groupAIncidentReport.getVictims()){
 				VictimSegment victimSegment = new VictimSegment();
@@ -404,34 +424,83 @@ public class GroupAIncidentService {
 						AdditionalJustifiableHomicideCircumstancesType::new);
 				victimSegment.setAdditionalJustifiableHomicideCircumstancesType(additionalJustifiableHomicideCircumstancesType);
 				
-//				victimSegment.setTypeInjuryTypes(new HashSet<TypeInjuryType>(){{
-//					add(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"));
-//				}});
-//
-//				victimSegment.setOffenseSegments(new HashSet<OffenseSegment>(){{
-//					add(offenseSegment);
-//					add(offenseSegment2);
-//				}});
-//				
-//				victimSegment.setAggravatedAssaultHomicideCircumstancesTypes(new HashSet<AggravatedAssaultHomicideCircumstancesType>(){{
-//					add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"));
-//					add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02"));
-//				}});
-//				
-//				VictimOffenderAssociation victimOffenderAssociation1 = new VictimOffenderAssociation();
-//				victimOffenderAssociation1.setVictimSegment(victimSegment);
-//				victimOffenderAssociation1.setOffenderSegment(offenderSegment1);
-//				victimOffenderAssociation1.setVictimOffenderRelationshipType(
-//						victimOffenderRelationshipTypeRepository.findFirstByVictimOffenderRelationshipCode("AQ"));;
-//				
-//				victimSegment.setVictimOffenderAssociations(new HashSet<VictimOffenderAssociation>(){{
-//					add(victimOffenderAssociation1);
-//				}});
+				processTypeInjuryTypes(victimSegment, victim);
+				processAggravatedAssaultHomicideCircumstancesTypes(victimSegment, victim);
+				
+				if (victim.getPopulatedUcrOffenseCodeConnectionCount() > 0){
+					Set<OffenseSegment> offenses = new HashSet<>();
+					Arrays.stream(victim.getUcrOffenseCodeConnection())
+							.filter(StringUtils::isNotBlank)
+							.map(offenseCodeOffenseMap::get)
+							.filter(Objects::nonNull)
+							.forEach(offenses::add); 
+					victimSegment.setOffenseSegments(offenses);
+				}
+				
+				processVictimOffenderAssociations(victimSegment, victim, offenderSequenceNumberOffenderMap);
 				victimSegments.add(victimSegment);
 			}
 			administrativeSegment.setVictimSegments(victimSegments);
 		}
 		
+	}
+
+	private void processVictimOffenderAssociations(VictimSegment victimSegment,
+			org.search.nibrs.model.VictimSegment victim,
+			Map<Integer, OffenderSegment> offenderSequenceNumberOffenderMap) {
+		if (victim.getPopulatedOffenderNumberRelatedCount() > 0){
+			Set<VictimOffenderAssociation> victimOffenderAssociations = new HashSet<>();
+			for (int i = 0; i < victim.getPopulatedOffenderNumberRelatedCount(); i++){
+				
+				Integer offenderSequenceNumber = Optional.ofNullable(victim.getOffenderNumberRelated(i))
+						.map(ParsedObject::getValue).orElse(null);
+				OffenderSegment offenderSegment = 
+						offenderSequenceNumberOffenderMap.get(offenderSequenceNumber); 
+				if ( offenderSegment != null){
+					VictimOffenderAssociation victimOffenderAssociation = new VictimOffenderAssociation(); 
+					victimOffenderAssociation.setOffenderSegment(offenderSegment);
+					victimOffenderAssociation.setVictimSegment(victimSegment);
+					
+					String victimOffenderRelationship = StringUtils.trimToNull(victim.getVictimOffenderRelationship(i)); 
+					VictimOffenderRelationshipType victimOffenderRelationshipType = codeTableService
+							.getCodeTableType(
+									victimOffenderRelationship, 
+									victimOffenderRelationshipTypeRepository::findFirstByVictimOffenderRelationshipCode, 
+									VictimOffenderRelationshipType::new);
+					victimOffenderAssociation.setVictimOffenderRelationshipType(victimOffenderRelationshipType);	
+					victimOffenderAssociations.add(victimOffenderAssociation);
+				}
+			}
+			victimSegment.setVictimOffenderAssociations(victimOffenderAssociations);
+		}
+	}
+
+	private void processAggravatedAssaultHomicideCircumstancesTypes(VictimSegment victimSegment,
+		org.search.nibrs.model.VictimSegment victim) {
+		if (victim.getPopulatedAggravatedAssaultHomicideCircumstancesCount() > 0){
+			Set<AggravatedAssaultHomicideCircumstancesType> aggravatedAssaultHomicideCircumstancesTypes = new HashSet<>();
+			Arrays.stream(victim.getAggravatedAssaultHomicideCircumstances())
+					.filter(StringUtils::isNotBlank)
+					.map(item -> codeTableService.getCodeTableType(
+								item, 
+								aggravatedAssaultHomicideCircumstancesTypeRepository::findFirstByAggravatedAssaultHomicideCircumstancesCode, 
+								null) )
+					.filter(Objects::nonNull)
+					.forEach(aggravatedAssaultHomicideCircumstancesTypes::add);
+			victimSegment.setAggravatedAssaultHomicideCircumstancesTypes(aggravatedAssaultHomicideCircumstancesTypes);
+		}
+}
+
+	private void processTypeInjuryTypes(VictimSegment victimSegment, org.search.nibrs.model.VictimSegment victim) {
+		if (victim.getPopulatedTypeOfInjuryCount() > 0){
+			Set<TypeInjuryType> typeInjuryTypes = new HashSet<>();
+			Arrays.stream(victim.getTypeOfInjury())
+					.filter(StringUtils::isNotBlank)
+					.map(item -> codeTableService.getCodeTableType(item, typeInjuryTypeRepository::findFirstByTypeInjuryCode, null))
+					.filter(Objects::nonNull)
+					.forEach(typeInjuryTypes::add);
+			victimSegment.setTypeInjuryTypes(typeInjuryTypes);
+		}
 	}
 
 	private void processArrestReportSegmentArmedWiths(ArresteeSegment arresteeSegment, org.search.nibrs.model.ArresteeSegment arrestee) {

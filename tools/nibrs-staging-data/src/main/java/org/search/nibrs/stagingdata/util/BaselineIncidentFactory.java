@@ -80,6 +80,7 @@ public final class BaselineIncidentFactory {
 		incident.addVictim(v);
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
+		v.setAggravatedAssaultHomicideCircumstances(0, "01");
 		v.setVictimSequenceNumber(new ParsedObject<>(1));
 		v.setAgeString("2022");
 		v.setEthnicity("N");
