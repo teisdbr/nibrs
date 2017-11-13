@@ -26,6 +26,8 @@ import javax.persistence.OneToMany;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class SuspectedDrugTypeType {
 	@Id
@@ -36,6 +38,7 @@ public class SuspectedDrugTypeType {
 	private String suspectedDrugTypeDescription; 
 	
 	@OneToMany(mappedBy = "suspectedDrugTypeType")
+	@JsonIgnore
 	private Set<SuspectedDrugType> suspectedDrugTypes;
 
 	

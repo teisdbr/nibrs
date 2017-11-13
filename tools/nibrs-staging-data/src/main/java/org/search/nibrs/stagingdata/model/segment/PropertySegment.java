@@ -35,7 +35,13 @@ import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.SuspectedDrugType;
 import org.search.nibrs.stagingdata.model.TypePropertyLossEtcType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
+@JsonIdentityInfo(
+	generator = ObjectIdGenerators.PropertyGenerator.class, 
+	property = "propertySegmentId")
 public class PropertySegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

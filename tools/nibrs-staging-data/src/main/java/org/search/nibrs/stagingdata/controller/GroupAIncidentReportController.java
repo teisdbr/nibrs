@@ -33,12 +33,12 @@ public class GroupAIncidentReportController {
 	private GroupAIncidentService groupAIncidentService;
 	
 	@RequestMapping("/groupAIncidentReports")
-	public List<AdministrativeSegment> getAllArrestReport(){
+	public List<AdministrativeSegment> getAllGroupAIncidentReport(){
 		return groupAIncidentService.findAllAdministrativeSegments();
 	}
 	
 	@RequestMapping("/groupAIncidentReport")
-	public GroupAIncidentReport getGroupBReport(){
+	public GroupAIncidentReport getGroupAIncidentReport(){
 		return BaselineIncidentFactory.getBaselineIncident();
 	}
 	

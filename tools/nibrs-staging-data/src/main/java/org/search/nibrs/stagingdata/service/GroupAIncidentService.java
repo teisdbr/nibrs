@@ -16,6 +16,7 @@
 package org.search.nibrs.stagingdata.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.Agency;
@@ -40,19 +42,26 @@ import org.search.nibrs.stagingdata.model.MultipleArresteeSegmentsIndicatorType;
 import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.OfficerActivityCircumstanceType;
 import org.search.nibrs.stagingdata.model.OfficerAssignmentTypeType;
+import org.search.nibrs.stagingdata.model.PropertyDescriptionType;
+import org.search.nibrs.stagingdata.model.PropertyType;
 import org.search.nibrs.stagingdata.model.RaceOfPersonType;
 import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
 import org.search.nibrs.stagingdata.model.SexOfPersonType;
+import org.search.nibrs.stagingdata.model.SuspectedDrugType;
+import org.search.nibrs.stagingdata.model.SuspectedDrugTypeType;
+import org.search.nibrs.stagingdata.model.TypeDrugMeasurementType;
 import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfVictimType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
+import org.search.nibrs.stagingdata.model.TypePropertyLossEtcType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
+import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 import org.search.nibrs.stagingdata.repository.AdditionalJustifiableHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
@@ -218,12 +227,115 @@ public class GroupAIncidentService {
 		Agency agency = codeTableService.getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
 		administrativeSegment.setAgency(agency);
 		
+		processProperties(administrativeSegment, groupAIncidentReport);
 		processOffenses(administrativeSegment, groupAIncidentReport);
 		processOffenders(administrativeSegment, groupAIncidentReport);
 		processArrestees(administrativeSegment, groupAIncidentReport);
 		processVictims(administrativeSegment, groupAIncidentReport);
 		return this.saveAdministrativeSegment(administrativeSegment);
 	}
+	private void processProperties(AdministrativeSegment administrativeSegment,
+			GroupAIncidentReport groupAIncidentReport) {
+		if (groupAIncidentReport.getPropertyCount() > 0){
+			Set<PropertySegment> propertySegments = new HashSet<>();
+			for (org.search.nibrs.model.PropertySegment property: groupAIncidentReport.getProperties()){
+				PropertySegment propertySegment = new PropertySegment();
+				propertySegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
+				propertySegment.setAdministrativeSegment(administrativeSegment);
+				
+				TypePropertyLossEtcType typePropertyLossEtcType = codeTableService.getCodeTableType(
+						property.getTypeOfPropertyLoss(), typePropertyLossEtcTypeRepository::findFirstByTypePropertyLossEtcCode, TypePropertyLossEtcType::new);
+				propertySegment.setTypePropertyLossEtcType(typePropertyLossEtcType );
+				
+				Integer numberOfRecoveredMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles())
+						.map(ParsedObject::getValue).orElse(null);
+				propertySegment.setNumberOfRecoveredMotorVehicles(numberOfRecoveredMotorVehicles);
+				
+				Integer numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfStolenMotorVehicles())
+						.map(ParsedObject::getValue).orElse(null);
+				propertySegment.setNumberOfStolenMotorVehicles(numberOfStolenMotorVehicles);
+//				3 PropertySegment Segments:
+//				PropertySegment [typeOfPropertyLoss=7, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[null, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]
+//				PropertySegment [typeOfPropertyLoss=5, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[Thu Jan 08 00:00:00 CST 2015, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]
+//				PropertySegment [typeOfPropertyLoss=6, propertyDescription=[10, 11, null, null, null, null, null, null, null, null], valueOfProperty=[null, 100, null, null, null, null, null, null, null, null], dateRecovered=[null, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[E, E, X], estimatedDrugQuantity=[0.001, 0.001, null], typeDrugMeasurement=[LB, OZ, null], populatedPropertyDescriptionCount=2, populatedSuspectedDrugTypeCount=3]
+				processPropertyType(propertySegment, property); 
+				processSuspectedDrugType(propertySegment, property); 
+
+				propertySegments.add(propertySegment);
+			}
+			
+			administrativeSegment.setPropertySegments(propertySegments);
+		}
+		
+	}
+
+	private void processSuspectedDrugType(PropertySegment propertySegment,
+			org.search.nibrs.model.PropertySegment property) {
+		Set<SuspectedDrugType> suspectedDrugTypes = new HashSet<>(); 
+		if (property.getPopulatedSuspectedDrugTypeCount() > 0){
+			for (int i = 0; i < property.getPopulatedSuspectedDrugTypeCount(); i++){
+				String suspectedDrugTypeString = StringUtils.trimToNull(property.getSuspectedDrugType(i)); 
+				
+				SuspectedDrugTypeType suspectedDrugTypeType = 
+						codeTableService.getCodeTableType(suspectedDrugTypeString, suspectedDrugTypeTypeRepository::findFirstBySuspectedDrugTypeCode, null);
+				
+				if (suspectedDrugTypeType != null){
+					SuspectedDrugType suspectedDrugType = new SuspectedDrugType(); 
+					suspectedDrugType.setPropertySegment(propertySegment);
+					suspectedDrugType.setSuspectedDrugTypeType(suspectedDrugTypeType);
+					
+					//TODO check whether the field can be nullable. 
+					Double estimatedDrugQuantity = 
+							Optional.ofNullable(property.getEstimatedDrugQuantity(i)).map(ParsedObject::getValue).orElse(0.0);
+					suspectedDrugType.setEstimatedDrugQuantity(estimatedDrugQuantity);
+					
+					
+					TypeDrugMeasurementType typeDrugMeasurementType = codeTableService.getCodeTableType(
+							property.getTypeDrugMeasurement(i), typeDrugMeasurementTypeRepository::findFirstByTypeDrugMeasurementCode, TypeDrugMeasurementType::new);
+					suspectedDrugType.setTypeDrugMeasurementType(typeDrugMeasurementType );
+					
+					suspectedDrugTypes.add(suspectedDrugType);
+				}
+			}
+		}
+		
+		if (!suspectedDrugTypes.isEmpty()){
+			propertySegment.setSuspectedDrugTypes(suspectedDrugTypes);
+		}
+		
+	}
+
+	private void processPropertyType(PropertySegment propertySegment, org.search.nibrs.model.PropertySegment property) {
+		Set<PropertyType> propertyTypes = new HashSet<>(); 
+		if (property.getPopulatedPropertyDescriptionCount() > 0){
+			for (int i = 0; i < property.getPopulatedPropertyDescriptionCount(); i++){
+				String propertyDescription = StringUtils.trimToNull(property.getPropertyDescription(i)); 
+				
+				PropertyDescriptionType propertyDescriptionType = 
+						codeTableService.getCodeTableType(propertyDescription, propertyDescriptionTypeRepository::findFirstByPropertyDescriptionCode, null);
+				
+				if (propertyDescriptionType != null){
+					PropertyType propertyType = new PropertyType(); 
+					propertyType.setPropertySegment(propertySegment);
+					propertyType.setPropertyDescriptionType(propertyDescriptionType);
+					Integer valueOfProperty = 
+							Optional.ofNullable(property.getValueOfProperty(i)).map(ParsedObject::getValue).orElse(0);
+					propertyType.setValueOfProperty(valueOfProperty.doubleValue());
+					
+					Date dateRecovered = property.getDateRecovered()[i].getValue();
+					propertyType.setRecoveredDate(dateRecovered);
+					propertyType.setRecoveredDateType(codeTableService.getDateType(dateRecovered));
+					
+					propertyTypes.add(propertyType);
+				}
+			}
+		}
+		
+		if (!propertyTypes.isEmpty()){
+			propertySegment.setPropertyTypes(propertyTypes);
+		}
+	}
+	
 //	1 VictimSegment Segments:
 //		VictimSegment [age=20-22, sex=F, race=B, ethnicity=N, victimSequenceNumber=01, 
 //	ucrOffenseCodeConnection=[13A, null, null, null, null, null, null, null, null, null], 
@@ -235,7 +347,7 @@ public class GroupAIncidentService {
 //	populatedAggravatedAssaultHomicideCircumstancesCount=0, 
 //	populatedTypeOfInjuryCount=1, populatedUcrOffenseCodeConnectionCount=1, populatedOffenderNumberRelatedCount=1]
 //	,segmentType=6]
-
+	
 	private void processVictims(AdministrativeSegment administrativeSegment,
 			GroupAIncidentReport groupAIncidentReport) {
 		if (groupAIncidentReport.getVictimCount() > 0){

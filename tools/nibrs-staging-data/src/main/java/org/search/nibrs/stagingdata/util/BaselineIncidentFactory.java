@@ -27,7 +27,9 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 
 /**
  * Utility class that creates test incidents.
@@ -111,7 +113,37 @@ public final class BaselineIncidentFactory {
 		arrestee.setEthnicity("U");
 		arrestee.setResidentStatus("R");
 			
-				
+
+		PropertySegment p = new PropertySegment();
+		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._7.code);
+		p.setPropertyDescription(0, "20");
+		p.setValueOfProperty(0, new ParsedObject<Integer>(5000));
+		incident.addProperty(p);
+		
+		PropertySegment p2 = new PropertySegment();
+		p2.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
+		p2.setPropertyDescription(0, "20");
+		p2.setValueOfProperty(0, new ParsedObject<Integer>(5000));
+		p2.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDate.of(2015, 1, 8).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+		incident.addProperty(p2);
+		
+		PropertySegment p3 = new PropertySegment();
+		p3.setTypeOfPropertyLoss(TypeOfPropertyLossCode._6.code);
+		p3.setPropertyDescription(0, "10");
+		p3.setPropertyDescription(1, "11");
+		p3.setValueOfProperty(0, ParsedObject.getMissingParsedObject());
+		p3.setValueOfProperty(1, new ParsedObject<Integer>(100));
+		p3.setSuspectedDrugType(0, "E");
+		p3.setSuspectedDrugType(1, "E");
+		p3.setSuspectedDrugType(2, "X");
+		p3.setEstimatedDrugQuantity(0, new ParsedObject<Double>(0.001));
+		p3.setEstimatedDrugQuantity(1, new ParsedObject<Double>(0.001));
+		p3.setEstimatedDrugQuantity(2, null);
+		p3.setTypeDrugMeasurement(0, "LB");
+		p3.setTypeDrugMeasurement(1, "OZ");
+		p3.setTypeDrugMeasurement(2, null);
+		incident.addProperty(p3);
+
 		return incident;
 		
 	}

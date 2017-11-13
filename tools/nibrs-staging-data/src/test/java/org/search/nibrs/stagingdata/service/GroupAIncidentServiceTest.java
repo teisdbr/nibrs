@@ -928,5 +928,87 @@ public class GroupAIncidentServiceTest {
 //		assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
 //		assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
 //		assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("AQ"));
+		
+//		3 PropertySegment Segments:
+//			PropertySegment [typeOfPropertyLoss=7, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[null, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]
+//			PropertySegment [typeOfPropertyLoss=5, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[Thu Jan 08 00:00:00 CST 2015, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]
+//			PropertySegment [typeOfPropertyLoss=6, propertyDescription=[10, 11, null, null, null, null, null, null, null, null], valueOfProperty=[null, 100, null, null, null, null, null, null, null, null], dateRecovered=[null, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[E, E, X], estimatedDrugQuantity=[0.001, 0.001, null], typeDrugMeasurement=[LB, OZ, null], populatedPropertyDescriptionCount=2, populatedSuspectedDrugTypeCount=3]
+		
+		Set<PropertySegment> propertySegments = persisted.getPropertySegments();
+		assertThat(propertySegments.size(), equalTo(3));
+		
+		for (PropertySegment propertySegment: propertySegments){
+			Set<PropertyType> propertyTypes = propertySegment.getPropertyTypes();
+			Set<SuspectedDrugType> suspectedDrugTypes = propertySegment.getSuspectedDrugTypes();
+			switch (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()){
+			case "5": 
+				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(null)); 
+				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
+				assertThat(propertyTypes.size(), equalTo(1));
+				for (PropertyType propertyType: propertyTypes){
+					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
+					assertThat(propertyType.getRecoveredDateType().getDateMMDDYYYY(), equalTo("01082015"));
+				}
+				
+				assertThat(suspectedDrugTypes.size(), equalTo(0));
+				break; 
+			case "6": 
+				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(null)); 
+				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
+				assertThat(propertyTypes.size(), equalTo(2));
+				for (PropertyType propertyType: propertyTypes){
+					switch(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode()){
+					case "10":
+						assertThat(propertyType.getValueOfProperty(), equalTo(0.0));
+						assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
+						break; 
+					case "11": 
+						assertThat(propertyType.getValueOfProperty(), equalTo(100.0));
+						assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
+						break; 
+					default:
+						fail("Unexpected property description in the type of loss 6 property segment.");
+					}
+				}
+				assertThat(suspectedDrugTypes.size(), equalTo(3));
+//				suspectedDrugType=[E, E, X], estimatedDrugQuantity=[0.001, 0.001, null], typeDrugMeasurement=[LB, OZ, null], populatedPropertyDescriptionCount=2, populatedSuspectedDrugTypeCount=3]
+				for (SuspectedDrugType suspectedDrugType: suspectedDrugTypes){
+					assertThat(suspectedDrugType.getPropertySegment().getPropertySegmentId(), equalTo(propertySegment.getPropertySegmentId()));
+					switch(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode()){
+					case " ": 
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("X"));
+						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(0.0));
+						break; 
+					case "LB": 
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("E"));
+						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(0.001));
+						break; 
+					case "OZ": 
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("E"));
+						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(0.001));
+						break; 
+					default:
+						fail("Unexpected type drug measurement type."); 
+					}
+				}
+				break; 
+			case "7": 
+				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(null)); 
+				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
+				assertThat(propertyTypes.size(), equalTo(1));
+				for (PropertyType propertyType: propertyTypes){
+					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
+					assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
+				}
+				assertThat(suspectedDrugTypes.size(), equalTo(0));
+				break; 
+			default: 
+				fail("Unexpected type of property loss code. ");	
+			}
+		}
+		
+
 	}
 }
