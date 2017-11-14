@@ -75,10 +75,6 @@ public class OffenseSegment {
 	@JoinColumn(name="methodOfEntryTypeID")
 	private MethodOfEntryType methodOfEntryType;
 	
-	@ManyToOne
-	@JoinColumn(name="biasMotivationTypeId")
-	private BiasMotivationType biasMotivationType;
-	
 	@OneToMany(mappedBy = "offenseSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds;
 	
@@ -93,6 +89,12 @@ public class OffenseSegment {
 	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "typeOfCriminalActivityTypeId", referencedColumnName = "typeOfCriminalActivityTypeId"))
 	private Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes;  
+	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@JoinTable(name = "biasMotivation", 
+	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
+	inverseJoinColumns = @JoinColumn(name = "biasMotivationTypeId", referencedColumnName = "biasMotivationTypeId"))
+	private Set<BiasMotivationType> biasMotivationTypes;  
 	
 	@ManyToMany(mappedBy = "offenseSegments", fetch=FetchType.EAGER)
 	private Set<VictimSegment> victimSegments;
@@ -157,12 +159,6 @@ public class OffenseSegment {
 	public void setMethodOfEntryType(MethodOfEntryType methodOfEntryType) {
 		this.methodOfEntryType = methodOfEntryType;
 	}
-	public BiasMotivationType getBiasMotivationType() {
-		return biasMotivationType;
-	}
-	public void setBiasMotivationType(BiasMotivationType biasMotivationType) {
-		this.biasMotivationType = biasMotivationType;
-	}
 	public Set<OffenderSuspectedOfUsingType> getOffenderSuspectedOfUsingTypes() {
 		return offenderSuspectedOfUsingTypes;
 	}
@@ -181,12 +177,18 @@ public class OffenseSegment {
 	public void setTypeOfWeaponForceInvolveds(Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds) {
 		this.typeOfWeaponForceInvolveds = typeOfWeaponForceInvolveds;
 	}
+	public Set<BiasMotivationType> getBiasMotivationTypes() {
+		return biasMotivationTypes;
+	}
+	public void setBiasMotivationTypes(Set<BiasMotivationType> biasMotivationTypes) {
+		this.biasMotivationTypes = biasMotivationTypes;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((administrativeSegment == null) ? 0 : administrativeSegment.hashCode());
-		result = prime * result + ((biasMotivationType == null) ? 0 : biasMotivationType.hashCode());
+		result = prime * result + ((biasMotivationTypes == null) ? 0 : biasMotivationTypes.hashCode());
 		result = prime * result + ((locationType == null) ? 0 : locationType.hashCode());
 		result = prime * result + ((methodOfEntryType == null) ? 0 : methodOfEntryType.hashCode());
 		result = prime * result + ((numberOfPremisesEntered == null) ? 0 : numberOfPremisesEntered.hashCode());
@@ -198,6 +200,7 @@ public class OffenseSegment {
 		result = prime * result + ((typeOfCriminalActivityTypes == null) ? 0 : typeOfCriminalActivityTypes.hashCode());
 		result = prime * result + ((typeOfWeaponForceInvolveds == null) ? 0 : typeOfWeaponForceInvolveds.hashCode());
 		result = prime * result + ((ucrOffenseCodeType == null) ? 0 : ucrOffenseCodeType.hashCode());
+		result = prime * result + ((victimSegments == null) ? 0 : victimSegments.hashCode());
 		return result;
 	}
 	@Override
@@ -214,10 +217,10 @@ public class OffenseSegment {
 				return false;
 		} else if (!administrativeSegment.equals(other.administrativeSegment))
 			return false;
-		if (biasMotivationType == null) {
-			if (other.biasMotivationType != null)
+		if (biasMotivationTypes == null) {
+			if (other.biasMotivationTypes != null)
 				return false;
-		} else if (!biasMotivationType.equals(other.biasMotivationType))
+		} else if (!biasMotivationTypes.equals(other.biasMotivationTypes))
 			return false;
 		if (locationType == null) {
 			if (other.locationType != null)
@@ -268,6 +271,11 @@ public class OffenseSegment {
 			if (other.ucrOffenseCodeType != null)
 				return false;
 		} else if (!ucrOffenseCodeType.equals(other.ucrOffenseCodeType))
+			return false;
+		if (victimSegments == null) {
+			if (other.victimSegments != null)
+				return false;
+		} else if (!victimSegments.equals(other.victimSegments))
 			return false;
 		return true;
 	}

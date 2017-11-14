@@ -38,6 +38,7 @@ import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstances
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
+import org.search.nibrs.stagingdata.model.CargoTheftIndicatorType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
 import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
@@ -76,6 +77,7 @@ import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.repository.AggravatedAssaultHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.ArresteeWasArmedWithTypeRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
+import org.search.nibrs.stagingdata.repository.CargoTheftIndicatorTypeRepository;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepository;
 import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18TypeRepository;
 import org.search.nibrs.stagingdata.repository.EthnicityOfPersonTypeRepository;
@@ -129,6 +131,8 @@ public class GroupAIncidentService {
 	public MethodOfEntryTypeRepository methodOfEntryTypeRepository; 
 	@Autowired
 	public BiasMotivationTypeRepository biasMotivationTypeRepository; 
+	@Autowired
+	public CargoTheftIndicatorTypeRepository cargoTheftIndicatorTypeRepository; 
 	@Autowired
 	public TypeOfWeaponForceInvolvedTypeRepository typeOfWeaponForceInvolvedTypeRepository; 
 	@Autowired
@@ -234,6 +238,11 @@ public class GroupAIncidentService {
 		
 		Agency agency = codeTableService.getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
 		administrativeSegment.setAgency(agency);
+		
+		CargoTheftIndicatorType cargoTheftIndicatorType = 
+				codeTableService.getCodeTableType(groupAIncidentReport.getCargoTheftIndicator(), 
+						cargoTheftIndicatorTypeRepository::findFirstByCargoTheftIndicatorCode, CargoTheftIndicatorType::new); 
+		administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorType);
 		
 		processProperties(administrativeSegment, groupAIncidentReport);
 		processOffenses(administrativeSegment, groupAIncidentReport);
@@ -659,11 +668,16 @@ public class GroupAIncidentService {
 				processOffendersSuspectedOfUsing(offenseSegment, offense);
 				
 				//TODO offense segment and BiasMotivationType should be a many to many relationship.  
-				//A joiner table is reqruied. 
-				BiasMotivationType biasMotivationType = 
-						codeTableService.getCodeTableType(offense.getBiasMotivation(0), 
-								biasMotivationTypeRepository::findFirstByBiasMotivationCode, BiasMotivationType::new);
-				offenseSegment.setBiasMotivationType(biasMotivationType);
+				//A joiner table is reqruied.
+				Set<BiasMotivationType> biasMotivationTypes = new HashSet<>();
+				Arrays.stream(offense.getBiasMotivation())
+					.filter(StringUtils::isNotBlank)
+					.map(code -> codeTableService.getCodeTableType(code, 
+								biasMotivationTypeRepository::findFirstByBiasMotivationCode, null))
+					.filter(Objects::nonNull)
+					.forEach(biasMotivationTypes::add);
+					
+				offenseSegment.setBiasMotivationTypes(biasMotivationTypes);
 				
 				offenseSegments.add(offenseSegment);
 			}

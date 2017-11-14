@@ -65,6 +65,7 @@ import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.repository.AggravatedAssaultHomicideCircumstancesTypeRepository;
 import org.search.nibrs.stagingdata.repository.ArresteeWasArmedWithTypeRepository;
 import org.search.nibrs.stagingdata.repository.BiasMotivationTypeRepository;
+import org.search.nibrs.stagingdata.repository.CargoTheftIndicatorTypeRepository;
 import org.search.nibrs.stagingdata.repository.ClearedExceptionallyTypeRepository;
 import org.search.nibrs.stagingdata.repository.DateTypeRepository;
 import org.search.nibrs.stagingdata.repository.DispositionOfArresteeUnder18TypeRepository;
@@ -117,6 +118,8 @@ public class GroupAIncidentServiceTest {
 	public MethodOfEntryTypeRepository methodOfEntryTypeRepository; 
 	@Autowired
 	public BiasMotivationTypeRepository biasMotivationTypeRepository; 
+	@Autowired
+	public CargoTheftIndicatorTypeRepository cargoTheftIndicatorTypeRepository; 
 	@Autowired
 	public TypeOfWeaponForceInvolvedTypeRepository typeOfWeaponForceInvolvedTypeRepository; 
 	@Autowired
@@ -189,7 +192,7 @@ public class GroupAIncidentServiceTest {
 		assertThat(offenseSegments.size(), equalTo(2));
 		
 		for (OffenseSegment offenseSegment: offenseSegments){
-			if (offenseSegment.getBiasMotivationType().getBiasMotivationCode().equals("11")){
+			if (offenseSegment.getBiasMotivationTypes().contains(biasMotivationTypeRepository.findFirstByBiasMotivationCode("11"))){
 				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
 				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("23D"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
@@ -224,7 +227,7 @@ public class GroupAIncidentServiceTest {
 				
 			}
 			else {
-				assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("12"));
+				assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getBiasMotivationCode(), equalTo("12"));
 				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
 				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("26B"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("A"));
@@ -456,6 +459,7 @@ public class GroupAIncidentServiceTest {
 		ClearedExceptionallyType clearedExceptionallyType
 			= clearedExceptionallyTypeRepository.findFirstByClearedExceptionallyCode("B");
 		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
+		administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorTypeRepository.findFirstByCargoTheftIndicatorCode("N"));
 		
 		
 //		Offense segment 1 
@@ -476,7 +480,9 @@ public class GroupAIncidentServiceTest {
 		MethodOfEntryType methodOfEntryType = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
 		offenseSegment.setMethodOfEntryType(methodOfEntryType);
 		BiasMotivationType biasMotivationType = biasMotivationTypeRepository.findFirstByBiasMotivationCode("11");
-		offenseSegment.setBiasMotivationType(biasMotivationType);;
+		offenseSegment.setBiasMotivationTypes(new HashSet<BiasMotivationType>(){{
+			add(biasMotivationType);
+		}});;
 		offenseSegment.setAdministrativeSegment(administrativeSegment);
 		
 		offenseSegment.setOffenderSuspectedOfUsingTypes(new HashSet<OffenderSuspectedOfUsingType>(){{
@@ -517,7 +523,9 @@ public class GroupAIncidentServiceTest {
 		MethodOfEntryType methodOfEntryType2 = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
 		offenseSegment2.setMethodOfEntryType(methodOfEntryType2);
 		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findFirstByBiasMotivationCode("12");
-		offenseSegment2.setBiasMotivationType(biasMotivationType2);;
+		offenseSegment2.setBiasMotivationTypes(new HashSet<BiasMotivationType>(){{
+			add(biasMotivationType2);
+		}});;
 		offenseSegment2.setAdministrativeSegment(administrativeSegment);
 
 		offenseSegment2.setTypeOfCriminalActivityTypes(new HashSet<TypeOfCriminalActivityType>(){{
@@ -741,6 +749,7 @@ public class GroupAIncidentServiceTest {
 		assertNull(persisted.getReportDateIndicator());
 		assertThat(persisted.getIncidentHour(), equalTo(""));
 		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("A"));
+		assertThat(persisted.getCargoTheftIndicatorType().getCargoTheftIndicatorTypeId(), equalTo(99998));
 		
 //		1 OffenseSegment Segments:
 //		OffenseSegment [ucrOffenseCode=13A, offenseAttemptedCompleted=C, 
@@ -759,7 +768,7 @@ public class GroupAIncidentServiceTest {
 		assertThat(offenseSegments.size(), equalTo(1));
 		
 		OffenseSegment offenseSegment = offenseSegments.stream().findFirst().get();
-		assertThat(offenseSegment.getBiasMotivationType().getBiasMotivationCode(), equalTo("15"));
+		assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getBiasMotivationCode(), equalTo("15"));
 		assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
 		assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
 		assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));

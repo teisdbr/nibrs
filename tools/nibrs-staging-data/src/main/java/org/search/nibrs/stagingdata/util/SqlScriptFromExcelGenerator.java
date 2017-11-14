@@ -141,7 +141,7 @@ public class SqlScriptFromExcelGenerator {
     	
         sb.append("insert into DateType  values ('99999', '1889-01-01' , 0 , 'UNK', 0 , 0 , 'Unknown', 'Unknown' , 0 , 'Unknown', 0, 'Unknown');\n");
         sb.append("insert into DateType  values ('99998', '1890-01-01' , 0 , 'BLK', 0 , 0 , 'Blank', 'Blank' , 0 , 'Blank', 0, 'Blank');\n");
-        sb.append("insert into Agency  values ('1', 'agencyORI', 'Agency Name', 2, 'WI', 'Wisconsin', 12345678);");
+        sb.append("insert into Agency  values ('1', 'agencyORI', 'Agency Name', 2, 'WI', 'Wisconsin', 12345678);\n");
         sb.append("insert into Agency  values ('99998', '', 'Blank', 99998, 'NA', 'Blank', 0);");
 
         if (isSqlServerInsert){

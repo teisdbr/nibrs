@@ -31,6 +31,7 @@ import javax.persistence.OneToMany;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.Agency;
+import org.search.nibrs.stagingdata.model.CargoTheftIndicatorType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.search.nibrs.stagingdata.model.DateType;
 import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
@@ -85,6 +86,9 @@ public class AdministrativeSegment {
 	@ManyToOne
 	@JoinColumn(name="clearedExceptionallyTypeId") 
 	private ClearedExceptionallyType clearedExceptionallyType; 
+	@ManyToOne
+	@JoinColumn(name="cargoTheftIndicatorTypeId") 
+	private CargoTheftIndicatorType cargoTheftIndicatorType; 
 	
     public Set<OffenseSegment> getOffenseSegments() {
         return offenseSegments;
@@ -304,5 +308,13 @@ public class AdministrativeSegment {
 		} else if (!yearOfTape.equals(other.yearOfTape))
 			return false;
 		return true;
+	}
+
+	public CargoTheftIndicatorType getCargoTheftIndicatorType() {
+		return cargoTheftIndicatorType;
+	}
+
+	public void setCargoTheftIndicatorType(CargoTheftIndicatorType cargoTheftIndicatorType) {
+		this.cargoTheftIndicatorType = cargoTheftIndicatorType;
 	}
 }

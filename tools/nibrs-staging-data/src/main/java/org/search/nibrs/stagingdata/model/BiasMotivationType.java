@@ -15,51 +15,65 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class BiasMotivationType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer biasMotivationTypeID; 
+	private Integer biasMotivationTypeId; 
 	
 	private String biasMotivationCode; 
 	private String biasMotivationDescription; 
-	private String biasMotivationCategory; 
+	private String biasMotivationCategory;
 	
+	@ManyToMany(mappedBy = "biasMotivationTypes", fetch=FetchType.LAZY)
+	@JsonIgnore
+	private Set<OffenseSegment> offenseSegments;
+
 	public BiasMotivationType() {
 		super();
 	}
 
-	public BiasMotivationType(Integer biasMotivationTypeID) {
+	public BiasMotivationType(Integer biasMotivationTypeId) {
 		super();
-		this.biasMotivationTypeID = biasMotivationTypeID;
+		this.biasMotivationTypeId = biasMotivationTypeId;
 	}
 
-	public BiasMotivationType(Integer biasMotivationTypeID, String biasMotivationCode, String biasMotivationDescription,
+	public BiasMotivationType(Integer biasMotivationTypeId, String biasMotivationCode, String biasMotivationDescription,
 			String biasMotivationCategory) {
 		super();
-		this.biasMotivationTypeID = biasMotivationTypeID;
+		this.biasMotivationTypeId = biasMotivationTypeId;
 		this.biasMotivationCode = biasMotivationCode;
 		this.biasMotivationDescription = biasMotivationDescription;
 		this.biasMotivationCategory = biasMotivationCategory;
 	}
 
 	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
+		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
+        return ReflectionToStringBuilder.toStringExclude(this, "offenseSegments");		
 	}
 
-	public Integer getBiasMotivationTypeID() {
-		return biasMotivationTypeID;
+	public Integer getBiasMotivationTypeId() {
+		return biasMotivationTypeId;
 	}
 
-	public void setBiasMotivationTypeID(Integer biasMotivationTypeID) {
-		this.biasMotivationTypeID = biasMotivationTypeID;
+	public void setBiasMotivationTypeId(Integer biasMotivationTypeId) {
+		this.biasMotivationTypeId = biasMotivationTypeId;
 	}
 
 	public String getBiasMotivationCode() {
@@ -93,7 +107,7 @@ public class BiasMotivationType {
 		result = prime * result + ((biasMotivationCategory == null) ? 0 : biasMotivationCategory.hashCode());
 		result = prime * result + ((biasMotivationCode == null) ? 0 : biasMotivationCode.hashCode());
 		result = prime * result + ((biasMotivationDescription == null) ? 0 : biasMotivationDescription.hashCode());
-		result = prime * result + ((biasMotivationTypeID == null) ? 0 : biasMotivationTypeID.hashCode());
+		result = prime * result + ((biasMotivationTypeId == null) ? 0 : biasMotivationTypeId.hashCode());
 		return result;
 	}
 
@@ -121,10 +135,10 @@ public class BiasMotivationType {
 				return false;
 		} else if (!biasMotivationDescription.equals(other.biasMotivationDescription))
 			return false;
-		if (biasMotivationTypeID == null) {
-			if (other.biasMotivationTypeID != null)
+		if (biasMotivationTypeId == null) {
+			if (other.biasMotivationTypeId != null)
 				return false;
-		} else if (!biasMotivationTypeID.equals(other.biasMotivationTypeID))
+		} else if (!biasMotivationTypeId.equals(other.biasMotivationTypeId))
 			return false;
 		return true;
 	}
