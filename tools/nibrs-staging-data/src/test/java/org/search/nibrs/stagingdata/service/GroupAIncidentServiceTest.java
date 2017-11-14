@@ -918,25 +918,21 @@ public class GroupAIncidentServiceTest {
 		assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R")); 
 		assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
 				.getAdditionalJustifiableHomicideCircumstancesTypeId(), equalTo(99998));
-
-//		assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(2)); 
-//		assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().containsAll(
-//				Arrays.asList(
-//						aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"), 
-//						aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02") ))); 
-//		assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
-//		assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"))); 
-//		
-//		assertTrue(victimSegment.getOffenseSegments().containsAll(persisted.getOffenseSegments()));
-//		
-//		Set<VictimOffenderAssociation> victimOffenderAssociations = victimSegment.getVictimOffenderAssociations();
-//		assertThat(victimOffenderAssociations.size(), equalTo(1));
-//		
-//		VictimOffenderAssociation victimOffenderAssociation = new ArrayList<>(victimOffenderAssociations).get(0);
-//		
-//		assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
-//		assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
-//		assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("AQ"));
+		assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(1)); 
+		assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().contains(
+						aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"))); 
+		assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
+		assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("N"))); 
+		
+		assertTrue(victimSegment.getOffenseSegments().containsAll(persisted.getOffenseSegments()));
+		
+		Set<VictimOffenderAssociation> victimOffenderAssociations = victimSegment.getVictimOffenderAssociations();
+		assertThat(victimOffenderAssociations.size(), equalTo(1));
+		
+		VictimOffenderAssociation victimOffenderAssociation = new ArrayList<>(victimOffenderAssociations).get(0);
+		assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
+		assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
+		assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("SE"));
 		
 //		3 PropertySegment Segments:
 //			PropertySegment [typeOfPropertyLoss=7, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[null, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]

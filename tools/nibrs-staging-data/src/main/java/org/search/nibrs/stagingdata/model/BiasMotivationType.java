@@ -25,7 +25,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 
