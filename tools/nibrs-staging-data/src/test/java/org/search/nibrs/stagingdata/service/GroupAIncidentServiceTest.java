@@ -969,7 +969,7 @@ public class GroupAIncidentServiceTest {
 				for (PropertyType propertyType: propertyTypes){
 					switch(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode()){
 					case "10":
-						assertThat(propertyType.getValueOfProperty(), equalTo(0.0));
+						assertThat(propertyType.getValueOfProperty(), equalTo(null));
 						assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
 						break; 
 					case "11": 
@@ -987,7 +987,7 @@ public class GroupAIncidentServiceTest {
 					switch(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode()){
 					case " ": 
 						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("X"));
-						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(0.0));
+						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(null));
 						break; 
 					case "LB": 
 						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("E"));

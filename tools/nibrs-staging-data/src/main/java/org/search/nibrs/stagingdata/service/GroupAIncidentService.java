@@ -301,9 +301,8 @@ public class GroupAIncidentService {
 					suspectedDrugType.setPropertySegment(propertySegment);
 					suspectedDrugType.setSuspectedDrugTypeType(suspectedDrugTypeType);
 					
-					//TODO check whether the field can be nullable. 
 					Double estimatedDrugQuantity = 
-							Optional.ofNullable(property.getEstimatedDrugQuantity(i)).map(ParsedObject::getValue).orElse(0.0);
+							Optional.ofNullable(property.getEstimatedDrugQuantity(i)).map(ParsedObject::getValue).orElse(null);
 					suspectedDrugType.setEstimatedDrugQuantity(estimatedDrugQuantity);
 					
 					
@@ -335,9 +334,12 @@ public class GroupAIncidentService {
 					PropertyType propertyType = new PropertyType(); 
 					propertyType.setPropertySegment(propertySegment);
 					propertyType.setPropertyDescriptionType(propertyDescriptionType);
-					Integer valueOfProperty = 
-							Optional.ofNullable(property.getValueOfProperty(i)).map(ParsedObject::getValue).orElse(0);
-					propertyType.setValueOfProperty(valueOfProperty.doubleValue());
+					Double valueOfProperty = 
+							Optional.ofNullable(property.getValueOfProperty(i))
+								.map(ParsedObject::getValue)
+								.map(Double::valueOf)
+								.orElse(null);
+					propertyType.setValueOfProperty(valueOfProperty);
 					
 					Date dateRecovered = property.getDateRecovered()[i].getValue();
 					propertyType.setRecoveredDate(dateRecovered);
