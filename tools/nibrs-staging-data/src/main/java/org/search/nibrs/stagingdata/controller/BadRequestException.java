@@ -13,15 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository.segment;
+package org.search.nibrs.stagingdata.controller;
 
-import javax.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
-import org.springframework.data.repository.CrudRepository;
-
-public interface ArrestReportSegmentRepository extends CrudRepository<ArrestReportSegment, Integer>{
-	@Transactional
-	long deleteByArrestTransactionNumber(String arrestTransactionNumber);
-	ArrestReportSegment findFirstByArrestTransactionNumber(String arrestTransactionNumber);
+@ResponseStatus(code=HttpStatus.BAD_REQUEST)
+public class BadRequestException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
+	private String errorMessage;
+ 
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public BadRequestException(String errorMessage) {
+		super(errorMessage);
+		this.errorMessage = errorMessage;
+	}
+	public BadRequestException() {
+		super();
+	}
 }

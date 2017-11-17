@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.stagingdata.repository.segment;
-
-import javax.transaction.Transactional;
-
-import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
-import org.springframework.data.repository.CrudRepository;
-
-public interface ArrestReportSegmentRepository extends CrudRepository<ArrestReportSegment, Integer>{
-	@Transactional
-	long deleteByArrestTransactionNumber(String arrestTransactionNumber);
-	ArrestReportSegment findFirstByArrestTransactionNumber(String arrestTransactionNumber);
+package org.search.nibrs.stagingdata.controller;
+public class ErrorResponse {
+	private int errorCode;
+	private String message;
+	
+	public int getErrorCode() {
+		return errorCode;
+	}
+	public void setErrorCode(int errorCode) {
+		this.errorCode = errorCode;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 }

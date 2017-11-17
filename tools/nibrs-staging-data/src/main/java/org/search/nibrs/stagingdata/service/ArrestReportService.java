@@ -159,7 +159,11 @@ public class ArrestReportService {
 		return arrestReportSegments;
 	}
 	
-	public ArrestReportSegment processGroupBArrestReport(GroupBArrestReport groupBArrestReport){
+	public long deleteGroupBArrestReport(GroupBArrestReport groupBArrestReport){
+		return arrestReportSegmentRepository.deleteByArrestTransactionNumber(groupBArrestReport.getIdentifier());
+	}
+	
+	public ArrestReportSegment saveGroupBArrestReport(GroupBArrestReport groupBArrestReport){
 		
 		ArresteeSegment arrestee = groupBArrestReport.getArrestee(); 
 		if (arrestee == null){
@@ -167,7 +171,11 @@ public class ArrestReportService {
 			return null;
 		}
 		
-		ArrestReportSegment arrestReportSegment = new ArrestReportSegment(); 
+		Optional<ArrestReportSegment> existingArrestReportSegment = 
+			Optional.ofNullable(arrestReportSegmentRepository.findFirstByArrestTransactionNumber(groupBArrestReport.getIdentifier()));
+		
+		ArrestReportSegment arrestReportSegment = existingArrestReportSegment.orElseGet(ArrestReportSegment::new); 
+		arrestReportSegment.setArrestTransactionNumber(groupBArrestReport.getIdentifier());
 		arrestReportSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupBArrestReport.getOri()));
 		
 		String reportActionType = String.valueOf(groupBArrestReport.getReportActionType()).trim();
@@ -190,7 +198,6 @@ public class ArrestReportService {
 				agencyRepository::findFirstByAgencyOri, Agency::new); 
 		arrestReportSegment.setAgency(agency);
 
-		arrestReportSegment.setArrestTransactionNumber(groupBArrestReport.getIdentifier());
 		arrestReportSegment.setArresteeSequenceNumber(groupBArrestReport.getArresteeSequenceNumber());
 		
 		arrestReportSegment.setArrestDate(groupBArrestReport.getArrestDate());
@@ -239,7 +246,10 @@ public class ArrestReportService {
 	}
 
 	private void processArrestReportSegmentArmedWiths(ArrestReportSegment arrestReportSegment, ArresteeSegment arrestee) {
-		Set<ArrestReportSegmentWasArmedWith> armedWiths = new HashSet<>();  
+		Set<ArrestReportSegmentWasArmedWith> armedWiths = Optional.ofNullable(arrestReportSegment.getArrestReportSegmentWasArmedWiths())
+				.orElseGet(HashSet::new);
+		
+		armedWiths.clear();
 		
 		if (arrestee.containsArresteeArmedWith()){
 			for (int i = 0; i < ArresteeSegment.ARRESTEE_ARMED_WITH_COUNT; i++){
