@@ -76,5 +76,44 @@ public class ResidentStatusOfPersonType {
 		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeID;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((residentStatusOfPersonCode == null) ? 0 : residentStatusOfPersonCode.hashCode());
+		result = prime * result
+				+ ((residentStatusOfPersonDescription == null) ? 0 : residentStatusOfPersonDescription.hashCode());
+		result = prime * result
+				+ ((residentStatusOfPersonTypeId == null) ? 0 : residentStatusOfPersonTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ResidentStatusOfPersonType other = (ResidentStatusOfPersonType) obj;
+		if (residentStatusOfPersonCode == null) {
+			if (other.residentStatusOfPersonCode != null)
+				return false;
+		} else if (!residentStatusOfPersonCode.equals(other.residentStatusOfPersonCode))
+			return false;
+		if (residentStatusOfPersonDescription == null) {
+			if (other.residentStatusOfPersonDescription != null)
+				return false;
+		} else if (!residentStatusOfPersonDescription.equals(other.residentStatusOfPersonDescription))
+			return false;
+		if (residentStatusOfPersonTypeId == null) {
+			if (other.residentStatusOfPersonTypeId != null)
+				return false;
+		} else if (!residentStatusOfPersonTypeId.equals(other.residentStatusOfPersonTypeId))
+			return false;
+		return true;
+	}
+
 
 }

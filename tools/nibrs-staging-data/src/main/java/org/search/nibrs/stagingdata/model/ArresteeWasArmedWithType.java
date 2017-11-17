@@ -77,4 +77,42 @@ public class ArresteeWasArmedWithType {
 		this.arresteeWasArmedWithDescription = arresteeWasArmedWithDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((arresteeWasArmedWithCode == null) ? 0 : arresteeWasArmedWithCode.hashCode());
+		result = prime * result
+				+ ((arresteeWasArmedWithDescription == null) ? 0 : arresteeWasArmedWithDescription.hashCode());
+		result = prime * result + ((arresteeWasArmedWithTypeId == null) ? 0 : arresteeWasArmedWithTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArresteeWasArmedWithType other = (ArresteeWasArmedWithType) obj;
+		if (arresteeWasArmedWithCode == null) {
+			if (other.arresteeWasArmedWithCode != null)
+				return false;
+		} else if (!arresteeWasArmedWithCode.equals(other.arresteeWasArmedWithCode))
+			return false;
+		if (arresteeWasArmedWithDescription == null) {
+			if (other.arresteeWasArmedWithDescription != null)
+				return false;
+		} else if (!arresteeWasArmedWithDescription.equals(other.arresteeWasArmedWithDescription))
+			return false;
+		if (arresteeWasArmedWithTypeId == null) {
+			if (other.arresteeWasArmedWithTypeId != null)
+				return false;
+		} else if (!arresteeWasArmedWithTypeId.equals(other.arresteeWasArmedWithTypeId))
+			return false;
+		return true;
+	}
+
 }

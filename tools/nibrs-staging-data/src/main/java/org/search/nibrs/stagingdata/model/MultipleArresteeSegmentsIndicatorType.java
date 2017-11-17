@@ -76,4 +76,45 @@ public class MultipleArresteeSegmentsIndicatorType {
 		this.multipleArresteeSegmentsIndicatorDescription = multipleArresteeSegmentsIndicatorDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((multipleArresteeSegmentsIndicatorCode == null) ? 0
+				: multipleArresteeSegmentsIndicatorCode.hashCode());
+		result = prime * result + ((multipleArresteeSegmentsIndicatorDescription == null) ? 0
+				: multipleArresteeSegmentsIndicatorDescription.hashCode());
+		result = prime * result + ((multipleArresteeSegmentsIndicatorTypeId == null) ? 0
+				: multipleArresteeSegmentsIndicatorTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MultipleArresteeSegmentsIndicatorType other = (MultipleArresteeSegmentsIndicatorType) obj;
+		if (multipleArresteeSegmentsIndicatorCode == null) {
+			if (other.multipleArresteeSegmentsIndicatorCode != null)
+				return false;
+		} else if (!multipleArresteeSegmentsIndicatorCode.equals(other.multipleArresteeSegmentsIndicatorCode))
+			return false;
+		if (multipleArresteeSegmentsIndicatorDescription == null) {
+			if (other.multipleArresteeSegmentsIndicatorDescription != null)
+				return false;
+		} else if (!multipleArresteeSegmentsIndicatorDescription
+				.equals(other.multipleArresteeSegmentsIndicatorDescription))
+			return false;
+		if (multipleArresteeSegmentsIndicatorTypeId == null) {
+			if (other.multipleArresteeSegmentsIndicatorTypeId != null)
+				return false;
+		} else if (!multipleArresteeSegmentsIndicatorTypeId.equals(other.multipleArresteeSegmentsIndicatorTypeId))
+			return false;
+		return true;
+	}
+
 }

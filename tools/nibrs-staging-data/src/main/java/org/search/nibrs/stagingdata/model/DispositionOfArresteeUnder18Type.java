@@ -75,4 +75,44 @@ public class DispositionOfArresteeUnder18Type {
 	public void setDispositionOfArresteeUnder18Description(String dispositionOfArresteeUnder18Description) {
 		this.dispositionOfArresteeUnder18Description = dispositionOfArresteeUnder18Description;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dispositionOfArresteeUnder18Code == null) ? 0 : dispositionOfArresteeUnder18Code.hashCode());
+		result = prime * result + ((dispositionOfArresteeUnder18Description == null) ? 0
+				: dispositionOfArresteeUnder18Description.hashCode());
+		result = prime * result
+				+ ((dispositionOfArresteeUnder18TypeId == null) ? 0 : dispositionOfArresteeUnder18TypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DispositionOfArresteeUnder18Type other = (DispositionOfArresteeUnder18Type) obj;
+		if (dispositionOfArresteeUnder18Code == null) {
+			if (other.dispositionOfArresteeUnder18Code != null)
+				return false;
+		} else if (!dispositionOfArresteeUnder18Code.equals(other.dispositionOfArresteeUnder18Code))
+			return false;
+		if (dispositionOfArresteeUnder18Description == null) {
+			if (other.dispositionOfArresteeUnder18Description != null)
+				return false;
+		} else if (!dispositionOfArresteeUnder18Description.equals(other.dispositionOfArresteeUnder18Description))
+			return false;
+		if (dispositionOfArresteeUnder18TypeId == null) {
+			if (other.dispositionOfArresteeUnder18TypeId != null)
+				return false;
+		} else if (!dispositionOfArresteeUnder18TypeId.equals(other.dispositionOfArresteeUnder18TypeId))
+			return false;
+		return true;
+	}
 }

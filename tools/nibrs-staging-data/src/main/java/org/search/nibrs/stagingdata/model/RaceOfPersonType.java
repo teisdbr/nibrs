@@ -80,4 +80,41 @@ public class RaceOfPersonType {
 		this.raceOfPersonTypeId = raceOfPersonTypeId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((raceOfPersonCode == null) ? 0 : raceOfPersonCode.hashCode());
+		result = prime * result + ((raceOfPersonDescription == null) ? 0 : raceOfPersonDescription.hashCode());
+		result = prime * result + ((raceOfPersonTypeId == null) ? 0 : raceOfPersonTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RaceOfPersonType other = (RaceOfPersonType) obj;
+		if (raceOfPersonCode == null) {
+			if (other.raceOfPersonCode != null)
+				return false;
+		} else if (!raceOfPersonCode.equals(other.raceOfPersonCode))
+			return false;
+		if (raceOfPersonDescription == null) {
+			if (other.raceOfPersonDescription != null)
+				return false;
+		} else if (!raceOfPersonDescription.equals(other.raceOfPersonDescription))
+			return false;
+		if (raceOfPersonTypeId == null) {
+			if (other.raceOfPersonTypeId != null)
+				return false;
+		} else if (!raceOfPersonTypeId.equals(other.raceOfPersonTypeId))
+			return false;
+		return true;
+	}
+
 }

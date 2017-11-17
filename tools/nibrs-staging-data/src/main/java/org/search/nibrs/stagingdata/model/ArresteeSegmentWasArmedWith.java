@@ -104,4 +104,47 @@ public class ArresteeSegmentWasArmedWith implements Serializable{
 		this.arresteeWasArmedWithType = arresteeWasArmedWithType;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((arresteeSegmentWasArmedWithId == null) ? 0 : arresteeSegmentWasArmedWithId.hashCode());
+		result = prime * result + ((arresteeWasArmedWithType == null) ? 0 : arresteeWasArmedWithType.hashCode());
+		result = prime * result + ((automaticWeaponIndicator == null) ? 0 : automaticWeaponIndicator.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArresteeSegmentWasArmedWith other = (ArresteeSegmentWasArmedWith) obj;
+		if (arresteeSegment == null) {
+			if (other.arresteeSegment != null)
+				return false;
+		} else if (!arresteeSegment.equals(other.arresteeSegment))
+			return false;
+		if (arresteeSegmentWasArmedWithId == null) {
+			if (other.arresteeSegmentWasArmedWithId != null)
+				return false;
+		} else if (!arresteeSegmentWasArmedWithId.equals(other.arresteeSegmentWasArmedWithId))
+			return false;
+		if (arresteeWasArmedWithType == null) {
+			if (other.arresteeWasArmedWithType != null)
+				return false;
+		} else if (!arresteeWasArmedWithType.equals(other.arresteeWasArmedWithType))
+			return false;
+		if (automaticWeaponIndicator == null) {
+			if (other.automaticWeaponIndicator != null)
+				return false;
+		} else if (!automaticWeaponIndicator.equals(other.automaticWeaponIndicator))
+			return false;
+		return true;
+	}
+
 }

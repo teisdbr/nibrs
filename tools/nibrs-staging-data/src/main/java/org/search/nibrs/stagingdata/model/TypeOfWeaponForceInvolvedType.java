@@ -88,4 +88,44 @@ public class TypeOfWeaponForceInvolvedType {
 		this.typeOfWeaponForceInvolveds = typeOfWeaponForceInvolveds;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((typeOfWeaponForceInvolvedCode == null) ? 0 : typeOfWeaponForceInvolvedCode.hashCode());
+		result = prime * result + ((typeOfWeaponForceInvolvedDescription == null) ? 0
+				: typeOfWeaponForceInvolvedDescription.hashCode());
+		result = prime * result
+				+ ((typeOfWeaponForceInvolvedTypeId == null) ? 0 : typeOfWeaponForceInvolvedTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypeOfWeaponForceInvolvedType other = (TypeOfWeaponForceInvolvedType) obj;
+		if (typeOfWeaponForceInvolvedCode == null) {
+			if (other.typeOfWeaponForceInvolvedCode != null)
+				return false;
+		} else if (!typeOfWeaponForceInvolvedCode.equals(other.typeOfWeaponForceInvolvedCode))
+			return false;
+		if (typeOfWeaponForceInvolvedDescription == null) {
+			if (other.typeOfWeaponForceInvolvedDescription != null)
+				return false;
+		} else if (!typeOfWeaponForceInvolvedDescription.equals(other.typeOfWeaponForceInvolvedDescription))
+			return false;
+		if (typeOfWeaponForceInvolvedTypeId == null) {
+			if (other.typeOfWeaponForceInvolvedTypeId != null)
+				return false;
+		} else if (!typeOfWeaponForceInvolvedTypeId.equals(other.typeOfWeaponForceInvolvedTypeId))
+			return false;
+		return true;
+	}
+
 }

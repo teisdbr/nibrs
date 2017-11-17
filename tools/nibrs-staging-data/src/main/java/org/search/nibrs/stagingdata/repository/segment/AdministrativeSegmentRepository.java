@@ -15,10 +15,15 @@
  */
 package org.search.nibrs.stagingdata.repository.segment;
 
+import javax.transaction.Transactional;
+
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AdministrativeSegmentRepository 
 	extends CrudRepository<AdministrativeSegment, Integer>{
-
+	
+	@Transactional
+	long deleteByIncidentNumber(String incidentNumber);
+	AdministrativeSegment findFirstByIncidentNumber(String incidentNumber);
 }

@@ -80,4 +80,41 @@ public class SexOfPersonType {
 		this.sexOfPersonTypeId = sexOfPersonTypeId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((sexOfPersonCode == null) ? 0 : sexOfPersonCode.hashCode());
+		result = prime * result + ((sexOfPersonDescription == null) ? 0 : sexOfPersonDescription.hashCode());
+		result = prime * result + ((sexOfPersonTypeId == null) ? 0 : sexOfPersonTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SexOfPersonType other = (SexOfPersonType) obj;
+		if (sexOfPersonCode == null) {
+			if (other.sexOfPersonCode != null)
+				return false;
+		} else if (!sexOfPersonCode.equals(other.sexOfPersonCode))
+			return false;
+		if (sexOfPersonDescription == null) {
+			if (other.sexOfPersonDescription != null)
+				return false;
+		} else if (!sexOfPersonDescription.equals(other.sexOfPersonDescription))
+			return false;
+		if (sexOfPersonTypeId == null) {
+			if (other.sexOfPersonTypeId != null)
+				return false;
+		} else if (!sexOfPersonTypeId.equals(other.sexOfPersonTypeId))
+			return false;
+		return true;
+	}
+
 }

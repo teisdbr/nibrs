@@ -67,4 +67,44 @@ public class OfficerActivityCircumstanceType {
 		this.officerActivityCircumstanceDescription = officerActivityCircumstanceDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((officerActivityCircumstanceCode == null) ? 0 : officerActivityCircumstanceCode.hashCode());
+		result = prime * result + ((officerActivityCircumstanceDescription == null) ? 0
+				: officerActivityCircumstanceDescription.hashCode());
+		result = prime * result
+				+ ((officerActivityCircumstanceTypeId == null) ? 0 : officerActivityCircumstanceTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OfficerActivityCircumstanceType other = (OfficerActivityCircumstanceType) obj;
+		if (officerActivityCircumstanceCode == null) {
+			if (other.officerActivityCircumstanceCode != null)
+				return false;
+		} else if (!officerActivityCircumstanceCode.equals(other.officerActivityCircumstanceCode))
+			return false;
+		if (officerActivityCircumstanceDescription == null) {
+			if (other.officerActivityCircumstanceDescription != null)
+				return false;
+		} else if (!officerActivityCircumstanceDescription.equals(other.officerActivityCircumstanceDescription))
+			return false;
+		if (officerActivityCircumstanceTypeId == null) {
+			if (other.officerActivityCircumstanceTypeId != null)
+				return false;
+		} else if (!officerActivityCircumstanceTypeId.equals(other.officerActivityCircumstanceTypeId))
+			return false;
+		return true;
+	}
+
 }

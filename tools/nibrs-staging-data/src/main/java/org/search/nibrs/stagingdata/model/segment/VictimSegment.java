@@ -99,19 +99,19 @@ public class VictimSegment {
 	@JoinColumn(name="additionalJustifiableHomicideCircumstancesTypeId")
 	private AdditionalJustifiableHomicideCircumstancesType additionalJustifiableHomicideCircumstancesType;
 	
-	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "typeInjury", 
 	joinColumns = @JoinColumn(name = "victimSegmentId", referencedColumnName = "victimSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "typeInjuryTypeId", referencedColumnName = "typeInjuryTypeId"))
 	private Set<TypeInjuryType> typeInjuryTypes;     
 	
-	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "victimOffenseAssociation", 
 	joinColumns = @JoinColumn(name = "victimSegmentId", referencedColumnName = "victimSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"))
 	private Set<OffenseSegment> offenseSegments;     
 	
-	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "aggravatedAssaultHomicideCircumstances", 
 	joinColumns = @JoinColumn(name = "victimSegmentId", referencedColumnName = "victimSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "aggravatedAssaultHomicideCircumstancesTypeId", 
@@ -256,5 +256,153 @@ public class VictimSegment {
 	}
 	public void setVictimOffenderAssociations(Set<VictimOffenderAssociation> victimOffenderAssociations) {
 		VictimOffenderAssociations = victimOffenderAssociations;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((VictimOffenderAssociations == null) ? 0 : VictimOffenderAssociations.hashCode());
+		result = prime * result + ((additionalJustifiableHomicideCircumstancesType == null) ? 0
+				: additionalJustifiableHomicideCircumstancesType.hashCode());
+		result = prime * result + ((administrativeSegment == null) ? 0 : administrativeSegment.hashCode());
+		result = prime * result + ((ageFirstWeekIndicator == null) ? 0 : ageFirstWeekIndicator.hashCode());
+		result = prime * result + ((ageFirstYearIndicator == null) ? 0 : ageFirstYearIndicator.hashCode());
+		result = prime * result + ((ageNeonateIndicator == null) ? 0 : ageNeonateIndicator.hashCode());
+		result = prime * result + ((ageOfVictimMax == null) ? 0 : ageOfVictimMax.hashCode());
+		result = prime * result + ((ageOfVictimMin == null) ? 0 : ageOfVictimMin.hashCode());
+		result = prime * result + ((aggravatedAssaultHomicideCircumstancesTypes == null) ? 0
+				: aggravatedAssaultHomicideCircumstancesTypes.hashCode());
+		result = prime * result + ((ethnicityOfPersonType == null) ? 0 : ethnicityOfPersonType.hashCode());
+		result = prime * result + ((offenseSegments == null) ? 0 : offenseSegments.hashCode());
+		result = prime * result
+				+ ((officerActivityCircumstanceType == null) ? 0 : officerActivityCircumstanceType.hashCode());
+		result = prime * result + ((officerAssignmentTypeType == null) ? 0 : officerAssignmentTypeType.hashCode());
+		result = prime * result + ((raceOfPersonType == null) ? 0 : raceOfPersonType.hashCode());
+		result = prime * result + ((residentStatusOfPersonType == null) ? 0 : residentStatusOfPersonType.hashCode());
+		result = prime * result + ((segmentActionType == null) ? 0 : segmentActionType.hashCode());
+		result = prime * result + ((sexOfPersonType == null) ? 0 : sexOfPersonType.hashCode());
+		result = prime * result + ((typeInjuryTypes == null) ? 0 : typeInjuryTypes.hashCode());
+		result = prime * result + ((typeOfVictimType == null) ? 0 : typeOfVictimType.hashCode());
+		result = prime * result + ((victimSegmentId == null) ? 0 : victimSegmentId.hashCode());
+		result = prime * result + ((victimSequenceNumber == null) ? 0 : victimSequenceNumber.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VictimSegment other = (VictimSegment) obj;
+		if (VictimOffenderAssociations == null) {
+			if (other.VictimOffenderAssociations != null)
+				return false;
+		} else if (!VictimOffenderAssociations.equals(other.VictimOffenderAssociations))
+			return false;
+		if (additionalJustifiableHomicideCircumstancesType == null) {
+			if (other.additionalJustifiableHomicideCircumstancesType != null)
+				return false;
+		} else if (!additionalJustifiableHomicideCircumstancesType
+				.equals(other.additionalJustifiableHomicideCircumstancesType))
+			return false;
+		if (administrativeSegment == null) {
+			if (other.administrativeSegment != null)
+				return false;
+		} else if (!administrativeSegment.equals(other.administrativeSegment))
+			return false;
+		if (ageFirstWeekIndicator == null) {
+			if (other.ageFirstWeekIndicator != null)
+				return false;
+		} else if (!ageFirstWeekIndicator.equals(other.ageFirstWeekIndicator))
+			return false;
+		if (ageFirstYearIndicator == null) {
+			if (other.ageFirstYearIndicator != null)
+				return false;
+		} else if (!ageFirstYearIndicator.equals(other.ageFirstYearIndicator))
+			return false;
+		if (ageNeonateIndicator == null) {
+			if (other.ageNeonateIndicator != null)
+				return false;
+		} else if (!ageNeonateIndicator.equals(other.ageNeonateIndicator))
+			return false;
+		if (ageOfVictimMax == null) {
+			if (other.ageOfVictimMax != null)
+				return false;
+		} else if (!ageOfVictimMax.equals(other.ageOfVictimMax))
+			return false;
+		if (ageOfVictimMin == null) {
+			if (other.ageOfVictimMin != null)
+				return false;
+		} else if (!ageOfVictimMin.equals(other.ageOfVictimMin))
+			return false;
+		if (aggravatedAssaultHomicideCircumstancesTypes == null) {
+			if (other.aggravatedAssaultHomicideCircumstancesTypes != null)
+				return false;
+		} else if (!aggravatedAssaultHomicideCircumstancesTypes
+				.equals(other.aggravatedAssaultHomicideCircumstancesTypes))
+			return false;
+		if (ethnicityOfPersonType == null) {
+			if (other.ethnicityOfPersonType != null)
+				return false;
+		} else if (!ethnicityOfPersonType.equals(other.ethnicityOfPersonType))
+			return false;
+		if (offenseSegments == null) {
+			if (other.offenseSegments != null)
+				return false;
+		} else if (!offenseSegments.equals(other.offenseSegments))
+			return false;
+		if (officerActivityCircumstanceType == null) {
+			if (other.officerActivityCircumstanceType != null)
+				return false;
+		} else if (!officerActivityCircumstanceType.equals(other.officerActivityCircumstanceType))
+			return false;
+		if (officerAssignmentTypeType == null) {
+			if (other.officerAssignmentTypeType != null)
+				return false;
+		} else if (!officerAssignmentTypeType.equals(other.officerAssignmentTypeType))
+			return false;
+		if (raceOfPersonType == null) {
+			if (other.raceOfPersonType != null)
+				return false;
+		} else if (!raceOfPersonType.equals(other.raceOfPersonType))
+			return false;
+		if (residentStatusOfPersonType == null) {
+			if (other.residentStatusOfPersonType != null)
+				return false;
+		} else if (!residentStatusOfPersonType.equals(other.residentStatusOfPersonType))
+			return false;
+		if (segmentActionType == null) {
+			if (other.segmentActionType != null)
+				return false;
+		} else if (!segmentActionType.equals(other.segmentActionType))
+			return false;
+		if (sexOfPersonType == null) {
+			if (other.sexOfPersonType != null)
+				return false;
+		} else if (!sexOfPersonType.equals(other.sexOfPersonType))
+			return false;
+		if (typeInjuryTypes == null) {
+			if (other.typeInjuryTypes != null)
+				return false;
+		} else if (!typeInjuryTypes.equals(other.typeInjuryTypes))
+			return false;
+		if (typeOfVictimType == null) {
+			if (other.typeOfVictimType != null)
+				return false;
+		} else if (!typeOfVictimType.equals(other.typeOfVictimType))
+			return false;
+		if (victimSegmentId == null) {
+			if (other.victimSegmentId != null)
+				return false;
+		} else if (!victimSegmentId.equals(other.victimSegmentId))
+			return false;
+		if (victimSequenceNumber == null) {
+			if (other.victimSequenceNumber != null)
+				return false;
+		} else if (!victimSequenceNumber.equals(other.victimSequenceNumber))
+			return false;
+		return true;
 	}
 }

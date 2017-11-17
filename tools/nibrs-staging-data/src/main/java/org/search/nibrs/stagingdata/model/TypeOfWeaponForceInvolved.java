@@ -104,4 +104,36 @@ public class TypeOfWeaponForceInvolved implements Serializable{
 		this.automaticWeaponIndicator = automaticWeaponIndicator;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypeOfWeaponForceInvolved other = (TypeOfWeaponForceInvolved) obj;
+		if (automaticWeaponIndicator == null) {
+			if (other.automaticWeaponIndicator != null)
+				return false;
+		} else if (!automaticWeaponIndicator.equals(other.automaticWeaponIndicator))
+			return false;
+		if (offenseSegment == null) {
+			if (other.offenseSegment != null)
+				return false;
+		} else if (!offenseSegment.equals(other.offenseSegment))
+			return false;
+		if (typeOfWeaponForceInvolvedId == null) {
+			if (other.typeOfWeaponForceInvolvedId != null)
+				return false;
+		} else if (!typeOfWeaponForceInvolvedId.equals(other.typeOfWeaponForceInvolvedId))
+			return false;
+		if (typeOfWeaponForceInvolvedType == null) {
+			if (other.typeOfWeaponForceInvolvedType != null)
+				return false;
+		} else if (!typeOfWeaponForceInvolvedType.equals(other.typeOfWeaponForceInvolvedType))
+			return false;
+		return true;
+	}
+
 }

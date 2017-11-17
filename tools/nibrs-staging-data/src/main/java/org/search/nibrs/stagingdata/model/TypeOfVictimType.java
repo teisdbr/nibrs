@@ -75,4 +75,41 @@ public class TypeOfVictimType {
 		this.typeOfVictimDescription = typeOfVictimDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((typeOfVictimCode == null) ? 0 : typeOfVictimCode.hashCode());
+		result = prime * result + ((typeOfVictimDescription == null) ? 0 : typeOfVictimDescription.hashCode());
+		result = prime * result + ((typeOfVictimTypeId == null) ? 0 : typeOfVictimTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypeOfVictimType other = (TypeOfVictimType) obj;
+		if (typeOfVictimCode == null) {
+			if (other.typeOfVictimCode != null)
+				return false;
+		} else if (!typeOfVictimCode.equals(other.typeOfVictimCode))
+			return false;
+		if (typeOfVictimDescription == null) {
+			if (other.typeOfVictimDescription != null)
+				return false;
+		} else if (!typeOfVictimDescription.equals(other.typeOfVictimDescription))
+			return false;
+		if (typeOfVictimTypeId == null) {
+			if (other.typeOfVictimTypeId != null)
+				return false;
+		} else if (!typeOfVictimTypeId.equals(other.typeOfVictimTypeId))
+			return false;
+		return true;
+	}
+
 }

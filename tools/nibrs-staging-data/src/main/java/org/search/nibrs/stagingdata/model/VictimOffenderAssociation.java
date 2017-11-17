@@ -100,4 +100,46 @@ public class VictimOffenderAssociation implements Serializable{
 		this.victimOffenderRelationshipType = victimOffenderRelationshipType;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((victimOffenderAssociationId == null) ? 0 : victimOffenderAssociationId.hashCode());
+		result = prime * result
+				+ ((victimOffenderRelationshipType == null) ? 0 : victimOffenderRelationshipType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VictimOffenderAssociation other = (VictimOffenderAssociation) obj;
+		if (offenderSegment == null) {
+			if (other.offenderSegment != null)
+				return false;
+		} else if (!offenderSegment.getOffenderSegmentId().equals(other.offenderSegment.getOffenderSegmentId()))
+			return false;
+		if (victimOffenderAssociationId == null) {
+			if (other.victimOffenderAssociationId != null)
+				return false;
+		} else if (!victimOffenderAssociationId.equals(other.victimOffenderAssociationId))
+			return false;
+		if (victimOffenderRelationshipType == null) {
+			if (other.victimOffenderRelationshipType != null)
+				return false;
+		} else if (!victimOffenderRelationshipType.equals(other.victimOffenderRelationshipType))
+			return false;
+		if (victimSegment == null) {
+			if (other.victimSegment != null)
+				return false;
+		} else if (!victimSegment.getVictimSegmentId().equals(other.victimSegment.getVictimSegmentId()))
+			return false;
+		return true;
+	}
+
 }

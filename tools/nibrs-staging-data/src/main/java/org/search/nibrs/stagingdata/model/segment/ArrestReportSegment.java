@@ -62,7 +62,7 @@ public class ArrestReportSegment {
 	private Integer arresteeSequenceNumber; 
 	private Date arrestDate;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="arrestDateId")
 	private DateType arrestDateType; 
 
@@ -222,5 +222,150 @@ public class ArrestReportSegment {
 	}
 	public void setArrestReportSegmentWasArmedWiths(Set<ArrestReportSegmentWasArmedWith> arrestReportSegmentWasArmedWiths) {
 		this.arrestReportSegmentWasArmedWiths = arrestReportSegmentWasArmedWiths;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ageOfArresteeMax == null) ? 0 : ageOfArresteeMax.hashCode());
+		result = prime * result + ((ageOfArresteeMin == null) ? 0 : ageOfArresteeMin.hashCode());
+		result = prime * result + ((agency == null) ? 0 : agency.hashCode());
+		result = prime * result + ((arrestDate == null) ? 0 : arrestDate.hashCode());
+		result = prime * result + ((arrestDateType == null) ? 0 : arrestDateType.hashCode());
+		result = prime * result + ((arrestReportSegmentId == null) ? 0 : arrestReportSegmentId.hashCode());
+		result = prime * result
+				+ ((arrestReportSegmentWasArmedWiths == null) ? 0 : arrestReportSegmentWasArmedWiths.hashCode());
+		result = prime * result + ((arrestTransactionNumber == null) ? 0 : arrestTransactionNumber.hashCode());
+		result = prime * result + ((arresteeSequenceNumber == null) ? 0 : arresteeSequenceNumber.hashCode());
+		result = prime * result + ((cityIndicator == null) ? 0 : cityIndicator.hashCode());
+		result = prime * result
+				+ ((dispositionOfArresteeUnder18Type == null) ? 0 : dispositionOfArresteeUnder18Type.hashCode());
+		result = prime * result + ((ethnicityOfPersonType == null) ? 0 : ethnicityOfPersonType.hashCode());
+		result = prime * result + ((monthOfTape == null) ? 0 : monthOfTape.hashCode());
+		result = prime * result + ((ori == null) ? 0 : ori.hashCode());
+		result = prime * result + ((raceOfPersonType == null) ? 0 : raceOfPersonType.hashCode());
+		result = prime * result + ((residentStatusOfPersonType == null) ? 0 : residentStatusOfPersonType.hashCode());
+		result = prime * result + ((segmentActionType == null) ? 0 : segmentActionType.hashCode());
+		result = prime * result + ((sexOfPersonType == null) ? 0 : sexOfPersonType.hashCode());
+		result = prime * result + ((typeOfArrestType == null) ? 0 : typeOfArrestType.hashCode());
+		result = prime * result + ((ucrOffenseCodeType == null) ? 0 : ucrOffenseCodeType.hashCode());
+		result = prime * result + ((yearOfTape == null) ? 0 : yearOfTape.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArrestReportSegment other = (ArrestReportSegment) obj;
+		if (ageOfArresteeMax == null) {
+			if (other.ageOfArresteeMax != null)
+				return false;
+		} else if (!ageOfArresteeMax.equals(other.ageOfArresteeMax))
+			return false;
+		if (ageOfArresteeMin == null) {
+			if (other.ageOfArresteeMin != null)
+				return false;
+		} else if (!ageOfArresteeMin.equals(other.ageOfArresteeMin))
+			return false;
+		if (agency == null) {
+			if (other.agency != null)
+				return false;
+		} else if (!agency.equals(other.agency))
+			return false;
+		if (arrestDate == null) {
+			if (other.arrestDate != null)
+				return false;
+		} else if (!arrestDate.equals(other.arrestDate))
+			return false;
+		if (arrestDateType == null) {
+			if (other.arrestDateType != null)
+				return false;
+		} else if (!arrestDateType.equals(other.arrestDateType))
+			return false;
+		if (arrestReportSegmentId == null) {
+			if (other.arrestReportSegmentId != null)
+				return false;
+		} else if (!arrestReportSegmentId.equals(other.arrestReportSegmentId))
+			return false;
+		if (arrestReportSegmentWasArmedWiths == null) {
+			if (other.arrestReportSegmentWasArmedWiths != null)
+				return false;
+		} else if (!arrestReportSegmentWasArmedWiths.equals(other.arrestReportSegmentWasArmedWiths))
+			return false;
+		if (arrestTransactionNumber == null) {
+			if (other.arrestTransactionNumber != null)
+				return false;
+		} else if (!arrestTransactionNumber.equals(other.arrestTransactionNumber))
+			return false;
+		if (arresteeSequenceNumber == null) {
+			if (other.arresteeSequenceNumber != null)
+				return false;
+		} else if (!arresteeSequenceNumber.equals(other.arresteeSequenceNumber))
+			return false;
+		if (cityIndicator == null) {
+			if (other.cityIndicator != null)
+				return false;
+		} else if (!cityIndicator.equals(other.cityIndicator))
+			return false;
+		if (dispositionOfArresteeUnder18Type == null) {
+			if (other.dispositionOfArresteeUnder18Type != null)
+				return false;
+		} else if (!dispositionOfArresteeUnder18Type.equals(other.dispositionOfArresteeUnder18Type))
+			return false;
+		if (ethnicityOfPersonType == null) {
+			if (other.ethnicityOfPersonType != null)
+				return false;
+		} else if (!ethnicityOfPersonType.equals(other.ethnicityOfPersonType))
+			return false;
+		if (monthOfTape == null) {
+			if (other.monthOfTape != null)
+				return false;
+		} else if (!monthOfTape.equals(other.monthOfTape))
+			return false;
+		if (ori == null) {
+			if (other.ori != null)
+				return false;
+		} else if (!ori.equals(other.ori))
+			return false;
+		if (raceOfPersonType == null) {
+			if (other.raceOfPersonType != null)
+				return false;
+		} else if (!raceOfPersonType.equals(other.raceOfPersonType))
+			return false;
+		if (residentStatusOfPersonType == null) {
+			if (other.residentStatusOfPersonType != null)
+				return false;
+		} else if (!residentStatusOfPersonType.equals(other.residentStatusOfPersonType))
+			return false;
+		if (segmentActionType == null) {
+			if (other.segmentActionType != null)
+				return false;
+		} else if (!segmentActionType.equals(other.segmentActionType))
+			return false;
+		if (sexOfPersonType == null) {
+			if (other.sexOfPersonType != null)
+				return false;
+		} else if (!sexOfPersonType.equals(other.sexOfPersonType))
+			return false;
+		if (typeOfArrestType == null) {
+			if (other.typeOfArrestType != null)
+				return false;
+		} else if (!typeOfArrestType.equals(other.typeOfArrestType))
+			return false;
+		if (ucrOffenseCodeType == null) {
+			if (other.ucrOffenseCodeType != null)
+				return false;
+		} else if (!ucrOffenseCodeType.equals(other.ucrOffenseCodeType))
+			return false;
+		if (yearOfTape == null) {
+			if (other.yearOfTape != null)
+				return false;
+		} else if (!yearOfTape.equals(other.yearOfTape))
+			return false;
+		return true;
 	}
 }

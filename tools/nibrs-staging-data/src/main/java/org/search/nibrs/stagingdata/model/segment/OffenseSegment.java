@@ -78,19 +78,19 @@ public class OffenseSegment {
 	@OneToMany(mappedBy = "offenseSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds;
 	
-	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "offenderSuspectedOfUsing", 
 	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "offenderSuspectedOfUsingTypeId", referencedColumnName = "offenderSuspectedOfUsingTypeId"))
 	private Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes;     
 	
-	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "typeCriminalActivity", 
 	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "typeOfCriminalActivityTypeId", referencedColumnName = "typeOfCriminalActivityTypeId"))
 	private Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes;  
 	
-	@ManyToMany(cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "biasMotivation", 
 	joinColumns = @JoinColumn(name = "offenseSegmentId", referencedColumnName = "offenseSegmentId"), 
 	inverseJoinColumns = @JoinColumn(name = "biasMotivationTypeId", referencedColumnName = "biasMotivationTypeId"))
@@ -200,7 +200,6 @@ public class OffenseSegment {
 		result = prime * result + ((typeOfCriminalActivityTypes == null) ? 0 : typeOfCriminalActivityTypes.hashCode());
 		result = prime * result + ((typeOfWeaponForceInvolveds == null) ? 0 : typeOfWeaponForceInvolveds.hashCode());
 		result = prime * result + ((ucrOffenseCodeType == null) ? 0 : ucrOffenseCodeType.hashCode());
-		result = prime * result + ((victimSegments == null) ? 0 : victimSegments.hashCode());
 		return result;
 	}
 	@Override

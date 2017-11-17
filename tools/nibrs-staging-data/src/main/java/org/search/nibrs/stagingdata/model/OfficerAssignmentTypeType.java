@@ -75,4 +75,42 @@ public class OfficerAssignmentTypeType {
 		this.officerAssignmentTypeDescription = officerAssignmentTypeDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((officerAssignmentTypeCode == null) ? 0 : officerAssignmentTypeCode.hashCode());
+		result = prime * result
+				+ ((officerAssignmentTypeDescription == null) ? 0 : officerAssignmentTypeDescription.hashCode());
+		result = prime * result + ((officerAssignmentTypeTypeId == null) ? 0 : officerAssignmentTypeTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OfficerAssignmentTypeType other = (OfficerAssignmentTypeType) obj;
+		if (officerAssignmentTypeCode == null) {
+			if (other.officerAssignmentTypeCode != null)
+				return false;
+		} else if (!officerAssignmentTypeCode.equals(other.officerAssignmentTypeCode))
+			return false;
+		if (officerAssignmentTypeDescription == null) {
+			if (other.officerAssignmentTypeDescription != null)
+				return false;
+		} else if (!officerAssignmentTypeDescription.equals(other.officerAssignmentTypeDescription))
+			return false;
+		if (officerAssignmentTypeTypeId == null) {
+			if (other.officerAssignmentTypeTypeId != null)
+				return false;
+		} else if (!officerAssignmentTypeTypeId.equals(other.officerAssignmentTypeTypeId))
+			return false;
+		return true;
+	}
+
 }

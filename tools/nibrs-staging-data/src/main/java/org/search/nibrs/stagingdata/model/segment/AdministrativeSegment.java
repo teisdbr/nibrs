@@ -56,19 +56,19 @@ public class AdministrativeSegment {
 	private String cityIndicator;
 	private String ori;
 	
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
 	private Set<OffenseSegment> offenseSegments;
 	
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<PropertySegment> propertySegments;
     
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<ArresteeSegment> arresteeSegments;
     
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<OffenderSegment> offenderSegments;
     
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<VictimSegment> victimSegments;
     
 	@ManyToOne

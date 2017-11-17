@@ -66,4 +66,35 @@ public class EthnicityOfPersonType {
 		this.ethnicityOfPersonTypeId = ethnicityOfPersonTypeId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ethnicityOfPersonCode == null) ? 0 : ethnicityOfPersonCode.hashCode());
+		result = prime * result + ((ethnicityOfPersonTypeId == null) ? 0 : ethnicityOfPersonTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EthnicityOfPersonType other = (EthnicityOfPersonType) obj;
+		if (ethnicityOfPersonCode == null) {
+			if (other.ethnicityOfPersonCode != null)
+				return false;
+		} else if (!ethnicityOfPersonCode.equals(other.ethnicityOfPersonCode))
+			return false;
+		if (ethnicityOfPersonTypeId == null) {
+			if (other.ethnicityOfPersonTypeId != null)
+				return false;
+		} else if (!ethnicityOfPersonTypeId.equals(other.ethnicityOfPersonTypeId))
+			return false;
+		return true;
+	}
+
 }

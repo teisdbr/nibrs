@@ -76,4 +76,42 @@ public class TypePropertyLossEtcType {
 		this.typePropertyLossEtcDescription = typePropertyLossEtcDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((typePropertyLossEtcCode == null) ? 0 : typePropertyLossEtcCode.hashCode());
+		result = prime * result
+				+ ((typePropertyLossEtcDescription == null) ? 0 : typePropertyLossEtcDescription.hashCode());
+		result = prime * result + ((typePropertyLossEtcTypeId == null) ? 0 : typePropertyLossEtcTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypePropertyLossEtcType other = (TypePropertyLossEtcType) obj;
+		if (typePropertyLossEtcCode == null) {
+			if (other.typePropertyLossEtcCode != null)
+				return false;
+		} else if (!typePropertyLossEtcCode.equals(other.typePropertyLossEtcCode))
+			return false;
+		if (typePropertyLossEtcDescription == null) {
+			if (other.typePropertyLossEtcDescription != null)
+				return false;
+		} else if (!typePropertyLossEtcDescription.equals(other.typePropertyLossEtcDescription))
+			return false;
+		if (typePropertyLossEtcTypeId == null) {
+			if (other.typePropertyLossEtcTypeId != null)
+				return false;
+		} else if (!typePropertyLossEtcTypeId.equals(other.typePropertyLossEtcTypeId))
+			return false;
+		return true;
+	}
+
 }

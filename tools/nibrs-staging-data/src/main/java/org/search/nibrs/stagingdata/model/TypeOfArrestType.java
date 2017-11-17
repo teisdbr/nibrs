@@ -75,4 +75,41 @@ public class TypeOfArrestType{
 		this.typeOfArrestTypeId = typeOfArrestTypeId;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((typeOfArrestCode == null) ? 0 : typeOfArrestCode.hashCode());
+		result = prime * result + ((typeOfArrestDescription == null) ? 0 : typeOfArrestDescription.hashCode());
+		result = prime * result + ((typeOfArrestTypeId == null) ? 0 : typeOfArrestTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypeOfArrestType other = (TypeOfArrestType) obj;
+		if (typeOfArrestCode == null) {
+			if (other.typeOfArrestCode != null)
+				return false;
+		} else if (!typeOfArrestCode.equals(other.typeOfArrestCode))
+			return false;
+		if (typeOfArrestDescription == null) {
+			if (other.typeOfArrestDescription != null)
+				return false;
+		} else if (!typeOfArrestDescription.equals(other.typeOfArrestDescription))
+			return false;
+		if (typeOfArrestTypeId == null) {
+			if (other.typeOfArrestTypeId != null)
+				return false;
+		} else if (!typeOfArrestTypeId.equals(other.typeOfArrestTypeId))
+			return false;
+		return true;
+	}
+
 }

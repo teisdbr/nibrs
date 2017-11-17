@@ -77,4 +77,42 @@ public class PropertyDescriptionType {
 		this.propertyDescriptionDescription = propertyDescriptionDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((propertyDescriptionCode == null) ? 0 : propertyDescriptionCode.hashCode());
+		result = prime * result
+				+ ((propertyDescriptionDescription == null) ? 0 : propertyDescriptionDescription.hashCode());
+		result = prime * result + ((propertyDescriptionTypeId == null) ? 0 : propertyDescriptionTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyDescriptionType other = (PropertyDescriptionType) obj;
+		if (propertyDescriptionCode == null) {
+			if (other.propertyDescriptionCode != null)
+				return false;
+		} else if (!propertyDescriptionCode.equals(other.propertyDescriptionCode))
+			return false;
+		if (propertyDescriptionDescription == null) {
+			if (other.propertyDescriptionDescription != null)
+				return false;
+		} else if (!propertyDescriptionDescription.equals(other.propertyDescriptionDescription))
+			return false;
+		if (propertyDescriptionTypeId == null) {
+			if (other.propertyDescriptionTypeId != null)
+				return false;
+		} else if (!propertyDescriptionTypeId.equals(other.propertyDescriptionTypeId))
+			return false;
+		return true;
+	}
+
 }

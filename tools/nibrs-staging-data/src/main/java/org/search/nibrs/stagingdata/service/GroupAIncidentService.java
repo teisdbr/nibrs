@@ -30,8 +30,11 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.stagingdata.controller.BadRequestException;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
@@ -113,6 +116,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GroupAIncidentService {
+	private static final Log log = LogFactory.getLog(GroupAIncidentService.class);
+	private static final String BAD_DELETE_REQUEST = "The report action type should be 'D' and the incident number is required ";
 	@Autowired
 	AdministrativeSegmentRepository administrativeSegmentRepository;
 	@Autowired
@@ -185,6 +190,22 @@ public class GroupAIncidentService {
 		return administrativeSegmentRepository.save(administrativeSegment);
 	}
 	
+	@Transactional
+	public long deleteAdministrativeSegment(String incidentNumber){
+		return administrativeSegmentRepository.deleteByIncidentNumber(incidentNumber);
+	}
+	
+	@Transactional
+	public long deleteGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport){
+		if (groupAIncidentReport.getReportActionType() != 'D' 
+				|| StringUtils.isBlank(groupAIncidentReport.getIncidentNumber())){
+			log.error(BAD_DELETE_REQUEST); 
+			throw new BadRequestException(BAD_DELETE_REQUEST);
+		}
+
+		return administrativeSegmentRepository.deleteByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+	}
+	
 	public AdministrativeSegment findAdministrativeSegment(Integer id){
 		return administrativeSegmentRepository.findOne(id);
 	}
@@ -204,7 +225,12 @@ public class GroupAIncidentService {
 	}
 	
 	public AdministrativeSegment saveGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport){
-		AdministrativeSegment administrativeSegment = new AdministrativeSegment(); 
+		
+		Optional<AdministrativeSegment> existingAdministrativeSegment = 
+				Optional.ofNullable(administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber()));
+			
+		AdministrativeSegment administrativeSegment = existingAdministrativeSegment.orElseGet(AdministrativeSegment::new); 
+
 		administrativeSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupAIncidentReport.getOri()));
 		
 		String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType()).trim();
@@ -254,7 +280,10 @@ public class GroupAIncidentService {
 	private void processProperties(AdministrativeSegment administrativeSegment,
 			GroupAIncidentReport groupAIncidentReport) {
 		if (groupAIncidentReport.getPropertyCount() > 0){
-			Set<PropertySegment> propertySegments = new HashSet<>();
+			Set<PropertySegment> propertySegments = Optional.ofNullable(administrativeSegment.getPropertySegments())
+					.orElseGet(HashSet::new);
+			propertySegments.clear();
+			
 			for (org.search.nibrs.model.PropertySegment property: groupAIncidentReport.getProperties()){
 				PropertySegment propertySegment = new PropertySegment();
 				propertySegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
@@ -382,7 +411,9 @@ public class GroupAIncidentService {
 			offenderSegments.ifPresent( offenders -> 
 			offenders.forEach(offender->offenderSequenceNumberOffenderMap.put(offender.getOffenderSequenceNumber(), offender)));
 			
-			Set<VictimSegment> victimSegments = new HashSet<>();
+			Set<VictimSegment> victimSegments = Optional.ofNullable(administrativeSegment.getVictimSegments())
+					.orElseGet(HashSet::new);
+			victimSegments.clear();
 			for (org.search.nibrs.model.VictimSegment victim: groupAIncidentReport.getVictims()){
 				VictimSegment victimSegment = new VictimSegment();
 				victimSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
@@ -545,7 +576,9 @@ public class GroupAIncidentService {
 	private void processArrestees(AdministrativeSegment administrativeSegment,
 			GroupAIncidentReport groupAIncidentReport) {
 		if (groupAIncidentReport.getArresteeCount() > 0){
-			Set<ArresteeSegment> arresteeSegments = new HashSet<>();
+			Set<ArresteeSegment> arresteeSegments = Optional.ofNullable(administrativeSegment.getArresteeSegments())
+					.orElseGet(HashSet::new);
+			arresteeSegments.clear();
 			for (org.search.nibrs.model.ArresteeSegment arrestee: groupAIncidentReport.getArrestees()){
 				ArresteeSegment arresteeSegment = new ArresteeSegment();
 				arresteeSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
@@ -610,7 +643,10 @@ public class GroupAIncidentService {
 	private void processOffenders(AdministrativeSegment administrativeSegment,
 			GroupAIncidentReport groupAIncidentReport) {
 		if (groupAIncidentReport.getOffenderCount() > 0){
-			Set<OffenderSegment> offenderSegments = new HashSet<>();
+			Set<OffenderSegment> offenderSegments = Optional.ofNullable(administrativeSegment.getOffenderSegments())
+					.orElseGet(HashSet::new);
+			offenderSegments.clear();
+
 			for (org.search.nibrs.model.OffenderSegment offender: groupAIncidentReport.getOffenders()){
 				OffenderSegment offenderSegment = new OffenderSegment();
 				offenderSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
@@ -641,7 +677,10 @@ public class GroupAIncidentService {
 
 	private void processOffenses(AdministrativeSegment administrativeSegment, GroupAIncidentReport groupAIncidentReport) {
 		if (groupAIncidentReport.getOffenseCount() > 0){
-			Set<OffenseSegment> offenseSegments = new HashSet<>();
+
+			Set<OffenseSegment> offenseSegments = Optional.ofNullable(administrativeSegment.getOffenseSegments())
+					.orElseGet(HashSet::new);
+			offenseSegments.clear();
 			
 			for(org.search.nibrs.model.OffenseSegment offense: groupAIncidentReport.getOffenses()){
 				OffenseSegment offenseSegment = new OffenseSegment();
@@ -669,8 +708,6 @@ public class GroupAIncidentService {
 				processTypeOfCriminalActivityCount(offenseSegment, offense); 
 				processOffendersSuspectedOfUsing(offenseSegment, offense);
 				
-				//TODO offense segment and BiasMotivationType should be a many to many relationship.  
-				//A joiner table is reqruied.
 				Set<BiasMotivationType> biasMotivationTypes = new HashSet<>();
 				Arrays.stream(offense.getBiasMotivation())
 					.filter(StringUtils::isNotBlank)

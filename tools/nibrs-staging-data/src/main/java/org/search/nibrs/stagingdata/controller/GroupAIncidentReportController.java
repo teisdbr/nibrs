@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GroupAIncidentReportController {
+
 	@Autowired
 	private GroupAIncidentService groupAIncidentService;
 	
@@ -43,8 +44,13 @@ public class GroupAIncidentReportController {
 	}
 	
 	@RequestMapping(value="/groupAIncidentReports", method=RequestMethod.POST)
-	public AdministrativeSegment addReport(@RequestBody GroupAIncidentReport groupAIncidentReport){
+	public AdministrativeSegment saveReport(@RequestBody GroupAIncidentReport groupAIncidentReport){
 		return groupAIncidentService.saveGroupAIncidentReport(groupAIncidentReport);
 	}
 	
+	@RequestMapping(value="/groupAIncidentReports", method=RequestMethod.DELETE)
+	public void deleteReport(@RequestBody GroupAIncidentReport groupAIncidentReport){
+		groupAIncidentService.deleteGroupAIncidentReport(groupAIncidentReport);
+	}
+
 }

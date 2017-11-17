@@ -67,4 +67,44 @@ public class VictimOffenderRelationshipType {
 		this.victimOffenderRelationshipDescription = victimOffenderRelationshipDescription;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((victimOffenderRelationshipCode == null) ? 0 : victimOffenderRelationshipCode.hashCode());
+		result = prime * result + ((victimOffenderRelationshipDescription == null) ? 0
+				: victimOffenderRelationshipDescription.hashCode());
+		result = prime * result
+				+ ((victimOffenderRelationshipTypeId == null) ? 0 : victimOffenderRelationshipTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VictimOffenderRelationshipType other = (VictimOffenderRelationshipType) obj;
+		if (victimOffenderRelationshipCode == null) {
+			if (other.victimOffenderRelationshipCode != null)
+				return false;
+		} else if (!victimOffenderRelationshipCode.equals(other.victimOffenderRelationshipCode))
+			return false;
+		if (victimOffenderRelationshipDescription == null) {
+			if (other.victimOffenderRelationshipDescription != null)
+				return false;
+		} else if (!victimOffenderRelationshipDescription.equals(other.victimOffenderRelationshipDescription))
+			return false;
+		if (victimOffenderRelationshipTypeId == null) {
+			if (other.victimOffenderRelationshipTypeId != null)
+				return false;
+		} else if (!victimOffenderRelationshipTypeId.equals(other.victimOffenderRelationshipTypeId))
+			return false;
+		return true;
+	}
+
 }

@@ -138,4 +138,72 @@ public class PropertySegment {
 	public void setPropertyTypes(Set<PropertyType> propertyTypes) {
 		this.propertyTypes = propertyTypes;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((administrativeSegment == null) ? 0 : administrativeSegment.hashCode());
+		result = prime * result
+				+ ((numberOfRecoveredMotorVehicles == null) ? 0 : numberOfRecoveredMotorVehicles.hashCode());
+		result = prime * result + ((numberOfStolenMotorVehicles == null) ? 0 : numberOfStolenMotorVehicles.hashCode());
+		result = prime * result + ((propertySegmentId == null) ? 0 : propertySegmentId.hashCode());
+		result = prime * result + ((propertyTypes == null) ? 0 : propertyTypes.hashCode());
+		result = prime * result + ((segmentActionType == null) ? 0 : segmentActionType.hashCode());
+		result = prime * result + ((suspectedDrugTypes == null) ? 0 : suspectedDrugTypes.hashCode());
+		result = prime * result + ((typePropertyLossEtcType == null) ? 0 : typePropertyLossEtcType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertySegment other = (PropertySegment) obj;
+		if (administrativeSegment == null) {
+			if (other.administrativeSegment != null)
+				return false;
+		} else if (!administrativeSegment.equals(other.administrativeSegment))
+			return false;
+		if (numberOfRecoveredMotorVehicles == null) {
+			if (other.numberOfRecoveredMotorVehicles != null)
+				return false;
+		} else if (!numberOfRecoveredMotorVehicles.equals(other.numberOfRecoveredMotorVehicles))
+			return false;
+		if (numberOfStolenMotorVehicles == null) {
+			if (other.numberOfStolenMotorVehicles != null)
+				return false;
+		} else if (!numberOfStolenMotorVehicles.equals(other.numberOfStolenMotorVehicles))
+			return false;
+		if (propertySegmentId == null) {
+			if (other.propertySegmentId != null)
+				return false;
+		} else if (!propertySegmentId.equals(other.propertySegmentId))
+			return false;
+		if (propertyTypes == null) {
+			if (other.propertyTypes != null)
+				return false;
+		} else if (!propertyTypes.equals(other.propertyTypes))
+			return false;
+		if (segmentActionType == null) {
+			if (other.segmentActionType != null)
+				return false;
+		} else if (!segmentActionType.equals(other.segmentActionType))
+			return false;
+		if (suspectedDrugTypes == null) {
+			if (other.suspectedDrugTypes != null)
+				return false;
+		} else if (!suspectedDrugTypes.equals(other.suspectedDrugTypes))
+			return false;
+		if (typePropertyLossEtcType == null) {
+			if (other.typePropertyLossEtcType != null)
+				return false;
+		} else if (!typePropertyLossEtcType.equals(other.typePropertyLossEtcType))
+			return false;
+		return true;
+	}
 }

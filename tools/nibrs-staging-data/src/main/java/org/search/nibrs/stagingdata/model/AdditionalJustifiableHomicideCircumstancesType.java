@@ -78,4 +78,47 @@ public class AdditionalJustifiableHomicideCircumstancesType {
 			String additionalJustifiableHomicideCircumstancesDescription) {
 		this.additionalJustifiableHomicideCircumstancesDescription = additionalJustifiableHomicideCircumstancesDescription;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((additionalJustifiableHomicideCircumstancesCode == null) ? 0
+				: additionalJustifiableHomicideCircumstancesCode.hashCode());
+		result = prime * result + ((additionalJustifiableHomicideCircumstancesDescription == null) ? 0
+				: additionalJustifiableHomicideCircumstancesDescription.hashCode());
+		result = prime * result + ((additionalJustifiableHomicideCircumstancesTypeId == null) ? 0
+				: additionalJustifiableHomicideCircumstancesTypeId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AdditionalJustifiableHomicideCircumstancesType other = (AdditionalJustifiableHomicideCircumstancesType) obj;
+		if (additionalJustifiableHomicideCircumstancesCode == null) {
+			if (other.additionalJustifiableHomicideCircumstancesCode != null)
+				return false;
+		} else if (!additionalJustifiableHomicideCircumstancesCode
+				.equals(other.additionalJustifiableHomicideCircumstancesCode))
+			return false;
+		if (additionalJustifiableHomicideCircumstancesDescription == null) {
+			if (other.additionalJustifiableHomicideCircumstancesDescription != null)
+				return false;
+		} else if (!additionalJustifiableHomicideCircumstancesDescription
+				.equals(other.additionalJustifiableHomicideCircumstancesDescription))
+			return false;
+		if (additionalJustifiableHomicideCircumstancesTypeId == null) {
+			if (other.additionalJustifiableHomicideCircumstancesTypeId != null)
+				return false;
+		} else if (!additionalJustifiableHomicideCircumstancesTypeId
+				.equals(other.additionalJustifiableHomicideCircumstancesTypeId))
+			return false;
+		return true;
+	}
 }

@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
@@ -91,6 +92,7 @@ import org.search.nibrs.stagingdata.repository.TypeOfWeaponForceInvolvedTypeRepo
 import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository;
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.search.nibrs.stagingdata.repository.VictimOffenderRelationshipTypeRepository;
+import org.search.nibrs.stagingdata.repository.segment.AdministrativeSegmentRepository;
 import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -165,6 +167,8 @@ public class GroupAIncidentServiceTest {
 	@Autowired
 	public VictimOffenderRelationshipTypeRepository victimOffenderRelationshipTypeRepository;
 	
+	@Autowired
+	public AdministrativeSegmentRepository administrativeSegmentRepository; 
 	@Autowired
 	public GroupAIncidentService groupAIncidentService; 
 
@@ -434,8 +438,66 @@ public class GroupAIncidentServiceTest {
 				fail("Unexpected victim sequence number"); 
 			}
 		}
+		
+		testUpdate(persisted);
+		testDelete(persisted);
 	}
 	
+	private void testUpdate(AdministrativeSegment persisted) {
+		persisted.setYearOfTape("2017");
+		persisted.setAgency(new Agency(99998));
+		List<OffenseSegment> offenseSegmentsList = 
+				new ArrayList<>(persisted.getOffenseSegments());
+		offenseSegmentsList.removeIf(item -> item.getUcrOffenseCodeType().getUcrOffenseCode().equals("23D"));
+		persisted.getOffenseSegments().clear();
+		persisted.getOffenseSegments().addAll(offenseSegmentsList);
+		VictimSegment victimSegment = new ArrayList<>(persisted.getVictimSegments()).get(0); 
+		victimSegment.getOffenseSegments().clear(); 
+		victimSegment.getOffenseSegments().addAll(offenseSegmentsList);
+		
+		groupAIncidentService.saveAdministrativeSegment(persisted);
+		AdministrativeSegment updated = 
+				groupAIncidentService.findAdministrativeSegment(persisted.getAdministrativeSegmentId());
+
+		assertThat(updated.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(updated.getMonthOfTape(), equalTo("12"));
+		assertThat(updated.getYearOfTape(), equalTo("2017"));
+		assertThat(updated.getCityIndicator(), equalTo("Y"));
+		assertThat(updated.getOri(), equalTo("ori"));
+		assertThat(updated.getAgency().getAgencyId(), equalTo(99998));
+		assertThat(updated.getIncidentNumber(), equalTo("1234568910"));
+		assertTrue(DateUtils.isSameDay(persisted.getIncidentDate(), Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		assertThat(updated.getIncidentDateType().getDateTypeId(), equalTo(2355));
+		assertNull(updated.getReportDateIndicator());
+		assertThat(updated.getIncidentHour(), equalTo("13"));
+		assertThat(updated.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("B"));
+		
+		Set<OffenseSegment> offenseSegments = updated.getOffenseSegments();
+		assertThat(offenseSegments.size(), equalTo(1));
+		Set<ArresteeSegment> arresteeSegments = updated.getArresteeSegments();
+		assertThat(arresteeSegments.size(), equalTo(1));
+		Set<OffenderSegment> offenderSegments = updated.getOffenderSegments();
+		assertThat(offenderSegments.size(), equalTo(2));
+		Set<VictimSegment> victimSegments = updated.getVictimSegments();
+		assertThat(victimSegments.size(), equalTo(1));
+		Set<PropertySegment> propertySegments = updated.getPropertySegments();
+		assertThat(propertySegments.size(), equalTo(2));
+
+	}
+
+	private void testDelete(AdministrativeSegment persisted) {
+		long countOfAdministrativeSegmentsBeforeDelete = administrativeSegmentRepository.count(); 
+		
+		administrativeSegmentRepository.deleteByIncidentNumber(persisted.getIncidentNumber());  
+		
+		AdministrativeSegment afterDelete = administrativeSegmentRepository.findOne(persisted.getAdministrativeSegmentId());
+		assertThat(afterDelete,  equalTo(null));
+		
+		long countOfAdministrativeSegmentsAfterDelete = administrativeSegmentRepository.count(); 
+		assertThat(countOfAdministrativeSegmentsAfterDelete, equalTo(countOfAdministrativeSegmentsBeforeDelete - 1));
+		
+	}
+
 	@SuppressWarnings("serial")
 	public AdministrativeSegment getBasicAdministrativeSegment(){
 		
@@ -1014,6 +1076,265 @@ public class GroupAIncidentServiceTest {
 			}
 		}
 		
+		testUpdateGroupAIncidentReport(groupAIncidentReport);
+		testDeleteGroupAIncidentReport(groupAIncidentReport);
+	}
 
+	private void testDeleteGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport) {
+		AdministrativeSegment beforeDeletion = 
+				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+		assertNotNull(beforeDeletion);
+		groupAIncidentReport.setReportActionType('D');
+		groupAIncidentReport.removeArrestees(); 
+		groupAIncidentReport.removeOffenders();
+		groupAIncidentReport.removeOffenses();
+		groupAIncidentReport.removeProperties();
+		groupAIncidentReport.removeVictims();
+		groupAIncidentService.deleteGroupAIncidentReport(groupAIncidentReport);
+		AdministrativeSegment deleted = 
+				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+		assertThat(deleted, equalTo(null));
+	}
+
+	private void testUpdateGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport) {
+		groupAIncidentReport.setOri("agencyORI");
+		groupAIncidentReport.setCargoTheftIndicator("Y");
+		
+		org.search.nibrs.model.OffenseSegment o = new org.search.nibrs.model.OffenseSegment();
+		groupAIncidentReport.addOffense(o);
+		o.setUcrOffenseCode("13B");
+		o.setTypeOfCriminalActivity(0, "J");
+		o.setOffenseAttemptedCompleted("C");
+		o.setTypeOfWeaponForceInvolved(0, "14");
+		o.setOffendersSuspectedOfUsing(0, "N");
+		o.setBiasMotivation(0, "15");
+		o.setLocationType("15");
+		o.setNumberOfPremisesEntered(ParsedObject.getMissingParsedObject());
+		o.setAutomaticWeaponIndicator(0, " ");
+		org.search.nibrs.model.VictimSegment v = new org.search.nibrs.model.VictimSegment();
+		groupAIncidentReport.addVictim(v);
+		v.setTypeOfVictim("I");
+		v.setTypeOfInjury(0, "N");
+		v.setAggravatedAssaultHomicideCircumstances(0, "01");
+		v.setVictimSequenceNumber(new ParsedObject<>(2));
+		v.setAgeString("2530");
+		v.setEthnicity("N");
+		v.setResidentStatus("R");
+		v.setSex("M");
+		v.setRace("B");
+		v.setOffenderNumberRelated(0, new ParsedObject<>(1));
+		v.setVictimOffenderRelationship(0, "SE");
+		v.setUcrOffenseCodeConnection(0, "13B");
+
+		groupAIncidentReport.removeProperty(2);
+		
+		groupAIncidentService.saveGroupAIncidentReport(groupAIncidentReport);
+		
+		AdministrativeSegment updated = 
+				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+
+		assertNotNull(updated);
+		assertThat(updated.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(updated.getMonthOfTape(), equalTo("05"));
+		assertThat(updated.getYearOfTape(), equalTo("2016"));
+		assertThat(updated.getCityIndicator(), equalTo("Y"));
+		assertThat(updated.getOri(), equalTo("agencyORI"));
+		assertThat(updated.getAgency().getAgencyId(), equalTo(1));
+		assertThat(updated.getIncidentNumber(), equalTo("54236732"));
+		assertTrue(DateUtils.isSameDay(updated.getIncidentDate(), Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		assertThat(updated.getIncidentDateType().getDateTypeId(), equalTo(2324));
+		assertNull(updated.getReportDateIndicator());
+		assertThat(updated.getIncidentHour(), equalTo(""));
+		assertThat(updated.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("A"));
+		assertThat(updated.getCargoTheftIndicatorType().getCargoTheftIndicatorCode(), equalTo("Y"));
+		
+//		2 OffenseSegment Segments:
+//		OffenseSegment [ucrOffenseCode=13A, offenseAttemptedCompleted=C, 
+	//offendersSuspectedOfUsing=[N, null, null], locationType=15, numberOfPremisesEntered=null, 
+	//methodOfEntry=null, 
+	//typeOfCriminalActivity=[J, null, null], 
+	//typeOfWeaponForceInvolved=[14, null, null], 
+	//automaticWeaponIndicator=[ , null, null], 
+	//biasMotivation=[15, null, null, null, null], 
+	//populatedBiasMotivationCount=1, 
+	//populatedTypeOfWeaponForceInvolvedCount=1, 
+	//populatedTypeOfCriminalActivityCount=1, 
+	//populatedOffendersSuspectedOfUsingCount=1]
+
+		Set<OffenseSegment> offenseSegments = updated.getOffenseSegments();
+		assertThat(offenseSegments.size(), equalTo(2));
+		
+		List<String> offenseCodes = offenseSegments.stream().map(i->i.getUcrOffenseCodeType().getUcrOffenseCode()).collect(Collectors.toList()); 
+		assertTrue(offenseCodes.containsAll(Arrays.asList("13A", "13B")));
+		
+		for (OffenseSegment offenseSegment: offenseSegments){
+			assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getBiasMotivationCode(), equalTo("15"));
+			assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+			assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
+			assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("15"));
+			assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(null));
+			assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryTypeId(), equalTo(99998));
+			Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
+					offenseSegment.getOffenderSuspectedOfUsingTypes();  
+			assertThat(offenderSuspectedOfUsingTypes.size(), equalTo(1));
+			assertThat(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findFirstByOffenderSuspectedOfUsingCode("N")), equalTo(true));
+			Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes = 
+					offenseSegment.getTypeOfCriminalActivityTypes(); 
+			assertThat(typeOfCriminalActivityTypes.size(), equalTo(1));
+			assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findFirstByTypeOfCriminalActivityCode("J")));
+			
+			Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds = 
+					offenseSegment.getTypeOfWeaponForceInvolveds();
+			assertThat(typeOfWeaponForceInvolveds.size(), equalTo(1));
+			TypeOfWeaponForceInvolved typeOfWeaponForceInvolved = typeOfWeaponForceInvolveds.stream().findFirst().get();
+			assertThat(typeOfWeaponForceInvolved.getOffenseSegment().getOffenseSegmentId(), equalTo(offenseSegment.getOffenseSegmentId()));
+			assertThat(typeOfWeaponForceInvolved.getAutomaticWeaponIndicator(), equalTo(""));
+			assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode(), equalTo("14"));
+		}
+		
+		Set<OffenderSegment> offenderSegments = updated.getOffenderSegments();
+		assertThat(offenderSegments.size(), equalTo(1));
+		OffenderSegment offenderSegment = offenderSegments.stream().findFirst().get();
+		
+		assertThat(offenderSegment.getOffenderSequenceNumber(), equalTo(1)); 
+		assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(22));
+		assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(22));
+		assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+		assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
+		assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("H"));
+		
+		Set<ArresteeSegment> arresteeSegments = updated.getArresteeSegments();
+		assertThat(arresteeSegments.size(), equalTo(1));
+		
+		ArresteeSegment arresteeSegment = arresteeSegments.stream().findFirst().get();
+		
+		assertThat(arresteeSegment.getArrestTransactionNumber(), equalTo("12345"));
+		assertThat(arresteeSegment.getArresteeSequenceNumber(), equalTo(1));
+		assertTrue(DateUtils.isSameDay(arresteeSegment.getArrestDate(), Date.from(LocalDateTime.of(2015, 5, 16, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant())));
+		
+		assertThat(arresteeSegment.getArrestDateType().getDateTypeId(), equalTo(1962));
+		assertThat(arresteeSegment.getArrestDateType().getDateMMDDYYYY(), equalTo("05162015"));
+		assertThat(arresteeSegment.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("O"));
+		assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getMultipleArresteeSegmentsIndicatorCode(), 
+				equalTo("N"));
+		assertThat(arresteeSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
+		assertThat(arresteeSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
+		assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18Code(), equalTo(" "));
+		assertThat(arresteeSegment.getAgeOfArresteeMax(), equalTo(22));
+		assertThat(arresteeSegment.getAgeOfArresteeMin(), equalTo(22));
+		assertThat(arresteeSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
+		assertThat(arresteeSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
+		assertThat(arresteeSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+		
+		Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths = 
+				arresteeSegment.getArresteeSegmentWasArmedWiths();
+		assertThat(arresteeSegmentWasArmedWiths.size(), equalTo(1));
+		
+		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith = arresteeSegmentWasArmedWiths.stream().findFirst().get();
+		assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
+		assertThat(arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(""));
+		
+//		2 VictimSegment Segments:
+		Set<VictimSegment> victimSegments = updated.getVictimSegments();
+		assertThat(victimSegments.size(), equalTo(2));
+//		v.setTypeOfVictim("I");
+//		v.setTypeOfInjury(0, "N");
+//		v.setAggravatedAssaultHomicideCircumstances(0, "01");
+//		v.setVictimSequenceNumber(new ParsedObject<>(2));
+//		v.setAgeString("2530");
+//		v.setEthnicity("N");
+//		v.setResidentStatus("R");
+//		v.setSex("M");
+//		v.setRace("B");
+//		v.setOffenderNumberRelated(0, new ParsedObject<>(1));
+//		v.setVictimOffenderRelationship(0, "SE");
+//		v.setUcrOffenseCodeConnection(0, "13B");
+		for (VictimSegment victimSegment: victimSegments){
+			assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(updated.getAdministrativeSegmentId())); 
+			assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
+			assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("I")); 
+			assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceTypeId(), equalTo(99998)); 
+			assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeTypeId(), equalTo(99998)); 
+			assertThat(victimSegment.getAgeNeonateIndicator(), equalTo(0));
+			assertThat(victimSegment.getAgeFirstWeekIndicator(), equalTo(0));
+			assertThat(victimSegment.getAgeFirstYearIndicator(), equalTo(0));
+			assertThat(victimSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B")); 
+			assertThat(victimSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("N")); 
+			assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R")); 
+			assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
+					.getAdditionalJustifiableHomicideCircumstancesTypeId(), equalTo(99998));
+			assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().contains(
+					aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"))); 
+			assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("N"))); 
+			assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(1)); 
+			
+			Set<VictimOffenderAssociation> victimOffenderAssociations = victimSegment.getVictimOffenderAssociations();
+			assertThat(victimOffenderAssociations.size(), equalTo(1));
+			VictimOffenderAssociation victimOffenderAssociation = new ArrayList<>(victimOffenderAssociations).get(0);
+			assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
+			assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
+			assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("SE"));
+			assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
+			
+			if(victimSegment.getVictimSequenceNumber().equals(1)){
+				assertThat(victimSegment.getAgeOfVictimMax(), equalTo(22));
+				assertThat(victimSegment.getAgeOfVictimMin(), equalTo(20));
+				
+				assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("F")); 
+				
+				assertThat(victimSegment.getOffenseSegments().size(), equalTo(1));
+				assertThat( new ArrayList<>(victimSegment.getOffenseSegments()).get(0).getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
+				
+			}
+			else{
+				assertThat(victimSegment.getAgeOfVictimMax(), equalTo(30));
+				assertThat(victimSegment.getAgeOfVictimMin(), equalTo(25));
+				
+				assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M")); 
+				
+				assertThat(victimSegment.getOffenseSegments().size(), equalTo(1));
+				assertThat( new ArrayList<>(victimSegment.getOffenseSegments()).get(0).getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13B"));
+			}
+		}
+//		2 PropertySegment Segments:
+//			PropertySegment [typeOfPropertyLoss=7, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[null, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]
+//			PropertySegment [typeOfPropertyLoss=5, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[Thu Jan 08 00:00:00 CST 2015, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]
+		
+		Set<PropertySegment> propertySegments = updated.getPropertySegments();
+		assertThat(propertySegments.size(), equalTo(2));
+		
+		for (PropertySegment propertySegment: propertySegments){
+			Set<PropertyType> propertyTypes = propertySegment.getPropertyTypes();
+			Set<SuspectedDrugType> suspectedDrugTypes = propertySegment.getSuspectedDrugTypes();
+			switch (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()){
+			case "5": 
+				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(null)); 
+				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
+				assertThat(propertyTypes.size(), equalTo(1));
+				for (PropertyType propertyType: propertyTypes){
+					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
+					assertThat(propertyType.getRecoveredDateType().getDateMMDDYYYY(), equalTo("01082015"));
+				}
+				
+				assertThat(suspectedDrugTypes.size(), equalTo(0));
+				break; 
+			case "7": 
+				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(null)); 
+				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
+				assertThat(propertyTypes.size(), equalTo(1));
+				for (PropertyType propertyType: propertyTypes){
+					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
+					assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
+				}
+				assertThat(suspectedDrugTypes.size(), equalTo(0));
+				break; 
+			default: 
+				fail("Unexpected type of property loss code. ");	
+			}
+		}
+		
 	}
 }

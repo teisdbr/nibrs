@@ -28,6 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.stagingdata.controller.BadRequestException;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ArrestReportSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
@@ -79,6 +80,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ArrestReportService {
+	private static final String GROUP_B_REPORT_BAD_REQUEST = "The Group B Report is not persisted because it misses the arrestee info. ";
+
 	private static final Log log = LogFactory.getLog(ArrestReportService.class);
 
 	@Autowired
@@ -166,9 +169,9 @@ public class ArrestReportService {
 	public ArrestReportSegment saveGroupBArrestReport(GroupBArrestReport groupBArrestReport){
 		
 		ArresteeSegment arrestee = groupBArrestReport.getArrestee(); 
-		if (arrestee == null){
-			log.error("The Group B Report is not persisted because it misses the arrestee info. "); 
-			return null;
+		if (arrestee == null || StringUtils.isBlank(groupBArrestReport.getIdentifier())){
+			log.error(GROUP_B_REPORT_BAD_REQUEST); 
+			throw new BadRequestException(GROUP_B_REPORT_BAD_REQUEST);
 		}
 		
 		Optional<ArrestReportSegment> existingArrestReportSegment = 
@@ -246,11 +249,10 @@ public class ArrestReportService {
 	}
 
 	private void processArrestReportSegmentArmedWiths(ArrestReportSegment arrestReportSegment, ArresteeSegment arrestee) {
+		
 		Set<ArrestReportSegmentWasArmedWith> armedWiths = Optional.ofNullable(arrestReportSegment.getArrestReportSegmentWasArmedWiths())
 				.orElseGet(HashSet::new);
-		
 		armedWiths.clear();
-		
 		if (arrestee.containsArresteeArmedWith()){
 			for (int i = 0; i < ArresteeSegment.ARRESTEE_ARMED_WITH_COUNT; i++){
 				String arresteeArmedWithCode = 

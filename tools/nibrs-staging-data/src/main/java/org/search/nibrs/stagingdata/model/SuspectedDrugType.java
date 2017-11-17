@@ -104,4 +104,41 @@ public class SuspectedDrugType implements Serializable{
 		this.propertySegment = propertySegment;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SuspectedDrugType other = (SuspectedDrugType) obj;
+		if (estimatedDrugQuantity == null) {
+			if (other.estimatedDrugQuantity != null)
+				return false;
+		} else if (!estimatedDrugQuantity.equals(other.estimatedDrugQuantity))
+			return false;
+		if (propertySegment == null) {
+			if (other.propertySegment != null)
+				return false;
+		} else if (!propertySegment.getPropertySegmentId().equals(other.propertySegment.getPropertySegmentId()))
+			return false;
+		if (suspectedDrugTypeId == null) {
+			if (other.suspectedDrugTypeId != null)
+				return false;
+		} else if (!suspectedDrugTypeId.equals(other.suspectedDrugTypeId))
+			return false;
+		if (suspectedDrugTypeType == null) {
+			if (other.suspectedDrugTypeType != null)
+				return false;
+		} else if (!suspectedDrugTypeType.equals(other.suspectedDrugTypeType))
+			return false;
+		if (typeDrugMeasurementType == null) {
+			if (other.typeDrugMeasurementType != null)
+				return false;
+		} else if (!typeDrugMeasurementType.equals(other.typeDrugMeasurementType))
+			return false;
+		return true;
+	}
+
 }

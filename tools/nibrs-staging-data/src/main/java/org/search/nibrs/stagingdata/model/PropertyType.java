@@ -118,4 +118,46 @@ public class PropertyType implements Serializable{
 		this.recoveredDate = recoveredDate;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyType other = (PropertyType) obj;
+		if (propertyDescriptionType == null) {
+			if (other.propertyDescriptionType != null)
+				return false;
+		} else if (!propertyDescriptionType.equals(other.propertyDescriptionType))
+			return false;
+		if (propertySegment == null) {
+			if (other.propertySegment != null)
+				return false;
+		} else if (!propertySegment.getPropertySegmentId().equals(other.propertySegment.getPropertySegmentId()))
+			return false;
+		if (propertyTypeId == null) {
+			if (other.propertyTypeId != null)
+				return false;
+		} else if (!propertyTypeId.equals(other.propertyTypeId))
+			return false;
+		if (recoveredDate == null) {
+			if (other.recoveredDate != null)
+				return false;
+		} else if (!recoveredDate.equals(other.recoveredDate))
+			return false;
+		if (recoveredDateType == null) {
+			if (other.recoveredDateType != null)
+				return false;
+		} else if (!recoveredDateType.equals(other.recoveredDateType))
+			return false;
+		if (valueOfProperty == null) {
+			if (other.valueOfProperty != null)
+				return false;
+		} else if (!valueOfProperty.equals(other.valueOfProperty))
+			return false;
+		return true;
+	}
+
 }

@@ -17,6 +17,7 @@ package org.search.nibrs.stagingdata.model.segment;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -67,7 +68,7 @@ public class OffenderSegment {
 	@JoinColumn(name="ethnicityOfPersonTypeId")
 	private EthnicityOfPersonType ethnicityOfPersonType;
 	
-	@OneToMany(mappedBy = "offenderSegment", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "offenderSegment", fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<VictimOffenderAssociation> victimOffenderAssociations;
 	
 	public String toString(){

@@ -313,7 +313,6 @@ public class ArrestReportServiceTest {
 		ArrestReportSegment deleted = 
 				arrestReportSegmentRepository.findFirstByArrestTransactionNumber(groupBArrestReport.getIdentifier());
 		assertThat(deleted, equalTo(null));
-		
 	}
 
 	private void testUpdateGroupBArrestReport(GroupBArrestReport groupBArrestReport) {

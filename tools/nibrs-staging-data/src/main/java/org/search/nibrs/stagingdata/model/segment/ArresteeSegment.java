@@ -63,7 +63,7 @@ public class ArresteeSegment {
 	private String arrestTransactionNumber; 
 	private Date arrestDate;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="arrestDateId")
 	private DateType arrestDateType; 
 	
@@ -210,5 +210,133 @@ public class ArresteeSegment {
 	}
 	public void setArresteeSegmentWasArmedWiths(Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths) {
 		this.arresteeSegmentWasArmedWiths = arresteeSegmentWasArmedWiths;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((administrativeSegment == null) ? 0 : administrativeSegment.hashCode());
+		result = prime * result + ((ageOfArresteeMax == null) ? 0 : ageOfArresteeMax.hashCode());
+		result = prime * result + ((ageOfArresteeMin == null) ? 0 : ageOfArresteeMin.hashCode());
+		result = prime * result + ((arrestDate == null) ? 0 : arrestDate.hashCode());
+		result = prime * result + ((arrestDateType == null) ? 0 : arrestDateType.hashCode());
+		result = prime * result + ((arrestTransactionNumber == null) ? 0 : arrestTransactionNumber.hashCode());
+		result = prime * result + ((arresteeSegmentId == null) ? 0 : arresteeSegmentId.hashCode());
+		result = prime * result
+				+ ((arresteeSegmentWasArmedWiths == null) ? 0 : arresteeSegmentWasArmedWiths.hashCode());
+		result = prime * result + ((arresteeSequenceNumber == null) ? 0 : arresteeSequenceNumber.hashCode());
+		result = prime * result
+				+ ((dispositionOfArresteeUnder18Type == null) ? 0 : dispositionOfArresteeUnder18Type.hashCode());
+		result = prime * result + ((ethnicityOfPersonType == null) ? 0 : ethnicityOfPersonType.hashCode());
+		result = prime * result + ((multipleArresteeSegmentsIndicatorType == null) ? 0
+				: multipleArresteeSegmentsIndicatorType.hashCode());
+		result = prime * result + ((raceOfPersonType == null) ? 0 : raceOfPersonType.hashCode());
+		result = prime * result + ((residentStatusOfPersonType == null) ? 0 : residentStatusOfPersonType.hashCode());
+		result = prime * result + ((segmentActionType == null) ? 0 : segmentActionType.hashCode());
+		result = prime * result + ((sexOfPersonType == null) ? 0 : sexOfPersonType.hashCode());
+		result = prime * result + ((typeOfArrestType == null) ? 0 : typeOfArrestType.hashCode());
+		result = prime * result + ((ucrOffenseCodeType == null) ? 0 : ucrOffenseCodeType.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArresteeSegment other = (ArresteeSegment) obj;
+		if (administrativeSegment == null) {
+			if (other.administrativeSegment != null)
+				return false;
+		} else if (!administrativeSegment.equals(other.administrativeSegment))
+			return false;
+		if (ageOfArresteeMax == null) {
+			if (other.ageOfArresteeMax != null)
+				return false;
+		} else if (!ageOfArresteeMax.equals(other.ageOfArresteeMax))
+			return false;
+		if (ageOfArresteeMin == null) {
+			if (other.ageOfArresteeMin != null)
+				return false;
+		} else if (!ageOfArresteeMin.equals(other.ageOfArresteeMin))
+			return false;
+		if (arrestDate == null) {
+			if (other.arrestDate != null)
+				return false;
+		} else if (!arrestDate.equals(other.arrestDate))
+			return false;
+		if (arrestDateType == null) {
+			if (other.arrestDateType != null)
+				return false;
+		} else if (!arrestDateType.equals(other.arrestDateType))
+			return false;
+		if (arrestTransactionNumber == null) {
+			if (other.arrestTransactionNumber != null)
+				return false;
+		} else if (!arrestTransactionNumber.equals(other.arrestTransactionNumber))
+			return false;
+		if (arresteeSegmentId == null) {
+			if (other.arresteeSegmentId != null)
+				return false;
+		} else if (!arresteeSegmentId.equals(other.arresteeSegmentId))
+			return false;
+		if (arresteeSegmentWasArmedWiths == null) {
+			if (other.arresteeSegmentWasArmedWiths != null)
+				return false;
+		} else if (!arresteeSegmentWasArmedWiths.equals(other.arresteeSegmentWasArmedWiths))
+			return false;
+		if (arresteeSequenceNumber == null) {
+			if (other.arresteeSequenceNumber != null)
+				return false;
+		} else if (!arresteeSequenceNumber.equals(other.arresteeSequenceNumber))
+			return false;
+		if (dispositionOfArresteeUnder18Type == null) {
+			if (other.dispositionOfArresteeUnder18Type != null)
+				return false;
+		} else if (!dispositionOfArresteeUnder18Type.equals(other.dispositionOfArresteeUnder18Type))
+			return false;
+		if (ethnicityOfPersonType == null) {
+			if (other.ethnicityOfPersonType != null)
+				return false;
+		} else if (!ethnicityOfPersonType.equals(other.ethnicityOfPersonType))
+			return false;
+		if (multipleArresteeSegmentsIndicatorType == null) {
+			if (other.multipleArresteeSegmentsIndicatorType != null)
+				return false;
+		} else if (!multipleArresteeSegmentsIndicatorType.equals(other.multipleArresteeSegmentsIndicatorType))
+			return false;
+		if (raceOfPersonType == null) {
+			if (other.raceOfPersonType != null)
+				return false;
+		} else if (!raceOfPersonType.equals(other.raceOfPersonType))
+			return false;
+		if (residentStatusOfPersonType == null) {
+			if (other.residentStatusOfPersonType != null)
+				return false;
+		} else if (!residentStatusOfPersonType.equals(other.residentStatusOfPersonType))
+			return false;
+		if (segmentActionType == null) {
+			if (other.segmentActionType != null)
+				return false;
+		} else if (!segmentActionType.equals(other.segmentActionType))
+			return false;
+		if (sexOfPersonType == null) {
+			if (other.sexOfPersonType != null)
+				return false;
+		} else if (!sexOfPersonType.equals(other.sexOfPersonType))
+			return false;
+		if (typeOfArrestType == null) {
+			if (other.typeOfArrestType != null)
+				return false;
+		} else if (!typeOfArrestType.equals(other.typeOfArrestType))
+			return false;
+		if (ucrOffenseCodeType == null) {
+			if (other.ucrOffenseCodeType != null)
+				return false;
+		} else if (!ucrOffenseCodeType.equals(other.ucrOffenseCodeType))
+			return false;
+		return true;
 	}
 }
