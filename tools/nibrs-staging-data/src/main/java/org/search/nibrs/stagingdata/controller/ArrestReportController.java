@@ -32,10 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ArrestReportController {
-	private static final Log log = LogFactory.getLog(ArrestReportController.class);
-	
-	private static final String BAD_DELETE_REQUEST = "The report action type should be 'D' and the arrest transaction number is required ";
-
 	@Autowired
 	private ArrestReportService arrestReportService;
 	
@@ -56,12 +52,6 @@ public class ArrestReportController {
 	
 	@RequestMapping(value="/arrestReports", method=RequestMethod.DELETE)
 	public void deleteArrestReport(@RequestBody GroupBArrestReport groupBArrestReport){
-		if (groupBArrestReport.getReportActionType() != 'D' 
-				|| groupBArrestReport.getArrestee() == null 
-				|| StringUtils.isBlank(groupBArrestReport.getIdentifier())){
-			log.error(BAD_DELETE_REQUEST); 
-			throw new BadRequestException(BAD_DELETE_REQUEST);
-		}
 		arrestReportService.deleteGroupBArrestReport(groupBArrestReport);
 	}
 	

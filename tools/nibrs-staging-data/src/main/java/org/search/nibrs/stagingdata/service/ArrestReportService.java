@@ -80,7 +80,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ArrestReportService {
-	private static final String GROUP_B_REPORT_BAD_REQUEST = "The Group B Report is not persisted because it misses the arrestee info. ";
+	private static final String BAD_DELETE_REQUEST = "The report action type should be 'D' and the arrest transaction number is required ";
+
+	private static final String BAD_SAVE_REQUEST = "The Group B Report is not persisted because it misses the arrestee info. ";
 
 	private static final Log log = LogFactory.getLog(ArrestReportService.class);
 
@@ -163,6 +165,12 @@ public class ArrestReportService {
 	}
 	
 	public long deleteGroupBArrestReport(GroupBArrestReport groupBArrestReport){
+		if (groupBArrestReport.getReportActionType() != 'D' 
+				|| groupBArrestReport.getArrestee() == null 
+				|| StringUtils.isBlank(groupBArrestReport.getIdentifier())){
+			log.error(BAD_DELETE_REQUEST); 
+			throw new BadRequestException(BAD_DELETE_REQUEST);
+		}
 		return arrestReportSegmentRepository.deleteByArrestTransactionNumber(groupBArrestReport.getIdentifier());
 	}
 	
@@ -170,8 +178,8 @@ public class ArrestReportService {
 		
 		ArresteeSegment arrestee = groupBArrestReport.getArrestee(); 
 		if (arrestee == null || StringUtils.isBlank(groupBArrestReport.getIdentifier())){
-			log.error(GROUP_B_REPORT_BAD_REQUEST); 
-			throw new BadRequestException(GROUP_B_REPORT_BAD_REQUEST);
+			log.error(BAD_SAVE_REQUEST); 
+			throw new BadRequestException(BAD_SAVE_REQUEST);
 		}
 		
 		Optional<ArrestReportSegment> existingArrestReportSegment = 
