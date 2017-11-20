@@ -362,10 +362,10 @@
 01106I012016    MNBCA0000OCTMULTI000602OCTMULTI889420150114TC23F13A   35  MW U                                
 
 00871I012016    MNBCA0000OCTMULTI000720141213 05N                                      
-00632I012016    MNBCA0000OCTMULTI000709ACN  06      11       83 Murder
-00632I012016    MNBCA0000OCTMULTI000711CCN  06      11       83 Sexual Assault
-00632I012016    MNBCA0000OCTMULTI0007200CN  06               83 Arson
-00632I012016    MNBCA0000OCTMULTI000713ACN  06      11       83 Ag Assault
+00632I012016    MNBCA0000OCTMULTI000709ACN  06      11       83
+00632I012016    MNBCA0000OCTMULTI000711CCN  06      11       83
+00632I012016    MNBCA0000OCTMULTI0007200CN  06               83
+00632I012016    MNBCA0000OCTMULTI000713ACN  06      11       83
 03073I012016    MNBCA0000OCTMULTI0007718000005000        17000005000        16000005000        06000005000                                                                                                                                                                                                         
 01294I012016    MNBCA0000OCTMULTI000700109A11C200                     I45  FWHU01   O    01BG03BG                                
 01294I012016    MNBCA0000OCTMULTI000700213A                           I45  FWHU01   O    02BG                                    
@@ -1117,6 +1117,7 @@
 01294I012016    MNBCA0000OCTTARUN46  001280                           INN  FI N                                                  
 00465I012016    MNBCA0000OCTTARUN46  0118  MBN
 01106I012016    MNBCA0000OCTTARUN46  0126566555    20151001SC23A15A   18  MBNN                                
+
 00871I012016    MN0500200OCTTARUN47  20151014 17N                                      
 00712I012016    MN0500200OCTTARUN47  280AACD07   B           1112131415
 03073I012016    MN0500200OCTTARUN47  1                                                                                                                                                                                                                                                                             
@@ -1129,6 +1130,7 @@
 01294I012016    MNBCA0000OCTTARUN47  001280                           INN  FI N                                                  
 00465I012016    MNBCA0000OCTTARUN47  0118  MBN
 01106I012016    MNBCA0000OCTTARUN47  0126566555    20151014SC23A15A   18  MBNN                                
+
 00871I012016    MNBCA0000OCTTARUN48  20151021 17N                                      
 00712I012016    MNBCA0000OCTTARUN48  520CACD07   BCD13       1112131415
 01294I012016    MNBCA0000OCTTARUN48  001520                           S                                                          
