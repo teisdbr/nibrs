@@ -117,7 +117,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GroupAIncidentService {
 	private static final Log log = LogFactory.getLog(GroupAIncidentService.class);
-	private static final String BAD_DELETE_REQUEST = "The report action type should be 'D' and the incident number is required ";
+	private static final String BAD_DELETE_REQUEST = "The incident number is required to delete an incident";
 	@Autowired
 	AdministrativeSegmentRepository administrativeSegmentRepository;
 	@Autowired
@@ -196,14 +196,13 @@ public class GroupAIncidentService {
 	}
 	
 	@Transactional
-	public long deleteGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport){
-		if (groupAIncidentReport.getReportActionType() != 'D' 
-				|| StringUtils.isBlank(groupAIncidentReport.getIncidentNumber())){
+	public long deleteGroupAIncidentReport(String incidentNumber){
+		if ( StringUtils.isBlank(incidentNumber)){
 			log.error(BAD_DELETE_REQUEST); 
 			throw new BadRequestException(BAD_DELETE_REQUEST);
 		}
 
-		return administrativeSegmentRepository.deleteByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+		return administrativeSegmentRepository.deleteByIncidentNumber(incidentNumber);
 	}
 	
 	public AdministrativeSegment findAdministrativeSegment(Integer id){

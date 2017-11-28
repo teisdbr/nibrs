@@ -1084,13 +1084,7 @@ public class GroupAIncidentServiceTest {
 		AdministrativeSegment beforeDeletion = 
 				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
 		assertNotNull(beforeDeletion);
-		groupAIncidentReport.setReportActionType('D');
-		groupAIncidentReport.removeArrestees(); 
-		groupAIncidentReport.removeOffenders();
-		groupAIncidentReport.removeOffenses();
-		groupAIncidentReport.removeProperties();
-		groupAIncidentReport.removeVictims();
-		groupAIncidentService.deleteGroupAIncidentReport(groupAIncidentReport);
+		groupAIncidentService.deleteGroupAIncidentReport(groupAIncidentReport.getIncidentNumber());
 		AdministrativeSegment deleted = 
 				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
 		assertThat(deleted, equalTo(null));

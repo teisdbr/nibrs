@@ -22,6 +22,7 @@ import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.service.GroupAIncidentService;
 import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,9 +49,9 @@ public class GroupAIncidentReportController {
 		return groupAIncidentService.saveGroupAIncidentReport(groupAIncidentReport);
 	}
 	
-	@RequestMapping(value="/groupAIncidentReports", method=RequestMethod.DELETE)
-	public void deleteReport(@RequestBody GroupAIncidentReport groupAIncidentReport){
-		groupAIncidentService.deleteGroupAIncidentReport(groupAIncidentReport);
+	@RequestMapping(value="/groupAIncidentReports/{incidentNumber}", method=RequestMethod.DELETE)
+	public void deleteReport(@PathVariable("incidentNumber") String incidentNumber){
+		groupAIncidentService.deleteGroupAIncidentReport(incidentNumber);
 	}
 
 }

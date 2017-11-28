@@ -306,9 +306,7 @@ public class ArrestReportServiceTest {
 	}
 
 	private void testDeleteGroupBArrestReport(GroupBArrestReport groupBArrestReport) {
-		groupBArrestReport.setReportActionType('D');
-		
-		arrestReportService.deleteGroupBArrestReport(groupBArrestReport); 
+		arrestReportService.deleteGroupBArrestReport(groupBArrestReport.getIdentifier()); 
 		
 		ArrestReportSegment deleted = 
 				arrestReportSegmentRepository.findFirstByArrestTransactionNumber(groupBArrestReport.getIdentifier());

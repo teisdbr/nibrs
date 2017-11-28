@@ -164,14 +164,12 @@ public class ArrestReportService {
 		return arrestReportSegments;
 	}
 	
-	public long deleteGroupBArrestReport(GroupBArrestReport groupBArrestReport){
-		if (groupBArrestReport.getReportActionType() != 'D' 
-				|| groupBArrestReport.getArrestee() == null 
-				|| StringUtils.isBlank(groupBArrestReport.getIdentifier())){
+	public long deleteGroupBArrestReport(String identifier){
+		if ( StringUtils.isBlank(identifier) ){
 			log.error(BAD_DELETE_REQUEST); 
 			throw new BadRequestException(BAD_DELETE_REQUEST);
 		}
-		return arrestReportSegmentRepository.deleteByArrestTransactionNumber(groupBArrestReport.getIdentifier());
+		return arrestReportSegmentRepository.deleteByArrestTransactionNumber(identifier);
 	}
 	
 	public ArrestReportSegment saveGroupBArrestReport(GroupBArrestReport groupBArrestReport){

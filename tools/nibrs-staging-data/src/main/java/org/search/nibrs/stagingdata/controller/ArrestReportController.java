@@ -17,14 +17,12 @@ package org.search.nibrs.stagingdata.controller;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 import org.search.nibrs.stagingdata.service.ArrestReportService;
 import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,9 +48,9 @@ public class ArrestReportController {
 		arrestReportService.saveGroupBArrestReport(groupBArrestReport);
 	}
 	
-	@RequestMapping(value="/arrestReports", method=RequestMethod.DELETE)
-	public void deleteArrestReport(@RequestBody GroupBArrestReport groupBArrestReport){
-		arrestReportService.deleteGroupBArrestReport(groupBArrestReport);
+	@RequestMapping(value="/arrestReports/{identifier}", method=RequestMethod.DELETE)
+	public void deleteArrestReport(@PathVariable("identifier") String identifier){
+		arrestReportService.deleteGroupBArrestReport(identifier);
 	}
 	
 }
