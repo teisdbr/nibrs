@@ -34,6 +34,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.stagingdata.controller.BadRequestException;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.Agency;
@@ -435,11 +436,12 @@ public class GroupAIncidentService {
 								OfficerAssignmentTypeType::new);
 				victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeType);
 				
-				victimSegment.setAgeOfVictimMax(victim.getAge().getAgeMax());
-				victimSegment.setAgeOfVictimMin(victim.getAge().getAgeMin());
-				victimSegment.setAgeNeonateIndicator(BooleanUtils.toIntegerObject(victim.getAge().isNN()));
-				victimSegment.setAgeFirstWeekIndicator(BooleanUtils.toIntegerObject(victim.getAge().isNB()));
-				victimSegment.setAgeFirstYearIndicator(BooleanUtils.toIntegerObject(victim.getAge().isBB()));
+				Optional<NIBRSAge> victimAge = Optional.ofNullable(victim.getAge());
+				victimSegment.setAgeOfVictimMax(victimAge.map(NIBRSAge::getAgeMax).orElse(null));
+				victimSegment.setAgeOfVictimMin(victimAge.map(NIBRSAge::getAgeMin).orElse(null));
+				victimSegment.setAgeNeonateIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNN).orElse(false)));
+				victimSegment.setAgeFirstWeekIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNB).orElse(false)));
+				victimSegment.setAgeFirstYearIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isBB).orElse(false)));
 				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
 						victim.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
@@ -651,8 +653,9 @@ public class GroupAIncidentService {
 				offenderSegment.setSegmentActionType(administrativeSegment.getSegmentActionType());
 				offenderSegment.setAdministrativeSegment(administrativeSegment);
 				
-				offenderSegment.setAgeOfOffenderMax(offender.getAge().getAgeMax());
-				offenderSegment.setAgeOfOffenderMin(offender.getAge().getAgeMin());
+				Optional<NIBRSAge> offenderAge = Optional.ofNullable(offender.getAge());
+				offenderSegment.setAgeOfOffenderMax(offenderAge.map(NIBRSAge::getAgeMax).orElse(null));
+				offenderSegment.setAgeOfOffenderMin(offenderAge.map(NIBRSAge::getAgeMin).orElse(null));
 				offenderSegment.setOffenderSequenceNumber(offender.getOffenderSequenceNumber().getValue());
 				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
