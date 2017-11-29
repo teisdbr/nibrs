@@ -37,6 +37,7 @@ import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.validation.SubmissionValidator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +46,8 @@ import org.springframework.stereotype.Component;
 public class FlatFileValidator {
 	public static final Log log = LogFactory.getLog(FlatFileValidator.class);
 
+	@Value("${nibrsFileFolderPath:/tmp/nibrs}")
+	private String nibrsFileFolderPath; 
 	//TODO look into auto wire these as beans. 
 	IncidentBuilder incidentBuilder;
 	SubmissionValidator submissionValidator;
@@ -80,14 +83,17 @@ public class FlatFileValidator {
 
 	}
 	
-	public void createErrorReport(@Body ValidationResults validationResults, @Header("CamelFileAbsolutePath") String filePath) throws IOException{
+	public File createErrorReport(@Body ValidationResults validationResults, @Header("CamelFileAbsolutePath") String filePath) throws IOException{
 		
 		String filename = filePath.replace("/input/", "/result/").replace(".", formatter.format(LocalDateTime.now()) + ".");
-		FileWriter filewriter = new FileWriter(filename);
+		File file = new File(filename);
+		FileWriter filewriter = new FileWriter(file);
 		Writer outputWriter = new BufferedWriter(filewriter);
 		errorExporter.createErrorReport(validationResults.getErrorList(), outputWriter);
 		outputWriter.close();
 		log.info("The error report is writen to " + filename); 
+		
+		return file; 
 	}
 	
 }

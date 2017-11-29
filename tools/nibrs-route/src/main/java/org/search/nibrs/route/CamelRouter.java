@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.route;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,18 +26,20 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CamelRouter extends RouteBuilder {
+	
+	@Value("${nibrsFileFolderPath:/tmp/nibrs}")
+	private String nibrsFileFolderPath; 
 
     @Override
     public void configure() throws Exception {
-        fromF("file:%s/input?idempotent=true&moveFailed=%s/error&move=processed/", "/tmp/nibrs", "/tmp/nibrs").routeId("validate")
+        fromF("file:%s/input?idempotent=true&moveFailed=%s/error&move=processed/", nibrsFileFolderPath, nibrsFileFolderPath).routeId("validate")
         		.transform().method("flatFileValidator", "validate")
         		.multicast().to("direct:createErrorReport", "direct:persistReport")
                 .end();
-//                .to("stream:out")
-//                .toF("file:%s/result", "/tmp/nibrs");
         
         from("direct:createErrorReport").routeId("createErrorReport")
         	.transform().method("flatFileValidator", "createErrorReport")
+        	.toF("file:%s/result?fileName=${file:name.noext}-${date:now:yyyyMMddhhmmss}.${file:ext}", nibrsFileFolderPath)
         	.end();
         
         from("direct:persistReport").routeId("persistReport")

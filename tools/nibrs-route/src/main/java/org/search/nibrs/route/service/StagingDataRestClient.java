@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -57,10 +58,19 @@ public class StagingDataRestClient {
 		
 		logCountsOfReports(abstractReports);
 		
-		abstractReports.forEach(this::persistAbstractReport);
-//		for(AbstractReport abstractReport: abstractReports){
-//			persistAbstractReport(abstractReport);
-//		}
+		for(AbstractReport abstractReport: abstractReports){
+			try{
+				persistAbstractReport(abstractReport);
+			}
+			catch(ResourceAccessException rae){
+				log.error("Failed to connect to the rest service to process the reports in " + fileName);
+				throw rae;
+			}
+			catch(Exception e){
+				log.warn("Failed to persist incident " + abstractReport.getIdentifier());
+				log.error(e);
+			}
+		}
 		log.info("All reports from the file " + fileName + " are procesed.");
 	}
 
@@ -74,20 +84,22 @@ public class StagingDataRestClient {
 		if (abstractReport instanceof GroupAIncidentReport){
 			GroupAIncidentReport groupAIncidentReport = (GroupAIncidentReport) abstractReport; 
 			if (groupAIncidentReport.getReportActionType() == 'D'){
+				log.info("About to delete group A incident report " + groupAIncidentReport.getIncidentNumber());
 				restTemplate.delete(restServiceBaseUrl + "groupAIncidentReports/" + groupAIncidentReport.getIdentifier() );
 			}
 			else{
-				log.info("About to post for " + groupAIncidentReport);
+				log.info("About to post for group A incident report " + groupAIncidentReport.getIncidentNumber());
 				restTemplate.postForLocation(restServiceBaseUrl + "groupAIncidentReports", groupAIncidentReport);
 			}
 		}
 		else if (abstractReport instanceof GroupBArrestReport){
 			GroupBArrestReport groupBArrestReport = (GroupBArrestReport) abstractReport; 
 			if (groupBArrestReport.getReportActionType() == 'D') {
+				log.info("About to delete group B Arrest Report" + groupBArrestReport.getIdentifier());
 				restTemplate.delete(restServiceBaseUrl + "arrestReports/" + groupBArrestReport.getIdentifier() );
 			}
 			else {
-				log.info("About to post for " + groupBArrestReport);
+				log.info("About to post for group B Arrest Report" + groupBArrestReport.getIdentifier());
 				restTemplate.postForLocation(restServiceBaseUrl + "arrestReports", groupBArrestReport);
 			}
 		}
