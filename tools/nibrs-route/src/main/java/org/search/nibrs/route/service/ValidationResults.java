@@ -17,7 +17,6 @@ package org.search.nibrs.route.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
@@ -25,42 +24,29 @@ import org.search.nibrs.model.AbstractReport;
 public class ValidationResults{
 
 	private final List<NIBRSError> errorList;
-	private List<AbstractReport> incidentReports;
+	private List<AbstractReport> reportsWithoutErrors;
 	
 	public ValidationResults() {
 		super();
 		errorList = new ArrayList<>();
-		setIncidentReports(new ArrayList<>());
+		reportsWithoutErrors = new ArrayList<>();
 	}
 
 	public List<NIBRSError> getErrorList() {
 		return errorList;
 	}
 
-	public List<AbstractReport> getIncidentReports() {
-		return incidentReports;
+	@Override
+	public String toString() {
+		return "ValidationResults [errorList=" + errorList + ", incidentReportsWithoutErrors=" + getReportsWithoutErrors() + "]";
 	}
 
-	public void setIncidentReports(List<AbstractReport> incidentReports) {
-		this.incidentReports = incidentReports;
-	}
-
-	public List<AbstractReport> getIncidentReportsWithoutErrors() {
-		List<String> erroredIncidentNumbers = errorList.stream()
-				.map( item -> item.getReportUniqueIdentifier())
-				.distinct()
-				.collect( Collectors.toList()); 
-		List<AbstractReport> reportsWithoutErrors = 
-				incidentReports.stream()
-				.filter(item -> !erroredIncidentNumbers.contains(item.getIdentifier()))
-				.collect( Collectors.toList());
+	public List<AbstractReport> getReportsWithoutErrors() {
 		return reportsWithoutErrors;
 	}
 
-	@Override
-	public String toString() {
-		return "ValidationResults [errorList=" + errorList + ", incidentReports=" + incidentReports
-				+ ", incidentReportsWithoutErrors=" + getIncidentReportsWithoutErrors() + "]";
+	public void setReportsWithoutErrors(List<AbstractReport> reportsWithoutErrors) {
+		this.reportsWithoutErrors = reportsWithoutErrors;
 	}
 
 }

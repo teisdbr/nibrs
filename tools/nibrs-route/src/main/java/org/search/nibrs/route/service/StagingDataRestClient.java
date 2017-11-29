@@ -26,6 +26,7 @@ import org.apache.camel.Body;
 import org.apache.camel.Header;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
@@ -54,7 +55,7 @@ public class StagingDataRestClient {
 	
 	public void persistIncidentReports(@Body ValidationResults validationResults, @Header("CamelFileName") String fileName) {
 		
-		List<AbstractReport> abstractReports = validationResults.getIncidentReportsWithoutErrors(); 
+		List<AbstractReport> abstractReports = validationResults.getReportsWithoutErrors(); 
 		
 		logCountsOfReports(abstractReports);
 		

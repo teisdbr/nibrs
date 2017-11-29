@@ -72,8 +72,9 @@ public class FlatFileValidator {
 			public void newReport(AbstractReport report, List<NIBRSError> el) {
 				validationResults.getErrorList().addAll(el);
 				validationResults.getErrorList().addAll(submissionValidator.validateReport(report));
-				validationResults.getIncidentReports().add(report);
+				addReportWithoutErrors(validationResults, report);
 			}
+
 		});
 
 		incidentBuilder.buildIncidents(inputReader, readerLocationName);
@@ -81,6 +82,19 @@ public class FlatFileValidator {
 		inputReader.close();
 		return validationResults; 
 
+	}
+	
+	private void addReportWithoutErrors(ValidationResults validationResults, AbstractReport report) {
+		if (validationResults.getErrorList().isEmpty()){
+			validationResults.getReportsWithoutErrors().add(report);
+		}
+		else{
+			NIBRSError nibrsError = validationResults.getErrorList().get(validationResults.getErrorList().size()-1);
+			if (report.getIdentifier() != null && 
+					!report.getIdentifier().equals(nibrsError.getReportUniqueIdentifier())) {
+				validationResults.getReportsWithoutErrors().add(report);
+			}
+		}
 	}
 	
 	public File createErrorReport(@Body ValidationResults validationResults, @Header("CamelFileAbsolutePath") String filePath) throws IOException{
