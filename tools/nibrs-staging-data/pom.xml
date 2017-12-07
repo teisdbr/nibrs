@@ -154,7 +154,7 @@
 	                        <goal>repackage</goal>
 	                    </goals>
 	                    <configuration>
-	                        <mainClass>org.search.nibrs.tools.NibrsStagingData</mainClass>
+	                        <mainClass>org.search.nibrs.stagingdata.NibrsDataApplication</mainClass>
 	                    </configuration>
 					</execution>
 				</executions>
