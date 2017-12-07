@@ -27,6 +27,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.IsoFields;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -41,8 +43,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class SqlScriptFromExcelGenerator {
      
     public static void main(String[] args) throws IOException {
-        generatePolulateCodeTableScript("src/test/resources/db/data.sql", 
-        		"src/test/resources/codeSpreadSheets/NIBRSCodeTables.xlsx", false);
+        generatePolulateCodeTableScript("src/test/resources/db/dataHawaii.sql", 
+        		"src/test/resources/codeSpreadSheets/NIBRSCodeTablesHawaii.xlsx", false);
     }
 
 	private static void generatePolulateCodeTableScript(String sqlScriptPath, String excelFilePath, boolean isSqlServerInsert) 
@@ -69,9 +71,12 @@ public class SqlScriptFromExcelGenerator {
         		+ "* limitations under the License.\n "
         		+ "*/\n");
         
+        Set<String> sheetNames = new HashSet<String>();
         for (int i=0; i<workbook.getNumberOfSheets(); i++){
         	Sheet sheet = workbook.getSheetAt(i); 
         
+        	sheetNames.add(sheet.getSheetName());
+        	
         	if (sheet.getSheetName().equals("TOC")){
         		continue;
         	}
@@ -102,7 +107,12 @@ public class SqlScriptFromExcelGenerator {
                 		value = row.getCell(z).getStringCellValue();
                 	}
                 	
-                	insertString.append(", '" + value.replace("'", "''") + "'");
+                	if (!"null".equals(value)){
+                		insertString.append(", '" + value.replace("'", "''") + "'");
+                	}
+                	else{
+                		insertString.append(", null"); 
+                	}
                 }
                 
                 insertString.append( ");\n");
@@ -141,8 +151,11 @@ public class SqlScriptFromExcelGenerator {
     	
         sb.append("insert into DateType  values ('99999', '1889-01-01' , 0 , 'UNK', 0 , 0 , 'Unknown', 'Unknown' , 0 , 'Unknown', 0, 'Unknown');\n");
         sb.append("insert into DateType  values ('99998', '1890-01-01' , 0 , 'BLK', 0 , 0 , 'Blank', 'Blank' , 0 , 'Blank', 0, 'Blank');\n");
-        sb.append("insert into Agency  values ('1', 'agencyORI', 'Agency Name', 2, 'WI', 'Wisconsin', 12345678);\n");
-        sb.append("insert into Agency  values ('99998', '', 'Blank', 99998, 'NA', 'Blank', 0);");
+        
+        if ( !sheetNames.contains("Agency") ){
+	        sb.append("insert into Agency  values ('1', 'agencyORI', 'Agency Name', 2, 'WI', 'Wisconsin', 12345678);\n");
+	        sb.append("insert into Agency  values ('99998', '', 'Blank', 99998, 'NA', 'Blank', 0);");
+        }
 
         if (isSqlServerInsert){
     		sb.append("SET IDENTITY_INSERT dbo.DateType OFF;\n");
