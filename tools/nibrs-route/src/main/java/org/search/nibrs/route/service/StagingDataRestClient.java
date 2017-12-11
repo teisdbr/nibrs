@@ -26,7 +26,6 @@ import org.apache.camel.Body;
 import org.apache.camel.Header;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
@@ -58,10 +57,11 @@ public class StagingDataRestClient {
 		List<AbstractReport> abstractReports = validationResults.getReportsWithoutErrors(); 
 		
 		logCountsOfReports(abstractReports);
-		
+		int count = 0; 
 		for(AbstractReport abstractReport: abstractReports){
 			try{
 				persistAbstractReport(abstractReport);
+				log.info("Progress: " + (++count) + "/" + abstractReports.size());
 			}
 			catch(ResourceAccessException rae){
 				log.error("Failed to connect to the rest service to process the reports in " + fileName);
@@ -70,6 +70,7 @@ public class StagingDataRestClient {
 			catch(Exception e){
 				log.warn("Failed to persist incident " + abstractReport.getIdentifier());
 				log.error(e);
+				log.info("Progress: " + (++count) + "/" + abstractReports.size());
 			}
 		}
 		log.info("All reports from the file " + fileName + " are procesed.");

@@ -37,7 +37,6 @@ import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.validation.SubmissionValidator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -46,13 +45,11 @@ import org.springframework.stereotype.Component;
 public class FlatFileValidator {
 	public static final Log log = LogFactory.getLog(FlatFileValidator.class);
 
-	@Value("${nibrsFileFolderPath:/tmp/nibrs}")
-	private String nibrsFileFolderPath; 
 	//TODO look into auto wire these as beans. 
 	IncidentBuilder incidentBuilder;
 	SubmissionValidator submissionValidator;
 	ErrorExporter errorExporter;
-	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	
 	public FlatFileValidator() {
 		super();
@@ -97,15 +94,21 @@ public class FlatFileValidator {
 		}
 	}
 	
-	public File createErrorReport(@Body ValidationResults validationResults, @Header("CamelFileAbsolutePath") String filePath) throws IOException{
+	public File createErrorReport(@Body ValidationResults validationResults,
+			@Header("CamelFileNameOnly") String fileNameOnly, @Header("CamelFileParent") String parentPath)
+			throws IOException {
 		
-		String filename = filePath.replace("/input/", "/result/").replace(".", formatter.format(LocalDateTime.now()) + ".");
-		File file = new File(filename);
+		String resultPath = parentPath.replace("/input", "/result"); 
+		File resultDirectory = new File(resultPath);
+		resultDirectory.mkdir();
+		
+		String fileName = resultPath + File.separator + fileNameOnly.replace(".", "-" + formatter.format(LocalDateTime.now()) + ".");
+		File file = new File(fileName);
 		FileWriter filewriter = new FileWriter(file);
 		Writer outputWriter = new BufferedWriter(filewriter);
 		errorExporter.createErrorReport(validationResults.getErrorList(), outputWriter);
 		outputWriter.close();
-		log.info("The error report is writen to " + filename); 
+		log.info("The error report is writen to " + fileName); 
 		
 		return file; 
 	}
