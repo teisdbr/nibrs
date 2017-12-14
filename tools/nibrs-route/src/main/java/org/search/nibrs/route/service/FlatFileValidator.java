@@ -43,7 +43,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("prototype")
 public class FlatFileValidator {
-	public static final Log log = LogFactory.getLog(FlatFileValidator.class);
+	private final Log log = LogFactory.getLog(FlatFileValidator.class);
 
 	//TODO look into auto wire these as beans. 
 	IncidentBuilder incidentBuilder;

@@ -29,7 +29,8 @@ import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
-import org.springframework.beans.factory.annotation.Value;
+import org.search.nibrs.route.AppProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
@@ -42,9 +43,8 @@ public class StagingDataRestClient {
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	private RestTemplate restTemplate;
-	
-	@Value("${stagingDataRestServiceBaseUrl:http://localhost:8080/}")
-	private String restServiceBaseUrl;
+	@Autowired
+	private AppProperties appProperties;
 
 	public StagingDataRestClient() {
 		super();
@@ -87,22 +87,22 @@ public class StagingDataRestClient {
 			GroupAIncidentReport groupAIncidentReport = (GroupAIncidentReport) abstractReport; 
 			if (groupAIncidentReport.getReportActionType() == 'D'){
 				log.info("About to delete group A incident report " + groupAIncidentReport.getIncidentNumber());
-				restTemplate.delete(restServiceBaseUrl + "groupAIncidentReports/" + groupAIncidentReport.getIdentifier() );
+				restTemplate.delete(appProperties.getStagingDataRestServiceBaseUrl() + "groupAIncidentReports/" + groupAIncidentReport.getIdentifier() );
 			}
 			else{
 				log.info("About to post for group A incident report " + groupAIncidentReport.getIncidentNumber());
-				restTemplate.postForLocation(restServiceBaseUrl + "groupAIncidentReports", groupAIncidentReport);
+				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "groupAIncidentReports", groupAIncidentReport);
 			}
 		}
 		else if (abstractReport instanceof GroupBArrestReport){
 			GroupBArrestReport groupBArrestReport = (GroupBArrestReport) abstractReport; 
 			if (groupBArrestReport.getReportActionType() == 'D') {
 				log.info("About to delete group B Arrest Report" + groupBArrestReport.getIdentifier());
-				restTemplate.delete(restServiceBaseUrl + "arrestReports/" + groupBArrestReport.getIdentifier() );
+				restTemplate.delete(appProperties.getStagingDataRestServiceBaseUrl() + "arrestReports/" + groupBArrestReport.getIdentifier() );
 			}
 			else {
 				log.info("About to post for group B Arrest Report" + groupBArrestReport.getIdentifier());
-				restTemplate.postForLocation(restServiceBaseUrl + "arrestReports", groupBArrestReport);
+				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "arrestReports", groupBArrestReport);
 			}
 		}
 		else {

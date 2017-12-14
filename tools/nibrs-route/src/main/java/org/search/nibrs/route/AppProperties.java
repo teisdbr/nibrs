@@ -24,7 +24,9 @@ public class AppProperties {
 
     private String multicastEndpoints = "direct:createErrorReport,direct:persistReport";
     private String nibrsFileFolderPath = "/tmp/nibrs";
-    
+	private String stagingDataRestServiceBaseUrl = "http://localhost:8080/";
+
+
 	public String getMulticastEndpoints() {
 		return multicastEndpoints;
 	}
@@ -39,6 +41,20 @@ public class AppProperties {
 
 	public void setNibrsFileFolderPath(String nibrsFileFolderPath) {
 		this.nibrsFileFolderPath = nibrsFileFolderPath;
+	}
+
+	public String getStagingDataRestServiceBaseUrl() {
+		return stagingDataRestServiceBaseUrl;
+	}
+
+	public void setStagingDataRestServiceBaseUrl(String stagingDataRestServiceBaseUrl) {
+		this.stagingDataRestServiceBaseUrl = stagingDataRestServiceBaseUrl;
+	}
+
+	@Override
+	public String toString() {
+		return "AppProperties [multicastEndpoints=" + multicastEndpoints + ", nibrsFileFolderPath="
+				+ nibrsFileFolderPath + ", stagingDataRestServiceBaseUrl=" + stagingDataRestServiceBaseUrl + "]";
 	}
 
 }
