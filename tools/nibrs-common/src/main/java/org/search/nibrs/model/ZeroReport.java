@@ -22,6 +22,7 @@ package org.search.nibrs.model;
 public class ZeroReport extends AbstractReport {
 
 	public static final char ZERO_REPORT_TYPE_IDENTIFIER = '0';
+	public static final String ZERO_REPORT_SEGMENT_LENGTH = "0043";
 
 	private String incidentNumber;
 
@@ -53,6 +54,12 @@ public class ZeroReport extends AbstractReport {
 		return getOri() + "." + getIncidentNumber();
 	}
 
+	@Override
+	public String getAdminSegmentLength()
+	{
+		return ZERO_REPORT_SEGMENT_LENGTH;
+	}
+	
 	public String getIncidentNumber() {
 		return incidentNumber;
 	}
