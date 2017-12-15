@@ -30,6 +30,7 @@ import java.time.temporal.IsoFields;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -174,10 +175,10 @@ public class SqlScriptFromExcelGenerator {
 		insertString.append(", '" + String.valueOf(localDate.getYear()) + "'");
 		insertString.append(", " + localDate.get(IsoFields.QUARTER_OF_YEAR) + " ");
 		insertString.append(", " + localDate.getMonthValue() + " ");
-		insertString.append(", '" + Month.of(localDate.getMonthValue()) + "'");
+		insertString.append(", '" + capitalize(Month.of(localDate.getMonthValue()).toString()) + "'");
 		insertString.append(", '" + localDate.toString().substring(0, 7) + "' ");
 		insertString.append(", " +  localDate.getDayOfYear() + " ");
-		insertString.append(", '" + localDate.getDayOfWeek().toString() + "'");
+		insertString.append(", '" + capitalize(localDate.getDayOfWeek().toString()) + "'");
 		insertString.append(", " + getDayOfWeekSort(localDate)  + "");
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
@@ -185,6 +186,11 @@ public class SqlScriptFromExcelGenerator {
 		insertString.append( ");\n");
 	}
 
+	private static String capitalize(String string){
+		if (StringUtils.isBlank(string)) return string; 
+		
+		return StringUtils.capitalize(string.toLowerCase());
+	}
 	private static String getTableName(String sheetName) {
 		switch (sheetName) {
 		case "AggravatedAssaultHomicideCircum":
