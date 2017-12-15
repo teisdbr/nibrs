@@ -28,7 +28,6 @@ select
 	OffenseSegment.NumberOfPremisesEntered,
 	convert(ifnull(OffenseSegment.NumberOfPremisesEntered, 'N/A'), char(4)) as NumberOfPremisesEnteredDim,
 	OffenseSegment.MethodOfEntryTypeID,
-	OffenseSegment.BiasMotivationTypeID,
 	OffenseSegment.UCROffenseCodeTypeID,
 	VictimSegment.TypeOfVictimTypeID,
 	VictimSegment.OfficerActivityCircumstanceTypeID,
@@ -65,7 +64,8 @@ select
 	OffenderSegment.EthnicityOfPersonTypeID as OffenderEthnicityOfPersonTypeID,
 	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 99998) as AggravatedAssaultHomicideCircumstancesTypeID,
 	ifnull(OffenderSuspectedOfUsing.OffenderSuspectedOfUsingTypeID, 9) as OffenderSuspectedOfUsingTypeID,
-	ifnull(TypeCriminalActivity.TypeOfCriminalActivityTypeID, 7) as TypeOfCriminalActivityTypeID,
+  ifnull(TypeCriminalActivity.TypeOfCriminalActivityTypeID, 7) as TypeOfCriminalActivityTypeID,
+  ifnull(BiasMotivation.BiasMotivationTypeID, 99998) as BiasMotivationTypeID,
 	ifnull(TypeOfWeaponForceInvolved.TypeOfWeaponForceInvolvedTypeID, 99999) as TypeOfWeaponForceInvolvedTypeID,
 	ifnull(TypeOfWeaponForceInvolved.AutomaticWeaponIndicator, 'N') as AutomaticWeaponIndicator,
 	ifnull(TypeInjury.TypeInjuryTypeID, 1) as TypeInjuryTypeID,
@@ -106,7 +106,8 @@ from
 	left join VictimOffenseAssociation on
 	  VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID and VictimOffenseAssociation.VictimSegmentID=VictimSegment.VictimSegmentID
 	left join OffenderSuspectedOfUsing on OffenseSegment.OffenseSegmentID=OffenderSuspectedOfUsing.OffenseSegmentID
-	left join TypeCriminalActivity on OffenseSegment.OffenseSegmentID=TypeCriminalActivity.OffenseSegmentID
+  left join TypeCriminalActivity on OffenseSegment.OffenseSegmentID=TypeCriminalActivity.OffenseSegmentID
+  left join BiasMotivation on OffenseSegment.OffenseSegmentID=BiasMotivation.OffenseSegmentID
 	left join TypeOfWeaponForceInvolved on OffenseSegment.OffenseSegmentID=TypeOfWeaponForceInvolved.OffenseSegmentID
 	left join TypeInjury on VictimSegment.VictimSegmentID=TypeInjury.VictimSegmentID
 	left join AggravatedAssaultHomicideCircumstances on VictimSegment.VictimSegmentID=AggravatedAssaultHomicideCircumstances.VictimSegmentID
@@ -135,7 +136,6 @@ select
 	OffenseSegment.NumberOfPremisesEntered,
 	convert(ifnull(OffenseSegment.NumberOfPremisesEntered, 'N/A'), char(4)) as NumberOfPremisesEnteredDim,
 	OffenseSegment.MethodOfEntryTypeID,
-	OffenseSegment.BiasMotivationTypeID,
 	OffenseSegment.UCROffenseCodeTypeID,
 	OffenseSegment.OffenseSegmentID,
 	VictimSegment.TypeOfVictimTypeID,
@@ -164,6 +164,7 @@ select
 	ifnull(AggravatedAssaultHomicideCircumstances.AggravatedAssaultHomicideCircumstancesTypeID, 99998) as AggravatedAssaultHomicideCircumstancesTypeID,
 	ifnull(OffenderSuspectedOfUsing.OffenderSuspectedOfUsingTypeID, 9) as OffenderSuspectedOfUsingTypeID,
 	ifnull(TypeCriminalActivity.TypeOfCriminalActivityTypeID, 7) as TypeOfCriminalActivityTypeID,
+  ifnull(BiasMotivation.BiasMotivationTypeID, 99998) as BiasMotivationTypeID,
 	ifnull(TypeOfWeaponForceInvolved.TypeOfWeaponForceInvolvedTypeID, 99999) as TypeOfWeaponForceInvolvedTypeID,
 	ifnull(TypeOfWeaponForceInvolved.AutomaticWeaponIndicator, 'N') as AutomaticWeaponIndicator,
 	ifnull(TypeInjury.TypeInjuryTypeID, 1) as TypeInjuryTypeID,
@@ -187,6 +188,7 @@ from
 	  VictimOffenseAssociation.OffenseSegmentID=OffenseSegment.OffenseSegmentID and VictimOffenseAssociation.VictimSegmentID=VictimSegment.VictimSegmentID
 	left join OffenderSuspectedOfUsing on OffenseSegment.OffenseSegmentID=OffenderSuspectedOfUsing.OffenseSegmentID
 	left join TypeCriminalActivity on OffenseSegment.OffenseSegmentID=TypeCriminalActivity.OffenseSegmentID
+  left join BiasMotivation on OffenseSegment.OffenseSegmentID=BiasMotivation.OffenseSegmentID
 	left join TypeOfWeaponForceInvolved on OffenseSegment.OffenseSegmentID=TypeOfWeaponForceInvolved.OffenseSegmentID
 	left join TypeInjury on VictimSegment.VictimSegmentID=TypeInjury.VictimSegmentID
 	left join AggravatedAssaultHomicideCircumstances on VictimSegment.VictimSegmentID=AggravatedAssaultHomicideCircumstances.VictimSegmentID

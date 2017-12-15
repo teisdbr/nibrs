@@ -245,14 +245,12 @@ writeRawOffenseSegmentTables <- function(conn, inputDfList, tableList) {
   OffenseSegment <- offenseSegmentDf %>%
     select(-V2001, -V2002, -V2005, -V2021) %>%
     mutate(V2011=gsub(x=V2011, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
-           V2020=gsub(x=V2020, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
            UCROffenseCode=V2006) %>%
     left_join(tableList$UCROffenseCodeType %>% select(UCROffenseCodeTypeID, UCROffenseCode), by=c('V2006'='UCROffenseCode')) %>%
     left_join(tableList$LocationTypeType %>% select(LocationTypeTypeID, LocationTypeCode), by=c('V2011'='LocationTypeCode')) %>%
     left_join(tableList$MethodOfEntryType %>% select(MethodOfEntryTypeID, MethodOfEntryCode), by=c('V2013'='MethodOfEntryCode')) %>%
-    left_join(tableList$BiasMotivationType %>% select(BiasMotivationTypeID, BiasMotivationCode), by=c('V2020'='BiasMotivationCode')) %>%
     select(OffenseSegmentID, SegmentActionTypeTypeID, AdministrativeSegmentID, UCROffenseCodeTypeID, OffenseAttemptedCompleted=V2007,
-           LocationTypeTypeID, NumberOfPremisesEntered=V2012, MethodOfEntryTypeID, BiasMotivationTypeID, UCROffenseCode) %>% as_tibble()
+           LocationTypeTypeID, NumberOfPremisesEntered=V2012, MethodOfEntryTypeID, UCROffenseCode) %>% as_tibble()
 
   OffenderSuspectedOfUsing <- offenseSegmentDf %>%
     select(AdministrativeSegmentID, OffenseSegmentID, V2008:V2010) %>%
@@ -270,6 +268,16 @@ writeRawOffenseSegmentTables <- function(conn, inputDfList, tableList) {
     inner_join(tableList$TypeOfCriminalActivityType %>% select(TypeOfCriminalActivityTypeID, TypeOfCriminalActivityCode), by='TypeOfCriminalActivityCode') %>%
     mutate(TypeCriminalActivityID=row_number()) %>%
     select(TypeCriminalActivityID, OffenseSegmentID, TypeOfCriminalActivityTypeID) %>%
+    as_tibble()
+
+  BiasMotivation <- offenseSegmentDf %>%
+    mutate_at(vars(starts_with('V2020')), gsub, pattern='\\(([0-9]+)\\).+', replacement='\\1') %>%
+    select(AdministrativeSegmentID, OffenseSegmentID, starts_with('V2020')) %>%
+    gather(key=index, value=BiasMotivationCode, starts_with('V2020')) %>% filter(BiasMotivationCode != ' ') %>%
+    select(-index) %>%
+    inner_join(tableList$BiasMotivationType %>% select(BiasMotivationTypeID, BiasMotivationCode), by='BiasMotivationCode') %>%
+    mutate(BiasMotivationID=row_number()) %>%
+    select(BiasMotivationID, OffenseSegmentID, BiasMotivationTypeID) %>%
     as_tibble()
 
   TypeOfWeaponForceInvolved <- offenseSegmentDf %>%
@@ -297,6 +305,10 @@ writeRawOffenseSegmentTables <- function(conn, inputDfList, tableList) {
   dbWriteTable(conn=conn, name="TypeCriminalActivity", value=TypeCriminalActivity, append=TRUE, row.names = FALSE)
   attr(TypeCriminalActivity, 'type') <- 'AT'
 
+  writeLines(paste0("Writing ", nrow(BiasMotivation), " BiasMotivation records to database"))
+  dbWriteTable(conn=conn, name="BiasMotivation", value=BiasMotivation, append=TRUE, row.names = FALSE)
+  attr(BiasMotivation, 'type') <- 'AT'
+
   writeLines(paste0("Writing ", nrow(TypeOfWeaponForceInvolved), " TypeOfWeaponForceInvolved records to database"))
   dbWriteTable(conn=conn, name="TypeOfWeaponForceInvolved", value=TypeOfWeaponForceInvolved, append=TRUE, row.names = FALSE)
   attr(TypeOfWeaponForceInvolved, 'type') <- 'AT'
@@ -304,6 +316,7 @@ writeRawOffenseSegmentTables <- function(conn, inputDfList, tableList) {
   tableList$OffenseSegment <- OffenseSegment
   tableList$OffenderSuspectedOfUsing <- OffenderSuspectedOfUsing
   tableList$TypeCriminalActivity <- TypeCriminalActivity
+  tableList$BiasMotivation <- BiasMotivation
   tableList$TypeOfWeaponForceInvolved <- TypeOfWeaponForceInvolved
 
   tableList
