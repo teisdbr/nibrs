@@ -53,7 +53,6 @@ public class StagingDataRestClient {
 	}
 	
 	public void persistIncidentReports(@Body ValidationResults validationResults, @Header("CamelFileName") String fileName) {
-		
 		List<AbstractReport> abstractReports = validationResults.getReportsWithoutErrors(); 
 		
 		logCountsOfReports(abstractReports);
@@ -91,7 +90,7 @@ public class StagingDataRestClient {
 			}
 			else{
 				log.info("About to post for group A incident report " + groupAIncidentReport.getIncidentNumber());
-				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "groupAIncidentReports", groupAIncidentReport);
+				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "groupAIncidentReports", new GroupAIncidentReport[]{groupAIncidentReport});
 			}
 		}
 		else if (abstractReport instanceof GroupBArrestReport){
@@ -102,7 +101,7 @@ public class StagingDataRestClient {
 			}
 			else {
 				log.info("About to post for group B Arrest Report" + groupBArrestReport.getIdentifier());
-				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "arrestReports", groupBArrestReport);
+				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "arrestReports", new GroupBArrestReport[]{groupBArrestReport});
 			}
 		}
 		else {
