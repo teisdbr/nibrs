@@ -18,12 +18,21 @@ package org.search.nibrs.stagingdata.repository.segment;
 import javax.transaction.Transactional;
 
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.repository.CrudRepository;
 
+@Transactional
 public interface AdministrativeSegmentRepository 
 	extends CrudRepository<AdministrativeSegment, Integer>{
 	
-	@Transactional
 	long deleteByIncidentNumber(String incidentNumber);
-	AdministrativeSegment findFirstByIncidentNumber(String incidentNumber);
+	
+	@EntityGraph(value="allAdministrativeSegmentJoins", type=EntityGraphType.LOAD)
+	AdministrativeSegment findByIncidentNumber(String incidentNumber);
+	
+	@EntityGraph(value="allAdministrativeSegmentJoins", type=EntityGraphType.LOAD)
+	AdministrativeSegment findByAdministrativeSegmentId(Integer administrativeSegmentId);
+	
+	boolean existsByIncidentNumber(String incidentNumber);
 }

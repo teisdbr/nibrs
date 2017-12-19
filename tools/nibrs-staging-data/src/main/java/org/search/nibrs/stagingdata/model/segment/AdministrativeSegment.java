@@ -26,6 +26,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -43,12 +45,26 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(
 	generator = ObjectIdGenerators.PropertyGenerator.class, 
 	property = "administrativeSegmentId")
+@NamedEntityGraph(name="allAdministrativeSegmentJoins", attributeNodes = {
+        @NamedAttributeNode("segmentActionType"),
+        @NamedAttributeNode("offenseSegments"),
+        @NamedAttributeNode("propertySegments"),
+        @NamedAttributeNode("arresteeSegments"),
+        @NamedAttributeNode("offenderSegments"),
+        @NamedAttributeNode("victimSegments"),
+        @NamedAttributeNode("arresteeSegments"),
+        @NamedAttributeNode("agency"),
+        @NamedAttributeNode("incidentDateType"),
+        @NamedAttributeNode("clearedExceptionallyType"),
+        @NamedAttributeNode("cargoTheftIndicatorType"),
+	})
 public class AdministrativeSegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer administrativeSegmentId;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
+
 	@JoinColumn(name="segmentActionTypeTypeID") 
 	private SegmentActionTypeType segmentActionType; 
 	private String monthOfTape; 
@@ -56,37 +72,41 @@ public class AdministrativeSegment {
 	private String cityIndicator;
 	private String ori;
 	
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
 	private Set<OffenseSegment> offenseSegments;
 	
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
     private Set<PropertySegment> propertySegments;
     
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
     private Set<ArresteeSegment> arresteeSegments;
     
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
     private Set<OffenderSegment> offenderSegments;
     
-    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy = "administrativeSegment", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
     private Set<VictimSegment> victimSegments;
     
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
+
 	@JoinColumn(name="agencyId")
 	private Agency agency; 
 	private String incidentNumber; 
 	private Date incidentDate;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
+
 	@JoinColumn(name="incidentDateId")
 	private DateType incidentDateType; 
 
 	private String reportDateIndicator; 
 	private String incidentHour;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
+
 	@JoinColumn(name="clearedExceptionallyTypeId") 
 	private ClearedExceptionallyType clearedExceptionallyType; 
-	@ManyToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="cargoTheftIndicatorTypeId") 
 	private CargoTheftIndicatorType cargoTheftIndicatorType; 
 	

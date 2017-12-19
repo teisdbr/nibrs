@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
@@ -793,8 +794,9 @@ public class GroupAIncidentServiceTest {
 	@Test
 	public void saveGroupAIncidentReportTest(){
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
-		AdministrativeSegment administrativeSegment = groupAIncidentService.saveGroupAIncidentReport(groupAIncidentReport);
-		
+		AdministrativeSegment administrativeSegment = StreamSupport.stream(
+				groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport).spliterator(), false)
+				.findFirst().orElse(null);
 		AdministrativeSegment persisted = 
 				groupAIncidentService.findAdministrativeSegment(administrativeSegment.getAdministrativeSegmentId());
 
@@ -1082,11 +1084,11 @@ public class GroupAIncidentServiceTest {
 
 	private void testDeleteGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport) {
 		AdministrativeSegment beforeDeletion = 
-				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+				administrativeSegmentRepository.findByIncidentNumber(groupAIncidentReport.getIncidentNumber());
 		assertNotNull(beforeDeletion);
 		groupAIncidentService.deleteGroupAIncidentReport(groupAIncidentReport.getIncidentNumber());
 		AdministrativeSegment deleted = 
-				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+				administrativeSegmentRepository.findByIncidentNumber(groupAIncidentReport.getIncidentNumber());
 		assertThat(deleted, equalTo(null));
 	}
 
@@ -1122,10 +1124,10 @@ public class GroupAIncidentServiceTest {
 
 		groupAIncidentReport.removeProperty(2);
 		
-		groupAIncidentService.saveGroupAIncidentReport(groupAIncidentReport);
+		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
 		
 		AdministrativeSegment updated = 
-				administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+				administrativeSegmentRepository.findByIncidentNumber(groupAIncidentReport.getIncidentNumber());
 
 		assertNotNull(updated);
 		assertThat(updated.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));

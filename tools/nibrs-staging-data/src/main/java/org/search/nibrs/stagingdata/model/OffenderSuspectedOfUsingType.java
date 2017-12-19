@@ -18,6 +18,7 @@ package org.search.nibrs.stagingdata.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,7 @@ import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Cacheable
 public class OffenderSuspectedOfUsingType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

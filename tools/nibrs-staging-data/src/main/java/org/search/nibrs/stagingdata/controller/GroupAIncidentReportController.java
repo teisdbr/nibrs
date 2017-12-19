@@ -45,8 +45,8 @@ public class GroupAIncidentReportController {
 	}
 	
 	@RequestMapping(value="/groupAIncidentReports", method=RequestMethod.POST)
-	public AdministrativeSegment saveReport(@RequestBody GroupAIncidentReport groupAIncidentReport){
-		return groupAIncidentService.saveGroupAIncidentReport(groupAIncidentReport);
+	public void save(@RequestBody GroupAIncidentReport... groupAIncidentReports){
+		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReports);
 	}
 	
 	@RequestMapping(value="/groupAIncidentReports/{incidentNumber}", method=RequestMethod.DELETE)

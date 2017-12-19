@@ -17,6 +17,7 @@ package org.search.nibrs.stagingdata.model;
 
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Cacheable
 public class SuspectedDrugTypeType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
