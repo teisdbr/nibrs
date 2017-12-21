@@ -269,7 +269,8 @@ public enum NIBRSErrorCode {
  * 449 not in 3.1	
  */
     _449("449","Victim Segment","WARNING–VICTIM IS SPOUSE, BUT AGE IS LESS THAN 18","Data Element 26 (Age of Victim) cannot be less than 18 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse."),
-	_450("450","Victim Segment","VICTIM IS SPOUSE, BUT AGE IS LESS THAN 14","Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse. When this is so, the age of the victim cannot be less than 10 years."),
+	_450__2_1("450","Victim Segment","VICTIM IS SPOUSE, BUT AGE IS LESS THAN 10","Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse. When this is so, the age of the victim cannot be less than 10 years."),
+	_450__3_1("450","Victim Segment","VICTIM IS SPOUSE, BUT AGE IS LESS THAN 13","Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse. When this is so, the age of the victim cannot be less than 13 years."),
 	_451("451","Victim Segment","VICTIM NUMBER ALREADY EXISTS","When a Group 'A' Incident Report is submitted, the individual segments comprising the incident cannot contain duplicates. In this case, two victim segments were submitted having the same entry in Data Element 23 (Victim Sequence Number)."),
 	_453("453","Victim Segment","MUST BE PRESENT WHEN VICTIM TYPE (25)=I","The Data Element associated with this error must be present when Data Element 25 (Type of Victim) is I=Individual."),
 	_454("454","Victim Segment","MUST BE ENTERED WHEN VICTIM TYPE IS LAW ENFORCEMENT OFFICER","Data Element 25A (Type of Officer Activity/Circumstance), Data Element 25B (Officer Assignment Type), Data Element 26 (Age of Victim), Data Element 27 (Sex of Victim), and Data Element 28 (Race of Victim) must be entered when Data Element 25 (Type of Victim) is L=Law Enforcement Officer."),
@@ -341,7 +342,8 @@ public enum NIBRSErrorCode {
  * 549 not in 3.1	
  */
 	_549("549","Offender Segment","WARNING–OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 18","Data Element 37 (Age of Offender) cannot be less than 18 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse."),
-	_550("550","Offender Segment","OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 10","Cannot be less than 10 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse."),
+	_550__2_1("550","Offender Segment","OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 10","Cannot be less than 10 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse."),
+	_550__3_1("550","Offender Segment","OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 13","Cannot be less than 10 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse."),
 	_551("551","Offender Segment","DUPLICATE OFFENDER SEGMENT","When a Group 'A' Incident Report is submitted, the individual segments comprising the incident cannot contain duplicates. In this case, two Offender Segments were submitted having the same entry in Data Element 36 (Offender Sequence Number)."),
 	_552("552","Offender Segment","CANNOT BE PRESENT WHEN OFFENDER NUMBER IS '00' UNKNOWN","Data Element 37 (Age of Offender) cannot be entered when Data Element 36 (Offender Sequence Number) is 00=Unknown."),
 /**

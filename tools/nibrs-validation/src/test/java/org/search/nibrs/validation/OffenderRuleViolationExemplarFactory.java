@@ -152,7 +152,9 @@ final class OffenderRuleViolationExemplarFactory {
 		// note: regarding rule 549...we do not currently support "warnings"
 		
 		groupATweakerMap.put(550,incident -> {
-			//(Age of Offender) cannot be less than 10 years old when 
+			// NOTE: This rule changed in spec 3.1 from an age limit of 10 to an age limit of 13
+			// We are testing for the version 3.1 version
+			//(Age of Offender) cannot be less than 13 years old when 
 			//Data Element 35 (Relationship of Victim to Offender) 
 			//contains a relationship of SE=Spouse.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();

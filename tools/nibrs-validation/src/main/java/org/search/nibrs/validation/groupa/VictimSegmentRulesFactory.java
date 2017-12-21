@@ -17,7 +17,6 @@ package org.search.nibrs.validation.groupa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -48,6 +47,7 @@ import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.util.ArrayUtils;
 import org.search.nibrs.validation.PersonSegmentRulesFactory;
+import org.search.nibrs.validation.ValidationConstants;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NullObjectRule;
@@ -59,7 +59,8 @@ public class VictimSegmentRulesFactory {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(VictimSegmentRulesFactory.class);
 
-	private List<Rule<VictimSegment>> rulesList;
+	private List<Rule<VictimSegment>> rulesList__2_1;
+	private List<Rule<VictimSegment>> rulesList__3_1;
 	private PersonSegmentRulesFactory<VictimSegment> personSegmentRulesFactory;
 	
 	public static VictimSegmentRulesFactory instance() {
@@ -111,90 +112,106 @@ public class VictimSegmentRulesFactory {
 
 	private VictimSegmentRulesFactory() {
 		personSegmentRulesFactory = new PersonSegmentRulesFactory<VictimSegment>(VictimSegment.class);
-		rulesList = new ArrayList<Rule<VictimSegment>>();
-		initRules(rulesList);
+		initRules();
 	}
 	
-	private void initRules(List<Rule<VictimSegment>> rulesList){
-		rulesList.add(getRule401ForSequenceNumber());
-		rulesList.add(getRule401ForVictimConnectedToUcrOffenseCode());
-		rulesList.add(getRule401ForTypeOfVictim());
-		rulesList.add(getRule401ForTypeOfInjury());
-		rulesList.add(getRule401OffenderNumberToBeRelated());
-		rulesList.add(getRule404ForTypeOfOfficerActivityCircumstance());
-		rulesList.add(getRule404ForOfficerAssignmentType());
-		rulesList.add(getRule404ForVictimConnectedToUcrOffenseCode());
-		rulesList.add(getRule404ForOfficerOriOtherJurisdiction());
-		rulesList.add(getRule404ForAgeOfVictim());		
-		rulesList.add(getRule404ForSexOfVictim());		
-		rulesList.add(getRule404ForRaceOfVictim());		
-		rulesList.add(getRule404ForEthnicityOfVictim());		
-		rulesList.add(getRule404ForResidentStatusOfVictim());		
-		rulesList.add(getRule404ForAggravatedAssaultHomicideCircumstances());
-		rulesList.add(getRule404OffenderNumberToBeRelated());
-		rulesList.add(getRule404ForTypeOfInjury());
-		rulesList.add(getRule404ForRelationshipOfVictimToOffender());		
-		rulesList.add(getRule404ForAdditionalJustifiableHomicideCircsumstances());
-		rulesList.add(getRule406ForTypeOfInjury());		
-		rulesList.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
-		rulesList.add(getRule406ForVictimConnectedToUcrOffenseCode());
-		rulesList.add(getRule406OffenderNumberToBeRelated());
-		rulesList.add(getRule407());
-		rulesList.add(getRule409());
-		rulesList.add(getRule410ForAgeOfVictim());
-		rulesList.add(getRule419ForAggravatedAssaultHomicideCircumstances());
-		rulesList.add(getRule419ForTypeOfInjury());
-		rulesList.add(getRule422ForAgeOfVictim());
-		rulesList.add(getRule450ForAgeOfVictim());				
-		rulesList.add(getRule453ForAgeOfVictim());
-		rulesList.add(getRule453ForSexOfVictim());
-		rulesList.add(getRule453ForRaceOfVictim());
-		rulesList.add(getRule454ForTypeOfOfficerActivityCircumstance());
-		rulesList.add(getRule454ForSexOfVictim());
-		rulesList.add(getRule454ForRaceOfVictim());
-		rulesList.add(getRule454ForAgeOfVictim());
-		rulesList.add(getRule454ForOfficerAssignmentType());
-		rulesList.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());	
-		rulesList.add(getRule456());
-		rulesList.add(getRule457ForAdditionalJustifiableHomicideCircsumstances());
-		rulesList.add(getRule458ForSexOfVictim());	
-		rulesList.add(getRule458ForResidentStatusOfVictim());				
-		rulesList.add(getRule458ForOffenderNumberToBeRelated());	
-		rulesList.add(getRule458ForAgeOfVictim());
-		rulesList.add(getRule458ForEthnicityOfVictim());
-		rulesList.add(getRule458ForRaceOfVictim());
-		rulesList.add(getRule458ForTypeOfInjury());
-		rulesList.add(getRule459ForOffenderNumberToBeRelated());
-		rulesList.add(getRule460ForRelationshipOfVictimToOffender());
-		rulesList.add(getRule462());
-		rulesList.add(getRule463());
-		rulesList.add(getRule464ForTypeOfVictim());
-		rulesList.add(getRule465ForTypeOfVictim());
-		rulesList.add(getRule467ForTypeOfVictim());		
-		rulesList.add(getRule469ForSexOfVictim());
-		rulesList.add(getRule468ForRelationshipOfVictimToOffender());
-		rulesList.add(getRule471());
-		rulesList.add(getRule472());
-		rulesList.add(getRule475());
-		rulesList.add(getRule476());
-		rulesList.add(getRule477());
-		rulesList.add(getRule478());
-		rulesList.add(getRule479());
-		rulesList.add(getRule481ForAgeOfVictim());		
-		rulesList.add(getRule482ForTypeOfVictim());
-		rulesList.add(getRule483ForTypeOfOfficerActivity());
-		rulesList.add(getRule483ForOfficerAssignmentType());
-		rulesList.add(getRule483ForOfficerOtherJurisdictionORI());
+	private void initRules(){
+		
+		rulesList__2_1 = new ArrayList<Rule<VictimSegment>>();
+		rulesList__2_1.add(getRule401ForSequenceNumber());
+		rulesList__2_1.add(getRule401ForVictimConnectedToUcrOffenseCode());
+		rulesList__2_1.add(getRule401ForTypeOfVictim());
+		rulesList__2_1.add(getRule401ForTypeOfInjury());
+		rulesList__2_1.add(getRule401OffenderNumberToBeRelated());
+		rulesList__2_1.add(getRule404ForTypeOfOfficerActivityCircumstance());
+		rulesList__2_1.add(getRule404ForOfficerAssignmentType());
+		rulesList__2_1.add(getRule404ForVictimConnectedToUcrOffenseCode());
+		rulesList__2_1.add(getRule404ForOfficerOriOtherJurisdiction());
+		rulesList__2_1.add(getRule404ForAgeOfVictim());		
+		rulesList__2_1.add(getRule404ForSexOfVictim());		
+		rulesList__2_1.add(getRule404ForRaceOfVictim());		
+		rulesList__2_1.add(getRule404ForEthnicityOfVictim());		
+		rulesList__2_1.add(getRule404ForResidentStatusOfVictim());		
+		rulesList__2_1.add(getRule404ForAggravatedAssaultHomicideCircumstances());
+		rulesList__2_1.add(getRule404OffenderNumberToBeRelated());
+		rulesList__2_1.add(getRule404ForTypeOfInjury());
+		rulesList__2_1.add(getRule404ForRelationshipOfVictimToOffender());		
+		rulesList__2_1.add(getRule404ForAdditionalJustifiableHomicideCircsumstances());
+		rulesList__2_1.add(getRule406ForTypeOfInjury());		
+		rulesList__2_1.add(getRule406ForAggravatedAssaultHomicideCircumstances());		
+		rulesList__2_1.add(getRule406ForVictimConnectedToUcrOffenseCode());
+		rulesList__2_1.add(getRule406OffenderNumberToBeRelated());
+		rulesList__2_1.add(getRule407());
+		rulesList__2_1.add(getRule409());
+		rulesList__2_1.add(getRule410ForAgeOfVictim());
+		rulesList__2_1.add(getRule419ForAggravatedAssaultHomicideCircumstances());
+		rulesList__2_1.add(getRule419ForTypeOfInjury());
+		rulesList__2_1.add(getRule422ForAgeOfVictim());
+		Rule<VictimSegment> rule450 = getRule450ForAgeOfVictim__2_1();
+		rulesList__2_1.add(rule450);				
+		rulesList__2_1.add(getRule453ForAgeOfVictim());
+		rulesList__2_1.add(getRule453ForSexOfVictim());
+		rulesList__2_1.add(getRule453ForRaceOfVictim());
+		rulesList__2_1.add(getRule454ForTypeOfOfficerActivityCircumstance());
+		rulesList__2_1.add(getRule454ForSexOfVictim());
+		rulesList__2_1.add(getRule454ForRaceOfVictim());
+		rulesList__2_1.add(getRule454ForAgeOfVictim());
+		rulesList__2_1.add(getRule454ForOfficerAssignmentType());
+		rulesList__2_1.add(getRule455ForAdditionalJustifiableHomicideCircsumstances());	
+		rulesList__2_1.add(getRule456());
+		rulesList__2_1.add(getRule457ForAdditionalJustifiableHomicideCircsumstances());
+		rulesList__2_1.add(getRule458ForSexOfVictim());	
+		rulesList__2_1.add(getRule458ForResidentStatusOfVictim());				
+		rulesList__2_1.add(getRule458ForOffenderNumberToBeRelated());	
+		rulesList__2_1.add(getRule458ForAgeOfVictim());
+		rulesList__2_1.add(getRule458ForEthnicityOfVictim());
+		rulesList__2_1.add(getRule458ForRaceOfVictim());
+		rulesList__2_1.add(getRule458ForTypeOfInjury());
+		rulesList__2_1.add(getRule459ForOffenderNumberToBeRelated());
+		rulesList__2_1.add(getRule460ForRelationshipOfVictimToOffender());
+		rulesList__2_1.add(getRule462());
+		rulesList__2_1.add(getRule463());
+		rulesList__2_1.add(getRule464ForTypeOfVictim());
+		rulesList__2_1.add(getRule465ForTypeOfVictim());
+		rulesList__2_1.add(getRule467ForTypeOfVictim());		
+		rulesList__2_1.add(getRule469ForSexOfVictim());
+		rulesList__2_1.add(getRule468ForRelationshipOfVictimToOffender());
+		rulesList__2_1.add(getRule471());
+		rulesList__2_1.add(getRule472());
+		rulesList__2_1.add(getRule475());
+		rulesList__2_1.add(getRule476());
+		rulesList__2_1.add(getRule477());
+		rulesList__2_1.add(getRule478());
+		rulesList__2_1.add(getRule479());
+		rulesList__2_1.add(getRule481ForAgeOfVictim());		
+		rulesList__2_1.add(getRule482ForTypeOfVictim());
+		rulesList__2_1.add(getRule483ForTypeOfOfficerActivity());
+		rulesList__2_1.add(getRule483ForOfficerAssignmentType());
+		rulesList__2_1.add(getRule483ForOfficerOtherJurisdictionORI());
 
-		rulesList.add(getRule070());
-		rulesList.add(getRule085());
+		rulesList__2_1.add(getRule070());
+		rulesList__2_1.add(getRule085());
 
+		rulesList__3_1 = new ArrayList<Rule<VictimSegment>>();
+		rulesList__3_1.addAll(rulesList__2_1);
+		rulesList__3_1.remove(rule450);
+		rulesList__3_1.add(getRule450ForAgeOfVictim__3_1());
+		
 	}
 		
 	public List<Rule<VictimSegment>> getRulesList() {
-		return Collections.unmodifiableList(rulesList);
-	}
-	
+		return getRulesList(ValidationConstants.SPEC__LATEST);
+	}	
+
+	public List<Rule<VictimSegment>> getRulesList(String specVersion) {
+		if (ValidationConstants.SPEC__2_1.equals(specVersion)) {
+			return rulesList__2_1;
+		} else if (ValidationConstants.SPEC__3_1.equals(specVersion)) {
+			return rulesList__3_1;
+		}
+		throw new IllegalArgumentException("Invalid spec version: " + specVersion);
+	}	
+
 	Rule<VictimSegment> getRule070() {
 		return new Rule<VictimSegment>() {
 			@Override
@@ -719,7 +736,7 @@ public class VictimSegmentRulesFactory {
 		return personSegmentRulesFactory.getNonZeroAgeRangeMinimumRule("26", NIBRSErrorCode._422);
 	}
 
-	Rule<VictimSegment> getRule450ForAgeOfVictim() {
+	Rule<VictimSegment> getRule450ForAgeOfVictim__3_1() {
 		return new Rule<VictimSegment>() {
 			@Override
 			public NIBRSError apply(VictimSegment victimSegment) {
@@ -731,7 +748,29 @@ public class VictimSegmentRulesFactory {
 						if (minAge != null && minAge < 13) {
 							e = victimSegment.getErrorTemplate();
 							e.setDataElementIdentifier("26");
-							e.setNIBRSErrorCode(NIBRSErrorCode._450);
+							e.setNIBRSErrorCode(NIBRSErrorCode._450__3_1);
+							e.setValue(nibrsAge);
+						}
+					}
+				}
+				return e;
+			}
+		};
+	}
+
+	Rule<VictimSegment> getRule450ForAgeOfVictim__2_1() {
+		return new Rule<VictimSegment>() {
+			@Override
+			public NIBRSError apply(VictimSegment victimSegment) {
+				NIBRSError e = null;
+				if (victimSegment.getVictimOffenderRelationshipList().contains(RelationshipOfVictimToOffenderCode.SE.code)) {
+					NIBRSAge nibrsAge = victimSegment.getAge();
+					if (nibrsAge != null) {
+						Integer minAge = nibrsAge.getAgeMin();
+						if (minAge != null && minAge < 10) {
+							e = victimSegment.getErrorTemplate();
+							e.setDataElementIdentifier("26");
+							e.setNIBRSErrorCode(NIBRSErrorCode._450__2_1);
 							e.setValue(nibrsAge);
 						}
 					}

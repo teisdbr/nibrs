@@ -281,9 +281,9 @@ public class OffenderSegmentRulesFactoryTest {
 	}
 	
 	@Test
-	public void testRule550() {
+	public void testRule550__3_1() {
 		
-		Rule<OffenderSegment> rule = rulesFactory.getRule550();
+		Rule<OffenderSegment> rule = rulesFactory.getRule550__3_1();
 		
 		OffenderSegment offenderSegment = buildBaseSegment();
 		GroupAIncidentReport incident = (GroupAIncidentReport) offenderSegment.getParentReport();
@@ -314,7 +314,7 @@ public class OffenderSegmentRulesFactoryTest {
 		nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);
 		assertEquals("37", nibrsError.getDataElementIdentifier());
-		assertEquals(NIBRSErrorCode._550, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._550__3_1, nibrsError.getNIBRSErrorCode());
 		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
 		
 		vs.setOffenderNumberRelated(1, new ParsedObject<>(2));

@@ -15,12 +15,10 @@
  */
 package org.search.nibrs.validation.groupa;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +90,7 @@ public class VictimSegmentRulesFactoryTest {
 		assertNull(e);
 		
 		victimSegment.setUcrOffenseCodeConnection(0, "120");;
-		assertThat(parent.getOffenderCount(), is(2));
+		assertEquals(2, parent.getOffenderCount());
 		e = rule.apply(victimSegment);
 		assertNull(e);
 		
@@ -290,14 +288,14 @@ public class VictimSegmentRulesFactoryTest {
 	@Test
 	public void testRule450ForAgeOfVictim() {
 
-		Rule<VictimSegment> rule = victimRulesFactory.getRule450ForAgeOfVictim();
+		Rule<VictimSegment> rule = victimRulesFactory.getRule450ForAgeOfVictim__3_1();
 
 		VictimSegment victimSegment = getBasicVictimSegment();
 		victimSegment.setAgeString("0909");
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.SE.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
 		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._450, nibrsError.getNIBRSErrorCode());
+		assertEquals(NIBRSErrorCode._450__3_1, nibrsError.getNIBRSErrorCode());
 		assertEquals("26", nibrsError.getDataElementIdentifier());
 		assertEquals(victimSegment.getAge(), nibrsError.getValue());
 
@@ -1485,19 +1483,23 @@ public class VictimSegmentRulesFactoryTest {
 	public void testRule479() {
 		Rule<VictimSegment> rule = victimRulesFactory.getRule479();
 		VictimSegment victimSegment = getBasicVictimSegment();
-		victimSegment.setTypeOfInjury(0, TypeInjuryCode.M.code);
+		victimSegment.setTypeOfInjury(0, TypeInjuryCode.B.code);
 		victimSegment.setUcrOffenseCodeConnection(0, OffenseCode._13B.code);
 		NIBRSError nibrsError = rule.apply(victimSegment);
+		
 		assertNotNull(nibrsError);
 		assertEquals("33", nibrsError.getDataElementIdentifier());
 		assertEquals(NIBRSErrorCode._479, nibrsError.getNIBRSErrorCode());
-		assertEquals(Arrays.asList(new String[] {TypeInjuryCode.M.code}), nibrsError.getValue());
+		assertEquals(Arrays.asList(new String[] {TypeInjuryCode.B.code}), nibrsError.getValue());
 		
 		victimSegment.setUcrOffenseCodeConnection(1,  OffenseCode._13A.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 		victimSegment.setUcrOffenseCodeConnection(1,  null);
-		victimSegment.setTypeOfInjury(0, TypeInjuryCode.B.code);
+		victimSegment.setTypeOfInjury(0, TypeInjuryCode.M.code);
+		nibrsError = rule.apply(victimSegment);
+		assertNull(nibrsError);
+		victimSegment.setTypeOfInjury(0, TypeInjuryCode.N.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
 		victimSegment.setTypeOfInjury(0, null);
