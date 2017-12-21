@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
+import org.search.nibrs.flatfile.FlatfileConstants;
 import org.search.nibrs.flatfile.util.StringUtils;
 import org.search.nibrs.importer.AbstractIncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
@@ -521,7 +522,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		ArresteeSegment newArrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
-		if (length == 110) {
+		if (length == FlatfileConstants.GROUP_A_ARRESTEE_SEGMENT_LENGTH) {
 			
 			ParsedObject<Integer> sequenceNumber = newArrestee.getArresteeSequenceNumber();
 			sequenceNumber.setMissing(false);
@@ -609,7 +610,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		OffenderSegment newOffender = new OffenderSegment();
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
-		if (length == 45 || length == 46) {
+		if (length == FlatfileConstants.OFFENDER_WITHOUT_ETHNICITY_SEGMENT_LENGTH || length == FlatfileConstants.OFFENDER_WITH_ETHNICITY_SEGMENT_LENGTH) {
 			
 			ParsedObject<Integer> sequenceNumber = newOffender.getOffenderSequenceNumber();
 			sequenceNumber.setMissing(false);
@@ -639,7 +640,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			newOffender.setAgeString(StringUtils.getStringBetween(40, 43, segmentData));
 			newOffender.setSex(StringUtils.getStringBetween(44, 44, segmentData));
 			newOffender.setRace(StringUtils.getStringBetween(45, 45, segmentData));
-			boolean hasOffenderEthnicity = length == 46;
+			boolean hasOffenderEthnicity = length == FlatfileConstants.OFFENDER_WITH_ETHNICITY_SEGMENT_LENGTH;
 			if (hasOffenderEthnicity) {
 				newOffender.setEthnicity(StringUtils.getStringBetween(46, 46, segmentData));
 			}
@@ -769,7 +770,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
-		if (length == 307) {
+		if (length == FlatfileConstants.PROPERTY_SEGMENT_LENGTH) {
 
 			String typeOfPropertyLoss = StringUtils.getStringBetween(38, 38, segmentData);
 			newProperty.setTypeOfPropertyLoss(typeOfPropertyLoss);
@@ -928,7 +929,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
-		if (length == 63 || length == 71) {
+		if (length == FlatfileConstants.OFFENSE_SINGLE_BIAS_SEGMENT_LENGTH || length == FlatfileConstants.OFFENSE_MULTIPLE_BIAS_SEGMENT_LENGTH) {
 
 			newOffense.setUcrOffenseCode(StringUtils.getStringBetween(38, 40, segmentData));
 			newOffense.setOffenseAttemptedCompleted(StringUtils.getStringBetween(41, 41, segmentData));
@@ -965,7 +966,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			
 			newOffense.setMethodOfEntry(StringUtils.getStringBetween(49, 49, segmentData));
 
-			int biasMotivationFields = length == 63 ? 1 : OffenseSegment.BIAS_MOTIVATION_COUNT;
+			int biasMotivationFields = length == FlatfileConstants.OFFENSE_SINGLE_BIAS_SEGMENT_LENGTH ? 1 : OffenseSegment.BIAS_MOTIVATION_COUNT;
 
 			for (int i = 0; i < biasMotivationFields; i++) {
 				newOffense.setBiasMotivation(i, StringUtils.getStringBetween(62 + 2*i, 63 + 2*i, segmentData));

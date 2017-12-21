@@ -93,7 +93,7 @@ public class FlatFileTranslator {
 
     public static String translateOffenseSegment(OffenseSegment os)
     {
-        return segmentHeader(os, FlatfileConstants.OFFENSE_SEGMENT_LENGTH)
+        return segmentHeader(os, FlatfileConstants.OFFENSE_MULTIPLE_BIAS_SEGMENT_LENGTH)
                 + rightPad(os.getUcrOffenseCode(), 3)
                 + spacesIfNull(os.getOffenseAttemptedCompleted(), 1)
                 + joinStringArray(os.getOffendersSuspectedOfUsing(), 1)
