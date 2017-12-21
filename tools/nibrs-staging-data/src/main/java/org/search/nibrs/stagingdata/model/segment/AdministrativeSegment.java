@@ -30,8 +30,6 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.CargoTheftIndicatorType;
 import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
@@ -55,6 +53,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
         @NamedAttributeNode("arresteeSegments"),
         @NamedAttributeNode("agency"),
         @NamedAttributeNode("incidentDateType"),
+        @NamedAttributeNode("incidentDateType"),
         @NamedAttributeNode("clearedExceptionallyType"),
         @NamedAttributeNode("cargoTheftIndicatorType"),
 	})
@@ -64,7 +63,6 @@ public class AdministrativeSegment {
 	private Integer administrativeSegmentId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-
 	@JoinColumn(name="segmentActionTypeTypeID") 
 	private SegmentActionTypeType segmentActionType; 
 	private String monthOfTape; 
@@ -92,13 +90,19 @@ public class AdministrativeSegment {
 	@JoinColumn(name="agencyId")
 	private Agency agency; 
 	private String incidentNumber; 
+	
 	private Date incidentDate;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-
 	@JoinColumn(name="incidentDateId")
 	private DateType incidentDateType; 
 
+	private Date exceptionalClearanceDate;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="exceptionalClearanceDateId")
+	private DateType exceptionalClearanceDateType; 
+	
 	private String reportDateIndicator; 
 	private String incidentHour;
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -142,9 +146,6 @@ public class AdministrativeSegment {
 	}
 	public void setOri(String ori) {
 		this.ori = ori;
-	}
-	public String toString(){
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 	public Agency getAgency() {
 		return agency;
@@ -239,8 +240,12 @@ public class AdministrativeSegment {
 		int result = 1;
 		result = prime * result + ((administrativeSegmentId == null) ? 0 : administrativeSegmentId.hashCode());
 		result = prime * result + ((agency == null) ? 0 : agency.hashCode());
+		result = prime * result + ((cargoTheftIndicatorType == null) ? 0 : cargoTheftIndicatorType.hashCode());
 		result = prime * result + ((cityIndicator == null) ? 0 : cityIndicator.hashCode());
 		result = prime * result + ((clearedExceptionallyType == null) ? 0 : clearedExceptionallyType.hashCode());
+		result = prime * result + ((exceptionalClearanceDate == null) ? 0 : exceptionalClearanceDate.hashCode());
+		result = prime * result
+				+ ((exceptionalClearanceDateType == null) ? 0 : exceptionalClearanceDateType.hashCode());
 		result = prime * result + ((incidentDate == null) ? 0 : incidentDate.hashCode());
 		result = prime * result + ((incidentDateType == null) ? 0 : incidentDateType.hashCode());
 		result = prime * result + ((incidentHour == null) ? 0 : incidentHour.hashCode());
@@ -251,6 +256,44 @@ public class AdministrativeSegment {
 		result = prime * result + ((segmentActionType == null) ? 0 : segmentActionType.hashCode());
 		result = prime * result + ((yearOfTape == null) ? 0 : yearOfTape.hashCode());
 		return result;
+	}
+
+	public CargoTheftIndicatorType getCargoTheftIndicatorType() {
+		return cargoTheftIndicatorType;
+	}
+
+	public void setCargoTheftIndicatorType(CargoTheftIndicatorType cargoTheftIndicatorType) {
+		this.cargoTheftIndicatorType = cargoTheftIndicatorType;
+	}
+
+	public DateType getExceptionalClearanceDateType() {
+		return exceptionalClearanceDateType;
+	}
+
+	public void setExceptionalClearanceDateType(DateType exceptionalClearanceDateType) {
+		this.exceptionalClearanceDateType = exceptionalClearanceDateType;
+	}
+
+	public Date getExceptionalClearanceDate() {
+		return exceptionalClearanceDate;
+	}
+
+	public void setExceptionalClearanceDate(Date exceptionalClearanceDate) {
+		this.exceptionalClearanceDate = exceptionalClearanceDate;
+	}
+
+	@Override
+	public String toString() {
+		return "AdministrativeSegment [administrativeSegmentId=" + administrativeSegmentId + ", segmentActionType="
+				+ segmentActionType + ", monthOfTape=" + monthOfTape + ", yearOfTape=" + yearOfTape + ", cityIndicator="
+				+ cityIndicator + ", ori=" + ori + ", offenseSegments=" + offenseSegments + ", propertySegments="
+				+ propertySegments + ", arresteeSegments=" + arresteeSegments + ", offenderSegments=" + offenderSegments
+				+ ", victimSegments=" + victimSegments + ", agency=" + agency + ", incidentNumber=" + incidentNumber
+				+ ", incidentDate=" + incidentDate + ", incidentDateType=" + incidentDateType
+				+ ", exceptionalClearanceDate=" + exceptionalClearanceDate + ", exceptionalClearanceDateType="
+				+ exceptionalClearanceDateType + ", reportDateIndicator=" + reportDateIndicator + ", incidentHour="
+				+ incidentHour + ", clearedExceptionallyType=" + clearedExceptionallyType + ", cargoTheftIndicatorType="
+				+ cargoTheftIndicatorType + "]";
 	}
 
 	@Override
@@ -272,6 +315,16 @@ public class AdministrativeSegment {
 				return false;
 		} else if (!agency.equals(other.agency))
 			return false;
+		if (arresteeSegments == null) {
+			if (other.arresteeSegments != null)
+				return false;
+		} else if (!arresteeSegments.equals(other.arresteeSegments))
+			return false;
+		if (cargoTheftIndicatorType == null) {
+			if (other.cargoTheftIndicatorType != null)
+				return false;
+		} else if (!cargoTheftIndicatorType.equals(other.cargoTheftIndicatorType))
+			return false;
 		if (cityIndicator == null) {
 			if (other.cityIndicator != null)
 				return false;
@@ -281,6 +334,16 @@ public class AdministrativeSegment {
 			if (other.clearedExceptionallyType != null)
 				return false;
 		} else if (!clearedExceptionallyType.equals(other.clearedExceptionallyType))
+			return false;
+		if (exceptionalClearanceDate == null) {
+			if (other.exceptionalClearanceDate != null)
+				return false;
+		} else if (!exceptionalClearanceDate.equals(other.exceptionalClearanceDate))
+			return false;
+		if (exceptionalClearanceDateType == null) {
+			if (other.exceptionalClearanceDateType != null)
+				return false;
+		} else if (!exceptionalClearanceDateType.equals(other.exceptionalClearanceDateType))
 			return false;
 		if (incidentDate == null) {
 			if (other.incidentDate != null)
@@ -307,10 +370,25 @@ public class AdministrativeSegment {
 				return false;
 		} else if (!monthOfTape.equals(other.monthOfTape))
 			return false;
+		if (offenderSegments == null) {
+			if (other.offenderSegments != null)
+				return false;
+		} else if (!offenderSegments.equals(other.offenderSegments))
+			return false;
+		if (offenseSegments == null) {
+			if (other.offenseSegments != null)
+				return false;
+		} else if (!offenseSegments.equals(other.offenseSegments))
+			return false;
 		if (ori == null) {
 			if (other.ori != null)
 				return false;
 		} else if (!ori.equals(other.ori))
+			return false;
+		if (propertySegments == null) {
+			if (other.propertySegments != null)
+				return false;
+		} else if (!propertySegments.equals(other.propertySegments))
 			return false;
 		if (reportDateIndicator == null) {
 			if (other.reportDateIndicator != null)
@@ -322,19 +400,16 @@ public class AdministrativeSegment {
 				return false;
 		} else if (!segmentActionType.equals(other.segmentActionType))
 			return false;
+		if (victimSegments == null) {
+			if (other.victimSegments != null)
+				return false;
+		} else if (!victimSegments.equals(other.victimSegments))
+			return false;
 		if (yearOfTape == null) {
 			if (other.yearOfTape != null)
 				return false;
 		} else if (!yearOfTape.equals(other.yearOfTape))
 			return false;
 		return true;
-	}
-
-	public CargoTheftIndicatorType getCargoTheftIndicatorType() {
-		return cargoTheftIndicatorType;
-	}
-
-	public void setCargoTheftIndicatorType(CargoTheftIndicatorType cargoTheftIndicatorType) {
-		this.cargoTheftIndicatorType = cargoTheftIndicatorType;
 	}
 }

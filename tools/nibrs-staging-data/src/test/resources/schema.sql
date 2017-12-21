@@ -153,7 +153,7 @@ CREATE TABLE ArrestReportSegmentWasArmedWith (ArrestReportSegmentWasArmedWithID 
 
 ALTER TABLE ArrestReportSegmentWasArmedWith ADD CONSTRAINT arrestreportsegmentwasarmedwithid PRIMARY KEY (ArrestReportSegmentWasArmedWithID);
 
-CREATE TABLE AdministrativeSegment (AdministrativeSegmentID INT NOT NULL AUTO_INCREMENT, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), ORI VARCHAR(9), AgencyID INT NOT NULL, IncidentNumber VARCHAR(12), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour VARCHAR(2) NOT NULL, ClearedExceptionallyTypeID INT NOT NULL, CargoTheftIndicatorTypeID INT NOT NULL);
+CREATE TABLE AdministrativeSegment (AdministrativeSegmentID INT NOT NULL AUTO_INCREMENT, SegmentActionTypeTypeID INT NOT NULL, MonthOfTape VARCHAR(2), YearOfTape VARCHAR(4), CityIndicator VARCHAR(4), ORI VARCHAR(9), AgencyID INT NOT NULL, IncidentNumber VARCHAR(12), IncidentDate date, IncidentDateID INT NOT NULL, ReportDateIndicator VARCHAR(1), IncidentHour VARCHAR(2) NOT NULL, ClearedExceptionallyTypeID INT NOT NULL, ExceptionalClearanceDate DATE,ExceptionalClearanceDateID INT NOT NULL, CargoTheftIndicatorTypeID INT NOT NULL);
 
 ALTER TABLE AdministrativeSegment ADD CONSTRAINT administrativesegment_pk PRIMARY KEY (AdministrativeSegmentID);
 
@@ -244,6 +244,8 @@ ALTER TABLE ArresteeSegment ADD CONSTRAINT Date_ArresteeSegment_fk FOREIGN KEY (
 ALTER TABLE ArrestReportSegment ADD CONSTRAINT Date_ArrestReportSegment_fk FOREIGN KEY (ArrestDateID) REFERENCES DateType (DateTypeID);
 
 ALTER TABLE ZeroReportingSegment ADD CONSTRAINT Date_ZeroReportingSegment_fk FOREIGN KEY (IncidentDateID) REFERENCES DateType (DateTypeID);
+
+ALTER TABLE AdministrativeSegment ADD CONSTRAINT datetype_administrativesegment_fk FOREIGN KEY (ExceptionalClearanceDateID) REFERENCES DateType (DateTypeID);
 
 ALTER TABLE AdministrativeSegment ADD CONSTRAINT Agency_AdministrativeSegment_fk FOREIGN KEY (AgencyID) REFERENCES Agency (AgencyID);
 

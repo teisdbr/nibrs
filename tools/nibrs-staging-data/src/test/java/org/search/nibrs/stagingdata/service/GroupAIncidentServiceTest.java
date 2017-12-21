@@ -189,6 +189,8 @@ public class GroupAIncidentServiceTest {
 		assertThat(persisted.getIncidentNumber(), equalTo("1234568910"));
 		assertTrue(DateUtils.isSameDay(persisted.getIncidentDate(), Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		assertThat(persisted.getIncidentDateType().getDateTypeId(), equalTo(2355));
+		assertTrue(DateUtils.isSameDay(persisted.getExceptionalClearanceDate(), Date.from(LocalDateTime.of(2016, 7, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		assertThat(persisted.getExceptionalClearanceDateType().getDateMMDDYYYY(), equalTo("07122016"));
 		assertNull(persisted.getReportDateIndicator());
 		assertThat(persisted.getIncidentHour(), equalTo("13"));
 		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("B"));
@@ -396,7 +398,7 @@ public class GroupAIncidentServiceTest {
 		
 		for (VictimSegment victimSegment: victimSegments){
 			if (victimSegment.getVictimSequenceNumber().equals(1)){
-				assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(1)); 
+				assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(persisted.getAdministrativeSegmentId())); 
 				assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
 				assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("B")); 
 				assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode(), equalTo("99")); 
@@ -516,6 +518,10 @@ public class GroupAIncidentServiceTest {
 		administrativeSegment.setIncidentDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
 		DateType incidentDateType = dateTypeRepository.findFirstByDateMMDDYYYY("06122016");
 		administrativeSegment.setIncidentDateType(incidentDateType);
+		
+		administrativeSegment.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 7, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
+		DateType exceptionalClearanceDateType = dateTypeRepository.findFirstByDateMMDDYYYY("07122016");
+		administrativeSegment.setExceptionalClearanceDateType(exceptionalClearanceDateType);
 		
 		administrativeSegment.setReportDateIndicator(null);  //'R' for report. Must be empty when incident is known.    
 		administrativeSegment.setIncidentHour("13");  // allowed value 0-23.  
@@ -792,7 +798,7 @@ public class GroupAIncidentServiceTest {
 	}
 
 	@Test
-	public void saveGroupAIncidentReportTest(){
+	public void testSaveGroupAIncidentReport(){
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
 		AdministrativeSegment administrativeSegment = StreamSupport.stream(
 				groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport).spliterator(), false)
@@ -810,6 +816,8 @@ public class GroupAIncidentServiceTest {
 		assertThat(persisted.getIncidentNumber(), equalTo("54236732"));
 		assertTrue(DateUtils.isSameDay(persisted.getIncidentDate(), Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		assertThat(persisted.getIncidentDateType().getDateTypeId(), equalTo(2324));
+		assertTrue(DateUtils.isSameDay(persisted.getExceptionalClearanceDate(), Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		assertThat(persisted.getExceptionalClearanceDateType().getDateTypeId(), equalTo(2324));
 		assertNull(persisted.getReportDateIndicator());
 		assertThat(persisted.getIncidentHour(), equalTo(""));
 		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("A"));
