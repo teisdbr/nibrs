@@ -259,6 +259,8 @@ public class GroupAIncidentService {
 			administrativeSegment.setIncidentDateType(codeTableService.getDateType(groupAIncidentReport.getIncidentDate().getValue()));
 			administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 			administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
+			administrativeSegment.setExceptionalClearanceDate(groupAIncidentReport.getExceptionalClearanceDate().getValue());
+			administrativeSegment.setExceptionalClearanceDateType(codeTableService.getDateType(groupAIncidentReport.getExceptionalClearanceDate().getValue()));
 			
 			Optional<Integer> incidentHour = Optional.ofNullable(groupAIncidentReport.getIncidentHour().getValue());
 			administrativeSegment.setIncidentHour(incidentHour.map(String::valueOf).orElse(""));
