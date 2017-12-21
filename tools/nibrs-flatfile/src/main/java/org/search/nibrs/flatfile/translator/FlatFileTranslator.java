@@ -28,6 +28,7 @@ import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -245,10 +246,16 @@ public class FlatFileTranslator {
 
     private static String translatePerson(AbstractPersonSegment ps)
     {
-        return (ps.getAge() == null ? spaces(4) : rightPad(ps.getAge().toString(), 4))
+    	
+    	NIBRSAge age = ps.getAge();
+    	String ageString = age == null ? null :
+    		age.isNonNumeric() ? age.getNonNumericAge() : (age.isAgeRange() ? age.getAgeMin() + "" + age.getAgeMax() : age.getAgeMin().toString());
+    		
+        return (ageString == null ? spaces(4) : rightPad(ageString, 4))
                 + spacesIfNull(ps.getSex(), 1)
                 + spacesIfNull(ps.getRace(), 1)
                 + spacesIfNull(ps.getEthnicity(), 1);
+        
     }
 
     private static String victimOffenderRelation(VictimSegment vs)
