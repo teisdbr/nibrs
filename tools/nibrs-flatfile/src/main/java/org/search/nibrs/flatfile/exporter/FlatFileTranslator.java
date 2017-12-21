@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.flatfile.translator;
+package org.search.nibrs.flatfile.exporter;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

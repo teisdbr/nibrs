@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.flatfile.translator;
+package org.search.nibrs.flatfile.exporter;
 
 import org.junit.Test;
 import org.search.nibrs.common.ParsedObject;
@@ -27,7 +27,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.search.nibrs.flatfile.translator.FlatFileTranslator.*;
+import static org.search.nibrs.flatfile.exporter.FlatFileTranslator.*;
 import static org.search.nibrs.model.ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
 import static org.search.nibrs.model.ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
 
