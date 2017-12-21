@@ -23,11 +23,11 @@
 	<artifactId>ojb-nibrs-aggregate</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
-	
+
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A component of the OJBC</description>
-	<url>http://www.ojbc.org/</url>	
-	
+	<url>http://www.ojbc.org/</url>
+
 	<licenses>
 	  <license>
 	    <name>RPL-1.5 - OJBC</name>
@@ -43,12 +43,12 @@
 			<organizationUrl>http://www.ojbc.org/</organizationUrl>
 		</developer>
 	</developers>
-	
+
 	<scm>
 		<connection>https://github.com/SEARCH-NCJIS/nibrs</connection>
 		<developerConnection>https://github.com/SEARCH-NCJIS/nibrs.git</developerConnection>
 		<url>https://github.com/SEARCH-NCJIS/nibrs</url>
-	</scm>	
+	</scm>
 
 	<modules>
 		<module>shared</module>
@@ -70,7 +70,7 @@
 
 	<build>
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -84,8 +84,8 @@
 			</plugin>
 
 
-			<!-- Note, if updating license plugin config here, Ensure the second duplicate 
-				declaration is updated also in ojb-build-common project (Plugin declared twice 
+			<!-- Note, if updating license plugin config here, Ensure the second duplicate
+				declaration is updated also in ojb-build-common project (Plugin declared twice
 				to avoid cyclic dependency) -->
 			<plugin>
 				<groupId>com.mycila</groupId>
@@ -106,15 +106,17 @@
 					<header>ojb-license-search.txt</header>
 					<validHeaders>
 						<validHeader>ojb-license-research-triangle-institute.txt</validHeader>
+                        <validHeader>ojb-license-mark43.txt</validHeader>
 					</validHeaders>
 					<aggregate>true</aggregate>
-					
+
 					<excludes>
 						<exclude>**/jquery-datatable/**</exclude>
 						<exclude>**/jquery-ui/**</exclude>
 						<exclude>**/jquery.maskinput.js</exclude>
 						<exclude>**/bin/**</exclude>
 						<exclude>**/docs/**</exclude>
+                        <exclude>**/docker/**</exclude>
 						<!-- note not excluding static/js/ojb-web-portal.js -->
 					</excludes>
 					<includes>
@@ -152,12 +154,12 @@
 
 
 	<profiles>
-		
+
 		<profile>
 			<id>release</id>
 			<build>
 				<plugins>
-								
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -219,8 +221,8 @@
 							</execution>
 						</executions>
 					</plugin>
-					
-					
+
+
 				    <plugin>
 				      <groupId>org.apache.maven.plugins</groupId>
 				      <artifactId>maven-gpg-plugin</artifactId>
@@ -234,9 +236,9 @@
 				          </goals>
 				        </execution>
 				      </executions>
-				    </plugin>					
-					
-					
+				    </plugin>
+
+
 				</plugins>
 			</build>
 		</profile>
