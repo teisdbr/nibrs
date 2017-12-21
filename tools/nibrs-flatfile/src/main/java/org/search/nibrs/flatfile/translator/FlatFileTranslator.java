@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017 Mark43, Inc.
+ * https://www.mark43.com/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.search.nibrs.flatfile.translator;
 
 import java.util.Arrays;
@@ -5,6 +21,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.flatfile.FlatfileConstants;
 import org.search.nibrs.model.AbstractPersonSegment;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.AbstractSegment;
@@ -43,7 +60,11 @@ public class FlatFileTranslator {
 
     public static String translateAdminSegment(GroupAIncidentReport gair)
     {
-        return segmentHeader(gair.getAdminSegmentLength(), gair.getAdminSegmentLevel(), gair, true)
+    	String segmentLength = leftPad(
+    			String.valueOf(gair.includesCargoTheft() ? FlatfileConstants.ADMIN_WITH_CARGO_THEFT_SEGMENT_LENGTH : FlatfileConstants.ADMIN_WITHOUT_CARGO_THEFT_SEGMENT_LENGTH),
+    			4, '0');
+        return segmentHeader(segmentLength,
+        		gair.getAdminSegmentLevel(), gair, true)
                 + (gair.getIncidentDate().isMissing() ? spaces(8) : DATE_FORMAT.format(gair.getIncidentDate().getValue()))
                 + spacesIfNull(gair.getReportDateIndicator(), 1)
                 + parsedIntToString(gair.getIncidentHour(), 2)
@@ -55,7 +76,7 @@ public class FlatFileTranslator {
 
     public static String translateGroupAArresteeSegment(ArresteeSegment as)
     {
-        return segmentHeader(as)
+        return segmentHeader(as, FlatfileConstants.GROUP_A_ARRESTEE_SEGMENT_LENGTH)
                 + parsedIntToString(as.getArresteeSequenceNumber(), 2)
                 + rightPad(as.getArrestTransactionNumber(), 12)
                 + (as.getArrestDate().isMissing() ? spaces(8) : DATE_FORMAT.format(as.getArrestDate().getValue()))
@@ -71,7 +92,7 @@ public class FlatFileTranslator {
 
     public static String translateOffenseSegment(OffenseSegment os)
     {
-        return segmentHeader(os)
+        return segmentHeader(os, FlatfileConstants.OFFENSE_SEGMENT_LENGTH)
                 + rightPad(os.getUcrOffenseCode(), 3)
                 + spacesIfNull(os.getOffenseAttemptedCompleted(), 1)
                 + joinStringArray(os.getOffendersSuspectedOfUsing(), 1)
@@ -87,7 +108,7 @@ public class FlatFileTranslator {
     {
         StringBuilder flatFileOutput = new StringBuilder();
 
-        flatFileOutput.append(segmentHeader(ps));
+        flatFileOutput.append(segmentHeader(ps, FlatfileConstants.PROPERTY_SEGMENT_LENGTH));
         flatFileOutput.append(spacesIfNull(ps.getTypeOfPropertyLoss(), 1));
         for (int i = 0; i < PropertySegment.PROPERTY_DESCRIPTION_COUNT; i++)
         {
@@ -116,7 +137,9 @@ public class FlatFileTranslator {
 
     public static String translateVictimSegment(VictimSegment vs)
     {
-        return segmentHeader(vs)
+    	int segmentLength = ((GroupAIncidentReport) vs.getParentReport()).includesLeoka() ? FlatfileConstants.VICTIM_WITH_LEOKA_SEGMENT_LENGTH :
+    		FlatfileConstants.VICTIM_WITHOUT_LEOKA_SEGMENT_LENGTH;
+        return segmentHeader(vs, segmentLength)
                 + parsedIntToString(vs.getVictimSequenceNumber(), 3)
                 + joinStringArray(vs.getUcrOffenseCodeConnection(), 3)
                 + spacesIfNull(vs.getTypeOfVictim(), 1)
@@ -143,7 +166,7 @@ public class FlatFileTranslator {
 
     public static String translateOffenderSegment(OffenderSegment os)
     {
-        return segmentHeader(os)
+        return segmentHeader(os, FlatfileConstants.OFFENDER_WITH_ETHNICITY_SEGMENT_LENGTH)
                 + parsedIntToString(os.getOffenderSequenceNumber(), 2)
                 + translatePerson(os);
     }
@@ -165,7 +188,8 @@ public class FlatFileTranslator {
 
     public static String translateGroupBArresteeSegment(ArresteeSegment as)
     {
-        return segmentHeader(as.getSegmentLength(), as.getParentReport().getAdminSegmentLevel(), as.getParentReport(), false)
+        return segmentHeader(leftPad(String.valueOf(FlatfileConstants.GROUP_B_ARRESTEE_SEGMENT_LENGTH), 4, '0'),
+        		as.getParentReport().getAdminSegmentLevel(), as.getParentReport(), false)
                 + rightPad(as.getArrestTransactionNumber(), 12)
                 + parsedIntToString(as.getArresteeSequenceNumber(), 2)
                 + (as.getArrestDate().isMissing() ? spaces(8) : DATE_FORMAT.format(as.getArrestDate().getValue()))
@@ -183,7 +207,7 @@ public class FlatFileTranslator {
 
     public static String translateZeroReport(ZeroReport zr)
     {
-        return zr.getAdminSegmentLength()
+        return leftPad(String.valueOf(FlatfileConstants.ZERO_REPORT_SEGMENT_LENGTH), 4, '0')
                 + zr.getAdminSegmentLevel()
                 + spacesIfNull(zr.getReportActionType(), 1)
                 + leftPad(zr.getMonthOfTape().toString(), 2, '0')
@@ -199,9 +223,10 @@ public class FlatFileTranslator {
 
     // region helpers
 
-    public static String segmentHeader(AbstractSegment as)
+    public static String segmentHeader(AbstractSegment as, int segmentLength)
     {
-        return segmentHeader(as.getSegmentLength(), as.getSegmentType(), as.getParentReport(), true);
+        return segmentHeader(leftPad(String.valueOf(segmentLength), 4, '0'),
+        		as.getSegmentType(), as.getParentReport(), true);
     }
 
     public static String segmentHeader(String segmentLength, char segmentLevel, AbstractReport ar,

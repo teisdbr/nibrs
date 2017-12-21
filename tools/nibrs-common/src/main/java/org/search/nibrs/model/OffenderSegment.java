@@ -27,7 +27,6 @@ public class OffenderSegment extends AbstractPersonSegment
 {
     
 	public static final char OFFENDER_SEGMENT_TYPE_IDENTIFIER = '5';
-	public static final String OFFENDER_WITH_ETHNICITY_SEGMENT_LENGTH = "0046";
 	private ParsedObject<Integer> offenderSequenceNumber;
     
     public OffenderSegment() {
@@ -74,12 +73,6 @@ public class OffenderSegment extends AbstractPersonSegment
 	@Override
 	public Object getWithinSegmentIdentifier() {
 		return offenderSequenceNumber.getValue();
-	}
-
-	@Override
-	public String getSegmentLength()
-	{
-		return OFFENDER_WITH_ETHNICITY_SEGMENT_LENGTH;
 	}
 
 	public boolean isOffenderOfVictim(VictimSegment vs) {

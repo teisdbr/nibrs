@@ -55,11 +55,6 @@ public class BadSegmentLevelReport extends AbstractReport {
 	}
 
 	@Override
-	public String getAdminSegmentLength() {
-		return null;
-	}
-
-	@Override
 	public String getIdentifier() {
 		return getIncidentNumber();
 	}

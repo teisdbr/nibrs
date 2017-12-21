@@ -38,8 +38,6 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	public static final int ARRESTEE_ARMED_WITH_COUNT = 2;
 	public static final char GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER = '6';
 	public static final char GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER = '7';
-    public static final String GROUP_A_ARRESTEE_SEGMENT_LENGTH = "0110";
-    public static final String GROUP_B_ARRESTEE_SEGMENT_LENGTH = "0066";
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(ArresteeSegment.class);
@@ -251,12 +249,6 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 		return arresteeSequenceNumber.getValue();
 	}
 
-    @Override
-    public String getSegmentLength()
-    {
-        return isGroupA() ? GROUP_A_ARRESTEE_SEGMENT_LENGTH : GROUP_B_ARRESTEE_SEGMENT_LENGTH;
-    }
-	
 	/**
 	 * All arrestees are people
 	 */

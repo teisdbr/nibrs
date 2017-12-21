@@ -40,8 +40,6 @@ public class GroupAIncidentReport extends AbstractReport
 	private static final long serialVersionUID = 1953997233584944586L;
 
 	public static final char ADMIN_SEGMENT_TYPE_IDENTIFIER = '1';
-	public static final String ADMIN_WITHOUT_CARGO_THEFT_SEGMENT_LENGTH = "0087";
-	public static final String ADMIN_WITH_CARGO_THEFT_SEGMENT_LENGTH = "0088";
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReport.class);
@@ -190,14 +188,6 @@ public class GroupAIncidentReport extends AbstractReport
 			}
 		}
 		return ret;
-	}
-
-	@Override
-	public String getAdminSegmentLength()
-	{
-		return includesCargoTheft()
-				? ADMIN_WITH_CARGO_THEFT_SEGMENT_LENGTH
-				: ADMIN_WITHOUT_CARGO_THEFT_SEGMENT_LENGTH;
 	}
 
 	public boolean includesCargoTheft() {

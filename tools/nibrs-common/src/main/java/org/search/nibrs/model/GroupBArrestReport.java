@@ -58,12 +58,6 @@ public class GroupBArrestReport extends AbstractReport {
 		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArrestTransactionNumber();
 	}
 
-	@Override
-	public String getAdminSegmentLength()
-	{
-		return ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_LENGTH;
-	}
-	
 	public Integer getArresteeSequenceNumber() {
 		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArresteeSequenceNumber().getValue();
 	}
