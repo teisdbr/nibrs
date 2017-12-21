@@ -16,8 +16,8 @@
 package org.search.nibrs.model.codes;
 
 public enum NIBRSErrorCode {
-	
-	
+
+
 	_015("015","Structure Check","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit found embedded blanks between the first and last significant characters."),
 /**
  * 016 not implemented
@@ -412,7 +412,7 @@ public enum NIBRSErrorCode {
 	_667("667","Arrestee Segment","INVALID ARRESTEE SEX VALUE","Data Element 48 (Sex of Arrestee) does not contain a valid code of M=Male or F=Female. Note: U=Unknown (if entered) is not a valid sex for an arrestee."),
 	_669("669","Arrestee Segment","NO ARRESTEE RECORDS ALLOWED FOR A JUSTIFIABLE HOMICIDE","Group 'A' Incident Reports cannot have arrests when Data Element 6 (UCR Offense Code) is 09C=Justifiable Homicide. By definition a justifiable homicide never involves an arrest of the offender (the person who committed the justifiable homicide)."),
 	_670("670","Arrestee Segment","JUSTIFIABLE HOMICIDE CANNOT BE AN ARREST OFFENSE CODE","Data Element 45 (UCR Arrest Offense Code) was entered with 09C=Justifiable Homicide. This is not a valid arrest offense"),
-	_701("701","Group B Arrest Segment","MUST BE POPULATED WITH A VALID DATA VALUE– MANDATORY FIELD","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
+	_701("701","Group B Arrest Segment","MUST BE POPULATED WITH A VALID DATA VALUE– MANDATORY FIELD","The referenced data element in a Group B Arrest Report must be populated with a valid data value and cannot be blank."),
 	_702("702","Group B Arrest Segment","CONTAINS NONNUMERIC ENTRY","Data Element 40 (Arrestee Sequence Number) must be numeric entry of 01 to 99 with zero left- fill."),
 	_704("704","Group B Arrest Segment","INVALID DATA VALUE","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_705("705","Group B Arrest Segment","INVALID ARREST DATE","Data Element 42 (Arrest Date) Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31 days). The date cannot exceed the current date. The date cannot be later than that entered within the Month of Electronic submission and Year of Electronic submission fields on the data record. For example, if Month of Electronic submission and Year of Electronic submission are 06/1999, the arrest date cannot contain any date 07/01/1999 or later."),
