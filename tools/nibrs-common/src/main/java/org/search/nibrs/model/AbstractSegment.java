@@ -48,7 +48,7 @@ public abstract class AbstractSegment implements ValidationTarget {
 
 	public abstract Object getWithinSegmentIdentifier();
 
-	protected void setParentReport(AbstractReport parentReport) {
+	public void setParentReport(AbstractReport parentReport) {
 		this.parentReport = parentReport;
 	}
 

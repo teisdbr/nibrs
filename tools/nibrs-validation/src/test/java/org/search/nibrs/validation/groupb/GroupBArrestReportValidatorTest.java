@@ -62,11 +62,6 @@ public class GroupBArrestReportValidatorTest {
 	}
 	
 	@Test
-	public void testRule709() {
-		testRule(NIBRSErrorCode._709, 709);
-	}
-	
-	@Test
 	public void testRule710() {
 		testRule(NIBRSErrorCode._710, 710);
 	}
@@ -74,11 +69,6 @@ public class GroupBArrestReportValidatorTest {
 	@Test
 	public void testRule717() {
 		testRule(NIBRSErrorCode._717, 717);
-	}
-	
-	@Test
-	public void testRule722() {
-		testRule(NIBRSErrorCode._722, 722);
 	}
 	
 	@Test

@@ -113,7 +113,6 @@ public class ArresteeSegmentRulesFactory {
 		rulesList.add(getRuleX53());
 		rulesList.add(getRuleX05());
 		rulesList.add(getRule667_758());
-		rulesList.add(getRule664_757());
 	}
 	
 	Rule<ArresteeSegment> getRuleX01ForSequenceNumber() {
@@ -481,7 +480,4 @@ public class ArresteeSegmentRulesFactory {
 		};
 	}
 
-	Rule<ArresteeSegment> getRule664_757() {
-		return personSegmentRulesFactory.getAgeValidRule("47", isGroupAMode() ? NIBRSErrorCode._664 : NIBRSErrorCode._757, false);
-	}
 }

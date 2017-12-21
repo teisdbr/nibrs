@@ -311,7 +311,7 @@ public class TestXMLExporter {
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
-		arrestee.setAgeString("22");
+		arrestee.setAge(NIBRSAge.getAge(22, null));
 		arrestee.setRace("W");
 		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
@@ -411,7 +411,7 @@ public class TestXMLExporter {
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
 		v.setVictimSequenceNumber(new ParsedObject<>(1));
-		v.setAgeString("2022");
+		v.setAge(NIBRSAge.getAge(20, 22));
 		v.setEthnicity("N");
 		v.setResidentStatus("R");
 		v.setSex("F");
@@ -426,7 +426,7 @@ public class TestXMLExporter {
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
 		v.setVictimSequenceNumber(new ParsedObject<>(2));
-		v.setAgeString("BB");
+		v.setAge(NIBRSAge.getBabyAge());
 		v.setEthnicity("N");
 		v.setResidentStatus("R");
 		v.setSex("F");
@@ -449,7 +449,7 @@ public class TestXMLExporter {
 		v.setVictimSequenceNumber(new ParsedObject<>(4));
 		v.setTypeOfVictim("L");
 		v.setTypeOfInjury(0, "L");
-		v.setAgeString("30");
+		v.setAge(NIBRSAge.getAge(30, null));
 		v.setEthnicity("N");
 		v.setResidentStatus("R");
 		v.setSex("F");
@@ -464,14 +464,14 @@ public class TestXMLExporter {
 		OffenderSegment offender = new OffenderSegment();
 		incident.addOffender(offender);
 		offender.setOffenderSequenceNumber(new ParsedObject<>(1));
-		offender.setAgeString("22");
+		offender.setAge(NIBRSAge.getAge(22, null));
 		offender.setRace("W");
 		offender.setSex("M");
 		
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
-		arrestee.setAgeString("22");
+		arrestee.setAge(NIBRSAge.getAge(22, null));
 		arrestee.setRace("W");
 		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
@@ -483,7 +483,7 @@ public class TestXMLExporter {
 		offender = new OffenderSegment();
 		incident.addOffender(offender);
 		offender.setOffenderSequenceNumber(new ParsedObject<>(2));
-		offender.setAgeString("32");
+		offender.setAge(NIBRSAge.getAge(32, null));
 		offender.setRace("B");
 		offender.setSex("F");
 		offender.setEthnicity("N");

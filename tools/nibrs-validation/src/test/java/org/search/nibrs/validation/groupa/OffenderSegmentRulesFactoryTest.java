@@ -27,6 +27,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
@@ -87,16 +88,13 @@ public class OffenderSegmentRulesFactoryTest {
 		OffenderSegment offenderSegment = buildBaseSegment();
 		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
 		NIBRSError nibrsError = rule.apply(offenderSegment);
-		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._556, nibrsError.getNIBRSErrorCode());
-		assertEquals("37", nibrsError.getDataElementIdentifier());
-		assertNull(nibrsError.getValue());
+		assertNull(nibrsError);
 		
-		offenderSegment.setAgeString("00  ");
+		offenderSegment.setAge(NIBRSAge.getUnknownAge());
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
-		offenderSegment.setAgeString("20  ");
+		offenderSegment.setAge(NIBRSAge.getAge(20, null));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
@@ -105,38 +103,16 @@ public class OffenderSegmentRulesFactoryTest {
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
-		offenderSegment.setAgeString("2535");
+		offenderSegment.setAge(NIBRSAge.getAge(25, 35));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
-		offenderSegment.setAgeString("NB  ");
+		offenderSegment.setAge(NIBRSAge.getNewbornAge());
 		nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._556, nibrsError.getNIBRSErrorCode());
-		assertEquals("NB  ", nibrsError.getValue());
+		assertEquals("NB", nibrsError.getValue());
 		assertEquals("37", nibrsError.getDataElementIdentifier());
 	}
-//	@Test
-//	public void testRule556() {
-//		Rule<OffenderSegment> rule = rulesFactory.getRule556();
-//		OffenderSegment offenderSegment = buildBaseSegment();
-//		NIBRSError nibrsError = rule.apply(offenderSegment);
-//		assertNull(nibrsError);
-//		offenderSegment.setAgeString("20  ");
-//		nibrsError = rule.apply(offenderSegment);
-//		assertNull(nibrsError);
-//		offenderSegment.setAgeString("00  ");
-//		nibrsError = rule.apply(offenderSegment);
-//		assertNull(nibrsError);
-//		offenderSegment.setAgeString("2535");
-//		nibrsError = rule.apply(offenderSegment);
-//		assertNull(nibrsError);
-//		offenderSegment.setAgeString("NB  ");
-//		nibrsError = rule.apply(offenderSegment);
-//		assertNotNull(nibrsError);
-//		assertEquals(NIBRSErrorCode._556, nibrsError.getNIBRSErrorCode());
-//		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
-//		assertEquals("37", nibrsError.getDataElementIdentifier());
-//	}
 
 	@Test
 	public void testRule504ForSexOfOffender() {
@@ -229,52 +205,14 @@ public class OffenderSegmentRulesFactoryTest {
 		Rule<OffenderSegment> rule = rulesFactory.getRule510();
 
 		OffenderSegment offenderSegment = buildBaseSegment();
-		offenderSegment.setAgeString("3020");
+		offenderSegment.setAge(NIBRSAge.getAge(30, 20));
 		NIBRSError nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._510, nibrsError.getNIBRSErrorCode());
 		assertEquals("37", nibrsError.getDataElementIdentifier());
 		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
 
-		offenderSegment.setAgeString("2030");
-		nibrsError = rule.apply(offenderSegment);
-		assertNull(nibrsError);
-		
-	}
-	
-	@Test
-	public void testRule509() {
-
-		Rule<OffenderSegment> rule = rulesFactory.getRule509();
-
-		OffenderSegment offenderSegment = buildBaseSegment();
-		offenderSegment.setAgeString("123");
-		NIBRSError nibrsError = rule.apply(offenderSegment);
-		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._509, nibrsError.getNIBRSErrorCode());
-		assertEquals("37", nibrsError.getDataElementIdentifier());
-		assertEquals("123", nibrsError.getValue());
-
-		offenderSegment.setAgeString("2030");
-		nibrsError = rule.apply(offenderSegment);
-		assertNull(nibrsError);
-		
-	}
-	
-	@Test
-	public void testRule522() {
-
-		Rule<OffenderSegment> rule = rulesFactory.getRule522();
-
-		OffenderSegment offenderSegment = buildBaseSegment();
-		offenderSegment.setAgeString("0020");
-		NIBRSError nibrsError = rule.apply(offenderSegment);
-		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._522, nibrsError.getNIBRSErrorCode());
-		assertEquals("37", nibrsError.getDataElementIdentifier());
-		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
-
-		offenderSegment.setAgeString("2030");
+		offenderSegment.setAge(NIBRSAge.getAge(20, 30));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
@@ -302,11 +240,11 @@ public class OffenderSegmentRulesFactoryTest {
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
-		offenderSegment.setAgeString("25  ");
+		offenderSegment.setAge(NIBRSAge.getAge(25, null));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
-		offenderSegment.setAgeString("08  ");
+		offenderSegment.setAge(NIBRSAge.getAge(8, null));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
@@ -329,12 +267,12 @@ public class OffenderSegmentRulesFactoryTest {
 		Rule<OffenderSegment> rule = rulesFactory.getRule552ForAge();
 		OffenderSegment offenderSegment = buildBaseSegment();
 		offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(0));
-		offenderSegment.setAgeString("29  ");
+		offenderSegment.setAge(NIBRSAge.getAge(29, null));
 		NIBRSError e = rule.apply(offenderSegment);
 		assertNotNull(e);
 		assertEquals("37", e.getDataElementIdentifier());
 		assertEquals(NIBRSErrorCode._552, e.getNIBRSErrorCode());
-		offenderSegment.setAgeString(null);
+		offenderSegment.setAge(null);
 		e = rule.apply(offenderSegment);
 		assertNull(e);
 	}
@@ -423,35 +361,35 @@ public class OffenderSegmentRulesFactoryTest {
 		assertNull(nibrsError);
 		
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.PA.code);
-		victimSegment.setAgeString("00  ");
-		offenderSegment.setAgeString("00  ");
+		victimSegment.setAge(NIBRSAge.getUnknownAge());
+		offenderSegment.setAge(NIBRSAge.getUnknownAge());
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 
-		victimSegment.setAgeString("20  ");
+		victimSegment.setAge(NIBRSAge.getAge(20, null));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
-		victimSegment.setAgeString("00  ");
-		offenderSegment.setAgeString("20  ");
+		victimSegment.setAge(NIBRSAge.getUnknownAge());
+		offenderSegment.setAge(NIBRSAge.getAge(20, null));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 
-		victimSegment.setAgeString("50  ");
+		victimSegment.setAge(NIBRSAge.getAge(50, null));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		
-		victimSegment.setAgeString("10  ");
+		victimSegment.setAge(NIBRSAge.getAge(10, null));
 		nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);
 		assertEquals(NIBRSErrorCode._554, nibrsError.getNIBRSErrorCode());
 		assertEquals("37", nibrsError.getDataElementIdentifier());
 		assertEquals(offenderSegment.getAge(), nibrsError.getValue());
 		
-		offenderSegment.setAgeString("2030");
-		victimSegment.setAgeString("1015");
+		offenderSegment.setAge(NIBRSAge.getAge(20, 30));
+		victimSegment.setAge(NIBRSAge.getAge(10, 15));
 		nibrsError = rule.apply(offenderSegment);
 		assertNotNull(nibrsError);
-		victimSegment.setAgeString("1025");
+		victimSegment.setAge(NIBRSAge.getAge(10, 25));
 		nibrsError = rule.apply(offenderSegment);
 		assertNull(nibrsError);
 		

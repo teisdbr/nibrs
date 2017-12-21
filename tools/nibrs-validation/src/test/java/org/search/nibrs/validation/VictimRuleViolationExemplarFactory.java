@@ -25,6 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
@@ -263,22 +264,12 @@ final class VictimRuleViolationExemplarFactory {
 				
 		});
 		
-		groupATweakerMap.put(409, incident -> {
-			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
-			//component must be less than the second age.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString("302 ");
-			incidents.add(copy);
-			return incidents;
-		});
-		
 		groupATweakerMap.put(410, incident -> {
 			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
 			//component must be less than the second age.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString("3025");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(30, 25));
 			incidents.add(copy);
 			return incidents;
 		});
@@ -321,26 +312,12 @@ final class VictimRuleViolationExemplarFactory {
 			
 		});
 		
-		groupATweakerMap.put(422, incident -> {
-			
-			//(Age of Victim) was entered as an age-range. Accordingly, the first age 
-			//component must be less than the second age.
-			
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString("0025");
-			incidents.add(copy);
-				
-			return incidents;
-				
-		});
-		
 		groupATweakerMap.put(449, incident -> {
 			//This is a warning message. Data Element 26 (Age of Victim) cannot be less than 18 years old when 
 			//Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString("17");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(17, null));
 			incidents.add(copy);
 				
 			return incidents;
@@ -352,7 +329,7 @@ final class VictimRuleViolationExemplarFactory {
 			//age of the victim cannot be less than 10 years.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString("09");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(9, null));
 			incidents.add(copy);
 				
 			return incidents;
@@ -369,7 +346,7 @@ final class VictimRuleViolationExemplarFactory {
 			victim2.setTypeOfVictim("I");
 			victim2.setTypeOfInjury(0, "M");
 			victim2.setVictimSequenceNumber(new ParsedObject<>(1));
-			victim2.setAgeString("2022");
+			victim2.setAge(NIBRSAge.getAge(20, 22));
 			victim2.setEthnicity("N");
 			victim2.setResidentStatus("R");
 			victim2.setSex("F");
@@ -392,7 +369,7 @@ final class VictimRuleViolationExemplarFactory {
 			//present when Data Element 25 (Type of Victim) is I=Individual.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getVictims().get(0).setAgeString(null);
+			copy.getVictims().get(0).setAge(null);
 			GroupAIncidentReport copy2 = new GroupAIncidentReport(incident);
 			copy2.getVictims().get(0).setSex(null);			
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
@@ -427,7 +404,7 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy3 = new GroupAIncidentReport(incident);
 			copy3.getVictims().get(0).setTypeOfOfficerActivityCircumstance("01");
 			copy3.getVictims().get(0).setOfficerAssignmentType("K");
-			copy3.getVictims().get(0).setAgeString(null);
+			copy3.getVictims().get(0).setAge(null);
 			copy3.getVictims().get(0).setTypeOfVictim("L");
 			//Sex is null
 			GroupAIncidentReport copy4 = new GroupAIncidentReport(incident);
@@ -535,7 +512,7 @@ final class VictimRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("200");
 			copy.getVictims().get(0).setTypeOfVictim("B");
-			copy.getVictims().get(0).setAgeString("NB");
+			copy.getVictims().get(0).setAge(NIBRSAge.getNewbornAge());
 			incidents.add(copy);
 			
 			return incidents;
@@ -756,7 +733,7 @@ final class VictimRuleViolationExemplarFactory {
 			//must be entered as RU=Relationship Unknown.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setAgeString("00");
+			copy.getOffenders().get(0).setAge(NIBRSAge.getUnknownAge());
 			copy.getOffenders().get(0).setSex("U");
 			copy.getOffenders().get(0).setRace("U");
 			incidents.add(copy);
@@ -899,7 +876,7 @@ final class VictimRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getOffenses().get(0).setUcrOffenseCode("36B");
 			copy.getVictims().get(0).setUcrOffenseCodeConnection(0, "36B");
-			copy.getVictims().get(0).setAgeString("19");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(19, null));
 			
 			incidents.add(copy);
 			

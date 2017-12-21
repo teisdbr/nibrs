@@ -25,6 +25,7 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
@@ -78,7 +79,7 @@ final class BaselineIncidentFactory {
 		v.setTypeOfVictim("I");
 		v.setTypeOfInjury(0, "N");
 		v.setVictimSequenceNumber(new ParsedObject<>(1));
-		v.setAgeString("2022");
+		v.setAge(NIBRSAge.getAge(20, 22));
 		v.setEthnicity("N");
 		v.setResidentStatus("R");
 		v.setSex("F");
@@ -90,7 +91,7 @@ final class BaselineIncidentFactory {
 		OffenderSegment offender = new OffenderSegment();
 		incident.addOffender(offender);
 		offender.setOffenderSequenceNumber(new ParsedObject<>(1));
-		offender.setAgeString("22");
+		offender.setAge(NIBRSAge.getAge(22, null));
 		offender.setRace("W");
 		offender.setSex("M");
 		offender.setEthnicity("H");
@@ -104,7 +105,7 @@ final class BaselineIncidentFactory {
 		arrestee.setMultipleArresteeSegmentsIndicator("N");
 		arrestee.setUcrArrestOffenseCode("13A");
 		arrestee.setArresteeArmedWith(0,"01");
-		arrestee.setAgeString("22");
+		arrestee.setAge(NIBRSAge.getAge(22, null));
 		arrestee.setSex("M");
 		arrestee.setRace("W");
 		arrestee.setEthnicity("U");
@@ -133,7 +134,7 @@ final class BaselineIncidentFactory {
 		arrestee.setTypeOfArrest("O");
 		arrestee.setUcrArrestOffenseCode("90A");
 		arrestee.setArresteeArmedWith(0, "01");
-		arrestee.setAgeString("22");
+		arrestee.setAge(NIBRSAge.getAge(22, null));
 		arrestee.setSex("M");
 		arrestee.setRace("W");
 		arrestee.setEthnicity("U");

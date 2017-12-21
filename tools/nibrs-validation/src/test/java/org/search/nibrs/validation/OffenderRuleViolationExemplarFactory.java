@@ -25,6 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
@@ -126,15 +127,7 @@ final class OffenderRuleViolationExemplarFactory {
 			//rst age component must be less than the second age.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setAgeString("3020");
-			incidents.add(copy);
-			return incidents;
-		});		
-		
-		groupATweakerMap.put(509,incident -> {
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setAgeString("321");
+			copy.getOffenders().get(0).setAge(NIBRSAge.getAge(30, 20));
 			incidents.add(copy);
 			return incidents;
 		});		
@@ -144,7 +137,7 @@ final class OffenderRuleViolationExemplarFactory {
 			//the first age component cannot be 00 (unknown).
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setAgeString("0020");
+			copy.getOffenders().get(0).setAge(NIBRSAge.getAge(0, 20));
 			incidents.add(copy);
 			return incidents;
 		});		
@@ -159,7 +152,7 @@ final class OffenderRuleViolationExemplarFactory {
 			//contains a relationship of SE=Spouse.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setAgeString("09");
+			copy.getOffenders().get(0).setAge(NIBRSAge.getAge(9, null));
 			incidents.add(copy);
 			return incidents;
 		});		
@@ -171,7 +164,7 @@ final class OffenderRuleViolationExemplarFactory {
 			OffenderSegment offender = new OffenderSegment();
 			copy.addOffender(offender);
 			offender.setOffenderSequenceNumber(new ParsedObject<>(1));
-			offender.setAgeString("23");
+			offender.setAge(NIBRSAge.getAge(23, null));
 			offender.setRace("W");
 			offender.setSex("M");
 			offender.setEthnicity("H");
@@ -272,26 +265,26 @@ final class OffenderRuleViolationExemplarFactory {
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "PA");
-			copy.getVictims().get(0).setAgeString("10");
-			copy.getOffenders().get(0).setAgeString("30");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(10, null));
+			copy.getOffenders().get(0).setAge(NIBRSAge.getAge(30, null));
 			incidents.add(copy);
 			//Victim is child - offender Age must be older.
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "CH");
-			copy.getVictims().get(0).setAgeString("30");
-			copy.getOffenders().get(0).setAgeString("10");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(30, null));
+			copy.getOffenders().get(0).setAge(NIBRSAge.getAge(10, null));
 			incidents.add(copy);
 			//Victim is grandparent - offender must be younger
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "GP");
-			copy.getVictims().get(0).setAgeString("50");
-			copy.getOffenders().get(0).setAgeString("60");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(50, null));
+			copy.getOffenders().get(0).setAge(NIBRSAge.getAge(60, null));
 			incidents.add(copy);
 			//Victim is grandchild - offender must be older
 			copy = new GroupAIncidentReport(incident);
 			copy.getVictims().get(0).setVictimOffenderRelationship(0, "GC");
-			copy.getVictims().get(0).setAgeString("50");
-			copy.getOffenders().get(0).setAgeString("40");
+			copy.getVictims().get(0).setAge(NIBRSAge.getAge(50, null));
+			copy.getOffenders().get(0).setAge(NIBRSAge.getAge(40, null));
 			incidents.add(copy);
 					
 			return incidents;
@@ -316,7 +309,7 @@ final class OffenderRuleViolationExemplarFactory {
 			//(Age of Offender) must contain numeric entry of 00 through 99.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getOffenders().get(0).setAgeString("BB");
+			copy.getOffenders().get(0).setAge(NIBRSAge.getBabyAge());
 			incidents.add(copy);
 			return incidents;
 		});		
@@ -367,12 +360,12 @@ final class OffenderRuleViolationExemplarFactory {
 			
 			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
-			offenderSegment.setAgeString("00  ");
+			offenderSegment.setAge(NIBRSAge.getUnknownAge());
 			incidents.add(copy);
 			
 			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
-			offenderSegment.setAgeString(null);
+			offenderSegment.setAge(null);
 			incidents.add(copy);
 			
 			return incidents;
@@ -412,12 +405,12 @@ final class OffenderRuleViolationExemplarFactory {
 			
 			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
-			offenderSegment.setAgeString("00  ");
+			offenderSegment.setAge(NIBRSAge.getUnknownAge());
 			incidents.add(copy);
 			
 			copy = new GroupAIncidentReport(base);
 			offenderSegment = copy.getOffenders().get(0);
-			offenderSegment.setAgeString(null);
+			offenderSegment.setAge(null);
 			incidents.add(copy);
 			
 			return incidents;
@@ -433,7 +426,7 @@ final class OffenderRuleViolationExemplarFactory {
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
 			OffenderSegment offenderSegment = copy.getOffenders().get(0);
 			offenderSegment.setOffenderSequenceNumber(new ParsedObject<>(1));
-			offenderSegment.setAgeString("00");
+			offenderSegment.setAge(NIBRSAge.getUnknownAge());
 			offenderSegment.setSex("U");
 			offenderSegment.setRace("U");
 			VictimSegment victimSegment = copy.getVictims().get(0);

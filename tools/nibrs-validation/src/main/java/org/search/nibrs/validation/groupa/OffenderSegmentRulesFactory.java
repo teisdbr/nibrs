@@ -18,6 +18,8 @@ package org.search.nibrs.validation.groupa;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -35,6 +37,8 @@ import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.Rule;
 
 public class OffenderSegmentRulesFactory {
+	
+	private static final Logger LOG = LogManager.getLogger(OffenderSegmentRulesFactory.class);
 
 	private static abstract class RelatedVictimAndOffenderRule implements Rule<OffenderSegment> {
 		@Override
@@ -180,7 +184,20 @@ public class OffenderSegmentRulesFactory {
 	}
 
 	Rule<OffenderSegment> getRule556ForAgeOfOffender() {
-		return personSegmentRulesFactory.getAgeValidRule("37", NIBRSErrorCode._556, false);
+		return new Rule<OffenderSegment>() {
+			@Override
+			public NIBRSError apply(OffenderSegment offenderSegment) {
+				NIBRSError e = null;
+				NIBRSAge age = offenderSegment.getAge();
+				if (age != null && !age.isUnknown() && age.isNonNumeric()) {
+					e = offenderSegment.getErrorTemplate();
+					e.setNIBRSErrorCode(NIBRSErrorCode._556);
+					e.setDataElementIdentifier("37");
+					e.setValue(age.toString());
+				}
+				return e;
+			}
+		};
 	}
 
 	Rule<OffenderSegment> getRule504ForSexOfOffender() {
@@ -213,8 +230,8 @@ public class OffenderSegmentRulesFactory {
 			protected NIBRSError validateRelatedVictimAndOffender(OffenderSegment offenderSegment, VictimSegment victimSegment, String relationship) {
 				NIBRSAge age = offenderSegment.getAge();
 				NIBRSError e = null;
-				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && !age.isUnknown() && age.getError() == null 
-						&& !age.hasInvalidLength() && age.getAgeMin() < 10) {
+				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && !age.isNonNumeric() && age.getError() == null 
+						&& !age.isInvalid() && age.getAgeMin() < 10) {
 					e = offenderSegment.getErrorTemplate();
 					e.setDataElementIdentifier("37");
 					e.setValue(age);
@@ -231,8 +248,8 @@ public class OffenderSegmentRulesFactory {
 			protected NIBRSError validateRelatedVictimAndOffender(OffenderSegment offenderSegment, VictimSegment victimSegment, String relationship) {
 				NIBRSAge age = offenderSegment.getAge();
 				NIBRSError e = null;
-				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && !age.isUnknown() && age.getError() == null 
-						&& !age.hasInvalidLength() && age.getAgeMin() < 13) {
+				if (RelationshipOfVictimToOffenderCode.SE.code.equals(relationship) && age != null && !age.isNonNumeric() && age.getError() == null 
+						&& !age.isInvalid() && age.getAgeMin() < 13) {
 					e = offenderSegment.getErrorTemplate();
 					e.setDataElementIdentifier("37");
 					e.setValue(age);

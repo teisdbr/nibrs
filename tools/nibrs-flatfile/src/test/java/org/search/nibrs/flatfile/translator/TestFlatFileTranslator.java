@@ -18,6 +18,7 @@ package org.search.nibrs.flatfile.translator;
 
 import org.junit.Test;
 import org.search.nibrs.common.ParsedObject;
+import org.search.nibrs.flatfile.NIBRSAgeBuilder;
 import org.search.nibrs.model.*;
 import org.search.nibrs.model.codes.*;
 
@@ -88,7 +89,7 @@ public class TestFlatFileTranslator {
             as.setArresteeArmedWith(i, TypeOfWeaponForceCode._99.code);
             as.setAutomaticWeaponIndicator(i, AutomaticWeaponIndicatorCode.A.code);
         }
-        as.setAgeString("40");
+        as.setAge(NIBRSAgeBuilder.buildAgeFromRawString("40", as));
         as.setSex(SexCode.F.code);
         as.setRace(RaceCode.A.code);
         as.setEthnicity(EthnicityCode.N.code);
@@ -200,7 +201,7 @@ public class TestFlatFileTranslator {
         {
             vs.setUcrOffenseCodeConnection(i, OffenseCode.values()[i].code);
         }
-        vs.setAgeString(AgeOfVictimCode.BB.code);
+        vs.setAge(NIBRSAgeBuilder.buildAgeFromRawString(AgeOfVictimCode.BB.code, vs));
         vs.setSex(SexCode.M.code);
         vs.setRace(RaceOfOffenderCode.U.code);
         vs.setEthnicity(EthnicityCode.N.code);
@@ -245,7 +246,7 @@ public class TestFlatFileTranslator {
     public void testOffenderAllFields()
     {
         OffenderSegment os = makeOffenderSegment(1);
-        os.setAgeString("2830");
+        os.setAge(NIBRSAgeBuilder.buildAgeFromRawString("2830", os));
         os.setSex(SexCode.U.code);
         os.setRace(RaceCode.P.code);
         os.setEthnicity(EthnicityCode.H.code);
@@ -318,7 +319,7 @@ public class TestFlatFileTranslator {
             firstAs.setArresteeArmedWith(i, TypeOfWeaponForceCode._99.code);
             firstAs.setAutomaticWeaponIndicator(i, AutomaticWeaponIndicatorCode.A.code);
         }
-        firstAs.setAgeString("40");
+        firstAs.setAge(NIBRSAgeBuilder.buildAgeFromRawString("40", firstAs));
         firstAs.setSex(SexCode.F.code);
         firstAs.setRace(RaceCode.A.code);
         firstAs.setEthnicity(EthnicityCode.N.code);

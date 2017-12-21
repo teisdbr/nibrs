@@ -31,6 +31,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.flatfile.FlatfileConstants;
+import org.search.nibrs.flatfile.NIBRSAgeBuilder;
 import org.search.nibrs.flatfile.util.StringUtils;
 import org.search.nibrs.importer.AbstractIncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
@@ -39,6 +40,7 @@ import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.BadSegmentLevelReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -193,6 +195,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		List<NIBRSError> newErrorList = new ArrayList<>();
 		GroupBArrestReport ret = new GroupBArrestReport();
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+		arrestee.setParentReport(ret);
 		String segmentData = s.getData();
 		ret.setOri(s.getOri());
 		ret.setReportActionType(s.getActionType());
@@ -263,7 +266,8 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				arrestee.setArresteeArmedWith(i, StringUtils.getStringBetween(52 + 3 * i, 53 + 3 * i, segmentData));
 				arrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(54 + 3 * i, 54 + 3 * i, segmentData));
 			}
-			arrestee.setAgeString(StringUtils.getStringBetween(58, 61, segmentData));
+			NIBRSAge arresteeAge = NIBRSAgeBuilder.buildAgeFromRawString(StringUtils.getStringBetween(58, 61, segmentData), arrestee);
+			arrestee.setAge(arresteeAge);
 			arrestee.setSex(StringUtils.getStringBetween(62, 62, segmentData));
 			arrestee.setRace(StringUtils.getStringBetween(63, 63, segmentData));
 			arrestee.setEthnicity(StringUtils.getStringBetween(64, 64, segmentData));
@@ -490,19 +494,19 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		char segmentType = s.getSegmentType();
 		switch (segmentType) {
 		case OffenseSegment.OFFENSE_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addOffense(buildOffenseSegment(s, newErrorList));
+			currentIncident.addOffense(buildOffenseSegment(s, currentIncident, newErrorList));
 			break;
 		case PropertySegment.PROPERTY_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addProperty(buildPropertySegment(s, newErrorList));
+			currentIncident.addProperty(buildPropertySegment(s, currentIncident, newErrorList));
 			break;
 		case VictimSegment.VICTIM_SEGMENT_TYPE_IDENTIFIER:
 			currentIncident.addVictim(buildVictimSegment(s, currentIncident, newErrorList));
 			break;
 		case OffenderSegment.OFFENDER_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addOffender(buildOffenderSegment(s, newErrorList));
+			currentIncident.addOffender(buildOffenderSegment(s, currentIncident, newErrorList));
 			break;
 		case ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER:
-			currentIncident.addArrestee(buildGroupAArresteeSegment(s, newErrorList));
+			currentIncident.addArrestee(buildGroupAArresteeSegment(s, currentIncident, newErrorList));
 			break;
 		default:
 			NIBRSError error = new NIBRSError();
@@ -518,8 +522,9 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		errorList.addAll(newErrorList);
 	}
 
-	private ArresteeSegment buildGroupAArresteeSegment(Segment s, List<NIBRSError> errorList) {
+	private ArresteeSegment buildGroupAArresteeSegment(Segment s, GroupAIncidentReport parent, List<NIBRSError> errorList) {
 		ArresteeSegment newArrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+		newArrestee.setParentReport(parent);
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == FlatfileConstants.GROUP_A_ARRESTEE_SEGMENT_LENGTH) {
@@ -588,7 +593,8 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			for (int i = 0; i < ArresteeSegment.AUTOMATIC_WEAPON_INDICATOR_COUNT; i++) {
 				newArrestee.setAutomaticWeaponIndicator(i, StringUtils.getStringBetween(67 + 3 * i, 67 + 3 * i, segmentData));
 			}
-			newArrestee.setAgeString(StringUtils.getStringBetween(71, 74, segmentData));
+			NIBRSAge arresteeAge = NIBRSAgeBuilder.buildAgeFromRawString(StringUtils.getStringBetween(71, 74, segmentData), newArrestee);
+			newArrestee.setAge(arresteeAge);
 			newArrestee.setSex(StringUtils.getStringBetween(75, 75, segmentData));
 			newArrestee.setRace(StringUtils.getStringBetween(76, 76, segmentData));
 			newArrestee.setEthnicity(StringUtils.getStringBetween(77, 77, segmentData));
@@ -606,8 +612,9 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		return newArrestee;
 	}
 
-	private OffenderSegment buildOffenderSegment(Segment s, List<NIBRSError> errorList) {
+	private OffenderSegment buildOffenderSegment(Segment s, GroupAIncidentReport parent, List<NIBRSError> errorList) {
 		OffenderSegment newOffender = new OffenderSegment();
+		newOffender.setParentReport(parent);
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 		if (length == FlatfileConstants.OFFENDER_WITHOUT_ETHNICITY_SEGMENT_LENGTH || length == FlatfileConstants.OFFENDER_WITH_ETHNICITY_SEGMENT_LENGTH) {
@@ -637,7 +644,8 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				}
 			}
 			
-			newOffender.setAgeString(StringUtils.getStringBetween(40, 43, segmentData));
+			NIBRSAge offenderAge = NIBRSAgeBuilder.buildAgeFromRawString(StringUtils.getStringBetween(40, 43, segmentData), newOffender);
+			newOffender.setAge(offenderAge);
 			newOffender.setSex(StringUtils.getStringBetween(44, 44, segmentData));
 			newOffender.setRace(StringUtils.getStringBetween(45, 45, segmentData));
 			boolean hasOffenderEthnicity = length == FlatfileConstants.OFFENDER_WITH_ETHNICITY_SEGMENT_LENGTH;
@@ -659,6 +667,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 	private VictimSegment buildVictimSegment(Segment s, GroupAIncidentReport parentIncident, List<NIBRSError> errorList) {
 
 		VictimSegment newVictim = new VictimSegment();
+		newVictim.setParentReport(parentIncident);
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
@@ -726,7 +735,10 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			}
 
 			newVictim.setTypeOfVictim(StringUtils.getStringBetween(71, 71, segmentData));
-			newVictim.setAgeString(StringUtils.getStringBetween(72, 75, segmentData));
+			
+			NIBRSAge victimAge = NIBRSAgeBuilder.buildAgeFromRawString(StringUtils.getStringBetween(72, 75, segmentData), newVictim);
+			newVictim.setAge(victimAge);
+			
 			newVictim.setSex(StringUtils.getStringBetween(76, 76, segmentData));
 			newVictim.setRace(StringUtils.getStringBetween(77, 77, segmentData));
 			newVictim.setEthnicity(StringUtils.getStringBetween(78, 78, segmentData));
@@ -764,9 +776,10 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 
 	}
 
-	private PropertySegment buildPropertySegment(Segment s, List<NIBRSError> errorList) {
+	private PropertySegment buildPropertySegment(Segment s, GroupAIncidentReport parentIncident, List<NIBRSError> errorList) {
 
 		PropertySegment newProperty = new PropertySegment();
+		newProperty.setParentReport(parentIncident);
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();
 
@@ -922,9 +935,10 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		}
 	}
 
-	private OffenseSegment buildOffenseSegment(Segment s, List<NIBRSError> errorList) {
+	private OffenseSegment buildOffenseSegment(Segment s, GroupAIncidentReport parentIncident, List<NIBRSError> errorList) {
 
 		OffenseSegment newOffense = new OffenseSegment();
+		newOffense.setParentReport(parentIncident);
 
 		String segmentData = s.getData();
 		int length = s.getSegmentLength();

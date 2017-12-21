@@ -110,7 +110,7 @@ public class OffenseSegment extends AbstractSegment
     }
 
     @Override
-    protected void setParentReport(AbstractReport parentReport) {
+    public void setParentReport(AbstractReport parentReport) {
     	super.setParentReport(parentReport);
     }
 
