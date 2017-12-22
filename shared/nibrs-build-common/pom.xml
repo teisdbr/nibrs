@@ -21,29 +21,27 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- Note Not setting parent to ojb main root pom, to avoid cyclic issue -->
-
 	<groupId>org.search.nibrs</groupId>
-	<artifactId>ojb-build-common</artifactId>
+	<artifactId>nibrs-build-common</artifactId>
 	<version>1.0.0</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
-	<description>A component of the OJBC</description>
-	<url>http://www.ojbc.org/</url>
+	<description>Common build module for NIBRS toolkit</description>
+	<url>http://www.search.org/</url>
 
 	<licenses>
 		<license>
-			<name>RPL-1.5 - OJBC</name>
-			<url>http://opensource.org/licenses/RPL-1.5</url>
+			<name>Apache 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
 
 	<developers>
 		<developer>
-			<name>OJBC Developers</name>
-			<email>info@ojbc.org</email>
-			<organization>OJBC</organization>
-			<organizationUrl>http://www.ojbc.org/</organizationUrl>
+			<name>SEARCH</name>
+			<email>info@search.org</email>
+			<organization>SEARCH</organization>
+			<organizationUrl>http://www.search.org/</organizationUrl>
 		</developer>
 	</developers>
 
@@ -95,7 +93,7 @@
 
 				<configuration>
 					<!-- Reference license on plugin classpath -->
-					<header>ojb-license-search.txt</header>
+					<header>license-search.txt</header>
 					<includes>
 						<include>**/*.java</include>
 						<include>**/*.xml</include>
@@ -177,8 +175,8 @@
 						<dependencies>
 							<!-- Reference jar with javadoc dir TODO: get working so readme included -->
 							<dependency>
-								<groupId>org.ojbc.build</groupId>
-								<artifactId>ojb-build-common</artifactId>
+								<groupId>org.search.nibrs.build</groupId>
+								<artifactId>nibrs-build-common</artifactId>
 								<version>1.0.0</version>
 							</dependency>
 						</dependencies>

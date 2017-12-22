@@ -26,9 +26,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ArrestReportSegmentWasArmedWith;
 import org.search.nibrs.stagingdata.model.DateType;
@@ -42,19 +43,32 @@ import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 
 @Entity
+@NamedEntityGraph(name="allArrestReportSegmentJoins", attributeNodes = {
+        @NamedAttributeNode("segmentActionType"),
+        @NamedAttributeNode("agency"),
+        @NamedAttributeNode("arrestDateType"),
+        @NamedAttributeNode("typeOfArrestType"),
+        @NamedAttributeNode("sexOfPersonType"),
+        @NamedAttributeNode("raceOfPersonType"),
+        @NamedAttributeNode("ethnicityOfPersonType"),
+        @NamedAttributeNode("residentStatusOfPersonType"),
+        @NamedAttributeNode("dispositionOfArresteeUnder18Type"),
+        @NamedAttributeNode("ucrOffenseCodeType"),
+        @NamedAttributeNode("arrestReportSegmentWasArmedWiths")
+	})
 public class ArrestReportSegment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer arrestReportSegmentId;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="segmentActionTypeTypeID") 
 	private SegmentActionTypeType segmentActionType; 
 	private String monthOfTape; 
 	private String yearOfTape; 
 	private String cityIndicator;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="agencyId")
 	private Agency agency; 
 	private String ori; 
@@ -62,36 +76,41 @@ public class ArrestReportSegment {
 	private Integer arresteeSequenceNumber; 
 	private Date arrestDate;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="arrestDateId")
 	private DateType arrestDateType; 
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="typeOfArrestTypeId") 
 	private TypeOfArrestType typeOfArrestType; 
 	private Integer ageOfArresteeMin; 
-	private Integer ageOfArresteeMax; 
-	@ManyToOne
+	private Integer ageOfArresteeMax;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="sexOfPersonTypeId") 
-	private SexOfPersonType sexOfPersonType; 
-	@ManyToOne
+	private SexOfPersonType sexOfPersonType;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="raceOfPersonTypeId") 
 	private RaceOfPersonType raceOfPersonType;
-	@ManyToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ethnicityOfPersonTypeId") 
 	private EthnicityOfPersonType ethnicityOfPersonType;
-	@ManyToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="residentStatusOfPersonTypeId") 
 	private ResidentStatusOfPersonType residentStatusOfPersonType;
-	@ManyToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="dispositionOfArresteeUnder18TypeId") 
 	private DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ucrOffenseCodeTypeId")
 	private UcrOffenseCodeType ucrOffenseCodeType;
 	
-	@OneToMany(mappedBy = "arrestReportSegment", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "arrestReportSegment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ArrestReportSegmentWasArmedWith> arrestReportSegmentWasArmedWiths;
 	
 	public Integer getArrestReportSegmentId() {
@@ -153,9 +172,6 @@ public class ArrestReportSegment {
 	}
 	public void setAgeOfArresteeMax(Integer ageOfArresteeMax) {
 		this.ageOfArresteeMax = ageOfArresteeMax;
-	}
-	public String toString(){
-		return ToStringBuilder.reflectionToString(this);
 	}
 	public UcrOffenseCodeType getUcrOffenseCodeType() {
 		return ucrOffenseCodeType;
@@ -233,8 +249,6 @@ public class ArrestReportSegment {
 		result = prime * result + ((arrestDate == null) ? 0 : arrestDate.hashCode());
 		result = prime * result + ((arrestDateType == null) ? 0 : arrestDateType.hashCode());
 		result = prime * result + ((arrestReportSegmentId == null) ? 0 : arrestReportSegmentId.hashCode());
-		result = prime * result
-				+ ((arrestReportSegmentWasArmedWiths == null) ? 0 : arrestReportSegmentWasArmedWiths.hashCode());
 		result = prime * result + ((arrestTransactionNumber == null) ? 0 : arrestTransactionNumber.hashCode());
 		result = prime * result + ((arresteeSequenceNumber == null) ? 0 : arresteeSequenceNumber.hashCode());
 		result = prime * result + ((cityIndicator == null) ? 0 : cityIndicator.hashCode());
@@ -291,10 +305,7 @@ public class ArrestReportSegment {
 				return false;
 		} else if (!arrestReportSegmentId.equals(other.arrestReportSegmentId))
 			return false;
-		if (arrestReportSegmentWasArmedWiths == null) {
-			if (other.arrestReportSegmentWasArmedWiths != null)
-				return false;
-		} else if (!arrestReportSegmentWasArmedWiths.equals(other.arrestReportSegmentWasArmedWiths))
+		else if (!arrestReportSegmentWasArmedWiths.equals(other.arrestReportSegmentWasArmedWiths))
 			return false;
 		if (arrestTransactionNumber == null) {
 			if (other.arrestTransactionNumber != null)
@@ -367,5 +378,18 @@ public class ArrestReportSegment {
 		} else if (!yearOfTape.equals(other.yearOfTape))
 			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "ArrestReportSegment [arrestReportSegmentId=" + arrestReportSegmentId + ", segmentActionType="
+				+ segmentActionType + ", monthOfTape=" + monthOfTape + ", yearOfTape=" + yearOfTape + ", cityIndicator="
+				+ cityIndicator + ", agency=" + agency + ", ori=" + ori + ", arrestTransactionNumber="
+				+ arrestTransactionNumber + ", arresteeSequenceNumber=" + arresteeSequenceNumber + ", arrestDate="
+				+ arrestDate + ", arrestDateType=" + arrestDateType + ", typeOfArrestType=" + typeOfArrestType
+				+ ", ageOfArresteeMin=" + ageOfArresteeMin + ", ageOfArresteeMax=" + ageOfArresteeMax
+				+ ", sexOfPersonType=" + sexOfPersonType + ", raceOfPersonType=" + raceOfPersonType
+				+ ", ethnicityOfPersonType=" + ethnicityOfPersonType + ", residentStatusOfPersonType="
+				+ residentStatusOfPersonType + ", dispositionOfArresteeUnder18Type=" + dispositionOfArresteeUnder18Type
+				+ ", ucrOffenseCodeType=" + ucrOffenseCodeType + "]";
 	}
 }

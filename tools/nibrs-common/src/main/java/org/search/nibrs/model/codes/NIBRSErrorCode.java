@@ -16,8 +16,8 @@
 package org.search.nibrs.model.codes;
 
 public enum NIBRSErrorCode {
-	
-	
+
+
 	_015("015","Structure Check","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit found embedded blanks between the first and last significant characters."),
 /**
  * 016 not implemented
@@ -278,7 +278,8 @@ public enum NIBRSErrorCode {
  * 449 not in 3.1	
  */
     _449("449","Victim Segment","WARNING–VICTIM IS SPOUSE, BUT AGE IS LESS THAN 18","Data Element 26 (Age of Victim) cannot be less than 18 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse."),
-	_450("450","Victim Segment","VICTIM IS SPOUSE, BUT AGE IS LESS THAN 14","Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse. When this is so, the age of the victim cannot be less than 10 years."),
+	_450__2_1("450","Victim Segment","VICTIM IS SPOUSE, BUT AGE IS LESS THAN 10","Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse. When this is so, the age of the victim cannot be less than 10 years."),
+	_450__3_1("450","Victim Segment","VICTIM IS SPOUSE, BUT AGE IS LESS THAN 13","Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse. When this is so, the age of the victim cannot be less than 13 years."),
 	_451("451","Victim Segment","VICTIM NUMBER ALREADY EXISTS","When a Group 'A' Incident Report is submitted, the individual segments comprising the incident cannot contain duplicates. In this case, two victim segments were submitted having the same entry in Data Element 23 (Victim Sequence Number)."),
 	_453("453","Victim Segment","MUST BE PRESENT WHEN VICTIM TYPE (25)=I","The Data Element associated with this error must be present when Data Element 25 (Type of Victim) is I=Individual."),
 	_454("454","Victim Segment","MUST BE ENTERED WHEN VICTIM TYPE IS LAW ENFORCEMENT OFFICER","Data Element 25A (Type of Officer Activity/Circumstance), Data Element 25B (Officer Assignment Type), Data Element 26 (Age of Victim), Data Element 27 (Sex of Victim), and Data Element 28 (Race of Victim) must be entered when Data Element 25 (Type of Victim) is L=Law Enforcement Officer."),
@@ -350,7 +351,8 @@ public enum NIBRSErrorCode {
  * 549 not in 3.1	
  */
 	_549("549","Offender Segment","WARNING–OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 18","Data Element 37 (Age of Offender) cannot be less than 18 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE = Spouse."),
-	_550("550","Offender Segment","OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 10","Cannot be less than 10 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse."),
+	_550__2_1("550","Offender Segment","OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 10","Cannot be less than 10 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse."),
+	_550__3_1("550","Offender Segment","OFFENDER IS SPOUSE, BUT AGE IS LESS THAN 13","Cannot be less than 10 years old when Data Element 35 (Relationship of Victim to Offender) contains a relationship of SE=Spouse."),
 	_551("551","Offender Segment","DUPLICATE OFFENDER SEGMENT","When a Group 'A' Incident Report is submitted, the individual segments comprising the incident cannot contain duplicates. In this case, two Offender Segments were submitted having the same entry in Data Element 36 (Offender Sequence Number)."),
 	_552("552","Offender Segment","CANNOT BE PRESENT WHEN OFFENDER NUMBER IS '00' UNKNOWN","Data Element 37 (Age of Offender) cannot be entered when Data Element 36 (Offender Sequence Number) is 00=Unknown."),
 /**
@@ -421,7 +423,7 @@ public enum NIBRSErrorCode {
 	_667("667","Arrestee Segment","INVALID ARRESTEE SEX VALUE","Data Element 48 (Sex of Arrestee) does not contain a valid code of M=Male or F=Female. Note: U=Unknown (if entered) is not a valid sex for an arrestee."),
 	_669("669","Arrestee Segment","NO ARRESTEE RECORDS ALLOWED FOR A JUSTIFIABLE HOMICIDE","Group 'A' Incident Reports cannot have arrests when Data Element 6 (UCR Offense Code) is 09C=Justifiable Homicide. By definition a justifiable homicide never involves an arrest of the offender (the person who committed the justifiable homicide)."),
 	_670("670","Arrestee Segment","JUSTIFIABLE HOMICIDE CANNOT BE AN ARREST OFFENSE CODE","Data Element 45 (UCR Arrest Offense Code) was entered with 09C=Justifiable Homicide. This is not a valid arrest offense"),
-	_701("701","Group B Arrest Segment","MUST BE POPULATED WITH A VALID DATA VALUE– MANDATORY FIELD","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
+	_701("701","Group B Arrest Segment","MUST BE POPULATED WITH A VALID DATA VALUE– MANDATORY FIELD","The referenced data element in a Group B Arrest Report must be populated with a valid data value and cannot be blank."),
 	_702("702","Group B Arrest Segment","CONTAINS NONNUMERIC ENTRY","Data Element 40 (Arrestee Sequence Number) must be numeric entry of 01 to 99 with zero left- fill."),
 	_704("704","Group B Arrest Segment","INVALID DATA VALUE","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_705("705","Group B Arrest Segment","INVALID ARREST DATE","Data Element 42 (Arrest Date) Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31 days). The date cannot exceed the current date. The date cannot be later than that entered within the Month of Electronic submission and Year of Electronic submission fields on the data record. For example, if Month of Electronic submission and Year of Electronic submission are 06/1999, the arrest date cannot contain any date 07/01/1999 or later."),

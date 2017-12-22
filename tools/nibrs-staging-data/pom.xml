@@ -113,6 +113,10 @@
 			<version>${poi-version}</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-ehcache</artifactId>
+	    </dependency>
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

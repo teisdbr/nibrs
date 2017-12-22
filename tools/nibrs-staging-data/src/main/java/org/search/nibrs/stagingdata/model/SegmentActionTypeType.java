@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity
+@Cacheable
 public class SegmentActionTypeType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

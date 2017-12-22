@@ -29,7 +29,6 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 
-
 @Entity
 public class SuspectedDrugType implements Serializable{
 

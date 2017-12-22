@@ -18,6 +18,7 @@ package org.search.nibrs.stagingdata.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +33,7 @@ import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 
 
 @Entity
+@Cacheable
 public class PropertyType implements Serializable{
 
 	private static final long serialVersionUID = -2370698406499145556L;

@@ -43,10 +43,11 @@ import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.importer.AbstractIncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.model.AbstractSegment;
 import org.search.nibrs.model.ArresteeSegment;
-import org.search.nibrs.model.BadSegmentLevelReport;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -358,9 +359,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 		Node personNode = XmlUtils.xPathNodeSearch(reportElement,  "nc:Person");
 
-		String ageString = parseAgeString(personNode);
+		NIBRSAge arresteeAge = parseAgeNode(personNode, arrestee);
 		
-		arrestee.setAgeString(ageString);
+		arrestee.setAge(arresteeAge);
 		
 		arrestee.setSex(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonSexCode"));
 		arrestee.setRace(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonRaceNDExCode"));
@@ -378,7 +379,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		return ret;
 	}
 
-	private String parseAgeString(Node personNode) {
+	private NIBRSAge parseAgeNode(Node personNode, AbstractSegment segmentContext) {
+		
+		NIBRSAge ret = null;
 
 		String ageString = XmlUtils.xPathStringSearch(personNode, "nc:PersonAgeMeasure/nc:MeasureIntegerValue|nc:PersonAgeMeasure/nc:MeasureValueText");
 		ageString = StringUtils.leftPad(ageString, 2); 
@@ -389,20 +392,33 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			ageString = StringUtils.join(StringUtils.leftPad(ageMinString, 2), StringUtils.leftPad(ageMaxString, 2)); 
 		}
 		
-		switch (ageString){
-		case "NEONATAL": 
-			return "NN"; 
-		case "NEWBORN": 
-			return "NB";
-		case "BABY": 
-			return "BB";
-		case "UNKNOWN": 
-			return "00";
-		default:
-		}
-		return ageString;
-	}
+		if (!StringUtils.isBlank(ageString)) {
 
+			ret = new NIBRSAge();
+
+			switch (ageString) {
+			case "NEONATAL":
+				ret = NIBRSAge.getNeonateAge();
+				break;
+			case "NEWBORN":
+				ret = NIBRSAge.getNewbornAge();
+				break;
+			case "BABY":
+				ret = NIBRSAge.getBabyAge();
+				break;
+			case "UNKNOWN":
+				ret = NIBRSAge.getUnknownAge();
+				break;
+			default:
+				log.info(ageString);
+				ret = NIBRSAgeBuilder.buildAgeFromRawString(ageString, segmentContext);
+			}
+
+		}
+		
+		return ret;
+	}
+	
 	private void getIntegerValue(List<NIBRSError> errorList, ParsedObject<Integer> parsedObject,
 			String stringValue, NIBRSErrorCode nibrsErrorCode,  String dataElementId, ReportBaseData reportBaseData) {
 		try {
@@ -652,7 +668,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			String personRef = XmlUtils.xPathStringSearch(arresteeElement, "nc:RoleOfPerson/@s:ref");
 			Node personNode = XmlUtils.xPathNodeSearch(reportElement, "nc:Person[@s:id ='" + personRef + "']");
 			
-			newArrestee.setAgeString( parseAgeString(personNode ));
+			newArrestee.setAge(parseAgeNode(personNode, newArrestee));
 			newArrestee.setSex(XmlUtils.xPathStringSearch(personNode, "j:PersonSexCode"));
 			newArrestee.setRace(XmlUtils.xPathStringSearch(personNode, "j:PersonRaceNDExCode"));
 			newArrestee.setEthnicity(XmlUtils.xPathStringSearch(personNode, "j:PersonEthnicityCode"));
@@ -704,7 +720,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			String personRef = XmlUtils.xPathStringSearch(offenderElement, "nc:RoleOfPerson/@s:ref");
 			Node personNode = XmlUtils.xPathNodeSearch(reportElement, "nc:Person[@s:id ='" + personRef + "']");
 			
-			newOffender.setAgeString( parseAgeString(personNode ));
+			newOffender.setAge(parseAgeNode(personNode, newOffender));
 			newOffender.setSex(XmlUtils.xPathStringSearch(personNode, "j:PersonSexCode"));
 			newOffender.setRace(XmlUtils.xPathStringSearch(personNode, "j:PersonRaceNDExCode"));
 			newOffender.setEthnicity(XmlUtils.xPathStringSearch(personNode, "j:PersonEthnicityCode"));
@@ -802,7 +818,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			String personRef = XmlUtils.xPathStringSearch(victimElement, "nc:RoleOfPerson/@s:ref");
 			Node personNode = XmlUtils.xPathNodeSearch(reportElement, "nc:Person[@s:id ='" + personRef + "']");
 			
-			newVictim.setAgeString( parseAgeString(personNode ));
+			newVictim.setAge(parseAgeNode(personNode, newVictim));
 			newVictim.setSex(XmlUtils.xPathStringSearch(personNode, "j:PersonSexCode"));
 			newVictim.setRace(XmlUtils.xPathStringSearch(personNode, "j:PersonRaceNDExCode"));
 			newVictim.setEthnicity(XmlUtils.xPathStringSearch(personNode, "j:PersonEthnicityCode"));

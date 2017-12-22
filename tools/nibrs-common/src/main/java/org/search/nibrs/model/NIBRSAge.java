@@ -18,7 +18,6 @@ package org.search.nibrs.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.model.codes.NIBRSErrorCode;
 
 /**
  * The class of objects representing an expression of a person's age in NIBRS.  An age expression can be a non-numeric code (e.g., for newborns), a single
@@ -34,9 +33,6 @@ public class NIBRSAge {
 	private Integer ageMax;
 	private String nonNumericAge;
 	private NIBRSError error;
-	private String ageString;
-	private boolean invalidValue;
-	private boolean invalidLength;
 	
 	public NIBRSAge() {
 	}
@@ -46,99 +42,31 @@ public class NIBRSAge {
 		this.ageMax = a.ageMax;
 		this.nonNumericAge = a.nonNumericAge;
 		this.error = a.error == null ? null : new NIBRSError(a.error);
-		this.ageString = a.ageString;
-		this.invalidValue = a.invalidValue;
-		this.invalidLength = a.invalidLength;
 	}
 	
-	String getAgeString() {
-		return ageString;
+	private NIBRSAge(String nonNumericAge) {
+		this.nonNumericAge = nonNumericAge;
 	}
 	
-	void setError(NIBRSError error) {
+	private NIBRSAge(Integer ageMin, Integer ageMax) {
+		this.ageMin = ageMin;
+		this.ageMax = ageMax;
+	}
+	
+	public void setError(NIBRSError error) {
 		this.error = error;
 	}
 	
-	void setAgeString(String ageString, char segmentContext) {
-		nonNumericAge = null;
-		ageMin = null;
-		ageMax = null;
-		error = null;
-		invalidValue = false;
-		invalidLength = false;
-		if (ageString != null) {
-			String ageStringTrim = ageString.trim();
-			if (ageStringTrim.length() == 4) {
-				try {
-					ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
-				} catch (NumberFormatException nfe) {
-					setNonNumericAgeError(segmentContext, ageString);
-					
-				}
-				try {
-					ageMax = Integer.parseInt(ageStringTrim.substring(2, 4));
-				} catch (NumberFormatException nfe) {
-					error = new NIBRSError();
-					error.setValue(ageString);
-					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "09"));
-					nonNumericAge = ageString;
-					invalidValue = true;
-				}
-			} else if (ageStringTrim.length() == 2) {
-				if ("NN".equals(ageStringTrim) || "NB".equals(ageStringTrim) || "BB".equals(ageStringTrim)) {
-					nonNumericAge = ageStringTrim;
-					ageMin = 0;
-					ageMax = 0;
-					
-					if (segmentContext != '4'){
-						setNonNumericAgeError(segmentContext, ageString);
-					}
-				} else if ("00".equals(ageStringTrim)) {
-					nonNumericAge = ageStringTrim;
-				} else {
-					try {
-						ageMin = Integer.parseInt(ageStringTrim.substring(0, 2));
-						ageMax = ageMin;
-					} catch (NumberFormatException nfe) {
-						nonNumericAge = ageStringTrim; 
-						setNonNumericAgeError(segmentContext, ageString);
-						invalidValue = true;
-					}
-				}
-			} else {
-				invalidLength = true;
-				nonNumericAge = ageStringTrim; 
-				if (ageStringTrim.length() == 3){
-					error = new NIBRSError();
-					error.setValue(ageString);
-					error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "09"));
-				}
-				else{
-					setNonNumericAgeError(segmentContext, ageString);
-				}
-			}
-		}
+	public void setAgeMin(Integer ageMin) {
+		this.ageMin = ageMin;
 	}
 
-	private void setNonNumericAgeError(char segmentContext, String ageString) {
-		error = new NIBRSError();
-		error.setValue(ageString);
-		nonNumericAge = ageString.trim();
+	public void setAgeMax(Integer ageMax) {
+		this.ageMax = ageMax;
+	}
 	
-		switch (segmentContext){
-		case '4':
-			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "04"));
-			break; 
-		case '5': 
-			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "56"));
-			break; 
-		case '6': 
-			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "64"));
-			break; 
-		case '7': 
-			error.setNIBRSErrorCode(NIBRSErrorCode.valueOf("_" + segmentContext + "57"));
-			break; 
-		}
+	public void setNonNumericAge(String nonNumericAge) {
+		this.nonNumericAge = nonNumericAge;
 	}
 
 	public Integer getAgeMin() {
@@ -180,7 +108,7 @@ public class NIBRSAge {
 	 * 1–6 Days Old
 	 * @return true if "NN" is the value
 	 */
-	public boolean isNN() {
+	public boolean isNeonate() {
 		return "NN".equals(nonNumericAge);
 	}
 	
@@ -188,7 +116,7 @@ public class NIBRSAge {
 	 * 1-6 days old 
 	 * @return true if "NB" is the value 
 	 */
-	public boolean isNB() {
+	public boolean isNewborn() {
 		return "NB".equals(nonNumericAge);
 	}
 	
@@ -196,7 +124,7 @@ public class NIBRSAge {
 	 * 7–364 Days Old
 	 * @return true if "BB" is the value 
 	 */
-	public boolean isBB() {
+	public boolean isBaby() {
 		return "BB".equals(nonNumericAge);
 	}
 	
@@ -210,27 +138,17 @@ public class NIBRSAge {
 		return isAgeRange;
 	}
 	
-	public boolean containsBadAgeRange() {
-		if ( nonNumericAge != null && nonNumericAge.length() > 2 ){
-			return true;
-		}
-		return false;
+	public boolean isInvalid() {
+		return error != null;
 	}
 	
-	public boolean hasInvalidValue() {
-		return invalidValue;
-	}
-	
-	public boolean hasInvalidLength() {
-		return invalidLength;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ageString == null) ? 0 : ageString.hashCode());
-		//LOG.info("hashCode=" + result);
+		result = prime * result + ((ageMin == null) ? 0 : ageMin.hashCode());
+		result = prime * result + ((ageMax == null) ? 0 : ageMax.hashCode());
+		result = prime * result + ((nonNumericAge == null) ? 0 : nonNumericAge.hashCode());
 		result = prime * result + ((error == null) ? 0 : error.hashCode());
 		return result;
 	}
@@ -244,7 +162,7 @@ public class NIBRSAge {
 	public String toString() {
 		NIBRSError e = getError();
 		if (e != null) {
-			return "Invalid age: " + getAgeString();
+			return "Invalid age: " + e.getValue();
 		}
 		return isNonNumeric() ? getNonNumericAge() : (isAgeRange() ? ageMin + "-" + ageMax : ageMin.toString());
 	}
@@ -289,6 +207,43 @@ public class NIBRSAge {
 			ret[1] = ageMax*365;
 		}
 		return ret;
+	}
+	
+	// static factory methods
+	
+	public static final NIBRSAge getNeonateAge() {
+		NIBRSAge ret = new NIBRSAge("NN");
+		ret.ageMax = 0;
+		ret.ageMin = 0;
+		return ret;
+	}
+
+	public static final NIBRSAge getNewbornAge() {
+		NIBRSAge ret = new NIBRSAge("NB");
+		ret.ageMax = 0;
+		ret.ageMin = 0;
+		return ret;
+	}
+
+	public static final NIBRSAge getBabyAge() {
+		NIBRSAge ret = new NIBRSAge("BB");
+		ret.ageMax = 0;
+		ret.ageMin = 0;
+		return ret;
+	}
+
+	public static final NIBRSAge getUnknownAge() {
+		return new NIBRSAge("00");
+	}
+
+	public static final NIBRSAge getAge(Integer ageMin, Integer ageMax) {
+		if (ageMax == null) {
+			ageMax = ageMin;
+		}
+		if (ageMin == 0) {
+			return new NIBRSAge("00");
+		}
+		return new NIBRSAge(ageMin, ageMax);
 	}
 
 }

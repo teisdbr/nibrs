@@ -25,23 +25,23 @@ public class ArresteeSegmentTests {
 	public void testIsJuvenile() {
 		ArresteeSegment as = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		assertFalse(as.isJuvenile());
-		as.setAgeString("NB");
+		as.setAge(NIBRSAge.getNewbornAge());
 		assertTrue(as.isJuvenile());
-		as.setAgeString("01");
+		as.setAge(NIBRSAge.getAge(1, null));
 		assertTrue(as.isJuvenile());
-		as.setAgeString("17");
+		as.setAge(NIBRSAge.getAge(17, null));
 		assertTrue(as.isJuvenile());
-		as.setAgeString("18");
+		as.setAge(NIBRSAge.getAge(18, null));
 		assertFalse(as.isJuvenile());
-		as.setAgeString("00");
+		as.setAge(NIBRSAge.getAge(0, null));
 		assertFalse(as.isJuvenile());
-		as.setAgeString("1415");
+		as.setAge(NIBRSAge.getAge(14, 15));
 		assertTrue(as.isJuvenile());
-		as.setAgeString("1419");
+		as.setAge(NIBRSAge.getAge(14, 19));
 		assertTrue(as.isJuvenile());
-		as.setAgeString("1439");
+		as.setAge(NIBRSAge.getAge(14, 39));
 		assertFalse(as.isJuvenile());
-		as.setAgeString("1819");
+		as.setAge(NIBRSAge.getAge(18, 39));
 		assertFalse(as.isJuvenile());
 	}
 

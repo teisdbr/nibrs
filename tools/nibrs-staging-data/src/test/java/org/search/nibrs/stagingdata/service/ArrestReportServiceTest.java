@@ -26,6 +26,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
@@ -195,7 +196,7 @@ public class ArrestReportServiceTest {
 		
 		arrestReportSegmentRepository.deleteByArrestTransactionNumber(persisted.getArrestTransactionNumber());  
 		
-		ArrestReportSegment afterDelete = arrestReportSegmentRepository.findFirstByArrestTransactionNumber(persisted.getArrestTransactionNumber());
+		ArrestReportSegment afterDelete = arrestReportSegmentRepository.findByArrestTransactionNumber(persisted.getArrestTransactionNumber());
 		assertThat(afterDelete,  equalTo(null));
 		
 		long countOfArrestReportSegmentsAfterDelete = arrestReportSegmentRepository.count(); 
@@ -267,7 +268,8 @@ public class ArrestReportServiceTest {
 	@Test
 	public void processGroupBArrestReportTest(){
 		GroupBArrestReport groupBArrestReport = BaselineIncidentFactory.getBaselineGroupBArrestReport();
-		ArrestReportSegment arrestReportSegment = arrestReportService.saveGroupBArrestReport(groupBArrestReport);
+		ArrestReportSegment arrestReportSegment = StreamSupport.stream(arrestReportService.saveGroupBArrestReports(groupBArrestReport).spliterator(), false)
+				.findFirst().orElse(null);
 		
 		ArrestReportSegment persisted = 
 				arrestReportService.findArrestReportSegment(arrestReportSegment.getArrestReportSegmentId());
@@ -309,7 +311,7 @@ public class ArrestReportServiceTest {
 		arrestReportService.deleteGroupBArrestReport(groupBArrestReport.getIdentifier()); 
 		
 		ArrestReportSegment deleted = 
-				arrestReportSegmentRepository.findFirstByArrestTransactionNumber(groupBArrestReport.getIdentifier());
+				arrestReportSegmentRepository.findByArrestTransactionNumber(groupBArrestReport.getIdentifier());
 		assertThat(deleted, equalTo(null));
 	}
 
@@ -319,10 +321,10 @@ public class ArrestReportServiceTest {
 		groupBArrestReport.getArrestee().setTypeOfArrest("T");
 		groupBArrestReport.setMonthOfTape(11);
 		
-		arrestReportService.saveGroupBArrestReport(groupBArrestReport); 
+		arrestReportService.saveGroupBArrestReports(groupBArrestReport); 
 		
 		ArrestReportSegment updated = 
-				arrestReportSegmentRepository.findFirstByArrestTransactionNumber(groupBArrestReport.getIdentifier());
+				arrestReportSegmentRepository.findByArrestTransactionNumber(groupBArrestReport.getIdentifier());
 
 		assertThat(updated.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
 		assertThat(updated.getMonthOfTape(), equalTo("11"));

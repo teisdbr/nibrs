@@ -18,10 +18,20 @@ package org.search.nibrs.stagingdata.repository.segment;
 import javax.transaction.Transactional;
 
 import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ArrestReportSegmentRepository extends CrudRepository<ArrestReportSegment, Integer>{
-	@Transactional
+@Transactional
+public interface ArrestReportSegmentRepository extends JpaRepository<ArrestReportSegment, Integer>{
 	long deleteByArrestTransactionNumber(String arrestTransactionNumber);
-	ArrestReportSegment findFirstByArrestTransactionNumber(String arrestTransactionNumber);
+	
+	@EntityGraph(value="allArrestReportSegmentJoins", type=EntityGraphType.LOAD)
+	ArrestReportSegment findByArrestTransactionNumber(String arrestTransactionNumber);
+	
+	boolean existsByArrestTransactionNumber(String arrestTransactionNumber);
+	
+	@EntityGraph(value="allArrestReportSegmentJoins", type=EntityGraphType.LOAD)
+	ArrestReportSegment findByArrestReportSegmentId(Integer arrestReportSegmentId);
+
 }

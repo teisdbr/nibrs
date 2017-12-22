@@ -17,6 +17,7 @@ package org.search.nibrs.stagingdata.model;
 
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 
 @Entity
+@Cacheable
 public class TypeInjuryType {
 	public TypeInjuryType(Integer typeInjuryTypeId) {
 		super();

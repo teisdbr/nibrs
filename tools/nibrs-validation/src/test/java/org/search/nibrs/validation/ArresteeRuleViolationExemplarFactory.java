@@ -28,12 +28,15 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 
 final class ArresteeRuleViolationExemplarFactory {
@@ -102,7 +105,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_A_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 			copy.addArrestee(arrestee);
 			arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
-			arrestee.setAgeString("23");
+			arrestee.setAge(NIBRSAge.getAge(23, null));
 			arrestee.setRace("W");
 			arrestee.setSex("M");
 			arrestee.setArrestTransactionNumber("67890");
@@ -181,7 +184,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//(Age of Arrestee) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
 			copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString(null);
+			copy.getArrestees().get(0).setAge(null);
 			incidents.add(copy);
 			//(Sex of Arrestee) The referenced data element in a Group A Incident Report 
 			//must be populated with a valid data value and cannot be blank.
@@ -220,13 +223,9 @@ final class ArresteeRuleViolationExemplarFactory {
 			copy = new GroupAIncidentReport(incident);
 			copy.getArrestees().get(0).setResidentStatus("X");
 			incidents.add(copy);
-			// Age
-			copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("AA");
-			incidents.add(copy);
 			//Disposition of Arrestee under 18 must be valid
 			copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("16");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(16, null));
 			copy.getArrestees().get(0).setDispositionOfArresteeUnder18("A");
 			incidents.add(copy);
 			
@@ -277,25 +276,12 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
-		groupATweakerMap.put(609, incident -> {
-			//(Age of Arrestee) contains more than two characters indicating 
-			//a possible age-range is being attempted. If so, the field must 
-			//contain a numeric entry of four digits.
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("022 ");
-			incidents.add(copy);
-					
-			return incidents;
-					
-		});
-			
 		groupATweakerMap.put(610, incident -> {
 			//(Age of Arrestee) was entered as an age-range. Accordingly, 
 			//the first age component must be less than the second age.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("3025");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(30, 25));
 			incidents.add(copy);
 					
 			return incidents;
@@ -318,19 +304,6 @@ final class ArresteeRuleViolationExemplarFactory {
 			
 		});
 		
-		groupATweakerMap.put(622, incident -> {
-			//(Age of Arrestee) was entered as an age-range. 
-			//Therefore, the first age component cannot be 00 (unknown).
-			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
-			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("0025");
-			
-			incidents.add(copy);
-					
-			return incidents;
-					
-		});
-			
 		//TO-DO groupATweakerMap.put(623, incident -> {
 			//Clearance Indicator and Clearance Offense Code must be 
 			//blank when Segment Action Type on Level 6 (Arrestee Segment) is I=Incident.
@@ -347,7 +320,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//possible correction by the participant.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("0826");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(8, 26));
 			
 			incidents.add(copy);
 			
@@ -361,7 +334,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//99=Over 98 Years Old is not being confused the with 00=Unknown.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("99");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(99, null));
 			incidents.add(copy);
 					
 			return incidents;
@@ -374,7 +347,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//the disposition must be entered.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("16");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(16, null));
 			
 			incidents.add(copy);
 			
@@ -388,7 +361,7 @@ final class ArresteeRuleViolationExemplarFactory {
 			//the juvenile disposition cannot be entered because it does not apply.
 			List<GroupAIncidentReport> incidents = new ArrayList<GroupAIncidentReport>();
 			GroupAIncidentReport copy = new GroupAIncidentReport(incident);
-			copy.getArrestees().get(0).setAgeString("18");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(18, null));
 			copy.getArrestees().get(0).setDispositionOfArresteeUnder18("H");
 			
 			incidents.add(copy);

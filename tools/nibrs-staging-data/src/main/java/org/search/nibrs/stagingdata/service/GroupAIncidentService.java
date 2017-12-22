@@ -207,7 +207,7 @@ public class GroupAIncidentService {
 	}
 	
 	public AdministrativeSegment findAdministrativeSegment(Integer id){
-		return administrativeSegmentRepository.findOne(id);
+		return administrativeSegmentRepository.findByAdministrativeSegmentId(id);
 	}
 	
 	public List<AdministrativeSegment> findAllAdministrativeSegments(){
@@ -224,58 +224,70 @@ public class GroupAIncidentService {
 		return offenseSegmentRepository.save(offenseSegments);
 	}
 	
-	public AdministrativeSegment saveGroupAIncidentReport(GroupAIncidentReport groupAIncidentReport){
+	public Iterable<AdministrativeSegment> saveGroupAIncidentReports(GroupAIncidentReport... groupAIncidentReports){
+		List<AdministrativeSegment> administrativeSegments = new ArrayList<>();
 		
-		Optional<AdministrativeSegment> existingAdministrativeSegment = 
-				Optional.ofNullable(administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber()));
+		for (GroupAIncidentReport groupAIncidentReport: groupAIncidentReports){
+			if (administrativeSegmentRepository.existsByIncidentNumber(groupAIncidentReport.getIncidentNumber())){
+				administrativeSegmentRepository.deleteByIncidentNumber(groupAIncidentReport.getIncidentNumber());
+			}
 			
-		AdministrativeSegment administrativeSegment = existingAdministrativeSegment.orElseGet(AdministrativeSegment::new); 
+			AdministrativeSegment administrativeSegment = new AdministrativeSegment(); 
+//			Optional<AdministrativeSegment> existingAdministrativeSegment = 
+//					Optional.ofNullable(administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber()));
+//				
+//			AdministrativeSegment administrativeSegment = existingAdministrativeSegment.orElseGet(AdministrativeSegment::new); 
 
-		administrativeSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupAIncidentReport.getOri()));
-		
-		String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType()).trim();
-		administrativeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode(reportActionType));
-		
-		Optional<Integer> monthOfTape = Optional.ofNullable(groupAIncidentReport.getMonthOfTape());
-		monthOfTape.ifPresent( m-> {
-			administrativeSegment.setMonthOfTape(StringUtils.leftPad(String.valueOf(m), 2, '0'));
-		});
-		
-		if (groupAIncidentReport.getYearOfTape() != null){
-			administrativeSegment.setYearOfTape(String.valueOf(groupAIncidentReport.getYearOfTape()));
+			administrativeSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupAIncidentReport.getOri()));
+			
+			String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType()).trim();
+			administrativeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode(reportActionType));
+			
+			Optional<Integer> monthOfTape = Optional.ofNullable(groupAIncidentReport.getMonthOfTape());
+			monthOfTape.ifPresent( m-> {
+				administrativeSegment.setMonthOfTape(StringUtils.leftPad(String.valueOf(m), 2, '0'));
+			});
+			
+			if (groupAIncidentReport.getYearOfTape() != null){
+				administrativeSegment.setYearOfTape(String.valueOf(groupAIncidentReport.getYearOfTape()));
+			}
+			
+			administrativeSegment.setCityIndicator(groupAIncidentReport.getCityIndicator());
+			administrativeSegment.setOri(groupAIncidentReport.getOri());
+			administrativeSegment.setIncidentNumber(groupAIncidentReport.getIncidentNumber());
+			administrativeSegment.setIncidentDate(groupAIncidentReport.getIncidentDate().getValue());
+			administrativeSegment.setIncidentDateType(codeTableService.getDateType(groupAIncidentReport.getIncidentDate().getValue()));
+			administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
+			administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
+			administrativeSegment.setExceptionalClearanceDate(groupAIncidentReport.getExceptionalClearanceDate().getValue());
+			administrativeSegment.setExceptionalClearanceDateType(codeTableService.getDateType(groupAIncidentReport.getExceptionalClearanceDate().getValue()));
+			
+			Optional<Integer> incidentHour = Optional.ofNullable(groupAIncidentReport.getIncidentHour().getValue());
+			administrativeSegment.setIncidentHour(incidentHour.map(String::valueOf).orElse(""));
+			
+			ClearedExceptionallyType clearedExceptionallyType = 
+					codeTableService.getCodeTableType(groupAIncidentReport.getExceptionalClearanceCode(), 
+							clearedExceptionallyTypeRepository::findFirstByClearedExceptionallyCode, 
+							ClearedExceptionallyType::new); 
+			administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
+			
+			Agency agency = codeTableService.getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
+			administrativeSegment.setAgency(agency);
+			
+			CargoTheftIndicatorType cargoTheftIndicatorType = 
+					codeTableService.getCodeTableType(groupAIncidentReport.getCargoTheftIndicator(), 
+							cargoTheftIndicatorTypeRepository::findFirstByCargoTheftIndicatorCode, CargoTheftIndicatorType::new); 
+			administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorType);
+			
+			processProperties(administrativeSegment, groupAIncidentReport);
+			processOffenses(administrativeSegment, groupAIncidentReport);
+			processOffenders(administrativeSegment, groupAIncidentReport);
+			processArrestees(administrativeSegment, groupAIncidentReport);
+			processVictims(administrativeSegment, groupAIncidentReport);
+			administrativeSegments.add(administrativeSegment);
 		}
 		
-		administrativeSegment.setCityIndicator(groupAIncidentReport.getCityIndicator());
-		administrativeSegment.setOri(groupAIncidentReport.getOri());
-		administrativeSegment.setIncidentNumber(groupAIncidentReport.getIncidentNumber());
-		administrativeSegment.setIncidentDate(groupAIncidentReport.getIncidentDate().getValue());
-		administrativeSegment.setIncidentDateType(codeTableService.getDateType(groupAIncidentReport.getIncidentDate().getValue()));
-		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
-		administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
-		
-		Optional<Integer> incidentHour = Optional.ofNullable(groupAIncidentReport.getIncidentHour().getValue());
-		administrativeSegment.setIncidentHour(incidentHour.map(String::valueOf).orElse(""));
-		
-		ClearedExceptionallyType clearedExceptionallyType = 
-				codeTableService.getCodeTableType(groupAIncidentReport.getExceptionalClearanceCode(), 
-						clearedExceptionallyTypeRepository::findFirstByClearedExceptionallyCode, 
-						ClearedExceptionallyType::new); 
-		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
-		
-		Agency agency = codeTableService.getCodeTableType(groupAIncidentReport.getOri(), agencyRepository::findFirstByAgencyOri, Agency::new); 
-		administrativeSegment.setAgency(agency);
-		
-		CargoTheftIndicatorType cargoTheftIndicatorType = 
-				codeTableService.getCodeTableType(groupAIncidentReport.getCargoTheftIndicator(), 
-						cargoTheftIndicatorTypeRepository::findFirstByCargoTheftIndicatorCode, CargoTheftIndicatorType::new); 
-		administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorType);
-		
-		processProperties(administrativeSegment, groupAIncidentReport);
-		processOffenses(administrativeSegment, groupAIncidentReport);
-		processOffenders(administrativeSegment, groupAIncidentReport);
-		processArrestees(administrativeSegment, groupAIncidentReport);
-		processVictims(administrativeSegment, groupAIncidentReport);
-		return this.saveAdministrativeSegment(administrativeSegment);
+		return administrativeSegmentRepository.save(administrativeSegments);
 	}
 	private void processProperties(AdministrativeSegment administrativeSegment,
 			GroupAIncidentReport groupAIncidentReport) {

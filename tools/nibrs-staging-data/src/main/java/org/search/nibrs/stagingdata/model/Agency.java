@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.stagingdata.model;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ import javax.persistence.ManyToOne;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
+@Cacheable
 public class Agency {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

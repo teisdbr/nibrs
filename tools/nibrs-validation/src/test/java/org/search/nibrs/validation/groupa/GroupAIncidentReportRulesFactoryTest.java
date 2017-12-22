@@ -33,6 +33,7 @@ import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
@@ -155,7 +156,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.addOffender(os);
 		os.setRace(RaceCode.A.code);
 		os.setSex(SexCode.F.code);
-		os.setAgeString("20  ");
+		os.setAge(NIBRSAge.getAge(20, null));
 		e = rule.apply(report);
 		assertNull(e);
 		os.setRace(RaceCode.U.code);
@@ -184,7 +185,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.addOffender(os);
 		os.setRace(RaceCode.A.code);
 		os.setSex(SexCode.F.code);
-		os.setAgeString("20  ");
+		os.setAge(NIBRSAge.getAge(20, null));
 		e = rule.apply(report);
 		assertNull(e);
 		os.setRace(RaceCode.U.code);
@@ -207,7 +208,7 @@ public class GroupAIncidentReportRulesFactoryTest {
 		report.addOffender(os);
 		os.setRace(RaceCode.A.code);
 		os.setSex(SexCode.F.code);
-		os.setAgeString("20  ");
+		os.setAge(NIBRSAge.getAge(20, null));
 		e = rule.apply(report);
 		assertNull(e);
 		report.removeOffender(1);
@@ -225,11 +226,11 @@ public class GroupAIncidentReportRulesFactoryTest {
 		e = rule.apply(report);
 		assertNotNull(e);
 		os.setSex(SexCode.F.code);
-		os.setAgeString("00  ");
+		os.setAge(NIBRSAge.getUnknownAge());
 		e = rule.apply(report);
 		assertNotNull(e);
 		assertEquals("L 5", e.getDataElementIdentifier());
-		os.setAgeString(null);
+		os.setAge(null);
 		e = rule.apply(report);
 		assertNotNull(e);
 		report.setExceptionalClearanceCode(ClearedExceptionallyCode.N.code);

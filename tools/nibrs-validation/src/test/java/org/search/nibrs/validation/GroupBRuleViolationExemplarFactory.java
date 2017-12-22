@@ -25,6 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.NIBRSAge;
 
 final class GroupBRuleViolationExemplarFactory {
 	
@@ -87,7 +88,7 @@ final class GroupBRuleViolationExemplarFactory {
 			copy.getArrestees().get(0).setArresteeArmedWith(0, null);
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAgeString(null);
+			copy.getArrestees().get(0).setAge(null);
 			reports.add(copy);
 			copy = new GroupBArrestReport(arrestReport);
 			copy.getArrestees().get(0).setSex(null);
@@ -149,27 +150,13 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 		
-		groupBTweakerMap.put(709, arrestReport -> {
-			
-			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
-			//(Age of Arrestee) contains more than two characters indicating a 
-			//possible age-range is being attempted. If so, the field must contain 
-			//a numeric entry of four digits.
-			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAgeString("123");
-			reports.add(copy);
-			
-			return reports;
-			
-		});
-		
 		groupBTweakerMap.put(710, arrestReport -> {
 			
 			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
 			//(Age of Arrestee) was entered as an age-range. Accordingly, the 
 			//first age component must be less than the second age.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAgeString("2221");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(22, 21));
 			reports.add(copy);
 			
 			return reports;
@@ -192,20 +179,6 @@ final class GroupBRuleViolationExemplarFactory {
 			
 		});
 			
-		
-		groupBTweakerMap.put(722, arrestReport -> {
-			
-			List<GroupBArrestReport> reports = new ArrayList<GroupBArrestReport>();
-			//(Age of Arrestee) was entered as an age-range. Therefore, the first 
-			//age component cannot be 00 (unknown).
-			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAgeString("0021");
-			reports.add(copy);
-			
-			return reports;
-			
-		});
-		
 		// note: exemplars for rules 740 and 741 are not currently tested, as they are warnings not errors
 		
 		groupBTweakerMap.put(740, arrestReport -> {
@@ -219,7 +192,7 @@ final class GroupBRuleViolationExemplarFactory {
 			//flagged by the computer as a possible discrepancy between age and 
 			//disposition and should be checked for possible correction by the participant.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAgeString("1219");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(12, 19));
 			reports.add(copy);
 			
 			return reports;
@@ -233,7 +206,7 @@ final class GroupBRuleViolationExemplarFactory {
 			//is over 98 years old. The submitter should verify that 99=Over 98 Years Old 
 			//is not being confused the with 00=Unknown.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAgeString("99");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(99, null));
 			reports.add(copy);
 			
 			return reports;
@@ -247,7 +220,7 @@ final class GroupBRuleViolationExemplarFactory {
 			//(Age of Arrestee) is under 18. Whenever an arrestee's age indicates a juvenile,
 			//the disposition must be entered.
 			GroupBArrestReport copy = new GroupBArrestReport(arrestReport);
-			copy.getArrestees().get(0).setAgeString("12");
+			copy.getArrestees().get(0).setAge(NIBRSAge.getAge(12, null));
 			reports.add(copy);
 			
 			return reports;

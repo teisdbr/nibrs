@@ -154,8 +154,9 @@ public class ArrestReportService {
 		return arrestReportSegmentRepository.save(arrestReportSegment);
 	}
 	
+	@Transactional
 	public ArrestReportSegment findArrestReportSegment(Integer id){
-		return arrestReportSegmentRepository.findOne(id);
+		return arrestReportSegmentRepository.findByArrestReportSegmentId(id);
 	}
 	
 	public List<ArrestReportSegment> findAllArrestReportSegment(){
@@ -172,86 +173,99 @@ public class ArrestReportService {
 		return arrestReportSegmentRepository.deleteByArrestTransactionNumber(identifier);
 	}
 	
-	public ArrestReportSegment saveGroupBArrestReport(GroupBArrestReport groupBArrestReport){
+	public Iterable<ArrestReportSegment> saveGroupBArrestReports(GroupBArrestReport... groupBArrestReports){
 		
-		ArresteeSegment arrestee = groupBArrestReport.getArrestee(); 
-		if (arrestee == null || StringUtils.isBlank(groupBArrestReport.getIdentifier())){
-			log.error(BAD_SAVE_REQUEST); 
-			throw new BadRequestException(BAD_SAVE_REQUEST);
+		List<ArrestReportSegment> arrestReportSegments = new ArrayList<>(); 
+		
+		for(GroupBArrestReport groupBArrestReport : groupBArrestReports){
+			ArresteeSegment arrestee = groupBArrestReport.getArrestee(); 
+			if (arrestee == null || StringUtils.isBlank(groupBArrestReport.getIdentifier())){
+				log.error(BAD_SAVE_REQUEST); 
+//				throw new BadRequestException(BAD_SAVE_REQUEST);
+				continue;
+			}
+			
+			if (arrestReportSegmentRepository.existsByArrestTransactionNumber(groupBArrestReport.getIdentifier())){
+				arrestReportSegmentRepository.deleteByArrestTransactionNumber(groupBArrestReport.getIdentifier());
+			}
+			ArrestReportSegment arrestReportSegment = new ArrestReportSegment();
+			
+//			Optional<ArrestReportSegment> existingArrestReportSegment = 
+//					Optional.ofNullable(arrestReportSegmentRepository.findFirstByArrestTransactionNumber(groupBArrestReport.getIdentifier()));
+//				
+//			ArrestReportSegment arrestReportSegment = existingArrestReportSegment.orElseGet(ArrestReportSegment::new); 
+
+			arrestReportSegment.setArrestTransactionNumber(groupBArrestReport.getIdentifier());
+			arrestReportSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupBArrestReport.getOri()));
+			
+			String reportActionType = String.valueOf(groupBArrestReport.getReportActionType()).trim();
+			SegmentActionTypeType segmentActionType = codeTableService.getCodeTableType(reportActionType, 
+					segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
+			arrestReportSegment.setSegmentActionType(segmentActionType);
+			
+			Optional<Integer> monthOfTape = Optional.ofNullable(groupBArrestReport.getMonthOfTape());
+			monthOfTape.ifPresent( m-> {
+				arrestReportSegment.setMonthOfTape(StringUtils.leftPad(String.valueOf(m), 2, '0'));
+			});
+			
+			if (groupBArrestReport.getYearOfTape() != null){
+				arrestReportSegment.setYearOfTape(String.valueOf(groupBArrestReport.getYearOfTape()));
+			}
+			
+			arrestReportSegment.setCityIndicator(groupBArrestReport.getCityIndicator());
+			arrestReportSegment.setOri(groupBArrestReport.getOri());
+			Agency agency = codeTableService.getCodeTableType(groupBArrestReport.getOri(), 
+					agencyRepository::findFirstByAgencyOri, Agency::new); 
+			arrestReportSegment.setAgency(agency);
+	
+			arrestReportSegment.setArresteeSequenceNumber(groupBArrestReport.getArresteeSequenceNumber());
+			
+			arrestReportSegment.setArrestDate(groupBArrestReport.getArrestDate());
+			arrestReportSegment.setArrestDateType(codeTableService.getDateType(groupBArrestReport.getArrestDate()));
+			
+			TypeOfArrestType typeOfArrestType = codeTableService.getCodeTableType(
+					arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByTypeOfArrestCode, TypeOfArrestType::new);
+			arrestReportSegment.setTypeOfArrestType(typeOfArrestType );
+			
+			arrestReportSegment.setAgeOfArresteeMin(arrestee.getAge().getAgeMin());
+			arrestReportSegment.setAgeOfArresteeMax(arrestee.getAge().getAgeMax());
+	
+			SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
+					arrestee.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+			arrestReportSegment.setSexOfPersonType(sexOfPersonType);
+			
+			RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
+					arrestee.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+			arrestReportSegment.setRaceOfPersonType(raceOfPersonType);
+			
+			EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
+					arrestee.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+			arrestReportSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
+			
+			ResidentStatusOfPersonType residentStatusOfPersonType = codeTableService.getCodeTableType(
+					arrestee.getResidentStatus(), 
+					residentStatusOfPersonTypeRepository::findFirstByResidentStatusOfPersonCode, 
+					ResidentStatusOfPersonType::new);
+			arrestReportSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
+			
+			DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type = codeTableService.getCodeTableType(
+					arrestee.getDispositionOfArresteeUnder18(), 
+					dispositionOfArresteeUnder18TypeRepository::findFirstByDispositionOfArresteeUnder18Code, 
+					DispositionOfArresteeUnder18Type::new);
+			arrestReportSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type );
+			
+			UcrOffenseCodeType ucrOffenseCodeType = codeTableService.getCodeTableType(
+					arrestee.getUcrArrestOffenseCode(), 
+					ucrOffenseCodeTypeRepository::findFirstByUcrOffenseCode, 
+					UcrOffenseCodeType::new);;
+			arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
+			
+			processArrestReportSegmentArmedWiths(arrestReportSegment, arrestee);
+			
+			arrestReportSegments.add(arrestReportSegment);
 		}
 		
-		Optional<ArrestReportSegment> existingArrestReportSegment = 
-			Optional.ofNullable(arrestReportSegmentRepository.findFirstByArrestTransactionNumber(groupBArrestReport.getIdentifier()));
-		
-		ArrestReportSegment arrestReportSegment = existingArrestReportSegment.orElseGet(ArrestReportSegment::new); 
-		arrestReportSegment.setArrestTransactionNumber(groupBArrestReport.getIdentifier());
-		arrestReportSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupBArrestReport.getOri()));
-		
-		String reportActionType = String.valueOf(groupBArrestReport.getReportActionType()).trim();
-		SegmentActionTypeType segmentActionType = codeTableService.getCodeTableType(reportActionType, 
-				segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
-		arrestReportSegment.setSegmentActionType(segmentActionType);
-		
-		Optional<Integer> monthOfTape = Optional.ofNullable(groupBArrestReport.getMonthOfTape());
-		monthOfTape.ifPresent( m-> {
-			arrestReportSegment.setMonthOfTape(StringUtils.leftPad(String.valueOf(m), 2, '0'));
-		});
-		
-		if (groupBArrestReport.getYearOfTape() != null){
-			arrestReportSegment.setYearOfTape(String.valueOf(groupBArrestReport.getYearOfTape()));
-		}
-		
-		arrestReportSegment.setCityIndicator(groupBArrestReport.getCityIndicator());
-		arrestReportSegment.setOri(groupBArrestReport.getOri());
-		Agency agency = codeTableService.getCodeTableType(groupBArrestReport.getOri(), 
-				agencyRepository::findFirstByAgencyOri, Agency::new); 
-		arrestReportSegment.setAgency(agency);
-
-		arrestReportSegment.setArresteeSequenceNumber(groupBArrestReport.getArresteeSequenceNumber());
-		
-		arrestReportSegment.setArrestDate(groupBArrestReport.getArrestDate());
-		arrestReportSegment.setArrestDateType(codeTableService.getDateType(groupBArrestReport.getArrestDate()));
-		
-		TypeOfArrestType typeOfArrestType = codeTableService.getCodeTableType(
-				arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByTypeOfArrestCode, TypeOfArrestType::new);
-		arrestReportSegment.setTypeOfArrestType(typeOfArrestType );
-		
-		arrestReportSegment.setAgeOfArresteeMin(arrestee.getAge().getAgeMin());
-		arrestReportSegment.setAgeOfArresteeMax(arrestee.getAge().getAgeMax());
-
-		SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
-				arrestee.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
-		arrestReportSegment.setSexOfPersonType(sexOfPersonType);
-		
-		RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
-				arrestee.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
-		arrestReportSegment.setRaceOfPersonType(raceOfPersonType);
-		
-		EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
-				arrestee.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
-		arrestReportSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
-		
-		ResidentStatusOfPersonType residentStatusOfPersonType = codeTableService.getCodeTableType(
-				arrestee.getResidentStatus(), 
-				residentStatusOfPersonTypeRepository::findFirstByResidentStatusOfPersonCode, 
-				ResidentStatusOfPersonType::new);
-		arrestReportSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
-		
-		DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type = codeTableService.getCodeTableType(
-				arrestee.getDispositionOfArresteeUnder18(), 
-				dispositionOfArresteeUnder18TypeRepository::findFirstByDispositionOfArresteeUnder18Code, 
-				DispositionOfArresteeUnder18Type::new);
-		arrestReportSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type );
-		
-		UcrOffenseCodeType ucrOffenseCodeType = codeTableService.getCodeTableType(
-				arrestee.getUcrArrestOffenseCode(), 
-				ucrOffenseCodeTypeRepository::findFirstByUcrOffenseCode, 
-				UcrOffenseCodeType::new);;
-		arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
-		
-		processArrestReportSegmentArmedWiths(arrestReportSegment, arrestee);
-		
-		return this.saveArrestReportSegment(arrestReportSegment);
+		return arrestReportSegmentRepository.save(arrestReportSegments);
 	}
 
 	private void processArrestReportSegmentArmedWiths(ArrestReportSegment arrestReportSegment, ArresteeSegment arrestee) {
