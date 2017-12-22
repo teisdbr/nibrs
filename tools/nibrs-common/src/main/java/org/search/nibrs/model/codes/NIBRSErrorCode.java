@@ -26,6 +26,9 @@ public enum NIBRSErrorCode {
 /**
  * 017 not implemented
  */	
+/**
+ * 028, 029 cannot be implemented	
+ */
 	_017("017","Structure Check","CANNOT HAVE CHARACTERS OTHER THAN A-Z, 0-9, HYPHENS, AND/OR BLANKS","Zero-Reporting Segment (Level 0). Although Data Element 2 (Incident Number) should be entered with 12 zeros, a pre-edit discovered characters other than A through Z, 0 through 9, hyphens, and/or blanks had been entered."),
 	_050("050","Structure Check","SEGMENT LEVELS ARE OUT OF NUMERICAL ORDER FOR THIS INCIDENT","Segment Levels in a Group A Incident Report must be organized in numerical order. For example, an incident having segments 1, 2, 2, 3, 4, 4, 4, 5 must be written in that order, not as 1, 2, 2, 5, 3, 4, 4, 4."),
 	_051("051","Structure Check","INVALID RECORD LEVEL ON SUBMISSION","Segment Level must contain data values 0–7."),
@@ -72,7 +75,10 @@ public enum NIBRSErrorCode {
  */
 	_088("088","Structure Check","GROUP A AND GROUP B ARREST REPORTS CANNOT HAVE SAME IDENTIFIER","Segment Level 6 (Arrestee Segment) and Segment Level 7 (Group B Arrest Report Segment) cannot have the same data values entered in Data Element 2 (Incident Number) and Data Element 41 (Arrest Transaction Number), respectively, for the same ORI."),
 /**
- * 090 not implemented	
+ * 090-94 not implemented	
+ */
+/**
+ * 096 cannot be validated
  */
 	_091("091","Structure Check","ZERO-REPORTING YEAR IS INVALID","A Segment Level 0 was submitted that did not have four numeric digits in positions 40 through 43."),
 	_101("101","Admin Segment","MANDATORY FIELDS MISSING IN ADMIN SEGMENT","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
@@ -183,6 +189,9 @@ public enum NIBRSErrorCode {
 	_304("304","Property Segment","INVALID DATA VALUE","The referenced data element must contain a valid data value when it is entered; Blank is permissible on non-mandatory fields."),
 	_305("305","Property Segment","DATE RECOVERED IS INVALID","Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31 days). The date cannot be later than that entered within the Month of Electronic Submission and Year of Electronic submission fields on the data record. For example, if Month of Electronic Submission and Year of Electronic Submission are 06/1999, the recovered date cannot contain any date 07/01/1999 or later. Cannot be earlier than Data Element 3 (Incident Date/Hour)."),
 	_306("306","Property Segment","NCA07: DUPLICATE VALUE=[value]","The referenced data element in error is one that contains multiple data values. When more than one code is entered, none can be duplicate codes. There are two exceptions to this rule: 1) When a data value is entered in both Drug Type 1 and Drug Type 2, but different measurement categories are entered in Data Element 22 (Type Drug Measurement); this is allowed. For example, when A=Crack Cocaine is entered in Drug Type 1 and it is also entered in Drug Type 2, Data Element 22 (Type Drug Measurement) must be two different measurement categories (i.e., grams and liters) and not grams and pounds (same weight category). 2) When the data value is U=Unknown; it can be entered only once."),
+/**
+ * 315, 316, 317 not implemented
+ */
 	_315("315","Property Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","Data Element 2 (Incident Number) Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
 	_316("316","Property Segment","MUST BE LEFT-JUSTIFIED– BLANK DETECTED IN FIRST POSITION","Data Element 2 (Incident Number) Must be left- justified with blank right-fill if under 12 characters in length."),
 	_317("317","Property Segment","CANNOT HAVE CHARACTERS OTHER THAN A–Z, 0–9, AND/OR HYPHEN, AND/OR BLANKS","Must contain a valid character combination of the following: A–Z (capital letters only) 0–9 Hyphen Example: 11-123-SC is valid, but 11+123*SC is not valid."),
