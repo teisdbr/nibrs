@@ -189,7 +189,7 @@ public class GroupAIncidentReport extends AbstractReport
 		}
 		return ret;
 	}
-    
+
 	public boolean includesCargoTheft() {
 		return includesCargoTheft;
 	}

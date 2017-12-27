@@ -57,7 +57,7 @@ public class GroupBArrestReport extends AbstractReport {
 	public String getIdentifier() {
 		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArrestTransactionNumber();
 	}
-	
+
 	public Integer getArresteeSequenceNumber() {
 		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArresteeSequenceNumber().getValue();
 	}

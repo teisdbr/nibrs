@@ -20,35 +20,35 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.search.nibrs</groupId>
-	<artifactId>ojb-nibrs-aggregate</artifactId>
+	<artifactId>nibrs-aggregate</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
-	
-	<name>${project.groupId}:${project.artifactId}</name>
-	<description>A component of the OJBC</description>
-	<url>http://www.ojbc.org/</url>	
-	
+
+    <name>${project.groupId}:${project.artifactId}</name>
+	<description>Common build module for NIBRS toolkit</description>
+	<url>http://www.search.org/</url>
+
 	<licenses>
-	  <license>
-	    <name>RPL-1.5 - OJBC</name>
-	    <url>http://opensource.org/licenses/RPL-1.5</url>
-	  </license>
+		<license>
+			<name>Apache 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
 	</licenses>
 
 	<developers>
 		<developer>
-			<name>OJBC Developers</name>
-			<email>info@ojbc.org</email>
-			<organization>OJBC</organization>
-			<organizationUrl>http://www.ojbc.org/</organizationUrl>
+			<name>SEARCH</name>
+			<email>info@search.org</email>
+			<organization>SEARCH</organization>
+			<organizationUrl>http://www.search.org/</organizationUrl>
 		</developer>
 	</developers>
-	
+
 	<scm>
 		<connection>https://github.com/SEARCH-NCJIS/nibrs</connection>
 		<developerConnection>https://github.com/SEARCH-NCJIS/nibrs.git</developerConnection>
 		<url>https://github.com/SEARCH-NCJIS/nibrs</url>
-	</scm>	
+	</scm>
 
 	<modules>
 		<module>shared</module>
@@ -70,7 +70,7 @@
 
 	<build>
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -84,8 +84,8 @@
 			</plugin>
 
 
-			<!-- Note, if updating license plugin config here, Ensure the second duplicate 
-				declaration is updated also in ojb-build-common project (Plugin declared twice 
+			<!-- Note, if updating license plugin config here, Ensure the second duplicate
+				declaration is updated also in nibrs-build-common project (Plugin declared twice
 				to avoid cyclic dependency) -->
 			<plugin>
 				<groupId>com.mycila</groupId>
@@ -96,26 +96,27 @@
 				<dependencies>
 					<dependency>
 						<groupId>org.search.nibrs</groupId>
-						<artifactId>ojb-build-common</artifactId>
+						<artifactId>nibrs-build-common</artifactId>
 						<version>1.0.0</version>
 					</dependency>
 				</dependencies>
 
 				<configuration>
 					<!-- Reference license on plugin classpath -->
-					<header>ojb-license-search.txt</header>
+					<header>license-search.txt</header>
 					<validHeaders>
-						<validHeader>ojb-license-research-triangle-institute.txt</validHeader>
+						<validHeader>license-research-triangle-institute.txt</validHeader>
+                        <validHeader>license-mark43.txt</validHeader>
 					</validHeaders>
 					<aggregate>true</aggregate>
-					
+
 					<excludes>
 						<exclude>**/jquery-datatable/**</exclude>
 						<exclude>**/jquery-ui/**</exclude>
 						<exclude>**/jquery.maskinput.js</exclude>
 						<exclude>**/bin/**</exclude>
 						<exclude>**/docs/**</exclude>
-						<!-- note not excluding static/js/ojb-web-portal.js -->
+                        <exclude>**/docker/**</exclude>
 					</excludes>
 					<includes>
 						<include>**/*.java</include>
@@ -152,12 +153,12 @@
 
 
 	<profiles>
-		
+
 		<profile>
 			<id>release</id>
 			<build>
 				<plugins>
-								
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -199,8 +200,8 @@
 						<dependencies>
 							<!-- Reference jar with javadoc dir TODO: get working so readme included -->
 							<dependency>
-								<groupId>org.ojbc.build</groupId>
-								<artifactId>ojb-build-common</artifactId>
+								<groupId>org.search.nibrs</groupId>
+								<artifactId>nibrs-build-common</artifactId>
 								<version>1.0.0</version>
 							</dependency>
 						</dependencies>
@@ -219,8 +220,8 @@
 							</execution>
 						</executions>
 					</plugin>
-					
-					
+
+
 				    <plugin>
 				      <groupId>org.apache.maven.plugins</groupId>
 				      <artifactId>maven-gpg-plugin</artifactId>
@@ -234,9 +235,9 @@
 				          </goals>
 				        </execution>
 				      </executions>
-				    </plugin>					
-					
-					
+				    </plugin>
+
+
 				</plugins>
 			</build>
 		</profile>

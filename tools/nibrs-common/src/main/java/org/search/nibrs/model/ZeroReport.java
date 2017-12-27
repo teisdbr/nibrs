@@ -21,6 +21,8 @@ package org.search.nibrs.model;
  */
 public class ZeroReport extends AbstractReport {
 
+	private static final long serialVersionUID = -5784999468017764039L;
+
 	public static final char ZERO_REPORT_TYPE_IDENTIFIER = '0';
 
 	private String incidentNumber;

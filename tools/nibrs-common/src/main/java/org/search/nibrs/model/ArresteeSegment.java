@@ -57,10 +57,6 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 		super();
 	}
 
-	public ArresteeSegment(AbstractPersonSegment p) {
-		super(p);
-	}
-
 	public ArresteeSegment(char segmentType)
     {
         arresteeArmedWith = new String[ARRESTEE_ARMED_WITH_COUNT];
@@ -91,7 +87,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
     }
     
     @Override
-    protected void setParentReport(AbstractReport parentReport) {
+    public void setParentReport(AbstractReport parentReport) {
     	super.setParentReport(parentReport);
     	if (parentReport instanceof GroupBArrestReport) {
     		segmentType = GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER;
@@ -248,7 +244,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	public Object getWithinSegmentIdentifier() {
 		return arresteeSequenceNumber.getValue();
 	}
-	
+
 	/**
 	 * All arrestees are people
 	 */

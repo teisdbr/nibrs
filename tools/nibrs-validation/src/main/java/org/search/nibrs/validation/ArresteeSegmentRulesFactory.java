@@ -479,5 +479,5 @@ public class ArresteeSegmentRulesFactory {
 			
 		};
 	}
-	
+
 }

@@ -294,7 +294,7 @@ public class PropertySegment extends AbstractSegment
 	public Object getWithinSegmentIdentifier() {
 		return typeOfPropertyLoss;
 	}
-	
+
 	public Map<String, Integer> getPropertyDescriptionValueMap(){
 		Map<String, Integer> descriptionValueMap = new HashMap<String, Integer>();
 		for (int i=0; i<PROPERTY_DESCRIPTION_COUNT; i++ ){
