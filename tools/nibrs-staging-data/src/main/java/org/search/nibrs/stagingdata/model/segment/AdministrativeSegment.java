@@ -53,7 +53,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
         @NamedAttributeNode("arresteeSegments"),
         @NamedAttributeNode("agency"),
         @NamedAttributeNode("incidentDateType"),
-        @NamedAttributeNode("incidentDateType"),
+        @NamedAttributeNode("exceptionalClearanceDateType"),
         @NamedAttributeNode("clearedExceptionallyType"),
         @NamedAttributeNode("cargoTheftIndicatorType"),
 	})

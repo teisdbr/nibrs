@@ -15,16 +15,19 @@
  */
 package org.search.nibrs.stagingdata.repository.segment;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 @Transactional
 public interface AdministrativeSegmentRepository 
-	extends CrudRepository<AdministrativeSegment, Integer>{
+	extends JpaRepository<AdministrativeSegment, Integer>{
 	
 	long deleteByIncidentNumber(String incidentNumber);
 	
@@ -35,4 +38,19 @@ public interface AdministrativeSegmentRepository
 	AdministrativeSegment findByAdministrativeSegmentId(Integer administrativeSegmentId);
 	
 	boolean existsByIncidentNumber(String incidentNumber);
+	
+	@EntityGraph(value="allAdministrativeSegmentJoins", type=EntityGraphType.LOAD)
+	List<AdministrativeSegment> findDistinctByOriAndIncidentDateTypeYearAndIncidentDateTypeMonth(String ori, Integer year,  Integer month);
+		
+	@EntityGraph(value="allAdministrativeSegmentJoins", type=EntityGraphType.LOAD)
+	List<AdministrativeSegment> findAll(Iterable<Integer> ids);
+	
+	@Query("SELECT a.administrativeSegmentId from AdministrativeSegment a "
+			+ "LEFT JOIN a.exceptionalClearanceDateType ae "
+			+ "LEFT JOIN a.arresteeSegments aa "
+			+ "LEFT JOIN aa.arrestDateType aaa "
+			+ "WHERE a.ori = ?1 AND "
+			+ "		((ae.year = ?2 AND ae.month = ?3) "
+			+ "			OR ( aaa.year = ?2 AND aaa.month = ?3 )) ")
+	List<Integer> findIdsByOriAndClearanceDate(String ori, Integer year, Integer month);
 }
