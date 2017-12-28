@@ -451,9 +451,9 @@ public class GroupAIncidentService {
 				Optional<NIBRSAge> victimAge = Optional.ofNullable(victim.getAge());
 				victimSegment.setAgeOfVictimMax(victimAge.map(NIBRSAge::getAgeMax).orElse(null));
 				victimSegment.setAgeOfVictimMin(victimAge.map(NIBRSAge::getAgeMin).orElse(null));
-				victimSegment.setAgeNeonateIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNN).orElse(false)));
-				victimSegment.setAgeFirstWeekIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNB).orElse(false)));
-				victimSegment.setAgeFirstYearIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isBB).orElse(false)));
+				victimSegment.setAgeNeonateIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNeonate).orElse(false)));
+				victimSegment.setAgeFirstWeekIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNewborn).orElse(false)));
+				victimSegment.setAgeFirstYearIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isBaby).orElse(false)));
 				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
 						victim.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);

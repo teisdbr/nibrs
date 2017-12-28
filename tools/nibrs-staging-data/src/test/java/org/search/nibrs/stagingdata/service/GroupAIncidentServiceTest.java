@@ -39,6 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
@@ -1121,7 +1122,7 @@ public class GroupAIncidentServiceTest {
 		v.setTypeOfInjury(0, "N");
 		v.setAggravatedAssaultHomicideCircumstances(0, "01");
 		v.setVictimSequenceNumber(new ParsedObject<>(2));
-		v.setAgeString("2530");
+		v.setAge(NIBRSAge.getAge(25, 30));
 		v.setEthnicity("N");
 		v.setResidentStatus("R");
 		v.setSex("M");
