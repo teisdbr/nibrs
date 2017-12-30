@@ -408,7 +408,6 @@ public class VictimSegment extends AbstractPersonSegment {
 	
 	/**
 	 * Determine whether the specified offender committed an offense against this victim
-	 * @param os the offender
 	 * @return whether that offender victimized this victim
 	 */
 	public boolean isVictimOfCrimeAgainstSociety() {
