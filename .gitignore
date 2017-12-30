@@ -4,7 +4,7 @@
 **/.classpath
 **/.project
 **/.DS_Store
-
+**/.Rhistory
 **/.Rproj.user
 **/*.RData
 .Rproj.user
@@ -15,3 +15,4 @@ filter.o
 tools/r-packages/nibrs/man
 NIBRSAnalyticsMondrianSchema.xml
 nibrs_analytics.sql.gz
+**/*.iml
