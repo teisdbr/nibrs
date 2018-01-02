@@ -36,18 +36,18 @@ import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 import org.search.nibrs.stagingdata.model.segment.VictimSegment;
-import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
 import org.search.nibrs.stagingdata.service.AdministrativeSegmentService;
 import org.search.nibrs.stagingdata.service.summary.ReturnAForm.ReturnARow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReturnAReportService {
+public class ReturnAFormService {
 
 	@SuppressWarnings("unused")
 	private final Log log = LogFactory.getLog(this.getClass());
@@ -56,7 +56,7 @@ public class ReturnAReportService {
 
 	private Map<String, Integer> partIOffensesMap; 
 	
-	public ReturnAReportService() {
+	public ReturnAFormService() {
 		partIOffensesMap = new HashMap<>();
 		partIOffensesMap.put("09A", 1); 
 		partIOffensesMap.put("09B", 2); 
@@ -173,7 +173,8 @@ public class ReturnAReportService {
 				returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
 			}
 			else if (property.getNumberOfStolenMotorVehicles() > 0){
-				Integer numberOfStolenMotorVehicles = property.getNumberOfRecoveredMotorVehicles();
+				int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles()).orElse(0);
+				
 				if (motorVehicleCodes.contains(PropertyDescriptionCode._03.code)){
 					for (String code: motorVehicleCodes){
 						switch (code){
@@ -258,7 +259,8 @@ public class ReturnAReportService {
 		if (returnARow != null){
 			
 			int increment = 1;
-			if (offense.getNumberOfPremisesEntered() > 0 && "19".equals(offense.getLocationType().getLocationTypeCode())){
+			int numberOfPremisesEntered = Optional.ofNullable(offense.getNumberOfPremisesEntered()).orElse(0);
+			if (numberOfPremisesEntered > 0 && "19".equals(offense.getLocationType().getLocationTypeCode())){
 				increment = offense.getNumberOfPremisesEntered(); 
 			}
 			
@@ -473,11 +475,13 @@ public class ReturnAReportService {
 					.map(propertyType -> propertyType.getPropertyDescriptionType().getPropertyDescriptionCode())
 					.filter(code -> PropertyDescriptionCode.isMotorVehicleCode(code))
 					.collect(Collectors.toList()); 
+			
+			int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles()).orElse(0);
+			
 			if ("A".equals(offense.getOffenseAttemptedCompleted())){
 				returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
 			}
-			else if (property.getNumberOfStolenMotorVehicles() > 0){
-				Integer numberOfStolenMotorVehicles = property.getNumberOfRecoveredMotorVehicles();
+			else if ( numberOfStolenMotorVehicles > 0){
 				if (motorVehicleCodes.contains(PropertyDescriptionCode._03.code)){
 					for (String code: motorVehicleCodes){
 						switch (code){
@@ -525,7 +529,9 @@ public class ReturnAReportService {
 //		listed in Data Element 10 as the number of burglaries to be counted.
 		
 		if (returnARow != null){
-			if (offense.getNumberOfPremisesEntered() > 0 && "19".equals(offense.getLocationType().getLocationTypeCode())){
+			int numberOfPremisesEntered = Optional.ofNullable(offense.getNumberOfPremisesEntered()).orElse(0);
+			if ( numberOfPremisesEntered > 0 
+					&& "19".equals(offense.getLocationType().getLocationTypeCode())){
 				returnAForm.getColumns()[returnARow.ordinal()].increaseReportedOffenses(offense.getNumberOfPremisesEntered());
 			}
 			else {
