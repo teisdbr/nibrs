@@ -141,4 +141,36 @@ public class OffenderSegment {
 	public void setVictimOffenderAssociations(Set<VictimOffenderAssociation> victimOffenderAssociations) {
 		this.victimOffenderAssociations = victimOffenderAssociations;
 	}
+    public boolean isJuvenile() {
+    	boolean ret = false; 
+    	if ( !isAgeUnknown() ) {
+    		ret = ageOfOffenderMax < 18 || (ageOfOffenderMin < 18 && getAverageAge() < 18);
+    	}
+    	return ret;
+    }
+    
+    public boolean isAdult() {
+    	boolean ret = false; 
+    	if ( !isAgeUnknown() ) {
+    		ret = ageOfOffenderMin >= 18 || (ageOfOffenderMax >= 18 && getAverageAge() >= 18);
+    	}
+    	return ret;
+    }
+    
+	public Integer getAverageAge() {
+		Integer ret = null;
+		if (!isAgeUnknown()) {
+			double min = ageOfOffenderMin.doubleValue();
+			double max = ageOfOffenderMax.doubleValue();
+			double average = (min + max) / 2.0;
+			ret = new Integer((int) average);
+		}
+		return ret;
+	}
+
+    public boolean isAgeUnknown() {
+    	// set forth in rule for data element 52
+    	return ageOfOffenderMax == null && ageOfOffenderMin == null;
+    }
+
 }

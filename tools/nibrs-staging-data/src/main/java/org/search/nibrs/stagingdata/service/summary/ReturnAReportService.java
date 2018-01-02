@@ -1,0 +1,653 @@
+
+/*
+ * Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.search.nibrs.stagingdata.service.summary;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.search.nibrs.model.codes.ClearedExceptionallyCode;
+import org.search.nibrs.model.codes.OffenseCode;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
+import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
+import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
+import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
+import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
+import org.search.nibrs.stagingdata.model.segment.PropertySegment;
+import org.search.nibrs.stagingdata.model.segment.VictimSegment;
+import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
+import org.search.nibrs.stagingdata.service.AdministrativeSegmentService;
+import org.search.nibrs.stagingdata.service.summary.ReturnAForm.ReturnARow;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ReturnAReportService {
+
+	@SuppressWarnings("unused")
+	private final Log log = LogFactory.getLog(this.getClass());
+	@Autowired
+	AdministrativeSegmentService administrativeSegmentService;
+
+	private Map<String, Integer> partIOffensesMap; 
+	
+	public ReturnAReportService() {
+		partIOffensesMap = new HashMap<>();
+		partIOffensesMap.put("09A", 1); 
+		partIOffensesMap.put("09B", 2); 
+		partIOffensesMap.put("11A", 3); 
+		partIOffensesMap.put("120", 4); 
+		partIOffensesMap.put("13A", 5); 
+		partIOffensesMap.put("220", 6); 
+		partIOffensesMap.put("23A", 7); 
+		partIOffensesMap.put("23B", 7); 
+		partIOffensesMap.put("23C", 7); 
+		partIOffensesMap.put("23D", 7); 
+		partIOffensesMap.put("23E", 7); 
+		partIOffensesMap.put("23G", 7); 
+		partIOffensesMap.put("23H", 7); 
+		partIOffensesMap.put("240", 8); 
+		partIOffensesMap.put("23F", 9); 
+		partIOffensesMap.put("200", 10); 
+	}
+	
+	public ReturnAForm createReturnASummaryReport(String ori, Integer year,  Integer month ) {
+		
+		ReturnAForm returnAForm = new ReturnAForm(); 
+		processReportedOffenses(ori, year, month, returnAForm);
+		processOffenseClearances(ori, year, month, returnAForm);
+		
+		fillTheForcibleRapTotalRow(returnAForm);
+		fillTheRobberyTotalRow(returnAForm);
+		fillTheAssaultTotalRow(returnAForm);
+		fillTheBurglaryTotalRow(returnAForm);
+		fillTheMotorVehicleTheftTotalRow(returnAForm);
+		fillTheGrandTotalRow(returnAForm);
+
+		return returnAForm;
+	}
+
+	private void processOffenseClearances(String ori, Integer year, Integer month, ReturnAForm returnAForm) {
+		List<AdministrativeSegment> administrativeSegments = administrativeSegmentService.findIdsByOriAndClearanceDate(ori, year, month);
+		
+		for (AdministrativeSegment administrativeSegment: administrativeSegments){
+			if (administrativeSegment.getOffenseSegments().size() == 0) continue;
+			
+			boolean isClearanceInvolvingOnlyJuvenile = isClearanceInvolvingOnlyJuvenile(administrativeSegment);
+			
+			List<OffenseSegment> offenses = getClearedOffenses(administrativeSegment);
+			for (OffenseSegment offense: offenses){
+				ReturnARow returnARow = null; 
+				switch (OffenseCode.forCode(offense.getUcrOffenseCodeType().getUcrOffenseCode())){
+				case _09A:
+					returnARow = ReturnARow.MURDER_NONNEGLIGENT_HOMICIDE;
+					break; 
+				case _09B: 
+					returnARow = ReturnARow.MANSLAUGHTER_BY_NEGLIGENCE; 
+					break; 
+				case _11A: 
+					returnARow = getRowFor11AOffense(administrativeSegment, offense);
+					break;
+				case _120:
+					returnARow = getReturnARowForRobbery(offense);
+					break; 
+				case _13A:
+					returnARow = getReturnARowForAssault(offense);
+					break;
+				case _13B: 
+				case _13C: 
+					returnARow = getReturnARowFor13B13COffense(offense);
+					break;
+				case _220: 
+					countClearedBurglaryOffense(returnAForm, offense, isClearanceInvolvingOnlyJuvenile);
+					break;
+				case _23A: 
+				case _23B:
+				case _23C: 
+				case _23D: 
+				case _23E: 
+				case _23F: 
+				case _23G: 
+				case _23H: 
+					returnARow = ReturnARow.LARCENCY_THEFT_TOTAL; 
+					break; 
+				case _240: 
+					countClearedMotorVehicleTheftOffense(returnAForm, offense, isClearanceInvolvingOnlyJuvenile );
+					break; 
+				case _200: 
+					//? TODO ARSON is mentioned in the PART I offense hierarchy and the exception #4, but there 
+					returnARow = ReturnARow.ARSON;
+					break;
+				default: 
+				}
+				
+				if (returnARow != null){
+					returnAForm.getColumns()[returnARow.ordinal()].increaseClearedOffenses(1);
+					
+					if (isClearanceInvolvingOnlyJuvenile){
+						returnAForm.getColumns()[returnARow.ordinal()].increaseClearanceInvolvingJuvenile(1);
+					}
+				}
+			}
+
+		}
+	}
+
+	private void countClearedMotorVehicleTheftOffense(ReturnAForm returnAForm, OffenseSegment offense,
+			boolean isClearanceInvolvingOnlyJuvenile) {
+		List<PropertySegment> properties =  offense.getAdministrativeSegment().getPropertySegments()
+				.stream().filter(property->TypeOfPropertyLossCode._7.code.equals(property.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()))
+				.collect(Collectors.toList());
+		
+		for (PropertySegment property: properties){
+			List<String> motorVehicleCodes = property.getPropertyTypes().stream()
+					.map(propertyType -> propertyType.getPropertyDescriptionType().getPropertyDescriptionCode())
+					.filter(code -> PropertyDescriptionCode.isMotorVehicleCode(code))
+					.collect(Collectors.toList()); 
+			if ("A".equals(offense.getOffenseAttemptedCompleted())){
+				returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
+			}
+			else if (property.getNumberOfStolenMotorVehicles() > 0){
+				Integer numberOfStolenMotorVehicles = property.getNumberOfRecoveredMotorVehicles();
+				if (motorVehicleCodes.contains(PropertyDescriptionCode._03.code)){
+					for (String code: motorVehicleCodes){
+						switch (code){
+						case "05":
+						case "28": 
+						case "37": 
+							numberOfStolenMotorVehicles --; 
+							returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearedOffenses(1);
+							
+							if(isClearanceInvolvingOnlyJuvenile){
+								returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
+							}
+							break; 
+						case "24": 
+							numberOfStolenMotorVehicles --; 
+							returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(1);
+							if(isClearanceInvolvingOnlyJuvenile){
+								returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
+							}
+							break; 
+						}
+					}
+					
+					if (numberOfStolenMotorVehicles > 0){
+						returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
+						if(isClearanceInvolvingOnlyJuvenile){
+							returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
+						}
+					}
+				}
+				else if (CollectionUtils.containsAny(motorVehicleCodes, 
+						Arrays.asList(PropertyDescriptionCode._05.code, PropertyDescriptionCode._28.code, PropertyDescriptionCode._37.code))){
+					int countOfOtherVehicles = Long.valueOf(motorVehicleCodes.stream()
+							.filter(code -> code.equals(PropertyDescriptionCode._24.code)).count()).intValue();
+					numberOfStolenMotorVehicles -= Long.valueOf(countOfOtherVehicles).intValue();
+					
+					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(countOfOtherVehicles);
+					if(isClearanceInvolvingOnlyJuvenile){
+						returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(countOfOtherVehicles);
+					}
+					
+					if (numberOfStolenMotorVehicles > 0){
+						returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
+						if(isClearanceInvolvingOnlyJuvenile){
+							returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(numberOfStolenMotorVehicles);
+						}
+					}
+				}
+				else if (motorVehicleCodes.contains(PropertyDescriptionCode._24.code)){
+					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
+					if(isClearanceInvolvingOnlyJuvenile){
+						returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(numberOfStolenMotorVehicles);
+					}
+				}
+			}
+		}
+		
+	}
+
+	private boolean isClearanceInvolvingOnlyJuvenile(AdministrativeSegment administrativeSegment) {
+		boolean isClearanceInvolvingOnlyJuvenile = false; 
+		if (ClearedExceptionallyCode.applicableCodeSet().contains(administrativeSegment.getClearedExceptionallyType().getClearedExceptionallyCode())){
+			Set<OffenderSegment> offenders = administrativeSegment.getOffenderSegments();
+			isClearanceInvolvingOnlyJuvenile = offenders.stream().anyMatch(offender -> offender.isJuvenile())  && 
+					offenders.stream().allMatch(offender -> offender.isJuvenile() || offender.isAgeUnknown()); 
+		}
+		else {
+			Set<ArresteeSegment> arrestees = administrativeSegment.getArresteeSegments();
+			isClearanceInvolvingOnlyJuvenile = arrestees.stream().anyMatch(arrestee -> arrestee.isJuvenile())  && 
+					arrestees.stream().allMatch(arrestee -> arrestee.isJuvenile() || arrestee.isAgeUnknown()); 
+		}
+		return isClearanceInvolvingOnlyJuvenile;
+	}
+
+	private void countClearedBurglaryOffense(ReturnAForm returnAForm, OffenseSegment offense, boolean isClearanceInvolvingOnlyJuvenile) {
+		ReturnARow returnARow = getBurglaryRow(offense);
+		
+//		If there is an entry in Data Element 10 (Number of Premises Entered) and an entry of 19 
+//		(Rental Storage Facility) in Data Element 9 (Location Type), use the number of premises 
+//		listed in Data Element 10 as the number of burglaries to be counted.
+		
+		if (returnARow != null){
+			
+			int increment = 1;
+			if (offense.getNumberOfPremisesEntered() > 0 && "19".equals(offense.getLocationType().getLocationTypeCode())){
+				increment = offense.getNumberOfPremisesEntered(); 
+			}
+			
+			returnAForm.getColumns()[returnARow.ordinal()].increaseClearedOffenses(increment);
+			
+			if (isClearanceInvolvingOnlyJuvenile){
+				returnAForm.getColumns()[returnARow.ordinal()].increaseClearanceInvolvingJuvenile(increment);
+			}
+		}
+	}
+
+	private ReturnARow getBurglaryRow(OffenseSegment offense) {
+		ReturnARow returnARow = null; 
+		if ("C".equals(offense.getOffenseAttemptedCompleted())){
+			if (offense.getMethodOfEntryType().getMethodOfEntryCode().equals("F")){
+				returnARow = ReturnARow.FORCIBLE_ENTRY_BURGLARY; 
+			}
+			else if (offense.getMethodOfEntryType().getMethodOfEntryCode().equals("N")){
+				returnARow = ReturnARow.UNLAWFUL_ENTRY_NO_FORCE_BURGLARY; 
+			}
+		}
+		else if ("A".equals(offense.getOffenseAttemptedCompleted()) && 
+				Arrays.asList("N", "F").contains(offense.getMethodOfEntryType().getMethodOfEntryCode())){
+			returnARow = ReturnARow.ATTEMPTED_FORCIBLE_ENTRY_BURGLARY; 
+		}
+		return returnARow;
+	}
+
+	private List<OffenseSegment> getClearedOffenses(AdministrativeSegment administrativeSegment) {
+		//TODO need to handle the Time-Window submission types and Time-Window offenses  
+		List<OffenseSegment> offenses = new ArrayList<>(); 
+		
+		OffenseSegment reportingOffense = null; 
+		Integer reportingOffenseValue = 99; 
+		for (OffenseSegment offense: administrativeSegment.getOffenseSegments()){
+			if (!Arrays.asList("A", "C").contains(offense.getOffenseAttemptedCompleted())){
+				continue;
+			}
+			
+			if (offense.getUcrOffenseCodeType().getUcrOffenseCode().equals(OffenseCode._200.code)){
+				offenses.add(offense);
+				continue;
+			}
+			Integer offenseValue = Optional.ofNullable(partIOffensesMap.get(offense.getUcrOffenseCodeType().getUcrOffenseCode())).orElse(99); 
+			
+			if (offenseValue < reportingOffenseValue){
+				reportingOffense = offense; 
+				reportingOffenseValue = offenseValue; 
+			}
+		}
+		
+		if (reportingOffense != null){
+			offenses.add(reportingOffense);
+		}
+		return offenses;
+	}
+
+	private void processReportedOffenses(String ori, Integer year, Integer month, ReturnAForm returnAForm) {
+		List<AdministrativeSegment> administrativeSegments = administrativeSegmentService.findByOriAndIncidentDate(ori, year, month);
+		for (AdministrativeSegment administrativeSegment: administrativeSegments){
+			if (administrativeSegment.getOffenseSegments().size() == 0) continue; 
+			
+			List<OffenseSegment> offensesToReport = getReturnAOffenses(administrativeSegment); 
+			for (OffenseSegment offense: offensesToReport){
+				
+				ReturnARow returnARow = null; 
+				switch (OffenseCode.forCode(offense.getUcrOffenseCodeType().getUcrOffenseCode())){
+				case _09A:
+					returnARow = ReturnARow.MURDER_NONNEGLIGENT_HOMICIDE; 
+					break; 
+				case _09B: 
+					returnARow = ReturnARow.MURDER_NONNEGLIGENT_HOMICIDE; 
+					break; 
+				case _11A: 
+					returnARow = getRowFor11AOffense(administrativeSegment, offense);
+					break;
+				case _120:
+					returnARow = getReturnARowForRobbery(offense);
+					break; 
+				case _13A:
+					returnARow = getReturnARowForAssault(offense);
+					break;
+				case _13B: 
+				case _13C: 
+					returnARow = getReturnARowFor13B13COffense(offense);
+					break;
+				case _220: 
+					countBurglaryOffense(returnAForm, offense);
+					break;
+				case _23A: 
+				case _23B:
+				case _23C: 
+				case _23D: 
+				case _23E: 
+				case _23F: 
+				case _23G: 
+				case _23H: 
+					returnARow = ReturnARow.LARCENCY_THEFT_TOTAL; 
+					break; 
+				case _240: 
+					countMotorVehicleTheftOffense(returnAForm, offense);
+					break; 
+				case _200: 
+					//? TODO ARSON is mentioned in the PART I offense hierarchy and the exception #4, but there 
+					returnARow = ReturnARow.ARSON;
+					break;
+				default: 
+				}
+				
+				if (returnARow != null){
+					returnAForm.getColumns()[returnARow.ordinal()].increaseReportedOffenses(1);
+				}
+			}
+			
+		}
+		
+	}
+
+	private void fillTheMotorVehicleTheftTotalRow(ReturnAForm returnAForm) {
+		ReturnARow totalRow = ReturnARow.MOTOR_VEHICLE_THEFT_TOTAL; 
+		
+		fillTheTotalRow(returnAForm, totalRow, ReturnARow.AUTOS_THEFT, 
+				ReturnARow.TRUCKS_BUSES_THEFT,
+				ReturnARow.OTHER_VEHICLES_THEFT);
+	}
+
+	private void fillTheBurglaryTotalRow(ReturnAForm returnAForm) {
+		ReturnARow totalRow = ReturnARow.BURGLARY_TOTAL; 
+		
+		fillTheTotalRow(returnAForm, totalRow, ReturnARow.FORCIBLE_ENTRY_BURGLARY, 
+				ReturnARow.UNLAWFUL_ENTRY_NO_FORCE_BURGLARY,
+				ReturnARow.OTHER_DANGEROUS_WEAPON_ASSAULT, 
+				ReturnARow.ATTEMPTED_FORCIBLE_ENTRY_BURGLARY);
+	}
+
+	private void fillTheAssaultTotalRow(ReturnAForm returnAForm) {
+		ReturnARow totalRow = ReturnARow.ASSAULT_TOTAL; 
+		
+		fillTheTotalRow(returnAForm, totalRow, ReturnARow.FIREARM_ASSAULT, 
+				ReturnARow.KNIFE_CUTTING_INSTRUMENT_ASSAULT,
+				ReturnARow.OTHER_DANGEROUS_WEAPON_ASSAULT, 
+				ReturnARow.HANDS_FISTS_FEET_AGGRAVATED_INJURY_ASSAULT, 
+				ReturnARow.OTHER_ASSAULT_NOT_AGGRAVATED);
+	}
+
+	private void fillTheGrandTotalRow(ReturnAForm returnAForm) {
+		ReturnARow totalRow = ReturnARow.GRAND_TOTAL; 
+		
+		fillTheTotalRow(returnAForm, totalRow, ReturnARow.MURDER_NONNEGLIGENT_HOMICIDE, 
+				ReturnARow.MANSLAUGHTER_BY_NEGLIGENCE,
+				ReturnARow.FORCIBLE_RAPE_TOTAL, 
+				ReturnARow.ROBBERY_TOTAL, 
+				ReturnARow.ASSAULT_TOTAL, 
+				ReturnARow.BURGLARY_TOTAL, 
+				ReturnARow.LARCENCY_THEFT_TOTAL, 
+				ReturnARow.MOTOR_VEHICLE_THEFT_TOTAL, 
+				ReturnARow.ARSON);
+		
+	}
+
+	private void fillTheTotalRow(ReturnAForm returnAForm, ReturnARow totalRow, ReturnARow... rowsArray) {
+		List<ReturnARow> rows = Arrays.asList(rowsArray);
+		int totalReportedOffense = 
+				rows.stream()
+					.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getReportedOffenses())
+					.sum(); 
+		returnAForm.getColumns()[totalRow.ordinal()].setReportedOffenses(totalReportedOffense);
+		
+		int totalUnfoundedOffense = 
+				rows.stream()
+				.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getUnfoundedOffenses())
+				.sum(); 
+		returnAForm.getColumns()[totalRow.ordinal()].setUnfoundedOffenses(totalUnfoundedOffense);
+		
+		int totalClearedOffense = 
+				rows.stream()
+				.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getClearedOffenses())
+				.sum(); 
+		returnAForm.getColumns()[totalRow.ordinal()].setClearedOffenses(totalClearedOffense);
+		
+		int totalClearanceInvolvingJuvenile = 
+				rows.stream()
+				.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getClearanceInvolvingJuvenile())
+				.sum(); 
+		returnAForm.getColumns()[totalRow.ordinal()].setClearanceInvolvingJuvenile(totalClearanceInvolvingJuvenile);
+	}
+
+	private void fillTheRobberyTotalRow(ReturnAForm returnAForm) {
+		ReturnARow totalRow = ReturnARow.ROBBERY_TOTAL; 
+		
+		fillTheTotalRow(returnAForm, totalRow, ReturnARow.FIREARM_ROBBERY, 
+				ReturnARow.KNIFE_CUTTING_INSTRUMENT_ROBBERY,
+				ReturnARow.OTHER_DANGEROUS_WEAPON_ROBBERY,
+				ReturnARow.STRONG_ARM_ROBBERY);
+	}
+
+	private void fillTheForcibleRapTotalRow(ReturnAForm returnAForm) {
+		ReturnARow totalRow = ReturnARow.FORCIBLE_RAPE_TOTAL; 
+		
+		fillTheTotalRow(returnAForm, totalRow, ReturnARow.RAPE_BY_FORCE, 
+				ReturnARow.ATTEMPTS_TO_COMMIT_FORCIBLE_RAPE);
+	}
+
+	private void countMotorVehicleTheftOffense(ReturnAForm returnAForm, OffenseSegment offense) {
+		
+		List<PropertySegment> properties =  offense.getAdministrativeSegment().getPropertySegments()
+				.stream().filter(property->TypeOfPropertyLossCode._7.code.equals(property.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()))
+				.collect(Collectors.toList());
+		
+		for (PropertySegment property: properties){
+			List<String> motorVehicleCodes = property.getPropertyTypes().stream()
+					.map(propertyType -> propertyType.getPropertyDescriptionType().getPropertyDescriptionCode())
+					.filter(code -> PropertyDescriptionCode.isMotorVehicleCode(code))
+					.collect(Collectors.toList()); 
+			if ("A".equals(offense.getOffenseAttemptedCompleted())){
+				returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
+			}
+			else if (property.getNumberOfStolenMotorVehicles() > 0){
+				Integer numberOfStolenMotorVehicles = property.getNumberOfRecoveredMotorVehicles();
+				if (motorVehicleCodes.contains(PropertyDescriptionCode._03.code)){
+					for (String code: motorVehicleCodes){
+						switch (code){
+						case "05":
+						case "28": 
+						case "37": 
+							numberOfStolenMotorVehicles --; 
+							returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseReportedOffenses(1);
+							break; 
+						case "24": 
+							numberOfStolenMotorVehicles --; 
+							returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(1);
+							break; 
+						}
+					}
+					
+					if (numberOfStolenMotorVehicles > 0){
+						returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
+					}
+				}
+				else if (CollectionUtils.containsAny(motorVehicleCodes, 
+						Arrays.asList(PropertyDescriptionCode._05.code, PropertyDescriptionCode._28.code, PropertyDescriptionCode._37.code))){
+					int countOfOtherVehicles = Long.valueOf(motorVehicleCodes.stream()
+							.filter(code -> code.equals(PropertyDescriptionCode._24.code)).count()).intValue();
+					numberOfStolenMotorVehicles -= countOfOtherVehicles;
+					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(countOfOtherVehicles);
+					
+					if (numberOfStolenMotorVehicles > 0){
+						returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
+					}
+				}
+				else if (motorVehicleCodes.contains(PropertyDescriptionCode._24.code)){
+					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
+				}
+			}
+		}
+		
+	}
+
+	private void countBurglaryOffense(ReturnAForm returnAForm, OffenseSegment offense) {
+		ReturnARow returnARow = getBurglaryRow(offense);
+		
+//		If there is an entry in Data Element 10 (Number of Premises Entered) and an entry of 19 
+//		(Rental Storage Facility) in Data Element 9 (Location Type), use the number of premises 
+//		listed in Data Element 10 as the number of burglaries to be counted.
+		
+		if (returnARow != null){
+			if (offense.getNumberOfPremisesEntered() > 0 && "19".equals(offense.getLocationType().getLocationTypeCode())){
+				returnAForm.getColumns()[returnARow.ordinal()].increaseReportedOffenses(offense.getNumberOfPremisesEntered());
+			}
+			else {
+				returnAForm.getColumns()[returnARow.ordinal()].increaseReportedOffenses(1);
+			}
+		}
+	}
+
+	private ReturnARow getReturnARowFor13B13COffense(OffenseSegment offense) {
+		ReturnARow returnARow = null; 
+		boolean containsValidWeaponForceType = 
+				offense.getTypeOfWeaponForceInvolveds()
+				.stream()
+				.filter(type -> Arrays.asList("40", "90", "95", "99").contains(type.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode()))
+				.count() > 0;
+				
+		if (containsValidWeaponForceType){
+			returnARow = ReturnARow.OTHER_ASSAULT_NOT_AGGRAVATED;
+		}
+		return returnARow;
+	}
+
+	private ReturnARow getReturnARowForRobbery(OffenseSegment offense) {
+		List<String> typeOfWeaponInvolvedCodes = offense.getTypeOfWeaponForceInvolveds()
+				.stream()
+				.map(TypeOfWeaponForceInvolved::getTypeOfWeaponForceInvolvedType)
+				.map(TypeOfWeaponForceInvolvedType::getTypeOfWeaponForceInvolvedCode)
+				.collect(Collectors.toList()); 
+
+		if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, Arrays.asList("11", "12", "13", "14", "15"))){
+			return ReturnARow.FIREARM_ROBBERY; 
+		}
+		else if (typeOfWeaponInvolvedCodes.contains("20")){
+			return ReturnARow.KNIFE_CUTTING_INSTRUMENT_ROBBERY;
+		}
+		else if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, 
+				Arrays.asList("30", "35", "50", "60", "65", "70", "85", "90", "95"))){
+			return ReturnARow.OTHER_DANGEROUS_WEAPON_ROBBERY;
+		}
+		else if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, 
+				Arrays.asList("40", "99"))){
+			return ReturnARow.STRONG_ARM_ROBBERY;
+		}
+			
+		return null;
+	}
+
+	private ReturnARow getReturnARowForAssault(OffenseSegment offense) {
+		List<String> typeOfWeaponInvolvedCodes = offense.getTypeOfWeaponForceInvolveds()
+				.stream()
+				.map(TypeOfWeaponForceInvolved::getTypeOfWeaponForceInvolvedType)
+				.map(TypeOfWeaponForceInvolvedType::getTypeOfWeaponForceInvolvedCode)
+				.collect(Collectors.toList()); 
+		
+		if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, Arrays.asList("11", "12", "13", "14", "15"))){
+			return ReturnARow.FIREARM_ASSAULT; 
+		}
+		else if (typeOfWeaponInvolvedCodes.contains("20")){
+			return ReturnARow.KNIFE_CUTTING_INSTRUMENT_ASSAULT;
+		}
+		else if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, 
+				Arrays.asList("30", "35", "50", "60", "65", "70", "85", "90", "95"))){
+			return ReturnARow.OTHER_DANGEROUS_WEAPON_ASSAULT;
+		}
+		else if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, 
+				Arrays.asList("40", "99"))){
+			return ReturnARow.HANDS_FISTS_FEET_AGGRAVATED_INJURY_ASSAULT;
+		}
+		
+		return null;
+	}
+	
+	private ReturnARow getRowFor11AOffense(AdministrativeSegment administrativeSegment,
+			OffenseSegment offense) {
+		
+		ReturnARow returnARow = null;
+		List<VictimSegment> victimSegments = administrativeSegment.getVictimSegments()
+			.stream().filter(victim->victim.getOffenseSegments().contains(offense))
+			.filter(victim->victim.getSexOfPersonType().getSexOfPersonCode().equals("F"))
+			.collect(Collectors.toList());
+		if (victimSegments.size() > 0){
+			switch (offense.getOffenseAttemptedCompleted()){
+			case "C": 
+				returnARow = ReturnARow.RAPE_BY_FORCE;
+				break; 
+			case "A": 
+				returnARow = ReturnARow.ATTEMPTS_TO_COMMIT_FORCIBLE_RAPE;
+				break; 
+			default: 
+			}
+		}
+		
+		return returnARow;
+	}
+
+	private List<OffenseSegment> getReturnAOffenses(AdministrativeSegment administrativeSegment) {
+		List<OffenseSegment> offenses = new ArrayList<>(); 
+		
+		OffenseSegment reportingOffense = null; 
+		Integer reportingOffenseValue = 99; 
+		for (OffenseSegment offense: administrativeSegment.getOffenseSegments()){
+			if (!Arrays.asList("A", "C").contains(offense.getOffenseAttemptedCompleted())){
+				continue;
+			}
+			
+			if (offense.getUcrOffenseCodeType().getUcrOffenseCode().equals(OffenseCode._200.code)){
+				offenses.add(offense);
+				continue;
+			}
+			Integer offenseValue = Optional.ofNullable(partIOffensesMap.get(offense.getUcrOffenseCodeType().getUcrOffenseCode())).orElse(99); 
+			
+			if (offenseValue < reportingOffenseValue){
+				reportingOffense = offense; 
+				reportingOffenseValue = offenseValue; 
+			}
+		}
+		
+		if (reportingOffense != null){
+			offenses.add(reportingOffense);
+		}
+		return offenses;
+	}
+	
+	
+}

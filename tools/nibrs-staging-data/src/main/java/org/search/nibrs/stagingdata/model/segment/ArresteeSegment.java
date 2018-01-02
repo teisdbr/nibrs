@@ -339,4 +339,37 @@ public class ArresteeSegment {
 			return false;
 		return true;
 	}
+	
+    public boolean isJuvenile() {
+    	boolean ret = false; 
+    	if ( !isAgeUnknown() ) {
+    		ret = ageOfArresteeMax < 18 || (ageOfArresteeMin < 18 && getAverageAge() < 18);
+    	}
+    	return ret;
+    }
+    
+    public boolean isAdult() {
+    	boolean ret = false; 
+    	if ( !isAgeUnknown() ) {
+    		ret = ageOfArresteeMin >= 18 || (ageOfArresteeMax >= 18 && getAverageAge() >= 18);
+    	}
+    	return ret;
+    }
+    
+	public Integer getAverageAge() {
+		Integer ret = null;
+		if (!isAgeUnknown()) {
+			double min = ageOfArresteeMin.doubleValue();
+			double max = ageOfArresteeMax.doubleValue();
+			double average = (min + max) / 2.0;
+			ret = new Integer((int) average);
+		}
+		return ret;
+	}
+
+    public boolean isAgeUnknown() {
+    	// set forth in rule for data element 52
+    	return ageOfArresteeMax == null && ageOfArresteeMin == null;
+    }
+
 }
