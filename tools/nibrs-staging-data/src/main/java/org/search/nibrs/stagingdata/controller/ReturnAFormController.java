@@ -15,7 +15,7 @@
  */
 package org.search.nibrs.stagingdata.controller;
 
-import org.search.nibrs.stagingdata.service.summary.ReturnAForm;
+import org.search.nibrs.model.reports.ReturnAForm;
 import org.search.nibrs.stagingdata.service.summary.ReturnAFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -43,6 +43,9 @@ public enum LocationTypeCode {
 	_16("16","Lake/Waterway/Beach"),
 	_17("17","Liquor Store"),
 	_18("18","Parking/Drop Lot/Garage"),
+	/**
+	 * Rental Storage Facility
+	 */
 	_19("19","Rental Storage Facility"),
 	_20("20","Residence/Home"),
 	_21("21","Restaurant"),

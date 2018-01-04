@@ -30,9 +30,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.codes.ClearedExceptionallyCode;
+import org.search.nibrs.model.codes.LocationTypeCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
+import org.search.nibrs.model.reports.ReturnAForm;
+import org.search.nibrs.model.reports.ReturnARow;
+import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolvedType;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
@@ -41,8 +45,8 @@ import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.OffenseSegment;
 import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 import org.search.nibrs.stagingdata.model.segment.VictimSegment;
+import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.service.AdministrativeSegmentService;
-import org.search.nibrs.stagingdata.service.summary.ReturnAForm.ReturnARow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +57,8 @@ public class ReturnAFormService {
 	private final Log log = LogFactory.getLog(this.getClass());
 	@Autowired
 	AdministrativeSegmentService administrativeSegmentService;
+	@Autowired
+	public AgencyRepository agencyRepository; 
 
 	private Map<String, Integer> partIOffensesMap; 
 	
@@ -78,7 +84,18 @@ public class ReturnAFormService {
 	
 	public ReturnAForm createReturnASummaryReport(String ori, Integer year,  Integer month ) {
 		
-		ReturnAForm returnAForm = new ReturnAForm(); 
+		ReturnAForm returnAForm = new ReturnAForm(ori, year, month); 
+		Agency agency = agencyRepository.findFirstByAgencyOri(ori); 
+		if (agency!= null){
+			returnAForm.setAgencyName(agency.getAgencyName());
+			returnAForm.setStateName(agency.getStateName());
+			returnAForm.setStateCode(agency.getStateCode());
+			returnAForm.setPopulation(agency.getPopulation());
+		}
+		else{
+			return returnAForm; 
+		}
+
 		processReportedOffenses(ori, year, month, returnAForm);
 		processOffenseClearances(ori, year, month, returnAForm);
 		
@@ -147,10 +164,10 @@ public class ReturnAFormService {
 				}
 				
 				if (returnARow != null){
-					returnAForm.getColumns()[returnARow.ordinal()].increaseClearedOffenses(1);
+					returnAForm.getRows()[returnARow.ordinal()].increaseClearedOffenses(1);
 					
 					if (isClearanceInvolvingOnlyJuvenile){
-						returnAForm.getColumns()[returnARow.ordinal()].increaseClearanceInvolvingJuvenile(1);
+						returnAForm.getRows()[returnARow.ordinal()].increaseClearanceInvolvingJuvenile(1);
 					}
 				}
 			}
@@ -170,7 +187,7 @@ public class ReturnAFormService {
 					.filter(code -> PropertyDescriptionCode.isMotorVehicleCode(code))
 					.collect(Collectors.toList()); 
 			if ("A".equals(offense.getOffenseAttemptedCompleted())){
-				returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
+				returnAForm.getRows()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
 			}
 			else if (property.getNumberOfStolenMotorVehicles() > 0){
 				int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles()).orElse(0);
@@ -182,26 +199,26 @@ public class ReturnAFormService {
 						case "28": 
 						case "37": 
 							numberOfStolenMotorVehicles --; 
-							returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearedOffenses(1);
+							returnAForm.getRows()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearedOffenses(1);
 							
 							if(isClearanceInvolvingOnlyJuvenile){
-								returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
+								returnAForm.getRows()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
 							}
 							break; 
 						case "24": 
 							numberOfStolenMotorVehicles --; 
-							returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(1);
+							returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(1);
 							if(isClearanceInvolvingOnlyJuvenile){
-								returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
+								returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
 							}
 							break; 
 						}
 					}
 					
 					if (numberOfStolenMotorVehicles > 0){
-						returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
+						returnAForm.getRows()[ReturnARow.AUTOS_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
 						if(isClearanceInvolvingOnlyJuvenile){
-							returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
+							returnAForm.getRows()[ReturnARow.AUTOS_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(1);
 						}
 					}
 				}
@@ -211,22 +228,22 @@ public class ReturnAFormService {
 							.filter(code -> code.equals(PropertyDescriptionCode._24.code)).count()).intValue();
 					numberOfStolenMotorVehicles -= Long.valueOf(countOfOtherVehicles).intValue();
 					
-					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(countOfOtherVehicles);
+					returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(countOfOtherVehicles);
 					if(isClearanceInvolvingOnlyJuvenile){
-						returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(countOfOtherVehicles);
+						returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(countOfOtherVehicles);
 					}
 					
 					if (numberOfStolenMotorVehicles > 0){
-						returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
+						returnAForm.getRows()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
 						if(isClearanceInvolvingOnlyJuvenile){
-							returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(numberOfStolenMotorVehicles);
+							returnAForm.getRows()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(numberOfStolenMotorVehicles);
 						}
 					}
 				}
 				else if (motorVehicleCodes.contains(PropertyDescriptionCode._24.code)){
-					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
+					returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearedOffenses(numberOfStolenMotorVehicles);
 					if(isClearanceInvolvingOnlyJuvenile){
-						returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(numberOfStolenMotorVehicles);
+						returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseClearanceInvolvingJuvenile(numberOfStolenMotorVehicles);
 					}
 				}
 			}
@@ -264,10 +281,10 @@ public class ReturnAFormService {
 				increment = offense.getNumberOfPremisesEntered(); 
 			}
 			
-			returnAForm.getColumns()[returnARow.ordinal()].increaseClearedOffenses(increment);
+			returnAForm.getRows()[returnARow.ordinal()].increaseClearedOffenses(increment);
 			
 			if (isClearanceInvolvingOnlyJuvenile){
-				returnAForm.getColumns()[returnARow.ordinal()].increaseClearanceInvolvingJuvenile(increment);
+				returnAForm.getRows()[returnARow.ordinal()].increaseClearanceInvolvingJuvenile(increment);
 			}
 		}
 	}
@@ -320,6 +337,7 @@ public class ReturnAFormService {
 
 	private void processReportedOffenses(String ori, Integer year, Integer month, ReturnAForm returnAForm) {
 		List<AdministrativeSegment> administrativeSegments = administrativeSegmentService.findByOriAndIncidentDate(ori, year, month);
+
 		for (AdministrativeSegment administrativeSegment: administrativeSegments){
 			if (administrativeSegment.getOffenseSegments().size() == 0) continue; 
 			
@@ -371,7 +389,7 @@ public class ReturnAFormService {
 				}
 				
 				if (returnARow != null){
-					returnAForm.getColumns()[returnARow.ordinal()].increaseReportedOffenses(1);
+					returnAForm.getRows()[returnARow.ordinal()].increaseReportedOffenses(1);
 				}
 			}
 			
@@ -425,27 +443,27 @@ public class ReturnAFormService {
 		List<ReturnARow> rows = Arrays.asList(rowsArray);
 		int totalReportedOffense = 
 				rows.stream()
-					.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getReportedOffenses())
+					.mapToInt(row -> returnAForm.getRows()[row.ordinal()].getReportedOffenses())
 					.sum(); 
-		returnAForm.getColumns()[totalRow.ordinal()].setReportedOffenses(totalReportedOffense);
+		returnAForm.getRows()[totalRow.ordinal()].setReportedOffenses(totalReportedOffense);
 		
 		int totalUnfoundedOffense = 
 				rows.stream()
-				.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getUnfoundedOffenses())
+				.mapToInt(row -> returnAForm.getRows()[row.ordinal()].getUnfoundedOffenses())
 				.sum(); 
-		returnAForm.getColumns()[totalRow.ordinal()].setUnfoundedOffenses(totalUnfoundedOffense);
+		returnAForm.getRows()[totalRow.ordinal()].setUnfoundedOffenses(totalUnfoundedOffense);
 		
 		int totalClearedOffense = 
 				rows.stream()
-				.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getClearedOffenses())
+				.mapToInt(row -> returnAForm.getRows()[row.ordinal()].getClearedOffenses())
 				.sum(); 
-		returnAForm.getColumns()[totalRow.ordinal()].setClearedOffenses(totalClearedOffense);
+		returnAForm.getRows()[totalRow.ordinal()].setClearedOffenses(totalClearedOffense);
 		
 		int totalClearanceInvolvingJuvenile = 
 				rows.stream()
-				.mapToInt(row -> returnAForm.getColumns()[row.ordinal()].getClearanceInvolvingJuvenile())
+				.mapToInt(row -> returnAForm.getRows()[row.ordinal()].getClearanceInvolvingJuvenile())
 				.sum(); 
-		returnAForm.getColumns()[totalRow.ordinal()].setClearanceInvolvingJuvenile(totalClearanceInvolvingJuvenile);
+		returnAForm.getRows()[totalRow.ordinal()].setClearanceInvolvingJuvenile(totalClearanceInvolvingJuvenile);
 	}
 
 	private void fillTheRobberyTotalRow(ReturnAForm returnAForm) {
@@ -479,7 +497,7 @@ public class ReturnAFormService {
 			int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles()).orElse(0);
 			
 			if ("A".equals(offense.getOffenseAttemptedCompleted())){
-				returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
+				returnAForm.getRows()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
 			}
 			else if ( numberOfStolenMotorVehicles > 0){
 				if (motorVehicleCodes.contains(PropertyDescriptionCode._03.code)){
@@ -489,17 +507,17 @@ public class ReturnAFormService {
 						case "28": 
 						case "37": 
 							numberOfStolenMotorVehicles --; 
-							returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseReportedOffenses(1);
+							returnAForm.getRows()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseReportedOffenses(1);
 							break; 
 						case "24": 
 							numberOfStolenMotorVehicles --; 
-							returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(1);
+							returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(1);
 							break; 
 						}
 					}
 					
 					if (numberOfStolenMotorVehicles > 0){
-						returnAForm.getColumns()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
+						returnAForm.getRows()[ReturnARow.AUTOS_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
 					}
 				}
 				else if (CollectionUtils.containsAny(motorVehicleCodes, 
@@ -507,14 +525,14 @@ public class ReturnAFormService {
 					int countOfOtherVehicles = Long.valueOf(motorVehicleCodes.stream()
 							.filter(code -> code.equals(PropertyDescriptionCode._24.code)).count()).intValue();
 					numberOfStolenMotorVehicles -= countOfOtherVehicles;
-					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(countOfOtherVehicles);
+					returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(countOfOtherVehicles);
 					
 					if (numberOfStolenMotorVehicles > 0){
-						returnAForm.getColumns()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
+						returnAForm.getRows()[ReturnARow.TRUCKS_BUSES_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
 					}
 				}
 				else if (motorVehicleCodes.contains(PropertyDescriptionCode._24.code)){
-					returnAForm.getColumns()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
+					returnAForm.getRows()[ReturnARow.OTHER_VEHICLES_THEFT.ordinal()].increaseReportedOffenses(numberOfStolenMotorVehicles);
 				}
 			}
 		}
@@ -531,11 +549,11 @@ public class ReturnAFormService {
 		if (returnARow != null){
 			int numberOfPremisesEntered = Optional.ofNullable(offense.getNumberOfPremisesEntered()).orElse(0);
 			if ( numberOfPremisesEntered > 0 
-					&& "19".equals(offense.getLocationType().getLocationTypeCode())){
-				returnAForm.getColumns()[returnARow.ordinal()].increaseReportedOffenses(offense.getNumberOfPremisesEntered());
+					&& LocationTypeCode._19.code.equals(offense.getLocationType().getLocationTypeCode())){
+				returnAForm.getRows()[returnARow.ordinal()].increaseReportedOffenses(offense.getNumberOfPremisesEntered());
 			}
 			else {
-				returnAForm.getColumns()[returnARow.ordinal()].increaseReportedOffenses(1);
+				returnAForm.getRows()[returnARow.ordinal()].increaseReportedOffenses(1);
 			}
 		}
 	}
@@ -545,7 +563,7 @@ public class ReturnAFormService {
 		boolean containsValidWeaponForceType = 
 				offense.getTypeOfWeaponForceInvolveds()
 				.stream()
-				.filter(type -> Arrays.asList("40", "90", "95", "99").contains(type.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode()))
+				.filter(type -> Arrays.asList("40", "90", "95", "99", " ").contains(type.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode()))
 				.count() > 0;
 				
 		if (containsValidWeaponForceType){

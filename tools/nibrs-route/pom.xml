@@ -20,7 +20,6 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>nibrs-route</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>nibrs-route</name>
@@ -124,17 +123,11 @@
 		
 	    <!-- test -->
 	    <dependency>
-	      <groupId>org.springframework.boot</groupId>
-	      <artifactId>spring-boot-starter-test</artifactId>
-	      <scope>test</scope>
-	    </dependency>
-	    <dependency>
 	      <groupId>org.apache.camel</groupId>
 	      <artifactId>camel-test-spring</artifactId>
 	      <scope>test</scope>
 	    </dependency>
 	    
-		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
