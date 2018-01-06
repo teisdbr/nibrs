@@ -102,7 +102,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 		
 		List<NIBRSError> errorList = new ArrayList<NIBRSError>();
 		
-		while ((line = br.readLine()) != null) {
+		while ((line = br.readLine()) != null && org.apache.commons.lang3.StringUtils.isNotBlank(line)) {
 			Segment s = new Segment();
 			ReportSource reportSource = new ReportSource();
 			reportSource.setSourceLocation(String.valueOf(lineNumber));
