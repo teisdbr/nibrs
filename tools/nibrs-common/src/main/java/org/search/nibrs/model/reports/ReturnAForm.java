@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 public class ReturnAForm implements Serializable{
 	private static final long serialVersionUID = -2340194364781985383L;
-	private ReturnAFormRow[] rows = new ReturnAFormRow[ReturnARow.values().length]; 
+	private ReturnAFormRow[] rows = new ReturnAFormRow[ReturnARowName.values().length]; 
 	private String ori; 
 	private String agencyName; 
 	private String stateName;

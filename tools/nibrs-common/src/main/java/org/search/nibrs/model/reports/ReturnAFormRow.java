@@ -23,10 +23,18 @@ public class ReturnAFormRow implements Serializable{
 	private int unfoundedOffenses; 
 	private int actualOffenses; 
 	private int clearedOffenses;
-	private int clearanceInvolvingJuvenile;
+	private int clearanceInvolvingOnlyJuvenile;
 	
 	public ReturnAFormRow() {
 		super();
+	}
+	
+	public ReturnAFormRow(int reportedOffenses, int unfoundedOffenses, int clearedOffenses, int clearanceInvolvingOnlyJuvenile) {
+		this();
+		this.reportedOffenses = reportedOffenses; 
+		this.unfoundedOffenses = unfoundedOffenses; 
+		this.clearedOffenses = clearedOffenses; 
+		this.clearanceInvolvingOnlyJuvenile = clearanceInvolvingOnlyJuvenile; 
 	}
 	public int getReportedOffenses() {
 		return reportedOffenses;
@@ -62,18 +70,18 @@ public class ReturnAFormRow implements Serializable{
 		clearedOffenses += increment;
 	}
 	public int getClearanceInvolvingJuvenile() {
-		return clearanceInvolvingJuvenile;
+		return clearanceInvolvingOnlyJuvenile;
 	}
-	public void setClearanceInvolvingJuvenile(int clearanceInvolvingJuvenile) {
-		this.clearanceInvolvingJuvenile = clearanceInvolvingJuvenile;
+	public void setClearanceInvolvingOnlyJuvenile(int clearanceInvolvingOnlyJuvenile) {
+		this.clearanceInvolvingOnlyJuvenile = clearanceInvolvingOnlyJuvenile;
 	}
-	public void increaseClearanceInvolvingJuvenile(int increment){
-		clearanceInvolvingJuvenile += increment;
+	public void increaseClearanceInvolvingOnlyJuvenile(int increment){
+		clearanceInvolvingOnlyJuvenile += increment;
 	}
 	@Override
 	public String toString() {
 		return "Summary [reportedOffenses=" + reportedOffenses + ", unfoundedOffenses=" + unfoundedOffenses
 				+ ", actualOffenses=" + actualOffenses + ", clearedOffense=" + clearedOffenses
-				+ ", clearanceInvolvingJuvenile=" + clearanceInvolvingJuvenile + "]";
+				+ ", clearanceInvolvingOnlyJuvenile=" + clearanceInvolvingOnlyJuvenile + "]";
 	}
 }

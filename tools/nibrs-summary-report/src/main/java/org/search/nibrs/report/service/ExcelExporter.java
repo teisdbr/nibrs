@@ -1,0 +1,470 @@
+/*
+ * Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.search.nibrs.report.service;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.search.nibrs.model.reports.ReturnAForm;
+import org.search.nibrs.model.reports.ReturnAFormRow;
+import org.search.nibrs.model.reports.ReturnARowName;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ExcelExporter {
+	private static final Log log = LogFactory.getLog(ExcelExporter.class);
+    private static final String RETURN_A_FILE_NAME_BASE = "/tmp/returnAForm";
+    
+    public void exportReturnAForm(ReturnAForm returnAForm){
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        
+        XSSFSheet sheet = workbook.createSheet("Return A Form");
+    	
+        int rowNum = 0;
+        log.info("Write to the excel file");
+        CellStyle wrappedStyle = workbook.createCellStyle();
+        wrappedStyle.setWrapText(true);
+        Font boldFont = workbook.createFont();
+        boldFont.setBold(true);
+        XSSFFont normalWeightFont = workbook.createFont();
+        normalWeightFont.setBold(false);
+        
+        Font underlineFont = workbook.createFont();
+        underlineFont.setUnderline(Font.U_SINGLE);
+        
+    	rowNum = createTheTitleRow(sheet, rowNum, wrappedStyle, boldFont, normalWeightFont);
+		rowNum = createTheTableHeaderRow(sheet, rowNum, boldFont, normalWeightFont);
+
+        for (ReturnARowName rowName: ReturnARowName.values()){
+        	writeRow(sheet, rowName, returnAForm.getRows()[rowName.ordinal()], rowNum++, boldFont);
+        }
+
+		sheet.autoSizeColumn(0);
+		sheet.autoSizeColumn(1);
+		sheet.autoSizeColumn(2);
+		sheet.autoSizeColumn(3);
+		sheet.autoSizeColumn(4);
+		sheet.autoSizeColumn(5);
+		sheet.autoSizeColumn(6);
+		
+		Row row = sheet.createRow(rowNum++);
+		Cell cell = row.createCell(0);
+		cell.setCellStyle(wrappedStyle);
+		cell.setCellValue("CHECKING ANY OF THE APPROPRIATE BLOCKS BELOW WILL ELIMINATE YOUR NEED OF SUBMIT REPORTS WHEN \n"
+				+ "THE VALUES ARE ZERO. THIS WILL ALSO AID THE NATIONAL PROGRAM IN ITS QUALITY CONTROL EFFORTS  ");
+		sheet.addMergedRegion(new CellRangeAddress(29, 30, 0, 4));
+		cell = row.createCell(5); 
+        CellStyle centered = workbook.createCellStyle();
+        centered.setAlignment(HorizontalAlignment.CENTER);
+        cell.setCellStyle(centered);
+        cell.setCellValue("DO NOT USE THIS SPACE");
+		sheet.addMergedRegion(new CellRangeAddress(29, 31, 5, 6));
+		
+		rowNum ++; 
+		row = sheet.createRow(rowNum++);
+		cell=row.createCell(0);
+		String text = "\t\tNO SUPPLEMENTARY HOMICIDE REPORT SUBMITTED\n"
+				+ "\t\t\t\t\t SINCE NO MURDERS, JUSTIFIEABLE HOMICIDE, \n"
+				+ "\t\t\t\t\t OR MANSLAUGHTERS BY NEGLIGENCE OCCURRED IN\n"
+				+ "\t\t\t\t\t THIS JURISDICTION DURING THE MONTH";
+		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, text);
+		sheet.addMergedRegion(new CellRangeAddress(31, 35, 0, 1));
+		cell=row.createCell(2);
+		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
+				"\t\tNO AGE, SEX, AND RACE OF PERSONS ARRESTED UNDER\n"
+			  + "\t\t\t\t\t 18 YEARS OF AGE REPORT SINCE NO ARRESTS \n"
+			  + "\t\t\t\t\t OF PERSONS WITHIN THIS AGE GROUP.");
+		sheet.addMergedRegion(new CellRangeAddress(31, 35, 2, 4));
+		
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(5); 
+		cell.setCellValue("");
+		sheet.addMergedRegion(new CellRangeAddress(32, 33, 5, 5));
+		cell = row.createCell(6); 
+		
+		cell.setCellValue("INITIALS");
+		cell.setCellStyle(centered);
+		sheet.addMergedRegion(new CellRangeAddress(32, 33, 6, 6));
+
+		int initialTableRowNum = 34; 
+		addInitialTableRow(sheet,initialTableRowNum, "RECORDED", null );
+		initialTableRowNum += 2; 
+		initialTableRowNum += 2; 
+		addInitialTableRow(sheet, initialTableRowNum, "ENTERED", null);
+		initialTableRowNum += 2; 
+		initialTableRowNum += 2; 
+		addInitialTableRow(sheet, initialTableRowNum, "CORRES", null);
+		
+		rowNum = 36; 
+		row = sheet.createRow(rowNum);
+		cell=row.createCell(0);
+		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
+				"\t\tNO SUPPLEMENT TO RETURN A REPORT SINCE NO	\n"
+			  + "\t\t\t\t\t CRIME OFFENSES OR RECOVERY OF PROPERTY \n"
+			  + "\t\t\t\t\t REPORTED DURING THE MONTH.");
+		sheet.addMergedRegion(new CellRangeAddress(36, 39, 0, 1));
+		cell=row.createCell(2);
+		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
+				"\t\tNO AGE, SEX, AND RACE OF PERSONS ARRESTED UNDER\n"
+			  + "\t\t\t\t\t 18 YEARS OF AGE AND OVER REPORT SINCE NO ARRESTS \n"
+			  + "\t\t\t\t\t OF PERSONS WITHIN THIS AGE GROUP.");
+		sheet.addMergedRegion(new CellRangeAddress(36, 39, 2, 4));
+		addInitialTableRow(sheet, rowNum, "EDITED", row);
+		
+		rowNum = 40;
+		row = sheet.createRow(rowNum);
+		cell=row.createCell(0);
+		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
+				"\t\tNO LAW ENFORCEMENT OFFICERS KILLED OR \n"
+			  + "\t\t\t\t\t ASSAULTED OR KILLED REPORT SINCE NONE OF THE\n"
+			  + "\t\t\t\t\t OFFICERS WERE ASSAULTED DURING THE MONTH.");
+		sheet.addMergedRegion(new CellRangeAddress(40, 43, 0, 1));
+		cell=row.createCell(2);
+		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
+				"\t\tNO MONTHLY RETURN OF ARSON OFFENSES KNOWN \n"
+			  + "\t\t\t\t\t TO LAW ENFORCEMENT REPORT SINCE NO ARSONS  \n"
+			  + "\t\t\t\t\t OCCURRED.");
+		sheet.addMergedRegion(new CellRangeAddress(40, 43, 2, 4));
+		addInitialTableRow(sheet, rowNum, "ADJUSTED", row);
+		
+		rowNum = 45; 
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(0);
+		
+		CellStyle thinBorderBottom = workbook.createCellStyle();
+		thinBorderBottom.setBorderBottom(BorderStyle.THIN);
+		cell.setCellStyle(thinBorderBottom);
+		
+		cell=row.createCell(3); 
+		cell.setCellStyle(thinBorderBottom);
+		cell=row.createCell(4); 
+		cell.setCellStyle(thinBorderBottom);
+		sheet.addMergedRegion(new CellRangeAddress(45, 45, 3, 4));
+		cell=row.createCell(6); 
+		cell.setCellStyle(thinBorderBottom);
+
+		CellStyle topCentered = workbook.createCellStyle();
+		topCentered.setVerticalAlignment(VerticalAlignment.TOP);
+		topCentered.setAlignment(HorizontalAlignment.CENTER);
+		rowNum = 46; 
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(0);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Month and Year");
+		
+		cell = row.createCell(3);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Agency Identifier");
+		sheet.addMergedRegion(new CellRangeAddress(46, 46, 3, 4));
+		
+		cell = row.createCell(6);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Population");
+		
+		rowNum = 48; 
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(4);
+		cell.setCellStyle(thinBorderBottom);
+		cell = row.createCell(5);
+		cell.setCellStyle(thinBorderBottom);
+		cell = row.createCell(6);
+		cell.setCellStyle(thinBorderBottom);
+		
+		rowNum = 49; 
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(6);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Date");
+		rowNum = 51; 
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(4);
+		cell.setCellStyle(thinBorderBottom);
+		cell = row.createCell(5);
+		cell.setCellStyle(thinBorderBottom);
+		cell = row.createCell(6);
+		cell.setCellStyle(thinBorderBottom);
+		rowNum = 52; 
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(4);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Prepared By");
+		cell = row.createCell(6);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Title");
+		
+		rowNum = 54; 
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(0);
+		cell.setCellStyle(thinBorderBottom);
+		cell = row.createCell(4);
+		cell.setCellStyle(thinBorderBottom);
+		cell = row.createCell(5);
+		cell.setCellStyle(thinBorderBottom);
+		cell = row.createCell(6);
+		cell.setCellStyle(thinBorderBottom);
+		
+		rowNum = 55;
+		row = sheet.createRow(rowNum);
+		cell = row.createCell(0);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Agency and State");
+		cell = row.createCell(4);
+		cell.setCellStyle(topCentered);
+		cell.setCellValue("Chief, Commisioner, Sheriff, or Superintendent");
+		sheet.addMergedRegion(new CellRangeAddress(55, 55, 4, 6));
+
+        try {
+        	String fileName = RETURN_A_FILE_NAME_BASE + returnAForm.getOri() + "-" + returnAForm.getYear() + "-" + StringUtils.leftPad(String.valueOf(returnAForm.getMonth()), 2, '0') + ".xlsx"; 
+            FileOutputStream outputStream = new FileOutputStream(fileName);
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Done");
+    }
+
+	private void addInitialTableRow(XSSFSheet sheet, int rowNum, String label, Row row) {
+		XSSFCellStyle rightAligned = sheet.getWorkbook().createCellStyle(); 
+		rightAligned.setAlignment(HorizontalAlignment.RIGHT);
+		
+		if (row == null){
+			row = sheet.createRow(rowNum);
+		}
+		Cell cell = row.createCell(5); 
+		cell.setCellValue(label);
+		cell.setCellStyle(rightAligned);
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+1, 5, 5));
+		cell = row.createCell(6); 
+		cell.setCellValue("");
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+1, 6, 6));
+	}
+
+	private void addCheckBoxAndWrappedText(XSSFWorkbook workbook, CellStyle wrappedStyle, Cell cell, String text) {
+		wrappedStyle.setVerticalAlignment(VerticalAlignment.TOP);
+		cell.setCellStyle(wrappedStyle);
+		XSSFRichTextString s1 = new XSSFRichTextString("\u25A1");
+        Font bigFont = workbook.createFont();
+        bigFont.setFontHeightInPoints((short)16);
+        s1.applyFont(bigFont);
+        s1.append(text);;
+		cell.setCellValue(s1);
+	}
+
+	private int createTheTitleRow(XSSFSheet sheet, int rowNum, CellStyle cs, Font boldFont, XSSFFont normalWeightFont) {
+		Row row = sheet.createRow(rowNum++);
+    	row.setHeightInPoints((4*sheet.getDefaultRowHeightInPoints()));
+		Cell cell = row.createCell(0);
+		cell.setCellStyle(cs);
+		 
+		XSSFRichTextString s1 = new XSSFRichTextString("RETURN A - MONTHLY RETURN OF OFFENSES KNOWN TO THE POLICE");
+		s1.applyFont(boldFont);
+		s1.append("\nThis report is authorized by law Title 28, Section 534, U.S.Code. While you are not required to respond, your "
+				+ "\ncooperation in forwarding this report by the seventh day after the close of the month to Uniform Crime Reports, Federal Bureau of Investigation, "
+				+ "\nClarksburg, WV, 26306, will assist in compiling comprehensive, accurate national crime figures on a timely basis. ", normalWeightFont);
+		cell.setCellValue(s1);
+		
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 6));
+		return rowNum;
+	}
+    
+	private int createTheTableHeaderRow(XSSFSheet sheet, int rowNum, Font boldFont, XSSFFont normalWeightFont) {
+        
+		Row row = sheet.createRow(rowNum++);
+    	row.setHeightInPoints((5*sheet.getDefaultRowHeightInPoints()));
+		Cell cell = row.createCell(0);
+		
+        CellStyle column0Style = sheet.getWorkbook().createCellStyle();
+        column0Style.setWrapText(true);
+        column0Style.setAlignment(HorizontalAlignment.CENTER);
+        column0Style.setVerticalAlignment(VerticalAlignment.TOP);
+
+		cell.setCellStyle(column0Style);
+		cell.setCellValue("1\n\n CLASSIFICATION OF OFFENSES");
+		
+		Cell cell1 = row.createCell(1);
+		XSSFCellStyle column1Style = sheet.getWorkbook().createCellStyle(); 
+		column1Style.setRotation((short)90);
+		column1Style.setVerticalAlignment(VerticalAlignment.CENTER);
+		column1Style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+		column1Style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		cell1.setCellValue("Data Entry");
+		cell1.setCellStyle(column1Style);
+		
+		Cell cell2 = row.createCell(2);
+		cell2.setCellStyle(column0Style);
+		cell2.setCellValue("2 \n Offenses reported\n or know to police \n (include \"unfounded\" \n and attempts)");
+		Cell cell3 = row.createCell(3);
+		cell3.setCellStyle(column0Style);
+		cell3.setCellValue("3 \n Unfounded, i.e.\n false or baseless \n complaints");
+		Cell cell4 = row.createCell(4);
+		cell4.setCellStyle(column0Style);
+		cell4.setCellValue("4 \n Number of actual \n offenses ( column 2 \n minus column 3) \n (include attempts)");
+		
+		Cell cell5 = row.createCell(5);
+		cell5.setCellStyle(column0Style);
+		cell5.setCellValue("5 \n Total Offenses\n cleared by offenses or \n exceptional means \n (include column 6)");
+		
+		Cell cell6 = row.createCell(6);
+		cell6.setCellStyle(column0Style);
+		cell6.setCellValue("6 \n Number of clearances\n involving only \n persons under 18 \n years of age)");
+		
+		return rowNum;
+	}
+	
+    private void writeRow(XSSFSheet sheet, ReturnARowName rowName, ReturnAFormRow returnAFormRow, int rowNum, Font boldFont) {
+    	Row row = sheet.createRow(rowNum);
+    	int colNum = 0;
+    	Cell cell = row.createCell(colNum++);
+    	CellStyle wrapStyle = sheet.getWorkbook().createCellStyle();
+    	wrapStyle.setWrapText(true);
+    	switch(rowName){
+    	case MURDER_NONNEGLIGENT_HOMICIDE: 
+    	case LARCENCY_THEFT_TOTAL:
+        	row.setHeightInPoints((2*sheet.getDefaultRowHeightInPoints()));
+            cell.setCellStyle(wrapStyle);
+            XSSFRichTextString s1 = new XSSFRichTextString(rowName.getLabel());
+            s1.applyFont(0, rowName.getLabel().indexOf('\n'), boldFont);
+            cell.setCellValue(s1);
+    		break; 
+            
+    	case FORCIBLE_RAPE_TOTAL: 
+    	case ROBBERY_TOTAL: 
+    	case ASSAULT_TOTAL: 
+    	case BURGLARY_TOTAL: 
+    	case MOTOR_VEHICLE_THEFT_TOTAL: 
+    	case ARSON: 
+    	case GRAND_TOTAL: 
+            XSSFRichTextString allBoldString = new XSSFRichTextString(rowName.getLabel());
+            allBoldString.applyFont(boldFont);
+            cell.setCellValue(allBoldString);
+    		break; 
+    	default: 
+    		cell.setCellValue(rowName.getLabel());
+    	}
+        CellStyle greyForeGround = sheet.getWorkbook().createCellStyle();
+        greyForeGround.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        greyForeGround.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+		cell = row.createCell(colNum++);
+		cell.setCellValue(rowName.getDataEntry());
+		cell.setCellStyle(greyForeGround);
+		cell = row.createCell(colNum++);
+		cell.setCellValue((Integer) returnAFormRow.getReportedOffenses());
+		cell = row.createCell(colNum++);
+		cell.setCellValue((Integer) returnAFormRow.getUnfoundedOffenses());
+		cell = row.createCell(colNum++);
+		cell.setCellValue((Integer) returnAFormRow.getActualOffenses());
+		cell = row.createCell(colNum++);
+		cell.setCellValue((Integer) returnAFormRow.getClearedOffenses());
+		cell = row.createCell(colNum++);
+		cell.setCellValue((Integer) returnAFormRow.getClearanceInvolvingJuvenile());
+
+	}
+
+	public static void main(String[] args) {
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Datatypes in Java");
+        
+//        ReturnAForm [rows=
+//        	[Summary [reportedOffenses=4, unfoundedOffenses=0, actualOffenses=4, clearedOffense=3, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=24, unfoundedOffenses=0, actualOffenses=24, clearedOffense=7, clearanceInvolvingJuvenile=0], 
+//          Summary [reportedOffenses=24, unfoundedOffenses=0, actualOffenses=24, clearedOffense=7, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=74, unfoundedOffenses=0, actualOffenses=74, clearedOffense=11, clearanceInvolvingJuvenile=1], 
+//        	Summary [reportedOffenses=15, unfoundedOffenses=0, actualOffenses=15, clearedOffense=1, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=6, unfoundedOffenses=0, actualOffenses=6, clearedOffense=1, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=12, unfoundedOffenses=0, actualOffenses=12, clearedOffense=2, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=41, unfoundedOffenses=0, actualOffenses=41, clearedOffense=7, clearanceInvolvingJuvenile=1], 
+//        	Summary [reportedOffenses=119, unfoundedOffenses=0, actualOffenses=119, clearedOffense=39, clearanceInvolvingJuvenile=2], 
+//        	Summary [reportedOffenses=12, unfoundedOffenses=0, actualOffenses=12, clearedOffense=4, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=22, unfoundedOffenses=0, actualOffenses=22, clearedOffense=6, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=49, unfoundedOffenses=0, actualOffenses=49, clearedOffense=20, clearanceInvolvingJuvenile=1], 
+//        	Summary [reportedOffenses=36, unfoundedOffenses=0, actualOffenses=36, clearedOffense=9, clearanceInvolvingJuvenile=1], 
+//        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=323, unfoundedOffenses=0, actualOffenses=323, clearedOffense=30, clearanceInvolvingJuvenile=4], 
+//        	Summary [reportedOffenses=111, unfoundedOffenses=0, actualOffenses=111, clearedOffense=5, clearanceInvolvingJuvenile=2], 
+//        	Summary [reportedOffenses=119, unfoundedOffenses=0, actualOffenses=119, clearedOffense=2, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=44, unfoundedOffenses=0, actualOffenses=44, clearedOffense=3, clearanceInvolvingJuvenile=1], 
+//        	Summary [reportedOffenses=1751, unfoundedOffenses=0, actualOffenses=1751, clearedOffense=117, clearanceInvolvingJuvenile=21], 
+//        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
+//        	Summary [reportedOffenses=33, unfoundedOffenses=0, actualOffenses=33, clearedOffense=1, clearanceInvolvingJuvenile=1], 
+//        	Summary [reportedOffenses=2328, unfoundedOffenses=0, actualOffenses=2328, clearedOffense=208, clearanceInvolvingJuvenile=29]], 
+//        	ori=HI0020000, agencyName=Honolulu Police Department, stateName=Hawaii, month=3, year=2017]
+        ReturnAForm returnAForm = new ReturnAForm("HI0020000", 2017, 3);
+        ReturnAFormRow[] rows = new ReturnAFormRow[]{
+        		new ReturnAFormRow(4, 0, 3, 0), 
+        		new ReturnAFormRow(0, 0, 0, 0), 
+        		new ReturnAFormRow(24, 0, 7, 0), 
+        		new ReturnAFormRow(24, 0, 7, 0), 
+        		new ReturnAFormRow(0, 0, 0, 0), 
+        		new ReturnAFormRow(74, 0, 11, 1), 
+        		new ReturnAFormRow(15, 0, 1, 0), 
+        		new ReturnAFormRow(6, 0, 1, 0), 
+        		new ReturnAFormRow(12, 0, 2, 0), 
+        		new ReturnAFormRow(41, 0, 7, 1), 
+        		new ReturnAFormRow(119, 0, 39, 2), 
+        		new ReturnAFormRow(12, 0, 4, 0), 
+        		new ReturnAFormRow(22, 0, 6, 0), 
+        		new ReturnAFormRow(49, 0, 20, 1), 
+        		new ReturnAFormRow(36, 0, 9, 1), 
+        		new ReturnAFormRow(0, 0, 0, 0), 
+        		new ReturnAFormRow(323, 0, 30, 4), 
+        		new ReturnAFormRow(111, 0, 5, 2), 
+        		new ReturnAFormRow(119, 0, 2, 0), 
+        		new ReturnAFormRow(44, 0, 3, 1), 
+        		new ReturnAFormRow(1751, 0, 117, 21), 
+        		new ReturnAFormRow(0, 0, 0, 0), 
+        		new ReturnAFormRow(0, 0, 0, 0), 
+        		new ReturnAFormRow(0, 0, 0, 0), 
+        		new ReturnAFormRow(0, 0, 0, 0), 
+        		new ReturnAFormRow(33, 0, 1, 1), 
+        		new ReturnAFormRow(2328, 0, 208, 29) };
+        returnAForm.setRows(rows);
+        returnAForm.setAgencyName("Honolulu Police Department");
+        returnAForm.setAgencyName("Hawaii");
+        
+        ExcelExporter exporter = new ExcelExporter(); 
+        exporter.exportReturnAForm(returnAForm);
+        
+    }
+}

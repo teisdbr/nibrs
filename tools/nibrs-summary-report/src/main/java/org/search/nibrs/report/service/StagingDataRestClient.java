@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
  *
@@ -14,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.search.nibrs.report.service;
 
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class StagingDataRestClient {
 
-	private final Log log = LogFactory.getLog(this.getClass());
+	private static final Log log = LogFactory.getLog(StagingDataRestClient.class);
 
 	private RestTemplate restTemplate;
 	@Autowired
@@ -51,7 +49,10 @@ public class StagingDataRestClient {
 		List<String> urlParts = Arrays.asList(appProperties.getStagingDataRestServiceBaseUrl(), 
 				"returnAForm/", ori, year, month); 
 		String url = StringUtils.join(urlParts, '/');
+		log.info("Getting the ReturnAForm object from the url " + url);
+
 		ReturnAForm returnAForm = restTemplate.getForObject( url, ReturnAForm.class);
+		log.info("returnAForm: " + returnAForm);
 		return returnAForm;
 	}
 
