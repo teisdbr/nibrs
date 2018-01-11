@@ -17,6 +17,8 @@ package org.search.nibrs.report.service;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -31,6 +33,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
@@ -43,6 +46,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ExcelExporter {
+	private static final String CRIMINAL_HOMICIDE = "CRIMINAL HOMICIDE";
 	private static final Log log = LogFactory.getLog(ExcelExporter.class);
     private static final String RETURN_A_FILE_NAME_BASE = "/tmp/returnAForm";
     
@@ -161,19 +165,22 @@ public class ExcelExporter {
 		rowNum = 45; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(0);
-		
+		cell.setCellValue(returnAForm.getMonthString() + "/" + returnAForm.getYear());
 		CellStyle thinBorderBottom = workbook.createCellStyle();
 		thinBorderBottom.setBorderBottom(BorderStyle.THIN);
+		thinBorderBottom.setAlignment(HorizontalAlignment.CENTER);
 		cell.setCellStyle(thinBorderBottom);
 		
 		cell=row.createCell(3); 
 		cell.setCellStyle(thinBorderBottom);
+		cell.setCellValue(returnAForm.getOri());
 		cell=row.createCell(4); 
 		cell.setCellStyle(thinBorderBottom);
 		sheet.addMergedRegion(new CellRangeAddress(45, 45, 3, 4));
 		cell=row.createCell(6); 
 		cell.setCellStyle(thinBorderBottom);
-
+		cell.setCellValue(returnAForm.getPopulationString());
+		
 		CellStyle topCentered = workbook.createCellStyle();
 		topCentered.setVerticalAlignment(VerticalAlignment.TOP);
 		topCentered.setAlignment(HorizontalAlignment.CENTER);
@@ -200,6 +207,7 @@ public class ExcelExporter {
 		cell.setCellStyle(thinBorderBottom);
 		cell = row.createCell(6);
 		cell.setCellStyle(thinBorderBottom);
+		cell.setCellValue(LocalDate.now().toString());
 		
 		rowNum = 49; 
 		row = sheet.createRow(rowNum);
@@ -227,6 +235,7 @@ public class ExcelExporter {
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(0);
 		cell.setCellStyle(thinBorderBottom);
+		cell.setCellValue(returnAForm.getAgencyName() + ", " + returnAForm.getStateCode());
 		cell = row.createCell(4);
 		cell.setCellStyle(thinBorderBottom);
 		cell = row.createCell(5);
@@ -243,6 +252,24 @@ public class ExcelExporter {
 		cell.setCellStyle(topCentered);
 		cell.setCellValue("Chief, Commisioner, Sheriff, or Superintendent");
 		sheet.addMergedRegion(new CellRangeAddress(55, 55, 4, 6));
+		
+		RegionUtil.setBorderBottom(BorderStyle.THICK.getCode(), new CellRangeAddress(1, 1, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(1, 1, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(4, 4, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(7, 7, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(12, 12, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(18, 18, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(22, 22, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(23, 23, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(27, 27, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(28, 28, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(29, 29, 0, 6), sheet);
+		RegionUtil.setBorderLeft(BorderStyle.THICK.getCode(), new CellRangeAddress(29, 43, 5, 5), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(44, 44, 0, 6), sheet);
+		RegionUtil.setBorderBottom(BorderStyle.THIN.getCode(), new CellRangeAddress(56, 56, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THIN.getCode(), new CellRangeAddress(0, 0, 0, 6), sheet);
+		RegionUtil.setBorderLeft(BorderStyle.THIN.getCode(), new CellRangeAddress(0, 56, 0, 0), sheet);
+		RegionUtil.setBorderRight(BorderStyle.THIN.getCode(), new CellRangeAddress(0, 56, 6, 6), sheet);
 
         try {
         	String fileName = RETURN_A_FILE_NAME_BASE + returnAForm.getOri() + "-" + returnAForm.getYear() + "-" + StringUtils.leftPad(String.valueOf(returnAForm.getMonth()), 2, '0') + ".xlsx"; 
@@ -325,15 +352,31 @@ public class ExcelExporter {
 		cell1.setCellValue("Data Entry");
 		cell1.setCellStyle(column1Style);
 		
+        Font underlineFont = sheet.getWorkbook().createFont();
+        underlineFont.setUnderline(Font.U_SINGLE);
+
 		Cell cell2 = row.createCell(2);
 		cell2.setCellStyle(column0Style);
-		cell2.setCellValue("2 \n Offenses reported\n or know to police \n (include \"unfounded\" \n and attempts)");
+		XSSFRichTextString s1 = returnStringWithSpecialFontSubString(
+				"2 \n Offenses reported\n or know to police \n (include \"unfounded\" \n and attempts)", 
+				"Offenses",
+				underlineFont);
+		cell2.setCellValue(s1);
+		
 		Cell cell3 = row.createCell(3);
 		cell3.setCellStyle(column0Style);
-		cell3.setCellValue("3 \n Unfounded, i.e.\n false or baseless \n complaints");
+		s1 = returnStringWithSpecialFontSubString(
+				"3 \n Unfounded, i.e.\n false or baseless \n complaints", 
+				"false or baseless",
+				underlineFont);
+		cell3.setCellValue(s1);
 		Cell cell4 = row.createCell(4);
 		cell4.setCellStyle(column0Style);
-		cell4.setCellValue("4 \n Number of actual \n offenses ( column 2 \n minus column 3) \n (include attempts)");
+		s1 = returnStringWithSpecialFontSubString(
+				"4 \n Number of actual \n offenses ( column 2 \n minus column 3) \n (include attempts)", 
+				"offenses",
+				underlineFont);
+		cell4.setCellValue(s1);
 		
 		Cell cell5 = row.createCell(5);
 		cell5.setCellStyle(column0Style);
@@ -344,6 +387,16 @@ public class ExcelExporter {
 		cell6.setCellValue("6 \n Number of clearances\n involving only \n persons under 18 \n years of age)");
 		
 		return rowNum;
+	}
+
+	private XSSFRichTextString returnStringWithSpecialFontSubString(
+			String string,  String subString, Font underlineFont) {
+        XSSFRichTextString s1 = new XSSFRichTextString(string);
+        
+        int startIndex = string.indexOf(subString); 
+        int endIndex = startIndex + subString.length(); 
+        s1.applyFont(startIndex, endIndex, underlineFont);
+		return s1;
 	}
 	
     private void writeRow(XSSFSheet sheet, ReturnARowName rowName, ReturnAFormRow returnAFormRow, int rowNum, Font boldFont) {
@@ -359,6 +412,15 @@ public class ExcelExporter {
             cell.setCellStyle(wrapStyle);
             XSSFRichTextString s1 = new XSSFRichTextString(rowName.getLabel());
             s1.applyFont(0, rowName.getLabel().indexOf('\n'), boldFont);
+            
+            int criminalHomicideIndex = rowName.getLabel().indexOf(CRIMINAL_HOMICIDE);
+            if (criminalHomicideIndex > 0){
+                Font underlineFont = sheet.getWorkbook().createFont();
+                underlineFont.setUnderline(Font.U_SINGLE);
+                underlineFont.setBold(true);
+                int endIndex = criminalHomicideIndex + CRIMINAL_HOMICIDE.length();
+                s1.applyFont(criminalHomicideIndex, endIndex, underlineFont);
+            }
             cell.setCellValue(s1);
     		break; 
             
@@ -461,7 +523,8 @@ public class ExcelExporter {
         		new ReturnAFormRow(2328, 0, 208, 29) };
         returnAForm.setRows(rows);
         returnAForm.setAgencyName("Honolulu Police Department");
-        returnAForm.setAgencyName("Hawaii");
+        returnAForm.setStateName("Hawaii");
+        returnAForm.setStateCode("HI");
         
         ExcelExporter exporter = new ExcelExporter(); 
         exporter.exportReturnAForm(returnAForm);

@@ -18,6 +18,8 @@ package org.search.nibrs.model.reports;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ReturnAForm implements Serializable{
 	private static final long serialVersionUID = -2340194364781985383L;
 	private ReturnAFormRow[] rows = new ReturnAFormRow[ReturnARowName.values().length]; 
@@ -78,6 +80,10 @@ public class ReturnAForm implements Serializable{
 	public int getMonth() {
 		return month;
 	}
+	
+	public String getMonthString() {
+		return StringUtils.leftPad(String.valueOf(month), 2, '0');
+	}
 
 	public void setMonth(int month) {
 		this.month = month;
@@ -110,6 +116,10 @@ public class ReturnAForm implements Serializable{
 		return population;
 	}
 
+	public String getPopulationString() {
+		return population == null? "" : String.valueOf(population);
+	}
+	
 	public void setPopulation(Integer population) {
 		this.population = population;
 	}
