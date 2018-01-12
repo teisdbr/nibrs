@@ -43,7 +43,6 @@ public enum ReturnARowName{
 	AUTOS_THEFT("\t\t\t\ta. Autos", "71"), 
 	TRUCKS_BUSES_THEFT("\t\t\t\tb.Trucks and Buses", "72"), 
 	OTHER_VEHICLES_THEFT("\t\t\t\tc. Other Vehicles", "73"), 
-	ARSON("8. ARSON", "80"), 
 	GRAND_TOTAL("\t\t\t\t\t\t\t\tGRAND TOTAL", "77");
 	
 	private String label;

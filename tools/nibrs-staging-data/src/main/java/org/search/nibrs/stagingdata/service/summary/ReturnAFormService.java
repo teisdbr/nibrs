@@ -156,10 +156,6 @@ public class ReturnAFormService {
 				case _240: 
 					countClearedMotorVehicleTheftOffense(returnAForm, offense, isClearanceInvolvingOnlyJuvenile );
 					break; 
-				case _200: 
-					//? TODO ARSON is mentioned in the PART I offense hierarchy and the exception #4, but there 
-					returnARowName = ReturnARowName.ARSON;
-					break;
 				default: 
 				}
 				
@@ -381,10 +377,6 @@ public class ReturnAFormService {
 				case _240: 
 					countMotorVehicleTheftOffense(returnAForm, offense);
 					break; 
-				case _200: 
-					//? TODO ARSON is mentioned in the PART I offense hierarchy and the exception #4, but there 
-					returnARowName = ReturnARowName.ARSON;
-					break;
 				default: 
 				}
 				
@@ -434,8 +426,7 @@ public class ReturnAFormService {
 				ReturnARowName.ASSAULT_TOTAL, 
 				ReturnARowName.BURGLARY_TOTAL, 
 				ReturnARowName.LARCENCY_THEFT_TOTAL, 
-				ReturnARowName.MOTOR_VEHICLE_THEFT_TOTAL, 
-				ReturnARowName.ARSON);
+				ReturnARowName.MOTOR_VEHICLE_THEFT_TOTAL);
 		
 	}
 

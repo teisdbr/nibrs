@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -82,20 +82,20 @@ public class ExcelExporter {
 		sheet.autoSizeColumn(5);
 		sheet.autoSizeColumn(6);
 		
-		Row row = sheet.createRow(rowNum++);
+		Row row = sheet.createRow(rowNum);
 		Cell cell = row.createCell(0);
 		cell.setCellStyle(wrappedStyle);
 		cell.setCellValue("CHECKING ANY OF THE APPROPRIATE BLOCKS BELOW WILL ELIMINATE YOUR NEED OF SUBMIT REPORTS WHEN \n"
 				+ "THE VALUES ARE ZERO. THIS WILL ALSO AID THE NATIONAL PROGRAM IN ITS QUALITY CONTROL EFFORTS  ");
-		sheet.addMergedRegion(new CellRangeAddress(29, 30, 0, 4));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+1 , 0, 4));
 		cell = row.createCell(5); 
         CellStyle centered = workbook.createCellStyle();
         centered.setAlignment(HorizontalAlignment.CENTER);
         cell.setCellStyle(centered);
         cell.setCellValue("DO NOT USE THIS SPACE");
-		sheet.addMergedRegion(new CellRangeAddress(29, 31, 5, 6));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+2, 5, 6));
 		
-		rowNum ++; 
+		rowNum = 30; 
 		row = sheet.createRow(rowNum++);
 		cell=row.createCell(0);
 		String text = "\t\tNO SUPPLEMENTARY HOMICIDE REPORT SUBMITTED\n"
@@ -103,25 +103,25 @@ public class ExcelExporter {
 				+ "\t\t\t\t\t OR MANSLAUGHTERS BY NEGLIGENCE OCCURRED IN\n"
 				+ "\t\t\t\t\t THIS JURISDICTION DURING THE MONTH";
 		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, text);
-		sheet.addMergedRegion(new CellRangeAddress(31, 35, 0, 1));
+		sheet.addMergedRegion(new CellRangeAddress(30, 34, 0, 1));
 		cell=row.createCell(2);
 		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
 				"\t\tNO AGE, SEX, AND RACE OF PERSONS ARRESTED UNDER\n"
 			  + "\t\t\t\t\t 18 YEARS OF AGE REPORT SINCE NO ARRESTS \n"
 			  + "\t\t\t\t\t OF PERSONS WITHIN THIS AGE GROUP.");
-		sheet.addMergedRegion(new CellRangeAddress(31, 35, 2, 4));
+		sheet.addMergedRegion(new CellRangeAddress(30, 34, 2, 4));
 		
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(5); 
 		cell.setCellValue("");
-		sheet.addMergedRegion(new CellRangeAddress(32, 33, 5, 5));
+		sheet.addMergedRegion(new CellRangeAddress(31, 32, 5, 5));
 		cell = row.createCell(6); 
 		
 		cell.setCellValue("INITIALS");
 		cell.setCellStyle(centered);
-		sheet.addMergedRegion(new CellRangeAddress(32, 33, 6, 6));
+		sheet.addMergedRegion(new CellRangeAddress(31, 32, 6, 6));
 
-		int initialTableRowNum = 34; 
+		int initialTableRowNum = 33; 
 		addInitialTableRow(sheet,initialTableRowNum, "RECORDED", null );
 		initialTableRowNum += 2; 
 		initialTableRowNum += 2; 
@@ -130,39 +130,39 @@ public class ExcelExporter {
 		initialTableRowNum += 2; 
 		addInitialTableRow(sheet, initialTableRowNum, "CORRES", null);
 		
-		rowNum = 36; 
+		rowNum = 35; 
 		row = sheet.createRow(rowNum);
 		cell=row.createCell(0);
 		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
 				"\t\tNO SUPPLEMENT TO RETURN A REPORT SINCE NO	\n"
 			  + "\t\t\t\t\t CRIME OFFENSES OR RECOVERY OF PROPERTY \n"
 			  + "\t\t\t\t\t REPORTED DURING THE MONTH.");
-		sheet.addMergedRegion(new CellRangeAddress(36, 39, 0, 1));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+3, 0, 1));
 		cell=row.createCell(2);
 		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
 				"\t\tNO AGE, SEX, AND RACE OF PERSONS ARRESTED UNDER\n"
 			  + "\t\t\t\t\t 18 YEARS OF AGE AND OVER REPORT SINCE NO ARRESTS \n"
 			  + "\t\t\t\t\t OF PERSONS WITHIN THIS AGE GROUP.");
-		sheet.addMergedRegion(new CellRangeAddress(36, 39, 2, 4));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+3, 2, 4));
 		addInitialTableRow(sheet, rowNum, "EDITED", row);
 		
-		rowNum = 40;
+		rowNum = 39;
 		row = sheet.createRow(rowNum);
 		cell=row.createCell(0);
 		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
 				"\t\tNO LAW ENFORCEMENT OFFICERS KILLED OR \n"
 			  + "\t\t\t\t\t ASSAULTED OR KILLED REPORT SINCE NONE OF THE\n"
 			  + "\t\t\t\t\t OFFICERS WERE ASSAULTED DURING THE MONTH.");
-		sheet.addMergedRegion(new CellRangeAddress(40, 43, 0, 1));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+3, 0, 1));
 		cell=row.createCell(2);
 		addCheckBoxAndWrappedText(workbook, wrappedStyle, cell, 
 				"\t\tNO MONTHLY RETURN OF ARSON OFFENSES KNOWN \n"
 			  + "\t\t\t\t\t TO LAW ENFORCEMENT REPORT SINCE NO ARSONS  \n"
 			  + "\t\t\t\t\t OCCURRED.");
-		sheet.addMergedRegion(new CellRangeAddress(40, 43, 2, 4));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum+3, 2, 4));
 		addInitialTableRow(sheet, rowNum, "ADJUSTED", row);
 		
-		rowNum = 45; 
+		rowNum = 44; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(0);
 		cell.setCellValue(returnAForm.getMonthString() + "/" + returnAForm.getYear());
@@ -176,7 +176,7 @@ public class ExcelExporter {
 		cell.setCellValue(returnAForm.getOri());
 		cell=row.createCell(4); 
 		cell.setCellStyle(thinBorderBottom);
-		sheet.addMergedRegion(new CellRangeAddress(45, 45, 3, 4));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, 3, 4));
 		cell=row.createCell(6); 
 		cell.setCellStyle(thinBorderBottom);
 		cell.setCellValue(returnAForm.getPopulationString());
@@ -184,7 +184,7 @@ public class ExcelExporter {
 		CellStyle topCentered = workbook.createCellStyle();
 		topCentered.setVerticalAlignment(VerticalAlignment.TOP);
 		topCentered.setAlignment(HorizontalAlignment.CENTER);
-		rowNum = 46; 
+		rowNum = 45; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(0);
 		cell.setCellStyle(topCentered);
@@ -193,13 +193,13 @@ public class ExcelExporter {
 		cell = row.createCell(3);
 		cell.setCellStyle(topCentered);
 		cell.setCellValue("Agency Identifier");
-		sheet.addMergedRegion(new CellRangeAddress(46, 46, 3, 4));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, 3, 4));
 		
 		cell = row.createCell(6);
 		cell.setCellStyle(topCentered);
 		cell.setCellValue("Population");
 		
-		rowNum = 48; 
+		rowNum = 47; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(4);
 		cell.setCellStyle(thinBorderBottom);
@@ -209,12 +209,12 @@ public class ExcelExporter {
 		cell.setCellStyle(thinBorderBottom);
 		cell.setCellValue(LocalDate.now().toString());
 		
-		rowNum = 49; 
+		rowNum = 48; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(6);
 		cell.setCellStyle(topCentered);
 		cell.setCellValue("Date");
-		rowNum = 51; 
+		rowNum = 50; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(4);
 		cell.setCellStyle(thinBorderBottom);
@@ -222,7 +222,7 @@ public class ExcelExporter {
 		cell.setCellStyle(thinBorderBottom);
 		cell = row.createCell(6);
 		cell.setCellStyle(thinBorderBottom);
-		rowNum = 52; 
+		rowNum = 51; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(4);
 		cell.setCellStyle(topCentered);
@@ -231,7 +231,7 @@ public class ExcelExporter {
 		cell.setCellStyle(topCentered);
 		cell.setCellValue("Title");
 		
-		rowNum = 54; 
+		rowNum = 53; 
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(0);
 		cell.setCellStyle(thinBorderBottom);
@@ -243,7 +243,7 @@ public class ExcelExporter {
 		cell = row.createCell(6);
 		cell.setCellStyle(thinBorderBottom);
 		
-		rowNum = 55;
+		rowNum = 54;
 		row = sheet.createRow(rowNum);
 		cell = row.createCell(0);
 		cell.setCellStyle(topCentered);
@@ -251,7 +251,7 @@ public class ExcelExporter {
 		cell = row.createCell(4);
 		cell.setCellStyle(topCentered);
 		cell.setCellValue("Chief, Commisioner, Sheriff, or Superintendent");
-		sheet.addMergedRegion(new CellRangeAddress(55, 55, 4, 6));
+		sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, 4, 6));
 		
 		RegionUtil.setBorderBottom(BorderStyle.THICK.getCode(), new CellRangeAddress(1, 1, 0, 6), sheet);
 		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(1, 1, 0, 6), sheet);
@@ -263,14 +263,26 @@ public class ExcelExporter {
 		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(23, 23, 0, 6), sheet);
 		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(27, 27, 0, 6), sheet);
 		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(28, 28, 0, 6), sheet);
-		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(29, 29, 0, 6), sheet);
-		RegionUtil.setBorderLeft(BorderStyle.THICK.getCode(), new CellRangeAddress(29, 43, 5, 5), sheet);
-		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(44, 44, 0, 6), sheet);
-		RegionUtil.setBorderBottom(BorderStyle.THIN.getCode(), new CellRangeAddress(56, 56, 0, 6), sheet);
-		RegionUtil.setBorderTop(BorderStyle.THIN.getCode(), new CellRangeAddress(0, 0, 0, 6), sheet);
-		RegionUtil.setBorderLeft(BorderStyle.THIN.getCode(), new CellRangeAddress(0, 56, 0, 0), sheet);
-		RegionUtil.setBorderRight(BorderStyle.THIN.getCode(), new CellRangeAddress(0, 56, 6, 6), sheet);
+		RegionUtil.setBorderLeft(BorderStyle.THICK.getCode(), new CellRangeAddress(28, 42, 5, 5), sheet);
+		RegionUtil.setBorderTop(BorderStyle.THICK.getCode(), new CellRangeAddress(43, 43, 0, 6), sheet);
+		RegionUtil.setBorderBottom(BorderStyle.MEDIUM.getCode(), new CellRangeAddress(55, 55, 0, 6), sheet);
+		RegionUtil.setBorderTop(BorderStyle.MEDIUM.getCode(), new CellRangeAddress(0, 0, 0, 6), sheet);
+		RegionUtil.setBorderLeft(BorderStyle.MEDIUM.getCode(), new CellRangeAddress(0, 55, 0, 0), sheet);
+		RegionUtil.setBorderRight(BorderStyle.MEDIUM.getCode(), new CellRangeAddress(0, 55, 6, 6), sheet);
+		
+		Arrays.asList(3, 5, 6, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 20, 21, 24, 25, 26)
+			.forEach(item-> RegionUtil.setBorderTop(BorderStyle.THIN.getCode(), new CellRangeAddress(item, item, 0, 6), sheet));
+		
+		for (int column = 0;  column < 6; column ++){
+			RegionUtil.setBorderRight(BorderStyle.THIN.getCode(), new CellRangeAddress(1, 27, column, column), sheet);
+		}
 
+		for (int i = 31; i < 42; i+=2){
+			RegionUtil.setBorderTop(BorderStyle.THIN.getCode(), new CellRangeAddress(i, i, 5, 6), sheet);
+		}
+		
+		RegionUtil.setBorderRight(BorderStyle.THIN.getCode(), new CellRangeAddress(31, 42, 5, 5), sheet);
+		
         try {
         	String fileName = RETURN_A_FILE_NAME_BASE + returnAForm.getOri() + "-" + returnAForm.getYear() + "-" + StringUtils.leftPad(String.valueOf(returnAForm.getMonth()), 2, '0') + ".xlsx"; 
             FileOutputStream outputStream = new FileOutputStream(fileName);
@@ -405,7 +417,8 @@ public class ExcelExporter {
     	Cell cell = row.createCell(colNum++);
     	CellStyle wrapStyle = sheet.getWorkbook().createCellStyle();
     	wrapStyle.setWrapText(true);
-    	switch(rowName){
+        
+        switch(rowName){
     	case MURDER_NONNEGLIGENT_HOMICIDE: 
     	case LARCENCY_THEFT_TOTAL:
         	row.setHeightInPoints((2*sheet.getDefaultRowHeightInPoints()));
@@ -429,8 +442,8 @@ public class ExcelExporter {
     	case ASSAULT_TOTAL: 
     	case BURGLARY_TOTAL: 
     	case MOTOR_VEHICLE_THEFT_TOTAL: 
-    	case ARSON: 
     	case GRAND_TOTAL: 
+        	row.setHeightInPoints((2*sheet.getDefaultRowHeightInPoints()));
             XSSFRichTextString allBoldString = new XSSFRichTextString(rowName.getLabel());
             allBoldString.applyFont(boldFont);
             cell.setCellValue(allBoldString);
@@ -460,9 +473,6 @@ public class ExcelExporter {
 
 	public static void main(String[] args) {
 
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Datatypes in Java");
-        
 //        ReturnAForm [rows=
 //        	[Summary [reportedOffenses=4, unfoundedOffenses=0, actualOffenses=4, clearedOffense=3, clearanceInvolvingJuvenile=0], 
 //        	Summary [reportedOffenses=0, unfoundedOffenses=0, actualOffenses=0, clearedOffense=0, clearanceInvolvingJuvenile=0], 
@@ -519,8 +529,7 @@ public class ExcelExporter {
         		new ReturnAFormRow(0, 0, 0, 0), 
         		new ReturnAFormRow(0, 0, 0, 0), 
         		new ReturnAFormRow(0, 0, 0, 0), 
-        		new ReturnAFormRow(33, 0, 1, 1), 
-        		new ReturnAFormRow(2328, 0, 208, 29) };
+        		new ReturnAFormRow(2295, 0, 207, 28) };
         returnAForm.setRows(rows);
         returnAForm.setAgencyName("Honolulu Police Department");
         returnAForm.setStateName("Hawaii");
