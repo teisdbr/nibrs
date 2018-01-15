@@ -292,6 +292,7 @@ public class ExcelExporter {
             FileOutputStream outputStream = new FileOutputStream(fileName);
             workbook.write(outputStream);
             workbook.close();
+            System.out.println("The return A form is writen to fileName: " + fileName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

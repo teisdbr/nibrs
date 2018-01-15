@@ -15,6 +15,8 @@
  */
 package org.search.nibrs.report;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.reports.ReturnAForm;
 import org.search.nibrs.report.service.ExcelExporter;
 import org.search.nibrs.report.service.StagingDataRestClient;
@@ -26,6 +28,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class NibrsSummaryReportApplication implements CommandLineRunner{
+	public static final Log log = LogFactory.getLog(NibrsSummaryReportApplication.class);
 	@Autowired 
 	public StagingDataRestClient restClient; 
 	@Autowired 
@@ -33,15 +36,15 @@ public class NibrsSummaryReportApplication implements CommandLineRunner{
 	public static ConfigurableApplicationContext context;
 	
 	public static void main(String[] args) {
-		context = SpringApplication.run(NibrsSummaryReportApplication.class, args);
+		SpringApplication.run(NibrsSummaryReportApplication.class, args).close();
 	}
 	
     @Override
     public void run(String... args) throws Exception {
 
     	if (args.length < 3){
-    		System.out.println("Please enter ORI, Year and Month");
-    		context.close();
+    		log.error("Missing one or more required arguments ORI, Year or Month");
+    		System.exit(0);; 
     	}
     	
         for (String arg: args){
@@ -51,7 +54,6 @@ public class NibrsSummaryReportApplication implements CommandLineRunner{
         ReturnAForm returnAForm = restClient.getReturnAForm(args[0], args[1], args[2]);
         System.out.println("returnAForm: \n" + returnAForm);
         excelExporter.exportReturnAForm(returnAForm);
-		context.close();
 
     }
 }
