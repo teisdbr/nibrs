@@ -79,7 +79,6 @@ public class ReturnAFormService {
 		partIOffensesMap.put("23H", 7); 
 		partIOffensesMap.put("240", 8); 
 		partIOffensesMap.put("23F", 9); 
-		partIOffensesMap.put("200", 10); 
 	}
 	
 	public ReturnAForm createReturnASummaryReport(String ori, Integer year,  Integer month ) {
@@ -346,7 +345,11 @@ public class ReturnAFormService {
 					returnARowName = ReturnARowName.MURDER_NONNEGLIGENT_HOMICIDE; 
 					break; 
 				case _09B: 
+					returnARowName = ReturnARowName.MANSLAUGHTER_BY_NEGLIGENCE; 
+					break; 
+				case _09C: 
 					returnARowName = ReturnARowName.MURDER_NONNEGLIGENT_HOMICIDE; 
+					returnAForm.getRows()[returnARowName.ordinal()].increaseUnfoundedOffenses(1);
 					break; 
 				case _11A: 
 					returnARowName = getRowFor11AOffense(administrativeSegment, offense);
@@ -646,7 +649,7 @@ public class ReturnAFormService {
 				continue;
 			}
 			
-			if (offense.getUcrOffenseCodeType().getUcrOffenseCode().equals(OffenseCode._200.code)){
+			if (offense.getUcrOffenseCodeType().getUcrOffenseCode().equals(OffenseCode._09C.code)){
 				offenses.add(offense);
 				continue;
 			}
