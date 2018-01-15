@@ -16,31 +16,42 @@
 package org.search.nibrs.report;
 
 import org.search.nibrs.model.reports.ReturnAForm;
+import org.search.nibrs.report.service.ExcelExporter;
 import org.search.nibrs.report.service.StagingDataRestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class NibrsSummaryReportApplication implements CommandLineRunner{
 	@Autowired 
 	public StagingDataRestClient restClient; 
+	@Autowired 
+	public ExcelExporter excelExporter;
+	public static ConfigurableApplicationContext context;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(NibrsSummaryReportApplication.class, args);
+		context = SpringApplication.run(NibrsSummaryReportApplication.class, args);
 	}
 	
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.println("Hello World");
+    	if (args.length < 3){
+    		System.out.println("Please enter ORI, Year and Month");
+    		context.close();
+    	}
+    	
         for (String arg: args){
         	System.out.println("arg: " + arg);
         }
         
         ReturnAForm returnAForm = restClient.getReturnAForm(args[0], args[1], args[2]);
         System.out.println("returnAForm: \n" + returnAForm);
+        excelExporter.exportReturnAForm(returnAForm);
+		context.close();
 
     }
 }

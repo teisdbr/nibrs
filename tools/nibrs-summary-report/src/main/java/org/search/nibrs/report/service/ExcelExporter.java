@@ -42,14 +42,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.search.nibrs.model.reports.ReturnAForm;
 import org.search.nibrs.model.reports.ReturnAFormRow;
 import org.search.nibrs.model.reports.ReturnARowName;
+import org.search.nibrs.report.AppProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ExcelExporter {
 	private static final String CRIMINAL_HOMICIDE = "CRIMINAL HOMICIDE";
 	private static final Log log = LogFactory.getLog(ExcelExporter.class);
-    private static final String RETURN_A_FILE_NAME_BASE = "/tmp/returnAForm";
-    
+	
+	@Autowired
+	private AppProperties appProperties;
+
     public void exportReturnAForm(ReturnAForm returnAForm){
         XSSFWorkbook workbook = new XSSFWorkbook();
         
@@ -284,7 +288,7 @@ public class ExcelExporter {
 		RegionUtil.setBorderRight(BorderStyle.THIN.getCode(), new CellRangeAddress(31, 42, 5, 5), sheet);
 		
         try {
-        	String fileName = RETURN_A_FILE_NAME_BASE + returnAForm.getOri() + "-" + returnAForm.getYear() + "-" + StringUtils.leftPad(String.valueOf(returnAForm.getMonth()), 2, '0') + ".xlsx"; 
+        	String fileName = appProperties.getReturnAFormOutputPath() + "/ReturnAForm" + returnAForm.getOri() + "-" + returnAForm.getYear() + "-" + StringUtils.leftPad(String.valueOf(returnAForm.getMonth()), 2, '0') + ".xlsx"; 
             FileOutputStream outputStream = new FileOutputStream(fileName);
             workbook.write(outputStream);
             workbook.close();
