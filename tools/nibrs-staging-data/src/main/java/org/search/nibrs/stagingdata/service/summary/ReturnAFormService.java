@@ -185,7 +185,7 @@ public class ReturnAFormService {
 				returnAForm.getRows()[ReturnARowName.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
 			}
 			else if (property.getNumberOfStolenMotorVehicles() > 0){
-				int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles()).orElse(0);
+				int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfStolenMotorVehicles()).orElse(0);
 				
 				if (motorVehicleCodes.contains(PropertyDescriptionCode._03.code)){
 					for (String code: motorVehicleCodes){
@@ -488,7 +488,7 @@ public class ReturnAFormService {
 					.filter(code -> PropertyDescriptionCode.isMotorVehicleCode(code))
 					.collect(Collectors.toList()); 
 			
-			int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles()).orElse(0);
+			int numberOfStolenMotorVehicles = Optional.ofNullable(property.getNumberOfStolenMotorVehicles()).orElse(0);
 			
 			if ("A".equals(offense.getOffenseAttemptedCompleted())){
 				returnAForm.getRows()[ReturnARowName.AUTOS_THEFT.ordinal()].increaseReportedOffenses(motorVehicleCodes.size());
