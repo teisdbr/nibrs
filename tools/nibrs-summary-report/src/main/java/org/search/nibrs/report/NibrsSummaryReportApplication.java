@@ -43,7 +43,11 @@ public class NibrsSummaryReportApplication implements CommandLineRunner{
     public void run(String... args) throws Exception {
 
     	if (args.length < 3){
-    		log.error("Missing one or more required arguments ORI, Year or Month");
+    		System.out.println("Please enter all the non optional arguments ORI, Year and Month");
+    		System.out.println("Example: java -jar target/nibrs-summary-report-1.0.0.jar HI0020000 2017 3");
+    		System.out.println("Additional optional arguments can be entered: ");
+    		System.out.println("--app.stagingDataRestServiceBaseUrl default value is http://localhost:8080");
+    		System.out.println("--app.returnAFormOutputPath default value is .");
     		System.exit(0);; 
     	}
     	
