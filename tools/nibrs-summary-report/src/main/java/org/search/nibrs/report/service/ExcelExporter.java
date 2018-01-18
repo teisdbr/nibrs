@@ -472,7 +472,7 @@ public class ExcelExporter {
 		cell = row.createCell(colNum++);
 		cell.setCellValue((Integer) returnAFormRow.getClearedOffenses());
 		cell = row.createCell(colNum++);
-		cell.setCellValue((Integer) returnAFormRow.getClearanceInvolvingJuvenile());
+		cell.setCellValue((Integer) returnAFormRow.getClearanceInvolvingOnlyJuvenile());
 
 	}
 
@@ -544,4 +544,5 @@ public class ExcelExporter {
         exporter.exportReturnAForm(returnAForm);
         
     }
+	
 }
