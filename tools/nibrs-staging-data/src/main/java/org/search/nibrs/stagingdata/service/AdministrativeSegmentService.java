@@ -46,16 +46,30 @@ public class AdministrativeSegmentService {
 	}
 	
 	public List<AdministrativeSegment> findIdsByOriAndClearanceDate(String ori, Integer year, Integer month){
+		
+		if ("StateWide".equalsIgnoreCase(ori)){
+			ori = null;
+		}
+		
 		List<Integer> ids = administrativeSegmentRepository.findIdsByOriAndClearanceDate(ori, year, month);
+			
 		List<AdministrativeSegment> administrativeSegments = 
 				administrativeSegmentRepository.findAll(ids)
-					.stream().distinct().collect(Collectors.toList());
+				.stream().distinct().collect(Collectors.toList());
 		return administrativeSegments; 
 	}
 
 	public List<AdministrativeSegment> findByOriAndIncidentDate(String ori, Integer year, Integer month){
+		
+		if ("StateWide".equalsIgnoreCase(ori)){
+			ori = null;
+		}
+		List<Integer> ids = administrativeSegmentRepository.findIdsByOriAndIncidentDate(ori, year, month);
+		
 		List<AdministrativeSegment> administrativeSegments = 
-				administrativeSegmentRepository.findDistinctByOriAndIncidentDateTypeYearAndIncidentDateTypeMonth(ori, year, month);
+				administrativeSegmentRepository.findAll(ids)
+				.stream().distinct().collect(Collectors.toList());
+		
 		return administrativeSegments; 
 	}
 	
