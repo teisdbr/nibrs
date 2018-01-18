@@ -69,7 +69,7 @@ public class ReturnAFormRow implements Serializable{
 	public void increaseClearedOffenses(int increment){
 		clearedOffenses += increment;
 	}
-	public int getClearanceInvolvingJuvenile() {
+	public int getClearanceInvolvingOnlyJuvenile() {
 		return clearanceInvolvingOnlyJuvenile;
 	}
 	public void setClearanceInvolvingOnlyJuvenile(int clearanceInvolvingOnlyJuvenile) {
