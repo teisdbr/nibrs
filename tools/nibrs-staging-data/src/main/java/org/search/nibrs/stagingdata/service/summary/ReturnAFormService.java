@@ -69,30 +69,41 @@ public class ReturnAFormService {
 		partIOffensesMap.put("11A", 3); 
 		partIOffensesMap.put("120", 4); 
 		partIOffensesMap.put("13A", 5); 
-		partIOffensesMap.put("220", 6); 
-		partIOffensesMap.put("23A", 7); 
-		partIOffensesMap.put("23B", 7); 
-		partIOffensesMap.put("23C", 7); 
-		partIOffensesMap.put("23D", 7); 
-		partIOffensesMap.put("23E", 7); 
-		partIOffensesMap.put("23G", 7); 
-		partIOffensesMap.put("23H", 7); 
-		partIOffensesMap.put("240", 8); 
-		partIOffensesMap.put("23F", 9); 
+		partIOffensesMap.put("13B", 6); 
+		partIOffensesMap.put("13C", 6); 
+		partIOffensesMap.put("220", 7); 
+		partIOffensesMap.put("23A", 8); 
+		partIOffensesMap.put("23B", 8); 
+		partIOffensesMap.put("23C", 8); 
+		partIOffensesMap.put("23D", 8); 
+		partIOffensesMap.put("23E", 8); 
+		partIOffensesMap.put("23G", 8); 
+		partIOffensesMap.put("23H", 8); 
+		partIOffensesMap.put("240", 9); 
+		partIOffensesMap.put("23F", 10); 
 	}
 	
 	public ReturnAForm createReturnASummaryReport(String ori, Integer year,  Integer month ) {
 		
 		ReturnAForm returnAForm = new ReturnAForm(ori, year, month); 
-		Agency agency = agencyRepository.findFirstByAgencyOri(ori); 
-		if (agency!= null){
-			returnAForm.setAgencyName(agency.getAgencyName());
-			returnAForm.setStateName(agency.getStateName());
-			returnAForm.setStateCode(agency.getStateCode());
-			returnAForm.setPopulation(agency.getPopulation());
+		
+		if (!"StateWide".equalsIgnoreCase(ori)){
+			Agency agency = agencyRepository.findFirstByAgencyOri(ori); 
+			if (agency!= null){
+				returnAForm.setAgencyName(agency.getAgencyName());
+				returnAForm.setStateName(agency.getStateName());
+				returnAForm.setStateCode(agency.getStateCode());
+				returnAForm.setPopulation(agency.getPopulation());
+			}
+			else{
+				return returnAForm; 
+			}
 		}
 		else{
-			return returnAForm; 
+			returnAForm.setAgencyName(ori);
+			returnAForm.setStateName("");
+			returnAForm.setStateCode("");
+			returnAForm.setPopulation(null);
 		}
 
 		processReportedOffenses(ori, year, month, returnAForm);
@@ -250,13 +261,11 @@ public class ReturnAFormService {
 		boolean isClearanceInvolvingOnlyJuvenile = false; 
 		if (ClearedExceptionallyCode.applicableCodeSet().contains(administrativeSegment.getClearedExceptionallyType().getClearedExceptionallyCode())){
 			Set<OffenderSegment> offenders = administrativeSegment.getOffenderSegments();
-			isClearanceInvolvingOnlyJuvenile = offenders.stream().anyMatch(offender -> offender.isJuvenile())  && 
-					offenders.stream().allMatch(offender -> offender.isJuvenile() || offender.isAgeUnknown()); 
+			isClearanceInvolvingOnlyJuvenile = offenders.stream().allMatch(offender -> offender.isJuvenile() || offender.isAgeUnknown()); 
 		}
 		else {
 			Set<ArresteeSegment> arrestees = administrativeSegment.getArresteeSegments();
-			isClearanceInvolvingOnlyJuvenile = arrestees.stream().anyMatch(arrestee -> arrestee.isJuvenile())  && 
-					arrestees.stream().allMatch(arrestee -> arrestee.isJuvenile() || arrestee.isAgeUnknown()); 
+			isClearanceInvolvingOnlyJuvenile = arrestees.stream().allMatch(arrestee -> arrestee.isJuvenile() || arrestee.isAgeUnknown()); 
 		}
 		return isClearanceInvolvingOnlyJuvenile;
 	}
@@ -405,7 +414,6 @@ public class ReturnAFormService {
 		
 		fillTheTotalRow(returnAForm, totalRow, ReturnARowName.FORCIBLE_ENTRY_BURGLARY, 
 				ReturnARowName.UNLAWFUL_ENTRY_NO_FORCE_BURGLARY,
-				ReturnARowName.OTHER_DANGEROUS_WEAPON_ASSAULT, 
 				ReturnARowName.ATTEMPTED_FORCIBLE_ENTRY_BURGLARY);
 	}
 
@@ -455,7 +463,7 @@ public class ReturnAFormService {
 		
 		int totalClearanceInvolvingJuvenile = 
 				rows.stream()
-				.mapToInt(row -> returnAForm.getRows()[row.ordinal()].getClearanceInvolvingJuvenile())
+				.mapToInt(row -> returnAForm.getRows()[row.ordinal()].getClearanceInvolvingOnlyJuvenile())
 				.sum(); 
 		returnAForm.getRows()[totalRow.ordinal()].setClearanceInvolvingOnlyJuvenile(totalClearanceInvolvingJuvenile);
 	}
