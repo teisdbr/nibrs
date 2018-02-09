@@ -105,7 +105,7 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 				NIBRSError e = null;
 				NIBRSAge nibrsAge = segment.getAge();
 				if (nibrsAge != null && nibrsAge.getError() != null 
-						 && nibrsAge.getNonNumericAge().length()>2) {
+						 && nibrsAge.getNonNumericAge() != null && nibrsAge.getNonNumericAge().length()>2) {
 					e = new NIBRSError(nibrsAge.getError());
 					e.setDataElementIdentifier(dataElementIdentifier);
 					e.setNIBRSErrorCode(nibrsErrorCode);
