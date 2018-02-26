@@ -19,9 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -469,8 +468,8 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 					incidentDate.setValue(d);
 				}
 				else {
-					LocalDate d = LocalDate.parse(incidentDateString.substring(0, 10), getDateFormat());
-					incidentDate.setValue(d);
+					LocalDateTime d = LocalDateTime.parse(incidentDatetimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+					incidentDate.setValue(d.toLocalDate());
 				}
 			} catch (Exception pe) {
 				NIBRSError e = new NIBRSError();

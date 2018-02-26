@@ -26,6 +26,8 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
@@ -39,6 +41,9 @@ import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
 
 public class XmlIncidentBuilderGroupAIncidentReportTest {
+	
+	private static final Log log = LogFactory.getLog(XmlIncidentBuilderGroupAIncidentReportTest.class);
+	
 	private DefaultReportListener incidentListener;
 	
 	@Before
