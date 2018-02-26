@@ -17,11 +17,9 @@ package org.search.nibrs.xmlfile.util;
 
 import static org.junit.Assert.*;
 
-import java.util.*;
+import java.time.LocalDate;
 
 import org.junit.*;
-import org.search.nibrs.xmlfile.util.DateUtils;
-import org.search.nibrs.xmlfile.util.NibrsStringUtils;
 
 public class TestStringUtils
 {
@@ -45,7 +43,7 @@ public class TestStringUtils
 	@Test
     public void testGetDateBetween()
     {
-        assertEquals(DateUtils.makeDate(2005, Calendar.JANUARY, 5), NibrsStringUtils.getDateBetween(1, 8, "20050105"));
+        assertEquals(LocalDate.of(2005, 1, 5), NibrsStringUtils.getDateBetween(1, 8, "20050105"));
         assertNull(NibrsStringUtils.getDateBetween(1, 1, ""));
         assertNull(NibrsStringUtils.getDateBetween(1, 8, "        "));
     }

@@ -18,13 +18,12 @@ package org.search.nibrs.flatfile.importer;
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 import org.search.nibrs.model.*;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
-import org.search.nibrs.flatfile.importer.IncidentBuilder;
-import org.search.nibrs.flatfile.util.*;
 import org.search.nibrs.importer.DefaultReportListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -131,7 +130,7 @@ public class TestIncidentBuilderOldFormat {
 		assertEquals("0000265601", arrestee.getArrestTransactionNumber());
 		assertTrue(arrestee.getArresteeSequenceNumber().isMissing());
 		assertNull(arrestee.getMultipleArresteeSegmentsIndicator());
-		assertEquals(DateUtils.makeDate(2003, Calendar.JANUARY, 12), arrestee.getArrestDate().getValue());
+		assertEquals(LocalDate.of(2003, 1, 12), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());
 		assertEquals("90A", arrestee.getUcrArrestOffenseCode());
 		assertEquals("01", arrestee.getArresteeArmedWith(0));
@@ -151,7 +150,7 @@ public class TestIncidentBuilderOldFormat {
 		GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
 		assertNotNull(incident);
 		assertEquals("02-000895", incident.getIncidentNumber());
-		assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate().getValue());
+		assertEquals(LocalDate.of(2002, 1, 2), incident.getIncidentDate().getValue());
 		assertEquals(new Integer(10), incident.getIncidentHour().getValue());
 		assertNull(incident.getReportDateIndicator());
 		assertNull(incident.getCargoTheftIndicator());
@@ -171,7 +170,7 @@ public class TestIncidentBuilderOldFormat {
 		ArresteeSegment arrestee = (ArresteeSegment) ((AbstractReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
 		assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber().getValue());
 		assertEquals("02-000895", arrestee.getArrestTransactionNumber());
-		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate().getValue());
+		assertEquals(LocalDate.of(2002, 12, 30), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());
 		assertEquals("M", arrestee.getMultipleArresteeSegmentsIndicator());
 		assertEquals("220", arrestee.getUcrArrestOffenseCode());
@@ -272,7 +271,7 @@ public class TestIncidentBuilderOldFormat {
 		assertEquals(new Integer(1), stolenProperty.getNumberOfStolenMotorVehicles().getValue());
 		assertNull(stolenProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertEquals("5", recoveredProperty.getTypeOfPropertyLoss());
-		assertEquals(DateUtils.makeDate(2002, Calendar.NOVEMBER, 15), recoveredProperty.getDateRecovered(0).getValue());
+		assertEquals(LocalDate.of(2002, 11, 15), recoveredProperty.getDateRecovered(0).getValue());
 		assertEquals(new Integer(1), recoveredProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertNull(recoveredProperty.getNumberOfStolenMotorVehicles().getValue());
 	}

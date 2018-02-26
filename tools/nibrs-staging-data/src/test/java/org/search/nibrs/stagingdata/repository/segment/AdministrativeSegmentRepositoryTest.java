@@ -19,10 +19,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,9 +55,9 @@ public class AdministrativeSegmentRepositoryTest {
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
 		
 		groupAIncidentReport.setIncidentNumber("12345679");
-		groupAIncidentReport.setExceptionalClearanceDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		groupAIncidentReport.setExceptionalClearanceDate(new ParsedObject<>(LocalDate.of(2016, 6, 12)));
 		ArresteeSegment arrestee = new ArresteeSegment(groupAIncidentReport.getArrestees().get(0));
-		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		arrestee.setArrestDate(new ParsedObject<>(LocalDate.of(2016, 5, 12)));
 		groupAIncidentReport.addArrestee(arrestee);
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
 		

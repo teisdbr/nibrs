@@ -71,6 +71,7 @@ import org.search.nibrs.stagingdata.repository.TypePropertyLossEtcTypeRepository
 import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.search.nibrs.stagingdata.repository.VictimOffenderRelationshipTypeRepository;
 import org.search.nibrs.stagingdata.repository.segment.ArrestReportSegmentRepository;
+import org.search.nibrs.stagingdata.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -220,8 +221,8 @@ public class ArrestReportService {
 	
 			arrestReportSegment.setArresteeSequenceNumber(groupBArrestReport.getArresteeSequenceNumber());
 			
-			arrestReportSegment.setArrestDate(groupBArrestReport.getArrestDate());
-			arrestReportSegment.setArrestDateType(codeTableService.getDateType(groupBArrestReport.getArrestDate()));
+			arrestReportSegment.setArrestDate(DateUtils.asDate(groupBArrestReport.getArrestDate()));
+			arrestReportSegment.setArrestDateType(codeTableService.getDateType(DateUtils.asDate(groupBArrestReport.getArrestDate())));
 			
 			TypeOfArrestType typeOfArrestType = codeTableService.getCodeTableType(
 					arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByTypeOfArrestCode, TypeOfArrestType::new);

@@ -59,9 +59,9 @@ public final class BaselineIncidentFactory {
 		incident.setMonthOfTape(5);
 		incident.setOri("WA1234567");
 		incident.setIncidentNumber("54236732");
-		incident.setIncidentDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		incident.setIncidentDate(new ParsedObject<>(LocalDate.of(2016, 5, 12)));
 		incident.setExceptionalClearanceCode("A");
-		incident.setExceptionalClearanceDate(new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+		incident.setExceptionalClearanceDate(new ParsedObject<>(LocalDate.of(2016, 5, 12)));
 		incident.setCityIndicator("Y");
 		incident.setReportDateIndicator(null);	
 		
@@ -104,7 +104,7 @@ public final class BaselineIncidentFactory {
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+		arrestee.setArrestDate(new ParsedObject<>(LocalDate.of(2015, 5, 16)));
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");
 		arrestee.setUcrArrestOffenseCode("13A");
@@ -126,7 +126,7 @@ public final class BaselineIncidentFactory {
 		p2.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
 		p2.setPropertyDescription(0, "20");
 		p2.setValueOfProperty(0, new ParsedObject<Integer>(5000));
-		p2.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDate.of(2015, 1, 8).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+		p2.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2015, 1, 8)));
 		incident.addProperty(p2);
 		
 		PropertySegment p3 = new PropertySegment();
@@ -169,7 +169,7 @@ public final class BaselineIncidentFactory {
 		report.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2017, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+		arrestee.setArrestDate(new ParsedObject<>(LocalDate.of(2017, 5, 16)));
 		arrestee.setTypeOfArrest("O");
 		arrestee.setUcrArrestOffenseCode("90A");
 		arrestee.setArresteeArmedWith(0, "01");

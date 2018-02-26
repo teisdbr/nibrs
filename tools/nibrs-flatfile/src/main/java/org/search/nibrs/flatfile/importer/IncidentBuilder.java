@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -245,7 +244,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				try {
 					LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
 					arrestDate.setValue(d);
-				} catch (DateTimeParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -325,7 +324,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				try {
 					LocalDate d = LocalDate.parse(incidentDateString, getDateFormat());
 					incidentDate.setValue(d);
-				} catch (DateTimeParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -393,7 +392,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				try {
 					LocalDate d = LocalDate.parse(clearanceDateString, getDateFormat());
 					clearanceDate.setValue(d);
-				} catch (DateTimeParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -569,7 +568,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				try {
 					LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
 					arrestDate.setValue(d);
-				} catch (DateTimeParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -838,7 +837,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 					try {
 						LocalDate dd = LocalDate.parse(ds, getDateFormat());
 						d.setValue(dd);
-					} catch (DateTimeParseException pe) {
+					} catch (Exception pe) {
 						NIBRSError e = new NIBRSError();
 						e.setContext(s.getReportSource());
 						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());

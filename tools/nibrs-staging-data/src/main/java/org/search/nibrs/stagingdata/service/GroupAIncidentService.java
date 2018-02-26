@@ -108,6 +108,7 @@ import org.search.nibrs.stagingdata.repository.UcrOffenseCodeTypeRepository;
 import org.search.nibrs.stagingdata.repository.VictimOffenderRelationshipTypeRepository;
 import org.search.nibrs.stagingdata.repository.segment.AdministrativeSegmentRepository;
 import org.search.nibrs.stagingdata.repository.segment.OffenseSegmentRepository;
+import org.search.nibrs.stagingdata.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -255,12 +256,12 @@ public class GroupAIncidentService {
 			administrativeSegment.setCityIndicator(groupAIncidentReport.getCityIndicator());
 			administrativeSegment.setOri(groupAIncidentReport.getOri());
 			administrativeSegment.setIncidentNumber(groupAIncidentReport.getIncidentNumber());
-			administrativeSegment.setIncidentDate(groupAIncidentReport.getIncidentDate().getValue());
-			administrativeSegment.setIncidentDateType(codeTableService.getDateType(groupAIncidentReport.getIncidentDate().getValue()));
+			administrativeSegment.setIncidentDate(DateUtils.asDate(groupAIncidentReport.getIncidentDate().getValue()));
+			administrativeSegment.setIncidentDateType(codeTableService.getDateType(DateUtils.asDate(groupAIncidentReport.getIncidentDate().getValue())));
 			administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
 			administrativeSegment.setReportDateIndicator(groupAIncidentReport.getReportDateIndicator());
-			administrativeSegment.setExceptionalClearanceDate(groupAIncidentReport.getExceptionalClearanceDate().getValue());
-			administrativeSegment.setExceptionalClearanceDateType(codeTableService.getDateType(groupAIncidentReport.getExceptionalClearanceDate().getValue()));
+			administrativeSegment.setExceptionalClearanceDate(DateUtils.asDate(groupAIncidentReport.getExceptionalClearanceDate().getValue()));
+			administrativeSegment.setExceptionalClearanceDateType(codeTableService.getDateType(DateUtils.asDate(groupAIncidentReport.getExceptionalClearanceDate().getValue())));
 			
 			Optional<Integer> incidentHour = Optional.ofNullable(groupAIncidentReport.getIncidentHour().getValue());
 			administrativeSegment.setIncidentHour(incidentHour.map(String::valueOf).orElse(""));
@@ -381,8 +382,8 @@ public class GroupAIncidentService {
 								.map(Double::valueOf)
 								.orElse(null);
 					propertyType.setValueOfProperty(valueOfProperty);
-					
-					Date dateRecovered = property.getDateRecovered()[i].getValue();
+
+					Date dateRecovered = DateUtils.asDate(property.getDateRecovered()[i].getValue());
 					propertyType.setRecoveredDate(dateRecovered);
 					propertyType.setRecoveredDateType(codeTableService.getDateType(dateRecovered));
 					
@@ -598,8 +599,8 @@ public class GroupAIncidentService {
 				arresteeSegment.setAdministrativeSegment(administrativeSegment);
 				arresteeSegment.setArresteeSequenceNumber(arrestee.getArresteeSequenceNumber().getValue());
 				arresteeSegment.setArrestTransactionNumber(arrestee.getArrestTransactionNumber());
-				arresteeSegment.setArrestDate(arrestee.getArrestDate().getValue());
-				arresteeSegment.setArrestDateType(codeTableService.getDateType(arrestee.getArrestDate().getValue()));
+				arresteeSegment.setArrestDate(DateUtils.asDate(arrestee.getArrestDate().getValue()));
+				arresteeSegment.setArrestDateType(codeTableService.getDateType(DateUtils.asDate(arrestee.getArrestDate().getValue())));
 				
 				TypeOfArrestType typeOfArrestType = codeTableService.getCodeTableType(
 						arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByTypeOfArrestCode, TypeOfArrestType::new);

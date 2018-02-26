@@ -15,7 +15,7 @@
  */
 package org.search.nibrs.flatfile.util;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * A class of String utilities
@@ -55,14 +55,14 @@ public final class StringUtils
      * Get the date value represented by the substring between the beginning and ending positions.  (Same rules as for
      * getStringBetween(int, int, String) apply.)
      */
-    public static final Date getDateBetween(int begin, int end, String s)
+    public static final LocalDate getDateBetween(int begin, int end, String s)
     {
         String substring = getStringBetween(begin, end, s);
         if (substring == null) return null;
         int year = Integer.parseInt(getStringBetween(1, 4, substring));
         int month = Integer.parseInt(getStringBetween(5, 6, substring));
         int day = Integer.parseInt(getStringBetween(7, 8, substring));
-        return DateUtils.makeDate(year, DateUtils.convertMonthValue(month), day);
+        return LocalDate.of(year, month, day);
     }
 
 }
