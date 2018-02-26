@@ -442,7 +442,7 @@ public class PropertySegmentRulesFactoryTest {
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
 		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
-		LocalDate d = null;
+		LocalDate d = LocalDate.now();
 		p.setDateRecovered(0, new ParsedObject<>(d));
 		e = rule.apply(p);
 		assertNull(e);
@@ -632,7 +632,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		
 		p.setValueOfProperty(0, null);
-		p.setDateRecovered(0, new ParsedObject<>(null));
+		p.setDateRecovered(0, new ParsedObject<>(LocalDate.now()));
 		e = rule.apply(p);
 		assertNotNull(e);
 		p.setDateRecovered(0, null);
@@ -717,7 +717,7 @@ public class PropertySegmentRulesFactoryTest {
 		p.setPropertyDescription(0, PropertyDescriptionCode._09.code);
 		e = rule.apply(p);
 		assertNull(e);
-		p.setDateRecovered(0, new ParsedObject<>(null));
+		p.setDateRecovered(0, new ParsedObject<>(LocalDate.now()));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
