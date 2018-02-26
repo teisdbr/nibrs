@@ -23,9 +23,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -443,7 +442,7 @@ public class PropertySegmentRulesFactoryTest {
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
 		p.setTypeOfPropertyLoss(TypeOfPropertyLossCode._5.code);
-		Date d = new Date();
+		LocalDate d = null;
 		p.setDateRecovered(0, new ParsedObject<>(d));
 		e = rule.apply(p);
 		assertNull(e);
@@ -633,7 +632,7 @@ public class PropertySegmentRulesFactoryTest {
 		assertNotNull(e);
 		
 		p.setValueOfProperty(0, null);
-		p.setDateRecovered(0, new ParsedObject<>(new Date()));
+		p.setDateRecovered(0, new ParsedObject<>(null));
 		e = rule.apply(p);
 		assertNotNull(e);
 		p.setDateRecovered(0, null);
@@ -718,7 +717,7 @@ public class PropertySegmentRulesFactoryTest {
 		p.setPropertyDescription(0, PropertyDescriptionCode._09.code);
 		e = rule.apply(p);
 		assertNull(e);
-		p.setDateRecovered(0, new ParsedObject<Date>(new Date()));
+		p.setDateRecovered(0, new ParsedObject<>(null));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
@@ -813,27 +812,22 @@ public class PropertySegmentRulesFactoryTest {
 		}
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		Calendar c = Calendar.getInstance();
-		c.set(2016, Calendar.JANUARY, 2);
-		ParsedObject<Date> incidentDate = parent.getIncidentDate();
-		incidentDate.setValue(c.getTime());
+		ParsedObject<LocalDate> incidentDate = parent.getIncidentDate();
+		incidentDate.setValue(LocalDate.of(2016, 1, 2));
 		incidentDate.setMissing(false);
 		incidentDate.setInvalid(false);
 		parent.setIncidentDate(incidentDate);
-		c.set(2016, Calendar.JANUARY, 2);
-		p.setDateRecovered(0, new ParsedObject<>(c.getTime()));
+		p.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2016, 1, 2)));
 		e = rule.apply(p);
 		assertNull(e);
-		c.set(2016, Calendar.JANUARY, 1);
-		p.setDateRecovered(0, new ParsedObject<>(c.getTime()));
+		p.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2016, 1, 1)));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
 		assertEquals("17", e.getDataElementIdentifier());
-		assertEquals(c.getTime(), e.getValue());
+		assertEquals(LocalDate.of(2016, 1, 1), e.getValue());
 		assertEquals(errorCode, e.getNIBRSErrorCode());
-		c.set(2016, Calendar.JANUARY, 10);
-		p.setDateRecovered(1, new ParsedObject<>(c.getTime()));
+		p.setDateRecovered(1, new ParsedObject<>(LocalDate.of(2016, 1, 10)));
 		e = rule.apply(p);
 		assertNotNull(e);
 		return e;
@@ -851,23 +845,19 @@ public class PropertySegmentRulesFactoryTest {
 		}
 		NIBRSError e = rule.apply(p);
 		assertNull(e);
-		Calendar c = Calendar.getInstance();
-		c.set(2016, Calendar.JANUARY, 1);
-		p.setDateRecovered(0, new ParsedObject<>(c.getTime()));
+		p.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2016, 1, 1)));
 		parent.setYearOfTape(2016);
 		parent.setMonthOfTape(1);
 		e = rule.apply(p);
 		assertNull(e);
-		c.set(2016, Calendar.FEBRUARY, 1);
-		p.setDateRecovered(0, new ParsedObject<>(c.getTime()));
+		p.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2016, 2, 1)));
 		e = rule.apply(p);
 		assertNotNull(e);
 		assertEquals('3', e.getSegmentType());
 		assertEquals("17", e.getDataElementIdentifier());
-		assertEquals(c.getTime(), e.getValue());
+		assertEquals(LocalDate.of(2016, 2, 1), e.getValue());
 		assertEquals(NIBRSErrorCode._305, e.getNIBRSErrorCode());
-		c.set(2016, Calendar.JANUARY, 1);
-		p.setDateRecovered(1, new ParsedObject<>(c.getTime()));
+		p.setDateRecovered(1, new ParsedObject<>(LocalDate.of(2016, 1, 1)));
 		e = rule.apply(p);
 		assertNotNull(e);
 	}

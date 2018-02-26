@@ -15,8 +15,8 @@
  */
 package org.search.nibrs.model;
 
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class PropertySegment extends AbstractSegment
 	private String typeOfPropertyLoss;
     private String[] propertyDescription;
     private ParsedObject<Integer>[] valueOfProperty;
-    private ParsedObject<Date>[] dateRecovered;
+    private ParsedObject<LocalDate>[] dateRecovered;
     private ParsedObject<Integer> numberOfStolenMotorVehicles;
     private ParsedObject<Integer> numberOfRecoveredMotorVehicles;
     private String[] suspectedDrugType;
@@ -104,7 +104,7 @@ public class PropertySegment extends AbstractSegment
 		return estimatedDrugQuantity;
 	}
 
-	public ParsedObject<Date>[] getDateRecovered() {
+	public ParsedObject<LocalDate>[] getDateRecovered() {
 		return dateRecovered;
 	}
 
@@ -177,12 +177,12 @@ public class PropertySegment extends AbstractSegment
         populatedSuspectedDrugTypeCount = Math.max(populatedSuspectedDrugTypeCount, position+1);
     }
 
-    public ParsedObject<Date> getDateRecovered(int position)
+    public ParsedObject<LocalDate> getDateRecovered(int position)
     {
         return dateRecovered[position];
     }
     
-    public void setDateRecovered(int position, ParsedObject<Date> value)
+    public void setDateRecovered(int position, ParsedObject<LocalDate> value)
     {
         dateRecovered[position] = value;
     }

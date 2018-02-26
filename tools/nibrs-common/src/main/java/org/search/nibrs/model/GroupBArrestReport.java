@@ -15,7 +15,7 @@
  */
 package org.search.nibrs.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Representation of an individual Group B incident in a NIBRS submission.
@@ -62,7 +62,7 @@ public class GroupBArrestReport extends AbstractReport {
 		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArresteeSequenceNumber().getValue();
 	}
 	
-	public Date getArrestDate() {
+	public LocalDate getArrestDate() {
 		return getArresteeCount() == 0 ? null : getArrestees().get(0).getArrestDate().getValue();
 	}
 	

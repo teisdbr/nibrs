@@ -285,8 +285,8 @@ public class TestErrorExporter {
 		incident.setReportActionType('I');
 		incident.setOri("WA1234567");
 		incident.setIncidentNumber("54236732");
-		Date d = Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant());
-		ParsedObject<Date> incidentDate = new ParsedObject<>();
+		LocalDate d = LocalDate.of(2016, 5, 12);
+		ParsedObject<LocalDate> incidentDate = new ParsedObject<>();
 		incidentDate.setValue(d);
 		incident.setIncidentDate(incidentDate);
 		incident.setExceptionalClearanceCode("A");
@@ -332,7 +332,7 @@ public class TestErrorExporter {
 		incident.addArrestee(arrestee);
 		arrestee.setArresteeSequenceNumber(new ParsedObject<>(1));
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(new ParsedObject<>(Date.from(LocalDate.of(2015, 5, 16).atStartOfDay(ZoneId.systemDefault()).toInstant())));
+		arrestee.setArrestDate(new ParsedObject<>(LocalDate.of(2015, 5, 16)));
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");
 		arrestee.setUcrArrestOffenseCode("13A");

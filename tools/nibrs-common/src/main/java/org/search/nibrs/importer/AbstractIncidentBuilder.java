@@ -18,8 +18,7 @@ package org.search.nibrs.importer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,13 +53,12 @@ public class AbstractIncidentBuilder {
 
 	private List<ReportListener> listeners;
 	private LogListener logListener = new LogListener();
-	private DateFormat dateFormat;
+	private DateTimeFormatter dateFormat;
 
 	public AbstractIncidentBuilder() {
 		setListeners(new ArrayList<ReportListener>());
 		getListeners().add(getLogListener());
-		setDateFormat(new SimpleDateFormat("yyyyMMdd"));
-		getDateFormat().setLenient(false);
+		setDateFormat(DateTimeFormatter.ofPattern("yyyyMMdd"));
 	}
 
 	public void addIncidentListener(ReportListener listener) {
@@ -100,11 +98,11 @@ public class AbstractIncidentBuilder {
 		this.logListener = logListener;
 	}
 
-	public DateFormat getDateFormat() {
+	public DateTimeFormatter getDateFormat() {
 		return dateFormat;
 	}
 
-	public void setDateFormat(DateFormat dateFormat) {
+	public void setDateFormat(DateTimeFormatter dateFormat) {
 		this.dateFormat = dateFormat;
 	}
 

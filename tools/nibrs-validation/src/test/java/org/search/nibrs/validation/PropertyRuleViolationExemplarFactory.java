@@ -15,11 +15,9 @@
  */
 package org.search.nibrs.validation;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -301,7 +299,7 @@ final class PropertyRuleViolationExemplarFactory {
 			copy.setMonthOfTape(4);
 			copy.setYearOfTape(2017);
 			PropertySegment property = copy.getProperties().get(0);
-			property.setDateRecovered(0, new ParsedObject<>((Date.from(LocalDateTime.of(2017, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()))));
+			property.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2017, 5, 12)));
 			incidents.add(copy);
 			
 			//Date is earlier than incident
@@ -311,7 +309,7 @@ final class PropertyRuleViolationExemplarFactory {
 			Calendar c = Calendar.getInstance();
 			c.set(2017, Calendar.JUNE, 28);
 			property = copy.getProperties().get(0);
-			property.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2015, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2015, 6, 12)));
 			incidents.add(copy);
 			
 			return incidents;
@@ -419,7 +417,7 @@ final class PropertyRuleViolationExemplarFactory {
 			
 			Calendar c = Calendar.getInstance();
 			c.set(2017, Calendar.JUNE, 28);
-			propertySegment.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2015, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			propertySegment.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2015, 6, 12)));
 			incidents.add(mvTheftIncident);
 			
 			//**** CANNOT TEST FOR THE FOLLOWING CONDITION ****
@@ -668,7 +666,7 @@ final class PropertyRuleViolationExemplarFactory {
 			property.setPropertyDescription(0, "03");
 			property.setValueOfProperty(0, new ParsedObject<>(000000000));
 			property.setNumberOfStolenMotorVehicles(new ParsedObject<Integer>(1));
-			property.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+			property.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2016, 5, 12)));
 			
 			incidents.add(copy);
 			copy.addProperty(property);
@@ -1649,7 +1647,7 @@ final class PropertyRuleViolationExemplarFactory {
 				property.setPropertyDescription(1, "05");
 				property.setValueOfProperty(1, new ParsedObject<>(000020000));
 				property.setNumberOfRecoveredMotorVehicles(new ParsedObject<>(1));
-				property.setDateRecovered(0, new ParsedObject<>(Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
+				property.setDateRecovered(0, new ParsedObject<>(LocalDate.of(2016, 5, 12)));
 						
 				incidents.add(copy);
 				copy.addProperty(property);

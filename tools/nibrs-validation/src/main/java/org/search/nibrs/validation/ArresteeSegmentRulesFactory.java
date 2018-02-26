@@ -16,10 +16,7 @@
 package org.search.nibrs.validation;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -179,19 +176,14 @@ public class ArresteeSegmentRulesFactory {
 				AbstractReport parent = arresteeSegment.getParentReport();
 				Integer yearOfTape = parent.getYearOfTape();
 				Integer monthOfTape = parent.getMonthOfTape();
-				ParsedObject<Date> arrestDatePO = arresteeSegment.getArrestDate();
+				ParsedObject<LocalDate> arrestDatePO = arresteeSegment.getArrestDate();
 				if (monthOfTape != null && monthOfTape > 0 && monthOfTape < 13 && yearOfTape != null && !arrestDatePO.isMissing() && !arrestDatePO.isInvalid()) {
-					Calendar c = Calendar.getInstance();
-					c.set(yearOfTape, monthOfTape-1, 1);
-					LocalDate compDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, 1);
-					compDate = compDate.plusMonths(1).minusDays(1);
-					c.setTime(arrestDatePO.getValue());
-					LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					if (compDate.isBefore(arrestDate)) {
+					LocalDate submissionDate = LocalDate.of(yearOfTape, monthOfTape, 1).plusMonths(1).minusDays(1);
+					if (arrestDatePO.getValue().isAfter(submissionDate)) {
 						e = arresteeSegment.getErrorTemplate();
 						e.setNIBRSErrorCode(isGroupAMode() ? NIBRSErrorCode._605 : NIBRSErrorCode._705);
 						e.setDataElementIdentifier("42");
-						e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+						e.setValue(arrestDatePO.getValue());
 					}
 				}
 				return e;
@@ -206,19 +198,14 @@ public class ArresteeSegmentRulesFactory {
 				NIBRSError e = null;
 				if (arresteeSegment.isGroupA()) {
 					GroupAIncidentReport parent = (GroupAIncidentReport) arresteeSegment.getParentReport();
-					ParsedObject<Date> incidentDatePO = parent.getIncidentDate();
-					ParsedObject<Date> arrestDatePO = arresteeSegment.getArrestDate();
+					ParsedObject<LocalDate> incidentDatePO = parent.getIncidentDate();
+					ParsedObject<LocalDate> arrestDatePO = arresteeSegment.getArrestDate();
 					if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && !arrestDatePO.isInvalid() && !arrestDatePO.isMissing()) {
-						Calendar c = Calendar.getInstance();
-						c.setTime(arrestDatePO.getValue());
-						LocalDate arrestDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-						c.setTime(incidentDatePO.getValue());
-						LocalDate incidentDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-						if (arrestDate.isBefore(incidentDate)) {
+						if (arrestDatePO.getValue().isBefore(incidentDatePO.getValue())) {
 							e = arresteeSegment.getErrorTemplate();
 							e.setNIBRSErrorCode(NIBRSErrorCode._665);
 							e.setDataElementIdentifier("42");
-							e.setValue(Date.from(arrestDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+							e.setValue(arrestDatePO.getValue());
 						}
 					}
 				}

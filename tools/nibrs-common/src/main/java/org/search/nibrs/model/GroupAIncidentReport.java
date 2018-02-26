@@ -15,10 +15,10 @@
  */
 package org.search.nibrs.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -45,11 +45,11 @@ public class GroupAIncidentReport extends AbstractReport
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReport.class);
 	
 	private String incidentNumber;
-    private ParsedObject<Date> incidentDate;
+    private ParsedObject<LocalDate> incidentDate;
     private String reportDateIndicator;
     private ParsedObject<Integer> incidentHour;
     private String exceptionalClearanceCode;
-    private ParsedObject<Date> exceptionalClearanceDate;
+    private ParsedObject<LocalDate> exceptionalClearanceDate;
     private String cargoTheftIndicator;
     private List<OffenseSegment> offenseSegmentList;
     private List<PropertySegment> propertySegmentList;
@@ -362,19 +362,19 @@ public class GroupAIncidentReport extends AbstractReport
     {
         this.exceptionalClearanceCode = exceptionalClearanceCode;
     }
-    public ParsedObject<Date> getExceptionalClearanceDate()
+    public ParsedObject<LocalDate> getExceptionalClearanceDate()
     {
         return exceptionalClearanceDate;
     }
-    public void setExceptionalClearanceDate(ParsedObject<Date> exceptionalClearanceDate)
+    public void setExceptionalClearanceDate(ParsedObject<LocalDate> exceptionalClearanceDate)
     {
         this.exceptionalClearanceDate = exceptionalClearanceDate;
     }
-    public ParsedObject<Date> getIncidentDate()
+    public ParsedObject<LocalDate> getIncidentDate()
     {
         return incidentDate;
     }
-    public void setIncidentDate(ParsedObject<Date> incidentDate)
+    public void setIncidentDate(ParsedObject<LocalDate> incidentDate)
     {
         this.incidentDate = incidentDate;
     }
