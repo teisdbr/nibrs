@@ -18,12 +18,11 @@ package org.search.nibrs.xmlfile.importer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -82,7 +81,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 	public XmlIncidentBuilder() throws ParserConfigurationException {
 		super();
-		setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+		setDateFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		initDocumentBuilder();
 		initVictimToSubjectRelationshipCodeMap();
 	}
@@ -266,7 +265,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 				ret.setMonthOfTape(submissionDate.getMonth().getValue());
 			}
 		}
-		catch (DateTimeParseException e){
+		catch (Exception e){
 			log.info(e);
 			NIBRSError nibrsError = new NIBRSError();
 			nibrsError.setContext(reportBaseData.getReportSource());
@@ -315,7 +314,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		arrestee.setArrestTransactionNumber(arrestTransactionNumber);
 
 		
-		ParsedObject<Date> arrestDate = arrestee.getArrestDate();
+		ParsedObject<LocalDate> arrestDate = arrestee.getArrestDate();
 		arrestDate.setMissing(false);
 		arrestDate.setInvalid(false);
 		
@@ -325,11 +324,11 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			arrestDate.setValue(null);
 		} else {
 			try {
-				Date d = getDateFormat().parse(arrestDateString);
+				LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
 				arrestDate.setValue(d);
-			} catch (ParseException pe) {
+			} catch (Exception pe) {
 				NIBRSError e = new NIBRSError();
-				ReportSource reportSource = new ReportSource(reportBaseData.getReportSource()); 
+				ReportSource reportSource = new ReportSource(reportBaseData.getReportSource());
 				reportSource.setSourceLocation((String)XmlUtils.xPathStringSearch(reportElement, "j:Arrest/@s:id"));
 				e.setContext(reportBaseData.getReportSource());
 				e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
@@ -453,7 +452,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		//TODO findout the xPath for the cityIndicator 
 //			newIncident.setCityIndicator(NibrsStringUtils.getStringBetween(13, 16, segmentData));
 		
-		ParsedObject<Date> incidentDate = newIncident.getIncidentDate();
+		ParsedObject<LocalDate> incidentDate = newIncident.getIncidentDate();
 		incidentDate.setMissing(false);
 		incidentDate.setInvalid(false);
 		String incidentDateString = XmlUtils.xPathStringSearch(reportElement, "nc:Incident/nc:ActivityDate/nc:Date");
@@ -465,14 +464,14 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			try {
 				
 				if (StringUtils.isNotBlank(incidentDateString)){
-					Date d = getDateFormat().parse(incidentDateString);
+					LocalDate d = LocalDate.parse(incidentDateString, getDateFormat());
 					incidentDate.setValue(d);
 				}
 				else {
-					Date d = getDateFormat().parse(incidentDatetimeString.substring(0, 10));
-					incidentDate.setValue(d);
+					LocalDateTime d = LocalDateTime.parse(incidentDatetimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+					incidentDate.setValue(d.toLocalDate());
 				}
-			} catch (ParseException pe) {
+			} catch (Exception pe) {
 				NIBRSError e = new NIBRSError();
 				e.setContext(reportBaseData.getReportSource());
 				e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
@@ -533,7 +532,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			
 		newIncident.setExceptionalClearanceCode(XmlUtils.xPathStringSearch(reportElement, "nc:Incident/j:IncidentAugmentation/j:IncidentExceptionalClearanceCode"));
 		
-		ParsedObject<Date> clearanceDate = newIncident.getExceptionalClearanceDate();
+		ParsedObject<LocalDate> clearanceDate = newIncident.getExceptionalClearanceDate();
 		clearanceDate.setMissing(false);
 		clearanceDate.setInvalid(false);
 		String clearanceDateString = XmlUtils.xPathStringSearch(reportElement, "nc:Incident/j:IncidentAugmentation/j:IncidentExceptionalClearanceDate/nc:Date");
@@ -542,9 +541,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			clearanceDate.setValue(null);
 		} else {
 			try {
-				Date d = getDateFormat().parse(clearanceDateString);
+				LocalDate d = LocalDate.parse(clearanceDateString, getDateFormat());
 				clearanceDate.setValue(d);
-			} catch (ParseException pe) {
+			} catch (Exception pe) {
 				NIBRSError e = new NIBRSError();
 				e.setContext(reportBaseData.getReportSource());
 				e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
@@ -624,7 +623,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			if (arrestNode != null){
 				newArrestee.setArrestTransactionNumber(XmlUtils.xPathStringSearch(arrestNode, "nc:ActivityIdentification/nc:IdentificationID"));
 				
-				ParsedObject<Date> arrestDate = newArrestee.getArrestDate();
+				ParsedObject<LocalDate> arrestDate = newArrestee.getArrestDate();
 				arrestDate.setMissing(false);
 				arrestDate.setInvalid(false);
 				String arrestDateString = XmlUtils.xPathStringSearch(arrestNode, "nc:ActivityDate/nc:Date");
@@ -633,9 +632,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 					arrestDate.setValue(null);
 				} else {
 					try {
-						Date d = getDateFormat().parse(arrestDateString);
+						LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
 						arrestDate.setValue(d);
-					} catch (ParseException pe) {
+					} catch (Exception pe) {
 						NIBRSError e = new NIBRSError();
 						e.setContext(reportSource);
 						e.setReportUniqueIdentifier(incident.getIncidentNumber());
@@ -1200,7 +1199,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			}
 			for (int i = 0; i < PropertySegment.DATE_RECOVERED_COUNT; i++) {
 				
-				ParsedObject<Date> d = newProperty.getDateRecovered(i);
+				ParsedObject<LocalDate> d = newProperty.getDateRecovered(i);
 				d.setMissing(false);
 				d.setInvalid(false);
 				String ds = NibrsStringUtils.getStringBetween(50 + 19 * i, 57 + 19 * i, segmentData);
@@ -1209,9 +1208,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 					d.setValue(null);
 				} else {
 					try {
-						Date dd = getDateFormat().parse(ds);
+						LocalDate dd = LocalDate.parse(ds, getDateFormat());
 						d.setValue(dd);
-					} catch (ParseException pe) {
+					} catch (Exception pe) {
 						NIBRSError e = new NIBRSError();
 						e.setContext(s.getReportSource());
 						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());

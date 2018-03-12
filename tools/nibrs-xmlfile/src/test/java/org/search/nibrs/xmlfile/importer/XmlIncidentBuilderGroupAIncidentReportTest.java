@@ -23,9 +23,11 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
@@ -37,9 +39,11 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
-import org.search.nibrs.xmlfile.util.DateUtils;
 
 public class XmlIncidentBuilderGroupAIncidentReportTest {
+	
+	private static final Log log = LogFactory.getLog(XmlIncidentBuilderGroupAIncidentReportTest.class);
+	
 	private DefaultReportListener incidentListener;
 	
 	@Before
@@ -70,13 +74,13 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(groupAIncident.getAdminSegmentLevel(), is('1'));
 		assertThat(groupAIncident.getIncidentNumber(), is("000054236732")); 
 		assertThat(groupAIncident.getOri(), is("WVNDX0100"));
-		assertThat(groupAIncident.getIncidentDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 19)));
+		assertThat(groupAIncident.getIncidentDate().getValue(), is(LocalDate.of(2016, 2, 19)));
 		assertThat(groupAIncident.getIncidentHour().getValue(), is(Integer.valueOf(10)));
 		assertThat(groupAIncident.getReportDateIndicator(), is(""));
 		assertThat(groupAIncident.getCargoTheftIndicator(), is("Y"));
 		
 		assertThat(groupAIncident.getExceptionalClearanceCode(), is("A"));
-		assertThat(groupAIncident.getExceptionalClearanceDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 25)));
+		assertThat(groupAIncident.getExceptionalClearanceDate().getValue(), is(LocalDate.of(2016, 2, 25)));
 		
 		assertThat(groupAIncident.getOffenseCount(), is(1));
 		OffenseSegment offenseSegment = groupAIncident.getOffenses().get(0);
@@ -158,7 +162,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(arrestee.getDispositionOfArresteeUnder18(), is("H"));
 		assertThat(arrestee.getArresteeSequenceNumber().getValue(), is(1));
 		
-		assertThat(arrestee.getArrestDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 28))); 
+		assertThat(arrestee.getArrestDate().getValue(), is(LocalDate.of(2016, 2, 28)));
 		assertThat(arrestee.getArrestTransactionNumber(), is("12345"));
 		assertThat(arrestee.getTypeOfArrest(), is("O"));
 		assertThat(arrestee.getUcrArrestOffenseCode(), is("64A"));

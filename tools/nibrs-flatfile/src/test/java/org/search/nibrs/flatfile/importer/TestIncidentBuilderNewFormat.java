@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,7 +34,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ParsedObject;
-import org.search.nibrs.flatfile.util.DateUtils;
 import org.search.nibrs.importer.DefaultReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.model.ArresteeSegment;
@@ -128,7 +127,7 @@ public class TestIncidentBuilderNewFormat {
 		GroupAIncidentReport incident = (GroupAIncidentReport) incidentList.get(0);
 		assertNotNull(incident);
 		assertEquals("02-000895", incident.getIncidentNumber());
-		assertEquals(DateUtils.makeDate(2002, Calendar.JANUARY, 2), incident.getIncidentDate().getValue());
+		assertEquals(LocalDate.of(2002, 1, 2), incident.getIncidentDate().getValue());
 		assertEquals(new Integer(10), incident.getIncidentHour().getValue());
 		assertNull(incident.getReportDateIndicator());
 		assertEquals("N", incident.getExceptionalClearanceCode());
@@ -172,7 +171,7 @@ public class TestIncidentBuilderNewFormat {
 		ArresteeSegment arrestee = (ArresteeSegment) ((AbstractReport) incidentListener.getGroupAIncidentList().get(0)).arresteeIterator().next();
 		assertEquals(new Integer(1), arrestee.getArresteeSequenceNumber().getValue());
 		assertEquals("02-000895", arrestee.getArrestTransactionNumber());
-		assertEquals(DateUtils.makeDate(2002, Calendar.DECEMBER, 30), arrestee.getArrestDate().getValue());
+		assertEquals(LocalDate.of(2002, 12, 30), arrestee.getArrestDate().getValue());
 		assertEquals("T", arrestee.getTypeOfArrest());
 		assertEquals("M", arrestee.getMultipleArresteeSegmentsIndicator());
 		assertEquals("220", arrestee.getUcrArrestOffenseCode());
@@ -275,7 +274,7 @@ public class TestIncidentBuilderNewFormat {
 		assertEquals(new Integer(1), stolenProperty.getNumberOfStolenMotorVehicles().getValue());
 		assertNull(stolenProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertEquals("5", recoveredProperty.getTypeOfPropertyLoss());
-		assertEquals(DateUtils.makeDate(2002, Calendar.NOVEMBER, 15), recoveredProperty.getDateRecovered(0).getValue());
+		assertEquals(LocalDate.of(2002, 11, 15), recoveredProperty.getDateRecovered(0).getValue());
 		assertEquals(new Integer(1), recoveredProperty.getNumberOfRecoveredMotorVehicles().getValue());
 		assertNull(recoveredProperty.getNumberOfStolenMotorVehicles().getValue());
 	}

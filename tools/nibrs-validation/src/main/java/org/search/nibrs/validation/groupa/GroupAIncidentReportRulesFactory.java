@@ -18,9 +18,7 @@ package org.search.nibrs.validation.groupa;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -112,13 +110,7 @@ public class GroupAIncidentReportRulesFactory {
 			Integer month = subject.getMonthOfTape();
 			Integer year = subject.getYearOfTape();
 			if (month != null && month > 0 && month < 13 && year != null) {
-				if (month == 12) {
-					month = 1;
-					year++;
-				} else {
-					month++;
-				}
-				ParsedObject<Date> incidentDatePO = subject.getIncidentDate();
+				ParsedObject<LocalDate> incidentDatePO = subject.getIncidentDate();
 				if (!(incidentDatePO.isMissing() || incidentDatePO.isInvalid())) {
 					ret = compareIncidentDateToTape(month, year, incidentDatePO.getValue(), subject.getErrorTemplate());
 				}
@@ -126,7 +118,7 @@ public class GroupAIncidentReportRulesFactory {
 			return ret;
 		}
 
-		protected abstract NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate);
+		protected abstract NIBRSError compareIncidentDateToTape(Integer month, Integer year, LocalDate incidentDate, NIBRSError errorTemplate);
 		
 	}
 
@@ -799,7 +791,7 @@ public class GroupAIncidentReportRulesFactory {
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError e = null;
 				String exceptionalClearanceCode = subject.getExceptionalClearanceCode();
-				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
+				ParsedObject<LocalDate> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
 				if (subject.getReportActionType() == 'I' 
 						&& exceptionalClearanceCode != null 
 						&& !ClearedExceptionallyCode.N.code.equals(exceptionalClearanceCode) 
@@ -811,7 +803,7 @@ public class GroupAIncidentReportRulesFactory {
 							.anyMatch(item->
 								item.getArrestDate() != null 
 								&& item.getArrestDate().getValue() != null 
-								&&  !item.getArrestDate().getValue().after(exceptionalClearanceDatePO.getValue()));
+								&& !item.getArrestDate().getValue().isAfter(exceptionalClearanceDatePO.getValue()));
 					if (containingInvalidArrests) {
 						e = subject.getErrorTemplate();
 						e.setNIBRSErrorCode(NIBRSErrorCode._071);
@@ -1145,16 +1137,11 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
-				ParsedObject<Date> incidentDatePO = subject.getIncidentDate();
+				ParsedObject<LocalDate> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
+				ParsedObject<LocalDate> incidentDatePO = subject.getIncidentDate();
 				if (!exceptionalClearanceDatePO.isMissing() && !exceptionalClearanceDatePO.isInvalid()
 						&& !incidentDatePO.isInvalid() && !incidentDatePO.isMissing()) {
-					Calendar c = Calendar.getInstance();
-					c.setTime(incidentDatePO.getValue());
-					LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					c.setTime(exceptionalClearanceDatePO.getValue());
-					LocalDate exceptionalClearanceLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
-					if (exceptionalClearanceLocalDate.isBefore(incidentLocalDate)) {
+					if (exceptionalClearanceDatePO.getValue().isBefore(incidentDatePO.getValue())) {
 						ret = subject.getErrorTemplate();
 						ret.setValue(subject.getExceptionalClearanceDate().getValue());
 						ret.setDataElementIdentifier("5");
@@ -1171,7 +1158,7 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
+				ParsedObject<LocalDate> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
 				if ((exceptionalClearanceDatePO.isMissing() || exceptionalClearanceDatePO.isInvalid()) && trueExceptionalClearanceCodes.contains(subject.getExceptionalClearanceCode())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getExceptionalClearanceCode());
@@ -1188,7 +1175,7 @@ public class GroupAIncidentReportRulesFactory {
 			@Override
 			public NIBRSError apply(GroupAIncidentReport subject) {
 				NIBRSError ret = null;
-				ParsedObject<Date> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
+				ParsedObject<LocalDate> exceptionalClearanceDatePO = subject.getExceptionalClearanceDate();
 				if (!exceptionalClearanceDatePO.isMissing() && ! exceptionalClearanceDatePO.isInvalid() && "N".equals(subject.getExceptionalClearanceCode())) {
 					ret = subject.getErrorTemplate();
 					ret.setValue(subject.getExceptionalClearanceCode());
@@ -1203,13 +1190,10 @@ public class GroupAIncidentReportRulesFactory {
 	Rule<GroupAIncidentReport> getRule172() {
 		
 		return new IncidentDateRule() {
-			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate) {
+			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, LocalDate incidentDate, NIBRSError errorTemplate) {
 				LocalDate fbiNIBRSStartDate = LocalDate.of(1991, 1, 1);
-				Calendar c = Calendar.getInstance();
-				c.setTime(incidentDate);
-				LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 				NIBRSError e = null;
-				if (incidentLocalDate.isBefore(fbiNIBRSStartDate)) {
+				if (incidentDate.isBefore(fbiNIBRSStartDate)) {
 					e = errorTemplate;
 					e.setDataElementIdentifier("3");
 					e.setNIBRSErrorCode(NIBRSErrorCode._172);
@@ -1228,13 +1212,10 @@ public class GroupAIncidentReportRulesFactory {
 	Rule<GroupAIncidentReport> getRule171() {
 		
 		return new IncidentDateRule() {
-			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate) {
+			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, LocalDate incidentDate, NIBRSError errorTemplate) {
 				LocalDate priorYearStartDate = LocalDate.of(year-1, 1, 1);
-				Calendar c = Calendar.getInstance();
-				c.setTime(incidentDate);
-				LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
 				NIBRSError e = null;
-				if (incidentLocalDate.isBefore(priorYearStartDate)) {
+				if (incidentDate.isBefore(priorYearStartDate)) {
 					e = errorTemplate;
 					e.setDataElementIdentifier("3");
 					e.setNIBRSErrorCode(NIBRSErrorCode._171);
@@ -1249,13 +1230,10 @@ public class GroupAIncidentReportRulesFactory {
 	Rule<GroupAIncidentReport> getRule170() {
 		
 		return new IncidentDateRule() {
-			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, Date incidentDate, NIBRSError errorTemplate) {
-				LocalDate submissionDate = LocalDate.of(year, month, 1).minusDays(1);
-				Calendar c = Calendar.getInstance();
-				c.setTime(incidentDate);
-				LocalDate incidentLocalDate = LocalDate.of(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH));
+			protected NIBRSError compareIncidentDateToTape(Integer month, Integer year, LocalDate incidentDate, NIBRSError errorTemplate) {
+				LocalDate submissionDate = LocalDate.of(year, month, 1).plusMonths(1).minusDays(1);
 				NIBRSError e = null;
-				if (incidentLocalDate.isAfter(submissionDate)) {
+				if (incidentDate.isAfter(submissionDate)) {
 					e = errorTemplate;
 					e.setDataElementIdentifier("3");
 					e.setNIBRSErrorCode(NIBRSErrorCode._170);

@@ -19,11 +19,10 @@ import static org.search.nibrs.util.ArrayUtils.allNull;
 import static org.search.nibrs.util.ArrayUtils.allMissing;
 import static org.search.nibrs.util.ArrayUtils.notAllNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -524,7 +523,7 @@ public class PropertySegmentRulesFactory {
 				String typeOfPropertyLoss = subject.getTypeOfPropertyLoss();
 				if (typeOfPropertyLoss != null && !TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLoss)) {
 					for (int i=0;i < 10;i++) {
-						ParsedObject<Date> dateRecoveredPO = subject.getDateRecovered(i);
+						ParsedObject<LocalDate> dateRecoveredPO = subject.getDateRecovered(i);
 						if (dateRecoveredPO.getValue() != null) {
 							ret = subject.getErrorTemplate();
 							ret.setDataElementIdentifier("17");
@@ -841,7 +840,7 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				for (int i=0;i < 10;i++) {
-					ParsedObject<Date> recoveredDate = subject.getDateRecovered(i);
+					ParsedObject<LocalDate> recoveredDate = subject.getDateRecovered(i);
 					ParsedObject<Integer> valueOfPropertyPO = subject.getValueOfProperty(i);
 					String propertyDescription = subject.getPropertyDescription(i);
 					if (!(recoveredDate.isInvalid() || recoveredDate.isMissing() || recoveredDate.getValue() == null)  
@@ -923,14 +922,14 @@ public class PropertySegmentRulesFactory {
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
 				GroupAIncidentReport parentIncident = (GroupAIncidentReport) subject.getParentReport();
-				ParsedObject<Date> incidentDatePO = parentIncident.getIncidentDate();
+				ParsedObject<LocalDate> incidentDatePO = parentIncident.getIncidentDate();
 				if (!(incidentDatePO.isMissing() || incidentDatePO.isInvalid())) {
-					Date incidentDate = incidentDatePO.getValue();
+					LocalDate incidentDate = incidentDatePO.getValue();
 					for (int i = 0; i < 10; i++) {
-						ParsedObject<Date> recoveredDatePO = subject.getDateRecovered(i);
+						ParsedObject<LocalDate> recoveredDatePO = subject.getDateRecovered(i);
 						if (recoveredDatePO.getValue() != null) {
-							Date recoveredDate = recoveredDatePO.getValue();
-							if (recoveredDate.before(incidentDate)) {
+							LocalDate recoveredDate = recoveredDatePO.getValue();
+							if (recoveredDate.isBefore(incidentDate)) {
 								ret = subject.getErrorTemplate();
 								ret.setDataElementIdentifier("17");
 								ret.setValue(recoveredDate);
@@ -949,7 +948,7 @@ public class PropertySegmentRulesFactory {
 			@Override
 			public NIBRSError apply(PropertySegment subject) {
 				NIBRSError ret = null;
-				
+
 				if (Objects.equals(subject.getTypeOfPropertyLoss(), TypeOfPropertyLossCode._5.code)
 						&& allNull(subject.getDateRecovered())){
 					ret = subject.getErrorTemplate();
@@ -958,32 +957,21 @@ public class PropertySegmentRulesFactory {
 					return ret;
 				}
 				GroupAIncidentReport parentIncident = (GroupAIncidentReport) subject.getParentReport();
-				ParsedObject<Date> incidentDatePO = parentIncident.getIncidentDate();
+				ParsedObject<LocalDate> incidentDatePO = parentIncident.getIncidentDate();
 				Integer monthOfTape = parentIncident.getMonthOfTape();
 				Integer yearOfTape = parentIncident.getYearOfTape();
-				Calendar c = Calendar.getInstance();
 				for (int i=0;i < 10;i++) {
-					ParsedObject<Date> recoveredDatePO = subject.getDateRecovered(i);
+					ParsedObject<LocalDate> recoveredDatePO = subject.getDateRecovered(i);
 					if (recoveredDatePO.getValue() != null) {
-						Date recoveredDate = recoveredDatePO.getValue();
-						if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && recoveredDate.before(incidentDatePO.getValue())) {
+						LocalDate recoveredDate = recoveredDatePO.getValue();
+						if (!incidentDatePO.isMissing() && !incidentDatePO.isInvalid() && recoveredDate.isBefore(incidentDatePO.getValue())) {
 							ret = subject.getErrorTemplate();
 							ret.setDataElementIdentifier("17");
 							ret.setValue(recoveredDate);
 							ret.setNIBRSErrorCode(NIBRSErrorCode._305);
 						} else if (monthOfTape != null && yearOfTape != null) {
-							int y = yearOfTape.intValue();
-							int m = monthOfTape.intValue();
-							if (m == 12) {
-								y++;
-								m = 1;
-							} else {
-								m++;
-							}
-							c.set(y, m-1, 1);
-							c.add(Calendar.DAY_OF_MONTH, -1);
-							Date submissionDate = c.getTime();
-							if (recoveredDate.after(submissionDate)) {
+							LocalDate submissionDate = LocalDate.of(yearOfTape, monthOfTape, 1).plusMonths(1).minusDays(1);
+							if (recoveredDate.isAfter(submissionDate)) {
 								ret = subject.getErrorTemplate();
 								ret.setDataElementIdentifier("17");
 								ret.setValue(recoveredDate);

@@ -16,6 +16,7 @@
  */
 package org.search.nibrs.flatfile.exporter;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -35,13 +36,11 @@ import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
 
-import java.text.SimpleDateFormat;
-
 public class FlatFileTranslator {
 
     private FlatFileTranslator() {}
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     // region group a incident report
 

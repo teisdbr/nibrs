@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.Before;
@@ -35,7 +35,6 @@ import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.ZeroReport;
-import org.search.nibrs.xmlfile.util.DateUtils;
 
 public class XmlIncidentBuilderGroupBReportTest {
 	private DefaultReportListener incidentListener;
@@ -82,7 +81,7 @@ public class XmlIncidentBuilderGroupBReportTest {
 		assertThat(arrestee.getDispositionOfArresteeUnder18(), is(nullValue()));
 		assertThat(arrestee.getArresteeSequenceNumber().getValue(), is(1));
 		
-		assertThat(arrestee.getArrestDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 28))); 
+		assertThat(arrestee.getArrestDate().getValue(), is(LocalDate.of(2016, 2, 28)));
 		assertThat(arrestee.getArrestTransactionNumber(), is("12345"));
 		assertThat(arrestee.getTypeOfArrest(), is("O"));
 		assertThat(arrestee.getUcrArrestOffenseCode(), is("64A"));

@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +106,7 @@ public class TestXMLExporter {
 		for (int i=0; i < arresteeNodes.getLength();i++) {
 			Node arresteeNode = arresteeNodes.item(i);
 			ArresteeSegment arrestee = arresteeList.get(i);
-			assertEquals(arrestee.getArresteeSequenceNumber(), Integer.valueOf(XmlUtils.xPathStringSearch(arresteeNode, "j:ArrestSequenceID")));
+			assertEquals(arrestee.getArresteeSequenceNumber().getValue(), Integer.valueOf(XmlUtils.xPathStringSearch(arresteeNode, "j:ArrestSequenceID")));
 			String personId = XmlUtils.xPathStringSearch(arresteeNode, "nc:RoleOfPerson/@s:ref");
 			Node personNode = XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:AbstractPersonSegment[@s:id='" + personId + "']");
 			assertEquals(arrestee.getSex(), XmlUtils.xPathStringSearch(personNode, "j:PersonSexCode"));
@@ -183,7 +184,7 @@ public class TestXMLExporter {
 					Element itemElement = (Element) XmlUtils.xPathNodeSearch(d, "/nibrs:Submission/nibrs:AbstractReport[1]/nc:Item[j:ItemCategoryNIBRSPropertyCategoryCode='" + propertyDescription +
 							"' and nc:ItemStatus/cjis:ItemStatusCode='" + XMLExporter.ITEM_STATUS_MAP.get(typePropertyLoss) + "']");
 					assertNotNull(itemElement);
-					assertEquals(p.getValueOfProperty(i), new Integer(XmlUtils.xPathStringSearch(itemElement, "nc:ItemValue/nc:ItemValueAmount/nc:Amount")));
+					assertEquals(p.getValueOfProperty(i).getValue(), new Integer(XmlUtils.xPathStringSearch(itemElement, "nc:ItemValue/nc:ItemValueAmount/nc:Amount")));
 					Integer recoveredMotorVehicles = p.getNumberOfRecoveredMotorVehicles().getValue();
 					Integer stolenMotorVehicles = p.getNumberOfStolenMotorVehicles().getValue();
 					if (recoveredMotorVehicles != null || stolenMotorVehicles != null) {
@@ -315,7 +316,7 @@ public class TestXMLExporter {
 		arrestee.setRace("W");
 		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(new ParsedObject<>(XMLExporter.DATE_FORMAT.parse("2016-05-16")));
+		arrestee.setArrestDate(new ParsedObject<>(LocalDate.parse("2016-05-16", XMLExporter.DATE_FORMAT)));
 		arrestee.setUcrArrestOffenseCode("90A");
 		arrestee.setTypeOfArrest("O");
 		
@@ -330,7 +331,7 @@ public class TestXMLExporter {
 		incident.setMonthOfTape(5);
 		incident.setOri("WA123456789");
 		incident.setIncidentNumber("54236732");
-		incident.setIncidentDate(new ParsedObject<>(XMLExporter.DATETIME_FORMAT.parse("2016-05-12T10:07:46.342-0500")));
+		incident.setIncidentDate(new ParsedObject<>(LocalDate.parse("2016-05-12T10:07:46.342-0500", XMLExporter.DATETIME_FORMAT)));
 		incident.setExceptionalClearanceCode("N");
 		incident.setReportActionType('I');
 		incident.setCargoTheftIndicator("N");
@@ -396,7 +397,7 @@ public class TestXMLExporter {
 		p.setTypeOfPropertyLoss("5");
 		p.setPropertyDescription(0, "17");
 		p.setValueOfProperty(0, new ParsedObject<>(200));
-		p.setDateRecovered(0, new ParsedObject<>(XMLExporter.DATE_FORMAT.parse("2016-05-16")));
+		p.setDateRecovered(0, new ParsedObject<>(LocalDate.parse("2016-05-16", XMLExporter.DATE_FORMAT)));
 		
 		p = new PropertySegment();
 		incident.addProperty(p);
@@ -475,7 +476,7 @@ public class TestXMLExporter {
 		arrestee.setRace("W");
 		arrestee.setSex("M");
 		arrestee.setArrestTransactionNumber("12345");
-		arrestee.setArrestDate(new ParsedObject<>(XMLExporter.DATE_FORMAT.parse("2016-05-16")));
+		arrestee.setArrestDate(new ParsedObject<>(LocalDate.parse("2016-05-16", XMLExporter.DATE_FORMAT)));
 		arrestee.setUcrArrestOffenseCode("64A");
 		arrestee.setTypeOfArrest("O");
 		arrestee.setMultipleArresteeSegmentsIndicator("N");

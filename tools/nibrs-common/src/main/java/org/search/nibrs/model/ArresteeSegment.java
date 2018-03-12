@@ -16,8 +16,8 @@
 package org.search.nibrs.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -44,7 +44,7 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
 	
 	private ParsedObject<Integer> arresteeSequenceNumber;
     private String arrestTransactionNumber;
-    private ParsedObject<Date> arrestDate;
+    private ParsedObject<LocalDate> arrestDate;
     private String typeOfArrest;
     private String multipleArresteeSegmentsIndicator;
     private String ucrArrestOffenseCode;
@@ -147,11 +147,11 @@ public class ArresteeSegment extends AbstractPersonSegment implements Identifiab
         arresteeArmedWith[position] = value;
     }
     
-    public ParsedObject<Date> getArrestDate()
+    public ParsedObject<LocalDate> getArrestDate()
     {
         return arrestDate;
     }
-    public void setArrestDate(ParsedObject<Date> arrestDate)
+    public void setArrestDate(ParsedObject<LocalDate> arrestDate)
     {
         this.arrestDate = arrestDate;
     }

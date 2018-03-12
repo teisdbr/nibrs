@@ -22,9 +22,7 @@ import org.search.nibrs.flatfile.NIBRSAgeBuilder;
 import org.search.nibrs.model.*;
 import org.search.nibrs.model.codes.*;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 import static org.search.nibrs.flatfile.exporter.FlatFileTranslator.*;
@@ -33,7 +31,7 @@ import static org.search.nibrs.model.ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TY
 
 public class TestFlatFileTranslator {
 
-    private static Date defaultDate = Date.from(LocalDateTime.of(2017, 8, 4, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant());
+    private static LocalDate defaultDate = LocalDate.of(2017, 8, 4);
     // region admin
 
     @Test

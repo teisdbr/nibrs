@@ -16,11 +16,11 @@
 package org.search.nibrs.xml.exporter;
 
 import java.io.OutputStream;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -67,8 +67,8 @@ public class XMLExporter {
 	private static final Logger LOG = LogManager.getLogger(XMLExporter.class);
 
 	static final NumberFormat MONTH_NUMBER_FORMAT = new DecimalFormat("00");
-	static final DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-	static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	static final BidiMap<String, String> BIAS_MAP = new DualHashBidiMap<String, String>();
 	static final BidiMap<String, String> ITEM_STATUS_MAP = new DualHashBidiMap<String, String>();
@@ -312,9 +312,9 @@ public class XMLExporter {
 			Element e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityIdentification");
 			appendElementAndValueIfNotNull(e, Namespace.nc, "IdentificationID", arrestee.getArrestTransactionNumber());
 			e = XmlUtils.appendChildElement(arrestElement, Namespace.nc, "ActivityDate");
-			ParsedObject<Date> arrestDate = arrestee.getArrestDate();
+			ParsedObject<LocalDate> arrestDate = arrestee.getArrestDate();
 			if (!arrestDate.isInvalid() && !arrestDate.isMissing()) {
-				XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(arrestDate));
+				XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(arrestDate.getValue()));
 			}
 			e = XmlUtils.appendChildElement(arrestElement, Namespace.j, "ArrestCharge");
 			appendElementAndValueIfNotNull(e, Namespace.nibrs, "ChargeUCRCode", arrestee.getUcrArrestOffenseCode());
@@ -520,7 +520,7 @@ public class XMLExporter {
 						Element itemValueElement = XmlUtils.appendChildElement(itemElement, Namespace.nc, "ItemValue");
 						e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueAmount");
 						XmlUtils.appendChildElement(e, Namespace.nc, "Amount").setTextContent(value);
-						Date dateRecovered = property.getDateRecovered(i).getValue();
+						LocalDate dateRecovered = property.getDateRecovered(i).getValue();
 						if (dateRecovered != null) {
 							e = XmlUtils.appendChildElement(itemValueElement, Namespace.nc, "ItemValueDate");
 							XmlUtils.appendChildElement(e, Namespace.nc, "Date").setTextContent(DATE_FORMAT.format(dateRecovered));
@@ -607,22 +607,22 @@ public class XMLExporter {
 			e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityIdentification");
 			XmlUtils.appendChildElement(e, Namespace.nc, "IdentificationID").setTextContent(incidentNumber);
 		}
-		ParsedObject<Date> incidentDatePO = incident.getIncidentDate();
+		ParsedObject<LocalDate> incidentDatePO = incident.getIncidentDate();
 		if (!incidentDatePO.isInvalid() && !incidentDatePO.isMissing()) {
 			e = XmlUtils.appendChildElement(incidentElement, Namespace.nc, "ActivityDate");
 			e = XmlUtils.appendChildElement(e, Namespace.nc, "DateTime");
-			e.setTextContent(DATETIME_FORMAT.format(incidentDatePO.getValue()));
+			e.setTextContent(DATETIME_FORMAT.format(incidentDatePO.getValue().atStartOfDay().atOffset(ZoneOffset.MIN)));
 		}
 		Element augElement = XmlUtils.appendChildElement(incidentElement, Namespace.cjis, "IncidentAugmentation");
 		appendElementAndValueIfNotNull(augElement, Namespace.cjis, "IncidentReportDateIndicator", incident.getReportDateIndicator());
 		appendElementAndValueIfNotNull(augElement, Namespace.j, "OffenseCargoTheftIndicator", String.valueOf(incident.getCargoTheftIndicator()));
 		augElement = XmlUtils.appendChildElement(incidentElement, Namespace.j, "IncidentAugmentation");
 		appendElementAndValueIfNotNull(augElement, Namespace.j, "IncidentExceptionalClearanceCode", incident.getExceptionalClearanceCode());
-		ParsedObject<Date> exceptionalClearanceDate = incident.getExceptionalClearanceDate();
+		ParsedObject<LocalDate> exceptionalClearanceDate = incident.getExceptionalClearanceDate();
 		if (!exceptionalClearanceDate.isInvalid() && !exceptionalClearanceDate.isMissing()) {
 			e = XmlUtils.appendChildElement(augElement, Namespace.j, "IncidentExceptionalClearanceDate");
 			e = XmlUtils.appendChildElement(e, Namespace.nc, "Date");
-			e.setTextContent(DATE_FORMAT.format(exceptionalClearanceDate));
+			e.setTextContent(DATE_FORMAT.format(exceptionalClearanceDate.getValue()));
 		}
 	}
 

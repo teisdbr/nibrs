@@ -18,9 +18,8 @@ package org.search.nibrs.flatfile.importer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -234,7 +233,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			
 			arrestee.setArrestTransactionNumber(StringUtils.getStringBetween(26, 37, segmentData));
 			
-			ParsedObject<Date> arrestDate = arrestee.getArrestDate();
+			ParsedObject<LocalDate> arrestDate = arrestee.getArrestDate();
 			arrestDate.setMissing(false);
 			arrestDate.setInvalid(false);
 			String arrestDateString = StringUtils.getStringBetween(40, 47, segmentData);
@@ -243,9 +242,9 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				arrestDate.setValue(null);
 			} else {
 				try {
-					Date d = getDateFormat().parse(arrestDateString);
+					LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
 					arrestDate.setValue(d);
-				} catch (ParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -314,7 +313,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			newIncident.setMonthOfTape(getIntValueFromSegment(s, 7, 8, newErrorList, NIBRSErrorCode._101));
 			newIncident.setYearOfTape(getIntValueFromSegment(s, 9, 12, newErrorList, NIBRSErrorCode._101));
 			newIncident.setCityIndicator(StringUtils.getStringBetween(13, 16, segmentData));
-			ParsedObject<Date> incidentDate = newIncident.getIncidentDate();
+			ParsedObject<LocalDate> incidentDate = newIncident.getIncidentDate();
 			incidentDate.setMissing(false);
 			incidentDate.setInvalid(false);
 			String incidentDateString = StringUtils.getStringBetween(38, 45, segmentData);
@@ -323,9 +322,9 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				incidentDate.setValue(null);
 			} else {
 				try {
-					Date d = getDateFormat().parse(incidentDateString);
+					LocalDate d = LocalDate.parse(incidentDateString, getDateFormat());
 					incidentDate.setValue(d);
-				} catch (ParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -382,7 +381,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			
 			newIncident.setExceptionalClearanceCode(StringUtils.getStringBetween(49, 49, segmentData));
 			
-			ParsedObject<Date> clearanceDate = newIncident.getExceptionalClearanceDate();
+			ParsedObject<LocalDate> clearanceDate = newIncident.getExceptionalClearanceDate();
 			clearanceDate.setMissing(false);
 			clearanceDate.setInvalid(false);
 			String clearanceDateString = StringUtils.getStringBetween(50, 57, segmentData);
@@ -391,9 +390,9 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				clearanceDate.setValue(null);
 			} else {
 				try {
-					Date d = getDateFormat().parse(clearanceDateString);
+					LocalDate d = LocalDate.parse(clearanceDateString, getDateFormat());
 					clearanceDate.setValue(d);
-				} catch (ParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -558,7 +557,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			
 			newArrestee.setArrestTransactionNumber(StringUtils.getStringBetween(40, 51, segmentData));
 			
-			ParsedObject<Date> arrestDate = newArrestee.getArrestDate();
+			ParsedObject<LocalDate> arrestDate = newArrestee.getArrestDate();
 			arrestDate.setMissing(false);
 			arrestDate.setInvalid(false);
 			String arrestDateString = StringUtils.getStringBetween(52, 59, segmentData);
@@ -567,9 +566,9 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 				arrestDate.setValue(null);
 			} else {
 				try {
-					Date d = getDateFormat().parse(arrestDateString);
+					LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
 					arrestDate.setValue(d);
-				} catch (ParseException pe) {
+				} catch (Exception pe) {
 					NIBRSError e = new NIBRSError();
 					e.setContext(s.getReportSource());
 					e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
@@ -827,7 +826,7 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 			}
 			for (int i = 0; i < PropertySegment.DATE_RECOVERED_COUNT; i++) {
 				
-				ParsedObject<Date> d = newProperty.getDateRecovered(i);
+				ParsedObject<LocalDate> d = newProperty.getDateRecovered(i);
 				d.setMissing(false);
 				d.setInvalid(false);
 				String ds = StringUtils.getStringBetween(50 + 19 * i, 57 + 19 * i, segmentData);
@@ -836,9 +835,9 @@ public class IncidentBuilder extends AbstractIncidentBuilder {
 					d.setValue(null);
 				} else {
 					try {
-						Date dd = getDateFormat().parse(ds);
+						LocalDate dd = LocalDate.parse(ds, getDateFormat());
 						d.setValue(dd);
-					} catch (ParseException pe) {
+					} catch (Exception pe) {
 						NIBRSError e = new NIBRSError();
 						e.setContext(s.getReportSource());
 						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
