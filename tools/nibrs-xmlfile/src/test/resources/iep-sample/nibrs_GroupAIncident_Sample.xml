@@ -53,7 +53,7 @@
 			<!-- Submission Type -->
 			<nibrs:NIBRSReportCategoryCode>GROUP A INCIDENT REPORT</nibrs:NIBRSReportCategoryCode>
 			<!-- Submission Action Type -->
-			<nibrs:ReportActionCategoryCode>R</nibrs:ReportActionCategoryCode>
+			<nibrs:ReportActionCategoryCode>I</nibrs:ReportActionCategoryCode>
 			<!-- Year/Month Of Report -->
 			<nibrs:ReportDate>
 				<nc:YearMonthDate>2016-02</nc:YearMonthDate>
@@ -169,7 +169,7 @@
 	    <nc:Item>
 	        <!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
 	        <nc:ItemStatus>
-	            <cjis:ItemStatusCode>DESTROYED</cjis:ItemStatusCode>
+	            <cjis:ItemStatusCode>DESTROYED_DAMAGED_VANDALIZED</cjis:ItemStatusCode>
 	        </nc:ItemStatus>
 	        <!-- Element 16, Value of Property in US Dollars -->
 	        <nc:ItemValue>

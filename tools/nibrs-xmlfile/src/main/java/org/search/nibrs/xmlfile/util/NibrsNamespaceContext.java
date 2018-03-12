@@ -39,7 +39,7 @@ public final class NibrsNamespaceContext implements NamespaceContext {
 	private static final Log log = LogFactory.getLog(NibrsNamespaceContext.class);
 	
 	public enum NIBRS_NAMESPACES {
-		NIBRS("nibrs", "http://fbi.gov/cjis/nibrs/4.0" ), 
+		NIBRS("nibrs", "http://fbi.gov/cjis/nibrs/4.2" ), 
 		CJIS("cjis", "http://fbi.gov/cjis/1.0"), 
 		CJISCODES("cjiscodes", "http://fbi.gov/cjis/cjis-codes/1.0"), 
 		I("i", "http://release.niem.gov/niem/appinfo/3.0/"), 
@@ -51,7 +51,7 @@ public final class NibrsNamespaceContext implements NamespaceContext {
 		S("s", "http://release.niem.gov/niem/structures/3.0/"), 
 		XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance"), 
 		XSD("xsd", "http://www.w3.org/2001/XMLSchema"), 
-		NIBRSCODES("nibrscodes", "http://fbi.gov/cjis/nibrs/nibrs-codes/4.0");
+		NIBRSCODES("nibrscodes", "http://fbi.gov/cjis/nibrs/nibrs-codes/4.2");
 		
 		private String namespace;
 		

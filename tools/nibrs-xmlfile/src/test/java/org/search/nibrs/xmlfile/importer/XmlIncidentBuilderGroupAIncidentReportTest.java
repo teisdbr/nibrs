@@ -68,7 +68,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertNotNull(groupAIncident);
 		
 		assertThat(groupAIncident.getAdminSegmentLevel(), is('1'));
-		assertThat(groupAIncident.getIncidentNumber(), is("54236732")); 
+		assertThat(groupAIncident.getIncidentNumber(), is("000054236732")); 
 		assertThat(groupAIncident.getOri(), is("WVNDX0100"));
 		assertThat(groupAIncident.getIncidentDate().getValue(), is(DateUtils.makeDate(2016, Calendar.FEBRUARY, 19)));
 		assertThat(groupAIncident.getIncidentHour().getValue(), is(Integer.valueOf(10)));
@@ -80,7 +80,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		
 		assertThat(groupAIncident.getOffenseCount(), is(1));
 		OffenseSegment offenseSegment = groupAIncident.getOffenses().get(0);
-		assertThat(offenseSegment.getUcrOffenseCode(), is("64A"));
+		assertThat(offenseSegment.getUcrOffenseCode(), is("240"));
 		assertThat(offenseSegment.getTypeOfCriminalActivity()[0], is("N"));
 		assertThat(offenseSegment.getBiasMotivation()[0], is("NONE"));
 		assertThat(offenseSegment.getNumberOfPremisesEntered().getValue(), is(1));
@@ -120,7 +120,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(victimSegment1.getOffenderNumberRelated(0).getValue(), is(1));
 		assertThat(victimSegment1.getPopulatedOffenderNumberRelatedCount(), is(1));
 		assertThat(victimSegment1.getVictimOffenderRelationship(0), is("AQ"));
-		assertThat(victimSegment1.getUcrOffenseCodeConnection(0), is("64A")); 
+		assertThat(victimSegment1.getUcrOffenseCodeConnection(0), is("240")); 
 		assertThat(victimSegment1.getPopulatedUcrOffenseCodeConnectionCount(), is(1));
 		
 		assertThat(victimSegment1.getOfficerOtherJurisdictionORI(), is("WVNDX01"));
@@ -145,7 +145,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(victimSegment2.getOffenderNumberRelated(0).getValue(), is(1));
 		assertThat(victimSegment2.getPopulatedOffenderNumberRelatedCount(), is(1));
 		assertThat(victimSegment2.getVictimOffenderRelationship(0), is("ST"));
-		assertThat(victimSegment2.getUcrOffenseCodeConnection(0), is("64A")); 
+		assertThat(victimSegment2.getUcrOffenseCodeConnection(0), is("240")); 
 		assertThat(victimSegment2.getPopulatedUcrOffenseCodeConnectionCount(), is(1));
 
 		assertThat(groupAIncident.getArresteeCount(), is(1));

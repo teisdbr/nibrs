@@ -808,7 +808,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 				}
 
 				newVictim.setOffenderNumberRelated(j, offenderNumberRelated);
-				String victimOffenderRelationshipCode = XmlUtils.xPathStringSearch(subjectVictimAssociation, "j:VictimToSubjectRelationshipCode");
+				String victimOffenderRelationshipCode = XmlUtils.xPathStringSearch(subjectVictimAssociation, "nibrs:VictimToSubjectRelationshipCode");
 				newVictim.setVictimOffenderRelationship(j, victimToSubjectRelationshipCodeMap.get(victimOffenderRelationshipCode));
 			}
 			
