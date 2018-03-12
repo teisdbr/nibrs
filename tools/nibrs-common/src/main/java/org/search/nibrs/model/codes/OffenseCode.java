@@ -29,6 +29,9 @@ import java.util.regex.Pattern;
 public enum OffenseCode {
 	
 	_720("720", "Animal Cruelty", "A"),
+	/**
+	 * Arson
+	 */
 	_200("200", "Arson", "A"),
 	_13A("13A", "Aggravated Assault", "A"),
 	_13B("13B", "Simple Assault", "A"),
@@ -54,6 +57,9 @@ public enum OffenseCode {
 	_39D("39D", "Sports Tampering", "A"),
 	_09A("09A", "Murder & Non-negligent Manslaughter", "A"),
 	_09B("09B", "Negligent Manslaughter", "A"),
+	/**
+	 * Justifiable Homicide
+	 */
 	_09C("09C", "Justifiable Homicide", "A"),
 	_64A("64A", "Human Trafficking, Commercial Sex Acts", "A"),
 	_64B("64B", "Human Trafficking, Involuntary Servitude", "A"),

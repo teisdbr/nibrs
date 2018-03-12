@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -53,6 +54,8 @@ import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
+import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.xmlfile.util.NibrsStringUtils;
 import org.search.nibrs.xmlfile.util.XmlUtils;
 import org.springframework.stereotype.Component;
@@ -78,12 +81,27 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 	
 	private DocumentBuilder documentBuilder; 
 	private Map<String, String> victimToSubjectRelationshipCodeMap = new HashMap<>(); 
+	private Map<String, String> typeOfPropertyLossCodeMap = new HashMap<>(); 
 
 	public XmlIncidentBuilder() throws ParserConfigurationException {
 		super();
 		setDateFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		initDocumentBuilder();
 		initVictimToSubjectRelationshipCodeMap();
+		initTypeOfPropertyLossCodeMap();
+	}
+
+	private void initTypeOfPropertyLossCodeMap() {
+		typeOfPropertyLossCodeMap.put("NONE", "1");
+		typeOfPropertyLossCodeMap.put("BURNED ", "2");
+		typeOfPropertyLossCodeMap.put("COUNTERFEITED ", "3");
+		typeOfPropertyLossCodeMap.put("DAMAGED ", "4");
+		typeOfPropertyLossCodeMap.put("DESTROYED ", "4");
+		typeOfPropertyLossCodeMap.put("DESTROYED_DAMAGED_VANDALIZED ", "4");
+		typeOfPropertyLossCodeMap.put("RECOVERED ", "5");
+		typeOfPropertyLossCodeMap.put("SEIZED ", "6");
+		typeOfPropertyLossCodeMap.put("STOLEN ", "7");
+		typeOfPropertyLossCodeMap.put("UNKNOWN ", "8");
 	}
 
 	private void initVictimToSubjectRelationshipCodeMap() {
@@ -849,147 +867,213 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 	private void buildPropertySegments(Element reportElement, GroupAIncidentReport incident,
 			List<NIBRSError> errorList) {
-		char segmentType = '3';
 
-		//TODO find out nc:Item and nc:Substance's relationship.
-		NodeList propertyElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "nc:Item");
-//		for(int i=0; i < offenseElements.getLength(); i++){
-//			Element offenseElement = (Element) offenseElements.item(i);
-//			OffenseSegment newOffense = new OffenseSegment();
-//		}
-//		PropertySegment newProperty = new PropertySegment();
-//		String segmentData = s.getData();
-//		int length = s.getSegmentLength();
-//
-//		if (length == 307) {
-//
-//			String typeOfPropertyLoss = NibrsStringUtils.getStringBetween(38, 38, segmentData);
-//			newProperty.setTypeOfPropertyLoss(typeOfPropertyLoss);
-//
-//			for (int i = 0; i < PropertySegment.PROPERTY_DESCRIPTION_COUNT; i++) {
-//				newProperty.setPropertyDescription(i, NibrsStringUtils.getStringBetween(39 + 19 * i, 40 + 19 * i, segmentData));
-//			}
-//			for (int i = 0; i < PropertySegment.VALUE_OF_PROPERTY_COUNT; i++) {
-//				String propertyValueString = NibrsStringUtils.getStringBetween(41 + 19 * i, 49 + 19 * i, segmentData);
-//				ParsedObject<Integer> propertyValue = newProperty.getValueOfProperty(i);
-//				propertyValue.setInvalid(false);
-//				propertyValue.setMissing(false);
-//				if (propertyValueString == null) {
-//					propertyValue.setValue(null);
-//					propertyValue.setInvalid(false);
-//					propertyValue.setMissing(true);
-//				} else {
-//					try {
-//						String valueOfPropertyPattern = "\\d{1,9}";
-//						if (propertyValueString.matches(valueOfPropertyPattern)){
-//							Integer propertyValueI = Integer.parseInt(propertyValueString);
-//							propertyValue.setValue(propertyValueI);
-//						}
-//						else{
-//							throw new NumberFormatException(); 
-//						}
-//					} catch (NumberFormatException nfe) {
-//						NIBRSError e = new NIBRSError();
-//						e.setContext(s.getReportSource());
-//						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-//						e.setSegmentType(s.getSegmentType());
-//						e.setValue(org.apache.commons.lang3.StringUtils.leftPad(propertyValueString, 9));
-//						e.setNIBRSErrorCode(NIBRSErrorCode._302);
-//						e.setWithinSegmentIdentifier(null);
-//						e.setDataElementIdentifier("16");
-//						errorList.add(e);
-//						propertyValue.setMissing(false);
-//						propertyValue.setInvalid(true);
-//					}
-//				}
-//			}
-//			for (int i = 0; i < PropertySegment.DATE_RECOVERED_COUNT; i++) {
-//				
-//				ParsedObject<Date> d = newProperty.getDateRecovered(i);
-//				d.setMissing(false);
-//				d.setInvalid(false);
-//				String ds = NibrsStringUtils.getStringBetween(50 + 19 * i, 57 + 19 * i, segmentData);
-//				if (ds == null) {
-//					d.setMissing(true);
-//					d.setValue(null);
-//				} else {
-//					try {
-//						Date dd = dateFormat.parse(ds);
-//						d.setValue(dd);
-//					} catch (ParseException pe) {
-//						NIBRSError e = new NIBRSError();
-//						e.setContext(s.getReportSource());
-//						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-//						e.setSegmentType(s.getSegmentType());
-//						e.setValue(ds);
-//						e.setNIBRSErrorCode(NIBRSErrorCode._305);
-//						e.setDataElementIdentifier("17");
-//						errorList.add(e);
-//						d.setInvalid(true);
-//						d.setValidationError(e);
-//					}
-//				}
-//				
-//			}
-//
-//			parseIntegerObject(segmentData, newProperty.getNumberOfStolenMotorVehicles(), 229, 230);
-//			parseIntegerObject(segmentData, newProperty.getNumberOfRecoveredMotorVehicles(), 231, 232);
-//
-//			for (int i = 0; i < PropertySegment.SUSPECTED_DRUG_TYPE_COUNT; i++) {
-//				newProperty.setSuspectedDrugType(i, NibrsStringUtils.getStringBetween(233 + 15 * i, 233 + 15 * i, segmentData));
-//				String drugQuantityWholePartString = NibrsStringUtils.getStringBetween(234 + 15 * i, 242 + 15 * i, segmentData);
-//				String drugQuantityFractionalPartString = NibrsStringUtils.getStringBetween(243 + 15 * i, 245 + 15 * i, segmentData);
-//				if (drugQuantityWholePartString != null || drugQuantityFractionalPartString != null) {
-//					String fractionalValueString = "000";
-//					String value = org.apache.commons.lang3.StringUtils.isBlank(drugQuantityWholePartString)? "0":drugQuantityWholePartString.trim();
-//					if (drugQuantityFractionalPartString != null) {
-//						fractionalValueString = drugQuantityFractionalPartString;
-//						value += fractionalValueString;
-//					}
-//					
-//					String drugQuantityFullValueString = org.apache.commons.lang3.StringUtils.trimToEmpty(drugQuantityWholePartString) + "." + fractionalValueString;
-//					
-//					try{
-//						Double doubleValue = new Double(drugQuantityFullValueString);
-//						newProperty.setEstimatedDrugQuantity(i, new ParsedObject<Double>(doubleValue));
-//					}
-//					catch (NumberFormatException ne){
-//						log.error(ne);
-//						ParsedObject<Double> estimatedDrugQuantity = ParsedObject.getInvalidParsedObject();
-//						newProperty.setEstimatedDrugQuantity(i, estimatedDrugQuantity);
-//						NIBRSError e = new NIBRSError();
-//						e.setContext(s.getReportSource());
-//						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-//						e.setSegmentType(s.getSegmentType());
-//						e.setValue(value);
-//						e.setNIBRSErrorCode(NIBRSErrorCode._302);
-//						e.setWithinSegmentIdentifier(null);
-//						e.setDataElementIdentifier("21");
-//						errorList.add(e);
-//						estimatedDrugQuantity.setValidationError(e);
-//
-//					}
-//				}
-//				else{
-//					newProperty.setEstimatedDrugQuantity(i, ParsedObject.getMissingParsedObject());
-//				}
-//				
-//				newProperty.setTypeDrugMeasurement(i, NibrsStringUtils.getStringBetween(246 + 15 * i, 247 + 15 * i, segmentData));
-//			}
-//
-//		} else {
-//			NIBRSError e = new NIBRSError();
-//			e.setContext(s.getReportSource());
-//			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-//			e.setSegmentType(s.getSegmentType());
-//			e.setValue(length);
-//			e.setNIBRSErrorCode(NIBRSErrorCode._401);
-//			errorList.add(e);
-//		}
-//
-//		return newProperty;
-
+		NodeList itemElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "nc:Item");
 		
+		Map<String, PropertySegment> typeOfLossPropertySegments = new HashMap<>();
+		for(int i=0; i < itemElements.getLength(); i++){
+			ReportSource reportSource = new ReportSource(incident.getSource());
+			reportSource.setSourceLocation("item" + StringUtils.leftPad(String.valueOf(i+1), 2, '0'));
+			Element itemElement = (Element) itemElements.item(i);
+			
+			String typeOfPropertyLossCode = getTypeOfPropertyLossCode(itemElement);
+			
+			PropertySegment propertySegment = typeOfLossPropertySegments.get(typeOfPropertyLossCode);
+			
+			if (propertySegment == null){
+				propertySegment = new PropertySegment(); 
+				typeOfLossPropertySegments.put(typeOfPropertyLossCode, propertySegment);
+				propertySegment.setTypeOfPropertyLoss(typeOfPropertyLossCode);
+			}
+			
+			int index = propertySegment.getPopulatedPropertyDescriptionCount(); 
+			
+			String propertyDescription = XmlUtils.xPathStringSearch(itemElement, "j:ItemCategoryNIBRSPropertyCategoryCode");
+			propertySegment.setPropertyDescription(index, propertyDescription);
+			
+			parsePropertyValue(incident, errorList, reportSource, itemElement, propertySegment, index);
+
+			parseRecoveredDate(incident, errorList, reportSource, itemElement, propertySegment, index);
+
+			parseNumberOfStolenOrRecoveredVehicles(itemElement, typeOfPropertyLossCode, propertySegment, propertyDescription);
+
+		}
+		
+		NodeList substanceElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "nc:Substance");
+		for(int i=0; i < substanceElements.getLength(); i++){
+			ReportSource reportSource = new ReportSource(incident.getSource());
+			reportSource.setSourceLocation("sbstnc" + StringUtils.leftPad(String.valueOf(i+1), 2, '0'));
+			Element substanceElement = (Element) substanceElements.item(i);
+			
+			String typeOfPropertyLossCode = getTypeOfPropertyLossCode(substanceElement);
+			
+			PropertySegment propertySegment = typeOfLossPropertySegments.get(typeOfPropertyLossCode);
+			
+			if (propertySegment == null){
+				propertySegment = new PropertySegment(); 
+				typeOfLossPropertySegments.put(typeOfPropertyLossCode, propertySegment);
+				propertySegment.setTypeOfPropertyLoss(typeOfPropertyLossCode);
+			}
+			
+			int drugIndex = propertySegment.getPopulatedSuspectedDrugTypeCount(); 
+			int propertyDescriptionIndex = propertySegment.getPopulatedPropertyDescriptionCount();
+			String propertyDescription = XmlUtils.xPathStringSearch(substanceElement, "j:ItemCategoryNIBRSPropertyCategoryCode");
+			propertySegment.setPropertyDescription(propertyDescriptionIndex, propertyDescription);
+			
+			parsePropertyValue(incident, errorList, reportSource, substanceElement, propertySegment, propertyDescriptionIndex); 
+			parseRecoveredDate(incident, errorList, reportSource, substanceElement, propertySegment, propertyDescriptionIndex);
+			
+			String drugCategoryCode = XmlUtils.xPathStringSearch(substanceElement, "j:DrugCategoryCode");
+			propertySegment.setSuspectedDrugType(drugIndex, drugCategoryCode);
+			
+			String drugQuantityFullValueString = XmlUtils.xPathStringSearch(substanceElement, "nc:SubstanceQuantityMeasure/nc:MeasureDecimalValue");
+			if (StringUtils.isNotBlank(drugQuantityFullValueString)){
+				try{
+					Double doubleValue = new Double(drugQuantityFullValueString);
+					propertySegment.setEstimatedDrugQuantity(i, new ParsedObject<Double>(doubleValue));
+				}
+				catch (NumberFormatException ne){
+					log.error(ne);
+					ParsedObject<Double> estimatedDrugQuantity = ParsedObject.getInvalidParsedObject();
+					propertySegment.setEstimatedDrugQuantity(i, estimatedDrugQuantity);
+					NIBRSError e = new NIBRSError();
+					e.setContext(reportSource);
+					e.setReportUniqueIdentifier(incident.getIncidentNumber());
+					e.setSegmentType(propertySegment.getSegmentType());
+					e.setValue(drugQuantityFullValueString);
+					e.setNIBRSErrorCode(NIBRSErrorCode._302);
+					e.setWithinSegmentIdentifier(null);
+					e.setDataElementIdentifier("21");
+					errorList.add(e);
+					estimatedDrugQuantity.setValidationError(e);
+				}
+			}
+			else{
+				propertySegment.setEstimatedDrugQuantity(drugIndex, ParsedObject.getMissingParsedObject());
+			}
+			
+			String drugMeasurementType = XmlUtils.xPathStringSearch(substanceElement, 
+					"nc:SubstanceQuantityMeasure/j:SubstanceUnitCode");
+			propertySegment.setTypeDrugMeasurement(drugIndex, drugMeasurementType );
+		}
+
+		typeOfLossPropertySegments.entrySet().forEach(entry -> incident.addProperty(entry.getValue()));
+	}
+
+	private void parseRecoveredDate(GroupAIncidentReport incident, List<NIBRSError> errorList, 
+			ReportSource reportSource, Element itemElement, PropertySegment propertySegment, int index) {
+		String recoveredDateString = XmlUtils.xPathStringSearch(itemElement, "nc:ItemValue/nc:ItemValueDate/nc:Date"); 
+		
+		ParsedObject<LocalDate> d = propertySegment.getDateRecovered(index);
+		d.setMissing(false);
+		d.setInvalid(false);
+		if (recoveredDateString == null) {
+			d.setMissing(true);
+			d.setValue(null);
+		} else {
+			try {
+				LocalDate recoveredDate = LocalDate.parse(recoveredDateString);
+				d.setValue(recoveredDate);
+			} catch (DateTimeParseException pe) {
+				NIBRSError e = new NIBRSError();
+				e.setContext(reportSource);
+				e.setReportUniqueIdentifier(incident.getIncidentNumber());
+				e.setSegmentType(propertySegment.getSegmentType());
+				e.setValue(recoveredDateString);
+				e.setNIBRSErrorCode(NIBRSErrorCode._305);
+				e.setDataElementIdentifier("17");
+				errorList.add(e);
+				d.setInvalid(true);
+				d.setValidationError(e);
+			}
+		}
+	}
+
+	private void parsePropertyValue(GroupAIncidentReport incident, List<NIBRSError> errorList, 
+			ReportSource reportSource, Element parentElement, PropertySegment propertySegment, int index) {
+		String propertyValueString = XmlUtils.xPathStringSearch(parentElement, "nc:ItemValue/nc:ItemValueAmount/nc:Amount"); 
+		
+		ParsedObject<Integer> propertyValue = propertySegment.getValueOfProperty(index);
+		propertyValue.setInvalid(false);
+		propertyValue.setMissing(false);
+		if (propertyValueString == null) {
+			propertyValue.setValue(null);
+			propertyValue.setInvalid(false);
+			propertyValue.setMissing(true);
+		} else {
+			try {
+				String valueOfPropertyPattern = "\\d{1,9}";
+				if (propertyValueString.matches(valueOfPropertyPattern)){
+					Integer propertyValueI = Integer.parseInt(propertyValueString);
+					propertyValue.setValue(propertyValueI);
+				}
+				else{
+					throw new NumberFormatException(); 
+				}
+			} catch (NumberFormatException nfe) {
+				NIBRSError e = new NIBRSError();
+
+				e.setContext(reportSource);
+				e.setReportUniqueIdentifier(incident.getIncidentNumber());
+				e.setSegmentType(propertySegment.getSegmentType());
+				e.setValue(org.apache.commons.lang3.StringUtils.leftPad(propertyValueString, 9));
+				e.setNIBRSErrorCode(NIBRSErrorCode._302);
+				e.setWithinSegmentIdentifier(null);
+				e.setDataElementIdentifier("16");
+				errorList.add(e);
+				propertyValue.setMissing(false);
+				propertyValue.setInvalid(true);
+			}
+		}
+	}
+
+	private void parseNumberOfStolenOrRecoveredVehicles(Element itemElement, String typeOfPropertyLossCode, PropertySegment propertySegment,
+			String propertyDescription) {
+		if (PropertyDescriptionCode.isMotorVehicleCode(propertyDescription)
+				&& (TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLossCode) 
+						|| TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLossCode) )){
+			
+			String itemQuantityString = XmlUtils.xPathStringSearch(itemElement, "nc:ItemQuantity");
+			ParsedObject<Integer> itemQuantity = null;
+			if (TypeOfPropertyLossCode._7.code.equals(typeOfPropertyLossCode)){
+				itemQuantity = propertySegment.getNumberOfStolenMotorVehicles();
+			}
+			else if (TypeOfPropertyLossCode._5.code.equals(typeOfPropertyLossCode)){
+				itemQuantity = propertySegment.getNumberOfRecoveredMotorVehicles();
+			}
+			
+			if (StringUtils.isBlank(itemQuantityString)) {
+				if (itemQuantity.isMissing()){
+					itemQuantity.setValue(null);
+				}
+			} else {
+				try {
+					Integer thisItemQuantity = Integer.parseInt(itemQuantityString);
+					if (itemQuantity.isMissing() || itemQuantity.isInvalid()){
+						itemQuantity.setValue(thisItemQuantity);
+						itemQuantity.setMissing(false);
+						itemQuantity.setInvalid(false);
+					}
+					else{
+						itemQuantity.setValue(itemQuantity.getValue() + thisItemQuantity);
+					}
+				} catch (NumberFormatException nfe) {
+					
+					if (itemQuantity.isMissing() || itemQuantity.isInvalid()){
+						itemQuantity.setInvalid(true);
+					}
+				}
+			}
+		}
+	}
+
+	private String getTypeOfPropertyLossCode(Element itemElement) {
+		String typeOfPropertyLoss = XmlUtils.xPathStringSearch(itemElement, "nc:ItemStatus/cjis:ItemStatusCode");
+		String typeOfPropertyLossCode = typeOfPropertyLossCodeMap.get(typeOfPropertyLoss);
+		if (typeOfPropertyLossCode == null){
+			typeOfPropertyLossCode = typeOfPropertyLossCodeMap.get("UNKNOWN");
+		}
+		return typeOfPropertyLossCode;
 	}
 
 	private void buildOffenseSegments(Element reportElement, GroupAIncidentReport incident,

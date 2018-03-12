@@ -246,7 +246,7 @@
 	            </nc:ItemValueDate>
 	        </nc:ItemValue>
 	        <!-- Element 15, Property Description -->
-	        <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
+	        <j:ItemCategoryNIBRSPropertyCategoryCode>05</j:ItemCategoryNIBRSPropertyCategoryCode>
 	        <!-- Element 19, Number of Recovered Motor Vehicles, if Status is Recovered -->
 	        <!-- Element 18, Number of Stolen Motor Vehicles, if Status is Stolen -->
 	        <nc:ItemQuantity>4</nc:ItemQuantity>
