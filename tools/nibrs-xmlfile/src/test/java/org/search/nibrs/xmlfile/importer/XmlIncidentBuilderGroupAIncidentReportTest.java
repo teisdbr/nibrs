@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
@@ -42,6 +43,7 @@ import org.search.nibrs.model.ZeroReport;
 
 public class XmlIncidentBuilderGroupAIncidentReportTest {
 	
+	@SuppressWarnings("unused")
 	private static final Log log = LogFactory.getLog(XmlIncidentBuilderGroupAIncidentReportTest.class);
 	
 	private DefaultReportListener incidentListener;
@@ -90,7 +92,8 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(offenseSegment.getNumberOfPremisesEntered().getValue(), is(1));
 		assertThat(offenseSegment.getOffendersSuspectedOfUsing()[0], is("N"));
 		assertThat(offenseSegment.getMethodOfEntry(), is("F"));
-		assertThat(offenseSegment.getTypeOfWeaponForceInvolved(0), is("11A"));
+		assertThat(offenseSegment.getTypeOfWeaponForceInvolved(0), is("11"));
+		assertThat(offenseSegment.getAutomaticWeaponIndicator(0), is("A"));
 		assertThat(offenseSegment.getOffenseAttemptedIndicator(), is(false));
 		assertThat(offenseSegment.getLocationType(), is("58"));
 		assertThat(offenseSegment.getPopulatedBiasMotivationCount(), is(1));
@@ -168,6 +171,9 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(arrestee.getUcrArrestOffenseCode(), is("64A"));
 		
 		assertThat(arrestee.getArresteeArmedWith(0), is("12"));
+		assertThat(arrestee.getAutomaticWeaponIndicator(0), is(StringUtils.EMPTY));
+		assertThat(arrestee.getArresteeArmedWith(1), is("13"));
+		assertThat(arrestee.getAutomaticWeaponIndicator(1), is("A"));
 		assertThat(arrestee.getMultipleArresteeSegmentsIndicator(), is("N"));
 		
 	}

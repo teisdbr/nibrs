@@ -24,6 +24,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -56,7 +57,6 @@ import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
-import org.search.nibrs.xmlfile.util.NibrsStringUtils;
 import org.search.nibrs.xmlfile.util.XmlUtils;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
@@ -81,7 +81,8 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 	
 	private DocumentBuilder documentBuilder; 
 	private Map<String, String> victimToSubjectRelationshipCodeMap = new HashMap<>(); 
-	private Map<String, String> typeOfPropertyLossCodeMap = new HashMap<>(); 
+	private Map<String, String> typeOfPropertyLossCodeMap = new HashMap<>();
+	private List<String> automaticWeaponCodes = Arrays.asList("11A", "12A", "13A", "14A", "15A");
 
 	public XmlIncidentBuilder() throws ParserConfigurationException {
 		super();
@@ -257,8 +258,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		List<NIBRSError> newErrorList = getSubmissionYearMonth(reportBaseData, ret, NIBRSErrorCode._001);
 		
 		//TODO find out Zero Report Year and Zero report Month xPath.
-		//TODO find out city indicator's xPath
-		//ret.setCityIndicator(StringUtils.getStringBetween(13, 16, s.getData()));
 			
 		for (NIBRSError e : newErrorList) {
 			e.setReport(ret);
@@ -312,9 +311,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		
 		newErrorList.addAll(getSubmissionYearMonth(reportBaseData,  ret, NIBRSErrorCode._701));
 
-		//TODO find out cityIndicator's xPath.
-//			ret.setCityIndicator(NibrsStringUtils.getStringBetween(13, 16, segmentData));
-		
 		ParsedObject<Integer> sequenceNumber = arrestee.getArresteeSequenceNumber();
 		sequenceNumber.setMissing(false);
 		sequenceNumber.setInvalid(false);
@@ -368,10 +364,8 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		
 		for(int i=0; i < arresteeArmedWithElements.getLength() && i < 2; i++){
 			Element arresteeArmedWithElement = (Element)arresteeArmedWithElements.item(i);
-			arrestee.setArresteeArmedWith(i , arresteeArmedWithElement.getTextContent());
-			
-			//TODO did not find the Automatic weapon indicator  in the xml schema. 
-//			arrestee.setAutomaticWeaponIndicator(i, NibrsStringUtils.getStringBetween(54 + 3 * i, 54 + 3 * i, segmentData));
+			String arresteeArmedWithCode = arresteeArmedWithElement.getTextContent();
+			setArmedWithAndAutomaticIndicator(arrestee, i, arresteeArmedWithCode);
 		}
 
 		Node personNode = XmlUtils.xPathNodeSearch(reportElement,  "nc:Person");
@@ -394,6 +388,11 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		errorList.addAll(newErrorList);
 	
 		return ret;
+	}
+
+	private void setArmedWithAndAutomaticIndicator(ArresteeSegment arrestee, int i, String arresteeArmedWithCode) {
+		arrestee.setArresteeArmedWith(i , StringUtils.removeEnd(arresteeArmedWithCode, "A"));
+		arrestee.setAutomaticWeaponIndicator(i, getAutomaticWeaponIndicator(arresteeArmedWithCode));
 	}
 
 	private NIBRSAge parseAgeNode(Node personNode, AbstractSegment segmentContext) {
@@ -467,9 +466,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		Element reportElement = reportBaseData.getReportElement();
 		newErrorList.addAll(getSubmissionYearMonth(reportBaseData,  newIncident, NIBRSErrorCode._101));
 
-		//TODO findout the xPath for the cityIndicator 
-//			newIncident.setCityIndicator(NibrsStringUtils.getStringBetween(13, 16, segmentData));
-		
 		ParsedObject<LocalDate> incidentDate = newIncident.getIncidentDate();
 		incidentDate.setMissing(false);
 		incidentDate.setInvalid(false);
@@ -676,10 +672,8 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			
 			for(int j=0; j < arresteeArmedWithElements.getLength() && j < 2; j++){
 				Element arresteeArmedWithElement = (Element)arresteeArmedWithElements.item(j);
-				newArrestee.setArresteeArmedWith(j , arresteeArmedWithElement.getTextContent());
-				
-				//TODO did not find the Automatic weapon indicator  in the xml schema. 
-//				arrestee.setAutomaticWeaponIndicator(i, NibrsStringUtils.getStringBetween(54 + 3 * i, 54 + 3 * i, segmentData));
+				String arresteeArmedWithCode = arresteeArmedWithElement.getTextContent();
+				setArmedWithAndAutomaticIndicator(newArrestee, j, arresteeArmedWithCode);
 			}
 			
 			String personRef = XmlUtils.xPathStringSearch(arresteeElement, "nc:RoleOfPerson/@s:ref");
@@ -1154,16 +1148,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			
 			parseTypesWeaponForceInvolved(offenseElement, newOffense);
 			
-			//TODO find out AutomaticWeaponIndicator's xPath.
-//			NodeList automaticWeaponIndicators = 
-//					XmlUtils.xPathNodeListSearch(offenseElement, "j:OffenseForce/j:ForceCategoryCode");
-//			
-//			for( int j = 0; j < automaticWeaponIndicators.getLength() && j < OffenseSegment.AUTOMATIC_WEAPON_INDICATOR_COUNT; j++ ){
-//				Element automaticWeaponIndicator = 
-//						(Element) automaticWeaponIndicators.item(j);
-//				newOffense.setAutomaticWeaponIndicator(j, automaticWeaponIndicator.getTextContent());
-//			}
-			
 			incident.addOffense(newOffense); 
 			
 		}
@@ -1176,8 +1160,16 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		for( int j = 0; j < typesWeaponForceInvolved.getLength() && j < OffenseSegment.TYPE_OF_WEAPON_FORCE_INVOLVED_COUNT; j++ ){
 			Element typeWeaponForceInvolved = 
 					(Element) typesWeaponForceInvolved.item(j);
-			newOffense.setTypeOfWeaponForceInvolved(j, typeWeaponForceInvolved.getTextContent());
+			String typeWeaponForceInvolvedCode = typeWeaponForceInvolved.getTextContent();
+			newOffense.setTypeOfWeaponForceInvolved(j, StringUtils.removeEnd(typeWeaponForceInvolvedCode, "A"));
+			
+			String automaticWeaponIndicator = getAutomaticWeaponIndicator(typeWeaponForceInvolvedCode);
+			newOffense.setAutomaticWeaponIndicator(j, automaticWeaponIndicator);
 		}
+	}
+
+	private String getAutomaticWeaponIndicator(String typeWeaponForceInvolvedCode) {
+		return BooleanUtils.toString(automaticWeaponCodes.contains(typeWeaponForceInvolvedCode), "A", StringUtils.EMPTY);
 	}
 
 	private void parseTypesOfCriminalActivities(Element offenseElement, OffenseSegment newOffense) {
@@ -1233,158 +1225,18 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		return i;
 	}
 	
-	private PropertySegment buildPropertySegment(Segment s, List<NIBRSError> errorList) {
-
-		PropertySegment newProperty = new PropertySegment();
-		String segmentData = s.getData();
-		int length = s.getSegmentLength();
-
-		if (length == 307) {
-
-			String typeOfPropertyLoss = NibrsStringUtils.getStringBetween(38, 38, segmentData);
-			newProperty.setTypeOfPropertyLoss(typeOfPropertyLoss);
-
-			for (int i = 0; i < PropertySegment.PROPERTY_DESCRIPTION_COUNT; i++) {
-				newProperty.setPropertyDescription(i, NibrsStringUtils.getStringBetween(39 + 19 * i, 40 + 19 * i, segmentData));
-			}
-			for (int i = 0; i < PropertySegment.VALUE_OF_PROPERTY_COUNT; i++) {
-				String propertyValueString = NibrsStringUtils.getStringBetween(41 + 19 * i, 49 + 19 * i, segmentData);
-				ParsedObject<Integer> propertyValue = newProperty.getValueOfProperty(i);
-				propertyValue.setInvalid(false);
-				propertyValue.setMissing(false);
-				if (propertyValueString == null) {
-					propertyValue.setValue(null);
-					propertyValue.setInvalid(false);
-					propertyValue.setMissing(true);
-				} else {
-					try {
-						String valueOfPropertyPattern = "\\d{1,9}";
-						if (propertyValueString.matches(valueOfPropertyPattern)){
-							Integer propertyValueI = Integer.parseInt(propertyValueString);
-							propertyValue.setValue(propertyValueI);
-						}
-						else{
-							throw new NumberFormatException(); 
-						}
-					} catch (NumberFormatException nfe) {
-						NIBRSError e = new NIBRSError();
-						e.setContext(s.getReportSource());
-						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-						e.setSegmentType(s.getSegmentType());
-						e.setValue(org.apache.commons.lang3.StringUtils.leftPad(propertyValueString, 9));
-						e.setNIBRSErrorCode(NIBRSErrorCode._302);
-						e.setWithinSegmentIdentifier(null);
-						e.setDataElementIdentifier("16");
-						errorList.add(e);
-						propertyValue.setMissing(false);
-						propertyValue.setInvalid(true);
-					}
-				}
-			}
-			for (int i = 0; i < PropertySegment.DATE_RECOVERED_COUNT; i++) {
-				
-				ParsedObject<LocalDate> d = newProperty.getDateRecovered(i);
-				d.setMissing(false);
-				d.setInvalid(false);
-				String ds = NibrsStringUtils.getStringBetween(50 + 19 * i, 57 + 19 * i, segmentData);
-				if (ds == null) {
-					d.setMissing(true);
-					d.setValue(null);
-				} else {
-					try {
-						LocalDate dd = LocalDate.parse(ds, getDateFormat());
-						d.setValue(dd);
-					} catch (Exception pe) {
-						NIBRSError e = new NIBRSError();
-						e.setContext(s.getReportSource());
-						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-						e.setSegmentType(s.getSegmentType());
-						e.setValue(ds);
-						e.setNIBRSErrorCode(NIBRSErrorCode._305);
-						e.setDataElementIdentifier("17");
-						errorList.add(e);
-						d.setInvalid(true);
-						d.setValidationError(e);
-					}
-				}
-				
-			}
-
-			parseIntegerObject(segmentData, newProperty.getNumberOfStolenMotorVehicles(), 229, 230);
-			parseIntegerObject(segmentData, newProperty.getNumberOfRecoveredMotorVehicles(), 231, 232);
-
-			for (int i = 0; i < PropertySegment.SUSPECTED_DRUG_TYPE_COUNT; i++) {
-				newProperty.setSuspectedDrugType(i, NibrsStringUtils.getStringBetween(233 + 15 * i, 233 + 15 * i, segmentData));
-				String drugQuantityWholePartString = NibrsStringUtils.getStringBetween(234 + 15 * i, 242 + 15 * i, segmentData);
-				String drugQuantityFractionalPartString = NibrsStringUtils.getStringBetween(243 + 15 * i, 245 + 15 * i, segmentData);
-				if (drugQuantityWholePartString != null || drugQuantityFractionalPartString != null) {
-					String fractionalValueString = "000";
-					String value = org.apache.commons.lang3.StringUtils.isBlank(drugQuantityWholePartString)? "0":drugQuantityWholePartString.trim();
-					if (drugQuantityFractionalPartString != null) {
-						fractionalValueString = drugQuantityFractionalPartString;
-						value += fractionalValueString;
-					}
-					
-					String drugQuantityFullValueString = org.apache.commons.lang3.StringUtils.trimToEmpty(drugQuantityWholePartString) + "." + fractionalValueString;
-					
-					try{
-						Double doubleValue = new Double(drugQuantityFullValueString);
-						newProperty.setEstimatedDrugQuantity(i, new ParsedObject<Double>(doubleValue));
-					}
-					catch (NumberFormatException ne){
-						log.error(ne);
-						ParsedObject<Double> estimatedDrugQuantity = ParsedObject.getInvalidParsedObject();
-						newProperty.setEstimatedDrugQuantity(i, estimatedDrugQuantity);
-						NIBRSError e = new NIBRSError();
-						e.setContext(s.getReportSource());
-						e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-						e.setSegmentType(s.getSegmentType());
-						e.setValue(value);
-						e.setNIBRSErrorCode(NIBRSErrorCode._302);
-						e.setWithinSegmentIdentifier(null);
-						e.setDataElementIdentifier("21");
-						errorList.add(e);
-						estimatedDrugQuantity.setValidationError(e);
-
-					}
-				}
-				else{
-					newProperty.setEstimatedDrugQuantity(i, ParsedObject.getMissingParsedObject());
-				}
-				
-				newProperty.setTypeDrugMeasurement(i, NibrsStringUtils.getStringBetween(246 + 15 * i, 247 + 15 * i, segmentData));
-			}
-
-		} else {
-			NIBRSError e = new NIBRSError();
-			e.setContext(s.getReportSource());
-			e.setReportUniqueIdentifier(s.getSegmentUniqueIdentifier());
-			e.setSegmentType(s.getSegmentType());
-			e.setValue(length);
-			e.setNIBRSErrorCode(NIBRSErrorCode._401);
-			errorList.add(e);
-		}
-
-		return newProperty;
-
-	}
-
-	private void parseIntegerObject(String segmentData,
-			ParsedObject<Integer> parsedObject, 
-			int startPosition, 
-			int endPosition) {
+	private void parseIntegerObject(String stringValue,
+			ParsedObject<Integer> parsedObject) {
 		
 		parsedObject.setMissing(false);
 		parsedObject.setInvalid(false);
 		
-		String parsedString = 
-				NibrsStringUtils.getStringBetween(startPosition, endPosition, segmentData);
-		if (parsedString == null) {
+		if (stringValue == null) {
 			parsedObject.setMissing(true);
 			parsedObject.setValue(null);
 		} else {
 			try {
-				parsedObject.setValue(Integer.parseInt(parsedString));
+				parsedObject.setValue(Integer.parseInt(stringValue));
 			} catch (NumberFormatException nfe) {
 				parsedObject.setInvalid(true);
 			}
