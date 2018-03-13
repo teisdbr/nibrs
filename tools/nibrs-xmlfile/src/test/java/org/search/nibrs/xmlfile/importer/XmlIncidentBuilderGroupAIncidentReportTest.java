@@ -38,6 +38,7 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
+import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
 
@@ -175,6 +176,63 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(arrestee.getArresteeArmedWith(1), is("13"));
 		assertThat(arrestee.getAutomaticWeaponIndicator(1), is("A"));
 		assertThat(arrestee.getMultipleArresteeSegmentsIndicator(), is("N"));
+		
+		assertThat(groupAIncident.getPropertyCount(), is(5));
+		List<PropertySegment> propertySegments = groupAIncident.getProperties(); 
+		assertThat(propertySegments.get(0).getTypeOfPropertyLoss(), is("1"));
+		assertThat(propertySegments.get(0).getPopulatedPropertyDescriptionCount(), is(1));
+		assertThat(propertySegments.get(0).getPropertyDescription(0), is("01"));
+		assertThat(propertySegments.get(0).getValueOfProperty(0).getValue(), is(12001));
+		assertThat(propertySegments.get(0).getDateRecovered(0).getValue(), is(LocalDate.of(2016, 2, 21)));
+		assertThat(propertySegments.get(0).getPopulatedSuspectedDrugTypeCount(), is(0));
+		
+		assertThat(propertySegments.get(1).getTypeOfPropertyLoss(), is("2"));
+		assertThat(propertySegments.get(1).getPopulatedPropertyDescriptionCount(), is(1));
+		assertThat(propertySegments.get(1).getPropertyDescription(0), is("01"));
+		assertThat(propertySegments.get(1).getValueOfProperty(0).getValue(), is(12002));
+		assertThat(propertySegments.get(1).getDateRecovered(0).getValue(), is(LocalDate.of(2016, 2, 22)));
+		assertThat(propertySegments.get(1).getPopulatedSuspectedDrugTypeCount(), is(0));
+		
+		assertThat(propertySegments.get(2).getTypeOfPropertyLoss(), is("3"));
+		assertThat(propertySegments.get(2).getPopulatedPropertyDescriptionCount(), is(1));
+		assertThat(propertySegments.get(2).getPropertyDescription(0), is("01"));
+		assertThat(propertySegments.get(2).getValueOfProperty(0).getValue(), is(12003));
+		assertThat(propertySegments.get(2).getDateRecovered(0).getValue(), is(LocalDate.of(2016, 2, 23)));
+		assertThat(propertySegments.get(2).getPopulatedSuspectedDrugTypeCount(), is(0));
+		assertThat(propertySegments.get(2).getNumberOfRecoveredMotorVehicles().isMissing(), is(true));
+		assertThat(propertySegments.get(2).getNumberOfStolenMotorVehicles().isMissing(), is(true));
+		
+		assertThat(propertySegments.get(3).getTypeOfPropertyLoss(), is("4"));
+		assertThat(propertySegments.get(3).getPopulatedPropertyDescriptionCount(), is(1));
+		assertThat(propertySegments.get(3).getPropertyDescription(0), is("01"));
+		assertThat(propertySegments.get(3).getValueOfProperty(0).getValue(), is(12004));
+		assertThat(propertySegments.get(3).getDateRecovered(0).getValue(), is(LocalDate.of(2016, 2, 24)));
+		assertThat(propertySegments.get(3).getPopulatedSuspectedDrugTypeCount(), is(0));
+		assertThat(propertySegments.get(3).getNumberOfRecoveredMotorVehicles().isMissing(), is(true));
+		assertThat(propertySegments.get(3).getNumberOfStolenMotorVehicles().isMissing(), is(true));
+		
+		assertThat(propertySegments.get(4).getTypeOfPropertyLoss(), is("5"));
+		assertThat(propertySegments.get(4).getPopulatedPropertyDescriptionCount(), is(4));
+		assertThat(propertySegments.get(4).getPropertyDescription(0), is("01"));
+		assertThat(propertySegments.get(4).getValueOfProperty(0).getValue(), is(12005));
+		assertThat(propertySegments.get(4).getDateRecovered(0).getValue(), is(LocalDate.of(2016, 2, 25)));
+		assertThat(propertySegments.get(4).getPropertyDescription(1), is("05"));
+		assertThat(propertySegments.get(4).getValueOfProperty(1).getValue(), is(12006));
+		assertThat(propertySegments.get(4).getDateRecovered(1).getValue(), is(LocalDate.of(2016, 2, 26)));
+		assertThat(propertySegments.get(4).getPropertyDescription(2), is("03"));
+		assertThat(propertySegments.get(4).getValueOfProperty(2).getValue(), is(12007));
+		assertThat(propertySegments.get(4).getDateRecovered(2).getValue(), is(LocalDate.of(2016, 2, 27)));
+		assertThat(propertySegments.get(4).getPropertyDescription(3), is("10"));
+		assertThat(propertySegments.get(4).getValueOfProperty(3).getValue(), is(12008));
+		assertThat(propertySegments.get(4).getDateRecovered(3).getValue(), is(LocalDate.of(2016, 2, 28)));
+		assertThat(propertySegments.get(4).getPopulatedSuspectedDrugTypeCount(), is(1));
+		assertThat(propertySegments.get(4).getSuspectedDrugType(0), is("X"));
+		assertThat(propertySegments.get(4).getEstimatedDrugQuantity(0).getValue(), is(Double.valueOf("1.5")));
+		assertThat(propertySegments.get(4).getTypeDrugMeasurement(0), is("XX"));
+		assertThat(propertySegments.get(4).getNumberOfRecoveredMotorVehicles().getValue(), is(45));
+		assertThat(propertySegments.get(4).getNumberOfRecoveredMotorVehicles().isMissing(), is(false));
+		assertThat(propertySegments.get(4).getNumberOfRecoveredMotorVehicles().isInvalid(), is(false));
+		assertThat(propertySegments.get(4).getNumberOfStolenMotorVehicles().isMissing(), is(true));
 		
 	}
 

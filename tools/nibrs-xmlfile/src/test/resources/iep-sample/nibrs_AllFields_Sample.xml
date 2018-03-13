@@ -132,18 +132,17 @@
 	        <!-- Element 16, Value of Property in US Dollars -->
 	        <nc:ItemValue>
 	            <nc:ItemValueAmount>
-	                <nc:Amount>12000</nc:Amount>
+	                <nc:Amount>12001</nc:Amount>
 	            </nc:ItemValueAmount>
 	            <!-- Element 17, Date Recovered -->
 	            <nc:ItemValueDate>
-	                <nc:Date>2016-02-24</nc:Date>
+	                <nc:Date>2016-02-21</nc:Date>
 	            </nc:ItemValueDate>
 	        </nc:ItemValue>
 	        <!-- Element 15, Property Description -->
 	        <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
 	        <!-- Element 19, Number of Recovered Motor Vehicles, if Status is Recovered -->
 	        <!-- Element 18, Number of Stolen Motor Vehicles, if Status is Stolen -->
-	        <nc:ItemQuantity>1</nc:ItemQuantity>
 	    </nc:Item>
 	    <nc:Item>
 	        <!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
@@ -153,19 +152,18 @@
 	        <!-- Element 16, Value of Property in US Dollars -->
 	        <nc:ItemValue>
 	            <nc:ItemValueAmount>
-	                <nc:Amount>12000</nc:Amount>
+	                <nc:Amount>12002</nc:Amount>
 	            </nc:ItemValueAmount>
 	            <!-- Element 17, Date Recovered -->
 	            <nc:ItemValueDate>
-	                <nc:Date>2016-02-24</nc:Date>
-	                <nc:DateTime>2017-03-23T03:00:00</nc:DateTime>
+	                <nc:Date>2016-02-22</nc:Date>
+	                <nc:DateTime>2016-02-22T03:00:00</nc:DateTime>
 	            </nc:ItemValueDate>
 	        </nc:ItemValue>
 	        <!-- Element 15, Property Description -->
 	        <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
 	        <!-- Element 19, Number of Recovered Motor Vehicles, if Status is Recovered -->
 	        <!-- Element 18, Number of Stolen Motor Vehicles, if Status is Stolen -->
-	        <nc:ItemQuantity>1</nc:ItemQuantity>
 	    </nc:Item>
 	    <nc:Item>
 	        <!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
@@ -175,18 +173,17 @@
 	        <!-- Element 16, Value of Property in US Dollars -->
 	        <nc:ItemValue>
 	            <nc:ItemValueAmount>
-	                <nc:Amount>12000</nc:Amount>
+	                <nc:Amount>12003</nc:Amount>
 	            </nc:ItemValueAmount>
 	            <!-- Element 17, Date Recovered -->
 	            <nc:ItemValueDate>
-	                <nc:Date>2016-02-24</nc:Date>
+	                <nc:Date>2016-02-23</nc:Date>
 	            </nc:ItemValueDate>
 	        </nc:ItemValue>
 	        <!-- Element 15, Property Description -->
 	        <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
 	        <!-- Element 19, Number of Recovered Motor Vehicles, if Status is Recovered -->
 	        <!-- Element 18, Number of Stolen Motor Vehicles, if Status is Stolen -->
-	        <nc:ItemQuantity>1</nc:ItemQuantity>
 	    </nc:Item>
 	    <nc:Item>
 	        <!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
@@ -196,7 +193,7 @@
 	        <!-- Element 16, Value of Property in US Dollars -->
 	        <nc:ItemValue>
 	            <nc:ItemValueAmount>
-	                <nc:Amount>12000</nc:Amount>
+	                <nc:Amount>12004</nc:Amount>
 	            </nc:ItemValueAmount>
 	            <!-- Element 17, Date Recovered -->
 	            <nc:ItemValueDate>
@@ -207,7 +204,6 @@
 	        <j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
 	        <!-- Element 19, Number of Recovered Motor Vehicles, if Status is Recovered -->
 	        <!-- Element 18, Number of Stolen Motor Vehicles, if Status is Stolen -->
-	        <nc:ItemQuantity>1</nc:ItemQuantity>
 	    </nc:Item>
 		<nc:Item>
 			<!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
@@ -217,18 +213,17 @@
 			<!-- Element 16, Value of Property in US Dollars -->
 			<nc:ItemValue>
 				<nc:ItemValueAmount>
-					<nc:Amount>12000</nc:Amount>
+					<nc:Amount>12005</nc:Amount>
 				</nc:ItemValueAmount>
 				<!-- Element 17, Date Recovered -->
 				<nc:ItemValueDate>
-					<nc:Date>2016-02-24</nc:Date>
+					<nc:Date>2016-02-25</nc:Date>
 				</nc:ItemValueDate>
 			</nc:ItemValue>
 			<!-- Element 15, Property Description -->
 			<j:ItemCategoryNIBRSPropertyCategoryCode>01</j:ItemCategoryNIBRSPropertyCategoryCode>
 		    <!-- Element 19, Number of Recovered Motor Vehicles, if Status is Recovered -->
 			<!-- Element 18, Number of Stolen Motor Vehicles, if Status is Stolen -->
-			<nc:ItemQuantity>1</nc:ItemQuantity>
 		</nc:Item>
 	    <nc:Item>
 	        <!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
@@ -238,11 +233,11 @@
 	        <!-- Element 16, Value of Property in US Dollars -->
 	        <nc:ItemValue>
 	            <nc:ItemValueAmount>
-	                <nc:Amount>12000</nc:Amount>
+	                <nc:Amount>12006</nc:Amount>
 	            </nc:ItemValueAmount>
 	            <!-- Element 17, Date Recovered -->
 	            <nc:ItemValueDate>
-	                <nc:Date>2016-02-24</nc:Date>
+	                <nc:Date>2016-02-26</nc:Date>
 	            </nc:ItemValueDate>
 	        </nc:ItemValue>
 	        <!-- Element 15, Property Description -->
@@ -259,11 +254,11 @@
 	        <!-- Element 16, Value of Property in US Dollars -->
 	        <nc:ItemValue>
 	            <nc:ItemValueAmount>
-	                <nc:Amount>12000</nc:Amount>
+	                <nc:Amount>12007</nc:Amount>
 	            </nc:ItemValueAmount>
 	            <!-- Element 17, Date Recovered -->
 	            <nc:ItemValueDate>
-	                <nc:Date>2016-02-24</nc:Date>
+	                <nc:Date>2016-02-27</nc:Date>
 	            </nc:ItemValueDate>
 	        </nc:ItemValue>
 	        <!-- Element 15, Property Description -->
@@ -280,11 +275,11 @@
 			<!-- Element 16, Value of Property in US Dollars -->
 			<nc:ItemValue>
 				<nc:ItemValueAmount>
-					<nc:Amount>12000</nc:Amount>
+					<nc:Amount>12008</nc:Amount>
 				</nc:ItemValueAmount>
 				<!-- Element 17, Date Recovered -->
 				<nc:ItemValueDate>
-					<nc:Date>2016-02-24</nc:Date>
+					<nc:Date>2016-02-28</nc:Date>
 				</nc:ItemValueDate>
 			</nc:ItemValue>
 			<!-- Element 15, Property Description -->

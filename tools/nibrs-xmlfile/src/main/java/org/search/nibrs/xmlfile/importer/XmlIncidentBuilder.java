@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,15 +95,15 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 	private void initTypeOfPropertyLossCodeMap() {
 		typeOfPropertyLossCodeMap.put("NONE", "1");
-		typeOfPropertyLossCodeMap.put("BURNED ", "2");
-		typeOfPropertyLossCodeMap.put("COUNTERFEITED ", "3");
-		typeOfPropertyLossCodeMap.put("DAMAGED ", "4");
-		typeOfPropertyLossCodeMap.put("DESTROYED ", "4");
-		typeOfPropertyLossCodeMap.put("DESTROYED_DAMAGED_VANDALIZED ", "4");
-		typeOfPropertyLossCodeMap.put("RECOVERED ", "5");
-		typeOfPropertyLossCodeMap.put("SEIZED ", "6");
-		typeOfPropertyLossCodeMap.put("STOLEN ", "7");
-		typeOfPropertyLossCodeMap.put("UNKNOWN ", "8");
+		typeOfPropertyLossCodeMap.put("BURNED", "2");
+		typeOfPropertyLossCodeMap.put("COUNTERFEITED", "3");
+		typeOfPropertyLossCodeMap.put("DAMAGED", "4");
+		typeOfPropertyLossCodeMap.put("DESTROYED", "4");
+		typeOfPropertyLossCodeMap.put("DESTROYED_DAMAGED_VANDALIZED", "4");
+		typeOfPropertyLossCodeMap.put("RECOVERED", "5");
+		typeOfPropertyLossCodeMap.put("SEIZED", "6");
+		typeOfPropertyLossCodeMap.put("STOLEN", "7");
+		typeOfPropertyLossCodeMap.put("UNKNOWN", "8");
 	}
 
 	private void initVictimToSubjectRelationshipCodeMap() {
@@ -864,7 +865,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 		NodeList itemElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "nc:Item");
 		
-		Map<String, PropertySegment> typeOfLossPropertySegments = new HashMap<>();
+		Map<String, PropertySegment> typeOfLossPropertySegments = new LinkedHashMap<>();
 		for(int i=0; i < itemElements.getLength(); i++){
 			ReportSource reportSource = new ReportSource(incident.getSource());
 			reportSource.setSourceLocation("item" + StringUtils.leftPad(String.valueOf(i+1), 2, '0'));
