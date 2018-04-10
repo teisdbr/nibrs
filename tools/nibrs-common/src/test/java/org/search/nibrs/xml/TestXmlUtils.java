@@ -31,14 +31,14 @@ public class TestXmlUtils {
 		
 		Document d = XmlUtils.createNewDocument();
 		assertNotNull(d);
-		Element child1 = XmlUtils.appendChildElement(d, Namespace.nibrs, "child1");
+		Element child1 = XmlUtils.appendChildElement(d, Namespace.NIBRS, "child1");
 		String contents = "Child 1 contents";
 		child1.setTextContent(contents);
-		XmlUtils.appendChildElement(child1, Namespace.nibrs, "child2");
-		Node c1 = XmlUtils.xPathNodeSearch(d, "/" + Namespace.nibrs.prefix + ":child1");
+		XmlUtils.appendChildElement(child1, Namespace.NIBRS, "child2");
+		Node c1 = XmlUtils.xPathNodeSearch(d, "/" + Namespace.NIBRS.prefix + ":child1");
 		assertNotNull(c1);
 		assertEquals(contents, c1.getTextContent());
-		Node c2 = XmlUtils.xPathNodeSearch(d, "/" + Namespace.nibrs.prefix + ":child1/" + Namespace.nibrs.prefix + ":child2");
+		Node c2 = XmlUtils.xPathNodeSearch(d, "/" + Namespace.NIBRS.prefix + ":child1/" + Namespace.NIBRS.prefix + ":child2");
 		assertNotNull(c2);
 	}
 

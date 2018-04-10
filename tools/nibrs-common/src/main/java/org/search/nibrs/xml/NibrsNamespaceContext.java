@@ -30,24 +30,23 @@ import org.w3c.dom.NodeList;
 public class NibrsNamespaceContext implements NamespaceContext {
 	
 	public static enum Namespace {
-		nibrs("nibrs", "http://fbi.gov/cjis/nibrs/4.0"),
-		cjis("cjis", "http://fbi.gov/cjis/1.0"),
-		cjiscodes("cjiscodes", "http://fbi.gov/cjis/cjis-codes/1.0"),
-		i("i", "http://release.niem.gov/niem/appinfo/3.0/"),
-		ucr("ucr", "http://release.niem.gov/niem/codes/fbi_ucr/3.2/"),
-		j("j", "http://release.niem.gov/niem/domains/jxdm/5.2/"),
-		term("term", "http://release.niem.gov/niem/localTerminology/3.0/"),
-		nc("nc", "http://release.niem.gov/niem/niem-core/3.0/"),
-		niem_xsd("niem-xsd", "http://release.niem.gov/niem/proxy/xsd/3.0/"),
-		s("s", "http://release.niem.gov/niem/structures/3.0/"),
-		xsi("xsi", "http://www.w3.org/2001/XMLSchema-instance"),
-		xsd("xsd", "http://www.w3.org/2001/XMLSchema"),
-		nibrscodes("nibrscodes", "http://fbi.gov/cjis/nibrs/nibrs-codes/4.0"),
-		lexs31("lexs31", "http://usdoj.gov/leisp/lexs/3.1"),
-		lexspd31("lexspd31", "http://usdoj.gov/leisp/lexs/publishdiscover/3.1"),
-		lexsdigest31("lexsdigest31", "http://usdoj.gov/leisp/lexs/digest/3.1"),
-		structures20("structures20", "http://niem.gov/niem/structures/2.0")
-		;
+		NIBRS("nibrs", "http://fbi.gov/cjis/nibrs/4.2"),
+		CJIS("cjis", "http://fbi.gov/cjis/1.0"),
+		CJISCODES("cjiscodes", "http://fbi.gov/cjis/cjis-codes/1.0"),
+		I("i", "http://release.niem.gov/niem/appinfo/3.0/"),
+		UCR("ucr", "http://release.niem.gov/niem/codes/fbi_ucr/3.2/"),
+		J("j", "http://release.niem.gov/niem/domains/jxdm/5.2/"),
+		TERM("term", "http://release.niem.gov/niem/localTerminology/3.0/"),
+		NC("nc", "http://release.niem.gov/niem/niem-core/3.0/"),
+		NIEM_XSD("niem-xsd", "http://release.niem.gov/niem/proxy/xsd/3.0/"),
+		S("s", "http://release.niem.gov/niem/structures/3.0/"),
+		XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance"),
+		XSD("xsd", "http://www.w3.org/2001/XMLSchema"),
+		NIBRSCODES("nibrscodes", "http://fbi.gov/cjis/nibrs/nibrs-codes/4.2"),
+		LEXS31("lexs31", "http://usdoj.gov/leisp/lexs/3.1"),
+		LEXSPD31("lexspd31", "http://usdoj.gov/leisp/lexs/publishdiscover/3.1"),
+		LEXSDIGEST31("lexsdigest31", "http://usdoj.gov/leisp/lexs/digest/3.1"),
+		STRUCTURES20("structures20", "http://niem.gov/niem/structures/2.0");
 		
 		public String prefix;
 		public String uri;
@@ -84,11 +83,11 @@ public class NibrsNamespaceContext implements NamespaceContext {
 	 * 
 	 * @param e the element on which to declare the namespace prefixes for itself and its descendants
 	 */
-	public void populateRootNamespaceDeclarations(Element e) {
-		Set<String> namespaceURIs = collectNamespaceURIs(e);
+	public void populateRootNamespaceDeclarations(Element element) {
+		Set<String> namespaceURIs = collectNamespaceURIs(element);
 		for (String uri : namespaceURIs) {
 			String prefix = getPrefix(uri);
-			e.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" + prefix, uri);
+			element.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" + prefix, uri);
 		}
 	}
 

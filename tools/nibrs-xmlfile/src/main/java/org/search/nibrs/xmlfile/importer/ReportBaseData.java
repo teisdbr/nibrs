@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.common.ReportSource;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
-import org.search.nibrs.xmlfile.util.XmlUtils;
+import org.search.nibrs.xml.XmlUtils;
 import org.w3c.dom.Element;
 
 /**

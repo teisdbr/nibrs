@@ -25,8 +25,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -41,6 +46,7 @@ import org.search.nibrs.flatfile.errorexport.ErrorExporter;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.validation.SubmissionValidator;
 
 /**
@@ -95,19 +101,77 @@ public class NIBRSValidator {
 			ErrorExporter errorExporter = ErrorExporter.getInstance();
 
 			final List<NIBRSError> errorList = new ArrayList<>();
+			List<AbstractReport> incidentReports = new ArrayList<>();
 
 			incidentBuilder.addIncidentListener(new ReportListener() {
 				@Override
 				public void newReport(AbstractReport report, List<NIBRSError> el) {
 					errorList.addAll(el);
 					errorList.addAll(submissionValidator.validateReport(report));
+					incidentReports.add(report);
 				}
 			});
 
 			incidentBuilder.buildIncidents(inputReader, readerLocationName);
 
+			
+//			Set<String> officerOtherJurisdictionORIs = new HashSet<>();
+//			List<GroupAIncidentReport> groupAIncidentReports = 	incidentReports.stream().filter(i -> (i instanceof GroupAIncidentReport))
+//					.map(i->(GroupAIncidentReport) i).filter(i->i.getVictims().stream().anyMatch(victim->org.apache.commons.lang3.StringUtils.isNotBlank(victim.getOfficerOtherJurisdictionORI()))).collect(Collectors.toList());
+//			incidentReports.stream().filter(i -> (i instanceof GroupAIncidentReport))
+//				.map(i->(GroupAIncidentReport) i)
+//				.filter(i -> i.getVictimCount() > 0)
+//				.map(i->i.getVictims())
+//				.forEach(i-> i.stream().map(victim->victim.getOfficerOtherJurisdictionORI())
+//						.filter(org.apache.commons.lang3.StringUtils::isNotBlank)
+//						.forEach(officerOtherJurisdictionORIs::add));
+			
+			List<String> erroredIncidentNumbers = errorList.stream()
+					.map( item -> item.getReportUniqueIdentifier())
+					.distinct()
+					.collect( Collectors.toList()); 
+			System.out.println("Count of the incidents with errors: " + erroredIncidentNumbers.size());
+			List<AbstractReport> reportsWithoutErrors = 
+					incidentReports.stream()
+					.filter(item -> !erroredIncidentNumbers.contains(item.getIdentifier()))
+					.collect( Collectors.toList());
 			errorExporter.createErrorReport(errorList, outputWriter);
+			
+			System.out.println("The officerOtherJurisdictionORIs:");
+			System.out.println("Count of the incident: " + reportsWithoutErrors.size());
+//			officerOtherJurisdictionORIs.forEach(System.out::println);
 
+			List<GroupAIncidentReport> groupAIncidentReports = 	incidentReports.stream()
+					.filter(i -> (i instanceof GroupAIncidentReport))
+					.map(i->(GroupAIncidentReport) i)
+					.collect(Collectors.toList());
+			List<LocalDate> incidentDates = groupAIncidentReports.stream()
+					.map(GroupAIncidentReport::getIncidentDate)
+					.map(i->Optional.ofNullable(i.getValue()).orElse(null))
+					.filter(Objects::nonNull)
+					.distinct()
+					.collect(Collectors.toList());
+			System.out.println("Incident Dates:");
+			incidentDates.forEach(System.out::println);
+			
+			List<LocalDate> exceptionalClearanceDates = groupAIncidentReports.stream()
+					.map(GroupAIncidentReport::getExceptionalClearanceDate)
+					.map(i->Optional.ofNullable(i.getValue()).orElse(null))
+					.filter(Objects::nonNull)
+					.distinct()
+					.collect(Collectors.toList());
+			System.out.println("Exceptional Clearance Dates:");
+			exceptionalClearanceDates.forEach(System.out::println);
+			
+//			List<Date> arrestDates = groupAIncidentReports.stream()
+//					.map(GroupAIncidentReport::getArresteeWithEarliestArrestDate)
+//					.filter(Objects::nonNull)
+//					.map(ArresteeSegment::getArrestDate)
+//					.map(ParsedObject::getValue)
+//					.distinct()
+//					.collect(Collectors.toList());
+//			System.out.println("Arrest Dates:");
+//			arrestDates.forEach(System.out::println);
 			outputWriter.close();
 			inputReader.close();
 

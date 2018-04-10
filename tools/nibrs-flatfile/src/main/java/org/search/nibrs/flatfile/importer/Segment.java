@@ -50,6 +50,7 @@ public class Segment
 	public List<NIBRSError> setData(ReportSource reportSource, String data)
     {
     	List<NIBRSError> ret = new ArrayList<NIBRSError>();
+    	
         this.data = data;
         this.reportSource = reportSource;
         NIBRSError e = null;
