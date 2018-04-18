@@ -284,7 +284,13 @@ public class XmlUtils {
         ret.setPrefix(NAMESPACE_CONTEXT.getPrefix(ns));
         return ret;
     }
-    
+
+	public static void appendElementAndValue(Element parentElement, Namespace elementNamespace, String elementName, String value) {
+		if (value != null) {
+			XmlUtils.appendChildElement(parentElement, elementNamespace, elementName).setTextContent(value);
+		}
+	}
+
     /**
      * Add an attribute to the specified element
      * @param parent the element to which we add the attribute
