@@ -37,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.stagingdata.AppProperties;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
@@ -57,6 +58,7 @@ import org.search.nibrs.stagingdata.model.segment.PropertySegment;
 import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.service.AdministrativeSegmentService;
+import org.search.nibrs.xml.NibrsNamespaceContext;
 import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.search.nibrs.xml.XmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +80,9 @@ public class XmlReportGenerator {
 	AdministrativeSegmentService administrativeSegmentService;
 	@Autowired
 	public AgencyRepository agencyRepository; 
+	@Autowired
+	private AppProperties appProperties;
+
 
 	public Document createGroupAIncidentReport(AdministrativeSegment administrativeSegment) throws ParserConfigurationException {
 		Document document = XmlUtils.createNewDocument();
@@ -93,16 +98,19 @@ public class XmlReportGenerator {
 		addItemElements(administrativeSegment, reportElement);
 		addSubstanceElements(administrativeSegment, reportElement);
 		addPersonElements(administrativeSegment, reportElement);
-//		addEnforcementOfficialElements(incident, reportElement);
+		addEnforcementOfficialElements(administrativeSegment, reportElement);
 		addVictimElements(administrativeSegment, reportElement);
 		addSubjectElements(administrativeSegment, reportElement);
 		addArresteeElements(administrativeSegment, reportElement);
-//		addArrestElement(incident, reportElement);
-//		addArrestSubjectAssociationElements(incident, reportElement);
+		addArrestElement(administrativeSegment, reportElement);
+		addArrestSubjectAssociationElements(administrativeSegment, reportElement);
 		addOffenseLocationAssociationElements(administrativeSegment, reportElement);
 		addOffenseVictimAssociationElements(administrativeSegment, reportElement);
 		addSubjectVictimAssociationElements(administrativeSegment, reportElement);
-		return null;
+		
+		NibrsNamespaceContext namespaceContext = new NibrsNamespaceContext();
+		namespaceContext.populateRootNamespaceDeclarations(document.getDocumentElement());
+		return document;
 	}
 
 	private void addIncidentElement(AdministrativeSegment administrativeSegment, Element reportElement) {
@@ -135,10 +143,10 @@ public class XmlReportGenerator {
 	private void addMessageMetadataElement(AdministrativeSegment administrativeSegment, Element submissionElement) {
 		Element messageMetadata = XmlUtils.appendChildElement(submissionElement, CJIS, "MessageMetadata");
 		Element messageDateTime = XmlUtils.appendChildElement(messageMetadata, CJIS, "MessageDateTime");
-		messageDateTime.setTextContent(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-ddThh:mm:ss")));
+		messageDateTime.setTextContent(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss")));
 
-		//TODO find out how to set the message id. 
-		appendIdentificationIdElement(messageMetadata, CJIS, "MessageIdentification", "123456");
+		appendIdentificationIdElement(messageMetadata, CJIS, "MessageIdentification", 
+				"GroupAIncident"+ administrativeSegment.getAdministrativeSegmentId());
 		
 		Element messageImplementationVersion = XmlUtils.appendChildElement(messageMetadata, CJIS, "MessageImplementationVersion"); 
 		messageImplementationVersion.setTextContent("4.2");
@@ -146,9 +154,7 @@ public class XmlReportGenerator {
 		Element messageSubmittingOrganization = XmlUtils.appendChildElement(messageMetadata, CJIS, "MessageSubmittingOrganization"); 
 		Element organizationAugmentation = XmlUtils.appendChildElement(messageSubmittingOrganization, J, "OrganizationAugmentation");
 		
-		//TODO where to find the submitting agency ori? 
-		// we have only the incident report ORI
-		appendIdentificationIdElement(organizationAugmentation, J, "OrganizationORIIdentification", administrativeSegment.getOri());
+		appendIdentificationIdElement(organizationAugmentation, J, "OrganizationORIIdentification", appProperties.getSubmittingAgencyOri());
 	}
 
 	private void appendIdentificationIdElement(Element parent, Namespace wrapperNamespace, String wrapperName, String id) {
@@ -170,7 +176,7 @@ public class XmlReportGenerator {
 		Element reportDate = XmlUtils.appendChildElement(reportHeaderElement, Namespace.NIBRS, "ReportDate");
 		Element yearMonthDate = XmlUtils.appendChildElement(reportDate, Namespace.NC, "YearMonthDate");
 		yearMonthDate.setTextContent(administrativeSegment.getYearOfTape() + "-" 
-				+ MONTH_NUMBER_FORMAT.format(administrativeSegment.getMonthOfTape()));
+				+ administrativeSegment.getMonthOfTape());
 		
 		String ori = administrativeSegment.getOri();
 		if (ori != null) {
@@ -192,7 +198,9 @@ public class XmlReportGenerator {
 			}
 			
 			for (BiasMotivationType biasMotivationType: offense.getBiasMotivationTypes()) {
-				XmlUtils.appendElementAndValue(offenseElement, J, "OffenseFactorBiasMotivationCode", biasMotivationType.getBiasMotivationDescription());
+				if (StringUtils.isNotBlank(biasMotivationType.getBiasMotivationCode())){
+					XmlUtils.appendElementAndValue(offenseElement, J, "OffenseFactorBiasMotivationCode", biasMotivationType.getBiasMotivationDescription());
+				}
 			}
 			
 			XmlUtils.appendElementAndValue(offenseElement, J, "OffenseStructuresEnteredQuantity", 
@@ -216,7 +224,8 @@ public class XmlReportGenerator {
 						typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode());
 			}
 			
-			XmlUtils.appendElementAndValue(offenseElement, Namespace.J, "OffenseAttemptedIndicator", offense.getOffenseAttemptedCompleted());
+			XmlUtils.appendElementAndValue(offenseElement, Namespace.J, "OffenseAttemptedIndicator", 
+					BooleanUtils.toStringTrueFalse("A".equals(offense.getOffenseAttemptedCompleted())));
 		}
 	}
 	
@@ -228,7 +237,7 @@ public class XmlReportGenerator {
 		for (OffenseSegment offense : administrativeSegment.getOffenseSegments()) {
 			Element locationElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Location");
 			XmlUtils.addAttribute(locationElement, Namespace.S, "id", "Location-" + offense.getUcrOffenseCodeType().getUcrOffenseCode());
-			XmlUtils.appendElementAndValue(locationElement, Namespace.J, "LocationCategoryCode", offense.getUcrOffenseCodeType().getUcrOffenseCode());
+			XmlUtils.appendElementAndValue(locationElement, Namespace.J, "LocationCategoryCode", offense.getLocationType().getLocationTypeCode());
 		}
 	}
 
@@ -412,6 +421,44 @@ public class XmlReportGenerator {
 		}
 	}
 	
+//<j:EnforcementOfficial>
+//	<nc:RoleOfPerson s:ref="PersonVictim1"/>
+//	<!-- Element 25A, Type of Activity (Officer)/ Circumstance -->
+//	<j:EnforcementOfficialActivityCategoryCode>10</j:EnforcementOfficialActivityCategoryCode>
+//	<!-- Element 25B, Assignment Type (Officer) -->
+//	<j:EnforcementOfficialAssignmentCategoryCode>G</j:EnforcementOfficialAssignmentCategoryCode>
+//	<j:EnforcementOfficialUnit>
+//		<j:OrganizationAugmentation>
+//			<j:OrganizationORIIdentification>
+//				<!-- Element 25C, ORI-Other Jurisdiction (Officer) -->
+//				<nc:IdentificationID>WVNDX01</nc:IdentificationID>
+//			</j:OrganizationORIIdentification>
+//		</j:OrganizationAugmentation>
+//	</j:EnforcementOfficialUnit>
+//</j:EnforcementOfficial>
+	private void addEnforcementOfficialElements(AdministrativeSegment administrativeSegment, Element reportElement) {
+		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
+			String victimType = victim.getTypeOfVictimType().getTypeOfVictimCode();
+			//TODO need to add a column in the victim table for the officerOtherJurisdictionORI
+//			String officerOtherJurisdictionORI = victim.getOfficerOtherJurisdictionORI();
+			if ("L".equals(victimType)) {
+				Element enforcementOfficialElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "EnforcementOfficial");
+				Element e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.NC, "RoleOfPerson");
+				XmlUtils.addAttribute(e, Namespace.S, "ref", "VictimSegment-" + victim.getVictimSequenceNumber());
+				XmlUtils.appendElementAndValue(enforcementOfficialElement, Namespace.J, "EnforcementOfficialActivityCategoryCode", 
+						victim.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode());
+				XmlUtils.appendElementAndValue(enforcementOfficialElement, Namespace.J, "EnforcementOfficialAssignmentCategoryCode", 
+						victim.getOfficerAssignmentTypeType().getOfficerAssignmentTypeCode());
+//				if (officerOtherJurisdictionORI != null) {
+//					e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.J, "EnforcementOfficialUnit");
+//					e = XmlUtils.appendChildElement(e, Namespace.J, "OrganizationAugmentation");
+//					e = XmlUtils.appendChildElement(e, Namespace.J, "OrganizationORIIdentification");
+//					XmlUtils.appendChildElement(e, Namespace.NC, "IdentificationID").setTextContent(officerOtherJurisdictionORI);
+//				}
+			}
+		}
+	}
+
 	private void addVictimElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
 			Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "VictimSegment");
@@ -477,9 +524,59 @@ public class XmlReportGenerator {
 						arrestee.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18Code());
 			}
 			
-			//TODO 
-//			<!-- Element 44, Multiple Arrestee Segments Indicator -->
-//			<j:ArrestSubjectCountCode>N</j:ArrestSubjectCountCode>
+			if (arrestee.getMultipleArresteeSegmentsIndicatorType() != null){
+				XmlUtils.appendElementAndValue(arresteeElement, J, "ArrestSubjectCountCode", 
+						arrestee.getMultipleArresteeSegmentsIndicatorType().getMultipleArresteeSegmentsIndicatorCode());
+			}
+		}
+	}
+	
+//<j:Arrest s:id="Arrest1">
+//	<!-- Element 41, Arrest Transaction Number -->
+//	<nc:ActivityIdentification>
+//		<nc:IdentificationID>12345</nc:IdentificationID>
+//	</nc:ActivityIdentification>
+//	<!-- Element 42, Arrest Date -->
+//	<nc:ActivityDate>
+//		<nc:Date>2016-02-28</nc:Date>
+//	</nc:ActivityDate>
+//	<!-- Element 45, UCR Arrest Offense Code -->
+//	<j:ArrestCharge>
+//		<nibrs:ChargeUCRCode>64A</nibrs:ChargeUCRCode>
+//	</j:ArrestCharge>
+//	<!-- Element 43, Type Of Arrest -->
+//	<j:ArrestCategoryCode>O</j:ArrestCategoryCode>
+//</j:Arrest>
+	private void addArrestElement(AdministrativeSegment administrativeSegment, Element reportElement) {
+		for (ArresteeSegment arrestee : administrativeSegment.getArresteeSegments()) {
+			Element arrestElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "Arrest");
+			XmlUtils.addAttribute(arrestElement, Namespace.S, "id", "Arrest-" + arrestee.getArresteeSequenceNumber());
+			appendIdentificationIdElement(arrestElement, NC, "ActivityIdentification", arrestee.getArrestTransactionNumber());
+			
+			Date arrestDate = arrestee.getArrestDate(); 
+			
+			if (arrestDate != null) {
+				Element activityDate = XmlUtils.appendChildElement(arrestElement, Namespace.NC, "ActivityDate");
+				XmlUtils.appendElementAndValue(activityDate, NC, "Date", DATE_FORMAT.format(arrestDate));
+			}
+			
+			Element arrestCharge = XmlUtils.appendChildElement(arrestElement, Namespace.J, "ArrestCharge");
+			XmlUtils.appendElementAndValue(arrestCharge, Namespace.NIBRS, "ChargeUCRCode", arrestee.getUcrOffenseCodeType().getUcrOffenseCode());
+			XmlUtils.appendElementAndValue(arrestElement, Namespace.J, "ArrestCategoryCode", arrestee.getTypeOfArrestType().getTypeOfArrestCode());
+		}		
+	}
+	
+//<j:ArrestSubjectAssociation>
+//	<nc:Activity s:ref="Arrest1"/>
+//	<j:Subject s:ref="Arrestee1"/>
+//</j:ArrestSubjectAssociation>
+	private void addArrestSubjectAssociationElements(AdministrativeSegment administrativeSegment, Element reportElement) {
+		for (ArresteeSegment arrestee : administrativeSegment.getArresteeSegments()) {
+			Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "ArrestSubjectAssociation");
+			Element e = XmlUtils.appendChildElement(associationElement, Namespace.NC, "Activity");
+			XmlUtils.addAttribute(e, Namespace.S, "ref", "Arrest-" + arrestee.getArresteeSequenceNumber());
+			e = XmlUtils.appendChildElement(associationElement, Namespace.J, "Subject");
+			XmlUtils.addAttribute(e, Namespace.S, "ref", "Arrestee-" + arrestee.getArresteeSequenceNumber());
 		}
 	}
 	
@@ -487,7 +584,6 @@ public class XmlReportGenerator {
 //	<j:Offense s:ref="Offense1"/>
 //	<nc:Location s:ref="Location1"/>
 //</j:OffenseLocationAssociation>
-
 	private void addOffenseLocationAssociationElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (OffenseSegment offense : administrativeSegment.getOffenseSegments()) {
 			Element associationElement = XmlUtils.appendChildElement(reportElement, J, "OffenseLocationAssociation");
