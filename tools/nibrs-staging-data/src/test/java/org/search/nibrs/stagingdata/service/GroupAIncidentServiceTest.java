@@ -401,9 +401,10 @@ public class GroupAIncidentServiceTest {
 			if (victimSegment.getVictimSequenceNumber().equals(1)){
 				assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(persisted.getAdministrativeSegmentId())); 
 				assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
-				assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("B")); 
-				assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode(), equalTo("99")); 
-				assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeCode(), equalTo("9")); 
+				assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("L")); 
+				assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode(), equalTo("01")); 
+				assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeCode(), equalTo("F")); 
+				assertThat(victimSegment.getOfficerOtherJurisdictionOri(), equalTo("other1234")); 
 				
 				assertNull(victimSegment.getAgeOfVictimMax());
 				assertNull(victimSegment.getAgeOfVictimMin());
@@ -750,9 +751,10 @@ public class GroupAIncidentServiceTest {
 		victimSegment.setAdministrativeSegment(administrativeSegment);
 		victimSegment.setSegmentActionType(segmentActionTypeType);
 		victimSegment.setVictimSequenceNumber(1);
-		victimSegment.setTypeOfVictimType(typeOfVictimTypeRepository.findFirstByTypeOfVictimCode("B"));
-		victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceTypeRepository.findFirstByOfficerActivityCircumstanceCode("99"));
-		victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeTypeRepository.findFirstByOfficerAssignmentTypeCode("9"));
+		victimSegment.setTypeOfVictimType(typeOfVictimTypeRepository.findFirstByTypeOfVictimCode("L"));
+		victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceTypeRepository.findFirstByOfficerActivityCircumstanceCode("01"));
+		victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeTypeRepository.findFirstByOfficerAssignmentTypeCode("F"));
+		victimSegment.setOfficerOtherJurisdictionOri("other1234");;
 		
 		victimSegment.setAgeNeonateIndicator(0);
 		victimSegment.setAgeFirstWeekIndicator(0);
