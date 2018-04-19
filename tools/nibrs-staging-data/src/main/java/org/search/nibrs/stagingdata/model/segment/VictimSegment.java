@@ -77,6 +77,7 @@ public class VictimSegment {
 	@JoinColumn(name="officerAssignmentTypeTypeId") 
 	private OfficerAssignmentTypeType officerAssignmentTypeType;
 	
+	private String officerOtherJurisdictionOri; 
 	private Integer ageOfVictimMin; 
 	private Integer ageOfVictimMax; 
 	private Integer ageNeonateIndicator;
@@ -404,5 +405,11 @@ public class VictimSegment {
 		} else if (!victimSequenceNumber.equals(other.victimSequenceNumber))
 			return false;
 		return true;
+	}
+	public String getOfficerOtherJurisdictionOri() {
+		return officerOtherJurisdictionOri;
+	}
+	public void setOfficerOtherJurisdictionOri(String officerOtherJurisdictionOri) {
+		this.officerOtherJurisdictionOri = officerOtherJurisdictionOri;
 	}
 }

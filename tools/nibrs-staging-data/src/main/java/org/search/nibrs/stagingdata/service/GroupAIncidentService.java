@@ -449,6 +449,8 @@ public class GroupAIncidentService {
 								OfficerAssignmentTypeType::new);
 				victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeType);
 				
+				victimSegment.setOfficerOtherJurisdictionOri(victim.getOfficerOtherJurisdictionORI());
+				
 				Optional<NIBRSAge> victimAge = Optional.ofNullable(victim.getAge());
 				victimSegment.setAgeOfVictimMax(victimAge.map(NIBRSAge::getAgeMax).orElse(null));
 				victimSegment.setAgeOfVictimMin(victimAge.map(NIBRSAge::getAgeMin).orElse(null));

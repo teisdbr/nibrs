@@ -439,8 +439,6 @@ public class XmlReportGenerator {
 	private void addEnforcementOfficialElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
 			String victimType = victim.getTypeOfVictimType().getTypeOfVictimCode();
-			//TODO need to add a column in the victim table for the officerOtherJurisdictionORI
-//			String officerOtherJurisdictionORI = victim.getOfficerOtherJurisdictionORI();
 			if ("L".equals(victimType)) {
 				Element enforcementOfficialElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "EnforcementOfficial");
 				Element e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.NC, "RoleOfPerson");
@@ -449,12 +447,14 @@ public class XmlReportGenerator {
 						victim.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode());
 				XmlUtils.appendElementAndValue(enforcementOfficialElement, Namespace.J, "EnforcementOfficialAssignmentCategoryCode", 
 						victim.getOfficerAssignmentTypeType().getOfficerAssignmentTypeCode());
-//				if (officerOtherJurisdictionORI != null) {
-//					e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.J, "EnforcementOfficialUnit");
-//					e = XmlUtils.appendChildElement(e, Namespace.J, "OrganizationAugmentation");
-//					e = XmlUtils.appendChildElement(e, Namespace.J, "OrganizationORIIdentification");
-//					XmlUtils.appendChildElement(e, Namespace.NC, "IdentificationID").setTextContent(officerOtherJurisdictionORI);
-//				}
+				
+				String officerOtherJurisdictionOri = victim.getOfficerOtherJurisdictionOri();
+				if (officerOtherJurisdictionOri != null) {
+					e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.J, "EnforcementOfficialUnit");
+					e = XmlUtils.appendChildElement(e, Namespace.J, "OrganizationAugmentation");
+					e = XmlUtils.appendChildElement(e, Namespace.J, "OrganizationORIIdentification");
+					XmlUtils.appendElementAndValue(e, Namespace.NC, "IdentificationID", officerOtherJurisdictionOri);
+				}
 			}
 		}
 	}

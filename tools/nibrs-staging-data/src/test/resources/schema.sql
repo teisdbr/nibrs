@@ -169,7 +169,7 @@ CREATE TABLE OffenderSegment (OffenderSegmentID INT NOT NULL AUTO_INCREMENT, Seg
 
 ALTER TABLE OffenderSegment ADD CONSTRAINT offendersegment_pk PRIMARY KEY (OffenderSegmentID);
 
-CREATE TABLE VictimSegment (VictimSegmentID INT NOT NULL AUTO_INCREMENT, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, VictimSequenceNumber INT, TypeOfVictimTypeID INT NOT NULL, OfficerActivityCircumstanceTypeID INT NOT NULL, OfficerAssignmentTypeTypeID INT NOT NULL, AgeOfVictimMin INT, AgeOfVictimMax INT, AgeNeonateIndicator INT NOT NULL, AgeFirstWeekIndicator INT NOT NULL, AgeFirstYearIndicator INT NOT NULL, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT NOT NULL, AdditionalJustifiableHomicideCircumstancesTypeID INT NOT NULL);
+CREATE TABLE VictimSegment (VictimSegmentID INT NOT NULL AUTO_INCREMENT, SegmentActionTypeTypeID INT NOT NULL, AdministrativeSegmentID INT NOT NULL, VictimSequenceNumber INT, TypeOfVictimTypeID INT NOT NULL, OfficerActivityCircumstanceTypeID INT NOT NULL, OfficerAssignmentTypeTypeID INT NOT NULL,  OfficerOtherJurisdictionORI VARCHAR(9), AgeOfVictimMin INT, AgeOfVictimMax INT, AgeNeonateIndicator INT NOT NULL, AgeFirstWeekIndicator INT NOT NULL, AgeFirstYearIndicator INT NOT NULL, SexOfPersonTypeID INT NOT NULL, RaceOfPersonTypeID INT NOT NULL, EthnicityOfPersonTypeID INT NOT NULL, ResidentStatusOfPersonTypeID INT NOT NULL, AdditionalJustifiableHomicideCircumstancesTypeID INT NOT NULL);
 
 ALTER TABLE VictimSegment ADD CONSTRAINT victimsegment_pk PRIMARY KEY (VictimSegmentID);
 
