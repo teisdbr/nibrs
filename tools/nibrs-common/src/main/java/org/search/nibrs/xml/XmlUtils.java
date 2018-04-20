@@ -41,6 +41,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
@@ -286,7 +287,7 @@ public class XmlUtils {
     }
 
 	public static void appendElementAndValue(Element parentElement, Namespace elementNamespace, String elementName, String value) {
-		if (value != null) {
+		if ( StringUtils.isNotBlank(value)) {
 			XmlUtils.appendChildElement(parentElement, elementNamespace, elementName).setTextContent(value);
 		}
 	}
