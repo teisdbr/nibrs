@@ -16,9 +16,6 @@
 package org.search.nibrs.validation;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.common.ReportSource;

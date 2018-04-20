@@ -312,12 +312,15 @@ public class XmlReportGenerator {
 
 						XmlUtils.appendElementAndValue(substanceElement, J, "DrugCategoryCode", 
 								suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode());
-						Element substanceQuantityMeasure = XmlUtils.appendChildElement(substanceElement, Namespace.NC, "SubstanceQuantityMeasure");
-						XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.NC, "MeasureDecimalValue", 
-								Optional.ofNullable(suspectedDrugType.getEstimatedDrugQuantity()).map(String::valueOf).orElse(null));
-						XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.J, "SubstanceUnitCode",
-								Optional.ofNullable(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode())
-								.map(String::valueOf).orElse(null));
+						
+						if (suspectedDrugType.getEstimatedDrugQuantity()!= null || (suspectedDrugType.getTypeDrugMeasurementType() != null && 
+								suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementTypeId() != 99998)){
+							Element substanceQuantityMeasure = XmlUtils.appendChildElement(substanceElement, Namespace.NC, "SubstanceQuantityMeasure");
+							XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.NC, "MeasureDecimalValue", 
+									Optional.ofNullable(suspectedDrugType.getEstimatedDrugQuantity()).map(String::valueOf).orElse(null));
+							XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.J, "SubstanceUnitCode",
+									suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode());
+						}
 					}
 				}
 			}

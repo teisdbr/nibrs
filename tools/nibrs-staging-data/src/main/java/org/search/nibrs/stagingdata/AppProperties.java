@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("app")
 public class AppProperties {
 
-    private String submittingAgencyOri = "1234567890";
+    private String submittingAgencyOri = "SUBORI123";
 
 	public String getSubmittingAgencyOri() {
 		return submittingAgencyOri;

@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.repository.segment.AdministrativeSegmentRepository;
+import org.search.nibrs.stagingdata.service.AdministrativeSegmentFactory;
 import org.search.nibrs.stagingdata.service.GroupAIncidentService;
 import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.search.nibrs.xml.XmlUtils;
@@ -41,6 +42,8 @@ public class XmlReportGeneratorTest {
 	@Autowired
 	public AdministrativeSegmentRepository administrativeSegmentRepository; 
 	@Autowired
+	public AdministrativeSegmentFactory administrativeSegmentFactory; 
+	@Autowired
 	public GroupAIncidentService groupAIncidentService;
 	@Autowired
 	public XmlReportGenerator xmlReportGenerator;
@@ -48,19 +51,29 @@ public class XmlReportGeneratorTest {
 
 	@Before
 	public void setUp() throws Exception {
+		AdministrativeSegment administrativeSegment = administrativeSegmentFactory.getBasicAdministrativeSegment();
+		administrativeSegmentRepository.save(administrativeSegment);
+		
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
-
 	}
 
 	@Test
 	public void test() throws Exception {
-		AdministrativeSegment administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("54236732");
+		AdministrativeSegment administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("1234568910");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
 		
 		Document document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
 		XmlUtils.printNode(document.getDocumentElement());
+		
+		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("54236732");
+		assertNotNull(administrativeSegment);
+		log.info(administrativeSegment);
+		
+		document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
+		XmlUtils.printNode(document.getDocumentElement());
+
 	}
 
 }

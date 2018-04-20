@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -41,21 +40,12 @@ import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.stagingdata.model.Agency;
-import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
-import org.search.nibrs.stagingdata.model.BiasMotivationType;
-import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
-import org.search.nibrs.stagingdata.model.DateType;
-import org.search.nibrs.stagingdata.model.LocationType;
-import org.search.nibrs.stagingdata.model.MethodOfEntryType;
 import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.search.nibrs.stagingdata.model.PropertyType;
-import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
 import org.search.nibrs.stagingdata.model.SuspectedDrugType;
-import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.search.nibrs.stagingdata.model.TypeOfWeaponForceInvolved;
-import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.VictimOffenderAssociation;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
 import org.search.nibrs.stagingdata.model.segment.ArresteeSegment;
@@ -172,11 +162,14 @@ public class GroupAIncidentServiceTest {
 	@Autowired
 	public AdministrativeSegmentRepository administrativeSegmentRepository; 
 	@Autowired
-	public GroupAIncidentService groupAIncidentService; 
+	public GroupAIncidentService groupAIncidentService;
+	
+	@Autowired
+	public AdministrativeSegmentFactory administrativeSegmentFactory; 
 
 	@Test
 	public void test() {
-		AdministrativeSegment administrativeSegment = getBasicAdministrativeSegment();
+		AdministrativeSegment administrativeSegment = administrativeSegmentFactory.getBasicAdministrativeSegment();
 		groupAIncidentService.saveAdministrativeSegment(administrativeSegment); 
 		
 		AdministrativeSegment persisted = 
@@ -503,302 +496,6 @@ public class GroupAIncidentServiceTest {
 		
 	}
 
-	@SuppressWarnings("serial")
-	public AdministrativeSegment getBasicAdministrativeSegment(){
-		
-		AdministrativeSegment administrativeSegment = new AdministrativeSegment();
-		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I");
-		administrativeSegment.setSegmentActionType(segmentActionTypeType);
-		administrativeSegment.setMonthOfTape("12");
-		administrativeSegment.setYearOfTape("2016");
-		administrativeSegment.setCityIndicator("Y");
-		administrativeSegment.setOri("ori");;
-		
-		Agency agency = agencyRepository.findFirstByAgencyOri("agencyORI");
-		administrativeSegment.setAgency(agency);
-		administrativeSegment.setIncidentNumber("1234568910");
-		administrativeSegment.setIncidentDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-		DateType incidentDateType = dateTypeRepository.findFirstByDateMMDDYYYY("06122016");
-		administrativeSegment.setIncidentDateType(incidentDateType);
-		
-		administrativeSegment.setExceptionalClearanceDate(Date.from(LocalDateTime.of(2016, 7, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-		DateType exceptionalClearanceDateType = dateTypeRepository.findFirstByDateMMDDYYYY("07122016");
-		administrativeSegment.setExceptionalClearanceDateType(exceptionalClearanceDateType);
-		
-		administrativeSegment.setReportDateIndicator(null);  //'R' for report. Must be empty when incident is known.    
-		administrativeSegment.setIncidentHour("13");  // allowed value 0-23.  
-		ClearedExceptionallyType clearedExceptionallyType
-			= clearedExceptionallyTypeRepository.findFirstByClearedExceptionallyCode("B");
-		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
-		administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorTypeRepository.findFirstByCargoTheftIndicatorCode("N"));
-		
-		
-//		Offense segment 1 
-		Set<OffenseSegment> offenseSegments = new HashSet<>();
-		OffenseSegment offenseSegment = new OffenseSegment();
-		offenseSegment.setSegmentActionType(segmentActionTypeType);
-		
-		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("23D");
-		offenseSegment.setUcrOffenseCodeType(ucrOffenseCode);
-		
-		offenseSegment.setOffenseAttemptedCompleted("C");  //Allowed values C or A 
-		
-		LocationType locationType = locationTypeRepository.findFirstByLocationTypeCode("04");
-		offenseSegment.setLocationType(locationType);
-		
-		offenseSegment.setNumberOfPremisesEntered(2);
-		
-		MethodOfEntryType methodOfEntryType = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
-		offenseSegment.setMethodOfEntryType(methodOfEntryType);
-		BiasMotivationType biasMotivationType = biasMotivationTypeRepository.findFirstByBiasMotivationCode("11");
-		offenseSegment.setBiasMotivationTypes(new HashSet<BiasMotivationType>(){{
-			add(biasMotivationType);
-		}});;
-		offenseSegment.setAdministrativeSegment(administrativeSegment);
-		
-		offenseSegment.setOffenderSuspectedOfUsingTypes(new HashSet<OffenderSuspectedOfUsingType>(){{
-			add(offenderSuspectedOfUsingTypeRepository.findOne(1));
-			add(offenderSuspectedOfUsingTypeRepository.findOne(2));
-		}});
-		
-		TypeOfWeaponForceInvolved typeOfWeaponForceInvolved1 = new TypeOfWeaponForceInvolved();
-		typeOfWeaponForceInvolved1.setOffenseSegment(offenseSegment);
-		typeOfWeaponForceInvolved1.setAutomaticWeaponIndicator("A");
-		typeOfWeaponForceInvolved1.setTypeOfWeaponForceInvolvedType(typeOfWeaponForceInvolvedTypeRepository.findOne(120));
-		
-		TypeOfWeaponForceInvolved typeOfWeaponForceInvolved2 = new TypeOfWeaponForceInvolved();
-		typeOfWeaponForceInvolved2.setOffenseSegment(offenseSegment);
-		typeOfWeaponForceInvolved2.setAutomaticWeaponIndicator("");
-		typeOfWeaponForceInvolved2.setTypeOfWeaponForceInvolvedType(typeOfWeaponForceInvolvedTypeRepository.findOne(110));
-		
-		offenseSegment.setTypeOfWeaponForceInvolveds(new HashSet<TypeOfWeaponForceInvolved>(){{
-			add(typeOfWeaponForceInvolved1);
-			add(typeOfWeaponForceInvolved2);
-		}});
-		
-		offenseSegments.add(offenseSegment);
-//		Offense segment 2 
-		OffenseSegment offenseSegment2 = new OffenseSegment();
-		offenseSegment2.setSegmentActionType(segmentActionTypeType);
-		
-		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("26B");
-		offenseSegment2.setUcrOffenseCodeType(ucrOffenseCode2);
-		
-		offenseSegment2.setOffenseAttemptedCompleted("A");  //Allowed values C or A 
-		
-		LocationType locationType2 = locationTypeRepository.findFirstByLocationTypeCode("02");
-		offenseSegment2.setLocationType(locationType2);
-		
-		offenseSegment2.setNumberOfPremisesEntered(1);
-		
-		MethodOfEntryType methodOfEntryType2 = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
-		offenseSegment2.setMethodOfEntryType(methodOfEntryType2);
-		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findFirstByBiasMotivationCode("12");
-		offenseSegment2.setBiasMotivationTypes(new HashSet<BiasMotivationType>(){{
-			add(biasMotivationType2);
-		}});;
-		offenseSegment2.setAdministrativeSegment(administrativeSegment);
-
-		offenseSegment2.setTypeOfCriminalActivityTypes(new HashSet<TypeOfCriminalActivityType>(){{
-			add(typeOfCriminalActivityTypeRepository.findOne(3));
-			add(typeOfCriminalActivityTypeRepository.findOne(4));
-		}});
-
-		offenseSegments.add(offenseSegment2);
-		administrativeSegment.setOffenseSegments(offenseSegments);
-		
-//		PropertySegment 1
-		PropertySegment propertySegment1 = new PropertySegment();
-		propertySegment1.setSegmentActionType(segmentActionTypeType);
-		propertySegment1.setAdministrativeSegment(administrativeSegment);
-		propertySegment1.setTypePropertyLossEtcType(typePropertyLossEtcTypeRepository.findOne(7));
-		propertySegment1.setNumberOfRecoveredMotorVehicles(0);
-		propertySegment1.setNumberOfStolenMotorVehicles(1);
-		
-		PropertyType propertyType1 = new PropertyType();
-		propertyType1.setPropertySegment(propertySegment1);
-		propertyType1.setPropertyDescriptionType(propertyDescriptionTypeRepository.findFirstByPropertyDescriptionCode("03"));
-		propertyType1.setValueOfProperty(10000.0);
-		propertyType1.setRecoveredDateType(dateTypeRepository.findOne(99998));
-		
-		propertySegment1.setPropertyTypes(new HashSet<PropertyType>(){{
-			add(propertyType1);
-		}});
-		
-		Set<PropertySegment> propertySegments = new HashSet<>();
-		propertySegments.add(propertySegment1);
-		
-//		PropertySegment 2
-		PropertySegment propertySegment2 = new PropertySegment();
-		propertySegment2.setSegmentActionType(segmentActionTypeType);
-		propertySegment2.setAdministrativeSegment(administrativeSegment);
-		propertySegment2.setTypePropertyLossEtcType(typePropertyLossEtcTypeRepository.findOne(4));
-		propertySegment2.setNumberOfRecoveredMotorVehicles(0);
-		propertySegment2.setNumberOfStolenMotorVehicles(0);
-		
-		SuspectedDrugType suspectedDrugType1 = new SuspectedDrugType();
-		suspectedDrugType1.setPropertySegment(propertySegment2);
-		suspectedDrugType1.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstBySuspectedDrugTypeCode("A"));
-		suspectedDrugType1.setEstimatedDrugQuantity(1.0);
-		suspectedDrugType1.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findOne(1));
-		
-		SuspectedDrugType suspectedDrugType2 = new SuspectedDrugType();
-		suspectedDrugType2.setPropertySegment(propertySegment2);
-		suspectedDrugType2.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstBySuspectedDrugTypeCode("D"));
-		suspectedDrugType2.setEstimatedDrugQuantity(1.0);
-		suspectedDrugType2.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findFirstByTypeDrugMeasurementCode("OZ"));
-		
-		propertySegment2.setSuspectedDrugTypes(new HashSet<SuspectedDrugType>(){{
-			add(suspectedDrugType1);
-			add(suspectedDrugType2);
-		}});
-		
-		propertySegments.add(propertySegment2);
-		
-		administrativeSegment.setPropertySegments(propertySegments);
-		
-		
-//		1 arrestee segment 
-//		ArresteeSegment[arresteeSequenceNumber=01,arrestTransactionNumber=201040889,arrestDate=Tue Aug 23 00:00:00 CDT 2016,
-		//typeOfArrest=S,multipleArresteeSegmentsIndicator=N,ucrArrestOffenseCode=23D,arresteeArmedWith={01,<null>},
-		//automaticWeaponIndicator={<null>,<null>},residentStatus=U,dispositionOfArresteeUnder18=<null>,
-		//age=33,sex=M,race=B,ethnicity=U
-		
-		ArresteeSegment arresteeSegment = new ArresteeSegment();
-		arresteeSegment.setAdministrativeSegment(administrativeSegment);
-		arresteeSegment.setAgeOfArresteeMax(33);
-		arresteeSegment.setAgeOfArresteeMin(33);
-		arresteeSegment.setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-		
-		DateType arrestDateType = dateTypeRepository.findFirstByDateMMDDYYYY("06122016");
-		arresteeSegment.setArrestDateType(arrestDateType);
-		
-		arresteeSegment.setArresteeSequenceNumber(1);
-		arresteeSegment.setArrestTransactionNumber("201040889");
-		
-		arresteeSegment.setDispositionOfArresteeUnder18Type(
-				dispositionOfArresteeUnder18TypeRepository.findFirstByDispositionOfArresteeUnder18Code("9"));
-		arresteeSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
-		arresteeSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
-		arresteeSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("U"));
-		arresteeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I"));
-		arresteeSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
-		arresteeSegment.setTypeOfArrestType(typeOfArrestTypeRepository.findFirstByTypeOfArrestCode("S"));
-		arresteeSegment.setUcrOffenseCodeType(ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("23D"));
-		arresteeSegment.setMultipleArresteeSegmentsIndicatorType(
-				multipleArresteeSegmentsIndicatorTypeRepository.findFirstByMultipleArresteeSegmentsIndicatorCode("N"));
-		
-		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith1 = new ArresteeSegmentWasArmedWith();
-		arresteeSegmentWasArmedWith1.setArresteeSegment(arresteeSegment);
-		arresteeSegmentWasArmedWith1.setAutomaticWeaponIndicator("A");
-		arresteeSegmentWasArmedWith1.setArresteeWasArmedWithType(arresteeWasArmedWithTypeRepository.findOne(120));
-		
-		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith2 = new ArresteeSegmentWasArmedWith();
-		arresteeSegmentWasArmedWith2.setArresteeSegment(arresteeSegment);
-		arresteeSegmentWasArmedWith2.setAutomaticWeaponIndicator("");
-		arresteeSegmentWasArmedWith2.setArresteeWasArmedWithType(arresteeWasArmedWithTypeRepository.findOne(110));
-		
-		arresteeSegment.setArresteeSegmentWasArmedWiths(new HashSet<ArresteeSegmentWasArmedWith>(){{
-			add(arresteeSegmentWasArmedWith1);
-			add(arresteeSegmentWasArmedWith2);
-		}});
-		
-		administrativeSegment.setArresteeSegments(new HashSet<ArresteeSegment>(){{
-			add(arresteeSegment);
-		}});
-
-//		2 OffenderSegment Segments:
-//		OffenderSegment [age=00, sex=M, race=B, ethnicity=null, offenderSequenceNumber=01]
-//		OffenderSegment [age=33, sex=M, race=B, ethnicity=null, offenderSequenceNumber=02]
-		OffenderSegment offenderSegment1 = new OffenderSegment();
-		offenderSegment1.setAdministrativeSegment(administrativeSegment);
-		offenderSegment1.setSegmentActionType(segmentActionTypeType);
-		offenderSegment1.setAgeOfOffenderMax(0);
-		offenderSegment1.setAgeOfOffenderMin(0);
-		
-		offenderSegment1.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
-		offenderSegment1.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
-		offenderSegment1.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
-		offenderSegment1.setOffenderSequenceNumber(1);
-
-		OffenderSegment offenderSegment2 = new OffenderSegment();
-		offenderSegment2.setAdministrativeSegment(administrativeSegment);
-		offenderSegment2.setSegmentActionType(segmentActionTypeType);
-		offenderSegment2.setAgeOfOffenderMax(33);
-		offenderSegment2.setAgeOfOffenderMin(33);
-		
-		offenderSegment2.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
-		offenderSegment2.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
-		offenderSegment2.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
-		offenderSegment2.setOffenderSequenceNumber(2);
-		
-		administrativeSegment.setOffenderSegments(new HashSet<OffenderSegment>(){{
-			add(offenderSegment1);
-			add(offenderSegment2);
-		}});
-		
-//		1 VictimSegment Segments:
-//		VictimSegment [age=null, sex=null, race=null, ethnicity=null, victimSequenceNumber=01, 
-//		ucrOffenseCodeConnection=[26B, 23D, null, null, null, null, null, null, null, null], 
-//		typeOfVictim=B, residentStatus=null, aggravatedAssaultHomicideCircumstances=[null, null], 
-//		additionalJustifiableHomicideCircumstances=null, typeOfInjury=[null, null, null, null, null], 
-//		offenderNumberRelated=[null, null, null, null, null, null, null, null, null, null], 
-//		victimOffenderRelationship=[null, null, null, null, null, null, null, null, null, null], 
-//		typeOfOfficerActivityCircumstance=null, officerAssignmentType=null, officerOtherJurisdictionORI=null, 
-//		populatedAggravatedAssaultHomicideCircumstancesCount=2, populatedTypeOfInjuryCount=5, 
-//		populatedUcrOffenseCodeConnectionCount=10, populatedOffenderNumberRelatedCount=0]
-		VictimSegment victimSegment = new VictimSegment();
-		victimSegment.setAdministrativeSegment(administrativeSegment);
-		victimSegment.setSegmentActionType(segmentActionTypeType);
-		victimSegment.setVictimSequenceNumber(1);
-		victimSegment.setTypeOfVictimType(typeOfVictimTypeRepository.findFirstByTypeOfVictimCode("L"));
-		victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceTypeRepository.findFirstByOfficerActivityCircumstanceCode("01"));
-		victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeTypeRepository.findFirstByOfficerAssignmentTypeCode("F"));
-		victimSegment.setOfficerOtherJurisdictionOri("other1234");;
-		
-		victimSegment.setAgeNeonateIndicator(0);
-		victimSegment.setAgeFirstWeekIndicator(0);
-		victimSegment.setAgeFirstYearIndicator(0);
-		
-		victimSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("U"));
-		victimSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("U"));
-		victimSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
-		victimSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("U"));
-		
-		victimSegment.setAdditionalJustifiableHomicideCircumstancesType(
-				additionalJustifiableHomicideCircumstancesTypeRepository.findFirstByAdditionalJustifiableHomicideCircumstancesCode("9"));
-		
-		
-		victimSegment.setTypeInjuryTypes(new HashSet<TypeInjuryType>(){{
-			add(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"));
-		}});
-
-		victimSegment.setOffenseSegments(new HashSet<OffenseSegment>(){{
-			add(offenseSegment);
-			add(offenseSegment2);
-		}});
-		
-		victimSegment.setAggravatedAssaultHomicideCircumstancesTypes(new HashSet<AggravatedAssaultHomicideCircumstancesType>(){{
-			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"));
-			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02"));
-		}});
-		
-		VictimOffenderAssociation victimOffenderAssociation1 = new VictimOffenderAssociation();
-		victimOffenderAssociation1.setVictimSegment(victimSegment);
-		victimOffenderAssociation1.setOffenderSegment(offenderSegment1);
-		victimOffenderAssociation1.setVictimOffenderRelationshipType(
-				victimOffenderRelationshipTypeRepository.findFirstByVictimOffenderRelationshipCode("AQ"));;
-		
-		victimSegment.setVictimOffenderAssociations(new HashSet<VictimOffenderAssociation>(){{
-			add(victimOffenderAssociation1);
-		}});
-
-		administrativeSegment.setVictimSegments(new HashSet<VictimSegment>(){{
-			add(victimSegment);
-		}});
-		
-		return administrativeSegment; 
-	}
 
 	@Test
 	public void testSaveGroupAIncidentReport(){
