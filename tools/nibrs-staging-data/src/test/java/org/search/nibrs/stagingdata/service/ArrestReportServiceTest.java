@@ -24,7 +24,6 @@ import static org.junit.Assert.fail;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
@@ -32,17 +31,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.model.GroupBArrestReport;
-import org.search.nibrs.stagingdata.model.Agency;
 import org.search.nibrs.stagingdata.model.ArrestReportSegmentWasArmedWith;
-import org.search.nibrs.stagingdata.model.DateType;
-import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
-import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
-import org.search.nibrs.stagingdata.model.RaceOfPersonType;
-import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
-import org.search.nibrs.stagingdata.model.SegmentActionTypeType;
-import org.search.nibrs.stagingdata.model.SexOfPersonType;
 import org.search.nibrs.stagingdata.model.TypeOfArrestType;
-import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 import org.search.nibrs.stagingdata.repository.AgencyRepository;
 import org.search.nibrs.stagingdata.repository.ArresteeWasArmedWithTypeRepository;
@@ -92,9 +82,12 @@ public class ArrestReportServiceTest {
 	@Autowired
 	public ArresteeWasArmedWithTypeRepository arresteeWasArmedWithTypeRepository; 
 	
+	@Autowired
+	public ArrestReportSegmentFactory arrestReportSegmentFactory; 
+	
 	@Test
 	public void test() {
-		ArrestReportSegment arrestReportSegment = getBasicArrestReportSegment();
+		ArrestReportSegment arrestReportSegment = arrestReportSegmentFactory.getBasicArrestReportSegment();
 		arrestReportService.saveArrestReportSegment(arrestReportSegment); 
 		
 		ArrestReportSegment persisted = 
@@ -203,67 +196,6 @@ public class ArrestReportServiceTest {
 		assertThat(countOfArrestReportSegmentsAfterDelete, equalTo(countOfArrestReportSegmentsBeforeDelete - 1));
 	}
 	
-	@SuppressWarnings("serial")
-	public ArrestReportSegment getBasicArrestReportSegment(){
-		ArrestReportSegment arrestReportSegment = new ArrestReportSegment();
-		arrestReportSegment.setAgeOfArresteeMax(25);
-		arrestReportSegment.setAgeOfArresteeMin(22);
-		arrestReportSegment.setArrestDate(Date.from(LocalDateTime.of(2016, 6, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant()));
-		
-		DateType arrestDateType = dateTypeRepository.findFirstByDateMMDDYYYY("06122016");
-		arrestReportSegment.setArrestDateType(arrestDateType);
-		
-		arrestReportSegment.setArresteeSequenceNumber(1);
-		
-		Agency agency = agencyRepository.findFirstByAgencyOri("agencyORI");
-		arrestReportSegment.setAgency(agency);
-		arrestReportSegment.setArrestTransactionNumber("arrestTr");
-		arrestReportSegment.setCityIndicator("Y");
-		
-		DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type
-			= dispositionOfArresteeUnder18TypeRepository.findFirstByDispositionOfArresteeUnder18Code("H");
-		arrestReportSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type);
-		
-		EthnicityOfPersonType ethnicityOfPersonType = ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("N");
-		arrestReportSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
-		arrestReportSegment.setMonthOfTape("12");
-		arrestReportSegment.setOri("ori");;
-		
-		RaceOfPersonType raceOfPersonType = raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("W");
-		arrestReportSegment.setRaceOfPersonType(raceOfPersonType);
-		
-		ResidentStatusOfPersonType residentStatusOfPersonType = residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("N");
-		arrestReportSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
-		
-		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I");
-		arrestReportSegment.setSegmentActionType(segmentActionTypeType);
-		
-		SexOfPersonType sexOfPersonType = sexOfPersonTypeRepository.findFirstBySexOfPersonCode("F");
-		arrestReportSegment.setSexOfPersonType(sexOfPersonType);
-		
-		TypeOfArrestType typeOfArrestType = typeOfArrestTypeRepository.findFirstByTypeOfArrestCode("O");
-		arrestReportSegment.setTypeOfArrestType(typeOfArrestType);
-		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("520");
-		arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCode);
-		arrestReportSegment.setYearOfTape("2016");
-		
-		ArrestReportSegmentWasArmedWith arrestReportSegmentWasArmedWith1 = new ArrestReportSegmentWasArmedWith();
-		arrestReportSegmentWasArmedWith1.setArrestReportSegment(arrestReportSegment);
-		arrestReportSegmentWasArmedWith1.setAutomaticWeaponIndicator("A");
-		arrestReportSegmentWasArmedWith1.setArresteeWasArmedWithType(arresteeWasArmedWithTypeRepository.findOne(120));
-		
-		ArrestReportSegmentWasArmedWith arrestReportSegmentWasArmedWith2 = new ArrestReportSegmentWasArmedWith();
-		arrestReportSegmentWasArmedWith2.setArrestReportSegment(arrestReportSegment);
-		arrestReportSegmentWasArmedWith2.setAutomaticWeaponIndicator("");
-		arrestReportSegmentWasArmedWith2.setArresteeWasArmedWithType(arresteeWasArmedWithTypeRepository.findOne(110));
-		
-		arrestReportSegment.setArrestReportSegmentWasArmedWiths(new HashSet<ArrestReportSegmentWasArmedWith>(){{
-			add(arrestReportSegmentWasArmedWith1);
-			add(arrestReportSegmentWasArmedWith2);
-		}});
-		
-		return arrestReportSegment; 
-	}
 	
 	@Test
 	public void processGroupBArrestReportTest(){
@@ -276,7 +208,7 @@ public class ArrestReportServiceTest {
 
 		assertNotNull(persisted);
 		assertThat(persisted.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-		assertThat(persisted.getMonthOfTape(), equalTo(null));
+		assertThat(persisted.getMonthOfTape(), equalTo("05"));
 		assertThat(persisted.getYearOfTape(), equalTo("2017"));
 		assertThat(persisted.getCityIndicator(), equalTo("Y"));
 		assertThat(persisted.getOri(), equalTo("agencyORI"));

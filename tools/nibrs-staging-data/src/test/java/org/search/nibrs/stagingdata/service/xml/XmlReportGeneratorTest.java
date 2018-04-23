@@ -23,9 +23,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.model.GroupAIncidentReport;
+import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.stagingdata.model.segment.AdministrativeSegment;
+import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 import org.search.nibrs.stagingdata.repository.segment.AdministrativeSegmentRepository;
+import org.search.nibrs.stagingdata.repository.segment.ArrestReportSegmentRepository;
 import org.search.nibrs.stagingdata.service.AdministrativeSegmentFactory;
+import org.search.nibrs.stagingdata.service.ArrestReportSegmentFactory;
+import org.search.nibrs.stagingdata.service.ArrestReportService;
 import org.search.nibrs.stagingdata.service.GroupAIncidentService;
 import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
 import org.search.nibrs.xml.XmlUtils;
@@ -42,9 +47,15 @@ public class XmlReportGeneratorTest {
 	@Autowired
 	public AdministrativeSegmentRepository administrativeSegmentRepository; 
 	@Autowired
+	public ArrestReportSegmentRepository arrestReportSegmentRepository; 
+	@Autowired
 	public AdministrativeSegmentFactory administrativeSegmentFactory; 
 	@Autowired
+	public ArrestReportSegmentFactory arrestReportSegmentFactory; 
+	@Autowired
 	public GroupAIncidentService groupAIncidentService;
+	@Autowired
+	public ArrestReportService arrestReportService;
 	@Autowired
 	public XmlReportGenerator xmlReportGenerator;
 	
@@ -56,10 +67,16 @@ public class XmlReportGeneratorTest {
 		
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
+		
+		GroupBArrestReport groupBArrestReport = BaselineIncidentFactory.getBaselineGroupBArrestReport();
+		arrestReportService.saveGroupBArrestReports(groupBArrestReport);
+		
+		ArrestReportSegment arrestReportSegment = arrestReportSegmentFactory.getBasicArrestReportSegment();
+		arrestReportSegmentRepository.save(arrestReportSegment);
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void testCreateGroupAIncidentReport() throws Exception {
 		AdministrativeSegment administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("1234568910");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
@@ -76,4 +93,22 @@ public class XmlReportGeneratorTest {
 
 	}
 
+	@Test
+	public void testCreateGroupBArrestReport() throws Exception {
+		ArrestReportSegment arrestReportSegment =  arrestReportSegmentRepository.findByArrestTransactionNumber("12345");
+		assertNotNull(arrestReportSegment);
+		log.info(arrestReportSegment);
+		
+		Document document = xmlReportGenerator.createGroupBArrestReport(arrestReportSegment);
+		XmlUtils.printNode(document.getDocumentElement());
+		
+		arrestReportSegment =  arrestReportSegmentRepository.findByArrestTransactionNumber("arrestTr");
+		assertNotNull(arrestReportSegment);
+		log.info(arrestReportSegment);
+		
+		document = xmlReportGenerator.createGroupBArrestReport(arrestReportSegment);
+		XmlUtils.printNode(document.getDocumentElement());
+		
+	}
+	
 }

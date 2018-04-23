@@ -160,6 +160,7 @@ public final class BaselineIncidentFactory {
 		report.setReportActionType('I');
 		report.setMonthOfTape(null);
 		report.setYearOfTape(2017);
+		report.setMonthOfTape(5);
 		report.setCityIndicator("Y");;
 		report.setOri("agencyORI");
 		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
