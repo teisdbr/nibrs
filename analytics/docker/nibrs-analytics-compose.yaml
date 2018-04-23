@@ -1,0 +1,37 @@
+# Docker Compose file that brings up containers necessary for NIBRS analytics
+# To run:  docker-compose -f nibrs-analytics-compose.yaml up -d
+
+version: '3'
+
+networks:
+  nibrs_analytics_nw:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+       subnet: 172.15.0.0/16
+
+services:
+
+   nibrs-db:
+    container_name: db-analytics-nibrs
+    image: searchncjis/db-analytics-nibrs
+    networks:
+      nibrs_analytics_nw: 
+
+
+  
+   nibrs-saiku:
+    container_name: saiku
+    image: searchncjis/nibrs-saiku
+    networks:
+      nibrs_analytics_nw:    
+    ports: 
+      - "8080:80"
+    depends_on:
+      - nibrs-db
+      
+      
+      
+
