@@ -19,7 +19,6 @@ import static org.junit.Assert.assertNotNull;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.search.nibrs.model.GroupAIncidentReport;
@@ -60,24 +59,17 @@ public class XmlReportGeneratorTest {
 	public XmlReportGenerator xmlReportGenerator;
 	
 
-	@Before
-	public void setUp() throws Exception {
+	@Test
+	public void testCreateGroupAIncidentReport() throws Exception {
 		AdministrativeSegment administrativeSegment = administrativeSegmentFactory.getBasicAdministrativeSegment();
 		administrativeSegmentRepository.save(administrativeSegment);
 		
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
 		
-		GroupBArrestReport groupBArrestReport = BaselineIncidentFactory.getBaselineGroupBArrestReport();
-		arrestReportService.saveGroupBArrestReports(groupBArrestReport);
+		administrativeSegmentRepository.findAll(); 
 		
-		ArrestReportSegment arrestReportSegment = arrestReportSegmentFactory.getBasicArrestReportSegment();
-		arrestReportSegmentRepository.save(arrestReportSegment);
-	}
-
-	@Test
-	public void testCreateGroupAIncidentReport() throws Exception {
-		AdministrativeSegment administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("1234568910");
+		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("1234568910");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
 		
@@ -95,7 +87,13 @@ public class XmlReportGeneratorTest {
 
 	@Test
 	public void testCreateGroupBArrestReport() throws Exception {
-		ArrestReportSegment arrestReportSegment =  arrestReportSegmentRepository.findByArrestTransactionNumber("12345");
+		GroupBArrestReport groupBArrestReport = BaselineIncidentFactory.getBaselineGroupBArrestReport();
+		arrestReportService.saveGroupBArrestReports(groupBArrestReport);
+		
+		ArrestReportSegment arrestReportSegment = arrestReportSegmentFactory.getBasicArrestReportSegment();
+		arrestReportSegmentRepository.save(arrestReportSegment);
+		
+		arrestReportSegment =  arrestReportSegmentRepository.findByArrestTransactionNumber("12345");
 		assertNotNull(arrestReportSegment);
 		log.info(arrestReportSegment);
 		
