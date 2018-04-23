@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.search.nibrs.stagingdata.model.Agency;
@@ -264,11 +265,11 @@ public class AdministrativeSegmentFactory {
 		propertyType1.setValueOfProperty(10000.0);
 		propertyType1.setRecoveredDateType(dateTypeRepository.findOne(99998));
 		
-		propertySegment1.setPropertyTypes(new HashSet<PropertyType>(){{
+		propertySegment1.setPropertyTypes(new LinkedHashSet<PropertyType>(){{
 			add(propertyType1);
 		}});
 		
-		Set<PropertySegment> propertySegments = new HashSet<>();
+		Set<PropertySegment> propertySegments = new LinkedHashSet<>();
 		propertySegments.add(propertySegment1);
 		
 //		PropertySegment 2
@@ -291,7 +292,7 @@ public class AdministrativeSegmentFactory {
 		suspectedDrugType2.setEstimatedDrugQuantity(1.0);
 		suspectedDrugType2.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findFirstByTypeDrugMeasurementCode("OZ"));
 		
-		propertySegment2.setSuspectedDrugTypes(new HashSet<SuspectedDrugType>(){{
+		propertySegment2.setSuspectedDrugTypes(new LinkedHashSet<SuspectedDrugType>(){{
 			add(suspectedDrugType1);
 			add(suspectedDrugType2);
 		}});

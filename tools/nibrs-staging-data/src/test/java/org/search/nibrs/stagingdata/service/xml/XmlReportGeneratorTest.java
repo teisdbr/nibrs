@@ -15,7 +15,19 @@
  */
 package org.search.nibrs.stagingdata.service.xml;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,6 +49,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.w3c.dom.Document;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -67,8 +83,6 @@ public class XmlReportGeneratorTest {
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
 		
-		administrativeSegmentRepository.findAll(); 
-		
 		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("1234568910");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
@@ -76,13 +90,36 @@ public class XmlReportGeneratorTest {
 		Document document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
 		XmlUtils.printNode(document.getDocumentElement());
 		
+//		File expectedFile = 
+//				new File("src/test/resources/xmlInstances/groupAIncidentFromAdminsitrativeFactory.xml");
+//		
+//		Document expectedDocument = XmlUtils.parseFileToDocument(expectedFile);
+//
+//		XmlTestUtils.compareDocs(expectedDocument, document, new String[]{"nc:Date", "nc:DateTime"});
+		
 		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("54236732");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
 		
 		document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
-		XmlUtils.printNode(document.getDocumentElement());
+		toString(document);
+		
+		File expectedFile = 
+				new File("src/test/resources/xmlInstances/groupAIncidentFromAdminsitrativeFactory.xml");
+		Document expectedDocument = XmlUtils.parseFileToDocument(expectedFile);
 
+		List<String> ignorableNames = Arrays.asList(new String[]{"cjis:MessageDateTime", "cjis:MessageIdentification", "nc:Item", "nc:Substance"}); 
+		final Diff documentDiff = DiffBuilder
+	            .compare(toString(expectedDocument))
+	            .withTest(toString(document))
+	            .normalizeWhitespace()
+	            .ignoreComments()
+	            .ignoreWhitespace()
+	            .withNodeFilter(node -> !ignorableNames.contains(node.getNodeName()))
+	            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+	            .checkForSimilar()
+	            .build();
+		assertThat(documentDiff.hasDifferences(), equalTo(false)); 
 	}
 
 	@Test
@@ -109,4 +146,12 @@ public class XmlReportGeneratorTest {
 		
 	}
 	
+	 private String toString(Document newDoc) throws Exception{
+		    DOMSource domSource = new DOMSource(newDoc);
+		    Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		    StringWriter sw = new StringWriter();
+		    StreamResult sr = new StreamResult(sw);
+		    transformer.transform(domSource, sr);
+		    return sw.toString();  
+	 }
 }
