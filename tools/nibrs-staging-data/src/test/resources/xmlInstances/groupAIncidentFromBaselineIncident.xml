@@ -1,0 +1,221 @@
+<!--
+
+    Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<nibrs:Submission xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.2" xmlns:cjis="http://fbi.gov/cjis/1.0" xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.2/" xmlns:nc="http://release.niem.gov/niem/niem-core/3.0/" xmlns:s="http://release.niem.gov/niem/structures/3.0/">
+    <cjis:MessageMetadata>
+        <cjis:MessageDateTime>2018-04-24T08:23:52</cjis:MessageDateTime>
+        <cjis:MessageIdentification>
+            <nc:IdentificationID>GroupAIncident1</nc:IdentificationID>
+        </cjis:MessageIdentification>
+        <cjis:MessageImplementationVersion>4.2</cjis:MessageImplementationVersion>
+        <cjis:MessageSubmittingOrganization>
+            <j:OrganizationAugmentation>
+                <j:OrganizationORIIdentification>
+                    <nc:IdentificationID>SUBORI123</nc:IdentificationID>
+                </j:OrganizationORIIdentification>
+            </j:OrganizationAugmentation>
+        </cjis:MessageSubmittingOrganization>
+    </cjis:MessageMetadata>
+    <nibrs:report>
+        <nibrs:ReportHeader>
+            <nibrs:NIBRSReportCategoryCode>GROUP A INCIDENT REPORT</nibrs:NIBRSReportCategoryCode>
+            <nibrs:ReportActionCategoryCode>I</nibrs:ReportActionCategoryCode>
+            <nibrs:ReportDate>
+                <nc:YearMonthDate>2016-12</nc:YearMonthDate>
+            </nibrs:ReportDate>
+            <nibrs:ReportingAgency>
+                <j:OrganizationAugmentation>
+                    <j:OrganizationORIIdentification>
+                        <nc:IdentificationID>ori</nc:IdentificationID>
+                    </j:OrganizationORIIdentification>
+                </j:OrganizationAugmentation>
+            </nibrs:ReportingAgency>
+        </nibrs:ReportHeader>
+        <nc:Incident>
+            <nc:ActivityIdentification>
+                <nc:IdentificationID>1234568910</nc:IdentificationID>
+            </nc:ActivityIdentification>
+            <nc:ActivityDate>
+                <nc:Date>2016-06-12</nc:Date>
+            </nc:ActivityDate>
+            <cjis:IncidentAugmentation/>
+            <j:IncidentAugmentation>
+                <j:IncidentExceptionalClearanceCode>B</j:IncidentExceptionalClearanceCode>
+                <j:IncidentExceptionalClearanceDate>
+                    <nc:Date>2016-07-12</nc:Date>
+                </j:IncidentExceptionalClearanceDate>
+            </j:IncidentAugmentation>
+        </nc:Incident>
+        <j:OffenseSegment s:id="OffenseSegment-23D">
+            <nibrs:OffenseUCRCode>23D</nibrs:OffenseUCRCode>
+            <j:OffenseFactorBiasMotivationCode>Anti-White</j:OffenseFactorBiasMotivationCode>
+            <j:OffenseStructuresEnteredQuantity>2</j:OffenseStructuresEnteredQuantity>
+            <j:OffenseFactor>
+                <j:OffenseFactorCode>C</j:OffenseFactorCode>
+            </j:OffenseFactor>
+            <j:OffenseFactor>
+                <j:OffenseFactorCode>A</j:OffenseFactorCode>
+            </j:OffenseFactor>
+            <j:OffenseEntryPoint>
+                <j:PassagePointMethodCode>F</j:PassagePointMethodCode>
+            </j:OffenseEntryPoint>
+            <j:OffenseForce>
+                <j:ForceCategoryCode>11</j:ForceCategoryCode>
+            </j:OffenseForce>
+            <j:OffenseForce>
+                <j:ForceCategoryCode>12</j:ForceCategoryCode>
+            </j:OffenseForce>
+            <j:OffenseAttemptedIndicator>false</j:OffenseAttemptedIndicator>
+        </j:OffenseSegment>
+        <j:OffenseSegment s:id="OffenseSegment-26B">
+            <nibrs:OffenseUCRCode>26B</nibrs:OffenseUCRCode>
+            <nibrs:CriminalActivityCategoryCode>E</nibrs:CriminalActivityCategoryCode>
+            <nibrs:CriminalActivityCategoryCode>D</nibrs:CriminalActivityCategoryCode>
+            <j:OffenseFactorBiasMotivationCode>Anti-Black or African American</j:OffenseFactorBiasMotivationCode>
+            <j:OffenseStructuresEnteredQuantity>1</j:OffenseStructuresEnteredQuantity>
+            <j:OffenseEntryPoint>
+                <j:PassagePointMethodCode>F</j:PassagePointMethodCode>
+            </j:OffenseEntryPoint>
+            <j:OffenseAttemptedIndicator>true</j:OffenseAttemptedIndicator>
+        </j:OffenseSegment>
+        <nc:Location s:id="Location-23D">
+            <j:LocationCategoryCode>04</j:LocationCategoryCode>
+        </nc:Location>
+        <nc:Location s:id="Location-26B">
+            <j:LocationCategoryCode>02</j:LocationCategoryCode>
+        </nc:Location>
+        <nc:Item>
+            <nc:ItemStatus>
+                <cjis:ItemStatusCode>Stolen/Etc.</cjis:ItemStatusCode>
+            </nc:ItemStatus>
+            <nc:ItemValue>
+                <nc:ItemValueAmount>
+                    <nc:Amount>10000.0</nc:Amount>
+                </nc:ItemValueAmount>
+            </nc:ItemValue>
+            <j:ItemCategoryNIBRSPropertyCategoryCode>03</j:ItemCategoryNIBRSPropertyCategoryCode>
+            <nc:ItemQuantity>0</nc:ItemQuantity>
+        </nc:Item>
+        <nc:Person s:id="VictimSegment-1">
+            <nc:PersonEthnicityCode>U</nc:PersonEthnicityCode>
+            <j:PersonRaceNDExCode>U</j:PersonRaceNDExCode>
+            <j:PersonResidentCode>U</j:PersonResidentCode>
+            <j:PersonSexCode>U</j:PersonSexCode>
+        </nc:Person>
+        <nc:Person s:id="OffenderSegment-2">
+            <nc:PersonAgeMeasure>
+                <nc:MeasureIntegerValue>33</nc:MeasureIntegerValue>
+            </nc:PersonAgeMeasure>
+            <nc:PersonEthnicityCode>U</nc:PersonEthnicityCode>
+            <j:PersonRaceNDExCode>B</j:PersonRaceNDExCode>
+            <j:PersonSexCode>M</j:PersonSexCode>
+        </nc:Person>
+        <nc:Person s:id="OffenderSegment-1">
+            <nc:PersonAgeMeasure>
+                <nc:MeasureIntegerValue>0</nc:MeasureIntegerValue>
+            </nc:PersonAgeMeasure>
+            <nc:PersonEthnicityCode>U</nc:PersonEthnicityCode>
+            <j:PersonRaceNDExCode>B</j:PersonRaceNDExCode>
+            <j:PersonSexCode>M</j:PersonSexCode>
+        </nc:Person>
+        <nc:Person s:id="PersonArrestee-1">
+            <nc:PersonAgeMeasure>
+                <nc:MeasureIntegerValue>33</nc:MeasureIntegerValue>
+            </nc:PersonAgeMeasure>
+            <nc:PersonEthnicityCode>U</nc:PersonEthnicityCode>
+            <j:PersonRaceNDExCode>B</j:PersonRaceNDExCode>
+            <j:PersonResidentCode>U</j:PersonResidentCode>
+            <j:PersonSexCode>M</j:PersonSexCode>
+        </nc:Person>
+        <j:EnforcementOfficial>
+            <nc:RoleOfPerson s:ref="VictimSegment-1"/>
+            <j:EnforcementOfficialActivityCategoryCode>01</j:EnforcementOfficialActivityCategoryCode>
+            <j:EnforcementOfficialAssignmentCategoryCode>F</j:EnforcementOfficialAssignmentCategoryCode>
+            <j:EnforcementOfficialUnit>
+                <j:OrganizationAugmentation>
+                    <j:OrganizationORIIdentification>
+                        <nc:IdentificationID>other1234</nc:IdentificationID>
+                    </j:OrganizationORIIdentification>
+                </j:OrganizationAugmentation>
+            </j:EnforcementOfficialUnit>
+        </j:EnforcementOfficial>
+        <j:VictimSegment>
+            <nc:RoleOfPerson s:ref="VictimSegment-1"/>
+            <j:VictimSequenceNumberText>1</j:VictimSequenceNumberText>
+            <j:VictimInjury>
+                <j:InjuryCategoryCode>O</j:InjuryCategoryCode>
+            </j:VictimInjury>
+            <j:VictimCategoryCode>L</j:VictimCategoryCode>
+            <j:VictimAggravatedAssaultHomicideFactorCode>01</j:VictimAggravatedAssaultHomicideFactorCode>
+            <j:VictimAggravatedAssaultHomicideFactorCode>02</j:VictimAggravatedAssaultHomicideFactorCode>
+            <j:VictimJustifiableHomicideFactorCode>9</j:VictimJustifiableHomicideFactorCode>
+        </j:VictimSegment>
+        <j:Subject>
+            <nc:RoleOfPerson s:ref="OffenderSegment-2"/>
+            <j:OffenderSequenceNumberText>2</j:OffenderSequenceNumberText>
+        </j:Subject>
+        <j:Subject>
+            <nc:RoleOfPerson s:ref="OffenderSegment-1"/>
+            <j:OffenderSequenceNumberText>1</j:OffenderSequenceNumberText>
+        </j:Subject>
+        <j:Arrestee s:id="Arrestee-1">
+            <nc:RoleOfPerson s:ref="PersonArrestee-1"/>
+            <j:ArrestSequenceID>1</j:ArrestSequenceID>
+            <j:ArresteeArmedWithCode>11</j:ArresteeArmedWithCode>
+            <j:ArresteeArmedWithCode>12</j:ArresteeArmedWithCode>
+            <j:ArresteeJuvenileDispositionCode>9</j:ArresteeJuvenileDispositionCode>
+            <j:ArrestSubjectCountCode>N</j:ArrestSubjectCountCode>
+        </j:Arrestee>
+        <j:Arrest s:id="Arrest-1">
+            <nc:ActivityIdentification>
+                <nc:IdentificationID>201040889</nc:IdentificationID>
+            </nc:ActivityIdentification>
+            <nc:ActivityDate>
+                <nc:Date>2016-06-12</nc:Date>
+            </nc:ActivityDate>
+            <j:ArrestCharge>
+                <nibrs:ChargeUCRCode>23D</nibrs:ChargeUCRCode>
+            </j:ArrestCharge>
+            <j:ArrestCategoryCode>S</j:ArrestCategoryCode>
+        </j:Arrest>
+        <j:ArrestSubjectAssociation>
+            <nc:Activity s:ref="Arrest-1"/>
+            <j:Subject s:ref="Arrestee-1"/>
+        </j:ArrestSubjectAssociation>
+        <j:OffenseLocationAssociation>
+            <j:Offense s:ref="OffenseSegment-23D"/>
+            <nc:Location s:ref="Location-23D"/>
+        </j:OffenseLocationAssociation>
+        <j:OffenseLocationAssociation>
+            <j:Offense s:ref="OffenseSegment-26B"/>
+            <nc:Location s:ref="Location-26B"/>
+        </j:OffenseLocationAssociation>
+        <j:OffenseVictimAssociation>
+            <j:Offense s:ref="OffenseSegment-23D"/>
+            <j:Victim s:ref="VictimSegment-1"/>
+        </j:OffenseVictimAssociation>
+        <j:OffenseVictimAssociation>
+            <j:Offense s:ref="OffenseSegment-26B"/>
+            <j:Victim s:ref="VictimSegment-1"/>
+        </j:OffenseVictimAssociation>
+        <j:SubjectVictimAssociation>
+            <j:Subject s:ref="OffenderSegment-1"/>
+            <j:Victim s:ref="VictimSegment-1"/>
+            <nibrs:VictimToSubjectRelationshipCode>AQ</nibrs:VictimToSubjectRelationshipCode>
+        </j:SubjectVictimAssociation>
+    </nibrs:report>
+</nibrs:Submission>
