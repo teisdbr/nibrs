@@ -31,15 +31,20 @@
 
 	<properties>
 		<saxon-version>8.7</saxon-version>
-		<xmlunit-version>1.5</xmlunit-version>
+		<xmlunit-version>2.2.1</xmlunit-version>
 		<owner>SEARCH-The National Consortium for Justice Information and Statistics</owner>
 	</properties>
 
 	<dependencies>
 		<dependency>
+		    <groupId>org.xmlunit</groupId>
+		    <artifactId>xmlunit-core</artifactId>
+		    <version>${xmlunit-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>xmlunit</groupId>
 			<artifactId>xmlunit</artifactId>
-			<version>${xmlunit-version}</version>
+			<version>1.5</version>
 		</dependency>
 		<dependency>
 		    <groupId>commons-logging</groupId>

@@ -15,7 +15,14 @@
  */
 package org.search.nibrs.stagingdata.service.xml;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,11 +39,19 @@ import org.search.nibrs.stagingdata.service.ArrestReportSegmentFactory;
 import org.search.nibrs.stagingdata.service.ArrestReportService;
 import org.search.nibrs.stagingdata.service.GroupAIncidentService;
 import org.search.nibrs.stagingdata.util.BaselineIncidentFactory;
+import org.search.nibrs.xml.NibrsNamespaceContext.Namespace;
 import org.search.nibrs.xml.XmlUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.w3c.dom.Document;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.ByNameAndTextRecSelector;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelector;
+import org.xmlunit.diff.ElementSelectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -57,6 +72,8 @@ public class XmlReportGeneratorTest {
 	public ArrestReportService arrestReportService;
 	@Autowired
 	public XmlReportGenerator xmlReportGenerator;
+
+	private List<String> ignorableNames = Arrays.asList(new String[]{"cjis:MessageDateTime", "cjis:MessageIdentification"}); ;
 	
 
 	@Test
@@ -67,22 +84,53 @@ public class XmlReportGeneratorTest {
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
 		
-		administrativeSegmentRepository.findAll(); 
-		
 		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("1234568910");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
 		
 		Document document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
 		XmlUtils.printNode(document.getDocumentElement());
+//        compareGroupAIncident("src/test/resources/xmlInstances/groupAIncidentFromBaselineIncident.xml", document); 
 		
 		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("54236732");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
 		
 		document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
-		XmlUtils.printNode(document.getDocumentElement());
+//		XmlUtils.printNode(document);
+		
+        compareGroupAIncident("src/test/resources/xmlInstances/groupAIncidentFromAdminsitrativeFactory.xml", document); 
+	}
 
+	private void compareGroupAIncident(String expectedFilePath, Document document) {
+		
+		Map<String, String> prefix2UriMap = new HashMap<>();
+		Arrays.stream(Namespace.values()).forEach(i->prefix2UriMap.put(i.prefix, i.uri));
+		
+		ElementSelector es = ElementSelectors.conditionalBuilder()
+                .whenElementIsNamed("Substance")
+                .thenUse(new ByNameAndTextRecSelector())
+                .whenElementIsNamed("Item")
+                .thenUse(new ByNameAndTextRecSelector())
+                .whenElementIsNamed("OffenseSegment")
+                .thenUse(ElementSelectors.byXPath("./@s:id", prefix2UriMap, ElementSelectors.byNameAndText))
+                .whenElementIsNamed("OffenseForce")
+                .thenUse(new ByNameAndTextRecSelector())
+                .elseUse(ElementSelectors.byName)
+                .build();
+
+		final Diff documentDiff = DiffBuilder
+	            .compare(Input.fromFile( expectedFilePath))
+	            .withTest(Input.fromDocument(document))
+	            .normalizeWhitespace()
+	            .ignoreComments()
+	            .ignoreWhitespace()
+	            .withNodeFilter(node -> !ignorableNames.contains(node.getNodeName()))
+	            .withNodeMatcher(new DefaultNodeMatcher(es))
+	            .checkForSimilar()
+	            .build();
+		documentDiff.getDifferences(); 
+		assertThat(documentDiff.hasDifferences(), equalTo(false));
 	}
 
 	@Test
@@ -100,13 +148,30 @@ public class XmlReportGeneratorTest {
 		Document document = xmlReportGenerator.createGroupBArrestReport(arrestReportSegment);
 		XmlUtils.printNode(document.getDocumentElement());
 		
+		compareGroupBArrestReport("src/test/resources/xmlInstances/groupBArrestFromBaselineIncident.xml", document);
+
 		arrestReportSegment =  arrestReportSegmentRepository.findByArrestTransactionNumber("arrestTr");
 		assertNotNull(arrestReportSegment);
 		log.info(arrestReportSegment);
 		
 		document = xmlReportGenerator.createGroupBArrestReport(arrestReportSegment);
 		XmlUtils.printNode(document.getDocumentElement());
+		compareGroupBArrestReport("src/test/resources/xmlInstances/groupBArrestFromArrestReportFactory.xml", document);
 		
+	}
+
+	private void compareGroupBArrestReport(String expectedFilePath, Document document) {
+		final Diff documentDiff = DiffBuilder
+	            .compare(Input.fromFile(expectedFilePath))
+	            .withTest(Input.fromDocument(document))
+	            .normalizeWhitespace()
+	            .ignoreComments()
+	            .ignoreWhitespace()
+	            .withNodeFilter(node -> !ignorableNames.contains(node.getNodeName()))
+	            .checkForSimilar()
+	            .build();
+		documentDiff.getDifferences(); 
+		assertThat(documentDiff.hasDifferences(), equalTo(false));
 	}
 	
 }
