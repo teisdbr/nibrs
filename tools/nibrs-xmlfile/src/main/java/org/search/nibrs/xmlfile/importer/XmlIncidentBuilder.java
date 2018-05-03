@@ -1204,45 +1204,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		}
 	}
 
-	private Integer getIntValueFromXpath(ReportBaseData reportBaseData, String xPath,  List<NIBRSError> errorList, NIBRSErrorCode errorCode) 
-			throws Exception {
-		Element parent = reportBaseData.getReportElement();
-		String value = XmlUtils.xPathStringSearch(parent, xPath);
-		Integer i = null;
-		try {
-			i = new Integer(value);
-		} catch (NumberFormatException nfe) {
-			NIBRSError e = new NIBRSError();
-			e.setContext(reportBaseData.getReportSource());
-			e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
-			e.setNIBRSErrorCode(errorCode);
-			e.setValue(value);
-			e.setSegmentType(reportBaseData.getSegmentLevel());
-			errorList.add(e);
-			log.debug("Error in int conversion: position =" + reportBaseData.getReportSource()
-				+ ", xPath = '" + xPath
-				+ "', value=" + value);
-		}
-		return i;
-	}
-	
-	private void parseIntegerObject(String stringValue,
-			ParsedObject<Integer> parsedObject) {
-		
-		parsedObject.setMissing(false);
-		parsedObject.setInvalid(false);
-		
-		if (stringValue == null) {
-			parsedObject.setMissing(true);
-			parsedObject.setValue(null);
-		} else {
-			try {
-				parsedObject.setValue(Integer.parseInt(stringValue));
-			} catch (NumberFormatException nfe) {
-				parsedObject.setInvalid(true);
-			}
-		}
-	}
 
 	class NullResolver implements EntityResolver {
 		public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {

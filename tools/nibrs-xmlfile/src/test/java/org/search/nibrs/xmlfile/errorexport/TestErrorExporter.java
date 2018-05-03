@@ -15,14 +15,12 @@
  */
 package org.search.nibrs.xmlfile.errorexport;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +43,6 @@ import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.OffenseCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
-import org.search.nibrs.xmlfile.errorexport.ErrorExporter;
 
 public class TestErrorExporter {
 	
