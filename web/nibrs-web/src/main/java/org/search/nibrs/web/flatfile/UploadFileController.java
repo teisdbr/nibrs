@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -33,6 +34,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.james.mime4j.util.MimeUtil;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
@@ -48,7 +50,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class FlatfileController {
+public class UploadFileController {
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream", "text/xml");
@@ -152,6 +154,9 @@ public class FlatfileController {
 		
         ZipEntry zipEntry = zippedStream.getNextEntry();
         
+//        MimetypesFileTypeMap mtft = new MimetypesFileTypeMap();
+//        String mimeType = mtft.getContentType(zipEntry.getName());
+//        System.out.println(zipEntry.getName()+" type: "+ mimeType);
         log.info("Unzipping " + zipEntry.getName());
         ByteArrayOutputStream bout = new ByteArrayOutputStream();
         for (int c = zippedStream.read(); c != -1; c = zippedStream.read()) {
