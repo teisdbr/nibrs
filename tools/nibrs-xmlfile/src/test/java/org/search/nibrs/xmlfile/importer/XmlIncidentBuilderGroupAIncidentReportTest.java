@@ -95,7 +95,8 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(offenseSegment.getMethodOfEntry(), is("F"));
 		assertThat(offenseSegment.getTypeOfWeaponForceInvolved(0), is("11"));
 		assertThat(offenseSegment.getAutomaticWeaponIndicator(0), is("A"));
-		assertThat(offenseSegment.getOffenseAttemptedIndicator(), is(false));
+		assertThat(offenseSegment.getOffenseAttemptedIndicator(), is(true));
+		assertThat(offenseSegment.getOffenseAttemptedCompleted(), is("A"));
 		assertThat(offenseSegment.getLocationType(), is("58"));
 		assertThat(offenseSegment.getPopulatedBiasMotivationCount(), is(1));
 		assertThat(offenseSegment.getPopulatedTypeOfCriminalActivityCount(), is(1));

@@ -1109,7 +1109,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			}
 			
 			newOffense.setUcrOffenseCode(XmlUtils.xPathStringSearch(offenseElement, "nibrs:OffenseUCRCode")); 
-			newOffense.setOffenseAttemptedCompleted(XmlUtils.xPathStringSearch(offenseElement, "j:OffenseAttemptedIndicator"));
+			String offenseAttemptedIndicatorString = XmlUtils.xPathStringSearch(offenseElement, "j:OffenseAttemptedIndicator"); 
+			Boolean offenseAttemptedIndicator = BooleanUtils.toBooleanObject(offenseAttemptedIndicatorString); 
+			newOffense.setOffenseAttemptedCompleted(BooleanUtils.toString(offenseAttemptedIndicator, "A", "C", null));
 			newOffense.setLocationType(XmlUtils.xPathStringSearch(reportElement, "nc:Location[@s:id = ../j:OffenseLocationAssociation[j:Offense/@s:ref = '" + offenseId + "']/nc:Location/@s:ref]/nibrs:LocationCategoryCode"));
 			
 			String premisesEnteredString = XmlUtils.xPathStringSearch(offenseElement, "j:OffenseStructuresEnteredQuantity");
