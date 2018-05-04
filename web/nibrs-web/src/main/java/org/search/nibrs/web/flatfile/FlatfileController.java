@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
@@ -36,6 +38,7 @@ import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.validation.SubmissionValidator;
+import org.search.nibrs.xmlfile.importer.XmlIncidentBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +51,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class FlatfileController {
 	private final Log log = LogFactory.getLog(this.getClass());
 
-	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream");
+	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream", "text/xml");
 	
 	@GetMapping("/")
 	public String getFileUploadForm(Model model) throws IOException {
@@ -57,47 +60,59 @@ public class FlatfileController {
 	}
 	
     @PostMapping("/")
-	public String handleFileUpload(@RequestParam("file") MultipartFile multipartFile,
-			RedirectAttributes redirectAttributes, Model model) throws IOException {
+	public String handleFileUpload(@RequestParam("file") MultipartFile[] multipartFiles,
+			RedirectAttributes redirectAttributes, Model model) throws IOException, ParserConfigurationException {
 
 		String readerLocationName = "console";
 		
-		log.info("processing file: " + multipartFile.getName());
-		if (!acceptedFileTypes.contains(multipartFile.getContentType())){
-			throw new IllegalArgumentException("The file type is not supported"); 
-		}
+		log.info("processing file: " + multipartFiles.length);
 		
-		Reader inputReader = null;
-		if (multipartFile.getContentType().equals("application/zip")){
-			InputStream stream = getUnzippedInputStream(multipartFile);
-			inputReader = new BufferedReader(new InputStreamReader(stream));
-		}
-		else {
-			inputReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()));
-		}
-		
-		IncidentBuilder incidentBuilder = new IncidentBuilder();
 		SubmissionValidator submissionValidator = new SubmissionValidator();
-
 		final List<NIBRSError> errorList = new ArrayList<>();
-
-		incidentBuilder.addIncidentListener(new ReportListener() {
+		ReportListener validatorlistener = new ReportListener() {
 			@Override
 			public void newReport(AbstractReport report, List<NIBRSError> el) {
 				errorList.addAll(el);
 				errorList.addAll(submissionValidator.validateReport(report));
 			}
-		});
-
-		incidentBuilder.buildIncidents(inputReader, readerLocationName);
-		inputReader.close();
+		};
+		
+		for (MultipartFile multipartFile: multipartFiles){
+			if (!acceptedFileTypes.contains(multipartFile.getContentType())){
+				throw new IllegalArgumentException("The file type is not supported"); 
+			}
+			
+			Reader inputReader = null;
+			if (multipartFile.getContentType().equals("application/zip")){
+				InputStream stream = getUnzippedInputStream(multipartFile);
+				inputReader = new BufferedReader(new InputStreamReader(stream));
+			}
+			else {
+				inputReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()));
+			}
+	
+			switch (multipartFile.getContentType()){
+			case "text/xml":
+				XmlIncidentBuilder xmlIncidentBuilder = new XmlIncidentBuilder();
+				xmlIncidentBuilder.addIncidentListener(validatorlistener);
+				xmlIncidentBuilder.buildIncidents(multipartFile.getInputStream(), getClass().getName());
+	
+				break; 
+			default: 
+				IncidentBuilder incidentBuilder = new IncidentBuilder();
+	
+				incidentBuilder.addIncidentListener(validatorlistener);
+	
+				incidentBuilder.buildIncidents(inputReader, readerLocationName);
+				inputReader.close();
+			}
+			
+		}
 		
 		List<NIBRSError> filteredErrorList = errorList.stream()
 				.filter(error->error.getReport() != null)
 				.collect(Collectors.toList()); 
-		
 		model.addAttribute("errorList", filteredErrorList);
-		
         return "validationReport :: #content";
     }
 
