@@ -81,13 +81,11 @@ public class UploadFileController {
 				throw new IllegalArgumentException("The file type is not supported"); 
 			}
 			
-			InputStream stream = null;
 			if (multipartFile.getContentType().equals("application/zip")){
-				validateZippedFile( validatorlistener, multipartFile);
+				validateZippedFile( validatorlistener, multipartFile.getInputStream());
 			}
 			else {
-				stream = multipartFile.getInputStream();
-				validateInputStream(validatorlistener, multipartFile.getContentType(), stream);
+				validateInputStream(validatorlistener, multipartFile.getContentType(), multipartFile.getInputStream());
 			}
 			
 		}
@@ -122,8 +120,10 @@ public class UploadFileController {
 			inputReader.close();
 			break;
 		default:
-			log.warn("The file type is not supported"); 
+			log.warn("The file type " + fileContentType + " is not supported"); 
 		}
+		
+		stream.close();
 	}
 
 	@GetMapping("/about")
@@ -157,8 +157,8 @@ public class UploadFileController {
 	 * @return
 	 * @throws IOException
 	 */
-	private void validateZippedFile(ReportListener validatorlistener, MultipartFile multipartFile) throws IOException {
-		ZipInputStream zippedStream = new ZipInputStream(multipartFile.getInputStream());
+	private void validateZippedFile(ReportListener validatorlistener, InputStream inputStream) throws IOException {
+		ZipInputStream zippedStream = new ZipInputStream(inputStream);
 
 		ZipEntry zipEntry = zippedStream.getNextEntry();
 		while ( zipEntry != null)
@@ -184,7 +184,7 @@ public class UploadFileController {
 			zipEntry = zippedStream.getNextEntry();
 		}
 		zippedStream.close();
-        
+        inputStream.close();
 	}
 	
 }
