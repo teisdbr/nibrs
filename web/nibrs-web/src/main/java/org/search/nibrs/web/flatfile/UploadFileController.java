@@ -24,7 +24,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -34,11 +33,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.james.mime4j.util.MimeUtil;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.util.NibrsFileUtils;
 import org.search.nibrs.validation.SubmissionValidator;
 import org.search.nibrs.xmlfile.importer.XmlIncidentBuilder;
 import org.springframework.stereotype.Controller;
@@ -53,7 +52,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UploadFileController {
 	private final Log log = LogFactory.getLog(this.getClass());
 
-	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream", "text/xml");
+	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream", "text/xml", "application/xml");
 	
 	@GetMapping("/")
 	public String getFileUploadForm(Model model) throws IOException {
@@ -65,8 +64,6 @@ public class UploadFileController {
 	public String handleFileUpload(@RequestParam("file") MultipartFile[] multipartFiles,
 			RedirectAttributes redirectAttributes, Model model) throws IOException, ParserConfigurationException {
 
-		String readerLocationName = "console";
-		
 		log.info("processing file: " + multipartFiles.length);
 		
 		SubmissionValidator submissionValidator = new SubmissionValidator();
@@ -84,29 +81,13 @@ public class UploadFileController {
 				throw new IllegalArgumentException("The file type is not supported"); 
 			}
 			
-			Reader inputReader = null;
+			InputStream stream = null;
 			if (multipartFile.getContentType().equals("application/zip")){
-				InputStream stream = getUnzippedInputStream(multipartFile);
-				inputReader = new BufferedReader(new InputStreamReader(stream));
+				validateZippedFile( validatorlistener, multipartFile);
 			}
 			else {
-				inputReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()));
-			}
-	
-			switch (multipartFile.getContentType()){
-			case "text/xml":
-				XmlIncidentBuilder xmlIncidentBuilder = new XmlIncidentBuilder();
-				xmlIncidentBuilder.addIncidentListener(validatorlistener);
-				xmlIncidentBuilder.buildIncidents(multipartFile.getInputStream(), getClass().getName());
-	
-				break; 
-			default: 
-				IncidentBuilder incidentBuilder = new IncidentBuilder();
-	
-				incidentBuilder.addIncidentListener(validatorlistener);
-	
-				incidentBuilder.buildIncidents(inputReader, readerLocationName);
-				inputReader.close();
+				stream = multipartFile.getInputStream();
+				validateInputStream(validatorlistener, multipartFile.getContentType(), stream);
 			}
 			
 		}
@@ -117,6 +98,32 @@ public class UploadFileController {
 		model.addAttribute("errorList", filteredErrorList);
         return "validationReport :: #content";
     }
+
+	private void validateInputStream(ReportListener validatorlistener, String fileContentType,
+			InputStream stream) throws ParserConfigurationException, IOException {
+		String readerLocationName = "console";
+
+		switch (fileContentType){
+		case "text/xml":
+		case "application/xml":
+			XmlIncidentBuilder xmlIncidentBuilder = new XmlIncidentBuilder();
+			xmlIncidentBuilder.addIncidentListener(validatorlistener);
+			xmlIncidentBuilder.buildIncidents(stream, getClass().getName());
+
+			break; 
+		case "text/plain": 
+		case "application/octet-stream": 
+			Reader inputReader = new BufferedReader(new InputStreamReader(stream));
+			IncidentBuilder incidentBuilder = new IncidentBuilder();
+
+			incidentBuilder.addIncidentListener(validatorlistener);
+
+			incidentBuilder.buildIncidents(inputReader, readerLocationName);
+			inputReader.close();
+		default:
+			log.warn("The file type is not supported"); 
+		}
+	}
 
 	@GetMapping("/about")
 	public String getAbout(Model model){
@@ -149,30 +156,35 @@ public class UploadFileController {
 	 * @return
 	 * @throws IOException
 	 */
-	private InputStream getUnzippedInputStream(MultipartFile multipartFile) throws IOException {
+	private void validateZippedFile(ReportListener validatorlistener, MultipartFile multipartFile) throws IOException {
 		ZipInputStream zippedStream = new ZipInputStream(multipartFile.getInputStream());
-		
-        ZipEntry zipEntry = zippedStream.getNextEntry();
-        
-//        MimetypesFileTypeMap mtft = new MimetypesFileTypeMap();
-//        String mimeType = mtft.getContentType(zipEntry.getName());
-//        System.out.println(zipEntry.getName()+" type: "+ mimeType);
-        log.info("Unzipping " + zipEntry.getName());
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        for (int c = zippedStream.read(); c != -1; c = zippedStream.read()) {
-          bout.write(c);
-        }
-        
-        zippedStream.closeEntry();
-		zippedStream.close();
-		
-		
-		ByteArrayInputStream inStream = new ByteArrayInputStream( bout.toByteArray() );
-		bout.close();
-		
-		return inStream;
-	}
 
+		ZipEntry zipEntry = zippedStream.getNextEntry();
+		while ( zipEntry != null)
+		{
+			log.info("Unzipping " + zipEntry.getName());
+	        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+	        for (int c = zippedStream.read(); c != -1; c = zippedStream.read()) {
+	          bout.write(c);
+	        }
+	        
+	        zippedStream.closeEntry();
+			
+			ByteArrayInputStream inStream = new ByteArrayInputStream( bout.toByteArray() );
+			bout.close();
+			
+		    String mediaType = NibrsFileUtils.getMediaType(zipEntry.getName(), inStream);
+
+		    try {
+				validateInputStream(validatorlistener, mediaType, inStream);
+			} catch (ParserConfigurationException e) {
+				log.error("Got exception while parsing the file " + zipEntry.getName(), e);
+			}
+			zipEntry = zippedStream.getNextEntry();
+		}
+		zippedStream.close();
+        
+	}
 	
 }
 
