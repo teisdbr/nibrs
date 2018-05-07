@@ -120,6 +120,7 @@ public class UploadFileController {
 
 			incidentBuilder.buildIncidents(inputReader, readerLocationName);
 			inputReader.close();
+			break;
 		default:
 			log.warn("The file type is not supported"); 
 		}
