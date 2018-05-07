@@ -31,6 +31,7 @@
 
 	<properties>
 		<saxon-version>8.7</saxon-version>
+		<apache-tika-version>1.18</apache-tika-version>
 		<xmlunit-version>2.2.1</xmlunit-version>
 		<owner>SEARCH-The National Consortium for Justice Information and Statistics</owner>
 	</properties>
@@ -87,6 +88,16 @@
 			<artifactId>random-beans</artifactId>
 			<version>3.2.0</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tika</groupId>
+		    <artifactId>tika-core</artifactId>
+		    <version>${apache-tika-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tika</groupId>
+		    <artifactId>tika-parsers</artifactId>
+		    <version>${apache-tika-version}</version>
 		</dependency>
 	</dependencies>
 
