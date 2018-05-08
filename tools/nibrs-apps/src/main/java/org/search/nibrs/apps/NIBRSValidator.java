@@ -18,20 +18,17 @@ package org.search.nibrs.apps;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -39,15 +36,14 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.tika.Tika;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.errorexport.ErrorExporter;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
-import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.validation.SubmissionValidator;
+import org.search.nibrs.xmlfile.importer.XmlIncidentBuilder;
 
 /**
  * Executable class (via main) that accepts a submission file (via stdin, or
@@ -55,11 +51,9 @@ import org.search.nibrs.validation.SubmissionValidator;
  * report to stdout (or optionally to a specified file).
  */
 public class NIBRSValidator {
-	
-	@SuppressWarnings("unused")
-	private static final Logger LOG = LogManager.getLogger(NIBRSValidator.class);
-	
-	public static void main(String[] args) throws ParseException, IOException {
+	static Tika defaultTika = new Tika();
+
+	public static void main(String[] args) throws ParseException, IOException, ParserConfigurationException {
 
 		CommandLineParser parser = new DefaultParser();
 		Options options = buildOptions();
@@ -69,23 +63,46 @@ public class NIBRSValidator {
 			HelpFormatter hf = new HelpFormatter();
 			hf.printHelp("SubmissionValidator", options);
 		} else {
-
 			Reader inputReader = null;
 			String readerLocationName = "console";
 			Writer outputWriter = null;
 
+			final List<NIBRSError> errorList = new ArrayList<>();
+//			List<AbstractReport> incidentReports = new ArrayList<>();
+			SubmissionValidator submissionValidator = new SubmissionValidator();
+			ReportListener validatorlistener = new ReportListener() {
+				@Override
+				public void newReport(AbstractReport report, List<NIBRSError> el) {
+					errorList.addAll(el);
+					errorList.addAll(submissionValidator.validateReport(report));
+				}
+			};
+
 			if (cl.hasOption("f")) {
 				String fileName = cl.getOptionValue("f");
 				File file = new File(fileName);
+
 				if (file.exists()) {
-					inputReader = new BufferedReader(new FileReader(file));
-					readerLocationName = file.getAbsolutePath();
+					if (file.isFile()){
+						validateFile(validatorlistener, file);
+					}
+					else if (file.isDirectory()){
+						for (final File fileEntry : file.listFiles()) {
+					        if (fileEntry.isFile()) {
+					        	validateFile(validatorlistener, fileEntry);
+					        } 
+					    }
+					}
 				} else {
 					System.err.println("File " + fileName + " does not exist.");
 					System.exit(1);
 				}
 			} else {
 				inputReader = new BufferedReader(new InputStreamReader(System.in));
+				IncidentBuilder incidentBuilder = new IncidentBuilder();
+				incidentBuilder.addIncidentListener(validatorlistener);
+				incidentBuilder.buildIncidents(inputReader, readerLocationName);
+				inputReader.close();
 			}
 
 			if (cl.hasOption("o")) {
@@ -96,24 +113,7 @@ public class NIBRSValidator {
 				outputWriter = new BufferedWriter(new OutputStreamWriter(System.out));
 			}
 
-			IncidentBuilder incidentBuilder = new IncidentBuilder();
-			SubmissionValidator submissionValidator = new SubmissionValidator();
 			ErrorExporter errorExporter = ErrorExporter.getInstance();
-
-			final List<NIBRSError> errorList = new ArrayList<>();
-			List<AbstractReport> incidentReports = new ArrayList<>();
-
-			incidentBuilder.addIncidentListener(new ReportListener() {
-				@Override
-				public void newReport(AbstractReport report, List<NIBRSError> el) {
-					errorList.addAll(el);
-					errorList.addAll(submissionValidator.validateReport(report));
-					incidentReports.add(report);
-				}
-			});
-
-			incidentBuilder.buildIncidents(inputReader, readerLocationName);
-
 			
 //			Set<String> officerOtherJurisdictionORIs = new HashSet<>();
 //			List<GroupAIncidentReport> groupAIncidentReports = 	incidentReports.stream().filter(i -> (i instanceof GroupAIncidentReport))
@@ -126,42 +126,42 @@ public class NIBRSValidator {
 //						.filter(org.apache.commons.lang3.StringUtils::isNotBlank)
 //						.forEach(officerOtherJurisdictionORIs::add));
 			
-			List<String> erroredIncidentNumbers = errorList.stream()
-					.map( item -> item.getReportUniqueIdentifier())
-					.distinct()
-					.collect( Collectors.toList()); 
-			System.out.println("Count of the incidents with errors: " + erroredIncidentNumbers.size());
-			List<AbstractReport> reportsWithoutErrors = 
-					incidentReports.stream()
-					.filter(item -> !erroredIncidentNumbers.contains(item.getIdentifier()))
-					.collect( Collectors.toList());
+//			List<String> erroredIncidentNumbers = errorList.stream()
+//					.map( item -> item.getReportUniqueIdentifier())
+//					.distinct()
+//					.collect( Collectors.toList()); 
+//			System.out.println("Count of the incidents with errors: " + erroredIncidentNumbers.size());
+//			List<AbstractReport> reportsWithoutErrors = 
+//					incidentReports.stream()
+//					.filter(item -> !erroredIncidentNumbers.contains(item.getIdentifier()))
+//					.collect( Collectors.toList());
 			errorExporter.createErrorReport(errorList, outputWriter);
 			
-			System.out.println("The officerOtherJurisdictionORIs:");
-			System.out.println("Count of the incident: " + reportsWithoutErrors.size());
+//			System.out.println("The officerOtherJurisdictionORIs:");
+//			System.out.println("Count of the incident: " + reportsWithoutErrors.size());
 //			officerOtherJurisdictionORIs.forEach(System.out::println);
 
-			List<GroupAIncidentReport> groupAIncidentReports = 	incidentReports.stream()
-					.filter(i -> (i instanceof GroupAIncidentReport))
-					.map(i->(GroupAIncidentReport) i)
-					.collect(Collectors.toList());
-			List<LocalDate> incidentDates = groupAIncidentReports.stream()
-					.map(GroupAIncidentReport::getIncidentDate)
-					.map(i->Optional.ofNullable(i.getValue()).orElse(null))
-					.filter(Objects::nonNull)
-					.distinct()
-					.collect(Collectors.toList());
-			System.out.println("Incident Dates:");
-			incidentDates.forEach(System.out::println);
-			
-			List<LocalDate> exceptionalClearanceDates = groupAIncidentReports.stream()
-					.map(GroupAIncidentReport::getExceptionalClearanceDate)
-					.map(i->Optional.ofNullable(i.getValue()).orElse(null))
-					.filter(Objects::nonNull)
-					.distinct()
-					.collect(Collectors.toList());
-			System.out.println("Exceptional Clearance Dates:");
-			exceptionalClearanceDates.forEach(System.out::println);
+//			List<GroupAIncidentReport> groupAIncidentReports = 	incidentReports.stream()
+//					.filter(i -> (i instanceof GroupAIncidentReport))
+//					.map(i->(GroupAIncidentReport) i)
+//					.collect(Collectors.toList());
+//			List<LocalDate> incidentDates = groupAIncidentReports.stream()
+//					.map(GroupAIncidentReport::getIncidentDate)
+//					.map(i->Optional.ofNullable(i.getValue()).orElse(null))
+//					.filter(Objects::nonNull)
+//					.distinct()
+//					.collect(Collectors.toList());
+//			System.out.println("Incident Dates:");
+//			incidentDates.forEach(System.out::println);
+//			
+//			List<LocalDate> exceptionalClearanceDates = groupAIncidentReports.stream()
+//					.map(GroupAIncidentReport::getExceptionalClearanceDate)
+//					.map(i->Optional.ofNullable(i.getValue()).orElse(null))
+//					.filter(Objects::nonNull)
+//					.distinct()
+//					.collect(Collectors.toList());
+//			System.out.println("Exceptional Clearance Dates:");
+//			exceptionalClearanceDates.forEach(System.out::println);
 			
 //			List<Date> arrestDates = groupAIncidentReports.stream()
 //					.map(GroupAIncidentReport::getArresteeWithEarliestArrestDate)
@@ -173,12 +173,37 @@ public class NIBRSValidator {
 //			System.out.println("Arrest Dates:");
 //			arrestDates.forEach(System.out::println);
 			outputWriter.close();
-			inputReader.close();
 
 		}
 
 	}
 	
+	private static void validateFile(ReportListener validatorlistener, 
+			File file) throws ParserConfigurationException, IOException {
+		String fileType = defaultTika.detect(file);
+		FileInputStream inputStream = new FileInputStream(file);
+
+		switch (fileType){
+		case "text/xml":
+		case "application/xml":
+			XmlIncidentBuilder xmlIncidentBuilder = new XmlIncidentBuilder();
+			xmlIncidentBuilder.addIncidentListener(validatorlistener);
+			xmlIncidentBuilder.buildIncidents(inputStream, file.getAbsolutePath());
+			break; 
+		case "text/plain": 
+		case "application/octet-stream": 
+			Reader inputReader = new BufferedReader(new InputStreamReader(inputStream));
+			IncidentBuilder incidentBuilder = new IncidentBuilder();
+			incidentBuilder.addIncidentListener(validatorlistener);
+			incidentBuilder.buildIncidents(inputReader, file.getAbsolutePath());
+			inputReader.close();
+			break;
+		default:
+			System.err.println("The file type " + fileType + " is not supported"); 
+		}
+		
+	}
+
 	private static final Options buildOptions() {
 		Options options = new Options();
 		options.addOption("h", "help", false, "Print usage and options info");
