@@ -36,14 +36,16 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.tika.Tika;
+import org.apache.tika.exception.TikaException;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.flatfile.errorexport.ErrorExporter;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
+import org.search.nibrs.util.NibrsFileUtils;
 import org.search.nibrs.validation.SubmissionValidator;
 import org.search.nibrs.xmlfile.importer.XmlIncidentBuilder;
+import org.xml.sax.SAXException;
 
 /**
  * Executable class (via main) that accepts a submission file (via stdin, or
@@ -51,9 +53,8 @@ import org.search.nibrs.xmlfile.importer.XmlIncidentBuilder;
  * report to stdout (or optionally to a specified file).
  */
 public class NIBRSValidator {
-	static Tika defaultTika = new Tika();
 
-	public static void main(String[] args) throws ParseException, IOException, ParserConfigurationException {
+	public static void main(String[] args) throws ParseException, IOException, ParserConfigurationException, TikaException, SAXException {
 
 		CommandLineParser parser = new DefaultParser();
 		Options options = buildOptions();
@@ -179,8 +180,8 @@ public class NIBRSValidator {
 	}
 	
 	private static void validateFile(ReportListener validatorlistener, 
-			File file) throws ParserConfigurationException, IOException {
-		String fileType = defaultTika.detect(file);
+			File file) throws ParserConfigurationException, IOException, TikaException, SAXException {
+		String fileType = NibrsFileUtils.getMediaType(file);
 		FileInputStream inputStream = new FileInputStream(file);
 
 		switch (fileType){

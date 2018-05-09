@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.search.nibrs.web.flatfile;
+package org.search.nibrs.web.uploadfile;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -97,7 +97,7 @@ public class UploadFileController {
         return "validationReport :: #content";
     }
 
-	private void validateInputStream(ReportListener validatorlistener, String fileContentType,
+	public void validateInputStream(ReportListener validatorlistener, String fileContentType,
 			InputStream stream) throws ParserConfigurationException, IOException {
 		String readerLocationName = "console";
 
@@ -174,7 +174,7 @@ public class UploadFileController {
 			ByteArrayInputStream inStream = new ByteArrayInputStream( bout.toByteArray() );
 			bout.close();
 			
-		    String mediaType = NibrsFileUtils.getMediaType(zipEntry.getName(), inStream);
+		    String mediaType = NibrsFileUtils.getMediaType(inStream);
 
 		    try {
 				validateInputStream(validatorlistener, mediaType, inStream);

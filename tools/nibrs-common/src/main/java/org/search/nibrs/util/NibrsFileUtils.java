@@ -15,29 +15,26 @@
  */
 package org.search.nibrs.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.tika.detect.Detector;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.mime.MediaType;
-import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.Tika;
 
 /**
- * Utilities class for handling common XML tasks.
+ * Utilities class for getting file content type
  *
  */
 public class NibrsFileUtils {
+	static Tika defaultTika = new Tika();
 	
-	public static final String getMediaType(String fileName, InputStream inStream) throws IOException {
-		AutoDetectParser parser = new AutoDetectParser();
-	    Detector detector = parser.getDetector();
-	    Metadata md = new Metadata();
-	    md.add(Metadata.RESOURCE_NAME_KEY, fileName);
-	    MediaType mediaType = detector.detect(inStream, md);
-	    return mediaType.toString();
+	public static final String getMediaType(InputStream inStream) throws IOException {
+		return defaultTika.detect(inStream);
 	}
-
+	
+	public static final String getMediaType(File file) throws IOException {
+		return defaultTika.detect(file);
+	}
 	
 }
 
