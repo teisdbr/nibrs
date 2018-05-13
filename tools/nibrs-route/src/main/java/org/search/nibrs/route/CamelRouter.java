@@ -34,12 +34,12 @@ public class CamelRouter extends RouteBuilder {
     public void configure() throws Exception {
         fromF("file:%s/input?idempotent=true&moveFailed=%s/error&move=processed/", 
         		appProperties.getNibrsFileFolderPath(), appProperties.getNibrsFileFolderPath()).routeId("validate")
-        		.transform().method("flatFileValidator", "validate")
+        		.transform().method("submissionFileProcessor", "validate")
         		.multicast().to(appProperties.getMulticastEndpoints().split(","))
                 .end();
         
         from("direct:createErrorReport").routeId("createErrorReport")
-        	.transform().method("flatFileValidator", "createErrorReport")
+        	.transform().method("submissionFileProcessor", "createErrorReport")
         	.end();
         
         from("direct:persistReport").routeId("persistReport")

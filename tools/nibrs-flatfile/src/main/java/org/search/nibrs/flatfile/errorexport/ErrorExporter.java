@@ -32,10 +32,12 @@ import org.search.nibrs.model.OffenderSegment;
 import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
+import org.springframework.stereotype.Component;
 
 /**
  * A singleton class that handles creation of an error report file in the standard FBI format.
  */
+@Component
 public final class ErrorExporter {
 	
 	private final Log log = LogFactory.getLog(ErrorExporter.class);

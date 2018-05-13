@@ -37,27 +37,23 @@ import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.validation.SubmissionValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
 @Scope("prototype")
-public class FlatFileValidator {
-	private final Log log = LogFactory.getLog(FlatFileValidator.class);
+public class SubmissionFileProcessor {
+	private final Log log = LogFactory.getLog(SubmissionFileProcessor.class);
 
-	//TODO look into auto wire these as beans. 
+	@Autowired
 	IncidentBuilder incidentBuilder;
+	@Autowired
 	SubmissionValidator submissionValidator;
+	@Autowired
 	ErrorExporter errorExporter;
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-	
-	public FlatFileValidator() {
-		super();
-		incidentBuilder = new IncidentBuilder();
-		submissionValidator = new SubmissionValidator();
-		errorExporter = ErrorExporter.getInstance();
-	}
-	
+		
 	public ValidationResults validate(@Body File file) throws IOException{
 		ValidationResults validationResults = new ValidationResults();
 		

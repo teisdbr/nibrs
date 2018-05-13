@@ -29,10 +29,14 @@ import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.validation.groupa.GroupAIncidentReportValidator;
 import org.search.nibrs.validation.groupb.GroupBArrestReportValidator;
 import org.search.nibrs.validation.zeroreport.ZeroReportValidator;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Class that applies edits to validate the segments contained within a NIBRS Submission
  */
+@Component
+@Scope("prototype")
 public class SubmissionValidator {
 
 	private static final Log log = LogFactory.getLog(SubmissionValidator.class);

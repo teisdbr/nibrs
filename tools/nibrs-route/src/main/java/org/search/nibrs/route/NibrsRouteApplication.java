@@ -17,11 +17,16 @@ package org.search.nibrs.route;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
+@ComponentScan({"org.search.nibrs"})
 @SpringBootApplication
 public class NibrsRouteApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(NibrsRouteApplication.class, args);
+//		ApplicationContext applicationContext = SpringApplication.run(NibrsRouteApplication.class, args);
+//		Arrays.stream(applicationContext.getBeanDefinitionNames())
+//			.forEach(System.out::println);
 	}
 }
