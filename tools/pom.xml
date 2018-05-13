@@ -31,6 +31,7 @@
 
   <modules>
  	  <module>nibrs-common</module>
+ 	  <module>nibrs-validate-common</module>
 	  <module>nibrs-flatfile</module>
 	  <module>nibrs-resources</module>
 	  <module>nibrs-validation</module>

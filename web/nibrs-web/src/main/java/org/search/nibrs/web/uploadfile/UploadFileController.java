@@ -15,13 +15,10 @@
  */
 package org.search.nibrs.web.uploadfile;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,12 +31,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.common.NIBRSError;
-import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.util.NibrsFileUtils;
+import org.search.nibrs.validate.common.NibrsValidationUtils;
 import org.search.nibrs.validation.SubmissionValidator;
-import org.search.nibrs.xmlfile.importer.XmlIncidentBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,7 +64,7 @@ public class UploadFileController {
 		
 		SubmissionValidator submissionValidator = new SubmissionValidator();
 		final List<NIBRSError> errorList = new ArrayList<>();
-		ReportListener validatorlistener = new ReportListener() {
+		ReportListener validatorListener = new ReportListener() {
 			@Override
 			public void newReport(AbstractReport report, List<NIBRSError> el) {
 				errorList.addAll(el);
@@ -82,10 +78,11 @@ public class UploadFileController {
 			}
 			
 			if (multipartFile.getContentType().equals("application/zip")){
-				validateZippedFile( validatorlistener, multipartFile.getInputStream());
+				validateZippedFile( validatorListener, multipartFile.getInputStream());
 			}
 			else {
-				validateInputStream(validatorlistener, multipartFile.getContentType(), multipartFile.getInputStream());
+				NibrsValidationUtils.validateInputStream(
+						validatorListener, multipartFile.getContentType(), multipartFile.getInputStream(), "console");
 			}
 			
 		}
@@ -96,35 +93,6 @@ public class UploadFileController {
 		model.addAttribute("errorList", filteredErrorList);
         return "validationReport :: #content";
     }
-
-	public void validateInputStream(ReportListener validatorlistener, String fileContentType,
-			InputStream stream) throws ParserConfigurationException, IOException {
-		String readerLocationName = "console";
-
-		switch (fileContentType){
-		case "text/xml":
-		case "application/xml":
-			XmlIncidentBuilder xmlIncidentBuilder = new XmlIncidentBuilder();
-			xmlIncidentBuilder.addIncidentListener(validatorlistener);
-			xmlIncidentBuilder.buildIncidents(stream, getClass().getName());
-
-			break; 
-		case "text/plain": 
-		case "application/octet-stream": 
-			Reader inputReader = new BufferedReader(new InputStreamReader(stream));
-			IncidentBuilder incidentBuilder = new IncidentBuilder();
-
-			incidentBuilder.addIncidentListener(validatorlistener);
-
-			incidentBuilder.buildIncidents(inputReader, readerLocationName);
-			inputReader.close();
-			break;
-		default:
-			log.warn("The file type " + fileContentType + " is not supported"); 
-		}
-		
-		stream.close();
-	}
 
 	@GetMapping("/about")
 	public String getAbout(Model model){
@@ -177,7 +145,7 @@ public class UploadFileController {
 		    String mediaType = NibrsFileUtils.getMediaType(inStream);
 
 		    try {
-				validateInputStream(validatorlistener, mediaType, inStream);
+		    	NibrsValidationUtils.validateInputStream(validatorlistener, mediaType, inStream, "console");
 			} catch (ParserConfigurationException e) {
 				log.error("Got exception while parsing the file " + zipEntry.getName(), e);
 			}

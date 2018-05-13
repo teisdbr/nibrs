@@ -15,14 +15,10 @@
  */
 package org.search.nibrs.route.service;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.Writer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,7 +37,7 @@ import org.search.nibrs.flatfile.errorexport.ErrorExporter;
 import org.search.nibrs.flatfile.importer.IncidentBuilder;
 import org.search.nibrs.importer.ReportListener;
 import org.search.nibrs.model.AbstractReport;
-import org.search.nibrs.util.NibrsFileUtils;
+import org.search.nibrs.validate.common.NibrsValidationUtils;
 import org.search.nibrs.validation.SubmissionValidator;
 import org.search.nibrs.xmlfile.importer.XmlIncidentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +72,7 @@ public class SubmissionFileProcessor {
 			}
 		};
 
-		validateFile(validatorListener, file);
+		NibrsValidationUtils.validateFile(validatorListener, file);
 
 		return validationResults; 
 
@@ -114,33 +110,6 @@ public class SubmissionFileProcessor {
 		log.info("The error report is writen to " + fileName); 
 		
 		return file; 
-	}
-	
-	//TODO create another common project to contain the validateFile() and validateInputStream() methods. 
-	private static void validateFile(ReportListener validatorlistener, 
-			File file) throws ParserConfigurationException, IOException, TikaException, SAXException {
-		String fileType = NibrsFileUtils.getMediaType(file);
-		FileInputStream inputStream = new FileInputStream(file);
-
-		switch (fileType){
-		case "text/xml":
-		case "application/xml":
-			XmlIncidentBuilder xmlIncidentBuilder = new XmlIncidentBuilder();
-			xmlIncidentBuilder.addIncidentListener(validatorlistener);
-			xmlIncidentBuilder.buildIncidents(inputStream, file.getAbsolutePath());
-			break; 
-		case "text/plain": 
-		case "application/octet-stream": 
-			Reader inputReader = new BufferedReader(new InputStreamReader(inputStream));
-			IncidentBuilder incidentBuilder = new IncidentBuilder();
-			incidentBuilder.addIncidentListener(validatorlistener);
-			incidentBuilder.buildIncidents(inputReader, file.getAbsolutePath());
-			inputReader.close();
-			break;
-		default:
-			System.err.println("The file type " + fileType + " is not supported"); 
-		}
-		
 	}
 	
 }
