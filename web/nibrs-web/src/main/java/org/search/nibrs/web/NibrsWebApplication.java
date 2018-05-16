@@ -17,8 +17,10 @@ package org.search.nibrs.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan({"org.search.nibrs"})
 public class NibrsWebApplication {
 
 	public static void main(String[] args) {

@@ -36,6 +36,7 @@ import org.search.nibrs.model.AbstractReport;
 import org.search.nibrs.util.NibrsFileUtils;
 import org.search.nibrs.validate.common.NibrsValidationUtils;
 import org.search.nibrs.validation.SubmissionValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,8 +48,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UploadFileController {
 	private final Log log = LogFactory.getLog(this.getClass());
+	
+	@Autowired
+	SubmissionValidator submissionValidator;
 
-	final List<String> acceptedFileTypes = Arrays.asList("application/zip", "text/plain", "application/octet-stream", "text/xml", "application/xml");
+	final List<String> acceptedFileTypes = 
+			Arrays.asList("application/zip", "text/plain", "application/octet-stream", "text/xml", "application/xml");
 	
 	@GetMapping("/")
 	public String getFileUploadForm(Model model) throws IOException {
@@ -62,7 +67,6 @@ public class UploadFileController {
 
 		log.info("processing file: " + multipartFiles.length);
 		
-		SubmissionValidator submissionValidator = new SubmissionValidator();
 		final List<NIBRSError> errorList = new ArrayList<>();
 		ReportListener validatorListener = new ReportListener() {
 			@Override
