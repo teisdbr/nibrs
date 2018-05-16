@@ -24,7 +24,6 @@ import org.search.nibrs.model.AbstractPersonSegment;
 import org.search.nibrs.model.NIBRSAge;
 import org.search.nibrs.model.codes.EthnicityCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
-import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.ResidentStatusCode;
 import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
@@ -36,9 +35,15 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 	private final Log log = LogFactory.getLog(this.getClass());
 	
 	private Class<T> clazz;
+	private ValidatorProperties validatorProperties;
 	
 	public <S extends AbstractPersonSegment> PersonSegmentRulesFactory(Class<T> clazz) {
 		this.clazz = clazz;
+	}
+	
+	public <S extends AbstractPersonSegment> PersonSegmentRulesFactory(Class<T> clazz, ValidatorProperties validatorProperties) {
+		this(clazz);
+		this.validatorProperties = validatorProperties; 
 	}
 	
 	private final class PersonValidValueRule<S extends T> extends AbstractBeanPropertyRule<T> {
@@ -64,7 +69,7 @@ public class PersonSegmentRulesFactory<T extends AbstractPersonSegment> {
 	}
 
 	public Rule<T> getRaceValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode) {
-		return new PersonValidValueRule<T>("race", dataElementIdentifier, nibrsErrorCode, RaceCode.codeSet(), false);
+		return new PersonValidValueRule<T>("race", dataElementIdentifier, nibrsErrorCode, validatorProperties.getStateToFbiRaceCodeMapping().keySet(), false);
 	}
 
 	public Rule<T> getResidentStatusValidNonBlankRule(String dataElementIdentifier, NIBRSErrorCode nibrsErrorCode, boolean allowNull) {

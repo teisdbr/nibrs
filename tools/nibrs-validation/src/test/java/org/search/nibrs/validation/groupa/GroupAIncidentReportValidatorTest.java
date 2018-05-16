@@ -28,6 +28,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.RuleViolationExemplarFactory;
+import org.search.nibrs.validation.ValidatorProperties;
 
 public class GroupAIncidentReportValidatorTest {
 
@@ -38,7 +39,7 @@ public class GroupAIncidentReportValidatorTest {
 
 	@Before
 	public void init() {
-		validator = new GroupAIncidentReportValidator();
+		validator = new GroupAIncidentReportValidator(new ValidatorProperties());
 		exemplarFactory = RuleViolationExemplarFactory.getInstance();
 	}
 

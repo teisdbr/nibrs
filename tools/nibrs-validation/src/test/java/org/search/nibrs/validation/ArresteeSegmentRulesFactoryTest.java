@@ -44,8 +44,10 @@ import org.search.nibrs.validation.rules.Rule;
 
 public class ArresteeSegmentRulesFactoryTest {
 	
-	private ArresteeSegmentRulesFactory groupARulesFactory = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_A_ARRESTEE_MODE);
-	private ArresteeSegmentRulesFactory groupBRulesFactory = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_B_ARRESTEE_MODE);
+	private ArresteeSegmentRulesFactory groupARulesFactory = 
+			ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_A_ARRESTEE_MODE, new ValidatorProperties());
+	private ArresteeSegmentRulesFactory groupBRulesFactory = 
+			ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_B_ARRESTEE_MODE, new ValidatorProperties());
 	
 	@Test
 	public void testRule601ForSequenceNumber() {

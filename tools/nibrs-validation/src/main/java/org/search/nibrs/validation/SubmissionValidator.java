@@ -29,6 +29,7 @@ import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.validation.groupa.GroupAIncidentReportValidator;
 import org.search.nibrs.validation.groupb.GroupBArrestReportValidator;
 import org.search.nibrs.validation.zeroreport.ZeroReportValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +42,10 @@ public class SubmissionValidator {
 
 	private static final Log log = LogFactory.getLog(SubmissionValidator.class);
 
-
+	@Autowired
+	GroupAIncidentReportValidator groupAIncidentReportValidator;
+	@Autowired
+	GroupBArrestReportValidator groupBArrestReportValidator;
 	/**
 	 * Apply edits to validate all Reports within the specified submission.
 	 * 
@@ -79,12 +83,10 @@ public class SubmissionValidator {
 			nibrsErrorList = zeroReportValidator.validate(zeroReport);
 		} else if (report instanceof GroupAIncidentReport) {
 			GroupAIncidentReport groupAIncidentReport = (GroupAIncidentReport) report;
-			GroupAIncidentReportValidator groupAValidator = new GroupAIncidentReportValidator();
-			nibrsErrorList = groupAValidator.validate(groupAIncidentReport);
+			nibrsErrorList = groupAIncidentReportValidator.validate(groupAIncidentReport);
 		} else if (report instanceof GroupBArrestReport) {
 			GroupBArrestReport groupBIncidentReport = (GroupBArrestReport) report;
-			GroupBArrestReportValidator groupBValidator = new GroupBArrestReportValidator();
-			nibrsErrorList = groupBValidator.validate(groupBIncidentReport);
+			nibrsErrorList = groupBArrestReportValidator.validate(groupBIncidentReport);
 		}
 
 		log.info("Found " + nibrsErrorList.size() + " errors");

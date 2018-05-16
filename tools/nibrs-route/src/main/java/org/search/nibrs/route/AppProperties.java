@@ -26,7 +26,6 @@ public class AppProperties {
     private String nibrsFileFolderPath = "/tmp/nibrs";
 	private String stagingDataRestServiceBaseUrl = "http://localhost:8080/";
 
-
 	public String getMulticastEndpoints() {
 		return multicastEndpoints;
 	}
@@ -53,7 +52,7 @@ public class AppProperties {
 
 	@Override
 	public String toString() {
-		return "AppProperties [multicastEndpoints=" + multicastEndpoints + ", nibrsFileFolderPath="
+		return "ValidatorProperties [multicastEndpoints=" + multicastEndpoints + ", nibrsFileFolderPath="
 				+ nibrsFileFolderPath + ", stagingDataRestServiceBaseUrl=" + stagingDataRestServiceBaseUrl + "]";
 	}
 

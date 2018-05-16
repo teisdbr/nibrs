@@ -58,16 +58,16 @@ public class ArresteeSegmentRulesFactory {
 	private List<Rule<ArresteeSegment>> rulesList;
 	private String mode;
 	
-	public static final ArresteeSegmentRulesFactory instance(String mode) {
-		return new ArresteeSegmentRulesFactory(mode);
+	public static final ArresteeSegmentRulesFactory instance(String mode, ValidatorProperties validatorProperties) {
+		return new ArresteeSegmentRulesFactory(mode, validatorProperties);
 	}	
 	
 	public List<Rule<ArresteeSegment>> getRulesList() {
 		return rulesList;
 	}	
 	
-	private ArresteeSegmentRulesFactory(String mode) {
-		personSegmentRulesFactory = new PersonSegmentRulesFactory<ArresteeSegment>(ArresteeSegment.class);
+	private ArresteeSegmentRulesFactory(String mode, ValidatorProperties validatorProperties) {
+		personSegmentRulesFactory = new PersonSegmentRulesFactory<ArresteeSegment>(ArresteeSegment.class, validatorProperties);
 		rulesList = new ArrayList<Rule<ArresteeSegment>>();
 		this.mode = mode;
 		initRules(rulesList);

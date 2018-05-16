@@ -36,6 +36,7 @@ import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.Rule;
 
 public class OffenderSegmentRulesFactoryTest {
@@ -43,7 +44,7 @@ public class OffenderSegmentRulesFactoryTest {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(OffenderSegmentRulesFactoryTest.class);
 	
-	private OffenderSegmentRulesFactory rulesFactory = new OffenderSegmentRulesFactory();
+	private OffenderSegmentRulesFactory rulesFactory = new OffenderSegmentRulesFactory( new ValidatorProperties());
 	
 	@Test
 	public void testRule501() {

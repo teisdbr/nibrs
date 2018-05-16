@@ -46,11 +46,12 @@ import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeInjuryCode;
 import org.search.nibrs.model.codes.TypeOfOfficerActivityCircumstance;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.Rule;
 
 public class VictimSegmentRulesFactoryTest {
 	
-	private VictimSegmentRulesFactory victimRulesFactory = VictimSegmentRulesFactory.instance();
+	private VictimSegmentRulesFactory victimRulesFactory = VictimSegmentRulesFactory.instance(new ValidatorProperties());
 	
 	@Test
 	public void testRule070() {

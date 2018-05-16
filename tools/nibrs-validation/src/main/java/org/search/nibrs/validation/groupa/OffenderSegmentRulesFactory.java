@@ -33,13 +33,21 @@ import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.validation.PersonSegmentRulesFactory;
 import org.search.nibrs.validation.ValidationConstants;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.Rule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OffenderSegmentRulesFactory {
 	
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(OffenderSegmentRulesFactory.class);
 
+	@Autowired
+	ValidatorProperties validatorProperties;
+	
 	private static abstract class RelatedVictimAndOffenderRule implements Rule<OffenderSegment> {
 		@Override
 		public NIBRSError apply(OffenderSegment offenderSegment) {
@@ -85,12 +93,12 @@ public class OffenderSegmentRulesFactory {
 	private List<Rule<OffenderSegment>> rulesList__3_1;
 	private PersonSegmentRulesFactory<OffenderSegment> personSegmentRulesFactory;
 	
-	public static OffenderSegmentRulesFactory instance(){
-		return new OffenderSegmentRulesFactory();
+	public static OffenderSegmentRulesFactory instance(ValidatorProperties validatorProperties){
+		return new OffenderSegmentRulesFactory(validatorProperties);
 	}
 	
-	OffenderSegmentRulesFactory() {
-		personSegmentRulesFactory = new PersonSegmentRulesFactory<OffenderSegment>(OffenderSegment.class);
+	public OffenderSegmentRulesFactory(ValidatorProperties validatorProperties) {
+		personSegmentRulesFactory = new PersonSegmentRulesFactory<OffenderSegment>(OffenderSegment.class, validatorProperties);
 		initRulesLists();
 	}
 	

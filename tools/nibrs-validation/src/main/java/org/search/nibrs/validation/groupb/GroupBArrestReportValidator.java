@@ -22,20 +22,26 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.validation.ArresteeSegmentRulesFactory;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.Rule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Class that validates a Group B Arrest Report and all of its contained child segments.
  * 
  */
+@Component
 public class GroupBArrestReportValidator {
 	
 	private List<Rule<GroupBArrestReport>> incidentReportRules = new ArrayList<>();
 	private List<Rule<ArresteeSegment>> groupBArresteeSegmentRules = new ArrayList<>();
 	
-	public GroupBArrestReportValidator() {
+	@Autowired
+	public GroupBArrestReportValidator(ValidatorProperties validatorProperties) {
 		incidentReportRules = new GroupBArrestReportRulesFactory().getRulesList();
-		groupBArresteeSegmentRules = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_B_ARRESTEE_MODE).getRulesList();
+		groupBArresteeSegmentRules = ArresteeSegmentRulesFactory
+				.instance(ArresteeSegmentRulesFactory.GROUP_B_ARRESTEE_MODE, validatorProperties).getRulesList();
 	}
 
 	public List<NIBRSError> validate(GroupBArrestReport groupBIncidentReport) {

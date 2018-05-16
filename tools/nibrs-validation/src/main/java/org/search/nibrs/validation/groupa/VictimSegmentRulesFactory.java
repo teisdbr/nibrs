@@ -48,6 +48,7 @@ import org.search.nibrs.model.codes.TypeOfVictimCode;
 import org.search.nibrs.util.ArrayUtils;
 import org.search.nibrs.validation.PersonSegmentRulesFactory;
 import org.search.nibrs.validation.ValidationConstants;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.AbstractBeanPropertyRule;
 import org.search.nibrs.validation.rules.DuplicateCodedValueRule;
 import org.search.nibrs.validation.rules.NullObjectRule;
@@ -63,8 +64,8 @@ public class VictimSegmentRulesFactory {
 	private List<Rule<VictimSegment>> rulesList__3_1;
 	private PersonSegmentRulesFactory<VictimSegment> personSegmentRulesFactory;
 	
-	public static VictimSegmentRulesFactory instance() {
-		return new VictimSegmentRulesFactory();
+	public static VictimSegmentRulesFactory instance(ValidatorProperties validatorProperties) {
+		return new VictimSegmentRulesFactory(validatorProperties);
 	}
 	
 	private static final List<String> INJURY_OFFENSE_LIST = Arrays.asList(
@@ -110,8 +111,8 @@ public class VictimSegmentRulesFactory {
 
 	}
 
-	private VictimSegmentRulesFactory() {
-		personSegmentRulesFactory = new PersonSegmentRulesFactory<VictimSegment>(VictimSegment.class);
+	private VictimSegmentRulesFactory(ValidatorProperties validatorProperties) {
+		personSegmentRulesFactory = new PersonSegmentRulesFactory<VictimSegment>(VictimSegment.class, validatorProperties);
 		initRules();
 	}
 	

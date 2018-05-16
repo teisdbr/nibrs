@@ -27,6 +27,7 @@ import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.RuleViolationExemplarFactory;
+import org.search.nibrs.validation.ValidatorProperties;
 
 public class GroupBArrestReportValidatorTest {
 	
@@ -37,7 +38,7 @@ public class GroupBArrestReportValidatorTest {
 
 	@Before
 	public void init() {
-		validator = new GroupBArrestReportValidator();
+		validator = new GroupBArrestReportValidator(new ValidatorProperties());
 		exemplarFactory = RuleViolationExemplarFactory.getInstance();
 	}
 	

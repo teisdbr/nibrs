@@ -29,14 +29,20 @@ import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.ArresteeSegmentRulesFactory;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.Rule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Class that validates a Group A Incident Report and all of its contained child segments.
  * 
  */
+@Component
 public class GroupAIncidentReportValidator {
 	
+
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LogManager.getLogger(GroupAIncidentReportValidator.class);
 	
@@ -47,14 +53,14 @@ public class GroupAIncidentReportValidator {
 	private List<Rule<OffenderSegment>> offenderSegmentRules = new ArrayList<>();
 	private List<Rule<ArresteeSegment>> groupAArresteeSegmentRules = new ArrayList<>();
 	
-	
-	public GroupAIncidentReportValidator() {
+	@Autowired
+	public GroupAIncidentReportValidator(ValidatorProperties validatorProperties) {
 		incidentReportRules = new GroupAIncidentReportRulesFactory().getRulesList();
 		offenseSegmentRules = new OffenseSegmentRulesFactory().getRulesList();
 		propertySegmentRules = new PropertySegmentRulesFactory().getRulesList();
-		victimSegmentRules = VictimSegmentRulesFactory.instance().getRulesList();
-		offenderSegmentRules = OffenderSegmentRulesFactory.instance().getRulesList();
-		groupAArresteeSegmentRules = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_A_ARRESTEE_MODE).getRulesList();
+		victimSegmentRules = VictimSegmentRulesFactory.instance(validatorProperties).getRulesList();
+		offenderSegmentRules = OffenderSegmentRulesFactory.instance(validatorProperties).getRulesList();
+		groupAArresteeSegmentRules = ArresteeSegmentRulesFactory.instance(ArresteeSegmentRulesFactory.GROUP_A_ARRESTEE_MODE, validatorProperties).getRulesList();
 	}
 
 	public List<NIBRSError> validate(GroupAIncidentReport groupAIncidentReport) {
