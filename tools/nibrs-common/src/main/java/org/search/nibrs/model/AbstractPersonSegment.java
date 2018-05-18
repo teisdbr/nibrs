@@ -17,7 +17,6 @@ package org.search.nibrs.model;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.search.nibrs.common.NIBRSError;
 
 /**
  * Abstract class of objects that represent People in NIBRS (offenders, victims, and arrestees).
