@@ -90,7 +90,7 @@ public class StagingDataRestClient {
 			}
 			else{
 				log.info("About to post for group A incident report " + groupAIncidentReport.getIncidentNumber());
-				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "groupAIncidentReports", new GroupAIncidentReport[]{groupAIncidentReport});
+				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "groupAIncidentReports", groupAIncidentReport);
 			}
 		}
 		else if (abstractReport instanceof GroupBArrestReport){
