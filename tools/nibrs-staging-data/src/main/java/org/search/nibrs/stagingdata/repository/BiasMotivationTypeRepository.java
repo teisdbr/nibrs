@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface BiasMotivationTypeRepository extends CrudRepository<BiasMotivationType, Integer>{
-	public BiasMotivationType findFirstByBiasMotivationCode(String biasMotivationCode);
+	public BiasMotivationType findFirstByStateCode(String stateCode);
 }

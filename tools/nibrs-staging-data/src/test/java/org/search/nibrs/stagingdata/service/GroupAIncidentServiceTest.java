@@ -174,7 +174,7 @@ public class GroupAIncidentServiceTest {
 		
 		AdministrativeSegment persisted = 
 				groupAIncidentService.findAdministrativeSegment(administrativeSegment.getAdministrativeSegmentId());
-		assertThat(persisted.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(persisted.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(persisted.getMonthOfTape(), equalTo("12"));
 		assertThat(persisted.getYearOfTape(), equalTo("2016"));
 		assertThat(persisted.getCityIndicator(), equalTo("Y"));
@@ -187,19 +187,19 @@ public class GroupAIncidentServiceTest {
 		assertThat(persisted.getExceptionalClearanceDateType().getDateMMDDYYYY(), equalTo("07122016"));
 		assertNull(persisted.getReportDateIndicator());
 		assertThat(persisted.getIncidentHour(), equalTo("13"));
-		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("B"));
+		assertThat(persisted.getClearedExceptionallyType().getStateCode(), equalTo("B"));
 		
 		Set<OffenseSegment> offenseSegments = persisted.getOffenseSegments();
 		assertThat(offenseSegments.size(), equalTo(2));
 		
 		for (OffenseSegment offenseSegment: offenseSegments){
-			if (offenseSegment.getBiasMotivationTypes().contains(biasMotivationTypeRepository.findFirstByBiasMotivationCode("11"))){
-				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("23D"));
+			if (offenseSegment.getBiasMotivationTypes().contains(biasMotivationTypeRepository.findFirstByStateCode("11"))){
+				assertThat(offenseSegment.getSegmentActionType().getStateCode(), equalTo("I"));
+				assertThat(offenseSegment.getUcrOffenseCodeType().getStateCode(), equalTo("23D"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
-				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("04"));
+				assertThat(offenseSegment.getLocationType().getStateCode(), equalTo("04"));
 				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(2));
-				assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+				assertThat(offenseSegment.getMethodOfEntryType().getStateCode(), equalTo("F"));
 				
 				Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
 						offenseSegment.getOffenderSuspectedOfUsingTypes();  
@@ -228,13 +228,13 @@ public class GroupAIncidentServiceTest {
 				
 			}
 			else {
-				assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getBiasMotivationCode(), equalTo("12"));
-				assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-				assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("26B"));
+				assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getStateCode(), equalTo("12"));
+				assertThat(offenseSegment.getSegmentActionType().getStateCode(), equalTo("I"));
+				assertThat(offenseSegment.getUcrOffenseCodeType().getStateCode(), equalTo("26B"));
 				assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("A"));
-				assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("02"));
+				assertThat(offenseSegment.getLocationType().getStateCode(), equalTo("02"));
 				assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(1));
-				assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryCode(), equalTo("F"));
+				assertThat(offenseSegment.getMethodOfEntryType().getStateCode(), equalTo("F"));
 				Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
 						offenseSegment.getOffenderSuspectedOfUsingTypes();  
 				assertThat(offenderSuspectedOfUsingTypes.size(), equalTo(0));
@@ -255,7 +255,7 @@ public class GroupAIncidentServiceTest {
 		assertThat(propertySegments.size(), equalTo(2));
 		
 		List<String> typeOfPropertyLossCodes = propertySegments.stream()
-				.map(i->i.getTypePropertyLossEtcType().getTypePropertyLossEtcCode())
+				.map(i->i.getTypePropertyLossEtcType().getStateCode())
 				.collect(Collectors.toList()); 
 		Collections.sort(typeOfPropertyLossCodes);
 		assertThat(typeOfPropertyLossCodes, equalTo(Arrays.asList("4", "7")));
@@ -264,17 +264,17 @@ public class GroupAIncidentServiceTest {
 			Set<PropertyType> propertyTypes = propertySegment.getPropertyTypes();
 			Set<SuspectedDrugType> suspectedDrugTypes = propertySegment.getSuspectedDrugTypes();
 			
-			switch (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()){
+			switch (propertySegment.getTypePropertyLossEtcType().getStateCode()){
 			case "7":
 				assertThat(propertySegment.getAdministrativeSegment(), equalTo(persisted));
-				assertThat(propertySegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(propertySegment.getSegmentActionType().getStateCode(), equalTo("I"));
 				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(0));
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(1));
 				
 				assertThat(propertyTypes.size(), equalTo(1));
 				PropertyType propertyType = propertyTypes.toArray(new PropertyType[]{})[0];
 				assertNotNull(propertyType);
-				assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("03")); 
+				assertThat(propertyType.getPropertyDescriptionType().getStateCode(), equalTo("03")); 
 				assertNull(propertyType.getRecoveredDate()); 
 				assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
 				assertThat(propertyType.getValueOfProperty(), equalTo(10000.0));
@@ -283,7 +283,7 @@ public class GroupAIncidentServiceTest {
 				break; 
 			case "4": 
 				assertThat(propertySegment.getAdministrativeSegment(), equalTo(persisted));
-				assertThat(propertySegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(propertySegment.getSegmentActionType().getStateCode(), equalTo("I"));
 				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(0));
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(0));
 				
@@ -291,16 +291,16 @@ public class GroupAIncidentServiceTest {
 				assertThat(suspectedDrugTypes.size(), equalTo(2));
 				
 				for (SuspectedDrugType suspectedDrugType: suspectedDrugTypes){
-					if (suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode().equals("A")){
+					if (suspectedDrugType.getSuspectedDrugTypeType().getStateCode().equals("A")){
 						assertThat(suspectedDrugType.getPropertySegment(), equalTo(propertySegment));
 						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(1.0));
 						assertThat(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementTypeId(), equalTo(1)); 
 					}
 					else{
 						assertThat(suspectedDrugType.getPropertySegment(), equalTo(propertySegment));
-						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("D"));
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getStateCode(), equalTo("D"));
 						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(1.0));
-						assertThat(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode(), equalTo("OZ")); 
+						assertThat(suspectedDrugType.getTypeDrugMeasurementType().getStateCode(), equalTo("OZ")); 
 					}
 				}
 				break; 
@@ -324,17 +324,17 @@ public class GroupAIncidentServiceTest {
 				
 				assertThat(arresteeSegment.getArrestDateType().getDateTypeId(), equalTo(2355));
 				assertThat(arresteeSegment.getArrestDateType().getDateMMDDYYYY(), equalTo("06122016"));
-				assertThat(arresteeSegment.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("S"));
-				assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getMultipleArresteeSegmentsIndicatorCode(), 
+				assertThat(arresteeSegment.getTypeOfArrestType().getStateCode(), equalTo("S"));
+				assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getStateCode(), 
 						equalTo("N"));
-				assertThat(arresteeSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("23D"));
-				assertThat(arresteeSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("U"));
-				assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18Code(), equalTo("9"));
+				assertThat(arresteeSegment.getUcrOffenseCodeType().getStateCode(), equalTo("23D"));
+				assertThat(arresteeSegment.getResidentStatusOfPersonType().getStateCode(), equalTo("U"));
+				assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getStateCode(), equalTo("9"));
 				assertThat(arresteeSegment.getAgeOfArresteeMax(), equalTo(33));
 				assertThat(arresteeSegment.getAgeOfArresteeMin(), equalTo(33));
-				assertThat(arresteeSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-				assertThat(arresteeSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B"));
-				assertThat(arresteeSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+				assertThat(arresteeSegment.getSexOfPersonType().getStateCode(), equalTo("M"));
+				assertThat(arresteeSegment.getRaceOfPersonType().getStateCode(), equalTo("B"));
+				assertThat(arresteeSegment.getEthnicityOfPersonType().getStateCode(), equalTo("U"));
 				
 				Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths = 
 						arresteeSegment.getArresteeSegmentWasArmedWiths();
@@ -342,10 +342,10 @@ public class GroupAIncidentServiceTest {
 				
 				for (ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith: arresteeSegmentWasArmedWiths){
 					if (arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator().equals("A")){
-						assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("12"));
+						assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("12"));
 					}
 					else if (arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator().equals("")){
-						assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("11"));
+						assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("11"));
 					}
 					else {
 						fail("Unexpected reportSegmentWasArmedWith.getAutomaticWeaponIndicator() value");
@@ -367,20 +367,20 @@ public class GroupAIncidentServiceTest {
 		
 		for (OffenderSegment offenderSegment: offenderSegments){
 			if (offenderSegment.getOffenderSequenceNumber().equals(1)){
-				assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(offenderSegment.getSegmentActionType().getStateCode(), equalTo("I"));
 				assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(0));
 				assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(0));
-				assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-				assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B"));
-				assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+				assertThat(offenderSegment.getSexOfPersonType().getStateCode(), equalTo("M"));
+				assertThat(offenderSegment.getRaceOfPersonType().getStateCode(), equalTo("B"));
+				assertThat(offenderSegment.getEthnicityOfPersonType().getStateCode(), equalTo("U"));
 			}
 			else if (offenderSegment.getOffenderSequenceNumber().equals(2)){
-				assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+				assertThat(offenderSegment.getSegmentActionType().getStateCode(), equalTo("I"));
 				assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(33));
 				assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(33));
-				assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-				assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B"));
-				assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+				assertThat(offenderSegment.getSexOfPersonType().getStateCode(), equalTo("M"));
+				assertThat(offenderSegment.getRaceOfPersonType().getStateCode(), equalTo("B"));
+				assertThat(offenderSegment.getEthnicityOfPersonType().getStateCode(), equalTo("U"));
 			}
 			else {
 				fail("Unexpected offender sequence number"); 
@@ -393,10 +393,10 @@ public class GroupAIncidentServiceTest {
 		for (VictimSegment victimSegment: victimSegments){
 			if (victimSegment.getVictimSequenceNumber().equals(1)){
 				assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(persisted.getAdministrativeSegmentId())); 
-				assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
-				assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("L")); 
-				assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode(), equalTo("01")); 
-				assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeCode(), equalTo("F")); 
+				assertThat(victimSegment.getSegmentActionType().getStateCode(), equalTo("I")); 
+				assertThat(victimSegment.getTypeOfVictimType().getStateCode(), equalTo("L")); 
+				assertThat(victimSegment.getOfficerActivityCircumstanceType().getStateCode(), equalTo("01")); 
+				assertThat(victimSegment.getOfficerAssignmentTypeType().getStateCode(), equalTo("F")); 
 				assertThat(victimSegment.getOfficerOtherJurisdictionOri(), equalTo("other1234")); 
 				
 				assertNull(victimSegment.getAgeOfVictimMax());
@@ -405,20 +405,19 @@ public class GroupAIncidentServiceTest {
 				assertThat(victimSegment.getAgeFirstWeekIndicator(), equalTo(0));
 				assertThat(victimSegment.getAgeFirstYearIndicator(), equalTo(0));
 				
-				assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("U")); 
-				assertThat(victimSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("U")); 
-				assertThat(victimSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U")); 
-				assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("U")); 
-				assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
-						.getAdditionalJustifiableHomicideCircumstancesCode(), equalTo("9"));
+				assertThat(victimSegment.getSexOfPersonType().getStateCode(), equalTo("U")); 
+				assertThat(victimSegment.getRaceOfPersonType().getStateCode(), equalTo("U")); 
+				assertThat(victimSegment.getEthnicityOfPersonType().getStateCode(), equalTo("U")); 
+				assertThat(victimSegment.getResidentStatusOfPersonType().getStateCode(), equalTo("U")); 
+				assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType().getStateCode(), equalTo("9"));
 
 				assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(2)); 
 				assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().containsAll(
 						Arrays.asList(
-								aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"), 
-								aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02") ))); 
+								aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByStateCode("01"), 
+								aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByStateCode("02") ))); 
 				assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
-				assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"))); 
+				assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByStateCode("O"))); 
 				
 				assertTrue(victimSegment.getOffenseSegments().containsAll(persisted.getOffenseSegments()));
 				
@@ -429,7 +428,7 @@ public class GroupAIncidentServiceTest {
 				
 				assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
 				assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
-				assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("AQ"));
+				assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getStateCode(), equalTo("AQ"));
 
 			}
 			else {
@@ -446,7 +445,7 @@ public class GroupAIncidentServiceTest {
 		persisted.setAgency(new Agency(99998));
 		List<OffenseSegment> offenseSegmentsList = 
 				new ArrayList<>(persisted.getOffenseSegments());
-		offenseSegmentsList.removeIf(item -> item.getUcrOffenseCodeType().getUcrOffenseCode().equals("23D"));
+		offenseSegmentsList.removeIf(item -> item.getUcrOffenseCodeType().getStateCode().equals("23D"));
 		persisted.getOffenseSegments().clear();
 		persisted.getOffenseSegments().addAll(offenseSegmentsList);
 		VictimSegment victimSegment = new ArrayList<>(persisted.getVictimSegments()).get(0); 
@@ -457,7 +456,7 @@ public class GroupAIncidentServiceTest {
 		AdministrativeSegment updated = 
 				groupAIncidentService.findAdministrativeSegment(persisted.getAdministrativeSegmentId());
 
-		assertThat(updated.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(updated.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(updated.getMonthOfTape(), equalTo("12"));
 		assertThat(updated.getYearOfTape(), equalTo("2017"));
 		assertThat(updated.getCityIndicator(), equalTo("Y"));
@@ -468,7 +467,7 @@ public class GroupAIncidentServiceTest {
 		assertThat(updated.getIncidentDateType().getDateTypeId(), equalTo(2355));
 		assertNull(updated.getReportDateIndicator());
 		assertThat(updated.getIncidentHour(), equalTo("13"));
-		assertThat(updated.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("B"));
+		assertThat(updated.getClearedExceptionallyType().getStateCode(), equalTo("B"));
 		
 		Set<OffenseSegment> offenseSegments = updated.getOffenseSegments();
 		assertThat(offenseSegments.size(), equalTo(1));
@@ -507,7 +506,7 @@ public class GroupAIncidentServiceTest {
 				groupAIncidentService.findAdministrativeSegment(administrativeSegment.getAdministrativeSegmentId());
 
 		assertNotNull(persisted);
-		assertThat(persisted.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(persisted.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(persisted.getMonthOfTape(), equalTo("05"));
 		assertThat(persisted.getYearOfTape(), equalTo("2016"));
 		assertThat(persisted.getCityIndicator(), equalTo("Y"));
@@ -520,7 +519,7 @@ public class GroupAIncidentServiceTest {
 		assertThat(persisted.getExceptionalClearanceDateType().getDateTypeId(), equalTo(2324));
 		assertNull(persisted.getReportDateIndicator());
 		assertThat(persisted.getIncidentHour(), equalTo(""));
-		assertThat(persisted.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("A"));
+		assertThat(persisted.getClearedExceptionallyType().getStateCode(), equalTo("A"));
 		assertThat(persisted.getCargoTheftIndicatorType().getCargoTheftIndicatorTypeId(), equalTo(99998));
 		
 //		1 OffenseSegment Segments:
@@ -540,22 +539,22 @@ public class GroupAIncidentServiceTest {
 		assertThat(offenseSegments.size(), equalTo(1));
 		
 		OffenseSegment offenseSegment = offenseSegments.stream().findFirst().get();
-		assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getBiasMotivationCode(), equalTo("15"));
-		assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
-		assertThat(offenseSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
+		assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getStateCode(), equalTo("15"));
+		assertThat(offenseSegment.getSegmentActionType().getStateCode(), equalTo("I"));
+		assertThat(offenseSegment.getUcrOffenseCodeType().getStateCode(), equalTo("13A"));
 		assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
-		assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("15"));
+		assertThat(offenseSegment.getLocationType().getStateCode(), equalTo("15"));
 		assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(null));
 		assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryTypeId(), equalTo(99998));
 		Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
 				offenseSegment.getOffenderSuspectedOfUsingTypes();  
 		assertThat(offenderSuspectedOfUsingTypes.size(), equalTo(1));
-		assertThat(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findFirstByOffenderSuspectedOfUsingCode("N")), equalTo(true));
+		assertThat(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findFirstByStateCode("N")), equalTo(true));
 		
 		Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes = 
 				offenseSegment.getTypeOfCriminalActivityTypes(); 
 		assertThat(typeOfCriminalActivityTypes.size(), equalTo(1));
-		assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findFirstByTypeOfCriminalActivityCode("J")));
+		assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findFirstByStateCode("J")));
 		
 		Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds = 
 				offenseSegment.getTypeOfWeaponForceInvolveds();
@@ -563,7 +562,7 @@ public class GroupAIncidentServiceTest {
 		TypeOfWeaponForceInvolved typeOfWeaponForceInvolved = typeOfWeaponForceInvolveds.stream().findFirst().get();
 		assertThat(typeOfWeaponForceInvolved.getOffenseSegment().getOffenseSegmentId(), equalTo(offenseSegment.getOffenseSegmentId()));
 		assertThat(typeOfWeaponForceInvolved.getAutomaticWeaponIndicator(), equalTo(""));
-		assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode(), equalTo("14"));
+		assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getStateCode(), equalTo("14"));
 //	    "offenders": [
 //      {
 //          "segmentType": "5",
@@ -584,12 +583,12 @@ public class GroupAIncidentServiceTest {
 		OffenderSegment offenderSegment = offenderSegments.stream().findFirst().get();
 		
 		assertThat(offenderSegment.getOffenderSequenceNumber(), equalTo(1)); 
-		assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(offenderSegment.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(22));
 		assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(22));
-		assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-		assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("H"));
+		assertThat(offenderSegment.getSexOfPersonType().getStateCode(), equalTo("M"));
+		assertThat(offenderSegment.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(offenderSegment.getEthnicityOfPersonType().getStateCode(), equalTo("H"));
 //	    "arrestees": [
 //      {
 //          "segmentType": "6",
@@ -636,24 +635,24 @@ public class GroupAIncidentServiceTest {
 		
 		assertThat(arresteeSegment.getArrestDateType().getDateTypeId(), equalTo(1962));
 		assertThat(arresteeSegment.getArrestDateType().getDateMMDDYYYY(), equalTo("05162015"));
-		assertThat(arresteeSegment.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("O"));
-		assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getMultipleArresteeSegmentsIndicatorCode(), 
+		assertThat(arresteeSegment.getTypeOfArrestType().getStateCode(), equalTo("O"));
+		assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getStateCode(), 
 				equalTo("N"));
-		assertThat(arresteeSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
-		assertThat(arresteeSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
-		assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18Code(), equalTo(" "));
+		assertThat(arresteeSegment.getUcrOffenseCodeType().getStateCode(), equalTo("13A"));
+		assertThat(arresteeSegment.getResidentStatusOfPersonType().getStateCode(), equalTo("R"));
+		assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getStateCode(), equalTo(" "));
 		assertThat(arresteeSegment.getAgeOfArresteeMax(), equalTo(22));
 		assertThat(arresteeSegment.getAgeOfArresteeMin(), equalTo(22));
-		assertThat(arresteeSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-		assertThat(arresteeSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(arresteeSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+		assertThat(arresteeSegment.getSexOfPersonType().getStateCode(), equalTo("M"));
+		assertThat(arresteeSegment.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(arresteeSegment.getEthnicityOfPersonType().getStateCode(), equalTo("U"));
 		
 		Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths = 
 				arresteeSegment.getArresteeSegmentWasArmedWiths();
 		assertThat(arresteeSegmentWasArmedWiths.size(), equalTo(1));
 		
 		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith = arresteeSegmentWasArmedWiths.stream().findFirst().get();
-		assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
+		assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("01"));
 		assertThat(arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(""));
 		
 //		1 VictimSegment Segments:
@@ -673,8 +672,8 @@ public class GroupAIncidentServiceTest {
 		
 		assertThat(victimSegment.getVictimSequenceNumber(), equalTo(1));
 		assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(persisted.getAdministrativeSegmentId())); 
-		assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
-		assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("I")); 
+		assertThat(victimSegment.getSegmentActionType().getStateCode(), equalTo("I")); 
+		assertThat(victimSegment.getTypeOfVictimType().getStateCode(), equalTo("I")); 
 		assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceTypeId(), equalTo(99998)); 
 		assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeTypeId(), equalTo(99998)); 
 		
@@ -684,17 +683,17 @@ public class GroupAIncidentServiceTest {
 		assertThat(victimSegment.getAgeFirstWeekIndicator(), equalTo(0));
 		assertThat(victimSegment.getAgeFirstYearIndicator(), equalTo(0));
 		
-		assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("F")); 
-		assertThat(victimSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B")); 
-		assertThat(victimSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("N")); 
-		assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R")); 
+		assertThat(victimSegment.getSexOfPersonType().getStateCode(), equalTo("F")); 
+		assertThat(victimSegment.getRaceOfPersonType().getStateCode(), equalTo("B")); 
+		assertThat(victimSegment.getEthnicityOfPersonType().getStateCode(), equalTo("N")); 
+		assertThat(victimSegment.getResidentStatusOfPersonType().getStateCode(), equalTo("R")); 
 		assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
 				.getAdditionalJustifiableHomicideCircumstancesTypeId(), equalTo(99998));
 		assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(1)); 
 		assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().contains(
-						aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"))); 
+						aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByStateCode("01"))); 
 		assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
-		assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("N"))); 
+		assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByStateCode("N"))); 
 		
 		assertTrue(victimSegment.getOffenseSegments().containsAll(persisted.getOffenseSegments()));
 		
@@ -704,7 +703,7 @@ public class GroupAIncidentServiceTest {
 		VictimOffenderAssociation victimOffenderAssociation = new ArrayList<>(victimOffenderAssociations).get(0);
 		assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
 		assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
-		assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("SE"));
+		assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getStateCode(), equalTo("SE"));
 		
 //		3 PropertySegment Segments:
 //			PropertySegment [typeOfPropertyLoss=7, propertyDescription=[20, null, null, null, null, null, null, null, null, null], valueOfProperty=[5000, null, null, null, null, null, null, null, null, null], dateRecovered=[null, null, null, null, null, null, null, null, null, null], numberOfStolenMotorVehicles=null, numberOfRecoveredMotorVehicles=null, suspectedDrugType=[null, null, null], estimatedDrugQuantity=[null, null, null], typeDrugMeasurement=[null, null, null], populatedPropertyDescriptionCount=1, populatedSuspectedDrugTypeCount=0]
@@ -717,13 +716,13 @@ public class GroupAIncidentServiceTest {
 		for (PropertySegment propertySegment: propertySegments){
 			Set<PropertyType> propertyTypes = propertySegment.getPropertyTypes();
 			Set<SuspectedDrugType> suspectedDrugTypes = propertySegment.getSuspectedDrugTypes();
-			switch (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()){
+			switch (propertySegment.getTypePropertyLossEtcType().getStateCode()){
 			case "5": 
 				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(null)); 
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
 				assertThat(propertyTypes.size(), equalTo(1));
 				for (PropertyType propertyType: propertyTypes){
-					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getPropertyDescriptionType().getStateCode(), equalTo("20"));
 					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
 					assertThat(propertyType.getRecoveredDateType().getDateMMDDYYYY(), equalTo("01082015"));
 				}
@@ -735,7 +734,7 @@ public class GroupAIncidentServiceTest {
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
 				assertThat(propertyTypes.size(), equalTo(2));
 				for (PropertyType propertyType: propertyTypes){
-					switch(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode()){
+					switch(propertyType.getPropertyDescriptionType().getStateCode()){
 					case "10":
 						assertThat(propertyType.getValueOfProperty(), equalTo(null));
 						assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
@@ -752,17 +751,17 @@ public class GroupAIncidentServiceTest {
 //				suspectedDrugType=[E, E, X], estimatedDrugQuantity=[0.001, 0.001, null], typeDrugMeasurement=[LB, OZ, null], populatedPropertyDescriptionCount=2, populatedSuspectedDrugTypeCount=3]
 				for (SuspectedDrugType suspectedDrugType: suspectedDrugTypes){
 					assertThat(suspectedDrugType.getPropertySegment().getPropertySegmentId(), equalTo(propertySegment.getPropertySegmentId()));
-					switch(suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode()){
+					switch(suspectedDrugType.getTypeDrugMeasurementType().getStateCode()){
 					case " ": 
-						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("X"));
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getStateCode(), equalTo("X"));
 						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(null));
 						break; 
 					case "LB": 
-						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("E"));
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getStateCode(), equalTo("E"));
 						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(0.001));
 						break; 
 					case "OZ": 
-						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode(), equalTo("E"));
+						assertThat(suspectedDrugType.getSuspectedDrugTypeType().getStateCode(), equalTo("E"));
 						assertThat(suspectedDrugType.getEstimatedDrugQuantity(), equalTo(0.001));
 						break; 
 					default:
@@ -775,7 +774,7 @@ public class GroupAIncidentServiceTest {
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
 				assertThat(propertyTypes.size(), equalTo(1));
 				for (PropertyType propertyType: propertyTypes){
-					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getPropertyDescriptionType().getStateCode(), equalTo("20"));
 					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
 					assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
 				}
@@ -838,19 +837,19 @@ public class GroupAIncidentServiceTest {
 				administrativeSegmentRepository.findByIncidentNumber(groupAIncidentReport.getIncidentNumber());
 
 		assertNotNull(updated);
-		assertThat(updated.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(updated.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(updated.getMonthOfTape(), equalTo("05"));
 		assertThat(updated.getYearOfTape(), equalTo("2016"));
 		assertThat(updated.getCityIndicator(), equalTo("Y"));
 		assertThat(updated.getOri(), equalTo("agencyORI"));
-		assertThat(updated.getAgency().getAgencyId(), equalTo(1));
+		assertThat(updated.getAgency().getAgencyId(), equalTo(16));
 		assertThat(updated.getIncidentNumber(), equalTo("54236732"));
 		assertTrue(DateUtils.isSameDay(updated.getIncidentDate(), Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		assertThat(updated.getIncidentDateType().getDateTypeId(), equalTo(2324));
 		assertNull(updated.getReportDateIndicator());
 		assertThat(updated.getIncidentHour(), equalTo(""));
-		assertThat(updated.getClearedExceptionallyType().getClearedExceptionallyCode(), equalTo("A"));
-		assertThat(updated.getCargoTheftIndicatorType().getCargoTheftIndicatorCode(), equalTo("Y"));
+		assertThat(updated.getClearedExceptionallyType().getStateCode(), equalTo("A"));
+		assertThat(updated.getCargoTheftIndicatorType().getStateCode(), equalTo("Y"));
 		
 //		2 OffenseSegment Segments:
 //		OffenseSegment [ucrOffenseCode=13A, offenseAttemptedCompleted=C, 
@@ -868,24 +867,24 @@ public class GroupAIncidentServiceTest {
 		Set<OffenseSegment> offenseSegments = updated.getOffenseSegments();
 		assertThat(offenseSegments.size(), equalTo(2));
 		
-		List<String> offenseCodes = offenseSegments.stream().map(i->i.getUcrOffenseCodeType().getUcrOffenseCode()).collect(Collectors.toList()); 
+		List<String> offenseCodes = offenseSegments.stream().map(i->i.getUcrOffenseCodeType().getStateCode()).collect(Collectors.toList()); 
 		assertTrue(offenseCodes.containsAll(Arrays.asList("13A", "13B")));
 		
 		for (OffenseSegment offenseSegment: offenseSegments){
-			assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getBiasMotivationCode(), equalTo("15"));
-			assertThat(offenseSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+			assertThat(offenseSegment.getBiasMotivationTypes().stream().findFirst().get().getStateCode(), equalTo("15"));
+			assertThat(offenseSegment.getSegmentActionType().getStateCode(), equalTo("I"));
 			assertThat(offenseSegment.getOffenseAttemptedCompleted(), equalTo("C"));
-			assertThat(offenseSegment.getLocationType().getLocationTypeCode(), equalTo("15"));
+			assertThat(offenseSegment.getLocationType().getStateCode(), equalTo("15"));
 			assertThat(offenseSegment.getNumberOfPremisesEntered(), equalTo(null));
 			assertThat(offenseSegment.getMethodOfEntryType().getMethodOfEntryTypeId(), equalTo(99998));
 			Set<OffenderSuspectedOfUsingType> offenderSuspectedOfUsingTypes = 
 					offenseSegment.getOffenderSuspectedOfUsingTypes();  
 			assertThat(offenderSuspectedOfUsingTypes.size(), equalTo(1));
-			assertThat(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findFirstByOffenderSuspectedOfUsingCode("N")), equalTo(true));
+			assertThat(offenderSuspectedOfUsingTypes.contains(offenderSuspectedOfUsingTypeRepository.findFirstByStateCode("N")), equalTo(true));
 			Set<TypeOfCriminalActivityType> typeOfCriminalActivityTypes = 
 					offenseSegment.getTypeOfCriminalActivityTypes(); 
 			assertThat(typeOfCriminalActivityTypes.size(), equalTo(1));
-			assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findFirstByTypeOfCriminalActivityCode("J")));
+			assertTrue(typeOfCriminalActivityTypes.contains(typeOfCriminalActivityTypeRepository.findFirstByStateCode("J")));
 			
 			Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds = 
 					offenseSegment.getTypeOfWeaponForceInvolveds();
@@ -893,7 +892,7 @@ public class GroupAIncidentServiceTest {
 			TypeOfWeaponForceInvolved typeOfWeaponForceInvolved = typeOfWeaponForceInvolveds.stream().findFirst().get();
 			assertThat(typeOfWeaponForceInvolved.getOffenseSegment().getOffenseSegmentId(), equalTo(offenseSegment.getOffenseSegmentId()));
 			assertThat(typeOfWeaponForceInvolved.getAutomaticWeaponIndicator(), equalTo(""));
-			assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode(), equalTo("14"));
+			assertThat(typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getStateCode(), equalTo("14"));
 		}
 		
 		Set<OffenderSegment> offenderSegments = updated.getOffenderSegments();
@@ -901,12 +900,12 @@ public class GroupAIncidentServiceTest {
 		OffenderSegment offenderSegment = offenderSegments.stream().findFirst().get();
 		
 		assertThat(offenderSegment.getOffenderSequenceNumber(), equalTo(1)); 
-		assertThat(offenderSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(offenderSegment.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(offenderSegment.getAgeOfOffenderMax(), equalTo(22));
 		assertThat(offenderSegment.getAgeOfOffenderMin(), equalTo(22));
-		assertThat(offenderSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-		assertThat(offenderSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(offenderSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("H"));
+		assertThat(offenderSegment.getSexOfPersonType().getStateCode(), equalTo("M"));
+		assertThat(offenderSegment.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(offenderSegment.getEthnicityOfPersonType().getStateCode(), equalTo("H"));
 		
 		Set<ArresteeSegment> arresteeSegments = updated.getArresteeSegments();
 		assertThat(arresteeSegments.size(), equalTo(1));
@@ -919,24 +918,24 @@ public class GroupAIncidentServiceTest {
 		
 		assertThat(arresteeSegment.getArrestDateType().getDateTypeId(), equalTo(1962));
 		assertThat(arresteeSegment.getArrestDateType().getDateMMDDYYYY(), equalTo("05162015"));
-		assertThat(arresteeSegment.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("O"));
-		assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getMultipleArresteeSegmentsIndicatorCode(), 
+		assertThat(arresteeSegment.getTypeOfArrestType().getStateCode(), equalTo("O"));
+		assertThat(arresteeSegment.getMultipleArresteeSegmentsIndicatorType().getStateCode(), 
 				equalTo("N"));
-		assertThat(arresteeSegment.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
-		assertThat(arresteeSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
-		assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18Code(), equalTo(" "));
+		assertThat(arresteeSegment.getUcrOffenseCodeType().getStateCode(), equalTo("13A"));
+		assertThat(arresteeSegment.getResidentStatusOfPersonType().getStateCode(), equalTo("R"));
+		assertThat(arresteeSegment.getDispositionOfArresteeUnder18Type().getStateCode(), equalTo(" "));
 		assertThat(arresteeSegment.getAgeOfArresteeMax(), equalTo(22));
 		assertThat(arresteeSegment.getAgeOfArresteeMin(), equalTo(22));
-		assertThat(arresteeSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-		assertThat(arresteeSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(arresteeSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
+		assertThat(arresteeSegment.getSexOfPersonType().getStateCode(), equalTo("M"));
+		assertThat(arresteeSegment.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(arresteeSegment.getEthnicityOfPersonType().getStateCode(), equalTo("U"));
 		
 		Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWiths = 
 				arresteeSegment.getArresteeSegmentWasArmedWiths();
 		assertThat(arresteeSegmentWasArmedWiths.size(), equalTo(1));
 		
 		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith = arresteeSegmentWasArmedWiths.stream().findFirst().get();
-		assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
+		assertThat(arresteeSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("01"));
 		assertThat(arresteeSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(""));
 		
 //		2 VictimSegment Segments:
@@ -956,21 +955,21 @@ public class GroupAIncidentServiceTest {
 //		v.setUcrOffenseCodeConnection(0, "13B");
 		for (VictimSegment victimSegment: victimSegments){
 			assertThat(victimSegment.getAdministrativeSegment().getAdministrativeSegmentId(), equalTo(updated.getAdministrativeSegmentId())); 
-			assertThat(victimSegment.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I")); 
-			assertThat(victimSegment.getTypeOfVictimType().getTypeOfVictimCode(), equalTo("I")); 
+			assertThat(victimSegment.getSegmentActionType().getStateCode(), equalTo("I")); 
+			assertThat(victimSegment.getTypeOfVictimType().getStateCode(), equalTo("I")); 
 			assertThat(victimSegment.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceTypeId(), equalTo(99998)); 
 			assertThat(victimSegment.getOfficerAssignmentTypeType().getOfficerAssignmentTypeTypeId(), equalTo(99998)); 
 			assertThat(victimSegment.getAgeNeonateIndicator(), equalTo(0));
 			assertThat(victimSegment.getAgeFirstWeekIndicator(), equalTo(0));
 			assertThat(victimSegment.getAgeFirstYearIndicator(), equalTo(0));
-			assertThat(victimSegment.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("B")); 
-			assertThat(victimSegment.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("N")); 
-			assertThat(victimSegment.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R")); 
+			assertThat(victimSegment.getRaceOfPersonType().getStateCode(), equalTo("B")); 
+			assertThat(victimSegment.getEthnicityOfPersonType().getStateCode(), equalTo("N")); 
+			assertThat(victimSegment.getResidentStatusOfPersonType().getStateCode(), equalTo("R")); 
 			assertThat(victimSegment.getAdditionalJustifiableHomicideCircumstancesType()
 					.getAdditionalJustifiableHomicideCircumstancesTypeId(), equalTo(99998));
 			assertTrue(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().contains(
-					aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"))); 
-			assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByTypeInjuryCode("N"))); 
+					aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByStateCode("01"))); 
+			assertTrue(victimSegment.getTypeInjuryTypes().contains(typeInjuryTypeRepository.findFirstByStateCode("N"))); 
 			assertThat(victimSegment.getAggravatedAssaultHomicideCircumstancesTypes().size(), equalTo(1)); 
 			
 			Set<VictimOffenderAssociation> victimOffenderAssociations = victimSegment.getVictimOffenderAssociations();
@@ -978,27 +977,27 @@ public class GroupAIncidentServiceTest {
 			VictimOffenderAssociation victimOffenderAssociation = new ArrayList<>(victimOffenderAssociations).get(0);
 			assertThat(victimOffenderAssociation.getVictimSegment().getVictimSegmentId(), equalTo(victimSegment.getVictimSegmentId()));
 			assertThat(victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber(), equalTo(1));
-			assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode(), equalTo("SE"));
+			assertThat(victimOffenderAssociation.getVictimOffenderRelationshipType().getStateCode(), equalTo("SE"));
 			assertThat(victimSegment.getTypeInjuryTypes().size(), equalTo(1)); 
 			
 			if(victimSegment.getVictimSequenceNumber().equals(1)){
 				assertThat(victimSegment.getAgeOfVictimMax(), equalTo(22));
 				assertThat(victimSegment.getAgeOfVictimMin(), equalTo(20));
 				
-				assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("F")); 
+				assertThat(victimSegment.getSexOfPersonType().getStateCode(), equalTo("F")); 
 				
 				assertThat(victimSegment.getOffenseSegments().size(), equalTo(1));
-				assertThat( new ArrayList<>(victimSegment.getOffenseSegments()).get(0).getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13A"));
+				assertThat( new ArrayList<>(victimSegment.getOffenseSegments()).get(0).getUcrOffenseCodeType().getStateCode(), equalTo("13A"));
 				
 			}
 			else{
 				assertThat(victimSegment.getAgeOfVictimMax(), equalTo(30));
 				assertThat(victimSegment.getAgeOfVictimMin(), equalTo(25));
 				
-				assertThat(victimSegment.getSexOfPersonType().getSexOfPersonCode(), equalTo("M")); 
+				assertThat(victimSegment.getSexOfPersonType().getStateCode(), equalTo("M")); 
 				
 				assertThat(victimSegment.getOffenseSegments().size(), equalTo(1));
-				assertThat( new ArrayList<>(victimSegment.getOffenseSegments()).get(0).getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("13B"));
+				assertThat( new ArrayList<>(victimSegment.getOffenseSegments()).get(0).getUcrOffenseCodeType().getStateCode(), equalTo("13B"));
 			}
 		}
 //		2 PropertySegment Segments:
@@ -1011,13 +1010,13 @@ public class GroupAIncidentServiceTest {
 		for (PropertySegment propertySegment: propertySegments){
 			Set<PropertyType> propertyTypes = propertySegment.getPropertyTypes();
 			Set<SuspectedDrugType> suspectedDrugTypes = propertySegment.getSuspectedDrugTypes();
-			switch (propertySegment.getTypePropertyLossEtcType().getTypePropertyLossEtcCode()){
+			switch (propertySegment.getTypePropertyLossEtcType().getStateCode()){
 			case "5": 
 				assertThat(propertySegment.getNumberOfRecoveredMotorVehicles(), equalTo(null)); 
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
 				assertThat(propertyTypes.size(), equalTo(1));
 				for (PropertyType propertyType: propertyTypes){
-					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getPropertyDescriptionType().getStateCode(), equalTo("20"));
 					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
 					assertThat(propertyType.getRecoveredDateType().getDateMMDDYYYY(), equalTo("01082015"));
 				}
@@ -1029,7 +1028,7 @@ public class GroupAIncidentServiceTest {
 				assertThat(propertySegment.getNumberOfStolenMotorVehicles(), equalTo(null)); 
 				assertThat(propertyTypes.size(), equalTo(1));
 				for (PropertyType propertyType: propertyTypes){
-					assertThat(propertyType.getPropertyDescriptionType().getPropertyDescriptionCode(), equalTo("20"));
+					assertThat(propertyType.getPropertyDescriptionType().getStateCode(), equalTo("20"));
 					assertThat(propertyType.getValueOfProperty(), equalTo(5000.0));
 					assertThat(propertyType.getRecoveredDateType().getDateTypeId(), equalTo(99998));
 				}

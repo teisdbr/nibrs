@@ -30,8 +30,10 @@ public class AgencyType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer agencyTypeId; 
 	
-	private String agencyTypeCode; 
-	private String agencyTypeDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public AgencyType() {
 		super();
@@ -42,31 +44,19 @@ public class AgencyType {
 		this.agencyTypeId = agencyTypeId;
 	}
 
-	public AgencyType(Integer agencyTypeId, String agencyTypeCode, String agencyTypeDescription) {
+
+	public AgencyType(Integer agencyTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription) {
 		super();
 		this.agencyTypeId = agencyTypeId;
-		this.agencyTypeCode = agencyTypeCode;
-		this.agencyTypeDescription = agencyTypeDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public String getAgencyTypeCode() {
-		return agencyTypeCode;
-	}
-
-	public void setAgencyTypeCode(String agencyTypeCode) {
-		this.agencyTypeCode = agencyTypeCode;
-	}
-
-	public String getAgencyTypeDescription() {
-		return agencyTypeDescription;
-	}
-
-	public void setAgencyTypeDescription(String agencyTypeDescription) {
-		this.agencyTypeDescription = agencyTypeDescription;
 	}
 
 	public Integer getAgencyTypeId() {
@@ -77,13 +67,47 @@ public class AgencyType {
 		this.agencyTypeId = agencyTypeId;
 	}
 
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((agencyTypeCode == null) ? 0 : agencyTypeCode.hashCode());
-		result = prime * result + ((agencyTypeDescription == null) ? 0 : agencyTypeDescription.hashCode());
 		result = prime * result + ((agencyTypeId == null) ? 0 : agencyTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -96,20 +120,30 @@ public class AgencyType {
 		if (getClass() != obj.getClass())
 			return false;
 		AgencyType other = (AgencyType) obj;
-		if (agencyTypeCode == null) {
-			if (other.agencyTypeCode != null)
-				return false;
-		} else if (!agencyTypeCode.equals(other.agencyTypeCode))
-			return false;
-		if (agencyTypeDescription == null) {
-			if (other.agencyTypeDescription != null)
-				return false;
-		} else if (!agencyTypeDescription.equals(other.agencyTypeDescription))
-			return false;
 		if (agencyTypeId == null) {
 			if (other.agencyTypeId != null)
 				return false;
 		} else if (!agencyTypeId.equals(other.agencyTypeId))
+			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

@@ -30,8 +30,10 @@ public class ClearedExceptionallyType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer clearedExceptionallyTypeId; 
 	
-	private String clearedExceptionallyCode; 
-	private String clearedExceptionallyDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public ClearedExceptionallyType() {
 		super();
@@ -42,12 +44,14 @@ public class ClearedExceptionallyType {
 		this.clearedExceptionallyTypeId = clearedExceptionallyTypeId;
 	}
 
-	public ClearedExceptionallyType(Integer clearedExceptionallyTypeId, String clearedExceptionallyCode,
-			String clearedExceptionallyDescription) {
+	public ClearedExceptionallyType(Integer clearedExceptionallyTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
 		super();
 		this.clearedExceptionallyTypeId = clearedExceptionallyTypeId;
-		this.clearedExceptionallyCode = clearedExceptionallyCode;
-		this.clearedExceptionallyDescription = clearedExceptionallyDescription;
+		this.setStateCode(stateCode);
+		this.setStateDescription(stateDescription);
+		this.setFbiCode(fbiCode);
+		this.setFbiDescription(fbiDescription);
 	}
 
 	public String toString(){
@@ -63,30 +67,47 @@ public class ClearedExceptionallyType {
 		this.clearedExceptionallyTypeId = clearedExceptionallyTypeId;
 	}
 
-	public String getClearedExceptionallyCode() {
-		return clearedExceptionallyCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setClearedExceptionallyCode(String clearedExceptionallyCode) {
-		this.clearedExceptionallyCode = clearedExceptionallyCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getClearedExceptionallyDescription() {
-		return clearedExceptionallyDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setClearedExceptionallyDescription(String clearedExceptionallyDescription) {
-		this.clearedExceptionallyDescription = clearedExceptionallyDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((clearedExceptionallyCode == null) ? 0 : clearedExceptionallyCode.hashCode());
-		result = prime * result
-				+ ((clearedExceptionallyDescription == null) ? 0 : clearedExceptionallyDescription.hashCode());
 		result = prime * result + ((clearedExceptionallyTypeId == null) ? 0 : clearedExceptionallyTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -99,20 +120,30 @@ public class ClearedExceptionallyType {
 		if (getClass() != obj.getClass())
 			return false;
 		ClearedExceptionallyType other = (ClearedExceptionallyType) obj;
-		if (clearedExceptionallyCode == null) {
-			if (other.clearedExceptionallyCode != null)
-				return false;
-		} else if (!clearedExceptionallyCode.equals(other.clearedExceptionallyCode))
-			return false;
-		if (clearedExceptionallyDescription == null) {
-			if (other.clearedExceptionallyDescription != null)
-				return false;
-		} else if (!clearedExceptionallyDescription.equals(other.clearedExceptionallyDescription))
-			return false;
 		if (clearedExceptionallyTypeId == null) {
 			if (other.clearedExceptionallyTypeId != null)
 				return false;
 		} else if (!clearedExceptionallyTypeId.equals(other.clearedExceptionallyTypeId))
+			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

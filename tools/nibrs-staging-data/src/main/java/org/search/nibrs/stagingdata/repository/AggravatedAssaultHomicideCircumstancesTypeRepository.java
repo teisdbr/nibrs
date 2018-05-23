@@ -19,6 +19,5 @@ import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstances
 import org.springframework.data.repository.CrudRepository;
 
 public interface AggravatedAssaultHomicideCircumstancesTypeRepository extends CrudRepository<AggravatedAssaultHomicideCircumstancesType, Integer>{
-	public AggravatedAssaultHomicideCircumstancesType findFirstByAggravatedAssaultHomicideCircumstancesCode(
-			String aggravatedAssaultHomicideCircumstancesCode);
+	public AggravatedAssaultHomicideCircumstancesType findFirstByStateCode(String stateCode);
 }

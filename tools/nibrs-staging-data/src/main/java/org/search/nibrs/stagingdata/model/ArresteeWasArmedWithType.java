@@ -33,8 +33,10 @@ public class ArresteeWasArmedWithType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer arresteeWasArmedWithTypeId; 
 	
-	private String arresteeWasArmedWithCode; 
-	private String arresteeWasArmedWithDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	@OneToMany(mappedBy = "arresteeWasArmedWithType")
 	private Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWith;
@@ -51,6 +53,19 @@ public class ArresteeWasArmedWithType {
 		this.arresteeWasArmedWithTypeId = arresteeWasArmedWithTypeId;
 	}
 
+	public ArresteeWasArmedWithType(Integer arresteeWasArmedWithTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription, Set<ArresteeSegmentWasArmedWith> arresteeSegmentWasArmedWith,
+			Set<ArrestReportSegmentWasArmedWith> arrestReportSegmentWasArmedWith) {
+		super();
+		this.arresteeWasArmedWithTypeId = arresteeWasArmedWithTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
+		this.arresteeSegmentWasArmedWith = arresteeSegmentWasArmedWith;
+		this.arrestReportSegmentWasArmedWith = arrestReportSegmentWasArmedWith;
+	}
+
 	public String toString(){
 		return ReflectionToStringBuilder.toStringExclude(this, "arresteeSegmentWasArmedWith", "arrestReportSegmentWasArmedWith");
 	}
@@ -63,30 +78,47 @@ public class ArresteeWasArmedWithType {
 		this.arresteeWasArmedWithTypeId = arresteeWasArmedWithTypeId;
 	}
 
-	public String getArresteeWasArmedWithCode() {
-		return arresteeWasArmedWithCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setArresteeWasArmedWithCode(String arresteeWasArmedWithCode) {
-		this.arresteeWasArmedWithCode = arresteeWasArmedWithCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getArresteeWasArmedWithDescription() {
-		return arresteeWasArmedWithDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setArresteeWasArmedWithDescription(String arresteeWasArmedWithDescription) {
-		this.arresteeWasArmedWithDescription = arresteeWasArmedWithDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arresteeWasArmedWithCode == null) ? 0 : arresteeWasArmedWithCode.hashCode());
-		result = prime * result
-				+ ((arresteeWasArmedWithDescription == null) ? 0 : arresteeWasArmedWithDescription.hashCode());
 		result = prime * result + ((arresteeWasArmedWithTypeId == null) ? 0 : arresteeWasArmedWithTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -99,20 +131,30 @@ public class ArresteeWasArmedWithType {
 		if (getClass() != obj.getClass())
 			return false;
 		ArresteeWasArmedWithType other = (ArresteeWasArmedWithType) obj;
-		if (arresteeWasArmedWithCode == null) {
-			if (other.arresteeWasArmedWithCode != null)
-				return false;
-		} else if (!arresteeWasArmedWithCode.equals(other.arresteeWasArmedWithCode))
-			return false;
-		if (arresteeWasArmedWithDescription == null) {
-			if (other.arresteeWasArmedWithDescription != null)
-				return false;
-		} else if (!arresteeWasArmedWithDescription.equals(other.arresteeWasArmedWithDescription))
-			return false;
 		if (arresteeWasArmedWithTypeId == null) {
 			if (other.arresteeWasArmedWithTypeId != null)
 				return false;
 		} else if (!arresteeWasArmedWithTypeId.equals(other.arresteeWasArmedWithTypeId))
+			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

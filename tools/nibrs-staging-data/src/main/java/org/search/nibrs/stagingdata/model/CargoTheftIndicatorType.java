@@ -30,8 +30,10 @@ public class CargoTheftIndicatorType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer cargoTheftIndicatorTypeId; 
 	
-	private String cargoTheftIndicatorCode; 
-	private String cargoTheftIndicatorDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public CargoTheftIndicatorType() {
 		super();
@@ -54,30 +56,47 @@ public class CargoTheftIndicatorType {
 		this.cargoTheftIndicatorTypeId = cargoTheftIndicatorTypeId;
 	}
 
-	public String getCargoTheftIndicatorCode() {
-		return cargoTheftIndicatorCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setCargoTheftIndicatorCode(String cargoTheftIndicatorCode) {
-		this.cargoTheftIndicatorCode = cargoTheftIndicatorCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getCargoTheftIndicatorDescription() {
-		return cargoTheftIndicatorDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setCargoTheftIndicatorDescription(String cargoTheftIndicatorDescription) {
-		this.cargoTheftIndicatorDescription = cargoTheftIndicatorDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cargoTheftIndicatorCode == null) ? 0 : cargoTheftIndicatorCode.hashCode());
-		result = prime * result
-				+ ((cargoTheftIndicatorDescription == null) ? 0 : cargoTheftIndicatorDescription.hashCode());
 		result = prime * result + ((cargoTheftIndicatorTypeId == null) ? 0 : cargoTheftIndicatorTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -90,20 +109,30 @@ public class CargoTheftIndicatorType {
 		if (getClass() != obj.getClass())
 			return false;
 		CargoTheftIndicatorType other = (CargoTheftIndicatorType) obj;
-		if (cargoTheftIndicatorCode == null) {
-			if (other.cargoTheftIndicatorCode != null)
-				return false;
-		} else if (!cargoTheftIndicatorCode.equals(other.cargoTheftIndicatorCode))
-			return false;
-		if (cargoTheftIndicatorDescription == null) {
-			if (other.cargoTheftIndicatorDescription != null)
-				return false;
-		} else if (!cargoTheftIndicatorDescription.equals(other.cargoTheftIndicatorDescription))
-			return false;
 		if (cargoTheftIndicatorTypeId == null) {
 			if (other.cargoTheftIndicatorTypeId != null)
 				return false;
 		} else if (!cargoTheftIndicatorTypeId.equals(other.cargoTheftIndicatorTypeId))
+			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

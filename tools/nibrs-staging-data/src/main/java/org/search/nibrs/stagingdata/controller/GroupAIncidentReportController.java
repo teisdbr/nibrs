@@ -45,7 +45,7 @@ public class GroupAIncidentReportController {
 	}
 	
 	@RequestMapping(value="/groupAIncidentReports", method=RequestMethod.POST)
-	public void save(@RequestBody GroupAIncidentReport... groupAIncidentReports){
+	public void save(@RequestBody GroupAIncidentReport groupAIncidentReports){
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReports);
 	}
 	

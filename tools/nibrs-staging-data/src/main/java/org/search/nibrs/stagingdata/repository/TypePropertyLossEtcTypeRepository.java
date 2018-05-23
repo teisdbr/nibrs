@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.TypePropertyLossEtcType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypePropertyLossEtcTypeRepository extends CrudRepository<TypePropertyLossEtcType, Integer>{
-	public TypePropertyLossEtcType findFirstByTypePropertyLossEtcCode(String typePropertyLossEtcCode);
+	public TypePropertyLossEtcType findFirstByStateCode( String stateCode );
 }

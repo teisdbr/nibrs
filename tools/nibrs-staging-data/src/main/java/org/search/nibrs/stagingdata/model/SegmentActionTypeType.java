@@ -31,8 +31,10 @@ public class SegmentActionTypeType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer segmentActionTypeTypeId; 
 	
-	private String segmentActionTypeCode; 
-	private String segmentActionTypeDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public SegmentActionTypeType() {
 		super();
@@ -40,53 +42,64 @@ public class SegmentActionTypeType {
 
 	public SegmentActionTypeType(Integer segmentActionTypeTypeId) {
 		super();
-		this.segmentActionTypeTypeId = segmentActionTypeTypeId;
+		this.setSegmentActionTypeTypeId(segmentActionTypeTypeId);
 	}
 
-	public SegmentActionTypeType(Integer segmentActionTypeTypeId, String segmentActionTypeCode,
-			String segmentActionTypeDescription) {
+	public SegmentActionTypeType(Integer segmentActionTypeTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
 		super();
-		this.segmentActionTypeTypeId = segmentActionTypeTypeId;
-		this.segmentActionTypeCode = segmentActionTypeCode;
-		this.segmentActionTypeDescription = segmentActionTypeDescription;
+		this.setSegmentActionTypeTypeId(segmentActionTypeTypeId);
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 
-	public String getSegmentActionTypeCode() {
-		return segmentActionTypeCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setSegmentActionTypeCode(String segmentActionTypeCode) {
-		this.segmentActionTypeCode = segmentActionTypeCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getSegmentActionTypeDescription() {
-		return segmentActionTypeDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setSegmentActionTypeDescription(String segmentActionTypeDescription) {
-		this.segmentActionTypeDescription = segmentActionTypeDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
 	}
 
-	public Integer getSegmentActionTypeTypeId() {
-		return segmentActionTypeTypeId;
+	public String getFbiCode() {
+		return fbiCode;
 	}
 
-	public void setSegmentActionTypeTypeId(Integer segmentActionTypeTypeId) {
-		this.segmentActionTypeTypeId = segmentActionTypeTypeId;
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((segmentActionTypeCode == null) ? 0 : segmentActionTypeCode.hashCode());
-		result = prime * result
-				+ ((segmentActionTypeDescription == null) ? 0 : segmentActionTypeDescription.hashCode());
-		result = prime * result + ((segmentActionTypeTypeId == null) ? 0 : segmentActionTypeTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((getSegmentActionTypeTypeId() == null) ? 0 : getSegmentActionTypeTypeId().hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -99,22 +112,40 @@ public class SegmentActionTypeType {
 		if (getClass() != obj.getClass())
 			return false;
 		SegmentActionTypeType other = (SegmentActionTypeType) obj;
-		if (segmentActionTypeCode == null) {
-			if (other.segmentActionTypeCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!segmentActionTypeCode.equals(other.segmentActionTypeCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (segmentActionTypeDescription == null) {
-			if (other.segmentActionTypeDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!segmentActionTypeDescription.equals(other.segmentActionTypeDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
-		if (segmentActionTypeTypeId == null) {
-			if (other.segmentActionTypeTypeId != null)
+		if (getSegmentActionTypeTypeId() == null) {
+			if (other.getSegmentActionTypeTypeId() != null)
 				return false;
-		} else if (!segmentActionTypeTypeId.equals(other.segmentActionTypeTypeId))
+		} else if (!getSegmentActionTypeTypeId().equals(other.getSegmentActionTypeTypeId()))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
+	}
+
+	public Integer getSegmentActionTypeTypeId() {
+		return segmentActionTypeTypeId;
+	}
+
+	public void setSegmentActionTypeTypeId(Integer segmentActionTypeTypeId) {
+		this.segmentActionTypeTypeId = segmentActionTypeTypeId;
 	}
 
 }

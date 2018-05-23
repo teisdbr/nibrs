@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.TypeOfVictimType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeOfVictimTypeRepository extends CrudRepository<TypeOfVictimType, Integer>{
-	public TypeOfVictimType findFirstByTypeOfVictimCode(String typeOfVictimCode);
+	public TypeOfVictimType findFirstByStateCode(String stateCode);
 }

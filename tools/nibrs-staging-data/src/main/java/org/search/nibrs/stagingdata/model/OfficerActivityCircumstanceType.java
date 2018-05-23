@@ -29,8 +29,10 @@ public class OfficerActivityCircumstanceType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer officerActivityCircumstanceTypeId; 
-	private String officerActivityCircumstanceCode; 
-	private String officerActivityCircumstanceDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public OfficerActivityCircumstanceType() {
 		super();
@@ -53,32 +55,48 @@ public class OfficerActivityCircumstanceType {
 		this.officerActivityCircumstanceTypeId = officerActivityCircumstanceTypeId;
 	}
 
-	public String getOfficerActivityCircumstanceCode() {
-		return officerActivityCircumstanceCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setOfficerActivityCircumstanceCode(String officerActivityCircumstanceCode) {
-		this.officerActivityCircumstanceCode = officerActivityCircumstanceCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getOfficerActivityCircumstanceDescription() {
-		return officerActivityCircumstanceDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setOfficerActivityCircumstanceDescription(String officerActivityCircumstanceDescription) {
-		this.officerActivityCircumstanceDescription = officerActivityCircumstanceDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((officerActivityCircumstanceCode == null) ? 0 : officerActivityCircumstanceCode.hashCode());
-		result = prime * result + ((officerActivityCircumstanceDescription == null) ? 0
-				: officerActivityCircumstanceDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result
 				+ ((officerActivityCircumstanceTypeId == null) ? 0 : officerActivityCircumstanceTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -91,20 +109,30 @@ public class OfficerActivityCircumstanceType {
 		if (getClass() != obj.getClass())
 			return false;
 		OfficerActivityCircumstanceType other = (OfficerActivityCircumstanceType) obj;
-		if (officerActivityCircumstanceCode == null) {
-			if (other.officerActivityCircumstanceCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!officerActivityCircumstanceCode.equals(other.officerActivityCircumstanceCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (officerActivityCircumstanceDescription == null) {
-			if (other.officerActivityCircumstanceDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!officerActivityCircumstanceDescription.equals(other.officerActivityCircumstanceDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (officerActivityCircumstanceTypeId == null) {
 			if (other.officerActivityCircumstanceTypeId != null)
 				return false;
 		} else if (!officerActivityCircumstanceTypeId.equals(other.officerActivityCircumstanceTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

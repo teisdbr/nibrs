@@ -73,7 +73,7 @@ public class XmlReportGeneratorTest {
 	@Autowired
 	public XmlReportGenerator xmlReportGenerator;
 
-	private List<String> ignorableNames = Arrays.asList(new String[]{"cjis:MessageDateTime", "cjis:MessageIdentification"}); ;
+	private List<String> ignorableNames = Arrays.asList(new String[]{"MessageDateTime", "MessageIdentification"}); ;
 	
 
 	@Test
@@ -125,7 +125,7 @@ public class XmlReportGeneratorTest {
 	            .normalizeWhitespace()
 	            .ignoreComments()
 	            .ignoreWhitespace()
-	            .withNodeFilter(node -> !ignorableNames.contains(node.getNodeName()))
+	            .withNodeFilter(node -> !ignorableNames.contains(node.getLocalName()))
 	            .withNodeMatcher(new DefaultNodeMatcher(es))
 	            .checkForSimilar()
 	            .build();
@@ -161,13 +161,19 @@ public class XmlReportGeneratorTest {
 	}
 
 	private void compareGroupBArrestReport(String expectedFilePath, Document document) {
+		ElementSelector es = ElementSelectors.conditionalBuilder()
+                .whenElementIsNamed("ArresteeArmedWithCode")
+                .thenUse(new ByNameAndTextRecSelector())
+                .elseUse(ElementSelectors.byName)
+                .build();
 		final Diff documentDiff = DiffBuilder
 	            .compare(Input.fromFile(expectedFilePath))
 	            .withTest(Input.fromDocument(document))
 	            .normalizeWhitespace()
 	            .ignoreComments()
 	            .ignoreWhitespace()
-	            .withNodeFilter(node -> !ignorableNames.contains(node.getNodeName()))
+	            .withNodeFilter(node -> !ignorableNames.contains(node.getLocalName()))
+	            .withNodeMatcher(new DefaultNodeMatcher(es))
 	            .checkForSimilar()
 	            .build();
 		documentDiff.getDifferences(); 

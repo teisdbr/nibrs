@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.MultipleArresteeSegmentsIndicatorType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MultipleArresteeSegmentsIndicatorTypeRepository extends CrudRepository<MultipleArresteeSegmentsIndicatorType, Integer>{
-	public MultipleArresteeSegmentsIndicatorType findFirstByMultipleArresteeSegmentsIndicatorCode(String multipleArresteeSegmentsIndicatorCode);
+	public MultipleArresteeSegmentsIndicatorType findFirstByStateCode(String stateCode);
 }

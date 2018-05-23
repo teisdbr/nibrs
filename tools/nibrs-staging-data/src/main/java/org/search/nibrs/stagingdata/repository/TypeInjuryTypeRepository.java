@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.TypeInjuryType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeInjuryTypeRepository extends CrudRepository<TypeInjuryType, Integer>{
-	public TypeInjuryType findFirstByTypeInjuryCode(String typeInjuryCode);
+	public TypeInjuryType findFirstByStateCode(String stateCode);
 }

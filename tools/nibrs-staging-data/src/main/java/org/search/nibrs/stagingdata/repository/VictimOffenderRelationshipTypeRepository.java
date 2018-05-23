@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.VictimOffenderRelationshipType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface VictimOffenderRelationshipTypeRepository extends CrudRepository<VictimOffenderRelationshipType, Integer>{
-	public VictimOffenderRelationshipType findFirstByVictimOffenderRelationshipCode(String victimOffenderRelationshipCode);
+	public VictimOffenderRelationshipType findFirstByStateCode( String stateCode );
 }

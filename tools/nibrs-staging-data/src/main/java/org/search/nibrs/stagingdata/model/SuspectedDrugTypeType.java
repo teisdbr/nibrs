@@ -36,8 +36,10 @@ public class SuspectedDrugTypeType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer suspectedDrugTypeTypeId; 
 	
-	private String suspectedDrugTypeCode; 
-	private String suspectedDrugTypeDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	@OneToMany(mappedBy = "suspectedDrugTypeType")
 	@JsonIgnore
@@ -53,25 +55,19 @@ public class SuspectedDrugTypeType {
 		this.suspectedDrugTypeTypeId = suspectedDrugTypeTypeId;
 	}
 
-	public SuspectedDrugTypeType(Integer suspectedDrugTypeTypeId, String suspectedDrugTypeCode,
-			String suspectedDrugTypeDescription) {
+	public SuspectedDrugTypeType(Integer suspectedDrugTypeTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
 		super();
 		this.suspectedDrugTypeTypeId = suspectedDrugTypeTypeId;
-		this.suspectedDrugTypeCode = suspectedDrugTypeCode;
-		this.suspectedDrugTypeDescription = suspectedDrugTypeDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
         return ReflectionToStringBuilder.toStringExclude(this, "suspectedDrugTypes");		
-	}
-
-	public String getSuspectedDrugTypeCode() {
-		return suspectedDrugTypeCode;
-	}
-
-	public void setSuspectedDrugTypeCode(String suspectedDrugTypeCode) {
-		this.suspectedDrugTypeCode = suspectedDrugTypeCode;
 	}
 
 	public Integer getSuspectedDrugTypeTypeId() {
@@ -82,21 +78,54 @@ public class SuspectedDrugTypeType {
 		this.suspectedDrugTypeTypeId = suspectedDrugTypeTypeId;
 	}
 
-	public String getSuspectedDrugTypeDescription() {
-		return suspectedDrugTypeDescription;
+	public Set<SuspectedDrugType> getSuspectedDrugTypes() {
+		return suspectedDrugTypes;
 	}
 
-	public void setSuspectedDrugTypeDescription(String suspectedDrugTypeDescription) {
-		this.suspectedDrugTypeDescription = suspectedDrugTypeDescription;
+	public void setSuspectedDrugTypes(Set<SuspectedDrugType> suspectedDrugTypes) {
+		this.suspectedDrugTypes = suspectedDrugTypes;
+	}
+
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((suspectedDrugTypeCode == null) ? 0 : suspectedDrugTypeCode.hashCode());
-		result = prime * result
-				+ ((suspectedDrugTypeDescription == null) ? 0 : suspectedDrugTypeDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result + ((suspectedDrugTypeTypeId == null) ? 0 : suspectedDrugTypeTypeId.hashCode());
 		return result;
 	}
@@ -110,15 +139,25 @@ public class SuspectedDrugTypeType {
 		if (getClass() != obj.getClass())
 			return false;
 		SuspectedDrugTypeType other = (SuspectedDrugTypeType) obj;
-		if (suspectedDrugTypeCode == null) {
-			if (other.suspectedDrugTypeCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!suspectedDrugTypeCode.equals(other.suspectedDrugTypeCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (suspectedDrugTypeDescription == null) {
-			if (other.suspectedDrugTypeDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!suspectedDrugTypeDescription.equals(other.suspectedDrugTypeDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (suspectedDrugTypeTypeId == null) {
 			if (other.suspectedDrugTypeTypeId != null)
@@ -126,14 +165,6 @@ public class SuspectedDrugTypeType {
 		} else if (!suspectedDrugTypeTypeId.equals(other.suspectedDrugTypeTypeId))
 			return false;
 		return true;
-	}
-
-	public Set<SuspectedDrugType> getSuspectedDrugTypes() {
-		return suspectedDrugTypes;
-	}
-
-	public void setSuspectedDrugTypes(Set<SuspectedDrugType> suspectedDrugTypes) {
-		this.suspectedDrugTypes = suspectedDrugTypes;
 	}
 
 }

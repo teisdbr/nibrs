@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.SuspectedDrugTypeType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SuspectedDrugTypeTypeRepository extends CrudRepository<SuspectedDrugTypeType, Integer>{
-	public SuspectedDrugTypeType findFirstBySuspectedDrugTypeCode(String suspectedDrugTypeCode);
+	public SuspectedDrugTypeType findFirstByStateCode(String stateCode);
 }

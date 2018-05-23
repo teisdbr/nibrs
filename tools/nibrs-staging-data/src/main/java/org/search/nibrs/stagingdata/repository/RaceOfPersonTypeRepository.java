@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.RaceOfPersonType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RaceOfPersonTypeRepository extends CrudRepository<RaceOfPersonType, Integer>{
-	public RaceOfPersonType findFirstByRaceOfPersonCode(String raceOfPersonCode);
+	public RaceOfPersonType findFirstByStateCode(String stateCode);
 }

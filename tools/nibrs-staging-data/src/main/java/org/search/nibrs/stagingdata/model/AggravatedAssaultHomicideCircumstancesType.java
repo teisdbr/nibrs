@@ -35,8 +35,10 @@ public class AggravatedAssaultHomicideCircumstancesType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer aggravatedAssaultHomicideCircumstancesTypeId; 
-	private String aggravatedAssaultHomicideCircumstancesCode; 
-	private String aggravatedAssaultHomicideCircumstancesDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	@ManyToMany(mappedBy = "aggravatedAssaultHomicideCircumstancesTypes", fetch=FetchType.LAZY)
 	private Set<VictimSegment> victimSegments;
@@ -51,12 +53,13 @@ public class AggravatedAssaultHomicideCircumstancesType {
 	}
 
 	public AggravatedAssaultHomicideCircumstancesType(Integer aggravatedAssaultHomicideCircumstancesTypeId,
-			String aggravatedAssaultHomicideCircumstancesCode,
-			String aggravatedAssaultHomicideCircumstancesDescription) {
+			String stateCode, String stateDescription, String fbiCode, String fbiDescription) {
 		super();
 		this.aggravatedAssaultHomicideCircumstancesTypeId = aggravatedAssaultHomicideCircumstancesTypeId;
-		this.aggravatedAssaultHomicideCircumstancesCode = aggravatedAssaultHomicideCircumstancesCode;
-		this.aggravatedAssaultHomicideCircumstancesDescription = aggravatedAssaultHomicideCircumstancesDescription;
+		this.setStateCode(stateCode);
+		this.setStateDescription(stateDescription);
+		this.setFbiCode(fbiCode);
+		this.setFbiDescription(fbiDescription);
 	}
 
 	public String toString(){
@@ -72,33 +75,48 @@ public class AggravatedAssaultHomicideCircumstancesType {
 		this.aggravatedAssaultHomicideCircumstancesTypeId = aggravatedAssaultHomicideCircumstancesTypeId;
 	}
 
-	public String getAggravatedAssaultHomicideCircumstancesCode() {
-		return aggravatedAssaultHomicideCircumstancesCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setAggravatedAssaultHomicideCircumstancesCode(String aggravatedAssaultHomicideCircumstancesCode) {
-		this.aggravatedAssaultHomicideCircumstancesCode = aggravatedAssaultHomicideCircumstancesCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getAggravatedAssaultHomicideCircumstancesDescription() {
-		return aggravatedAssaultHomicideCircumstancesDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setAggravatedAssaultHomicideCircumstancesDescription(
-			String aggravatedAssaultHomicideCircumstancesDescription) {
-		this.aggravatedAssaultHomicideCircumstancesDescription = aggravatedAssaultHomicideCircumstancesDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((aggravatedAssaultHomicideCircumstancesCode == null) ? 0
-				: aggravatedAssaultHomicideCircumstancesCode.hashCode());
-		result = prime * result + ((aggravatedAssaultHomicideCircumstancesDescription == null) ? 0
-				: aggravatedAssaultHomicideCircumstancesDescription.hashCode());
 		result = prime * result + ((aggravatedAssaultHomicideCircumstancesTypeId == null) ? 0
 				: aggravatedAssaultHomicideCircumstancesTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -111,23 +129,33 @@ public class AggravatedAssaultHomicideCircumstancesType {
 		if (getClass() != obj.getClass())
 			return false;
 		AggravatedAssaultHomicideCircumstancesType other = (AggravatedAssaultHomicideCircumstancesType) obj;
-		if (aggravatedAssaultHomicideCircumstancesCode == null) {
-			if (other.aggravatedAssaultHomicideCircumstancesCode != null)
-				return false;
-		} else if (!aggravatedAssaultHomicideCircumstancesCode.equals(other.aggravatedAssaultHomicideCircumstancesCode))
-			return false;
-		if (aggravatedAssaultHomicideCircumstancesDescription == null) {
-			if (other.aggravatedAssaultHomicideCircumstancesDescription != null)
-				return false;
-		} else if (!aggravatedAssaultHomicideCircumstancesDescription
-				.equals(other.aggravatedAssaultHomicideCircumstancesDescription))
-			return false;
 		if (aggravatedAssaultHomicideCircumstancesTypeId == null) {
 			if (other.aggravatedAssaultHomicideCircumstancesTypeId != null)
 				return false;
 		} else if (!aggravatedAssaultHomicideCircumstancesTypeId
 				.equals(other.aggravatedAssaultHomicideCircumstancesTypeId))
 			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
+			return false;
 		return true;
 	}
+
 }

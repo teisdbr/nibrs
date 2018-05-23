@@ -30,8 +30,10 @@ public class ResidentStatusOfPersonType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer residentStatusOfPersonTypeId; 
 	
-	private String residentStatusOfPersonCode; 
-	private String residentStatusOfPersonDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public ResidentStatusOfPersonType() {
 		super();
@@ -39,54 +41,65 @@ public class ResidentStatusOfPersonType {
 
 	public ResidentStatusOfPersonType(Integer residentStatusOfPersonTypeId) {
 		super();
-		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeId;
+		this.setResidentStatusOfPersonTypeId(residentStatusOfPersonTypeId);
 	}
 
-	public ResidentStatusOfPersonType(Integer residentStatusOfPersonTypeID, String residentStatusOfPersonCode,
-			String residentStatusOfPersonDescription) {
+	public ResidentStatusOfPersonType(Integer residentStatusOfPersonTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
 		super();
-		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeID;
-		this.residentStatusOfPersonCode = residentStatusOfPersonCode;
-		this.residentStatusOfPersonDescription = residentStatusOfPersonDescription;
+		this.setResidentStatusOfPersonTypeId(residentStatusOfPersonTypeId);
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-	public String getResidentStatusOfPersonCode() {
-		return residentStatusOfPersonCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setResidentStatusOfPersonCode(String residentStatusOfPersonCode) {
-		this.residentStatusOfPersonCode = residentStatusOfPersonCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getResidentStatusOfPersonDescription() {
-		return residentStatusOfPersonDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setResidentStatusOfPersonDescription(String residentStatusOfPersonDescription) {
-		this.residentStatusOfPersonDescription = residentStatusOfPersonDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
 	}
 
-	public Integer getResidentStatusOfPersonTypeId() {
-		return residentStatusOfPersonTypeId;
+	public String getFbiCode() {
+		return fbiCode;
 	}
 
-	public void setResidentStatusOfPersonTypeId(Integer residentStatusOfPersonTypeID) {
-		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeID;
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((residentStatusOfPersonCode == null) ? 0 : residentStatusOfPersonCode.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result
-				+ ((residentStatusOfPersonDescription == null) ? 0 : residentStatusOfPersonDescription.hashCode());
-		result = prime * result
-				+ ((residentStatusOfPersonTypeId == null) ? 0 : residentStatusOfPersonTypeId.hashCode());
+				+ ((getResidentStatusOfPersonTypeId() == null) ? 0 : getResidentStatusOfPersonTypeId().hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -99,23 +112,40 @@ public class ResidentStatusOfPersonType {
 		if (getClass() != obj.getClass())
 			return false;
 		ResidentStatusOfPersonType other = (ResidentStatusOfPersonType) obj;
-		if (residentStatusOfPersonCode == null) {
-			if (other.residentStatusOfPersonCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!residentStatusOfPersonCode.equals(other.residentStatusOfPersonCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (residentStatusOfPersonDescription == null) {
-			if (other.residentStatusOfPersonDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!residentStatusOfPersonDescription.equals(other.residentStatusOfPersonDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
-		if (residentStatusOfPersonTypeId == null) {
-			if (other.residentStatusOfPersonTypeId != null)
+		if (getResidentStatusOfPersonTypeId() == null) {
+			if (other.getResidentStatusOfPersonTypeId() != null)
 				return false;
-		} else if (!residentStatusOfPersonTypeId.equals(other.residentStatusOfPersonTypeId))
+		} else if (!getResidentStatusOfPersonTypeId().equals(other.getResidentStatusOfPersonTypeId()))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}
 
+	public Integer getResidentStatusOfPersonTypeId() {
+		return residentStatusOfPersonTypeId;
+	}
+
+	public void setResidentStatusOfPersonTypeId(Integer residentStatusOfPersonTypeId) {
+		this.residentStatusOfPersonTypeId = residentStatusOfPersonTypeId;
+	}
 
 }

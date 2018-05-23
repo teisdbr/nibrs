@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.UcrOffenseCodeType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UcrOffenseCodeTypeRepository extends CrudRepository<UcrOffenseCodeType, Integer>{
-	public UcrOffenseCodeType findFirstByUcrOffenseCode(String ucrOffenseCode);
+	public UcrOffenseCodeType findFirstByStateCode( String stateCode );
 }

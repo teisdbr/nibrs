@@ -151,7 +151,7 @@ public class AdministrativeSegmentFactory {
 	public AdministrativeSegment getBasicAdministrativeSegment(){
 		
 		AdministrativeSegment administrativeSegment = new AdministrativeSegment();
-		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I");
+		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstByStateCode("I");
 		administrativeSegment.setSegmentActionType(segmentActionTypeType);
 		administrativeSegment.setMonthOfTape("12");
 		administrativeSegment.setYearOfTape("2016");
@@ -172,9 +172,9 @@ public class AdministrativeSegmentFactory {
 		administrativeSegment.setReportDateIndicator(null);  //'R' for report. Must be empty when incident is known.    
 		administrativeSegment.setIncidentHour("13");  // allowed value 0-23.  
 		ClearedExceptionallyType clearedExceptionallyType
-			= clearedExceptionallyTypeRepository.findFirstByClearedExceptionallyCode("B");
+			= clearedExceptionallyTypeRepository.findFirstByStateCode("B");
 		administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
-		administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorTypeRepository.findFirstByCargoTheftIndicatorCode("N"));
+		administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorTypeRepository.findFirstByStateCode("N"));
 		
 		
 //		Offense segment 1 
@@ -182,19 +182,19 @@ public class AdministrativeSegmentFactory {
 		OffenseSegment offenseSegment = new OffenseSegment();
 		offenseSegment.setSegmentActionType(segmentActionTypeType);
 		
-		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("23D");
+		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByStateCode("23D");
 		offenseSegment.setUcrOffenseCodeType(ucrOffenseCode);
 		
 		offenseSegment.setOffenseAttemptedCompleted("C");  //Allowed values C or A 
 		
-		LocationType locationType = locationTypeRepository.findFirstByLocationTypeCode("04");
+		LocationType locationType = locationTypeRepository.findFirstByStateCode("04");
 		offenseSegment.setLocationType(locationType);
 		
 		offenseSegment.setNumberOfPremisesEntered(2);
 		
-		MethodOfEntryType methodOfEntryType = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
+		MethodOfEntryType methodOfEntryType = methodOfEntryTypeRepository.findFirstByStateCode("F");
 		offenseSegment.setMethodOfEntryType(methodOfEntryType);
-		BiasMotivationType biasMotivationType = biasMotivationTypeRepository.findFirstByBiasMotivationCode("11");
+		BiasMotivationType biasMotivationType = biasMotivationTypeRepository.findFirstByStateCode("11");
 		offenseSegment.setBiasMotivationTypes(new HashSet<BiasMotivationType>(){{
 			add(biasMotivationType);
 		}});;
@@ -225,19 +225,19 @@ public class AdministrativeSegmentFactory {
 		OffenseSegment offenseSegment2 = new OffenseSegment();
 		offenseSegment2.setSegmentActionType(segmentActionTypeType);
 		
-		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("26B");
+		UcrOffenseCodeType ucrOffenseCode2 = ucrOffenseCodeTypeRepository.findFirstByStateCode("26B");
 		offenseSegment2.setUcrOffenseCodeType(ucrOffenseCode2);
 		
 		offenseSegment2.setOffenseAttemptedCompleted("A");  //Allowed values C or A 
 		
-		LocationType locationType2 = locationTypeRepository.findFirstByLocationTypeCode("02");
+		LocationType locationType2 = locationTypeRepository.findFirstByStateCode("02");
 		offenseSegment2.setLocationType(locationType2);
 		
 		offenseSegment2.setNumberOfPremisesEntered(1);
 		
-		MethodOfEntryType methodOfEntryType2 = methodOfEntryTypeRepository.findFirstByMethodOfEntryCode("F");
+		MethodOfEntryType methodOfEntryType2 = methodOfEntryTypeRepository.findFirstByStateCode("F");
 		offenseSegment2.setMethodOfEntryType(methodOfEntryType2);
-		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findFirstByBiasMotivationCode("12");
+		BiasMotivationType biasMotivationType2 = biasMotivationTypeRepository.findFirstByStateCode("12");
 		offenseSegment2.setBiasMotivationTypes(new HashSet<BiasMotivationType>(){{
 			add(biasMotivationType2);
 		}});;
@@ -261,7 +261,7 @@ public class AdministrativeSegmentFactory {
 		
 		PropertyType propertyType1 = new PropertyType();
 		propertyType1.setPropertySegment(propertySegment1);
-		propertyType1.setPropertyDescriptionType(propertyDescriptionTypeRepository.findFirstByPropertyDescriptionCode("03"));
+		propertyType1.setPropertyDescriptionType(propertyDescriptionTypeRepository.findFirstByStateCode("03"));
 		propertyType1.setValueOfProperty(10000.0);
 		propertyType1.setRecoveredDateType(dateTypeRepository.findOne(99998));
 		
@@ -282,15 +282,15 @@ public class AdministrativeSegmentFactory {
 		
 		SuspectedDrugType suspectedDrugType1 = new SuspectedDrugType();
 		suspectedDrugType1.setPropertySegment(propertySegment2);
-		suspectedDrugType1.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstBySuspectedDrugTypeCode("A"));
+		suspectedDrugType1.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstByStateCode("A"));
 		suspectedDrugType1.setEstimatedDrugQuantity(1.0);
 		suspectedDrugType1.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findOne(1));
 		
 		SuspectedDrugType suspectedDrugType2 = new SuspectedDrugType();
 		suspectedDrugType2.setPropertySegment(propertySegment2);
-		suspectedDrugType2.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstBySuspectedDrugTypeCode("D"));
+		suspectedDrugType2.setSuspectedDrugTypeType(suspectedDrugTypeTypeRepository.findFirstByStateCode("D"));
 		suspectedDrugType2.setEstimatedDrugQuantity(1.0);
-		suspectedDrugType2.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findFirstByTypeDrugMeasurementCode("OZ"));
+		suspectedDrugType2.setTypeDrugMeasurementType(typeDrugMeasurementTypeRepository.findFirstByStateCode("OZ"));
 		
 		propertySegment2.setSuspectedDrugTypes(new LinkedHashSet<SuspectedDrugType>(){{
 			add(suspectedDrugType1);
@@ -321,16 +321,16 @@ public class AdministrativeSegmentFactory {
 		arresteeSegment.setArrestTransactionNumber("201040889");
 		
 		arresteeSegment.setDispositionOfArresteeUnder18Type(
-				dispositionOfArresteeUnder18TypeRepository.findFirstByDispositionOfArresteeUnder18Code("9"));
-		arresteeSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
-		arresteeSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
-		arresteeSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("U"));
-		arresteeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I"));
-		arresteeSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
-		arresteeSegment.setTypeOfArrestType(typeOfArrestTypeRepository.findFirstByTypeOfArrestCode("S"));
-		arresteeSegment.setUcrOffenseCodeType(ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("23D"));
+				dispositionOfArresteeUnder18TypeRepository.findFirstByStateCode("9"));
+		arresteeSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByStateCode("U"));
+		arresteeSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByStateCode("B"));
+		arresteeSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByStateCode("U"));
+		arresteeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstByStateCode("I"));
+		arresteeSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstByStateCode("M"));
+		arresteeSegment.setTypeOfArrestType(typeOfArrestTypeRepository.findFirstByStateCode("S"));
+		arresteeSegment.setUcrOffenseCodeType(ucrOffenseCodeTypeRepository.findFirstByStateCode("23D"));
 		arresteeSegment.setMultipleArresteeSegmentsIndicatorType(
-				multipleArresteeSegmentsIndicatorTypeRepository.findFirstByMultipleArresteeSegmentsIndicatorCode("N"));
+				multipleArresteeSegmentsIndicatorTypeRepository.findFirstByStateCode("N"));
 		
 		ArresteeSegmentWasArmedWith arresteeSegmentWasArmedWith1 = new ArresteeSegmentWasArmedWith();
 		arresteeSegmentWasArmedWith1.setArresteeSegment(arresteeSegment);
@@ -360,9 +360,9 @@ public class AdministrativeSegmentFactory {
 		offenderSegment1.setAgeOfOffenderMax(0);
 		offenderSegment1.setAgeOfOffenderMin(0);
 		
-		offenderSegment1.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
-		offenderSegment1.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
-		offenderSegment1.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
+		offenderSegment1.setSexOfPersonType(sexOfPersonTypeRepository.findFirstByStateCode("M"));
+		offenderSegment1.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByStateCode("B"));
+		offenderSegment1.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByStateCode("U"));
 		offenderSegment1.setOffenderSequenceNumber(1);
 
 		OffenderSegment offenderSegment2 = new OffenderSegment();
@@ -371,9 +371,9 @@ public class AdministrativeSegmentFactory {
 		offenderSegment2.setAgeOfOffenderMax(33);
 		offenderSegment2.setAgeOfOffenderMin(33);
 		
-		offenderSegment2.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("M"));
-		offenderSegment2.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("B"));
-		offenderSegment2.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
+		offenderSegment2.setSexOfPersonType(sexOfPersonTypeRepository.findFirstByStateCode("M"));
+		offenderSegment2.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByStateCode("B"));
+		offenderSegment2.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByStateCode("U"));
 		offenderSegment2.setOffenderSequenceNumber(2);
 		
 		administrativeSegment.setOffenderSegments(new HashSet<OffenderSegment>(){{
@@ -395,26 +395,26 @@ public class AdministrativeSegmentFactory {
 		victimSegment.setAdministrativeSegment(administrativeSegment);
 		victimSegment.setSegmentActionType(segmentActionTypeType);
 		victimSegment.setVictimSequenceNumber(1);
-		victimSegment.setTypeOfVictimType(typeOfVictimTypeRepository.findFirstByTypeOfVictimCode("L"));
-		victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceTypeRepository.findFirstByOfficerActivityCircumstanceCode("01"));
-		victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeTypeRepository.findFirstByOfficerAssignmentTypeCode("F"));
+		victimSegment.setTypeOfVictimType(typeOfVictimTypeRepository.findFirstByStateCode("L"));
+		victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceTypeRepository.findFirstByStateCode("01"));
+		victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeTypeRepository.findFirstByStateCode("F"));
 		victimSegment.setOfficerOtherJurisdictionOri("other1234");;
 		
 		victimSegment.setAgeNeonateIndicator(0);
 		victimSegment.setAgeFirstWeekIndicator(0);
 		victimSegment.setAgeFirstYearIndicator(0);
 		
-		victimSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstBySexOfPersonCode("U"));
-		victimSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("U"));
-		victimSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("U"));
-		victimSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("U"));
+		victimSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstByStateCode("U"));
+		victimSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByStateCode("U"));
+		victimSegment.setEthnicityOfPersonType(ethnicityOfPersonTypeRepository.findFirstByStateCode("U"));
+		victimSegment.setResidentStatusOfPersonType(residentStatusOfPersonTypeRepository.findFirstByStateCode("U"));
 		
 		victimSegment.setAdditionalJustifiableHomicideCircumstancesType(
-				additionalJustifiableHomicideCircumstancesTypeRepository.findFirstByAdditionalJustifiableHomicideCircumstancesCode("9"));
+				additionalJustifiableHomicideCircumstancesTypeRepository.findFirstByStateCode("9"));
 		
 		
 		victimSegment.setTypeInjuryTypes(new HashSet<TypeInjuryType>(){{
-			add(typeInjuryTypeRepository.findFirstByTypeInjuryCode("O"));
+			add(typeInjuryTypeRepository.findFirstByStateCode("O"));
 		}});
 
 		victimSegment.setOffenseSegments(new HashSet<OffenseSegment>(){{
@@ -423,15 +423,15 @@ public class AdministrativeSegmentFactory {
 		}});
 		
 		victimSegment.setAggravatedAssaultHomicideCircumstancesTypes(new HashSet<AggravatedAssaultHomicideCircumstancesType>(){{
-			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("01"));
-			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByAggravatedAssaultHomicideCircumstancesCode("02"));
+			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByStateCode("01"));
+			add(aggravatedAssaultHomicideCircumstancesTypeRepository.findFirstByStateCode("02"));
 		}});
 		
 		VictimOffenderAssociation victimOffenderAssociation1 = new VictimOffenderAssociation();
 		victimOffenderAssociation1.setVictimSegment(victimSegment);
 		victimOffenderAssociation1.setOffenderSegment(offenderSegment1);
 		victimOffenderAssociation1.setVictimOffenderRelationshipType(
-				victimOffenderRelationshipTypeRepository.findFirstByVictimOffenderRelationshipCode("AQ"));;
+				victimOffenderRelationshipTypeRepository.findFirstByStateCode("AQ"));;
 		
 		victimSegment.setVictimOffenderAssociations(new HashSet<VictimOffenderAssociation>(){{
 			add(victimOffenderAssociation1);

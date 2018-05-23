@@ -30,8 +30,10 @@ public class TypePropertyLossEtcType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typePropertyLossEtcTypeId; 
 	
-	private String typePropertyLossEtcCode; 
-	private String typePropertyLossEtcDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public TypePropertyLossEtcType() {
 		super();
@@ -42,12 +44,14 @@ public class TypePropertyLossEtcType {
 		this.typePropertyLossEtcTypeId = typePropertyLossEtcTypeId;
 	}
 
-	public TypePropertyLossEtcType(Integer typePropertyLossEtcTypeId, String typePropertyLossEtcCode,
-			String typePropertyLossEtcDescription) {
+	public TypePropertyLossEtcType(Integer typePropertyLossEtcTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
 		super();
 		this.typePropertyLossEtcTypeId = typePropertyLossEtcTypeId;
-		this.typePropertyLossEtcCode = typePropertyLossEtcCode;
-		this.typePropertyLossEtcDescription = typePropertyLossEtcDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -62,29 +66,46 @@ public class TypePropertyLossEtcType {
 		this.typePropertyLossEtcTypeId = typePropertyLossEtcTypeId;
 	}
 
-	public String getTypePropertyLossEtcCode() {
-		return typePropertyLossEtcCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setTypePropertyLossEtcCode(String typePropertyLossEtcCode) {
-		this.typePropertyLossEtcCode = typePropertyLossEtcCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getTypePropertyLossEtcDescription() {
-		return typePropertyLossEtcDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setTypePropertyLossEtcDescription(String typePropertyLossEtcDescription) {
-		this.typePropertyLossEtcDescription = typePropertyLossEtcDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((typePropertyLossEtcCode == null) ? 0 : typePropertyLossEtcCode.hashCode());
-		result = prime * result
-				+ ((typePropertyLossEtcDescription == null) ? 0 : typePropertyLossEtcDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result + ((typePropertyLossEtcTypeId == null) ? 0 : typePropertyLossEtcTypeId.hashCode());
 		return result;
 	}
@@ -98,15 +119,25 @@ public class TypePropertyLossEtcType {
 		if (getClass() != obj.getClass())
 			return false;
 		TypePropertyLossEtcType other = (TypePropertyLossEtcType) obj;
-		if (typePropertyLossEtcCode == null) {
-			if (other.typePropertyLossEtcCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!typePropertyLossEtcCode.equals(other.typePropertyLossEtcCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (typePropertyLossEtcDescription == null) {
-			if (other.typePropertyLossEtcDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!typePropertyLossEtcDescription.equals(other.typePropertyLossEtcDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (typePropertyLossEtcTypeId == null) {
 			if (other.typePropertyLossEtcTypeId != null)

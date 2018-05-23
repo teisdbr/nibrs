@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.ResidentStatusOfPersonType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ResidentStatusOfPersonTypeRepository extends CrudRepository<ResidentStatusOfPersonType, Integer>{
-	public ResidentStatusOfPersonType findFirstByResidentStatusOfPersonCode(String residentStatusOfPersonCode);
+	public ResidentStatusOfPersonType findFirstByStateCode(String stateCode);
 }

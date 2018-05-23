@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ArresteeWasArmedWithTypeRepository extends CrudRepository<ArresteeWasArmedWithType, Integer>{
-	public ArresteeWasArmedWithType findFirstByArresteeWasArmedWithCode(String arresteeWasArmedWithCode);
+	public ArresteeWasArmedWithType findFirstByStateCode(String stateCode);
 }

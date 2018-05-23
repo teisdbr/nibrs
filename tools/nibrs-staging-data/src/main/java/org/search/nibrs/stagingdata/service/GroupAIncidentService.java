@@ -242,7 +242,7 @@ public class GroupAIncidentService {
 			administrativeSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupAIncidentReport.getOri()));
 			
 			String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType()).trim();
-			administrativeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstBySegmentActionTypeCode(reportActionType));
+			administrativeSegment.setSegmentActionType(segmentActionTypeRepository.findFirstByStateCode(reportActionType));
 			
 			Optional<Integer> monthOfTape = Optional.ofNullable(groupAIncidentReport.getMonthOfTape());
 			monthOfTape.ifPresent( m-> {
@@ -268,7 +268,7 @@ public class GroupAIncidentService {
 			
 			ClearedExceptionallyType clearedExceptionallyType = 
 					codeTableService.getCodeTableType(groupAIncidentReport.getExceptionalClearanceCode(), 
-							clearedExceptionallyTypeRepository::findFirstByClearedExceptionallyCode, 
+							clearedExceptionallyTypeRepository::findFirstByStateCode, 
 							ClearedExceptionallyType::new); 
 			administrativeSegment.setClearedExceptionallyType(clearedExceptionallyType);
 			
@@ -277,7 +277,7 @@ public class GroupAIncidentService {
 			
 			CargoTheftIndicatorType cargoTheftIndicatorType = 
 					codeTableService.getCodeTableType(groupAIncidentReport.getCargoTheftIndicator(), 
-							cargoTheftIndicatorTypeRepository::findFirstByCargoTheftIndicatorCode, CargoTheftIndicatorType::new); 
+							cargoTheftIndicatorTypeRepository::findFirstByStateCode, CargoTheftIndicatorType::new); 
 			administrativeSegment.setCargoTheftIndicatorType(cargoTheftIndicatorType);
 			
 			processProperties(administrativeSegment, groupAIncidentReport);
@@ -303,7 +303,7 @@ public class GroupAIncidentService {
 				propertySegment.setAdministrativeSegment(administrativeSegment);
 				
 				TypePropertyLossEtcType typePropertyLossEtcType = codeTableService.getCodeTableType(
-						property.getTypeOfPropertyLoss(), typePropertyLossEtcTypeRepository::findFirstByTypePropertyLossEtcCode, TypePropertyLossEtcType::new);
+						property.getTypeOfPropertyLoss(), typePropertyLossEtcTypeRepository::findFirstByStateCode, TypePropertyLossEtcType::new);
 				propertySegment.setTypePropertyLossEtcType(typePropertyLossEtcType );
 				
 				Integer numberOfRecoveredMotorVehicles = Optional.ofNullable(property.getNumberOfRecoveredMotorVehicles())
@@ -336,7 +336,7 @@ public class GroupAIncidentService {
 				String suspectedDrugTypeString = StringUtils.trimToNull(property.getSuspectedDrugType(i)); 
 				
 				SuspectedDrugTypeType suspectedDrugTypeType = 
-						codeTableService.getCodeTableType(suspectedDrugTypeString, suspectedDrugTypeTypeRepository::findFirstBySuspectedDrugTypeCode, null);
+						codeTableService.getCodeTableType(suspectedDrugTypeString, suspectedDrugTypeTypeRepository::findFirstByStateCode, null);
 				
 				if (suspectedDrugTypeType != null){
 					SuspectedDrugType suspectedDrugType = new SuspectedDrugType(); 
@@ -349,7 +349,7 @@ public class GroupAIncidentService {
 					
 					
 					TypeDrugMeasurementType typeDrugMeasurementType = codeTableService.getCodeTableType(
-							property.getTypeDrugMeasurement(i), typeDrugMeasurementTypeRepository::findFirstByTypeDrugMeasurementCode, TypeDrugMeasurementType::new);
+							property.getTypeDrugMeasurement(i), typeDrugMeasurementTypeRepository::findFirstByStateCode, TypeDrugMeasurementType::new);
 					suspectedDrugType.setTypeDrugMeasurementType(typeDrugMeasurementType );
 					
 					suspectedDrugTypes.add(suspectedDrugType);
@@ -370,7 +370,7 @@ public class GroupAIncidentService {
 				String propertyDescription = StringUtils.trimToNull(property.getPropertyDescription(i)); 
 				
 				PropertyDescriptionType propertyDescriptionType = 
-						codeTableService.getCodeTableType(propertyDescription, propertyDescriptionTypeRepository::findFirstByPropertyDescriptionCode, null);
+						codeTableService.getCodeTableType(propertyDescription, propertyDescriptionTypeRepository::findFirstByStateCode, null);
 				
 				if (propertyDescriptionType != null){
 					PropertyType propertyType = new PropertyType(); 
@@ -416,7 +416,7 @@ public class GroupAIncidentService {
 			Map<String, OffenseSegment> offenseCodeOffenseMap = new HashMap<>(); 
 			Optional<Set<OffenseSegment>> offenseSegments= Optional.ofNullable(administrativeSegment.getOffenseSegments());
 			offenseSegments.ifPresent(offenses -> 
-			offenses.forEach(offense->offenseCodeOffenseMap.put(offense.getUcrOffenseCodeType().getUcrOffenseCode(), offense))
+			offenses.forEach(offense->offenseCodeOffenseMap.put(offense.getUcrOffenseCodeType().getStateCode(), offense))
 					);
 			
 			Map<Integer, OffenderSegment> offenderSequenceNumberOffenderMap = new HashMap<>();
@@ -434,18 +434,18 @@ public class GroupAIncidentService {
 				victimSegment.setVictimSequenceNumber(victim.getVictimSequenceNumber().getValue());
 
 				TypeOfVictimType typeOfVictimType = 
-						codeTableService.getCodeTableType(victim.getTypeOfVictim(), typeOfVictimTypeRepository::findFirstByTypeOfVictimCode, TypeOfVictimType::new);
+						codeTableService.getCodeTableType(victim.getTypeOfVictim(), typeOfVictimTypeRepository::findFirstByStateCode, TypeOfVictimType::new);
 				victimSegment.setTypeOfVictimType(typeOfVictimType);
 				
 				OfficerActivityCircumstanceType officerActivityCircumstanceType = 
 						codeTableService.getCodeTableType(victim.getTypeOfOfficerActivityCircumstance(), 
-								officerActivityCircumstanceTypeRepository::findFirstByOfficerActivityCircumstanceCode, 
+								officerActivityCircumstanceTypeRepository::findFirstByStateCode, 
 								OfficerActivityCircumstanceType::new);
 				victimSegment.setOfficerActivityCircumstanceType(officerActivityCircumstanceType);
 				
 				OfficerAssignmentTypeType officerAssignmentTypeType = 
 						codeTableService.getCodeTableType(victim.getOfficerAssignmentType(), 
-								officerAssignmentTypeTypeRepository::findFirstByOfficerAssignmentTypeCode, 
+								officerAssignmentTypeTypeRepository::findFirstByStateCode, 
 								OfficerAssignmentTypeType::new);
 				victimSegment.setOfficerAssignmentTypeType(officerAssignmentTypeType);
 				
@@ -459,26 +459,26 @@ public class GroupAIncidentService {
 				victimSegment.setAgeFirstYearIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isBaby).orElse(false)));
 				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
-						victim.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+						victim.getSex(), sexOfPersonTypeRepository::findFirstByStateCode, SexOfPersonType::new);
 				victimSegment.setSexOfPersonType(sexOfPersonType);
 				
 				RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
-						victim.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+						victim.getRace(), raceOfPersonTypeRepository::findFirstByStateCode, RaceOfPersonType::new);
 				victimSegment.setRaceOfPersonType(raceOfPersonType);
 				
 				EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
-						victim.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+						victim.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByStateCode, EthnicityOfPersonType::new);
 				victimSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
 				
 				ResidentStatusOfPersonType residentStatusOfPersonType = codeTableService.getCodeTableType(
 						victim.getResidentStatus(), 
-						residentStatusOfPersonTypeRepository::findFirstByResidentStatusOfPersonCode, 
+						residentStatusOfPersonTypeRepository::findFirstByStateCode, 
 						ResidentStatusOfPersonType::new);
 				victimSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
 				
 				AdditionalJustifiableHomicideCircumstancesType additionalJustifiableHomicideCircumstancesType = codeTableService.getCodeTableType(
 						victim.getAdditionalJustifiableHomicideCircumstances(), 
-						additionalJustifiableHomicideCircumstancesTypeRepository::findFirstByAdditionalJustifiableHomicideCircumstancesCode, 
+						additionalJustifiableHomicideCircumstancesTypeRepository::findFirstByStateCode, 
 						AdditionalJustifiableHomicideCircumstancesType::new);
 				victimSegment.setAdditionalJustifiableHomicideCircumstancesType(additionalJustifiableHomicideCircumstancesType);
 				
@@ -523,7 +523,7 @@ public class GroupAIncidentService {
 					VictimOffenderRelationshipType victimOffenderRelationshipType = codeTableService
 							.getCodeTableType(
 									victimOffenderRelationship, 
-									victimOffenderRelationshipTypeRepository::findFirstByVictimOffenderRelationshipCode, 
+									victimOffenderRelationshipTypeRepository::findFirstByStateCode, 
 									VictimOffenderRelationshipType::new);
 					victimOffenderAssociation.setVictimOffenderRelationshipType(victimOffenderRelationshipType);	
 					victimOffenderAssociations.add(victimOffenderAssociation);
@@ -541,7 +541,7 @@ public class GroupAIncidentService {
 					.filter(StringUtils::isNotBlank)
 					.map(item -> codeTableService.getCodeTableType(
 								item, 
-								aggravatedAssaultHomicideCircumstancesTypeRepository::findFirstByAggravatedAssaultHomicideCircumstancesCode, 
+								aggravatedAssaultHomicideCircumstancesTypeRepository::findFirstByStateCode, 
 								null) )
 					.filter(Objects::nonNull)
 					.forEach(aggravatedAssaultHomicideCircumstancesTypes::add);
@@ -554,7 +554,7 @@ public class GroupAIncidentService {
 			Set<TypeInjuryType> typeInjuryTypes = new HashSet<>();
 			Arrays.stream(victim.getTypeOfInjury())
 					.filter(StringUtils::isNotBlank)
-					.map(item -> codeTableService.getCodeTableType(item, typeInjuryTypeRepository::findFirstByTypeInjuryCode, null))
+					.map(item -> codeTableService.getCodeTableType(item, typeInjuryTypeRepository::findFirstByStateCode, null))
 					.filter(Objects::nonNull)
 					.forEach(typeInjuryTypes::add);
 			victimSegment.setTypeInjuryTypes(typeInjuryTypes);
@@ -574,7 +574,7 @@ public class GroupAIncidentService {
 				if (StringUtils.isNotBlank(arresteeArmedWithCode)){
 					Optional<ArresteeWasArmedWithType> arresteeWasArmedWithType = 
 							Optional.ofNullable(codeTableService.getCodeTableType(arresteeArmedWithCode,
-									arresteeWasArmedWithTypeRepository::findFirstByArresteeWasArmedWithCode, 
+									arresteeWasArmedWithTypeRepository::findFirstByStateCode, 
 									null));
 					arresteeWasArmedWithType.ifPresent( type ->
 						armedWiths.add(new ArresteeSegmentWasArmedWith(
@@ -605,13 +605,13 @@ public class GroupAIncidentService {
 				arresteeSegment.setArrestDateType(codeTableService.getDateType(DateUtils.asDate(arrestee.getArrestDate().getValue())));
 				
 				TypeOfArrestType typeOfArrestType = codeTableService.getCodeTableType(
-						arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByTypeOfArrestCode, TypeOfArrestType::new);
+						arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByStateCode, TypeOfArrestType::new);
 				arresteeSegment.setTypeOfArrestType(typeOfArrestType );
 				
 				MultipleArresteeSegmentsIndicatorType multipleArresteeSegmentsIndicatorType = 
 						codeTableService.getCodeTableType(
 							arrestee.getMultipleArresteeSegmentsIndicator(), 
-							multipleArresteeSegmentsIndicatorTypeRepository::findFirstByMultipleArresteeSegmentsIndicatorCode, 
+							multipleArresteeSegmentsIndicatorTypeRepository::findFirstByStateCode, 
 							MultipleArresteeSegmentsIndicatorType::new);
 				arresteeSegment.setMultipleArresteeSegmentsIndicatorType(multipleArresteeSegmentsIndicatorType);
 				
@@ -619,32 +619,32 @@ public class GroupAIncidentService {
 				arresteeSegment.setAgeOfArresteeMax(arrestee.getAge().getAgeMax());
 
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
-						arrestee.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+						arrestee.getSex(), sexOfPersonTypeRepository::findFirstByStateCode, SexOfPersonType::new);
 				arresteeSegment.setSexOfPersonType(sexOfPersonType);
 				
 				RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
-						arrestee.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+						arrestee.getRace(), raceOfPersonTypeRepository::findFirstByStateCode, RaceOfPersonType::new);
 				arresteeSegment.setRaceOfPersonType(raceOfPersonType);
 				
 				EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
-						arrestee.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+						arrestee.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByStateCode, EthnicityOfPersonType::new);
 				arresteeSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
 				
 				ResidentStatusOfPersonType residentStatusOfPersonType = codeTableService.getCodeTableType(
 						arrestee.getResidentStatus(), 
-						residentStatusOfPersonTypeRepository::findFirstByResidentStatusOfPersonCode, 
+						residentStatusOfPersonTypeRepository::findFirstByStateCode, 
 						ResidentStatusOfPersonType::new);
 				arresteeSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
 				
 				DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type = codeTableService.getCodeTableType(
 						arrestee.getDispositionOfArresteeUnder18(), 
-						dispositionOfArresteeUnder18TypeRepository::findFirstByDispositionOfArresteeUnder18Code, 
+						dispositionOfArresteeUnder18TypeRepository::findFirstByStateCode, 
 						DispositionOfArresteeUnder18Type::new);
 				arresteeSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type );
 				
 				UcrOffenseCodeType ucrOffenseCodeType = codeTableService.getCodeTableType(
 						arrestee.getUcrArrestOffenseCode(), 
-						ucrOffenseCodeTypeRepository::findFirstByUcrOffenseCode, 
+						ucrOffenseCodeTypeRepository::findFirstByStateCode, 
 						UcrOffenseCodeType::new);;
 				arresteeSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
 	
@@ -674,15 +674,15 @@ public class GroupAIncidentService {
 				offenderSegment.setOffenderSequenceNumber(offender.getOffenderSequenceNumber().getValue());
 				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
-						offender.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+						offender.getSex(), sexOfPersonTypeRepository::findFirstByStateCode, SexOfPersonType::new);
 				offenderSegment.setSexOfPersonType(sexOfPersonType);
 				
 				RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
-						offender.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+						offender.getRace(), raceOfPersonTypeRepository::findFirstByStateCode, RaceOfPersonType::new);
 				offenderSegment.setRaceOfPersonType(raceOfPersonType);
 				
 				EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
-						offender.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+						offender.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByStateCode, EthnicityOfPersonType::new);
 				offenderSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
 
 				offenderSegments.add(offenderSegment);
@@ -706,20 +706,20 @@ public class GroupAIncidentService {
 				
 				UcrOffenseCodeType ucrOffenseCodeType = 
 						codeTableService.getCodeTableType(offense.getUcrOffenseCode(), 
-								ucrOffenseCodeTypeRepository::findFirstByUcrOffenseCode, UcrOffenseCodeType::new);
+								ucrOffenseCodeTypeRepository::findFirstByStateCode, UcrOffenseCodeType::new);
 				offenseSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
 				offenseSegment.setOffenseAttemptedCompleted(offense.getOffenseAttemptedCompleted());
 				
 				LocationType locationType = 
 						codeTableService.getCodeTableType(offense.getLocationType(), 
-								locationTypeRepository::findFirstByLocationTypeCode, LocationType::new);
+								locationTypeRepository::findFirstByStateCode, LocationType::new);
 				offenseSegment.setLocationType(locationType);
 				
 				offenseSegment.setNumberOfPremisesEntered(offense.getNumberOfPremisesEntered().getValue());
 				
 				MethodOfEntryType methodOfEntryType = 
 						codeTableService.getCodeTableType(offense.getMethodOfEntry(), 
-								methodOfEntryTypeRepository::findFirstByMethodOfEntryCode, MethodOfEntryType::new);
+								methodOfEntryTypeRepository::findFirstByStateCode, MethodOfEntryType::new);
 				offenseSegment.setMethodOfEntryType(methodOfEntryType);
 				processTypeOfWeaponForceInvolved(offenseSegment, offense); 
 				processTypeOfCriminalActivityCount(offenseSegment, offense); 
@@ -729,7 +729,7 @@ public class GroupAIncidentService {
 				Arrays.stream(offense.getBiasMotivation())
 					.filter(StringUtils::isNotBlank)
 					.map(code -> codeTableService.getCodeTableType(code, 
-								biasMotivationTypeRepository::findFirstByBiasMotivationCode, null))
+								biasMotivationTypeRepository::findFirstByStateCode, null))
 					.filter(Objects::nonNull)
 					.forEach(biasMotivationTypes::add);
 					
@@ -750,7 +750,7 @@ public class GroupAIncidentService {
 			for (int i = 0; i < offense.getPopulatedOffendersSuspectedOfUsingCount(); i++){
 				String offenderSuspectedUsingCode = StringUtils.trimToNull(offense.getOffendersSuspectedOfUsing(i));
 				OffenderSuspectedOfUsingType offenderSuspectedOfUsingType = 
-						codeTableService.getCodeTableType(offenderSuspectedUsingCode, offenderSuspectedOfUsingTypeRepository::findFirstByOffenderSuspectedOfUsingCode, null);
+						codeTableService.getCodeTableType(offenderSuspectedUsingCode, offenderSuspectedOfUsingTypeRepository::findFirstByStateCode, null);
 				if (offenderSuspectedOfUsingType != null){
 					offenderSuspectedOfUsingTypes.add(offenderSuspectedOfUsingType); 
 				}
@@ -767,7 +767,7 @@ public class GroupAIncidentService {
 			for (int i = 0; i < offense.getPopulatedTypeOfCriminalActivityCount(); i++){
 				String typeOfCriminalActivityCode = StringUtils.trimToNull(offense.getTypeOfCriminalActivity(i));
 				TypeOfCriminalActivityType typeOfCriminalActivityType = 
-						codeTableService.getCodeTableType(typeOfCriminalActivityCode, typeOfCriminalActivityTypeRepository::findFirstByTypeOfCriminalActivityCode, null);
+						codeTableService.getCodeTableType(typeOfCriminalActivityCode, typeOfCriminalActivityTypeRepository::findFirstByStateCode, null);
 				if (typeOfCriminalActivityType != null){
 					typeOfCriminalActivityTypes.add(typeOfCriminalActivityType); 
 				}
@@ -789,7 +789,7 @@ public class GroupAIncidentService {
 				if (StringUtils.isNotBlank(typeOfWeaponForceInvolvedCode)){
 					Optional<TypeOfWeaponForceInvolvedType> typeOfWeaponForceInvolvedType = 
 							Optional.ofNullable(codeTableService.getCodeTableType(typeOfWeaponForceInvolvedCode,
-									typeOfWeaponForceInvolvedTypeRepository::findFirstByTypeOfWeaponForceInvolvedCode, 
+									typeOfWeaponForceInvolvedTypeRepository::findFirstByStateCode, 
 									null));
 					typeOfWeaponForceInvolvedType.ifPresent( type ->
 						typeOfWeaponForceInvolveds.add(new TypeOfWeaponForceInvolved(

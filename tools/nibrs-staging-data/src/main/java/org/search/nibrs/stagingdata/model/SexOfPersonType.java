@@ -30,8 +30,10 @@ public class SexOfPersonType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer sexOfPersonTypeId; 
 	
-	private String sexOfPersonCode; 
-	private String sexOfPersonDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public SexOfPersonType() {
 		super();
@@ -42,37 +44,20 @@ public class SexOfPersonType {
 		this.sexOfPersonTypeId = sexOfPersonTypeId;
 	}
 
-	public SexOfPersonType(Integer sexOfPersonTypeId, String sexOfPersonCode, String sexOfPersonDescription) {
+	public SexOfPersonType(Integer sexOfPersonTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription) {
 		super();
-		setSexOfPersonTypeId(sexOfPersonTypeId);
-		setSexOfPersonCode(sexOfPersonCode);
-		setSexOfPersonDescription(sexOfPersonDescription);
+		this.sexOfPersonTypeId = sexOfPersonTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
-
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-
-	public String getSexOfPersonCode() {
-		return sexOfPersonCode;
-	}
-
-
-	public void setSexOfPersonCode(String sexOfPersonCode) {
-		this.sexOfPersonCode = sexOfPersonCode;
-	}
-
-
-	public String getSexOfPersonDescription() {
-		return sexOfPersonDescription;
-	}
-
-
-	public void setSexOfPersonDescription(String sexOfPersonDescription) {
-		this.sexOfPersonDescription = sexOfPersonDescription;
-	}
 
 	public Integer getSexOfPersonTypeId() {
 		return sexOfPersonTypeId;
@@ -82,13 +67,47 @@ public class SexOfPersonType {
 		this.sexOfPersonTypeId = sexOfPersonTypeId;
 	}
 
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((sexOfPersonCode == null) ? 0 : sexOfPersonCode.hashCode());
-		result = prime * result + ((sexOfPersonDescription == null) ? 0 : sexOfPersonDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result + ((sexOfPersonTypeId == null) ? 0 : sexOfPersonTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -101,20 +120,30 @@ public class SexOfPersonType {
 		if (getClass() != obj.getClass())
 			return false;
 		SexOfPersonType other = (SexOfPersonType) obj;
-		if (sexOfPersonCode == null) {
-			if (other.sexOfPersonCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!sexOfPersonCode.equals(other.sexOfPersonCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (sexOfPersonDescription == null) {
-			if (other.sexOfPersonDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!sexOfPersonDescription.equals(other.sexOfPersonDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (sexOfPersonTypeId == null) {
 			if (other.sexOfPersonTypeId != null)
 				return false;
 		} else if (!sexOfPersonTypeId.equals(other.sexOfPersonTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

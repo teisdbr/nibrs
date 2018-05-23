@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.ClearedExceptionallyType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ClearedExceptionallyTypeRepository extends CrudRepository<ClearedExceptionallyType, Integer>{
-	public ClearedExceptionallyType findFirstByClearedExceptionallyCode(String clearedExceptionallyCode);
+	public ClearedExceptionallyType findFirstByStateCode(String stateCode);
 }

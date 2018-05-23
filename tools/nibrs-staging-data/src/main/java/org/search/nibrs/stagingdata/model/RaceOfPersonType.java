@@ -30,8 +30,10 @@ public class RaceOfPersonType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer raceOfPersonTypeId; 
 	
-	private String raceOfPersonCode; 
-	private String raceOfPersonDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public RaceOfPersonType() {
 		super();
@@ -42,37 +44,20 @@ public class RaceOfPersonType {
 		this.raceOfPersonTypeId = raceOfPersonTypeId;
 	}
 
-	public RaceOfPersonType(Integer raceOfPersonTypeId, String raceOfPersonCode, String raceOfPersonDescription) {
+	public RaceOfPersonType(Integer raceOfPersonTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription) {
 		super();
-		this.setRaceOfPersonTypeId(raceOfPersonTypeId);
-		setRaceOfPersonCode(raceOfPersonCode);
-		setRaceOfPersonDescription(raceOfPersonDescription);
+		this.raceOfPersonTypeId = raceOfPersonTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
-
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-
-	public String getRaceOfPersonCode() {
-		return raceOfPersonCode;
-	}
-
-
-	public void setRaceOfPersonCode(String raceOfPersonCode) {
-		this.raceOfPersonCode = raceOfPersonCode;
-	}
-
-
-	public String getRaceOfPersonDescription() {
-		return raceOfPersonDescription;
-	}
-
-
-	public void setRaceOfPersonDescription(String raceOfPersonDescription) {
-		this.raceOfPersonDescription = raceOfPersonDescription;
-	}
 
 	public Integer getRaceOfPersonTypeId() {
 		return raceOfPersonTypeId;
@@ -82,13 +67,47 @@ public class RaceOfPersonType {
 		this.raceOfPersonTypeId = raceOfPersonTypeId;
 	}
 
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((raceOfPersonCode == null) ? 0 : raceOfPersonCode.hashCode());
-		result = prime * result + ((raceOfPersonDescription == null) ? 0 : raceOfPersonDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result + ((raceOfPersonTypeId == null) ? 0 : raceOfPersonTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -101,20 +120,30 @@ public class RaceOfPersonType {
 		if (getClass() != obj.getClass())
 			return false;
 		RaceOfPersonType other = (RaceOfPersonType) obj;
-		if (raceOfPersonCode == null) {
-			if (other.raceOfPersonCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!raceOfPersonCode.equals(other.raceOfPersonCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (raceOfPersonDescription == null) {
-			if (other.raceOfPersonDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!raceOfPersonDescription.equals(other.raceOfPersonDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (raceOfPersonTypeId == null) {
 			if (other.raceOfPersonTypeId != null)
 				return false;
 		} else if (!raceOfPersonTypeId.equals(other.raceOfPersonTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

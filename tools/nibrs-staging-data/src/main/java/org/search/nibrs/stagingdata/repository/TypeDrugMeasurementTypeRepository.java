@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.TypeDrugMeasurementType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeDrugMeasurementTypeRepository extends CrudRepository<TypeDrugMeasurementType, Integer>{
-	public TypeDrugMeasurementType findFirstByTypeDrugMeasurementCode(String typeDrugMeasurementCode);
+	public TypeDrugMeasurementType findFirstByStateCode(String stateCode);
 }

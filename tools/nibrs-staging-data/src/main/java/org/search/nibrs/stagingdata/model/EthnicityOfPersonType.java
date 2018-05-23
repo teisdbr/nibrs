@@ -30,7 +30,10 @@ public class EthnicityOfPersonType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer ethnicityOfPersonTypeId; 
 	
-	private String ethnicityOfPersonCode; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public EthnicityOfPersonType() {
 		super();
@@ -41,23 +44,18 @@ public class EthnicityOfPersonType {
 		this.ethnicityOfPersonTypeId = ethnicityOfPersonTypeId;
 	}
 
-	public EthnicityOfPersonType(Integer ethnicityOfPersonTypeId, String ethnicityOfPersonCode, String raceOfPersonDescription) {
-		this();
-		this.setEthnicityOfPersonTypeId(ethnicityOfPersonTypeId);
-		this.setEthnicityOfPersonCode(ethnicityOfPersonCode);
+	public EthnicityOfPersonType(Integer ethnicityOfPersonTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
+		super();
+		this.ethnicityOfPersonTypeId = ethnicityOfPersonTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
-
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public String getEthnicityOfPersonCode() {
-		return ethnicityOfPersonCode;
-	}
-
-	public void setEthnicityOfPersonCode(String ethnicityOfPersonCode) {
-		this.ethnicityOfPersonCode = ethnicityOfPersonCode;
 	}
 
 	public Integer getEthnicityOfPersonTypeId() {
@@ -68,12 +66,47 @@ public class EthnicityOfPersonType {
 		this.ethnicityOfPersonTypeId = ethnicityOfPersonTypeId;
 	}
 
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ethnicityOfPersonCode == null) ? 0 : ethnicityOfPersonCode.hashCode());
 		result = prime * result + ((ethnicityOfPersonTypeId == null) ? 0 : ethnicityOfPersonTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -86,15 +119,30 @@ public class EthnicityOfPersonType {
 		if (getClass() != obj.getClass())
 			return false;
 		EthnicityOfPersonType other = (EthnicityOfPersonType) obj;
-		if (ethnicityOfPersonCode == null) {
-			if (other.ethnicityOfPersonCode != null)
-				return false;
-		} else if (!ethnicityOfPersonCode.equals(other.ethnicityOfPersonCode))
-			return false;
 		if (ethnicityOfPersonTypeId == null) {
 			if (other.ethnicityOfPersonTypeId != null)
 				return false;
 		} else if (!ethnicityOfPersonTypeId.equals(other.ethnicityOfPersonTypeId))
+			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

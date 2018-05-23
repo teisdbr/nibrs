@@ -19,6 +19,5 @@ import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumsta
 import org.springframework.data.repository.CrudRepository;
 
 public interface AdditionalJustifiableHomicideCircumstancesTypeRepository extends CrudRepository<AdditionalJustifiableHomicideCircumstancesType, Integer>{
-	public AdditionalJustifiableHomicideCircumstancesType findFirstByAdditionalJustifiableHomicideCircumstancesCode(
-			String additionalJustifiableHomicideCircumstancesCode);
+	public AdditionalJustifiableHomicideCircumstancesType findFirstByStateCode( String stateCode );
 }

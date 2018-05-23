@@ -30,8 +30,10 @@ public class TypeDrugMeasurementType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeDrugMeasurementTypeId; 
 	
-	private String typeDrugMeasurementCode; 
-	private String typeDrugMeasurementDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public TypeDrugMeasurementType() {
 		super();
@@ -42,12 +44,14 @@ public class TypeDrugMeasurementType {
 		this.typeDrugMeasurementTypeId = typeDrugMeasurementTypeId;
 	}
 
-	public TypeDrugMeasurementType(Integer typeDrugMeasurementTypeId, String typeDrugMeasurementCode,
-			String typeDrugMeasurementDescription) {
+	public TypeDrugMeasurementType(Integer typeDrugMeasurementTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
 		super();
 		this.typeDrugMeasurementTypeId = typeDrugMeasurementTypeId;
-		this.typeDrugMeasurementCode = typeDrugMeasurementCode;
-		this.typeDrugMeasurementDescription = typeDrugMeasurementDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -62,29 +66,46 @@ public class TypeDrugMeasurementType {
 		this.typeDrugMeasurementTypeId = typeDrugMeasurementTypeId;
 	}
 
-	public String getTypeDrugMeasurementCode() {
-		return typeDrugMeasurementCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setTypeDrugMeasurementCode(String typeDrugMeasurementCode) {
-		this.typeDrugMeasurementCode = typeDrugMeasurementCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getTypeDrugMeasurementDescription() {
-		return typeDrugMeasurementDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setTypeDrugMeasurementDescription(String typeDrugMeasurementDescription) {
-		this.typeDrugMeasurementDescription = typeDrugMeasurementDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((typeDrugMeasurementCode == null) ? 0 : typeDrugMeasurementCode.hashCode());
-		result = prime * result
-				+ ((typeDrugMeasurementDescription == null) ? 0 : typeDrugMeasurementDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result + ((typeDrugMeasurementTypeId == null) ? 0 : typeDrugMeasurementTypeId.hashCode());
 		return result;
 	}
@@ -98,15 +119,25 @@ public class TypeDrugMeasurementType {
 		if (getClass() != obj.getClass())
 			return false;
 		TypeDrugMeasurementType other = (TypeDrugMeasurementType) obj;
-		if (typeDrugMeasurementCode == null) {
-			if (other.typeDrugMeasurementCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!typeDrugMeasurementCode.equals(other.typeDrugMeasurementCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (typeDrugMeasurementDescription == null) {
-			if (other.typeDrugMeasurementDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!typeDrugMeasurementDescription.equals(other.typeDrugMeasurementDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (typeDrugMeasurementTypeId == null) {
 			if (other.typeDrugMeasurementTypeId != null)

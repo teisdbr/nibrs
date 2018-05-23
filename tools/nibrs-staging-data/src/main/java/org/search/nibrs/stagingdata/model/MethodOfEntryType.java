@@ -30,8 +30,10 @@ public class MethodOfEntryType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer methodOfEntryTypeId; 
 	
-	private String methodOfEntryCode; 
-	private String methodOfEntryDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public MethodOfEntryType() {
 		super();
@@ -42,12 +44,14 @@ public class MethodOfEntryType {
 		this.methodOfEntryTypeId = methodOfEntryTypeId;
 	}
 
-	public MethodOfEntryType(Integer methodOfEntryTypeId, String methodOfEntryCode,
-			String methodOfEntryDescription) {
+	public MethodOfEntryType(Integer methodOfEntryTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription) {
 		super();
 		this.methodOfEntryTypeId = methodOfEntryTypeId;
-		this.methodOfEntryCode = methodOfEntryCode;
-		this.methodOfEntryDescription = methodOfEntryDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -62,29 +66,47 @@ public class MethodOfEntryType {
 		this.methodOfEntryTypeId = methodOfEntryTypeId;
 	}
 
-	public String getMethodOfEntryCode() {
-		return methodOfEntryCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setMethodOfEntryCode(String methodOfEntryCode) {
-		this.methodOfEntryCode = methodOfEntryCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getMethodOfEntryDescription() {
-		return methodOfEntryDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setMethodOfEntryDescription(String methodOfEntryDescription) {
-		this.methodOfEntryDescription = methodOfEntryDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((methodOfEntryCode == null) ? 0 : methodOfEntryCode.hashCode());
-		result = prime * result + ((methodOfEntryDescription == null) ? 0 : methodOfEntryDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result + ((methodOfEntryTypeId == null) ? 0 : methodOfEntryTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -97,20 +119,30 @@ public class MethodOfEntryType {
 		if (getClass() != obj.getClass())
 			return false;
 		MethodOfEntryType other = (MethodOfEntryType) obj;
-		if (methodOfEntryCode == null) {
-			if (other.methodOfEntryCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!methodOfEntryCode.equals(other.methodOfEntryCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (methodOfEntryDescription == null) {
-			if (other.methodOfEntryDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!methodOfEntryDescription.equals(other.methodOfEntryDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (methodOfEntryTypeId == null) {
 			if (other.methodOfEntryTypeId != null)
 				return false;
 		} else if (!methodOfEntryTypeId.equals(other.methodOfEntryTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

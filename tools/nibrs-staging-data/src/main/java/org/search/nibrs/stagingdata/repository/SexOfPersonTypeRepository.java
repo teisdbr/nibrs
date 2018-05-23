@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.SexOfPersonType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SexOfPersonTypeRepository extends CrudRepository<SexOfPersonType, Integer>{
-	public SexOfPersonType findFirstBySexOfPersonCode(String sexOfPersonCode);
+	public SexOfPersonType findFirstByStateCode(String stateCode);
 }

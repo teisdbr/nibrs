@@ -35,8 +35,10 @@ public class TypeOfWeaponForceInvolvedType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeOfWeaponForceInvolvedTypeId; 
 	
-	private String typeOfWeaponForceInvolvedCode; 
-	private String typeOfWeaponForceInvolvedDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	@OneToMany(mappedBy = "typeOfWeaponForceInvolvedType")
 	@JsonIgnore
@@ -46,12 +48,14 @@ public class TypeOfWeaponForceInvolvedType {
 		super();
 	}
 
-	public TypeOfWeaponForceInvolvedType(Integer typeOfWeaponForceInvolvedTypeId, String typeOfWeaponForceInvolvedCode,
-			String typeOfWeaponForceInvolvedDescription) {
+	public TypeOfWeaponForceInvolvedType(Integer typeOfWeaponForceInvolvedTypeId, String stateCode,
+			String stateDescription, String fbiCode, String fbiDescription) {
 		super();
 		this.typeOfWeaponForceInvolvedTypeId = typeOfWeaponForceInvolvedTypeId;
-		this.typeOfWeaponForceInvolvedCode = typeOfWeaponForceInvolvedCode;
-		this.typeOfWeaponForceInvolvedDescription = typeOfWeaponForceInvolvedDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -66,38 +70,46 @@ public class TypeOfWeaponForceInvolvedType {
 		this.typeOfWeaponForceInvolvedTypeId = typeOfWeaponForceInvolvedTypeId;
 	}
 
-	public String getTypeOfWeaponForceInvolvedCode() {
-		return typeOfWeaponForceInvolvedCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setTypeOfWeaponForceInvolvedCode(String typeOfWeaponForceInvolvedCode) {
-		this.typeOfWeaponForceInvolvedCode = typeOfWeaponForceInvolvedCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getTypeOfWeaponForceInvolvedDescription() {
-		return typeOfWeaponForceInvolvedDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setTypeOfWeaponForceInvolvedDescription(String typeOfWeaponForceInvolvedDescription) {
-		this.typeOfWeaponForceInvolvedDescription = typeOfWeaponForceInvolvedDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
 	}
 
-	public Set<TypeOfWeaponForceInvolved> getTypeOfWeaponForceInvolveds() {
-		return typeOfWeaponForceInvolveds;
+	public String getFbiCode() {
+		return fbiCode;
 	}
 
-	public void setTypeOfWeaponForceInvolveds(Set<TypeOfWeaponForceInvolved> typeOfWeaponForceInvolveds) {
-		this.typeOfWeaponForceInvolveds = typeOfWeaponForceInvolveds;
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((typeOfWeaponForceInvolvedCode == null) ? 0 : typeOfWeaponForceInvolvedCode.hashCode());
-		result = prime * result + ((typeOfWeaponForceInvolvedDescription == null) ? 0
-				: typeOfWeaponForceInvolvedDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result
 				+ ((typeOfWeaponForceInvolvedTypeId == null) ? 0 : typeOfWeaponForceInvolvedTypeId.hashCode());
 		return result;
@@ -112,15 +124,25 @@ public class TypeOfWeaponForceInvolvedType {
 		if (getClass() != obj.getClass())
 			return false;
 		TypeOfWeaponForceInvolvedType other = (TypeOfWeaponForceInvolvedType) obj;
-		if (typeOfWeaponForceInvolvedCode == null) {
-			if (other.typeOfWeaponForceInvolvedCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!typeOfWeaponForceInvolvedCode.equals(other.typeOfWeaponForceInvolvedCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (typeOfWeaponForceInvolvedDescription == null) {
-			if (other.typeOfWeaponForceInvolvedDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!typeOfWeaponForceInvolvedDescription.equals(other.typeOfWeaponForceInvolvedDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (typeOfWeaponForceInvolvedTypeId == null) {
 			if (other.typeOfWeaponForceInvolvedTypeId != null)

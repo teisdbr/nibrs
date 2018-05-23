@@ -32,16 +32,13 @@ import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 @Entity
 @Cacheable
 public class TypeInjuryType {
-	public TypeInjuryType(Integer typeInjuryTypeId) {
-		super();
-		this.typeInjuryTypeId = typeInjuryTypeId;
-	}
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeInjuryTypeId; 
-	private String typeInjuryCode; 
-	private String typeInjuryDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	@ManyToMany(mappedBy = "typeInjuryTypes", fetch=FetchType.LAZY)
 	private Set<VictimSegment> victimSegments;
@@ -50,32 +47,24 @@ public class TypeInjuryType {
 		super();
 	}
 
-	public TypeInjuryType(Integer typeInjuryTypeId, String typeInjuryCode, String typeInjuryDescription) {
+	public TypeInjuryType(Integer typeInjuryTypeId) {
 		super();
 		this.typeInjuryTypeId = typeInjuryTypeId;
-		this.typeInjuryCode = typeInjuryCode;
-		this.typeInjuryDescription = typeInjuryDescription;
+	}
+	
+	public TypeInjuryType(Integer typeInjuryTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription) {
+		super();
+		this.typeInjuryTypeId = typeInjuryTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
         return ReflectionToStringBuilder.toStringExclude(this, "victimSegments");		
-	}
-
-	public String getTypeInjuryCode() {
-		return typeInjuryCode;
-	}
-
-	public void setTypeInjuryCode(String typeInjuryCode) {
-		this.typeInjuryCode = typeInjuryCode;
-	}
-
-	public String getTypeInjuryDescription() {
-		return typeInjuryDescription;
-	}
-
-	public void setTypeInjuryDescription(String typeInjuryDescription) {
-		this.typeInjuryDescription = typeInjuryDescription;
 	}
 
 	public Set<VictimSegment> getVictimSegments() {
@@ -94,12 +83,46 @@ public class TypeInjuryType {
 		this.typeInjuryTypeId = typeInjuryTypeId;
 	}
 
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((typeInjuryCode == null) ? 0 : typeInjuryCode.hashCode());
-		result = prime * result + ((typeInjuryDescription == null) ? 0 : typeInjuryDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result + ((typeInjuryTypeId == null) ? 0 : typeInjuryTypeId.hashCode());
 		return result;
 	}
@@ -113,15 +136,25 @@ public class TypeInjuryType {
 		if (getClass() != obj.getClass())
 			return false;
 		TypeInjuryType other = (TypeInjuryType) obj;
-		if (typeInjuryCode == null) {
-			if (other.typeInjuryCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!typeInjuryCode.equals(other.typeInjuryCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (typeInjuryDescription == null) {
-			if (other.typeInjuryDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!typeInjuryDescription.equals(other.typeInjuryDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (typeInjuryTypeId == null) {
 			if (other.typeInjuryTypeId != null)
@@ -130,4 +163,5 @@ public class TypeInjuryType {
 			return false;
 		return true;
 	}
+
 }

@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.MethodOfEntryType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface MethodOfEntryTypeRepository extends CrudRepository<MethodOfEntryType, Integer>{
-	public MethodOfEntryType findFirstByMethodOfEntryCode(String methodOfEntryCode);
+	public MethodOfEntryType findFirstByStateCode(String stateCode);
 }

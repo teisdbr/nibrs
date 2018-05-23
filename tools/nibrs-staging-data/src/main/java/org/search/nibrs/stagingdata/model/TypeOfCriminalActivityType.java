@@ -34,18 +34,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Cacheable
 public class TypeOfCriminalActivityType {
-	public TypeOfCriminalActivityType(Integer typeOfCriminalActivityTypeId) {
-		super();
-		this.typeOfCriminalActivityTypeId = typeOfCriminalActivityTypeId;
-	}
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeOfCriminalActivityTypeId; 
 	
-	private String typeOfCriminalActivityCode; 
-	private String typeOfCriminalActivityDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
+	public TypeOfCriminalActivityType(Integer typeOfCriminalActivityTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
+		super();
+		this.typeOfCriminalActivityTypeId = typeOfCriminalActivityTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
+	}
+
 	@ManyToMany(mappedBy = "typeOfCriminalActivityTypes", fetch=FetchType.LAZY)
 	@JsonIgnore
 	private Set<OffenseSegment> offenseSegments;
@@ -54,14 +61,11 @@ public class TypeOfCriminalActivityType {
 		super();
 	}
 
-	public TypeOfCriminalActivityType(Integer typeOfCriminalActivityTypeId, String typeOfCriminalActivityCode,
-			String typeOfCriminalActivityDescription) {
+	public TypeOfCriminalActivityType(Integer typeOfCriminalActivityTypeId) {
 		super();
 		this.typeOfCriminalActivityTypeId = typeOfCriminalActivityTypeId;
-		this.typeOfCriminalActivityCode = typeOfCriminalActivityCode;
-		this.typeOfCriminalActivityDescription = typeOfCriminalActivityDescription;
 	}
-
+	
 	public String toString(){
 		ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
         return ReflectionToStringBuilder.toStringExclude(this, "offenseSegments");		
@@ -75,29 +79,46 @@ public class TypeOfCriminalActivityType {
 		this.typeOfCriminalActivityTypeId = typeOfCriminalActivityTypeId;
 	}
 
-	public String getTypeOfCriminalActivityCode() {
-		return typeOfCriminalActivityCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setTypeOfCriminalActivityCode(String typeOfCriminalActivityCode) {
-		this.typeOfCriminalActivityCode = typeOfCriminalActivityCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getTypeOfCriminalActivityDescription() {
-		return typeOfCriminalActivityDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setTypeOfCriminalActivityDescription(String typeOfCriminalActivityDescription) {
-		this.typeOfCriminalActivityDescription = typeOfCriminalActivityDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((typeOfCriminalActivityCode == null) ? 0 : typeOfCriminalActivityCode.hashCode());
-		result = prime * result
-				+ ((typeOfCriminalActivityDescription == null) ? 0 : typeOfCriminalActivityDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result
 				+ ((typeOfCriminalActivityTypeId == null) ? 0 : typeOfCriminalActivityTypeId.hashCode());
 		return result;
@@ -112,15 +133,25 @@ public class TypeOfCriminalActivityType {
 		if (getClass() != obj.getClass())
 			return false;
 		TypeOfCriminalActivityType other = (TypeOfCriminalActivityType) obj;
-		if (typeOfCriminalActivityCode == null) {
-			if (other.typeOfCriminalActivityCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!typeOfCriminalActivityCode.equals(other.typeOfCriminalActivityCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (typeOfCriminalActivityDescription == null) {
-			if (other.typeOfCriminalActivityDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!typeOfCriminalActivityDescription.equals(other.typeOfCriminalActivityDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (typeOfCriminalActivityTypeId == null) {
 			if (other.typeOfCriminalActivityTypeId != null)

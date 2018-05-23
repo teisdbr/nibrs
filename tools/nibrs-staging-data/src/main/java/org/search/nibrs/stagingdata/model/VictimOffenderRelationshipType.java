@@ -29,8 +29,10 @@ public class VictimOffenderRelationshipType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer victimOffenderRelationshipTypeId; 
-	private String victimOffenderRelationshipCode; 
-	private String victimOffenderRelationshipDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public VictimOffenderRelationshipType() {
 		super();
@@ -53,30 +55,46 @@ public class VictimOffenderRelationshipType {
 		this.victimOffenderRelationshipTypeId = victimOffenderRelationshipTypeId;
 	}
 
-	public String getVictimOffenderRelationshipCode() {
-		return victimOffenderRelationshipCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setVictimOffenderRelationshipCode(String victimOffenderRelationshipCode) {
-		this.victimOffenderRelationshipCode = victimOffenderRelationshipCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getVictimOffenderRelationshipDescription() {
-		return victimOffenderRelationshipDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setVictimOffenderRelationshipDescription(String victimOffenderRelationshipDescription) {
-		this.victimOffenderRelationshipDescription = victimOffenderRelationshipDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((victimOffenderRelationshipCode == null) ? 0 : victimOffenderRelationshipCode.hashCode());
-		result = prime * result + ((victimOffenderRelationshipDescription == null) ? 0
-				: victimOffenderRelationshipDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result
 				+ ((victimOffenderRelationshipTypeId == null) ? 0 : victimOffenderRelationshipTypeId.hashCode());
 		return result;
@@ -91,15 +109,25 @@ public class VictimOffenderRelationshipType {
 		if (getClass() != obj.getClass())
 			return false;
 		VictimOffenderRelationshipType other = (VictimOffenderRelationshipType) obj;
-		if (victimOffenderRelationshipCode == null) {
-			if (other.victimOffenderRelationshipCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!victimOffenderRelationshipCode.equals(other.victimOffenderRelationshipCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (victimOffenderRelationshipDescription == null) {
-			if (other.victimOffenderRelationshipDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!victimOffenderRelationshipDescription.equals(other.victimOffenderRelationshipDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (victimOffenderRelationshipTypeId == null) {
 			if (other.victimOffenderRelationshipTypeId != null)

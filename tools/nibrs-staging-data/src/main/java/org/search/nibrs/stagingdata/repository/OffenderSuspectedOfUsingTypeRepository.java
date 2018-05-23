@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.OffenderSuspectedOfUsingType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OffenderSuspectedOfUsingTypeRepository extends CrudRepository<OffenderSuspectedOfUsingType, Integer>{
-	public OffenderSuspectedOfUsingType findFirstByOffenderSuspectedOfUsingCode(String offenderSuspectedOfUsingCode);
+	public OffenderSuspectedOfUsingType findFirstByStateCode(String stateCode);
 }

@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.LocationType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface LocationTypeRepository extends CrudRepository<LocationType, Integer>{
-	public LocationType findFirstByLocationTypeCode(String locationTypeCode);
+	public LocationType findFirstByStateCode(String stateCode);
 }

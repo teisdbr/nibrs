@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.AgencyType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface AgencyTypeRepository extends CrudRepository<AgencyType, Integer>{
-	public AgencyType findFirstByAgencyTypeCode(String agencyType);
+	public AgencyType findFirstByStateCode(String stateCode);
 }

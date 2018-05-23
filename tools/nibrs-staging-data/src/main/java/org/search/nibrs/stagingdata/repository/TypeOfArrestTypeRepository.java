@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.TypeOfArrestType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeOfArrestTypeRepository extends CrudRepository<TypeOfArrestType, Integer>{
-	public TypeOfArrestType findFirstByTypeOfArrestCode(String typeOfArrestCode);
+	public TypeOfArrestType findFirstByStateCode(String stateCode);
 }

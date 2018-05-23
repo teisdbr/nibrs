@@ -196,7 +196,7 @@ public class XmlReportGenerator {
 				administrativeSegment.getReportDateIndicator());
 		Element jIncidentAugElement = XmlUtils.appendChildElement(incidentElement, Namespace.J, "IncidentAugmentation");
 		XmlUtils.appendElementAndValue(jIncidentAugElement, Namespace.J, "IncidentExceptionalClearanceCode", 
-				administrativeSegment.getClearedExceptionallyType().getClearedExceptionallyCode());
+				administrativeSegment.getClearedExceptionallyType().getFbiCode());
 		
 		Date exceptionalClearanceDate = administrativeSegment.getExceptionalClearanceDate();
 		if (exceptionalClearanceDate != null) {
@@ -245,7 +245,7 @@ public class XmlReportGenerator {
 			String yearOfTape, String monthOfTape, String ori, 
 			Element reportHeaderElement) {
 		XmlUtils.appendChildElement(reportHeaderElement, Namespace.NIBRS, "ReportActionCategoryCode")
-			.setTextContent(segmentActionTypeType.getSegmentActionTypeCode());
+			.setTextContent(segmentActionTypeType.getFbiCode());
 		
 		Element reportDate = XmlUtils.appendChildElement(reportHeaderElement, Namespace.NIBRS, "ReportDate");
 		Element yearMonthDate = XmlUtils.appendChildElement(reportDate, Namespace.NC, "YearMonthDate");
@@ -270,16 +270,16 @@ public class XmlReportGenerator {
 	private void addOffenseElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (OffenseSegment offense : administrativeSegment.getOffenseSegments()) {
 			Element offenseElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "OffenseSegment");
-			XmlUtils.addAttribute(offenseElement, Namespace.S, "id", "OffenseSegment-" + offense.getUcrOffenseCodeType().getUcrOffenseCode());
-			XmlUtils.appendElementAndValue(offenseElement, Namespace.NIBRS, "OffenseUCRCode", offense.getUcrOffenseCodeType().getUcrOffenseCode());
+			XmlUtils.addAttribute(offenseElement, Namespace.S, "id", "OffenseSegment-" + offense.getUcrOffenseCodeType().getFbiCode());
+			XmlUtils.appendElementAndValue(offenseElement, Namespace.NIBRS, "OffenseUCRCode", offense.getUcrOffenseCodeType().getFbiCode());
 			
 			for (TypeOfCriminalActivityType criminalActivityType: offense.getTypeOfCriminalActivityTypes()) {
-				XmlUtils.appendElementAndValue(offenseElement, NIBRS, "CriminalActivityCategoryCode", criminalActivityType.getTypeOfCriminalActivityCode());
+				XmlUtils.appendElementAndValue(offenseElement, NIBRS, "CriminalActivityCategoryCode", criminalActivityType.getFbiCode());
 			}
 			
 			for (BiasMotivationType biasMotivationType: offense.getBiasMotivationTypes()) {
-				if (StringUtils.isNotBlank(biasMotivationType.getBiasMotivationCode())){
-					XmlUtils.appendElementAndValue(offenseElement, J, "OffenseFactorBiasMotivationCode", biasMotivationType.getBiasMotivationDescription());
+				if (StringUtils.isNotBlank(biasMotivationType.getFbiCode())){
+					XmlUtils.appendElementAndValue(offenseElement, J, "OffenseFactorBiasMotivationCode", biasMotivationType.getFbiDescription());
 				}
 			}
 			
@@ -288,10 +288,10 @@ public class XmlReportGenerator {
 			
 			for (OffenderSuspectedOfUsingType offenderSuspectedOfUsingType: offense.getOffenderSuspectedOfUsingTypes()) {
 				Element e = XmlUtils.appendChildElement(offenseElement, Namespace.J, "OffenseFactor");
-				XmlUtils.appendChildElement(e, Namespace.J, "OffenseFactorCode").setTextContent(offenderSuspectedOfUsingType.getOffenderSuspectedOfUsingCode());
+				XmlUtils.appendChildElement(e, Namespace.J, "OffenseFactorCode").setTextContent(offenderSuspectedOfUsingType.getFbiCode());
 			}
 			
-			String methodOfEntry = Optional.ofNullable(offense.getMethodOfEntryType()).map(MethodOfEntryType::getMethodOfEntryCode)
+			String methodOfEntry = Optional.ofNullable(offense.getMethodOfEntryType()).map(MethodOfEntryType::getFbiCode)
 					.orElse(null);
 			if (StringUtils.isNotBlank(methodOfEntry)) {
 				Element e = XmlUtils.appendChildElement(offenseElement, Namespace.J, "OffenseEntryPoint");
@@ -301,7 +301,7 @@ public class XmlReportGenerator {
 			for (TypeOfWeaponForceInvolved typeOfWeaponForceInvolved: offense.getTypeOfWeaponForceInvolveds()) {
 				Element e = XmlUtils.appendChildElement(offenseElement, Namespace.J, "OffenseForce");
 				XmlUtils.appendElementAndValue(e, Namespace.J, "ForceCategoryCode", 
-						typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getTypeOfWeaponForceInvolvedCode());
+						typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getFbiCode());
 			}
 			
 			XmlUtils.appendElementAndValue(offenseElement, Namespace.J, "OffenseAttemptedIndicator", 
@@ -316,14 +316,14 @@ public class XmlReportGenerator {
 	private void addLocationElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (OffenseSegment offense : administrativeSegment.getOffenseSegments()) {
 			Element locationElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Location");
-			XmlUtils.addAttribute(locationElement, Namespace.S, "id", "Location-" + offense.getUcrOffenseCodeType().getUcrOffenseCode());
-			XmlUtils.appendElementAndValue(locationElement, Namespace.J, "LocationCategoryCode", offense.getLocationType().getLocationTypeCode());
+			XmlUtils.addAttribute(locationElement, Namespace.S, "id", "Location-" + offense.getUcrOffenseCodeType().getFbiCode());
+			XmlUtils.appendElementAndValue(locationElement, Namespace.J, "LocationCategoryCode", offense.getLocationType().getFbiCode());
 		}
 	}
 
 	private void addItemElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (PropertySegment property : administrativeSegment.getPropertySegments()) {
-			if ("NONE".equalsIgnoreCase(property.getTypePropertyLossEtcType().getTypePropertyLossEtcDescription())){
+			if ("NONE".equalsIgnoreCase(property.getTypePropertyLossEtcType().getFbiDescription())){
 			
 				Element itemElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Item");
 				Element itemStatus = XmlUtils.appendChildElement(itemElement, Namespace.NC, "ItemStatus");
@@ -332,7 +332,7 @@ public class XmlReportGenerator {
 			}
 			
 			for (PropertyType propertyType: property.getPropertyTypes()) {
-				String description = propertyType.getPropertyDescriptionType().getPropertyDescriptionCode();
+				String description = propertyType.getPropertyDescriptionType().getFbiCode();
 				if (description != null && !"10".equals(description)) {
 					Element itemElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Item");
 					
@@ -373,14 +373,14 @@ public class XmlReportGenerator {
 
 	private void addItemStatus(PropertySegment property, Element parent) {
 		Element itemStatus = XmlUtils.appendChildElement(parent, Namespace.NC, "ItemStatus");
-		String typeOfPropertyLoss = property.getTypePropertyLossEtcType().getTypePropertyLossEtcDescription();
+		String typeOfPropertyLoss = property.getTypePropertyLossEtcType().getFbiDescription();
 		XmlUtils.appendElementAndValue(itemStatus, Namespace.CJIS, "ItemStatusCode", typeOfPropertyLoss);
 	}
 	
 	private void addSubstanceElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (PropertySegment property : administrativeSegment.getPropertySegments()) {
 			for (PropertyType propertyType : property.getPropertyTypes()) {
-				String description = propertyType.getPropertyDescriptionType().getPropertyDescriptionCode();
+				String description = propertyType.getPropertyDescriptionType().getFbiCode();
 				if ("10".equals(description)) {
 					
 					for (SuspectedDrugType suspectedDrugType : property.getSuspectedDrugTypes()){
@@ -391,7 +391,7 @@ public class XmlReportGenerator {
 						XmlUtils.appendElementAndValue(substanceElement, Namespace.J, "ItemCategoryNIBRSPropertyCategoryCode", description);
 
 						XmlUtils.appendElementAndValue(substanceElement, J, "DrugCategoryCode", 
-								suspectedDrugType.getSuspectedDrugTypeType().getSuspectedDrugTypeCode());
+								suspectedDrugType.getSuspectedDrugTypeType().getFbiCode());
 						
 						if (suspectedDrugType.getEstimatedDrugQuantity()!= null || (suspectedDrugType.getTypeDrugMeasurementType() != null && 
 								suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementTypeId() != 99998)){
@@ -399,7 +399,7 @@ public class XmlReportGenerator {
 							XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.NC, "MeasureDecimalValue", 
 									Optional.ofNullable(suspectedDrugType.getEstimatedDrugQuantity()).map(String::valueOf).orElse(null));
 							XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.J, "SubstanceUnitCode",
-									suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementCode());
+									suspectedDrugType.getTypeDrugMeasurementType().getFbiCode());
 						}
 					}
 				}
@@ -416,7 +416,7 @@ public class XmlReportGenerator {
 
 	private void addVictimPersonElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
-			String victimType = victim.getTypeOfVictimType().getTypeOfVictimCode();
+			String victimType = victim.getTypeOfVictimType().getFbiCode();
 			if ("L".equals(victimType) || "I".equals(victimType)) {
 				Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Person");
 				XmlUtils.addAttribute(victimElement, Namespace.S, "id", "VictimSegment-" + victim.getVictimSequenceNumber());
@@ -453,15 +453,15 @@ public class XmlReportGenerator {
 			ResidentStatusOfPersonType residentStatusOfPersonType, SexOfPersonType sexOfPersonType,  
 			Element parent) {
 		XmlUtils.appendElementAndValue(parent, Namespace.NC, "PersonEthnicityCode", 
-			ethnicityOfPersonType.getEthnicityOfPersonCode());
+			ethnicityOfPersonType.getFbiCode());
 		XmlUtils.appendElementAndValue(parent, Namespace.J, "PersonRaceNDExCode", 
-			raceOfPersonType.getRaceOfPersonCode());
+			raceOfPersonType.getFbiCode());
 		if (residentStatusOfPersonType != null){
 			XmlUtils.appendElementAndValue(parent, Namespace.J, "PersonResidentCode", 
-				residentStatusOfPersonType.getResidentStatusOfPersonCode());
+				residentStatusOfPersonType.getFbiCode());
 		}
 		XmlUtils.appendElementAndValue(parent, Namespace.J, "PersonSexCode", 
-			sexOfPersonType.getSexOfPersonCode());
+			sexOfPersonType.getFbiCode());
 	}
 
 	private void addPersonAgeMeasure(Element victimElement, Integer ageMin, Integer ageMax) {
@@ -523,15 +523,15 @@ public class XmlReportGenerator {
 //</j:EnforcementOfficial>
 	private void addEnforcementOfficialElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
-			String victimType = victim.getTypeOfVictimType().getTypeOfVictimCode();
+			String victimType = victim.getTypeOfVictimType().getFbiCode();
 			if ("L".equals(victimType)) {
 				Element enforcementOfficialElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "EnforcementOfficial");
 				Element e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.NC, "RoleOfPerson");
 				XmlUtils.addAttribute(e, Namespace.S, "ref", "VictimSegment-" + victim.getVictimSequenceNumber());
 				XmlUtils.appendElementAndValue(enforcementOfficialElement, Namespace.J, "EnforcementOfficialActivityCategoryCode", 
-						victim.getOfficerActivityCircumstanceType().getOfficerActivityCircumstanceCode());
+						victim.getOfficerActivityCircumstanceType().getFbiCode());
 				XmlUtils.appendElementAndValue(enforcementOfficialElement, Namespace.J, "EnforcementOfficialAssignmentCategoryCode", 
-						victim.getOfficerAssignmentTypeType().getOfficerAssignmentTypeCode());
+						victim.getOfficerAssignmentTypeType().getFbiCode());
 				
 				String officerOtherJurisdictionOri = victim.getOfficerOtherJurisdictionOri();
 				if (officerOtherJurisdictionOri != null) {
@@ -553,19 +553,19 @@ public class XmlReportGenerator {
 			
 			for (TypeInjuryType typeInjuryType :victim.getTypeInjuryTypes()){
 				Element victimInjury = XmlUtils.appendChildElement(victimElement, J, "VictimInjury");
-				XmlUtils.appendElementAndValue(victimInjury, J, "InjuryCategoryCode", typeInjuryType.getTypeInjuryCode());
+				XmlUtils.appendElementAndValue(victimInjury, J, "InjuryCategoryCode", typeInjuryType.getFbiCode());
 			}
 			
-			XmlUtils.appendElementAndValue(victimElement, Namespace.J, "VictimCategoryCode", victim.getTypeOfVictimType().getTypeOfVictimCode());
+			XmlUtils.appendElementAndValue(victimElement, Namespace.J, "VictimCategoryCode", victim.getTypeOfVictimType().getFbiCode());
 			for (AggravatedAssaultHomicideCircumstancesType homicideCircumstancesType : 
 				victim.getAggravatedAssaultHomicideCircumstancesTypes()) {
 				XmlUtils.appendElementAndValue(victimElement, Namespace.J, "VictimAggravatedAssaultHomicideFactorCode", 
-						homicideCircumstancesType.getAggravatedAssaultHomicideCircumstancesCode());
+						homicideCircumstancesType.getFbiCode());
 			}
 			
 			XmlUtils.appendElementAndValue(victimElement, Namespace.J, "VictimJustifiableHomicideFactorCode", 
 					Optional.ofNullable(victim.getAdditionalJustifiableHomicideCircumstancesType())
-					.map(AdditionalJustifiableHomicideCircumstancesType::getAdditionalJustifiableHomicideCircumstancesCode)
+					.map(AdditionalJustifiableHomicideCircumstancesType::getFbiCode)
 					.orElse(null));
 		}		
 	}
@@ -616,17 +616,17 @@ public class XmlReportGenerator {
 		
 		for (ArresteeWasArmedWithType armedWith: arresteeArmedWithTypes){
 			XmlUtils.appendElementAndValue(arresteeElement, J, "ArresteeArmedWithCode", 
-					armedWith.getArresteeWasArmedWithCode());
+					armedWith.getFbiCode());
 		}
 		
 		if (dispositionOfArresteeUnder18Type!= null){
 			XmlUtils.appendElementAndValue(arresteeElement, J, "ArresteeJuvenileDispositionCode", 
-					dispositionOfArresteeUnder18Type.getDispositionOfArresteeUnder18Code());
+					dispositionOfArresteeUnder18Type.getFbiCode());
 		}
 		
 		if (multipleArresteeSegmentsIndicatorType != null){
 			XmlUtils.appendElementAndValue(arresteeElement, J, "ArrestSubjectCountCode", 
-					multipleArresteeSegmentsIndicatorType.getMultipleArresteeSegmentsIndicatorCode());
+					multipleArresteeSegmentsIndicatorType.getFbiCode());
 		}
 	}
 	
@@ -668,8 +668,8 @@ public class XmlReportGenerator {
 		}
 		
 		Element arrestCharge = XmlUtils.appendChildElement(arrestElement, Namespace.J, "ArrestCharge");
-		XmlUtils.appendElementAndValue(arrestCharge, Namespace.NIBRS, "ChargeUCRCode", ucrOffenseCodeType.getUcrOffenseCode());
-		XmlUtils.appendElementAndValue(arrestElement, Namespace.J, "ArrestCategoryCode", typeOfArrestType.getTypeOfArrestCode());
+		XmlUtils.appendElementAndValue(arrestCharge, Namespace.NIBRS, "ChargeUCRCode", ucrOffenseCodeType.getFbiCode());
+		XmlUtils.appendElementAndValue(arrestElement, Namespace.J, "ArrestCategoryCode", typeOfArrestType.getFbiCode());
 	}
 	
 //<j:ArrestSubjectAssociation>
@@ -698,9 +698,9 @@ public class XmlReportGenerator {
 		for (OffenseSegment offense : administrativeSegment.getOffenseSegments()) {
 			Element associationElement = XmlUtils.appendChildElement(reportElement, J, "OffenseLocationAssociation");
 			Element e = XmlUtils.appendChildElement(associationElement, J, "Offense");
-			XmlUtils.addAttribute(e, Namespace.S, "ref", "OffenseSegment-" + offense.getUcrOffenseCodeType().getUcrOffenseCode());
+			XmlUtils.addAttribute(e, Namespace.S, "ref", "OffenseSegment-" + offense.getUcrOffenseCodeType().getFbiCode());
 			e = XmlUtils.appendChildElement(associationElement, Namespace.NC, "Location");
-			XmlUtils.addAttribute(e, Namespace.S, "ref", "Location-" + offense.getUcrOffenseCodeType().getUcrOffenseCode());
+			XmlUtils.addAttribute(e, Namespace.S, "ref", "Location-" + offense.getUcrOffenseCodeType().getFbiCode());
 		}
 	}
 
@@ -711,7 +711,7 @@ public class XmlReportGenerator {
 	private void addOffenseVictimAssociationElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
 			for (OffenseSegment offense:victim.getOffenseSegments()) {
-				String ucrCode = offense.getUcrOffenseCodeType().getUcrOffenseCode();
+				String ucrCode = offense.getUcrOffenseCodeType().getFbiCode();
 				Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "OffenseVictimAssociation");
 				Element e = XmlUtils.appendChildElement(associationElement, Namespace.J, "Offense");
 				XmlUtils.addAttribute(e, Namespace.S, "ref", "OffenseSegment-" + ucrCode);
@@ -731,7 +731,7 @@ public class XmlReportGenerator {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
 			for (VictimOffenderAssociation victimOffenderAssociation: victim.getVictimOffenderAssociations()) {
 				Integer offenderSequenceNumber = victimOffenderAssociation.getOffenderSegment().getOffenderSequenceNumber();
-				String relationshipTypeCode = victimOffenderAssociation.getVictimOffenderRelationshipType().getVictimOffenderRelationshipCode();
+				String relationshipTypeCode = victimOffenderAssociation.getVictimOffenderRelationshipType().getFbiCode();
 				
 				Element associationElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "SubjectVictimAssociation");
 				Element e = XmlUtils.appendChildElement(associationElement, Namespace.J, "Subject");

@@ -30,8 +30,10 @@ public class TypeOfArrestType{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer typeOfArrestTypeId; 
 	
-	private String typeOfArrestCode; 
-	private String typeOfArrestDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public TypeOfArrestType() {
 		super();
@@ -42,31 +44,18 @@ public class TypeOfArrestType{
 		this.setTypeOfArrestTypeId(typeOfArrestTypeId);
 	}
 
-	public TypeOfArrestType(Integer typeOfArrestTypeId, String typeOfArrestCode, String typeOfArrestDescription) {
+	public TypeOfArrestType(Integer typeOfArrestTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription) {
 		super();
-		this.setTypeOfArrestTypeId(typeOfArrestTypeId);
-		this.typeOfArrestCode = typeOfArrestCode;
-		this.typeOfArrestDescription = typeOfArrestDescription;
+		this.typeOfArrestTypeId = typeOfArrestTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public String getTypeOfArrestCode() {
-		return typeOfArrestCode;
-	}
-
-	public void setTypeOfArrestCode(String typeOfArrestCode) {
-		this.typeOfArrestCode = typeOfArrestCode;
-	}
-
-	public String getTypeOfArrestDescription() {
-		return typeOfArrestDescription;
-	}
-
-	public void setTypeOfArrestDescription(String typeOfArrestDescription) {
-		this.typeOfArrestDescription = typeOfArrestDescription;
 	}
 
 	public Integer getTypeOfArrestTypeId() {
@@ -77,12 +66,46 @@ public class TypeOfArrestType{
 		this.typeOfArrestTypeId = typeOfArrestTypeId;
 	}
 
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((typeOfArrestCode == null) ? 0 : typeOfArrestCode.hashCode());
-		result = prime * result + ((typeOfArrestDescription == null) ? 0 : typeOfArrestDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result + ((typeOfArrestTypeId == null) ? 0 : typeOfArrestTypeId.hashCode());
 		return result;
 	}
@@ -96,15 +119,25 @@ public class TypeOfArrestType{
 		if (getClass() != obj.getClass())
 			return false;
 		TypeOfArrestType other = (TypeOfArrestType) obj;
-		if (typeOfArrestCode == null) {
-			if (other.typeOfArrestCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!typeOfArrestCode.equals(other.typeOfArrestCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (typeOfArrestDescription == null) {
-			if (other.typeOfArrestDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!typeOfArrestDescription.equals(other.typeOfArrestDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		if (typeOfArrestTypeId == null) {
 			if (other.typeOfArrestTypeId != null)

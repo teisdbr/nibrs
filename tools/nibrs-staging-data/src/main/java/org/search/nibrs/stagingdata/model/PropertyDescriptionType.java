@@ -34,9 +34,21 @@ public class PropertyDescriptionType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer propertyDescriptionTypeId; 
 	
-	private String propertyDescriptionCode; 
-	private String propertyDescriptionDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
+	public PropertyDescriptionType(Integer propertyDescriptionTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
+		super();
+		this.propertyDescriptionTypeId = propertyDescriptionTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
+	}
+
 	@OneToMany(mappedBy = "propertyDescriptionType")
 	private Set<PropertyType> propertyTypes;
 
@@ -63,30 +75,47 @@ public class PropertyDescriptionType {
 		this.propertyDescriptionTypeId = propertyDescriptionTypeId;
 	}
 
-	public String getPropertyDescriptionCode() {
-		return propertyDescriptionCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setPropertyDescriptionCode(String propertyDescriptionCode) {
-		this.propertyDescriptionCode = propertyDescriptionCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getPropertyDescriptionDescription() {
-		return propertyDescriptionDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setPropertyDescriptionDescription(String propertyDescriptionDescription) {
-		this.propertyDescriptionDescription = propertyDescriptionDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((propertyDescriptionCode == null) ? 0 : propertyDescriptionCode.hashCode());
-		result = prime * result
-				+ ((propertyDescriptionDescription == null) ? 0 : propertyDescriptionDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result + ((propertyDescriptionTypeId == null) ? 0 : propertyDescriptionTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -99,20 +128,30 @@ public class PropertyDescriptionType {
 		if (getClass() != obj.getClass())
 			return false;
 		PropertyDescriptionType other = (PropertyDescriptionType) obj;
-		if (propertyDescriptionCode == null) {
-			if (other.propertyDescriptionCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!propertyDescriptionCode.equals(other.propertyDescriptionCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (propertyDescriptionDescription == null) {
-			if (other.propertyDescriptionDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!propertyDescriptionDescription.equals(other.propertyDescriptionDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (propertyDescriptionTypeId == null) {
 			if (other.propertyDescriptionTypeId != null)
 				return false;
 		} else if (!propertyDescriptionTypeId.equals(other.propertyDescriptionTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

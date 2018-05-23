@@ -30,8 +30,10 @@ public class DispositionOfArresteeUnder18Type {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer dispositionOfArresteeUnder18TypeId; 
 	
-	private String dispositionOfArresteeUnder18Code; 
-	private String dispositionOfArresteeUnder18Description; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public DispositionOfArresteeUnder18Type() {
 		super();
@@ -42,12 +44,14 @@ public class DispositionOfArresteeUnder18Type {
 		this.dispositionOfArresteeUnder18TypeId = dispositionOfArresteeUnder18TypeId;
 	}
 
-	public DispositionOfArresteeUnder18Type(Integer dispositionOfArresteeUnder18TypeId,
-			String dispositionOfArresteeUnder18Code, String dispositionOfArresteeUnder18Description) {
+	public DispositionOfArresteeUnder18Type(Integer dispositionOfArresteeUnder18TypeId, String stateCode,
+			String stateDescription, String fbiCode, String fbiDescription) {
 		super();
 		this.dispositionOfArresteeUnder18TypeId = dispositionOfArresteeUnder18TypeId;
-		this.dispositionOfArresteeUnder18Code = dispositionOfArresteeUnder18Code;
-		this.dispositionOfArresteeUnder18Description = dispositionOfArresteeUnder18Description;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -62,20 +66,36 @@ public class DispositionOfArresteeUnder18Type {
 		this.dispositionOfArresteeUnder18TypeId = dispositionOfArresteeUnder18TypeId;
 	}
 
-	public String getDispositionOfArresteeUnder18Code() {
-		return dispositionOfArresteeUnder18Code;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setDispositionOfArresteeUnder18Code(String dispositionOfArresteeUnder18Code) {
-		this.dispositionOfArresteeUnder18Code = dispositionOfArresteeUnder18Code;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getDispositionOfArresteeUnder18Description() {
-		return dispositionOfArresteeUnder18Description;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setDispositionOfArresteeUnder18Description(String dispositionOfArresteeUnder18Description) {
-		this.dispositionOfArresteeUnder18Description = dispositionOfArresteeUnder18Description;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
@@ -83,11 +103,11 @@ public class DispositionOfArresteeUnder18Type {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((dispositionOfArresteeUnder18Code == null) ? 0 : dispositionOfArresteeUnder18Code.hashCode());
-		result = prime * result + ((dispositionOfArresteeUnder18Description == null) ? 0
-				: dispositionOfArresteeUnder18Description.hashCode());
-		result = prime * result
 				+ ((dispositionOfArresteeUnder18TypeId == null) ? 0 : dispositionOfArresteeUnder18TypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -100,21 +120,32 @@ public class DispositionOfArresteeUnder18Type {
 		if (getClass() != obj.getClass())
 			return false;
 		DispositionOfArresteeUnder18Type other = (DispositionOfArresteeUnder18Type) obj;
-		if (dispositionOfArresteeUnder18Code == null) {
-			if (other.dispositionOfArresteeUnder18Code != null)
-				return false;
-		} else if (!dispositionOfArresteeUnder18Code.equals(other.dispositionOfArresteeUnder18Code))
-			return false;
-		if (dispositionOfArresteeUnder18Description == null) {
-			if (other.dispositionOfArresteeUnder18Description != null)
-				return false;
-		} else if (!dispositionOfArresteeUnder18Description.equals(other.dispositionOfArresteeUnder18Description))
-			return false;
 		if (dispositionOfArresteeUnder18TypeId == null) {
 			if (other.dispositionOfArresteeUnder18TypeId != null)
 				return false;
 		} else if (!dispositionOfArresteeUnder18TypeId.equals(other.dispositionOfArresteeUnder18TypeId))
 			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
+			return false;
 		return true;
 	}
+
 }

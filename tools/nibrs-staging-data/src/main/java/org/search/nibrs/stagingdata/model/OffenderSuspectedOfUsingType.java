@@ -39,9 +39,21 @@ public class OffenderSuspectedOfUsingType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer offenderSuspectedOfUsingTypeId; 
 	
-	private String offenderSuspectedOfUsingCode; 
-	private String offenderSuspectedOfUsingDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
+	public OffenderSuspectedOfUsingType(Integer offenderSuspectedOfUsingTypeId, String stateCode,
+			String stateDescription, String fbiCode, String fbiDescription) {
+		super();
+		this.offenderSuspectedOfUsingTypeId = offenderSuspectedOfUsingTypeId;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
+	}
+
 	@ManyToMany(mappedBy = "offenderSuspectedOfUsingTypes", fetch=FetchType.LAZY)
 	@JsonIgnore
 	private Set<OffenseSegment> offenseSegments;
@@ -54,14 +66,6 @@ public class OffenderSuspectedOfUsingType {
 	public OffenderSuspectedOfUsingType(Integer offenderSuspectedOfUsingTypeId) {
 		super();
 		this.offenderSuspectedOfUsingTypeId = offenderSuspectedOfUsingTypeId;
-	}
-
-	public OffenderSuspectedOfUsingType(Integer offenderSuspectedOfUsingTypeId, String offenderSuspectedOfUsingCode,
-			String offenderSuspectedOfUsingDescription) {
-		super();
-		this.offenderSuspectedOfUsingTypeId = offenderSuspectedOfUsingTypeId;
-		this.offenderSuspectedOfUsingCode = offenderSuspectedOfUsingCode;
-		this.offenderSuspectedOfUsingDescription = offenderSuspectedOfUsingDescription;
 	}
 
 	public String toString(){
@@ -77,40 +81,48 @@ public class OffenderSuspectedOfUsingType {
 		this.offenderSuspectedOfUsingTypeId = offenderSuspectedOfUsingTypeId;
 	}
 
-	public String getOffenderSuspectedOfUsingCode() {
-		return offenderSuspectedOfUsingCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setOffenderSuspectedOfUsingCode(String offenderSuspectedOfUsingCode) {
-		this.offenderSuspectedOfUsingCode = offenderSuspectedOfUsingCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getOffenderSuspectedOfUsingDescription() {
-		return offenderSuspectedOfUsingDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setOffenderSuspectedOfUsingDescription(String offenderSuspectedOfUsingDescription) {
-		this.offenderSuspectedOfUsingDescription = offenderSuspectedOfUsingDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
 	}
 
-	public Set<OffenseSegment> getOffenseSegments() {
-		return offenseSegments;
+	public String getFbiCode() {
+		return fbiCode;
 	}
 
-	public void setOffenseSegments(Set<OffenseSegment> offenseSegments) {
-		this.offenseSegments = offenseSegments;
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((offenderSuspectedOfUsingCode == null) ? 0 : offenderSuspectedOfUsingCode.hashCode());
-		result = prime * result
-				+ ((offenderSuspectedOfUsingDescription == null) ? 0 : offenderSuspectedOfUsingDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result
 				+ ((offenderSuspectedOfUsingTypeId == null) ? 0 : offenderSuspectedOfUsingTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -123,20 +135,30 @@ public class OffenderSuspectedOfUsingType {
 		if (getClass() != obj.getClass())
 			return false;
 		OffenderSuspectedOfUsingType other = (OffenderSuspectedOfUsingType) obj;
-		if (offenderSuspectedOfUsingCode == null) {
-			if (other.offenderSuspectedOfUsingCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!offenderSuspectedOfUsingCode.equals(other.offenderSuspectedOfUsingCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (offenderSuspectedOfUsingDescription == null) {
-			if (other.offenderSuspectedOfUsingDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!offenderSuspectedOfUsingDescription.equals(other.offenderSuspectedOfUsingDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (offenderSuspectedOfUsingTypeId == null) {
 			if (other.offenderSuspectedOfUsingTypeId != null)
 				return false;
 		} else if (!offenderSuspectedOfUsingTypeId.equals(other.offenderSuspectedOfUsingTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

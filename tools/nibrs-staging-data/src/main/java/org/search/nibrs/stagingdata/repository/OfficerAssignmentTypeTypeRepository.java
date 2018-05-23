@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.OfficerAssignmentTypeType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OfficerAssignmentTypeTypeRepository extends CrudRepository<OfficerAssignmentTypeType, Integer>{
-	public OfficerAssignmentTypeType findFirstByOfficerAssignmentTypeCode(String officerAssignmentTypeCode);
+	public OfficerAssignmentTypeType findFirstByStateCode(String stateCode);
 }

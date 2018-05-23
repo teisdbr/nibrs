@@ -19,6 +19,5 @@ import org.search.nibrs.stagingdata.model.OfficerActivityCircumstanceType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface OfficerActivityCircumstanceTypeRepository extends CrudRepository<OfficerActivityCircumstanceType, Integer>{
-	public OfficerActivityCircumstanceType findFirstByOfficerActivityCircumstanceCode(
-			String officerActivityCircumstanceCode);
+	public OfficerActivityCircumstanceType findFirstByStateCode(String stateCode);
 }

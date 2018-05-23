@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.CargoTheftIndicatorType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CargoTheftIndicatorTypeRepository extends CrudRepository<CargoTheftIndicatorType, Integer>{
-	public CargoTheftIndicatorType findFirstByCargoTheftIndicatorCode(String cargoTheftIndicatorCode);
+	public CargoTheftIndicatorType findFirstByStateCode(String stateCode);
 }

@@ -30,8 +30,10 @@ public class MultipleArresteeSegmentsIndicatorType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer multipleArresteeSegmentsIndicatorTypeId; 
 	
-	private String multipleArresteeSegmentsIndicatorCode; 
-	private String multipleArresteeSegmentsIndicatorDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public MultipleArresteeSegmentsIndicatorType() {
 		super();
@@ -42,12 +44,14 @@ public class MultipleArresteeSegmentsIndicatorType {
 		this.multipleArresteeSegmentsIndicatorTypeId = multipleArresteeSegmentsIndicatorTypeId;
 	}
 
-	public MultipleArresteeSegmentsIndicatorType(Integer multipleArresteeSegmentsIndicatorTypeId,
-			String multipleArresteeSegmentsIndicatorCode, String multipleArresteeSegmentsIndicatorDescription) {
+	public MultipleArresteeSegmentsIndicatorType(Integer multipleArresteeSegmentsIndicatorTypeId, String stateCode,
+			String stateDescription, String fbiCode, String fbiDescription) {
 		super();
 		this.multipleArresteeSegmentsIndicatorTypeId = multipleArresteeSegmentsIndicatorTypeId;
-		this.multipleArresteeSegmentsIndicatorCode = multipleArresteeSegmentsIndicatorCode;
-		this.multipleArresteeSegmentsIndicatorDescription = multipleArresteeSegmentsIndicatorDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -62,32 +66,48 @@ public class MultipleArresteeSegmentsIndicatorType {
 		this.multipleArresteeSegmentsIndicatorTypeId = multipleArresteeSegmentsIndicatorTypeId;
 	}
 
-	public String getMultipleArresteeSegmentsIndicatorCode() {
-		return multipleArresteeSegmentsIndicatorCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setMultipleArresteeSegmentsIndicatorCode(String multipleArresteeSegmentsIndicatorCode) {
-		this.multipleArresteeSegmentsIndicatorCode = multipleArresteeSegmentsIndicatorCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getMultipleArresteeSegmentsIndicatorDescription() {
-		return multipleArresteeSegmentsIndicatorDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setMultipleArresteeSegmentsIndicatorDescription(String multipleArresteeSegmentsIndicatorDescription) {
-		this.multipleArresteeSegmentsIndicatorDescription = multipleArresteeSegmentsIndicatorDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((multipleArresteeSegmentsIndicatorCode == null) ? 0
-				: multipleArresteeSegmentsIndicatorCode.hashCode());
-		result = prime * result + ((multipleArresteeSegmentsIndicatorDescription == null) ? 0
-				: multipleArresteeSegmentsIndicatorDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result + ((multipleArresteeSegmentsIndicatorTypeId == null) ? 0
 				: multipleArresteeSegmentsIndicatorTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -100,21 +120,30 @@ public class MultipleArresteeSegmentsIndicatorType {
 		if (getClass() != obj.getClass())
 			return false;
 		MultipleArresteeSegmentsIndicatorType other = (MultipleArresteeSegmentsIndicatorType) obj;
-		if (multipleArresteeSegmentsIndicatorCode == null) {
-			if (other.multipleArresteeSegmentsIndicatorCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!multipleArresteeSegmentsIndicatorCode.equals(other.multipleArresteeSegmentsIndicatorCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (multipleArresteeSegmentsIndicatorDescription == null) {
-			if (other.multipleArresteeSegmentsIndicatorDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!multipleArresteeSegmentsIndicatorDescription
-				.equals(other.multipleArresteeSegmentsIndicatorDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (multipleArresteeSegmentsIndicatorTypeId == null) {
 			if (other.multipleArresteeSegmentsIndicatorTypeId != null)
 				return false;
 		} else if (!multipleArresteeSegmentsIndicatorTypeId.equals(other.multipleArresteeSegmentsIndicatorTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

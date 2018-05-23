@@ -201,7 +201,7 @@ public class ArrestReportService {
 			
 			String reportActionType = String.valueOf(groupBArrestReport.getReportActionType()).trim();
 			SegmentActionTypeType segmentActionType = codeTableService.getCodeTableType(reportActionType, 
-					segmentActionTypeRepository::findFirstBySegmentActionTypeCode, SegmentActionTypeType::new);
+					segmentActionTypeRepository::findFirstByStateCode, SegmentActionTypeType::new);
 			arrestReportSegment.setSegmentActionType(segmentActionType);
 			
 			Optional<Integer> monthOfTape = Optional.ofNullable(groupBArrestReport.getMonthOfTape());
@@ -225,39 +225,39 @@ public class ArrestReportService {
 			arrestReportSegment.setArrestDateType(codeTableService.getDateType(DateUtils.asDate(groupBArrestReport.getArrestDate())));
 			
 			TypeOfArrestType typeOfArrestType = codeTableService.getCodeTableType(
-					arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByTypeOfArrestCode, TypeOfArrestType::new);
+					arrestee.getTypeOfArrest(), typeOfArrestTypeRepository::findFirstByStateCode, TypeOfArrestType::new);
 			arrestReportSegment.setTypeOfArrestType(typeOfArrestType );
 			
 			arrestReportSegment.setAgeOfArresteeMin(arrestee.getAge().getAgeMin());
 			arrestReportSegment.setAgeOfArresteeMax(arrestee.getAge().getAgeMax());
 	
 			SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
-					arrestee.getSex(), sexOfPersonTypeRepository::findFirstBySexOfPersonCode, SexOfPersonType::new);
+					arrestee.getSex(), sexOfPersonTypeRepository::findFirstByStateCode, SexOfPersonType::new);
 			arrestReportSegment.setSexOfPersonType(sexOfPersonType);
 			
 			RaceOfPersonType raceOfPersonType = codeTableService.getCodeTableType(
-					arrestee.getRace(), raceOfPersonTypeRepository::findFirstByRaceOfPersonCode, RaceOfPersonType::new);
+					arrestee.getRace(), raceOfPersonTypeRepository::findFirstByStateCode, RaceOfPersonType::new);
 			arrestReportSegment.setRaceOfPersonType(raceOfPersonType);
 			
 			EthnicityOfPersonType ethnicityOfPersonType = codeTableService.getCodeTableType(
-					arrestee.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByEthnicityOfPersonCode, EthnicityOfPersonType::new);
+					arrestee.getEthnicity(), ethnicityOfPersonTypeRepository::findFirstByStateCode, EthnicityOfPersonType::new);
 			arrestReportSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
 			
 			ResidentStatusOfPersonType residentStatusOfPersonType = codeTableService.getCodeTableType(
 					arrestee.getResidentStatus(), 
-					residentStatusOfPersonTypeRepository::findFirstByResidentStatusOfPersonCode, 
+					residentStatusOfPersonTypeRepository::findFirstByStateCode, 
 					ResidentStatusOfPersonType::new);
 			arrestReportSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
 			
 			DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type = codeTableService.getCodeTableType(
 					arrestee.getDispositionOfArresteeUnder18(), 
-					dispositionOfArresteeUnder18TypeRepository::findFirstByDispositionOfArresteeUnder18Code, 
+					dispositionOfArresteeUnder18TypeRepository::findFirstByStateCode, 
 					DispositionOfArresteeUnder18Type::new);
 			arrestReportSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type );
 			
 			UcrOffenseCodeType ucrOffenseCodeType = codeTableService.getCodeTableType(
 					arrestee.getUcrArrestOffenseCode(), 
-					ucrOffenseCodeTypeRepository::findFirstByUcrOffenseCode, 
+					ucrOffenseCodeTypeRepository::findFirstByStateCode, 
 					UcrOffenseCodeType::new);;
 			arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCodeType);
 			
@@ -284,7 +284,7 @@ public class ArrestReportService {
 				if (StringUtils.isNotBlank(arresteeArmedWithCode)){
 					Optional<ArresteeWasArmedWithType> arresteeWasArmedWithType = 
 							Optional.ofNullable(codeTableService.getCodeTableType(arresteeArmedWithCode,
-									arresteeWasArmedWithTypeRepository::findFirstByArresteeWasArmedWithCode, 
+									arresteeWasArmedWithTypeRepository::findFirstByStateCode, 
 									null));
 					arresteeWasArmedWithType.ifPresent( type ->
 						armedWiths.add(new ArrestReportSegmentWasArmedWith(

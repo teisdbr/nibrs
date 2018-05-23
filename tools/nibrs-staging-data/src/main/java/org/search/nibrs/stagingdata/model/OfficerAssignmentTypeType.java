@@ -29,8 +29,10 @@ public class OfficerAssignmentTypeType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer officerAssignmentTypeTypeId; 
-	private String officerAssignmentTypeCode; 
-	private String officerAssignmentTypeDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public OfficerAssignmentTypeType() {
 		super();
@@ -41,12 +43,14 @@ public class OfficerAssignmentTypeType {
 		this.officerAssignmentTypeTypeId = officerAssignmentTypeTypeId;
 	}
 
-	public OfficerAssignmentTypeType(Integer officerAssignmentTypeTypeId, String officerAssignmentTypeCode,
-			String officerAssignmentTypeDescription) {
+	public OfficerAssignmentTypeType(Integer officerAssignmentTypeTypeId, String stateCode, String stateDescription,
+			String fbiCode, String fbiDescription) {
 		super();
 		this.officerAssignmentTypeTypeId = officerAssignmentTypeTypeId;
-		this.officerAssignmentTypeCode = officerAssignmentTypeCode;
-		this.officerAssignmentTypeDescription = officerAssignmentTypeDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -61,30 +65,47 @@ public class OfficerAssignmentTypeType {
 		this.officerAssignmentTypeTypeId = officerAssignmentTypeTypeId;
 	}
 
-	public String getOfficerAssignmentTypeCode() {
-		return officerAssignmentTypeCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setOfficerAssignmentTypeCode(String officerAssignmentTypeCode) {
-		this.officerAssignmentTypeCode = officerAssignmentTypeCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getOfficerAssignmentTypeDescription() {
-		return officerAssignmentTypeDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setOfficerAssignmentTypeDescription(String officerAssignmentTypeDescription) {
-		this.officerAssignmentTypeDescription = officerAssignmentTypeDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((officerAssignmentTypeCode == null) ? 0 : officerAssignmentTypeCode.hashCode());
-		result = prime * result
-				+ ((officerAssignmentTypeDescription == null) ? 0 : officerAssignmentTypeDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result + ((officerAssignmentTypeTypeId == null) ? 0 : officerAssignmentTypeTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -97,20 +118,30 @@ public class OfficerAssignmentTypeType {
 		if (getClass() != obj.getClass())
 			return false;
 		OfficerAssignmentTypeType other = (OfficerAssignmentTypeType) obj;
-		if (officerAssignmentTypeCode == null) {
-			if (other.officerAssignmentTypeCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!officerAssignmentTypeCode.equals(other.officerAssignmentTypeCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (officerAssignmentTypeDescription == null) {
-			if (other.officerAssignmentTypeDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!officerAssignmentTypeDescription.equals(other.officerAssignmentTypeDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (officerAssignmentTypeTypeId == null) {
 			if (other.officerAssignmentTypeTypeId != null)
 				return false;
 		} else if (!officerAssignmentTypeTypeId.equals(other.officerAssignmentTypeTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

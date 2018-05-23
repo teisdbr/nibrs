@@ -89,29 +89,29 @@ public class ArrestReportSegmentFactory {
 		arrestReportSegment.setCityIndicator("Y");
 		
 		DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type
-			= dispositionOfArresteeUnder18TypeRepository.findFirstByDispositionOfArresteeUnder18Code("H");
+			= dispositionOfArresteeUnder18TypeRepository.findFirstByStateCode("H");
 		arrestReportSegment.setDispositionOfArresteeUnder18Type(dispositionOfArresteeUnder18Type);
 		
-		EthnicityOfPersonType ethnicityOfPersonType = ethnicityOfPersonTypeRepository.findFirstByEthnicityOfPersonCode("N");
+		EthnicityOfPersonType ethnicityOfPersonType = ethnicityOfPersonTypeRepository.findFirstByStateCode("N");
 		arrestReportSegment.setEthnicityOfPersonType(ethnicityOfPersonType);
 		arrestReportSegment.setMonthOfTape("12");
 		arrestReportSegment.setOri("ori");;
 		
-		RaceOfPersonType raceOfPersonType = raceOfPersonTypeRepository.findFirstByRaceOfPersonCode("W");
+		RaceOfPersonType raceOfPersonType = raceOfPersonTypeRepository.findFirstByStateCode("W");
 		arrestReportSegment.setRaceOfPersonType(raceOfPersonType);
 		
-		ResidentStatusOfPersonType residentStatusOfPersonType = residentStatusOfPersonTypeRepository.findFirstByResidentStatusOfPersonCode("N");
+		ResidentStatusOfPersonType residentStatusOfPersonType = residentStatusOfPersonTypeRepository.findFirstByStateCode("N");
 		arrestReportSegment.setResidentStatusOfPersonType(residentStatusOfPersonType);
 		
-		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstBySegmentActionTypeCode("I");
+		SegmentActionTypeType segmentActionTypeType = segmentActionTypeRepository.findFirstByStateCode("I");
 		arrestReportSegment.setSegmentActionType(segmentActionTypeType);
 		
-		SexOfPersonType sexOfPersonType = sexOfPersonTypeRepository.findFirstBySexOfPersonCode("F");
+		SexOfPersonType sexOfPersonType = sexOfPersonTypeRepository.findFirstByStateCode("F");
 		arrestReportSegment.setSexOfPersonType(sexOfPersonType);
 		
-		TypeOfArrestType typeOfArrestType = typeOfArrestTypeRepository.findFirstByTypeOfArrestCode("O");
+		TypeOfArrestType typeOfArrestType = typeOfArrestTypeRepository.findFirstByStateCode("O");
 		arrestReportSegment.setTypeOfArrestType(typeOfArrestType);
-		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByUcrOffenseCode("520");
+		UcrOffenseCodeType ucrOffenseCode = ucrOffenseCodeTypeRepository.findFirstByStateCode("520");
 		arrestReportSegment.setUcrOffenseCodeType(ucrOffenseCode);
 		arrestReportSegment.setYearOfTape("2016");
 		

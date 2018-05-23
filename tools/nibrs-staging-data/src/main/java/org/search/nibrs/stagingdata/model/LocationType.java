@@ -30,8 +30,10 @@ public class LocationType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer locationTypeTypeId; 
 	
-	private String locationTypeCode; 
-	private String locationTypeDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	
 	public LocationType() {
 		super();
@@ -42,11 +44,14 @@ public class LocationType {
 		this.locationTypeTypeId = locationTypeTypeId;
 	}
 
-	public LocationType(Integer locationTypeTypeId, String locationTypeCode, String locationTypeDescription) {
+	public LocationType(Integer locationTypeTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription) {
 		super();
 		this.locationTypeTypeId = locationTypeTypeId;
-		this.locationTypeCode = locationTypeCode;
-		this.locationTypeDescription = locationTypeDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 	}
 
 	public String toString(){
@@ -61,29 +66,47 @@ public class LocationType {
 		this.locationTypeTypeId = locationTypeTypeId;
 	}
 
-	public String getLocationTypeCode() {
-		return locationTypeCode;
+	public String getStateCode() {
+		return stateCode;
 	}
 
-	public void setLocationTypeCode(String locationTypeCode) {
-		this.locationTypeCode = locationTypeCode;
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 
-	public String getLocationTypeDescription() {
-		return locationTypeDescription;
+	public String getStateDescription() {
+		return stateDescription;
 	}
 
-	public void setLocationTypeDescription(String locationTypeDescription) {
-		this.locationTypeDescription = locationTypeDescription;
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((locationTypeCode == null) ? 0 : locationTypeCode.hashCode());
-		result = prime * result + ((locationTypeDescription == null) ? 0 : locationTypeDescription.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
 		result = prime * result + ((locationTypeTypeId == null) ? 0 : locationTypeTypeId.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -96,20 +119,30 @@ public class LocationType {
 		if (getClass() != obj.getClass())
 			return false;
 		LocationType other = (LocationType) obj;
-		if (locationTypeCode == null) {
-			if (other.locationTypeCode != null)
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
 				return false;
-		} else if (!locationTypeCode.equals(other.locationTypeCode))
+		} else if (!fbiCode.equals(other.fbiCode))
 			return false;
-		if (locationTypeDescription == null) {
-			if (other.locationTypeDescription != null)
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
 				return false;
-		} else if (!locationTypeDescription.equals(other.locationTypeDescription))
+		} else if (!fbiDescription.equals(other.fbiDescription))
 			return false;
 		if (locationTypeTypeId == null) {
 			if (other.locationTypeTypeId != null)
 				return false;
 		} else if (!locationTypeTypeId.equals(other.locationTypeTypeId))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

@@ -38,8 +38,10 @@ public class BiasMotivationType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer biasMotivationTypeId; 
 	
-	private String biasMotivationCode; 
-	private String biasMotivationDescription; 
+	private String stateCode; 
+	private String stateDescription; 
+	private String fbiCode; 
+	private String fbiDescription; 
 	private String biasMotivationCategory;
 	
 	@ManyToMany(mappedBy = "biasMotivationTypes", fetch=FetchType.LAZY)
@@ -55,12 +57,14 @@ public class BiasMotivationType {
 		this.biasMotivationTypeId = biasMotivationTypeId;
 	}
 
-	public BiasMotivationType(Integer biasMotivationTypeId, String biasMotivationCode, String biasMotivationDescription,
-			String biasMotivationCategory) {
+	public BiasMotivationType(Integer biasMotivationTypeId, String stateCode, String stateDescription, String fbiCode,
+			String fbiDescription, String biasMotivationCategory) {
 		super();
 		this.biasMotivationTypeId = biasMotivationTypeId;
-		this.biasMotivationCode = biasMotivationCode;
-		this.biasMotivationDescription = biasMotivationDescription;
+		this.stateCode = stateCode;
+		this.stateDescription = stateDescription;
+		this.fbiCode = fbiCode;
+		this.fbiDescription = fbiDescription;
 		this.biasMotivationCategory = biasMotivationCategory;
 	}
 
@@ -77,22 +81,6 @@ public class BiasMotivationType {
 		this.biasMotivationTypeId = biasMotivationTypeId;
 	}
 
-	public String getBiasMotivationCode() {
-		return biasMotivationCode;
-	}
-
-	public void setBiasMotivationCode(String biasMotivationCode) {
-		this.biasMotivationCode = biasMotivationCode;
-	}
-
-	public String getBiasMotivationDescription() {
-		return biasMotivationDescription;
-	}
-
-	public void setBiasMotivationDescription(String biasMotivationDescription) {
-		this.biasMotivationDescription = biasMotivationDescription;
-	}
-
 	public String getBiasMotivationCategory() {
 		return biasMotivationCategory;
 	}
@@ -101,14 +89,48 @@ public class BiasMotivationType {
 		this.biasMotivationCategory = biasMotivationCategory;
 	}
 
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateDescription() {
+		return stateDescription;
+	}
+
+	public void setStateDescription(String stateDescription) {
+		this.stateDescription = stateDescription;
+	}
+
+	public String getFbiCode() {
+		return fbiCode;
+	}
+
+	public void setFbiCode(String fbiCode) {
+		this.fbiCode = fbiCode;
+	}
+
+	public String getFbiDescription() {
+		return fbiDescription;
+	}
+
+	public void setFbiDescription(String fbiDescription) {
+		this.fbiDescription = fbiDescription;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((biasMotivationCategory == null) ? 0 : biasMotivationCategory.hashCode());
-		result = prime * result + ((biasMotivationCode == null) ? 0 : biasMotivationCode.hashCode());
-		result = prime * result + ((biasMotivationDescription == null) ? 0 : biasMotivationDescription.hashCode());
 		result = prime * result + ((biasMotivationTypeId == null) ? 0 : biasMotivationTypeId.hashCode());
+		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
+		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		return result;
 	}
 
@@ -126,20 +148,30 @@ public class BiasMotivationType {
 				return false;
 		} else if (!biasMotivationCategory.equals(other.biasMotivationCategory))
 			return false;
-		if (biasMotivationCode == null) {
-			if (other.biasMotivationCode != null)
-				return false;
-		} else if (!biasMotivationCode.equals(other.biasMotivationCode))
-			return false;
-		if (biasMotivationDescription == null) {
-			if (other.biasMotivationDescription != null)
-				return false;
-		} else if (!biasMotivationDescription.equals(other.biasMotivationDescription))
-			return false;
 		if (biasMotivationTypeId == null) {
 			if (other.biasMotivationTypeId != null)
 				return false;
 		} else if (!biasMotivationTypeId.equals(other.biasMotivationTypeId))
+			return false;
+		if (fbiCode == null) {
+			if (other.fbiCode != null)
+				return false;
+		} else if (!fbiCode.equals(other.fbiCode))
+			return false;
+		if (fbiDescription == null) {
+			if (other.fbiDescription != null)
+				return false;
+		} else if (!fbiDescription.equals(other.fbiDescription))
+			return false;
+		if (stateCode == null) {
+			if (other.stateCode != null)
+				return false;
+		} else if (!stateCode.equals(other.stateCode))
+			return false;
+		if (stateDescription == null) {
+			if (other.stateDescription != null)
+				return false;
+		} else if (!stateDescription.equals(other.stateDescription))
 			return false;
 		return true;
 	}

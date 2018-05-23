@@ -65,6 +65,7 @@ public class AdministrativeSegmentRepositoryTest {
 	
 	@Test
 	public void testFindDistinctByOriAndIncidentDateTypeYearAndIncidentDateTypeMonth() {
+		
 		List<AdministrativeSegment> administrativeSegments = administrativeSegmentRepository
 				.findDistinctByOriAndIncidentDateTypeYearAndIncidentDateTypeMonth("WA1234567", 2016, 5);
 		assertThat(administrativeSegments.size(), equalTo(3));

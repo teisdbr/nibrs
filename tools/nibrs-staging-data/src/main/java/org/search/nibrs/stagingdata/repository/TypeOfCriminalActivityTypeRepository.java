@@ -19,5 +19,5 @@ import org.search.nibrs.stagingdata.model.TypeOfCriminalActivityType;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TypeOfCriminalActivityTypeRepository extends CrudRepository<TypeOfCriminalActivityType, Integer>{
-	public TypeOfCriminalActivityType findFirstByTypeOfCriminalActivityCode(String typeOfCriminalActivityCode);
+	public TypeOfCriminalActivityType findFirstByStateCode( String stateCode );;
 }

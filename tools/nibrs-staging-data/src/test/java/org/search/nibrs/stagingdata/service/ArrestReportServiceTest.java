@@ -100,17 +100,17 @@ public class ArrestReportServiceTest {
 		assertThat(persisted.getArrestDateType().getDateMMDDYYYY(), equalTo("06122016"));
 		
 		assertThat(persisted.getArresteeSequenceNumber(), equalTo(1));
-		assertThat(persisted.getAgency().getAgencyId(), equalTo(1));
+		assertThat(persisted.getAgency().getAgencyId(), equalTo(16));
 		assertThat(persisted.getArrestTransactionNumber(), equalTo("arrestTr"));
 		assertThat(persisted.getCityIndicator(), equalTo("Y"));
 		assertThat(persisted.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(2));
 		assertThat(persisted.getEthnicityOfPersonType().getEthnicityOfPersonTypeId(), equalTo(1));
 		assertThat(persisted.getMonthOfTape(), equalTo("12"));
 		assertThat(persisted.getOri(), equalTo("ori"));;
-		assertThat(persisted.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(persisted.getResidentStatusOfPersonType().getResidentStatusOfPersonTypeId(), equalTo(1));
-		assertThat(persisted.getSegmentActionType().getSegmentActionTypeTypeId(), equalTo(1));
-		assertThat(persisted.getSexOfPersonType().getSexOfPersonCode(), equalTo("F"));
+		assertThat(persisted.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(persisted.getResidentStatusOfPersonType().getStateCode(), equalTo("N"));
+		assertThat(persisted.getSegmentActionType().getStateCode(), equalTo("I"));
+		assertThat(persisted.getSexOfPersonType().getStateCode(), equalTo("F"));
 		assertThat(persisted.getTypeOfArrestType().getTypeOfArrestTypeId(), equalTo(1));
 		assertThat(persisted.getUcrOffenseCodeType().getUcrOffenseCodeTypeId(), equalTo(520));
 		assertThat(persisted.getYearOfTape(), equalTo("2016"));
@@ -121,10 +121,10 @@ public class ArrestReportServiceTest {
 		
 		for (ArrestReportSegmentWasArmedWith reportSegmentWasArmedWith: arrestReportSegmentWasArmedWiths){
 			if (reportSegmentWasArmedWith.getAutomaticWeaponIndicator().equals("A")){
-				assertThat(reportSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("12"));
+				assertThat(reportSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("12"));
 			}
 			else if (reportSegmentWasArmedWith.getAutomaticWeaponIndicator().equals("")){
-				assertThat(reportSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("11"));
+				assertThat(reportSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("11"));
 			}
 			else {
 				fail("Unexpected reportSegmentWasArmedWith.getAutomaticWeaponIndicator() value");
@@ -155,17 +155,17 @@ public class ArrestReportServiceTest {
 		assertThat(updated.getArrestDateType().getDateMMDDYYYY(), equalTo("06122016"));
 		
 		assertThat(updated.getArresteeSequenceNumber(), equalTo(1));
-		assertThat(updated.getAgency().getAgencyId(), equalTo(1));
+		assertThat(updated.getAgency().getAgencyId(), equalTo(16));
 		assertThat(updated.getArrestTransactionNumber(), equalTo("arrestTr"));
 		assertThat(updated.getCityIndicator(), equalTo("Y"));
 		assertThat(updated.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(2));
 		assertThat(updated.getEthnicityOfPersonType().getEthnicityOfPersonTypeId(), equalTo(1));
 		assertThat(updated.getMonthOfTape(), equalTo("12"));
 		assertThat(updated.getOri(), equalTo("ori"));;
-		assertThat(updated.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(updated.getResidentStatusOfPersonType().getResidentStatusOfPersonTypeId(), equalTo(1));
+		assertThat(updated.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(updated.getResidentStatusOfPersonType().getStateCode(), equalTo("N"));
 		assertThat(updated.getSegmentActionType().getSegmentActionTypeTypeId(), equalTo(1));
-		assertThat(updated.getSexOfPersonType().getSexOfPersonCode(), equalTo("F"));
+		assertThat(updated.getSexOfPersonType().getStateCode(), equalTo("F"));
 		assertThat(updated.getTypeOfArrestType().getTypeOfArrestTypeId(), equalTo(2));
 		assertThat(updated.getUcrOffenseCodeType().getUcrOffenseCodeTypeId(), equalTo(520));
 		assertThat(updated.getYearOfTape(), equalTo("2016"));
@@ -176,7 +176,7 @@ public class ArrestReportServiceTest {
 		
 		for (ArrestReportSegmentWasArmedWith reportSegmentWasArmedWith: arrestReportSegmentWasArmedWiths){
 			if (reportSegmentWasArmedWith.getAutomaticWeaponIndicator().equals("A")){
-				assertThat(reportSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("12"));
+				assertThat(reportSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("12"));
 			}
 			else {
 				fail("Unexpected reportSegmentWasArmedWith.getAutomaticWeaponIndicator() value");
@@ -207,7 +207,7 @@ public class ArrestReportServiceTest {
 				arrestReportService.findArrestReportSegment(arrestReportSegment.getArrestReportSegmentId());
 
 		assertNotNull(persisted);
-		assertThat(persisted.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(persisted.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(persisted.getMonthOfTape(), equalTo("05"));
 		assertThat(persisted.getYearOfTape(), equalTo("2017"));
 		assertThat(persisted.getCityIndicator(), equalTo("Y"));
@@ -217,21 +217,21 @@ public class ArrestReportServiceTest {
 		assertThat(persisted.getArresteeSequenceNumber(), equalTo(1));
 		assertTrue(DateUtils.isSameDay(persisted.getArrestDate(), Date.from(LocalDateTime.of(2017, 5, 16, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant())));
 		assertThat(persisted.getArrestDateType().getDateTypeId(), equalTo(2693));
-		assertThat(persisted.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("O"));
-		assertThat(persisted.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("90A"));
+		assertThat(persisted.getTypeOfArrestType().getStateCode(), equalTo("O"));
+		assertThat(persisted.getUcrOffenseCodeType().getStateCode(), equalTo("90A"));
 		assertThat(persisted.getAgeOfArresteeMin(), equalTo(22));
 		assertThat(persisted.getAgeOfArresteeMax(), equalTo(22));
-		assertThat(persisted.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-		assertThat(persisted.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(persisted.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
-		assertThat(persisted.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
+		assertThat(persisted.getSexOfPersonType().getStateCode(), equalTo("M"));
+		assertThat(persisted.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(persisted.getEthnicityOfPersonType().getStateCode(), equalTo("U"));
+		assertThat(persisted.getResidentStatusOfPersonType().getStateCode(), equalTo("R"));
 		assertThat(persisted.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(99998));
 		
 		assertThat(persisted.getArrestReportSegmentWasArmedWiths().isEmpty(), equalTo(false));
 		assertThat(persisted.getArrestReportSegmentWasArmedWiths().size(), equalTo(1));
 		
 		ArrestReportSegmentWasArmedWith arrestReportSegmentWasArmedWith = persisted.getArrestReportSegmentWasArmedWiths().stream().findFirst().get();
-		assertThat(arrestReportSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("01"));
+		assertThat(arrestReportSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("01"));
 		assertThat(arrestReportSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo(""));
 		
 		testUpdateGroupBArrestReport(groupBArrestReport);
@@ -258,7 +258,7 @@ public class ArrestReportServiceTest {
 		ArrestReportSegment updated = 
 				arrestReportSegmentRepository.findByArrestTransactionNumber(groupBArrestReport.getIdentifier());
 
-		assertThat(updated.getSegmentActionType().getSegmentActionTypeCode(), equalTo("I"));
+		assertThat(updated.getSegmentActionType().getStateCode(), equalTo("I"));
 		assertThat(updated.getMonthOfTape(), equalTo("11"));
 		assertThat(updated.getYearOfTape(), equalTo("2017"));
 		assertThat(updated.getCityIndicator(), equalTo("Y"));
@@ -268,21 +268,21 @@ public class ArrestReportServiceTest {
 		assertThat(updated.getArresteeSequenceNumber(), equalTo(1));
 		assertTrue(DateUtils.isSameDay(updated.getArrestDate(), Date.from(LocalDateTime.of(2017, 5, 16, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant())));
 		assertThat(updated.getArrestDateType().getDateTypeId(), equalTo(2693));
-		assertThat(updated.getTypeOfArrestType().getTypeOfArrestCode(), equalTo("T"));
-		assertThat(updated.getUcrOffenseCodeType().getUcrOffenseCode(), equalTo("90A"));
+		assertThat(updated.getTypeOfArrestType().getStateCode(), equalTo("T"));
+		assertThat(updated.getUcrOffenseCodeType().getStateCode(), equalTo("90A"));
 		assertThat(updated.getAgeOfArresteeMin(), equalTo(22));
 		assertThat(updated.getAgeOfArresteeMax(), equalTo(22));
-		assertThat(updated.getSexOfPersonType().getSexOfPersonCode(), equalTo("M"));
-		assertThat(updated.getRaceOfPersonType().getRaceOfPersonCode(), equalTo("W"));
-		assertThat(updated.getEthnicityOfPersonType().getEthnicityOfPersonCode(), equalTo("U"));
-		assertThat(updated.getResidentStatusOfPersonType().getResidentStatusOfPersonCode(), equalTo("R"));
+		assertThat(updated.getSexOfPersonType().getStateCode(), equalTo("M"));
+		assertThat(updated.getRaceOfPersonType().getStateCode(), equalTo("W"));
+		assertThat(updated.getEthnicityOfPersonType().getStateCode(), equalTo("U"));
+		assertThat(updated.getResidentStatusOfPersonType().getStateCode(), equalTo("R"));
 		assertThat(updated.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(99998));
 		
 		assertThat(updated.getArrestReportSegmentWasArmedWiths().isEmpty(), equalTo(false));
 		assertThat(updated.getArrestReportSegmentWasArmedWiths().size(), equalTo(1));
 		
 		ArrestReportSegmentWasArmedWith arrestReportSegmentWasArmedWith = updated.getArrestReportSegmentWasArmedWiths().stream().findFirst().get();
-		assertThat(arrestReportSegmentWasArmedWith.getArresteeWasArmedWithType().getArresteeWasArmedWithCode(), equalTo("11"));
+		assertThat(arrestReportSegmentWasArmedWith.getArresteeWasArmedWithType().getStateCode(), equalTo("11"));
 		assertThat(arrestReportSegmentWasArmedWith.getAutomaticWeaponIndicator(), equalTo("Y"));
 	}
 

@@ -13,23 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-Drop schema if exists ojbc_nibrs_staging;
 
-CREATE schema ojbc_nibrs_staging;
-use ojbc_nibrs_staging;
+/*
+ * When recreate the ddl from SQL Power,  don't forget to add ` AUTO_INCREMENT` to all the primary IDs. 
+ */
+Drop schema if exists search_nibrs_staging;
+
+CREATE schema search_nibrs_staging;
+use search_nibrs_staging;
+
 
 CREATE TABLE CargoTheftIndicatorType (
                 CargoTheftIndicatorTypeID INT NOT NULL AUTO_INCREMENT,
-                CargoTheftIndicatorCode CHAR(1) NOT NULL,
-                CargoTheftIndicatorDescription VARCHAR(7) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(7) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(7) NOT NULL,
                 PRIMARY KEY (CargoTheftIndicatorTypeID)
 );
 
 
 CREATE TABLE AgencyType (
                 AgencyTypeID INT NOT NULL AUTO_INCREMENT,
-                AgencyTypeCode VARCHAR(2) NOT NULL,
-                AgencyTypeDescription VARCHAR(80) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(80) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(80) NOT NULL,
                 PRIMARY KEY (AgencyTypeID)
 );
 
@@ -65,40 +74,50 @@ CREATE TABLE Agency (
 
 CREATE TABLE OfficerAssignmentTypeType (
                 OfficerAssignmentTypeTypeID INT NOT NULL AUTO_INCREMENT,
-                OfficerAssignmentTypeCode VARCHAR(1) NOT NULL,
-                OfficerAssignmentTypeDescription VARCHAR(100) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(100) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(100) NOT NULL,
                 PRIMARY KEY (OfficerAssignmentTypeTypeID)
 );
 
 
 CREATE TABLE OfficerActivityCircumstanceType (
                 OfficerActivityCircumstanceTypeID INT NOT NULL AUTO_INCREMENT,
-                OfficerActivityCircumstanceCode VARCHAR(2) NOT NULL,
-                OfficerActivityCircumstanceDescription VARCHAR(75) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(75) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(75) NOT NULL,
                 PRIMARY KEY (OfficerActivityCircumstanceTypeID)
 );
 
 
 CREATE TABLE TypeOfWeaponForceInvolvedType (
                 TypeOfWeaponForceInvolvedTypeID INT NOT NULL AUTO_INCREMENT,
-                TypeOfWeaponForceInvolvedCode VARCHAR(2) NOT NULL,
-                TypeOfWeaponForceInvolvedDescription VARCHAR(30) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(30) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(30) NOT NULL,
                 PRIMARY KEY (TypeOfWeaponForceInvolvedTypeID)
 );
 
 
 CREATE TABLE SuspectedDrugTypeType (
                 SuspectedDrugTypeTypeID INT NOT NULL AUTO_INCREMENT,
-                SuspectedDrugTypeCode VARCHAR(1) NOT NULL,
-                SuspectedDrugTypeDescription VARCHAR(32) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(32) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(32) NOT NULL,
                 PRIMARY KEY (SuspectedDrugTypeTypeID)
 );
 
 
 CREATE TABLE BiasMotivationType (
                 BiasMotivationTypeID INT NOT NULL AUTO_INCREMENT,
-                BiasMotivationCode VARCHAR(2) NOT NULL,
-                BiasMotivationDescription VARCHAR(60) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(60) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(60) NOT NULL,
                 BiasMotivationCategory VARCHAR(30) NOT NULL,
                 PRIMARY KEY (BiasMotivationTypeID)
 );
@@ -106,184 +125,230 @@ CREATE TABLE BiasMotivationType (
 
 CREATE TABLE MethodOfEntryType (
                 MethodOfEntryTypeID INT NOT NULL AUTO_INCREMENT,
-                MethodOfEntryCode VARCHAR(1) NOT NULL,
-                MethodOfEntryDescription VARCHAR(10) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(10) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(10) NOT NULL,
                 PRIMARY KEY (MethodOfEntryTypeID)
 );
 
 
 CREATE TABLE LocationTypeType (
                 LocationTypeTypeID INT NOT NULL AUTO_INCREMENT,
-                LocationTypeCode VARCHAR(2) NOT NULL,
-                LocationTypeDescription VARCHAR(45) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(45) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(45) NOT NULL,
                 PRIMARY KEY (LocationTypeTypeID)
 );
 
 
 CREATE TABLE ClearedExceptionallyType (
                 ClearedExceptionallyTypeID INT NOT NULL AUTO_INCREMENT,
-                ClearedExceptionallyCode VARCHAR(1) NOT NULL,
-                ClearedExceptionallyDescription VARCHAR(220) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(220) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(220) NOT NULL,
                 PRIMARY KEY (ClearedExceptionallyTypeID)
 );
 
 
 CREATE TABLE DispositionOfArresteeUnder18Type (
                 DispositionOfArresteeUnder18TypeID INT NOT NULL AUTO_INCREMENT,
-                DispositionOfArresteeUnder18Code VARCHAR(1) NOT NULL,
-                DispositionOfArresteeUnder18Description VARCHAR(30) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(30) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(30) NOT NULL,
                 PRIMARY KEY (DispositionOfArresteeUnder18TypeID)
 );
 
 
 CREATE TABLE ArresteeWasArmedWithType (
                 ArresteeWasArmedWithTypeID INT NOT NULL AUTO_INCREMENT,
-                ArresteeWasArmedWithCode VARCHAR(2) NOT NULL,
-                ArresteeWasArmedWithDescription VARCHAR(30) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(30) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(30) NOT NULL,
                 PRIMARY KEY (ArresteeWasArmedWithTypeID)
 );
 
 
 CREATE TABLE MultipleArresteeSegmentsIndicatorType (
                 MultipleArresteeSegmentsIndicatorTypeID INT NOT NULL AUTO_INCREMENT,
-                MultipleArresteeSegmentsIndicatorCode VARCHAR(1) NOT NULL,
-                MultipleArresteeSegmentsIndicatorDescription VARCHAR(15) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(15) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(15) NOT NULL,
                 PRIMARY KEY (MultipleArresteeSegmentsIndicatorTypeID)
 );
 
 
 CREATE TABLE TypeOfArrestType (
                 TypeOfArrestTypeID INT NOT NULL AUTO_INCREMENT,
-                TypeOfArrestCode VARCHAR(1) NOT NULL,
-                TypeOfArrestDescription VARCHAR(20) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(20) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(20) NOT NULL,
                 PRIMARY KEY (TypeOfArrestTypeID)
 );
 
 
 CREATE TABLE AdditionalJustifiableHomicideCircumstancesType (
                 AdditionalJustifiableHomicideCircumstancesTypeID INT NOT NULL AUTO_INCREMENT,
-                AdditionalJustifiableHomicideCircumstancesCode VARCHAR(1) NOT NULL,
-                AdditionalJustifiableHomicideCircumstancesDescription VARCHAR(80) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(80) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(80) NOT NULL,
                 PRIMARY KEY (AdditionalJustifiableHomicideCircumstancesTypeID)
 );
 
 
 CREATE TABLE TypeInjuryType (
                 TypeInjuryTypeID INT NOT NULL AUTO_INCREMENT,
-                TypeInjuryCode VARCHAR(1) NOT NULL,
-                TypeInjuryDescription VARCHAR(25) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(25) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(25) NOT NULL,
                 PRIMARY KEY (TypeInjuryTypeID)
 );
 
 
 CREATE TABLE ResidentStatusOfPersonType (
                 ResidentStatusOfPersonTypeID INT NOT NULL AUTO_INCREMENT,
-                ResidentStatusOfPersonCode VARCHAR(1) NOT NULL,
-                ResidentStatusOfPersonDescription VARCHAR(15) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(25) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(25) NOT NULL,
                 PRIMARY KEY (ResidentStatusOfPersonTypeID)
 );
 
 
 CREATE TABLE EthnicityOfPersonType (
                 EthnicityOfPersonTypeID INT NOT NULL AUTO_INCREMENT,
-                EthnicityOfPersonCode VARCHAR(1) NOT NULL,
-                EthnicityOfPersonDescription VARCHAR(25) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(25) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(25) NOT NULL,
                 PRIMARY KEY (EthnicityOfPersonTypeID)
 );
 
 
 CREATE TABLE TypeOfVictimType (
                 TypeOfVictimTypeID INT NOT NULL AUTO_INCREMENT,
-                TypeOfVictimCode VARCHAR(1) NOT NULL,
-                TypeOfVictimDescription VARCHAR(75) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(75) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(75) NOT NULL,
                 PRIMARY KEY (TypeOfVictimTypeID)
 );
 
 
 CREATE TABLE TypeDrugMeasurementType (
                 TypeDrugMeasurementTypeID INT NOT NULL AUTO_INCREMENT,
-                TypeDrugMeasurementCode VARCHAR(2) NOT NULL,
-                TypeDrugMeasurementDescription VARCHAR(20) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(20) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(20) NOT NULL,
                 PRIMARY KEY (TypeDrugMeasurementTypeID)
 );
 
 
 CREATE TABLE PropertyDescriptionType (
                 PropertyDescriptionTypeID INT NOT NULL AUTO_INCREMENT,
-                PropertyDescriptionCode VARCHAR(2) NOT NULL,
-                PropertyDescriptionDescription VARCHAR(70) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(70) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(70) NOT NULL,
                 PRIMARY KEY (PropertyDescriptionTypeID)
 );
 
 
 CREATE TABLE RaceOfPersonType (
                 RaceOfPersonTypeID INT NOT NULL AUTO_INCREMENT,
-                RaceOfPersonCode VARCHAR(1) NOT NULL,
-                RaceOfPersonDescription VARCHAR(42) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(42) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(42) NOT NULL,
                 PRIMARY KEY (RaceOfPersonTypeID)
 );
 
 
 CREATE TABLE SexOfPersonType (
                 SexOfPersonTypeID INT NOT NULL AUTO_INCREMENT,
-                SexOfPersonCode VARCHAR(1) NOT NULL,
-                SexOfPersonDescription VARCHAR(35) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(35) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(35) NOT NULL,
                 PRIMARY KEY (SexOfPersonTypeID)
 );
 
 
 CREATE TABLE TypeOfCriminalActivityType (
                 TypeOfCriminalActivityTypeID INT NOT NULL AUTO_INCREMENT,
-                TypeOfCriminalActivityCode VARCHAR(1) NOT NULL,
-                TypeOfCriminalActivityDescription VARCHAR(80) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(80) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(80) NOT NULL,
                 PRIMARY KEY (TypeOfCriminalActivityTypeID)
 );
 
 
 CREATE TABLE OffenderSuspectedOfUsingType (
                 OffenderSuspectedOfUsingTypeID INT NOT NULL AUTO_INCREMENT,
-                OffenderSuspectedOfUsingCode VARCHAR(1) NOT NULL,
-                OffenderSuspectedOfUsingDescription VARCHAR(20) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(20) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(20) NOT NULL,
                 PRIMARY KEY (OffenderSuspectedOfUsingTypeID)
 );
 
 
 CREATE TABLE SegmentActionTypeType (
                 SegmentActionTypeTypeID INT NOT NULL AUTO_INCREMENT,
-                SegmentActionTypeCode VARCHAR(1) NOT NULL,
-                SegmentActionTypeDescription VARCHAR(25) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(25) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(25) NOT NULL,
                 PRIMARY KEY (SegmentActionTypeTypeID)
 );
 
 
 CREATE TABLE VictimOffenderRelationshipType (
                 VictimOffenderRelationshipTypeID INT NOT NULL AUTO_INCREMENT,
-                VictimOffenderRelationshipCode VARCHAR(2) NOT NULL,
-                VictimOffenderRelationshipDescription VARCHAR(50) NOT NULL,
+                StateCode VARCHAR(2) NOT NULL,
+                StateDescription VARCHAR(50) NOT NULL,
+                FBICode VARCHAR(2) NOT NULL,
+                FBIDescription VARCHAR(50) NOT NULL,
                 PRIMARY KEY (VictimOffenderRelationshipTypeID)
 );
 
 
 CREATE TABLE AggravatedAssaultHomicideCircumstancesType (
                 AggravatedAssaultHomicideCircumstancesTypeID INT NOT NULL AUTO_INCREMENT,
-                AggravatedAssaultHomicideCircumstancesCode VARCHAR(3) NOT NULL,
-                AggravatedAssaultHomicideCircumstancesDescription VARCHAR(55) NOT NULL,
+                StateCode VARCHAR(3) NOT NULL,
+                StateDescription VARCHAR(55) NOT NULL,
+                FBICode VARCHAR(3) NOT NULL,
+                FBIDescription VARCHAR(55) NOT NULL,
                 PRIMARY KEY (AggravatedAssaultHomicideCircumstancesTypeID)
 );
 
 
 CREATE TABLE TypePropertyLossEtcType (
                 TypePropertyLossEtcTypeID INT NOT NULL AUTO_INCREMENT,
-                TypePropertyLossEtcCode VARCHAR(1) NOT NULL,
-                TypePropertyLossEtcDescription VARCHAR(85) NOT NULL,
+                StateCode VARCHAR(1) NOT NULL,
+                StateDescription VARCHAR(85) NOT NULL,
+                FBICode VARCHAR(1) NOT NULL,
+                FBIDescription VARCHAR(85) NOT NULL,
                 PRIMARY KEY (TypePropertyLossEtcTypeID)
 );
 
 
 CREATE TABLE UCROffenseCodeType (
                 UCROffenseCodeTypeID INT NOT NULL AUTO_INCREMENT,
-                UCROffenseCode VARCHAR(3) NOT NULL,
-                UCROffenseCodeDescription VARCHAR(70) NOT NULL,
+                StateCode VARCHAR(3) NOT NULL,
+                StateDescription VARCHAR(70) NOT NULL,
+                FBICode VARCHAR(3) NOT NULL,
+                FBIDescription VARCHAR(70) NOT NULL,
                 OffenseCategory1 VARCHAR(70) NOT NULL,
                 OffenseCategory2 VARCHAR(70) NOT NULL,
                 OffenseCategory3 VARCHAR(70) NOT NULL,
@@ -341,7 +406,7 @@ CREATE TABLE AdministrativeSegment (
                 IncidentHour VARCHAR(2) NOT NULL,
                 ClearedExceptionallyTypeID INT NOT NULL,
                 ExceptionalClearanceDate DATE,
-                ExceptionalClearanceDateID INT NOT NULL, 
+                ExceptionalClearanceDateID INT NOT NULL,
                 CargoTheftIndicatorTypeID INT NOT NULL,
                 PRIMARY KEY (AdministrativeSegmentID)
 );
@@ -596,6 +661,12 @@ ON UPDATE NO ACTION;
 
 ALTER TABLE ZeroReportingSegment ADD CONSTRAINT date_zeroreportingsegment_fk
 FOREIGN KEY (IncidentDateID)
+REFERENCES DateType (DateTypeID)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE AdministrativeSegment ADD CONSTRAINT datetype_administrativesegment_fk
+FOREIGN KEY (ExceptionalClearanceDateID)
 REFERENCES DateType (DateTypeID)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;
