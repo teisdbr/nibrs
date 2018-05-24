@@ -100,7 +100,7 @@ public class ArrestReportServiceTest {
 		assertThat(persisted.getArrestDateType().getDateMMDDYYYY(), equalTo("06122016"));
 		
 		assertThat(persisted.getArresteeSequenceNumber(), equalTo(1));
-		assertThat(persisted.getAgency().getAgencyId(), equalTo(16));
+		assertThat(persisted.getAgency().getAgencyId(), equalTo(1));
 		assertThat(persisted.getArrestTransactionNumber(), equalTo("arrestTr"));
 		assertThat(persisted.getCityIndicator(), equalTo("Y"));
 		assertThat(persisted.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(2));
@@ -155,7 +155,7 @@ public class ArrestReportServiceTest {
 		assertThat(updated.getArrestDateType().getDateMMDDYYYY(), equalTo("06122016"));
 		
 		assertThat(updated.getArresteeSequenceNumber(), equalTo(1));
-		assertThat(updated.getAgency().getAgencyId(), equalTo(16));
+		assertThat(updated.getAgency().getAgencyId(), equalTo(1));
 		assertThat(updated.getArrestTransactionNumber(), equalTo("arrestTr"));
 		assertThat(updated.getCityIndicator(), equalTo("Y"));
 		assertThat(updated.getDispositionOfArresteeUnder18Type().getDispositionOfArresteeUnder18TypeId(), equalTo(2));

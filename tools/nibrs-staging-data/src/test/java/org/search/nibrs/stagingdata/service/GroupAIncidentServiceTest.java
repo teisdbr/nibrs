@@ -842,7 +842,7 @@ public class GroupAIncidentServiceTest {
 		assertThat(updated.getYearOfTape(), equalTo("2016"));
 		assertThat(updated.getCityIndicator(), equalTo("Y"));
 		assertThat(updated.getOri(), equalTo("agencyORI"));
-		assertThat(updated.getAgency().getAgencyId(), equalTo(16));
+		assertThat(updated.getAgency().getAgencyId(), equalTo(1));
 		assertThat(updated.getIncidentNumber(), equalTo("54236732"));
 		assertTrue(DateUtils.isSameDay(updated.getIncidentDate(), Date.from(LocalDateTime.of(2016, 5, 12, 10, 7, 46).atZone(ZoneId.systemDefault()).toInstant())));
 		assertThat(updated.getIncidentDateType().getDateTypeId(), equalTo(2324));
