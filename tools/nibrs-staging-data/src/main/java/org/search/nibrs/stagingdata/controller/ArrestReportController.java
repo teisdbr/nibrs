@@ -44,7 +44,7 @@ public class ArrestReportController {
 	}
 	
 	@RequestMapping(value="/arrestReports", method=RequestMethod.POST)
-	public void saveArrestReports(@RequestBody GroupBArrestReport... groupBArrestReports){
+	public void saveArrestReports(@RequestBody GroupBArrestReport groupBArrestReports){
 		arrestReportService.saveGroupBArrestReports(groupBArrestReports);
 	}
 	

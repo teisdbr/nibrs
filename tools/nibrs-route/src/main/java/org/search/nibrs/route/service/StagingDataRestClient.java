@@ -101,7 +101,7 @@ public class StagingDataRestClient {
 			}
 			else {
 				log.info("About to post for group B Arrest Report" + groupBArrestReport.getIdentifier());
-				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "arrestReports", new GroupBArrestReport[]{groupBArrestReport});
+				restTemplate.postForLocation(appProperties.getStagingDataRestServiceBaseUrl() + "arrestReports", groupBArrestReport);
 			}
 		}
 		else {
