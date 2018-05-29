@@ -43,9 +43,6 @@ import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.stagingdata.AppProperties;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
-import org.search.nibrs.stagingdata.model.ArrestReportSegmentWasArmedWith;
-import org.search.nibrs.stagingdata.model.ArresteeSegmentWasArmedWith;
-import org.search.nibrs.stagingdata.model.ArresteeWasArmedWithType;
 import org.search.nibrs.stagingdata.model.BiasMotivationType;
 import org.search.nibrs.stagingdata.model.DispositionOfArresteeUnder18Type;
 import org.search.nibrs.stagingdata.model.EthnicityOfPersonType;
@@ -153,14 +150,14 @@ public class XmlReportGenerator {
 	}
 	
 	private void addArresteeElements(ArrestReportSegment arrestReportSegment, Element reportElement) {
-		Set<ArresteeWasArmedWithType> arresteeArmedWithTypes = new HashSet<>(); 
+		Set<String> arresteeArmedWithTypeCodes = new HashSet<>(); 
 		
 		if (arrestReportSegment.getArrestReportSegmentWasArmedWiths() != null) {
-			arresteeArmedWithTypes =arrestReportSegment.getArrestReportSegmentWasArmedWiths().stream()
-				.map(ArrestReportSegmentWasArmedWith::getArresteeWasArmedWithType)
+			arresteeArmedWithTypeCodes =arrestReportSegment.getArrestReportSegmentWasArmedWiths().stream()
+				.map(item-> item.getArresteeWasArmedWithType().getFbiCode() + StringUtils.trimToEmpty(item.getAutomaticWeaponIndicator()))
 				.collect(Collectors.toSet());
 		}
-		addArresteeElement(reportElement, arrestReportSegment.getArresteeSequenceNumber(), arresteeArmedWithTypes, 
+		addArresteeElement(reportElement, arrestReportSegment.getArresteeSequenceNumber(), arresteeArmedWithTypeCodes, 
 				arrestReportSegment.getDispositionOfArresteeUnder18Type(), null);
 		
 	}
@@ -301,7 +298,8 @@ public class XmlReportGenerator {
 			for (TypeOfWeaponForceInvolved typeOfWeaponForceInvolved: offense.getTypeOfWeaponForceInvolveds()) {
 				Element e = XmlUtils.appendChildElement(offenseElement, Namespace.J, "OffenseForce");
 				XmlUtils.appendElementAndValue(e, Namespace.J, "ForceCategoryCode", 
-						typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getFbiCode());
+						typeOfWeaponForceInvolved.getTypeOfWeaponForceInvolvedType().getFbiCode() + 
+						StringUtils.trimToEmpty(typeOfWeaponForceInvolved.getAutomaticWeaponIndicator()));
 			}
 			
 			XmlUtils.appendElementAndValue(offenseElement, Namespace.J, "OffenseAttemptedIndicator", 
@@ -594,19 +592,19 @@ public class XmlReportGenerator {
 	private void addArresteeElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (ArresteeSegment arrestee : administrativeSegment.getArresteeSegments()) {
 			
-			Set<ArresteeWasArmedWithType> arresteeArmedWithTypes = new HashSet<>(); 
+			Set<String> arresteeArmedWithTypeCodes = new HashSet<>(); 
 			
 			if (arrestee.getArresteeSegmentWasArmedWiths() != null) {
-				arresteeArmedWithTypes = arrestee.getArresteeSegmentWasArmedWiths().stream()
-					.map(ArresteeSegmentWasArmedWith::getArresteeWasArmedWithType)
+				arresteeArmedWithTypeCodes = arrestee.getArresteeSegmentWasArmedWiths().stream()
+					.map(item -> item.getArresteeWasArmedWithType().getFbiCode() + StringUtils.trimToEmpty(item.getAutomaticWeaponIndicator()))
 					.collect(Collectors.toSet());
 			}
-			addArresteeElement(reportElement, arrestee.getArresteeSequenceNumber(), arresteeArmedWithTypes, 
+			addArresteeElement(reportElement, arrestee.getArresteeSequenceNumber(), arresteeArmedWithTypeCodes, 
 					arrestee.getDispositionOfArresteeUnder18Type(), arrestee.getMultipleArresteeSegmentsIndicatorType() );
 		}
 	}
 
-	private void addArresteeElement(Element reportElement, Integer arresteeSequenceNumber, Set<ArresteeWasArmedWithType> arresteeArmedWithTypes, 
+	private void addArresteeElement(Element reportElement, Integer arresteeSequenceNumber, Set<String> arresteeArmedWithTypeCodes, 
 			DispositionOfArresteeUnder18Type dispositionOfArresteeUnder18Type, MultipleArresteeSegmentsIndicatorType multipleArresteeSegmentsIndicatorType ) {
 		Element arresteeElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "Arrestee");
 		XmlUtils.addAttribute(arresteeElement, Namespace.S, "id", "Arrestee-" + arresteeSequenceNumber);
@@ -614,9 +612,8 @@ public class XmlReportGenerator {
 		XmlUtils.addAttribute(e, Namespace.S, "ref", "PersonArrestee-" + arresteeSequenceNumber);
 		XmlUtils.appendElementAndValue(arresteeElement, Namespace.J, "ArrestSequenceID", String.valueOf(arresteeSequenceNumber));
 		
-		for (ArresteeWasArmedWithType armedWith: arresteeArmedWithTypes){
-			XmlUtils.appendElementAndValue(arresteeElement, J, "ArresteeArmedWithCode", 
-					armedWith.getFbiCode());
+		for (String armedWithCode: arresteeArmedWithTypeCodes){
+			XmlUtils.appendElementAndValue(arresteeElement, J, "ArresteeArmedWithCode", armedWithCode);
 		}
 		
 		if (dispositionOfArresteeUnder18Type!= null){

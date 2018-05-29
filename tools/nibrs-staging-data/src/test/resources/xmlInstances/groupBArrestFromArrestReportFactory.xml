@@ -61,7 +61,7 @@
             <nc:RoleOfPerson s:ref="PersonArrestee-1"/>
             <j:ArrestSequenceID>1</j:ArrestSequenceID>
             <j:ArresteeArmedWithCode>11</j:ArresteeArmedWithCode>
-            <j:ArresteeArmedWithCode>12</j:ArresteeArmedWithCode>
+            <j:ArresteeArmedWithCode>12A</j:ArresteeArmedWithCode>
             <j:ArresteeJuvenileDispositionCode>H</j:ArresteeJuvenileDispositionCode>
         </j:Arrestee>
         <j:Arrest s:id="Arrest-1">
