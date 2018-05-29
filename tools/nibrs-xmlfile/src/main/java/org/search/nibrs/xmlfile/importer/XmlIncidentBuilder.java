@@ -55,6 +55,7 @@ import org.search.nibrs.model.OffenseSegment;
 import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
+import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
@@ -1172,7 +1173,8 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 	}
 
 	private String getAutomaticWeaponIndicator(String typeWeaponForceInvolvedCode) {
-		return BooleanUtils.toString(automaticWeaponCodes.contains(typeWeaponForceInvolvedCode), "A", StringUtils.EMPTY);
+		return BooleanUtils.toString(automaticWeaponCodes.contains(typeWeaponForceInvolvedCode), "A", 
+				AutomaticWeaponIndicatorCode._blank.code);
 	}
 
 	private void parseTypesOfCriminalActivities(Element offenseElement, OffenseSegment newOffense) {
