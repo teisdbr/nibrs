@@ -39,7 +39,9 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.stagingdata.AppProperties;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
@@ -276,7 +278,8 @@ public class XmlReportGenerator {
 			
 			for (BiasMotivationType biasMotivationType: offense.getBiasMotivationTypes()) {
 				if (StringUtils.isNotBlank(biasMotivationType.getFbiCode())){
-					XmlUtils.appendElementAndValue(offenseElement, J, "OffenseFactorBiasMotivationCode", biasMotivationType.getFbiDescription());
+					XmlUtils.appendElementAndValue(offenseElement, J, "OffenseFactorBiasMotivationCode", 
+							BiasMotivationCode.valueOfCode(biasMotivationType.getFbiCode()).iepdCode);
 				}
 			}
 			
@@ -737,7 +740,8 @@ public class XmlReportGenerator {
 				XmlUtils.addAttribute(e, Namespace.S, "ref", "VictimSegment-" + victim.getVictimSequenceNumber());
 				
 				if (StringUtils.isNotBlank(relationshipTypeCode)) {
-					XmlUtils.appendElementAndValue(associationElement, NIBRS, "VictimToSubjectRelationshipCode", relationshipTypeCode);
+					XmlUtils.appendElementAndValue(associationElement, NIBRS, "VictimToSubjectRelationshipCode", 
+							RelationshipOfVictimToOffenderCode.valueOf(relationshipTypeCode).iepdCode);
 				}
 			}
 		}

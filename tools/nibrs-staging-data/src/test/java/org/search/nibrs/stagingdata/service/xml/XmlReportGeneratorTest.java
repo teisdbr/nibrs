@@ -97,7 +97,7 @@ public class XmlReportGeneratorTest {
 		log.info(administrativeSegment);
 		
 		document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
-//		XmlUtils.printNode(document);
+		XmlUtils.printNode(document);
 		
         compareGroupAIncident("src/test/resources/xmlInstances/groupAIncidentFromAdminsitrativeFactory.xml", document); 
 	}

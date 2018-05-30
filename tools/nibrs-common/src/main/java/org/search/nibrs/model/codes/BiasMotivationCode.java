@@ -95,4 +95,8 @@ public enum BiasMotivationCode {
 		return	Arrays.stream(BiasMotivationCode.values()).filter(i->i.iepdCode.equals(iepdCode)).findFirst().orElse(null); 
 	}
 
+	public static final BiasMotivationCode valueOfCode(String code){
+		return	Arrays.stream(BiasMotivationCode.values()).filter(i->i.code.equals(code)).findFirst().orElse(null); 
+	}
+	
 }
