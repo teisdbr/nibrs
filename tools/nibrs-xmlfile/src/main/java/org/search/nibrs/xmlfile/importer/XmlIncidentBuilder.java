@@ -56,6 +56,7 @@ import org.search.nibrs.model.PropertySegment;
 import org.search.nibrs.model.VictimSegment;
 import org.search.nibrs.model.ZeroReport;
 import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
+import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
@@ -1094,7 +1095,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 				for(int j=0; j < offenseFactorBiasMotivationCodes.getLength(); j++){
 					Element offenseFactorBiasMotivationCode = 
 							(Element) offenseFactorBiasMotivationCodes.item(j);
-					newOffense.setBiasMotivation(j, offenseFactorBiasMotivationCode.getTextContent());
+					newOffense.setBiasMotivation(j, BiasMotivationCode.valueOfIepdCode(offenseFactorBiasMotivationCode.getTextContent()).code);
 				}
 				
 			}

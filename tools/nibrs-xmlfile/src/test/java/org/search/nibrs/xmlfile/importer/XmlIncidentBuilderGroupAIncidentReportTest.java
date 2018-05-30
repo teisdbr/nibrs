@@ -89,7 +89,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		OffenseSegment offenseSegment = groupAIncident.getOffenses().get(0);
 		assertThat(offenseSegment.getUcrOffenseCode(), is("240"));
 		assertThat(offenseSegment.getTypeOfCriminalActivity()[0], is("N"));
-		assertThat(offenseSegment.getBiasMotivation()[0], is("NONE"));
+		assertThat(offenseSegment.getBiasMotivation()[0], is("88"));
 		assertThat(offenseSegment.getNumberOfPremisesEntered().getValue(), is(1));
 		assertThat(offenseSegment.getOffendersSuspectedOfUsing()[0], is("N"));
 		assertThat(offenseSegment.getMethodOfEntry(), is("F"));
