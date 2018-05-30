@@ -16,6 +16,7 @@
 package org.search.nibrs.xmlfile.importer;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -79,7 +80,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(groupAIncident.getOri(), is("WVNDX0100"));
 		assertThat(groupAIncident.getIncidentDate().getValue(), is(LocalDate.of(2016, 2, 19)));
 		assertThat(groupAIncident.getIncidentHour().getValue(), is(Integer.valueOf(10)));
-		assertThat(groupAIncident.getReportDateIndicator(), is(""));
+		assertThat(groupAIncident.getReportDateIndicator(), is(nullValue()));
 		assertThat(groupAIncident.getCargoTheftIndicator(), is("Y"));
 		
 		assertThat(groupAIncident.getExceptionalClearanceCode(), is("A"));

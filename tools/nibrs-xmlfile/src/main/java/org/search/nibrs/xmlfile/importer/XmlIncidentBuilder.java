@@ -505,7 +505,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			
 		String reportDateIncidator = XmlUtils.xPathStringSearch(reportElement, "nc:Incident/cjis:IncidentAugmentation/cjis:IncidentReportDateIndicator");
 		
-		newIncident.setReportDateIndicator(BooleanUtils.toString(BooleanUtils.toBoolean(reportDateIncidator), "R", ""));
+		newIncident.setReportDateIndicator(BooleanUtils.toString(BooleanUtils.toBoolean(reportDateIncidator), "R", null));
 
 		String hourString = null;
 		if (StringUtils.isNotBlank(incidentDatetimeString) && incidentDatetimeString.length() > 11){
