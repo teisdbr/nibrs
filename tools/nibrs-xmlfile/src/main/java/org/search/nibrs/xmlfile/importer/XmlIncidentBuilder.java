@@ -59,6 +59,7 @@ import org.search.nibrs.model.codes.AutomaticWeaponIndicatorCode;
 import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
+import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.xml.XmlUtils;
 import org.springframework.stereotype.Component;
@@ -83,7 +84,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 	private static final Log log = LogFactory.getLog(XmlIncidentBuilder.class);;
 	
 	private DocumentBuilder documentBuilder; 
-	private Map<String, String> victimToSubjectRelationshipCodeMap = new HashMap<>(); 
 	private Map<String, String> typeOfPropertyLossCodeMap = new HashMap<>();
 	private List<String> automaticWeaponCodes = Arrays.asList("11A", "12A", "13A", "14A", "15A");
 
@@ -91,7 +91,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		super();
 		setDateFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		initDocumentBuilder();
-		initVictimToSubjectRelationshipCodeMap();
 		initTypeOfPropertyLossCodeMap();
 	}
 
@@ -106,56 +105,6 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		typeOfPropertyLossCodeMap.put("SEIZED", "6");
 		typeOfPropertyLossCodeMap.put("STOLEN", "7");
 		typeOfPropertyLossCodeMap.put("UNKNOWN", "8");
-	}
-
-	private void initVictimToSubjectRelationshipCodeMap() {
-		victimToSubjectRelationshipCodeMap.put("Accomplice", "OK");
-		victimToSubjectRelationshipCodeMap.put("Acquaintance", "AQ");
-		victimToSubjectRelationshipCodeMap.put("Authority Figure", "OK");
-		victimToSubjectRelationshipCodeMap.put("Babysittee", "BE");
-		victimToSubjectRelationshipCodeMap.put("Babysitter", "OK");
-		victimToSubjectRelationshipCodeMap.put("Boyfriend", "BG");
-		victimToSubjectRelationshipCodeMap.put("Caregiver", "OK");
-		victimToSubjectRelationshipCodeMap.put("Child of Boyfriend_Girlfriend", "CF");
-		victimToSubjectRelationshipCodeMap.put("Client", "OK");
-		victimToSubjectRelationshipCodeMap.put("Cohabitant", "OK");
-		victimToSubjectRelationshipCodeMap.put("Delivery Person", "OK");
-		victimToSubjectRelationshipCodeMap.put("Employee", "EE");
-		victimToSubjectRelationshipCodeMap.put("Employer", "ER");
-		victimToSubjectRelationshipCodeMap.put("Ex_Spouse", "XS");
-		victimToSubjectRelationshipCodeMap.put("Family Member", "OF");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Aunt", "OF");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Child", "CH");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Cousin", "OF");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Foster Child", "CH");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Foster Parent", "PA");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Grandchild", "GC");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Grandparent", "GP");
-		victimToSubjectRelationshipCodeMap.put("Family Member_In-Law", "IL");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Nephew", "OF");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Niece", "OF");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Parent", "PA");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Sibling", "SB");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Spouse", "SE");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Spouse_Common Law", "CS");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Stepchild", "SC");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Stepparent", "SP");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Stepsibling", "SS");
-		victimToSubjectRelationshipCodeMap.put("Family Member_Uncle", "OF");
-		victimToSubjectRelationshipCodeMap.put("Former Employee", "OK");
-		victimToSubjectRelationshipCodeMap.put("Former Employer", "OK");
-		victimToSubjectRelationshipCodeMap.put("Friend", "FR");
-		victimToSubjectRelationshipCodeMap.put("Girlfriend", "BG");
-		victimToSubjectRelationshipCodeMap.put("Guardian", "OK");
-		victimToSubjectRelationshipCodeMap.put("Homosexual relationship", "HR");
-		victimToSubjectRelationshipCodeMap.put("Neighbor", "NE");
-		victimToSubjectRelationshipCodeMap.put("NonFamily_Otherwise Known", "OK");
-		victimToSubjectRelationshipCodeMap.put("Patient", "OK");
-		victimToSubjectRelationshipCodeMap.put("Relationship Unknown", "RU");
-		victimToSubjectRelationshipCodeMap.put("Stranger", "ST");
-		victimToSubjectRelationshipCodeMap.put("Student", "OK");
-		victimToSubjectRelationshipCodeMap.put("Teacher", "OK");
-		victimToSubjectRelationshipCodeMap.put("Victim Was Offender", "VO");
 	}
 
 	private void initDocumentBuilder() throws ParserConfigurationException {
@@ -823,7 +772,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 				newVictim.setOffenderNumberRelated(j, offenderNumberRelated);
 				String victimOffenderRelationshipCode = XmlUtils.xPathStringSearch(subjectVictimAssociation, "nibrs:VictimToSubjectRelationshipCode");
-				newVictim.setVictimOffenderRelationship(j, victimToSubjectRelationshipCodeMap.get(victimOffenderRelationshipCode));
+				newVictim.setVictimOffenderRelationship(j, RelationshipOfVictimToOffenderCode.valueOfIepdCode(victimOffenderRelationshipCode).code);
 			}
 			
 

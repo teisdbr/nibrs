@@ -15,48 +15,49 @@
  */
 package org.search.nibrs.model.codes;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public enum RelationshipOfVictimToOffenderCode {
 
-	SE("SE","Victim Was Spouse"),
-	CS("CS","Victim Was Common-Law Spouse"),
-	PA("PA","Victim Was Parent"),
-	SB("SB","Victim Was Sibling"),
-	CH("CH","Victim Was Child"),
-	GP("GP","Victim Was Grandparent "),
-	GC("GC","Victim Was Grandchild "),
-	IL("IL","Victim Was In-law"),
-	SP("SP","Victim Was Step-parent "),
-	SC("SC","Victim Was Step-child"),
-	SS("SS","Victim Was Step-sibling "),
-	OF("OF","Victim Was Other Family Member "),
-	AQ("AQ","Victim Was Acquaintance "),
-	FR("FR","Victim Was Friend"),
-	NE("NE","Victim Was Neighbor"),
-	BE("BE","Victim Was Babysitter"),
-	BG("BG","Victim Was Boyfriend/Girlfriend "),
-	CF("CF","Victim Was Child of Boyfriend/Girlfriend "),
-	HR("HR","Homosexual Relationship"),
-	XS("XS","Victim Was Ex-Spouse"),
-	EE("EE","Victim Was Employee"),
-	ER("ER","Victim Was Employer"),
-	OK("OK","Victim Was Otherwise Known "),
-	RU("RU","Relationship Unknown"),
-	ST("ST","Victim Was Stranger"),
-	VO("VO","Victim Was Offender");
+	SE("SE","Victim Was Spouse", "Family Member_Spouse"),
+	CS("CS","Victim Was Common-Law Spouse", "Family Member_Spouse_Common Law"),
+	PA("PA","Victim Was Parent", "Family Member_Parent"),
+	SB("SB","Victim Was Sibling", "Family Member_Sibling"),
+	CH("CH","Victim Was Child", "Family Member_Child"),
+	GP("GP","Victim Was Grandparent", "Family Member_Grandparent"),
+	GC("GC","Victim Was Grandchild", "Family Member_Grandchild"),
+	IL("IL","Victim Was In-law", "Family Member_In-Law"),
+	SP("SP","Victim Was Step-parent", "Family Member_Stepparent"),
+	SC("SC","Victim Was Step-child", "Family Member_Stepchild"),
+	SS("SS","Victim Was Step-sibling", "Family Member_Stepsibling"),
+	OF("OF","Victim Was Other Family Member", "Family Member"),
+	AQ("AQ","Victim Was Acquaintance", "Acquaintance"),
+	FR("FR","Victim Was Friend", "Friend"),
+	NE("NE","Victim Was Neighbor", "Neighbor"),
+	BE("BE","Victim Was Babysittee", "Babysittee"),
+	BG("BG","Victim Was Boyfriend/Girlfriend", "Boyfriend_Girlfriend"),
+	CF("CF","Victim Was Child of Boyfriend/Girlfriend", "Child of Boyfriend_Girlfriend"),
+	HR("HR","Homosexual Relationship", "NA"),
+	XS("XS","Victim Was Ex-Spouse", "Ex_Spouse"),
+	EE("EE","Victim Was Employee", "Employee"),
+	ER("ER","Victim Was Employer", "Employer"),
+	OK("OK","Victim Was Otherwise Known", "NonFamily_Otherwise Known"),
+	RU("RU","Relationship Unknown", "Relationship Unknown"),
+	ST("ST","Victim Was Stranger", "Stranger"),
+	VO("VO","Victim Was Offender", "Victim Was Offender");
 	
-	private RelationshipOfVictimToOffenderCode(String code, String description){
+	private RelationshipOfVictimToOffenderCode(String code, String description, String iepdCode){
 		
 		this.code = code;
-				
 		this.description = description;
+		this.iepdCode = iepdCode; 
 	}
 	
 	public String code;
-	
 	public String description;
+	public String iepdCode;
 		
 	public static Set<String> codeSet(){
 		
@@ -70,6 +71,12 @@ public enum RelationshipOfVictimToOffenderCode {
 		}		
 		return rCodeSet;
 	}		
+
+	public static final RelationshipOfVictimToOffenderCode valueOfIepdCode(String iepdCode){
+		return	Arrays.stream(RelationshipOfVictimToOffenderCode.values())
+					.filter(i->i.iepdCode.equals(iepdCode)).findFirst().orElse(null); 
+	}
+
 
 }
 
