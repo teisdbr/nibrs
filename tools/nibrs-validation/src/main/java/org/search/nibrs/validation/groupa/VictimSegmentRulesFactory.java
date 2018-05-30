@@ -534,7 +534,7 @@ public class VictimSegmentRulesFactory {
 					ParsedObject<Integer> offenderNumber = relatedOffenderNumbers.get(i);
 					String relationship = relationships.get(i);
 					if ((isEmpty(offenderNumber) && relationship != null) 
-						||(!isEmpty(offenderNumber) 
+						||(!isEmpty(offenderNumber) && relationship != null
 							&& !RelationshipOfVictimToOffenderCode.codeSet().contains(relationship))) {
 						invalidRelationships.add(relationship);
 					}

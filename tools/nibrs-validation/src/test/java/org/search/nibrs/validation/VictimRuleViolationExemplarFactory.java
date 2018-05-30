@@ -174,11 +174,6 @@ final class VictimRuleViolationExemplarFactory {
 			
 			copy = new GroupAIncidentReport(incident);
 			victim = copy.getVictims().get(0);
-			victim.setVictimOffenderRelationship(0, null);
-			incidents.add(copy);
-			
-			copy = new GroupAIncidentReport(incident);
-			victim = copy.getVictims().get(0);
 			victim.setVictimOffenderRelationship(0, "invalid");
 			incidents.add(copy);
 			

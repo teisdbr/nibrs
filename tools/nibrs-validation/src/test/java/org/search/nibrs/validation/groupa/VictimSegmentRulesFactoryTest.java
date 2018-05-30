@@ -15,7 +15,6 @@
  */
 package org.search.nibrs.validation.groupa;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -1238,13 +1237,6 @@ public class VictimSegmentRulesFactoryTest {
 		assertEquals("35", nibrsError.getDataElementIdentifier());
 		
 		victimSegment.setOffenderNumberRelated(0, new ParsedObject<>(1));
-		victimSegment.setVictimOffenderRelationship(0, null);
-		nibrsError = rule.apply(victimSegment);
-		assertNotNull(nibrsError);
-		assertEquals(NIBRSErrorCode._404, nibrsError.getNIBRSErrorCode());
-		assertArrayEquals(new String[] {null}, ((List<String>) nibrsError.getValue()).toArray());
-		assertEquals("35", nibrsError.getDataElementIdentifier());
-		
 		victimSegment.setVictimOffenderRelationship(0, RelationshipOfVictimToOffenderCode.AQ.code);
 		nibrsError = rule.apply(victimSegment);
 		assertNull(nibrsError);
