@@ -485,7 +485,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 					incidentDate.setValue(d);
 				}
 				else {
-					LocalDateTime d = LocalDateTime.parse(incidentDatetimeString, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+					LocalDateTime d = LocalDateTime.parse(StringUtils.substring(incidentDatetimeString, 0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 					incidentDate.setValue(d.toLocalDate());
 				}
 			} catch (Exception pe) {
@@ -671,7 +671,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			
 			newArrestee.setMultipleArresteeSegmentsIndicator(XmlUtils.xPathStringSearch(arresteeElement, "j:ArrestSubjectCountCode"));
 			
-			NodeList arresteeArmedWithElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "j:Arrestee/j:ArresteeArmedWithCode");
+			NodeList arresteeArmedWithElements = (NodeList) XmlUtils.xPathNodeListSearch(arresteeElement, "j:ArresteeArmedWithCode");
 			
 			for(int j=0; j < arresteeArmedWithElements.getLength() && j < 2; j++){
 				Element arresteeArmedWithElement = (Element)arresteeArmedWithElements.item(j);
