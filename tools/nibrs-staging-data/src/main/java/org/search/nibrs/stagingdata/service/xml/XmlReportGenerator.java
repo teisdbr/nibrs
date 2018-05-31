@@ -42,6 +42,7 @@ import org.apache.commons.logging.LogFactory;
 import org.search.nibrs.model.codes.BiasMotivationCode;
 import org.search.nibrs.model.codes.PropertyDescriptionCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
+import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.stagingdata.AppProperties;
 import org.search.nibrs.stagingdata.model.AdditionalJustifiableHomicideCircumstancesType;
 import org.search.nibrs.stagingdata.model.AggravatedAssaultHomicideCircumstancesType;
@@ -374,8 +375,10 @@ public class XmlReportGenerator {
 
 	private void addItemStatus(PropertySegment property, Element parent) {
 		Element itemStatus = XmlUtils.appendChildElement(parent, Namespace.NC, "ItemStatus");
-		String typeOfPropertyLoss = property.getTypePropertyLossEtcType().getFbiDescription();
-		XmlUtils.appendElementAndValue(itemStatus, Namespace.CJIS, "ItemStatusCode", typeOfPropertyLoss);
+		String typeOfPropertyLossNibrsCode = property.getTypePropertyLossEtcType().getFbiCode();
+		String typeOfPropertyLossIepdCode = Optional.ofNullable(TypeOfPropertyLossCode.valueOfCode(typeOfPropertyLossNibrsCode))
+				.map(TypeOfPropertyLossCode::getIepdCode).orElse(null);
+		XmlUtils.appendElementAndValue(itemStatus, Namespace.CJIS, "ItemStatusCode", typeOfPropertyLossIepdCode);
 	}
 	
 	private void addSubstanceElements(AdministrativeSegment administrativeSegment, Element reportElement) {
