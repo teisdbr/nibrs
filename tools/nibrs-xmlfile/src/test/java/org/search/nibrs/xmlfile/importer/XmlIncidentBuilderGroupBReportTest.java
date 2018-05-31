@@ -65,6 +65,7 @@ public class XmlIncidentBuilderGroupBReportTest {
 		assertNotNull(groupBArrestReport);
 		assertEquals("12345", groupBArrestReport.getIdentifier());
 		assertEquals("WVNDX0100", groupBArrestReport.getOri());
+		assertThat(groupBArrestReport.getCityIndicator(), is("GAA7"));
 		assertEquals('7', groupBArrestReport.getAdminSegmentLevel());
 		assertEquals('A', groupBArrestReport.getReportActionType());
 		assertEquals(Integer.valueOf(2), groupBArrestReport.getMonthOfTape());

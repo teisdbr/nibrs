@@ -78,6 +78,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(groupAIncident.getAdminSegmentLevel(), is('1'));
 		assertThat(groupAIncident.getIncidentNumber(), is("000054236732")); 
 		assertThat(groupAIncident.getOri(), is("WVNDX0100"));
+		assertThat(groupAIncident.getCityIndicator(), is("GAA7"));
 		assertThat(groupAIncident.getIncidentDate().getValue(), is(LocalDate.of(2016, 2, 19)));
 		assertThat(groupAIncident.getIncidentHour().getValue(), is(Integer.valueOf(10)));
 		assertThat(groupAIncident.getReportDateIndicator(), is(nullValue()));

@@ -25,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -248,6 +247,10 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		ret.setOri(reportBaseData.getOri());
 		ret.setReportActionType(reportBaseData.getActionType());
 		
+		String cityIndicator = XmlUtils.xPathStringSearch(reportElement, 
+				"nibrs:ReportHeader/nibrs:ReportingAgency/cjis:OrganizationAugmentation/cjis:DirectReportingCityIdentification/nc:IdentificationID");
+		ret.setCityIndicator(cityIndicator);
+
 		newErrorList.addAll(getSubmissionYearMonth(reportBaseData,  ret, NIBRSErrorCode._701));
 
 		ParsedObject<Integer> sequenceNumber = arrestee.getArresteeSequenceNumber();
@@ -404,9 +407,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		Element reportElement = reportBaseData.getReportElement();
 		newErrorList.addAll(getSubmissionYearMonth(reportBaseData,  newIncident, NIBRSErrorCode._101));
 
-//		String cityIndicator = XmlUtils.xPathStringSearch(reportElement, 
-//				"cjis:MessageMetadata/nibrs:ReportingAgency/cjis:OrganizationAugmentation/cjis:DirectReportingCityIdentification/nc:IdentificationID");
-//		newIncident.setCityIndicator(cityIndicator);
+		String cityIndicator = XmlUtils.xPathStringSearch(reportElement, 
+				"nibrs:ReportHeader/nibrs:ReportingAgency/cjis:OrganizationAugmentation/cjis:DirectReportingCityIdentification/nc:IdentificationID");
+		newIncident.setCityIndicator(cityIndicator);
 		
 		ParsedObject<LocalDate> incidentDate = newIncident.getIncidentDate();
 		incidentDate.setMissing(false);

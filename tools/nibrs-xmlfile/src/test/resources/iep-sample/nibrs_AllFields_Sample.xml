@@ -65,6 +65,11 @@
 						<nc:IdentificationID>WVNDX0100</nc:IdentificationID>
 					</j:OrganizationORIIdentification>
 				</j:OrganizationAugmentation>
+				<cjis:OrganizationAugmentation>
+	            	<cjis:DirectReportingCityIdentification>
+	                	<nc:IdentificationID>GAA7</nc:IdentificationID>
+					</cjis:DirectReportingCityIdentification>
+	            </cjis:OrganizationAugmentation>
 			</nibrs:ReportingAgency>
 		</nibrs:ReportHeader>
 		<nc:Incident>
