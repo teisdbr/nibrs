@@ -17,7 +17,7 @@
 -->
 <nibrs:Submission xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.2" xmlns:cjis="http://fbi.gov/cjis/1.0" xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.2/" xmlns:nc="http://release.niem.gov/niem/niem-core/3.0/" xmlns:s="http://release.niem.gov/niem/structures/3.0/">
     <cjis:MessageMetadata>
-        <cjis:MessageDateTime>2018-04-24T08:46:18</cjis:MessageDateTime>
+        <cjis:MessageDateTime>2018-05-31T01:11:50</cjis:MessageDateTime>
         <cjis:MessageIdentification>
             <nc:IdentificationID>GroupBArrest2</nc:IdentificationID>
         </cjis:MessageIdentification>
@@ -43,6 +43,11 @@
                         <nc:IdentificationID>ori</nc:IdentificationID>
                     </j:OrganizationORIIdentification>
                 </j:OrganizationAugmentation>
+                <cjis:OrganizationAugmentation>
+                    <cjis:DirectReportingCityIdentification>
+                        <nc:IdentificationID>Y</nc:IdentificationID>
+                    </cjis:DirectReportingCityIdentification>
+                </cjis:OrganizationAugmentation>
             </nibrs:ReportingAgency>
         </nibrs:ReportHeader>
         <nc:Person s:id="PersonArrestee-1">

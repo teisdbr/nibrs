@@ -17,7 +17,7 @@
 -->
 <nibrs:Submission xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.2" xmlns:cjis="http://fbi.gov/cjis/1.0" xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.2/" xmlns:nc="http://release.niem.gov/niem/niem-core/3.0/" xmlns:s="http://release.niem.gov/niem/structures/3.0/">
     <cjis:MessageMetadata>
-        <cjis:MessageDateTime>2018-04-24T08:23:52</cjis:MessageDateTime>
+        <cjis:MessageDateTime>2018-05-31T01:15:07</cjis:MessageDateTime>
         <cjis:MessageIdentification>
             <nc:IdentificationID>GroupAIncident1</nc:IdentificationID>
         </cjis:MessageIdentification>
@@ -43,6 +43,11 @@
                         <nc:IdentificationID>ori</nc:IdentificationID>
                     </j:OrganizationORIIdentification>
                 </j:OrganizationAugmentation>
+                <cjis:OrganizationAugmentation>
+                    <cjis:DirectReportingCityIdentification>
+                        <nc:IdentificationID>Y</nc:IdentificationID>
+                    </cjis:DirectReportingCityIdentification>
+                </cjis:OrganizationAugmentation>
             </nibrs:ReportingAgency>
         </nibrs:ReportHeader>
         <nc:Incident>
@@ -60,15 +65,26 @@
                 </j:IncidentExceptionalClearanceDate>
             </j:IncidentAugmentation>
         </nc:Incident>
+        <j:OffenseSegment s:id="OffenseSegment-26B">
+            <nibrs:OffenseUCRCode>26B</nibrs:OffenseUCRCode>
+            <nibrs:CriminalActivityCategoryCode>D</nibrs:CriminalActivityCategoryCode>
+            <nibrs:CriminalActivityCategoryCode>E</nibrs:CriminalActivityCategoryCode>
+            <j:OffenseFactorBiasMotivationCode>ANTIBLACK_AFRICAN AMERICAN</j:OffenseFactorBiasMotivationCode>
+            <j:OffenseStructuresEnteredQuantity>1</j:OffenseStructuresEnteredQuantity>
+            <j:OffenseEntryPoint>
+                <j:PassagePointMethodCode>F</j:PassagePointMethodCode>
+            </j:OffenseEntryPoint>
+            <j:OffenseAttemptedIndicator>true</j:OffenseAttemptedIndicator>
+        </j:OffenseSegment>
         <j:OffenseSegment s:id="OffenseSegment-23D">
             <nibrs:OffenseUCRCode>23D</nibrs:OffenseUCRCode>
-            <j:OffenseFactorBiasMotivationCode>Anti-White</j:OffenseFactorBiasMotivationCode>
+            <j:OffenseFactorBiasMotivationCode>ANTIWHITE</j:OffenseFactorBiasMotivationCode>
             <j:OffenseStructuresEnteredQuantity>2</j:OffenseStructuresEnteredQuantity>
             <j:OffenseFactor>
-                <j:OffenseFactorCode>C</j:OffenseFactorCode>
+                <j:OffenseFactorCode>A</j:OffenseFactorCode>
             </j:OffenseFactor>
             <j:OffenseFactor>
-                <j:OffenseFactorCode>A</j:OffenseFactorCode>
+                <j:OffenseFactorCode>C</j:OffenseFactorCode>
             </j:OffenseFactor>
             <j:OffenseEntryPoint>
                 <j:PassagePointMethodCode>F</j:PassagePointMethodCode>
@@ -77,30 +93,19 @@
                 <j:ForceCategoryCode>11</j:ForceCategoryCode>
             </j:OffenseForce>
             <j:OffenseForce>
-                <j:ForceCategoryCode>12</j:ForceCategoryCode>
+                <j:ForceCategoryCode>12A</j:ForceCategoryCode>
             </j:OffenseForce>
             <j:OffenseAttemptedIndicator>false</j:OffenseAttemptedIndicator>
         </j:OffenseSegment>
-        <j:OffenseSegment s:id="OffenseSegment-26B">
-            <nibrs:OffenseUCRCode>26B</nibrs:OffenseUCRCode>
-            <nibrs:CriminalActivityCategoryCode>E</nibrs:CriminalActivityCategoryCode>
-            <nibrs:CriminalActivityCategoryCode>D</nibrs:CriminalActivityCategoryCode>
-            <j:OffenseFactorBiasMotivationCode>Anti-Black or African American</j:OffenseFactorBiasMotivationCode>
-            <j:OffenseStructuresEnteredQuantity>1</j:OffenseStructuresEnteredQuantity>
-            <j:OffenseEntryPoint>
-                <j:PassagePointMethodCode>F</j:PassagePointMethodCode>
-            </j:OffenseEntryPoint>
-            <j:OffenseAttemptedIndicator>true</j:OffenseAttemptedIndicator>
-        </j:OffenseSegment>
-        <nc:Location s:id="Location-23D">
-            <j:LocationCategoryCode>04</j:LocationCategoryCode>
-        </nc:Location>
         <nc:Location s:id="Location-26B">
             <j:LocationCategoryCode>02</j:LocationCategoryCode>
         </nc:Location>
+        <nc:Location s:id="Location-23D">
+            <j:LocationCategoryCode>04</j:LocationCategoryCode>
+        </nc:Location>
         <nc:Item>
             <nc:ItemStatus>
-                <cjis:ItemStatusCode>Stolen/Etc.</cjis:ItemStatusCode>
+                <cjis:ItemStatusCode>STOLEN</cjis:ItemStatusCode>
             </nc:ItemStatus>
             <nc:ItemValue>
                 <nc:ItemValueAmount>
@@ -176,7 +181,7 @@
             <nc:RoleOfPerson s:ref="PersonArrestee-1"/>
             <j:ArrestSequenceID>1</j:ArrestSequenceID>
             <j:ArresteeArmedWithCode>11</j:ArresteeArmedWithCode>
-            <j:ArresteeArmedWithCode>12</j:ArresteeArmedWithCode>
+            <j:ArresteeArmedWithCode>12A</j:ArresteeArmedWithCode>
             <j:ArresteeJuvenileDispositionCode>9</j:ArresteeJuvenileDispositionCode>
             <j:ArrestSubjectCountCode>N</j:ArrestSubjectCountCode>
         </j:Arrestee>
@@ -197,25 +202,25 @@
             <j:Subject s:ref="Arrestee-1"/>
         </j:ArrestSubjectAssociation>
         <j:OffenseLocationAssociation>
-            <j:Offense s:ref="OffenseSegment-23D"/>
-            <nc:Location s:ref="Location-23D"/>
-        </j:OffenseLocationAssociation>
-        <j:OffenseLocationAssociation>
             <j:Offense s:ref="OffenseSegment-26B"/>
             <nc:Location s:ref="Location-26B"/>
         </j:OffenseLocationAssociation>
-        <j:OffenseVictimAssociation>
+        <j:OffenseLocationAssociation>
             <j:Offense s:ref="OffenseSegment-23D"/>
+            <nc:Location s:ref="Location-23D"/>
+        </j:OffenseLocationAssociation>
+        <j:OffenseVictimAssociation>
+            <j:Offense s:ref="OffenseSegment-26B"/>
             <j:Victim s:ref="VictimSegment-1"/>
         </j:OffenseVictimAssociation>
         <j:OffenseVictimAssociation>
-            <j:Offense s:ref="OffenseSegment-26B"/>
+            <j:Offense s:ref="OffenseSegment-23D"/>
             <j:Victim s:ref="VictimSegment-1"/>
         </j:OffenseVictimAssociation>
         <j:SubjectVictimAssociation>
             <j:Subject s:ref="OffenderSegment-1"/>
             <j:Victim s:ref="VictimSegment-1"/>
-            <nibrs:VictimToSubjectRelationshipCode>AQ</nibrs:VictimToSubjectRelationshipCode>
+            <nibrs:VictimToSubjectRelationshipCode>Acquaintance</nibrs:VictimToSubjectRelationshipCode>
         </j:SubjectVictimAssociation>
     </nibrs:report>
 </nibrs:Submission>

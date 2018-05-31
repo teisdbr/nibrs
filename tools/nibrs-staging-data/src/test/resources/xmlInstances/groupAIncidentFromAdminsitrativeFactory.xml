@@ -17,7 +17,7 @@
 -->
 <nibrs:Submission xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.2" xmlns:cjis="http://fbi.gov/cjis/1.0" xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.2/" xmlns:nc="http://release.niem.gov/niem/niem-core/3.0/" xmlns:s="http://release.niem.gov/niem/structures/3.0/">
     <cjis:MessageMetadata>
-        <cjis:MessageDateTime>2018-05-31T11:49:19</cjis:MessageDateTime>
+        <cjis:MessageDateTime>2018-05-31T01:13:48</cjis:MessageDateTime>
         <cjis:MessageIdentification>
             <nc:IdentificationID>GroupAIncident2</nc:IdentificationID>
         </cjis:MessageIdentification>
@@ -43,6 +43,11 @@
                         <nc:IdentificationID>WA1234567</nc:IdentificationID>
                     </j:OrganizationORIIdentification>
                 </j:OrganizationAugmentation>
+                <cjis:OrganizationAugmentation>
+                    <cjis:DirectReportingCityIdentification>
+                        <nc:IdentificationID>Y</nc:IdentificationID>
+                    </cjis:DirectReportingCityIdentification>
+                </cjis:OrganizationAugmentation>
             </nibrs:ReportingAgency>
         </nibrs:ReportHeader>
         <nc:Incident>
@@ -88,6 +93,17 @@
         </nc:Item>
         <nc:Item>
             <nc:ItemStatus>
+                <cjis:ItemStatusCode>SEIZED</cjis:ItemStatusCode>
+            </nc:ItemStatus>
+            <nc:ItemValue>
+                <nc:ItemValueAmount>
+                    <nc:Amount>100.0</nc:Amount>
+                </nc:ItemValueAmount>
+            </nc:ItemValue>
+            <j:ItemCategoryNIBRSPropertyCategoryCode>11</j:ItemCategoryNIBRSPropertyCategoryCode>
+        </nc:Item>
+        <nc:Item>
+            <nc:ItemStatus>
                 <cjis:ItemStatusCode>RECOVERED</cjis:ItemStatusCode>
             </nc:ItemStatus>
             <nc:ItemValue>
@@ -99,17 +115,6 @@
                 </nc:ItemValueDate>
             </nc:ItemValue>
             <j:ItemCategoryNIBRSPropertyCategoryCode>20</j:ItemCategoryNIBRSPropertyCategoryCode>
-        </nc:Item>
-        <nc:Item>
-            <nc:ItemStatus>
-                <cjis:ItemStatusCode>SEIZED</cjis:ItemStatusCode>
-            </nc:ItemStatus>
-            <nc:ItemValue>
-                <nc:ItemValueAmount>
-                    <nc:Amount>100.0</nc:Amount>
-                </nc:ItemValueAmount>
-            </nc:ItemValue>
-            <j:ItemCategoryNIBRSPropertyCategoryCode>11</j:ItemCategoryNIBRSPropertyCategoryCode>
         </nc:Item>
         <nc:Substance>
             <nc:ItemStatus>

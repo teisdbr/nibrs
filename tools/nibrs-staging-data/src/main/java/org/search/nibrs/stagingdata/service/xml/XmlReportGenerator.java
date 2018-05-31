@@ -237,12 +237,12 @@ public class XmlReportGenerator {
 		nibrsReportCategoryCode.setTextContent("GROUP A INCIDENT REPORT");
 		
 		appendReportHeaderDetails(administrativeSegment.getSegmentActionType(), administrativeSegment.getYearOfTape(),  
-				administrativeSegment.getMonthOfTape(), administrativeSegment.getOri(),
+				administrativeSegment.getMonthOfTape(), administrativeSegment.getOri(), administrativeSegment.getCityIndicator(),
 				reportHeaderElement);
 	}
 
 	private void appendReportHeaderDetails(SegmentActionTypeType segmentActionTypeType,
-			String yearOfTape, String monthOfTape, String ori, 
+			String yearOfTape, String monthOfTape, String ori, String cityIndicator,  
 			Element reportHeaderElement) {
 		XmlUtils.appendChildElement(reportHeaderElement, Namespace.NIBRS, "ReportActionCategoryCode")
 			.setTextContent(segmentActionTypeType.getFbiCode());
@@ -251,10 +251,17 @@ public class XmlReportGenerator {
 		Element yearMonthDate = XmlUtils.appendChildElement(reportDate, Namespace.NC, "YearMonthDate");
 		yearMonthDate.setTextContent( yearOfTape + "-" + monthOfTape);
 		
-		if (ori != null) {
+		if (StringUtils.isNotBlank(ori) || StringUtils.isNotBlank(cityIndicator)) {
 			Element reportingAgency = XmlUtils.appendChildElement(reportHeaderElement, Namespace.NIBRS, "ReportingAgency");
-			Element organizationAugmentation = XmlUtils.appendChildElement(reportingAgency, Namespace.J, "OrganizationAugmentation");
-			appendIdentificationIdElement(organizationAugmentation, J, "OrganizationORIIdentification", ori);
+			
+			if (StringUtils.isNotBlank(ori)){
+				Element organizationAugmentation = XmlUtils.appendChildElement(reportingAgency, J, "OrganizationAugmentation");
+				appendIdentificationIdElement(organizationAugmentation, J, "OrganizationORIIdentification", ori);
+			}
+			if (StringUtils.isNotBlank(cityIndicator)){
+				Element organizationAugmentation = XmlUtils.appendChildElement(reportingAgency, CJIS, "OrganizationAugmentation");
+				appendIdentificationIdElement(organizationAugmentation, CJIS, "DirectReportingCityIdentification", cityIndicator);
+			}
 		}
 	}
 
@@ -263,7 +270,7 @@ public class XmlReportGenerator {
 		Element nibrsReportCategoryCode = XmlUtils.appendChildElement(reportHeaderElement, Namespace.NIBRS, "NIBRSReportCategoryCode");
 		nibrsReportCategoryCode.setTextContent("GROUP B ARREST REPORT");
 		appendReportHeaderDetails(arrestReportSegment.getSegmentActionType(), arrestReportSegment.getYearOfTape(),  
-				arrestReportSegment.getMonthOfTape(), arrestReportSegment.getOri(),
+				arrestReportSegment.getMonthOfTape(), arrestReportSegment.getOri(), arrestReportSegment.getCityIndicator(),
 				reportHeaderElement);
 	}
 	
