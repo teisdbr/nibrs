@@ -70,6 +70,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import com.google.common.base.Optional;
 /**
  * Builder class that constructs incidents from a stream of NIBRS report data.
  * Incidents are broadcast to listeners as events; this keeps the class as
@@ -84,27 +86,12 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 	private static final Log log = LogFactory.getLog(XmlIncidentBuilder.class);;
 	
 	private DocumentBuilder documentBuilder; 
-	private Map<String, String> typeOfPropertyLossCodeMap = new HashMap<>();
 	private List<String> automaticWeaponCodes = Arrays.asList("11A", "12A", "13A", "14A", "15A");
 
 	public XmlIncidentBuilder() throws ParserConfigurationException {
 		super();
 		setDateFormat(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		initDocumentBuilder();
-		initTypeOfPropertyLossCodeMap();
-	}
-
-	private void initTypeOfPropertyLossCodeMap() {
-		typeOfPropertyLossCodeMap.put("NONE", "1");
-		typeOfPropertyLossCodeMap.put("BURNED", "2");
-		typeOfPropertyLossCodeMap.put("COUNTERFEITED", "3");
-		typeOfPropertyLossCodeMap.put("DAMAGED", "4");
-		typeOfPropertyLossCodeMap.put("DESTROYED", "4");
-		typeOfPropertyLossCodeMap.put("DESTROYED_DAMAGED_VANDALIZED", "4");
-		typeOfPropertyLossCodeMap.put("RECOVERED", "5");
-		typeOfPropertyLossCodeMap.put("SEIZED", "6");
-		typeOfPropertyLossCodeMap.put("STOLEN", "7");
-		typeOfPropertyLossCodeMap.put("UNKNOWN", "8");
 	}
 
 	private void initDocumentBuilder() throws ParserConfigurationException {
@@ -414,10 +401,13 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		newIncident.setIncidentNumber(reportBaseData.getIncidentNumber());
 		newIncident.setOri(reportBaseData.getOri());
 		newIncident.setReportActionType(reportBaseData.getActionType());
-
 		Element reportElement = reportBaseData.getReportElement();
 		newErrorList.addAll(getSubmissionYearMonth(reportBaseData,  newIncident, NIBRSErrorCode._101));
 
+//		String cityIndicator = XmlUtils.xPathStringSearch(reportElement, 
+//				"cjis:MessageMetadata/nibrs:ReportingAgency/cjis:OrganizationAugmentation/cjis:DirectReportingCityIdentification/nc:IdentificationID");
+//		newIncident.setCityIndicator(cityIndicator);
+		
 		ParsedObject<LocalDate> incidentDate = newIncident.getIncidentDate();
 		incidentDate.setMissing(false);
 		incidentDate.setInvalid(false);
@@ -1015,9 +1005,10 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 	private String getTypeOfPropertyLossCode(Element itemElement) {
 		String typeOfPropertyLoss = XmlUtils.xPathStringSearch(itemElement, "nc:ItemStatus/cjis:ItemStatusCode");
-		String typeOfPropertyLossCode = typeOfPropertyLossCodeMap.get(typeOfPropertyLoss);
+		String typeOfPropertyLossCode = Optional.fromNullable(TypeOfPropertyLossCode.valueOfIepdCode(typeOfPropertyLoss))
+				.transform(item->item.code).orNull(); 
 		if (typeOfPropertyLossCode == null){
-			typeOfPropertyLossCode = typeOfPropertyLossCodeMap.get("UNKNOWN");
+			typeOfPropertyLossCode = TypeOfPropertyLossCode.valueOfIepdCode("UNKNOWN").code;
 		}
 		return typeOfPropertyLossCode;
 	}

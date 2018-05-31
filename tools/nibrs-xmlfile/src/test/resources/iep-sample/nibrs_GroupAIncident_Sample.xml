@@ -47,6 +47,13 @@
 				</j:OrganizationORIIdentification>
 			</j:OrganizationAugmentation>
 		</cjis:MessageSubmittingOrganization>
+ 		<nibrs:ReportingAgency>
+			<cjis:OrganizationAugmentation>
+            	<cjis:DirectReportingCityIdentification>
+                	<nc:IdentificationID>GAA7</nc:IdentificationID>
+				</cjis:DirectReportingCityIdentification>
+            </cjis:OrganizationAugmentation>
+		</nibrs:ReportingAgency>
 	</cjis:MessageMetadata>
 	<nibrs:Report>
 		<nibrs:ReportHeader>

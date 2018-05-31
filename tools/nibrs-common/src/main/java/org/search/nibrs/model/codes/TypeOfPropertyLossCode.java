@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.model.codes;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,43 +28,45 @@ public enum TypeOfPropertyLossCode {
 	/**
 	 * None
 	 */
-	_1("1", "None"),
+	_1("1", "None", "NONE"),
 	/**
 	 * Burned (includes damage caused in fighting the fire)
 	 */
-	_2("2", "Burned (includes damage caused in fighting the fire)"),
+	_2("2", "Burned (includes damage caused in fighting the fire)", "BURNED"),
 	/**
 	 * Counterfeited/Forged
 	 */
-	_3("3", "Counterfeited/Forged"),
+	_3("3", "Counterfeited/Forged", "COUNTERFEITED"),
 	/**
 	 * Destroyed/Damaged/Vandalized
 	 */
-	_4("4", "Destroyed/Damaged/Vandalized"),
+	_4("4", "Destroyed/Damaged/Vandalized", "DESTROYED_DAMAGED_VANDALIZED"),
 	/**
 	 * Recovered (to impound property that was previously stolen)
 	 */
-	_5("5", "Recovered (to impound property that was previously stolen)"),
+	_5("5", "Recovered (to impound property that was previously stolen)", "RECOVERED"),
 	/**
 	 * Seized (to impound property that was not previously stolen)
 	 */
-	_6("6", "Seized (to impound property that was not previously stolen)"),
+	_6("6", "Seized (to impound property that was not previously stolen)", "SEIZED"),
 	/**
 	 * Stolen/Etc
 	 */
-	_7("7", "Stolen/Etc. (includes bribed, defrauded, embezzled, extorted, ransomed, robbed, etc.)"),
+	_7("7", "Stolen/Etc. (includes bribed, defrauded, embezzled, extorted, ransomed, robbed, etc.)", "STOLEN"),
 	/**
 	 * Unknown
 	 */
-	_8("8", "Unknown");
+	_8("8", "Unknown", "UNKNOWN");
 		
-	private TypeOfPropertyLossCode(String code, String description) {
+	private TypeOfPropertyLossCode(String code, String description, String iepdCode) {
 		this.code = code;
 		this.description = description;
+		this.setIepdCode(iepdCode);
 	}
 	
 	public String code;
 	public String description;
+	private String iepdCode; 
 	
 	public static final Set<TypeOfPropertyLossCode> asSet() {
 		return EnumSet.allOf(TypeOfPropertyLossCode.class);
@@ -94,5 +97,22 @@ public enum TypeOfPropertyLossCode {
 		ret.add(_7.code);
 		return ret;
 	}
+
+	public String getIepdCode() {
+		return iepdCode;
+	}
+
+	public void setIepdCode(String iepdCode) {
+		this.iepdCode = iepdCode;
+	}
+	
+	public static final TypeOfPropertyLossCode valueOfIepdCode(String iepdCode){
+		return	Arrays.stream(TypeOfPropertyLossCode.values()).filter(i->i.iepdCode.equals(iepdCode)).findFirst().orElse(null); 
+	}
+
+	public static final TypeOfPropertyLossCode valueOfCode(String code){
+		return	Arrays.stream(TypeOfPropertyLossCode.values()).filter(i->i.code.equals(code)).findFirst().orElse(null); 
+	}
+	
 	
 }
