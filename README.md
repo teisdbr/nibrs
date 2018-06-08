@@ -35,5 +35,5 @@ toolkit's standard database model
 [MySQL DB](https://github.com/SEARCH-NCJIS/nibrs/tree/master/analytics/docker/db)
 
 The toolkit team welcomes involvement from the community.  Feel free to fork the
-repo and submit PRs.  We also welcome questions or suggestions via
+repo and submit PRs. Before merging the PR, we will follow-up with the contributing developer to confirm wording for the copyright acknowledgemnt in the header of the modified file(s).  We also welcome questions or suggestions via
 [email](mailto:nibrs@search.org).
