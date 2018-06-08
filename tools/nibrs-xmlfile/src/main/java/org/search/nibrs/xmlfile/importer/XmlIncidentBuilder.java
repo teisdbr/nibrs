@@ -320,7 +320,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		arrestee.setRace(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonRaceNDExCode"));
 		arrestee.setEthnicity(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonEthnicityCode"));
 		arrestee.setResidentStatus(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonResidentCode"));
-		arrestee.setDispositionOfArresteeUnder18(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:ArresteeJuvenileDispositionCode"));
+		arrestee.setDispositionOfArresteeUnder18(XmlUtils.xPathStringSearch(reportElement, "j:Arrestee/j:ArresteeJuvenileDispositionCode"));
 		
 		for (NIBRSError e : newErrorList) {
 			e.setReport(ret);
