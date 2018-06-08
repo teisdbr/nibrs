@@ -79,7 +79,7 @@ public class XmlIncidentBuilderGroupBReportTest {
 		assertThat(arrestee.getEthnicity(), is("N"));
 		assertThat(arrestee.getResidentStatus(), is("R"));
 		assertThat(arrestee.getSex(), is("M"));
-		assertThat(arrestee.getDispositionOfArresteeUnder18(), is(nullValue()));
+		assertThat(arrestee.getDispositionOfArresteeUnder18(), is("H"));
 		assertThat(arrestee.getArresteeSequenceNumber().getValue(), is(1));
 		
 		assertThat(arrestee.getArrestDate().getValue(), is(LocalDate.of(2016, 2, 28)));
