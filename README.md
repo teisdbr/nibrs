@@ -36,4 +36,4 @@ toolkit's standard database model
 
 The toolkit team welcomes involvement from the community.  Feel free to fork the
 repo and submit PRs.  We also welcome questions or suggestions via
-[email](mailto:NIBRSPreCertToolHelp@search.org).
+[email](mailto:nibrs@search.org).
