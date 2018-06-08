@@ -113,32 +113,22 @@ public class OffenderSegmentRulesFactory {
 		rulesList__2_1.add(getRule509());
 		rulesList__2_1.add(getRule510());
 		rulesList__2_1.add(getRule522());
-		rulesList__2_1.add(getRule550__2_1());
+		Rule<OffenderSegment> rule550 = getRule550__2_1();
+		rulesList__2_1.add(rule550);
 		rulesList__2_1.add(getRule552ForAge());
 		rulesList__2_1.add(getRule552ForSex());
 		rulesList__2_1.add(getRule552ForRace());
 		rulesList__2_1.add(getRule552ForEthnicity());
-		rulesList__2_1.add(getRule553());
+		Rule<OffenderSegment> rule553 = getRule553();
+		rulesList__2_1.add(rule553);
 		rulesList__2_1.add(getRule554());
 		rulesList__2_1.add(getRule557());
 		rulesList__2_1.add(getRule572());
 		
 		rulesList__3_1 = new ArrayList<Rule<OffenderSegment>>();
-		rulesList__3_1.add(getRule501());
-		rulesList__3_1.add(getRule556ForAgeOfOffender());
-		rulesList__3_1.add(getRule504ForSexOfOffender());
-		rulesList__3_1.add(getRule504ForRaceOfOffender());
-		rulesList__3_1.add(getRule504ForEthnicityOfOffender());
-		rulesList__3_1.add(getRule509());
-		rulesList__3_1.add(getRule510());
-		rulesList__3_1.add(getRule522());
-		rulesList__3_1.add(getRule552ForAge());
-		rulesList__3_1.add(getRule552ForSex());
-		rulesList__3_1.add(getRule552ForRace());
-		rulesList__3_1.add(getRule552ForEthnicity());
-		rulesList__3_1.add(getRule554());
-		rulesList__3_1.add(getRule557());
-		rulesList__3_1.add(getRule572());
+		rulesList__3_1.addAll(rulesList__2_1);
+		rulesList__3_1.remove(rule550);
+		rulesList__3_1.remove(rule553);
 		rulesList__3_1.add(getRule550__3_1());
 		
 	}
