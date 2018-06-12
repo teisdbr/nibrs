@@ -173,7 +173,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			ret = buildGroupAIncidentReport(reportBaseData, errorList); 
 			break; 
 		case "GROUP B ARREST REPORT": 
-			ret = builGroupBArrestReport(reportBaseData, errorList);
+			ret = buildGroupBArrestReport(reportBaseData, errorList);
 			break; 
 		case "ZERO REPORT": 
 			ret = buildZeroReport(reportBaseData, errorList); 
@@ -238,10 +238,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		return errorList;
 	}
 
-	private AbstractReport builGroupBArrestReport(ReportBaseData reportBaseData, List<NIBRSError> errorList) {
+	private AbstractReport buildGroupBArrestReport(ReportBaseData reportBaseData, List<NIBRSError> errorList) {
 		List<NIBRSError> newErrorList = new ArrayList<>();
 		GroupBArrestReport ret = new GroupBArrestReport();
-		ArresteeSegment arrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
 		
 		Element reportElement = reportBaseData.getReportElement();
 		ret.setOri(reportBaseData.getOri());
@@ -253,83 +252,96 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 		newErrorList.addAll(getSubmissionYearMonth(reportBaseData,  ret, NIBRSErrorCode._701));
 
-		ParsedObject<Integer> sequenceNumber = arrestee.getArresteeSequenceNumber();
-		sequenceNumber.setMissing(false);
-		sequenceNumber.setInvalid(false);
-		String sequenceNumberString = XmlUtils.xPathStringSearch(reportElement, "j:Arrestee/j:ArrestSequenceID");
-		if (sequenceNumberString == null) {
-			sequenceNumber.setMissing(true);
-			sequenceNumber.setValue(null);
-		} else {
-			getIntegerValue(newErrorList, sequenceNumber, sequenceNumberString, NIBRSErrorCode._701, "40", reportBaseData );
-		}
-			
-		arrestee.setArresteeSequenceNumber(sequenceNumber);
-		
-		String arrestTransactionNumber = XmlUtils.xPathStringSearch(reportElement, "j:Arrest/nc:ActivityIdentification/nc:IdentificationID");
-		arrestee.setArrestTransactionNumber(arrestTransactionNumber);
-
-		
-		ParsedObject<LocalDate> arrestDate = arrestee.getArrestDate();
-		arrestDate.setMissing(false);
-		arrestDate.setInvalid(false);
-		
-		String arrestDateString = XmlUtils.xPathStringSearch(reportElement, "j:Arrest/nc:ActivityDate/nc:Date");
-		if (arrestDateString == null) {
-			arrestDate.setMissing(true);
-			arrestDate.setValue(null);
-		} else {
-			try {
-				LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
-				arrestDate.setValue(d);
-			} catch (Exception pe) {
-				NIBRSError e = new NIBRSError();
-				ReportSource reportSource = new ReportSource(reportBaseData.getReportSource());
-				reportSource.setSourceLocation((String)XmlUtils.xPathStringSearch(reportElement, "j:Arrest/@s:id"));
-				e.setContext(reportBaseData.getReportSource());
-				e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
-				e.setSegmentType(reportBaseData.getSegmentType());
-				e.setValue(arrestDateString);
-				e.setNIBRSErrorCode(NIBRSErrorCode._705);
-				e.setDataElementIdentifier("42");
-				newErrorList.add(e);
-				arrestDate.setInvalid(true);
-				arrestDate.setValidationError(e);
-			}
-		}
-		arrestee.setArrestDate(arrestDate);
-
-		arrestee.setTypeOfArrest(XmlUtils.xPathStringSearch(reportElement, "j:Arrest/j:ArrestCategoryCode"));
-		arrestee.setUcrArrestOffenseCode(XmlUtils.xPathStringSearch(reportElement, "j:Arrest/j:ArrestCharge/nibrs:ChargeUCRCode"));
-		
-		NodeList arresteeArmedWithElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "j:Arrestee/j:ArresteeArmedWithCode");
-		
-		for(int i=0; i < arresteeArmedWithElements.getLength() && i < 2; i++){
-			Element arresteeArmedWithElement = (Element)arresteeArmedWithElements.item(i);
-			String arresteeArmedWithCode = arresteeArmedWithElement.getTextContent();
-			setArmedWithAndAutomaticIndicator(arrestee, i, arresteeArmedWithCode);
-		}
-
-		Node personNode = XmlUtils.xPathNodeSearch(reportElement,  "nc:Person");
-
-		NIBRSAge arresteeAge = parseAgeNode(personNode, arrestee);
-		
-		arrestee.setAge(arresteeAge);
-		
-		arrestee.setSex(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonSexCode"));
-		arrestee.setRace(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonRaceNDExCode"));
-		arrestee.setEthnicity(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonEthnicityCode"));
-		arrestee.setResidentStatus(XmlUtils.xPathStringSearch(reportElement, "nc:Person/j:PersonResidentCode"));
-		arrestee.setDispositionOfArresteeUnder18(XmlUtils.xPathStringSearch(reportElement, "j:Arrestee/j:ArresteeJuvenileDispositionCode"));
-		
-		for (NIBRSError e : newErrorList) {
-			e.setReport(ret);
-		}
-		
-		ret.addArrestee(arrestee);
+		buildGroupBArresteeSegments(reportBaseData, newErrorList, ret, reportElement);
 		errorList.addAll(newErrorList);
 	
 		return ret;
+	}
+
+	private void buildGroupBArresteeSegments(ReportBaseData reportBaseData, List<NIBRSError> newErrorList, GroupBArrestReport ret,
+			Element reportElement) {
+		
+		NodeList arresteeElements = (NodeList) XmlUtils.xPathNodeListSearch(reportElement, "j:Arrestee");
+		for(int i=0; i < arresteeElements.getLength() ; i++){
+			Element arresteeElement = (Element) arresteeElements.item(i);
+			ArresteeSegment newArrestee = new ArresteeSegment(ArresteeSegment.GROUP_B_ARRESTEE_SEGMENT_TYPE_IDENTIFIER);
+			
+			ReportSource reportSource = new ReportSource(reportBaseData.getReportSource());;
+			String arresteeId = XmlUtils.xPathStringSearch(arresteeElement, "@s:id");
+			reportSource.setSourceLocation(arresteeId);
+			
+			ParsedObject<Integer> sequenceNumber = newArrestee.getArresteeSequenceNumber();
+			sequenceNumber.setMissing(false);
+			sequenceNumber.setInvalid(false);
+			String sequenceNumberString = XmlUtils.xPathStringSearch(arresteeElement, "j:ArrestSequenceID");
+			if (sequenceNumberString == null) {
+				sequenceNumber.setMissing(true);
+				sequenceNumber.setValue(null);
+			} else {
+				getIntegerValue(newErrorList, sequenceNumber, sequenceNumberString, NIBRSErrorCode._701, "40", reportBaseData );
+			}
+			
+			newArrestee.setArresteeSequenceNumber(sequenceNumber);
+			
+			Node arrestNode = XmlUtils.xPathNodeSearch(reportElement, "j:Arrest[@s:id = ../j:ArrestSubjectAssociation[j:Subject/@s:ref='"+ arresteeId +  "']/nc:Activity/@s:ref]");
+			
+			if (arrestNode != null){
+				newArrestee.setArrestTransactionNumber(XmlUtils.xPathStringSearch(arrestNode, "nc:ActivityIdentification/nc:IdentificationID"));
+				
+				ParsedObject<LocalDate> arrestDate = newArrestee.getArrestDate();
+				arrestDate.setMissing(false);
+				arrestDate.setInvalid(false);
+				String arrestDateString = XmlUtils.xPathStringSearch(arrestNode, "nc:ActivityDate/nc:Date");
+				if (arrestDateString == null) {
+					arrestDate.setMissing(true);
+					arrestDate.setValue(null);
+				} else {
+					try {
+						LocalDate d = LocalDate.parse(arrestDateString, getDateFormat());
+						arrestDate.setValue(d);
+					} catch (Exception pe) {
+						NIBRSError e = new NIBRSError();
+						reportSource.setSourceLocation((String)XmlUtils.xPathStringSearch(reportElement, "j:Arrest/@s:id"));
+						e.setContext(reportBaseData.getReportSource());
+						e.setReportUniqueIdentifier(reportBaseData.getIncidentNumber());
+						e.setSegmentType(reportBaseData.getSegmentType());
+						e.setValue(arrestDateString);
+						e.setNIBRSErrorCode(NIBRSErrorCode._705);
+						e.setDataElementIdentifier("42");
+						newErrorList.add(e);
+						arrestDate.setInvalid(true);
+						arrestDate.setValidationError(e);
+					}
+				}
+				newArrestee.setArrestDate(arrestDate);
+				newArrestee.setUcrArrestOffenseCode(XmlUtils.xPathStringSearch(arrestNode, "j:ArrestCharge/nibrs:ChargeUCRCode"));
+				newArrestee.setTypeOfArrest(XmlUtils.xPathStringSearch(arrestNode, "j:ArrestCategoryCode"));
+			}
+			
+			newArrestee.setMultipleArresteeSegmentsIndicator(XmlUtils.xPathStringSearch(arresteeElement, "j:ArrestSubjectCountCode"));
+			
+			NodeList arresteeArmedWithElements = (NodeList) XmlUtils.xPathNodeListSearch(arresteeElement, "j:ArresteeArmedWithCode");
+			
+			for(int j=0; j < arresteeArmedWithElements.getLength() && j < 2; j++){
+				Element arresteeArmedWithElement = (Element)arresteeArmedWithElements.item(j);
+				String arresteeArmedWithCode = arresteeArmedWithElement.getTextContent();
+				setArmedWithAndAutomaticIndicator(newArrestee, j, arresteeArmedWithCode);
+			}
+			
+			String personRef = XmlUtils.xPathStringSearch(arresteeElement, "nc:RoleOfPerson/@s:ref");
+			Node personNode = XmlUtils.xPathNodeSearch(reportElement, "nc:Person[@s:id ='" + personRef + "']");
+			
+			newArrestee.setAge(parseAgeNode(personNode, newArrestee));
+			newArrestee.setSex(XmlUtils.xPathStringSearch(personNode, "j:PersonSexCode"));
+			newArrestee.setRace(XmlUtils.xPathStringSearch(personNode, "j:PersonRaceNDExCode"));
+			newArrestee.setEthnicity(XmlUtils.xPathStringSearch(personNode, "j:PersonEthnicityCode"));
+			newArrestee.setResidentStatus(XmlUtils.xPathStringSearch(personNode, "j:PersonResidentCode"));
+			
+			newArrestee.setDispositionOfArresteeUnder18(XmlUtils.xPathStringSearch(arresteeElement, "j:ArresteeJuvenileDispositionCode"));
+
+			ret.addArrestee(newArrestee);
+		}	
+		
 	}
 
 	private void setArmedWithAndAutomaticIndicator(ArresteeSegment arrestee, int i, String arresteeArmedWithCode) {

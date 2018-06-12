@@ -35,12 +35,12 @@ import org.search.nibrs.model.GroupAIncidentReport;
 import org.search.nibrs.model.GroupBArrestReport;
 import org.search.nibrs.model.ZeroReport;
 
-public class XmlIncidentBuilderGroupBReportTest {
+public class XmlIncidentBuilderGroupBReportMultipleArresteesTest {
 	private DefaultReportListener incidentListener;
 	
 	@Before
 	public void setUp() throws Exception {
-		InputStream inputStream = new FileInputStream(new File("src/test/resources/iep-sample/nibrs_GroupBArrest_Sample.xml"));
+		InputStream inputStream = new FileInputStream(new File("src/test/resources/iep-sample/nibrs_GroupBArrest_Sample_multipleArrestees.xml"));
 		incidentListener = new DefaultReportListener();
 		
 		XmlIncidentBuilder incidentBuilder = new XmlIncidentBuilder();
@@ -70,7 +70,7 @@ public class XmlIncidentBuilderGroupBReportTest {
 		assertEquals(Integer.valueOf(2), groupBArrestReport.getMonthOfTape());
 		assertEquals(Integer.valueOf(2016), groupBArrestReport.getYearOfTape());
 		
-		assertThat(groupBArrestReport.getArresteeCount(), is(1));
+		assertThat(groupBArrestReport.getArresteeCount(), is(2));
 		
 		ArresteeSegment arrestee = groupBArrestReport.getArrestees().get(0);
 		assertThat(arrestee.getAge().getAgeMin(), is(30));
@@ -87,6 +87,22 @@ public class XmlIncidentBuilderGroupBReportTest {
 		assertThat(arrestee.getUcrArrestOffenseCode(), is("64A"));
 		
 		assertThat(arrestee.getArresteeArmedWith(0), is("12"));
+		
+		ArresteeSegment arrestee1 = groupBArrestReport.getArrestees().get(1);
+		assertThat(arrestee1.getAge().getAgeMin(), is(30));
+		assertThat(arrestee1.getRace(), is("W"));
+		assertThat(arrestee1.getEthnicity(), is("N"));
+		assertThat(arrestee1.getResidentStatus(), is("R"));
+		assertThat(arrestee1.getSex(), is("M"));
+		assertThat(arrestee1.getDispositionOfArresteeUnder18(), is("H"));
+		assertThat(arrestee1.getArresteeSequenceNumber().getValue(), is(2));
+		
+		assertThat(arrestee1.getArrestDate().getValue(), is(LocalDate.of(2016, 2, 28)));
+		assertThat(arrestee1.getArrestTransactionNumber(), is("12345"));
+		assertThat(arrestee1.getTypeOfArrest(), is("O"));
+		assertThat(arrestee1.getUcrArrestOffenseCode(), is("64A"));
+		
+		assertThat(arrestee1.getArresteeArmedWith(0), is("12"));
 	}
 
 }
