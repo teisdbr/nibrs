@@ -21,6 +21,7 @@ import java.util.List;
 import org.search.nibrs.common.NIBRSError;
 import org.search.nibrs.model.ArresteeSegment;
 import org.search.nibrs.model.GroupBArrestReport;
+import org.search.nibrs.model.codes.NIBRSErrorCode;
 import org.search.nibrs.validation.ArresteeSegmentRulesFactory;
 import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.Rule;
@@ -55,13 +56,24 @@ public class GroupBArrestReportValidator {
 			}
 		}
 		
-		for (Rule<ArresteeSegment> r : groupBArresteeSegmentRules) {
-			for (ArresteeSegment s : groupBIncidentReport.getArrestees()) {
-				NIBRSError nibrsError = r.apply(s);
+		if (groupBIncidentReport.getArrestees().size() == 1){
+			for (Rule<ArresteeSegment> r : groupBArresteeSegmentRules) {
+				NIBRSError nibrsError = r.apply(groupBIncidentReport.getArrestees().get(0));
 				if (nibrsError != null) {
 					errorsList.add(nibrsError);
 				}
 			}
+		}
+		else if (groupBIncidentReport.getArrestees().size() > 1) {
+			NIBRSError e = new NIBRSError();
+			e.setReport(groupBIncidentReport);
+			e.setContext(groupBIncidentReport.getSource());
+			e.setReportUniqueIdentifier(groupBIncidentReport.getIdentifier());
+			e.setValue(groupBIncidentReport.getArrestees().size());
+			e.setCrossSegment(true);
+			e.setWithinSegmentIdentifier(null); 
+			e.setNIBRSErrorCode(NIBRSErrorCode._099);
+			errorsList.add(e);
 		}
 		
 		return errorsList;
