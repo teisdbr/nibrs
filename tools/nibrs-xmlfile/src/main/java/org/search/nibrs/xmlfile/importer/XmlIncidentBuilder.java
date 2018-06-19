@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -70,7 +71,6 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.google.common.base.Optional;
 /**
  * Builder class that constructs incidents from a stream of NIBRS report data.
  * Incidents are broadcast to listeners as events; this keeps the class as
@@ -778,8 +778,8 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 				newVictim.setOffenderNumberRelated(j, offenderNumberRelated);
 				String victimOffenderRelationshipIepdCode = XmlUtils.xPathStringSearch(subjectVictimAssociation, "nibrs:VictimToSubjectRelationshipCode");
 				String victimOffenderRelationshipNibrsCode = Optional
-						.fromNullable(RelationshipOfVictimToOffenderCode.valueOfIepdCode(victimOffenderRelationshipIepdCode))
-						.transform(item->item.code).orNull();
+						.ofNullable(RelationshipOfVictimToOffenderCode.valueOfIepdCode(victimOffenderRelationshipIepdCode))
+						.map(item->item.code).orElse(null);
 						
 				newVictim.setVictimOffenderRelationship(j, victimOffenderRelationshipNibrsCode);
 			}
@@ -876,7 +876,14 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			if (!(PropertyDescriptionCode._10.code.equals(propertyDescription) && propertySegment.containsPropertyDescription(propertyDescription))){
 				propertySegment.setPropertyDescription(propertyDescriptionIndex, propertyDescription);
 			}
-			
+			else{
+				for (int j=0; j < propertySegment.getPopulatedPropertyDescriptionCount(); j++){
+					if (PropertyDescriptionCode._10.code.equals(propertySegment.getPropertyDescription(j))){
+						propertyDescriptionIndex = j;
+					}
+				}
+			}
+
 			parsePropertyValue(incident, errorList, reportSource, substanceElement, propertySegment, propertyDescriptionIndex); 
 			parseRecoveredDate(incident, errorList, reportSource, substanceElement, propertySegment, propertyDescriptionIndex);
 			
@@ -951,18 +958,23 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 		String propertyValueString = XmlUtils.xPathStringSearch(parentElement, "nc:ItemValue/nc:ItemValueAmount/nc:Amount"); 
 		
 		ParsedObject<Integer> propertyValue = propertySegment.getValueOfProperty(index);
-		propertyValue.setInvalid(false);
-		propertyValue.setMissing(false);
-		if (propertyValueString == null) {
-			propertyValue.setValue(null);
+		if (propertyValue.getValue() == null){
 			propertyValue.setInvalid(false);
-			propertyValue.setMissing(true);
+			propertyValue.setMissing(false);
+		}
+		
+		if (propertyValueString == null) {
+			if (propertyValue.getValue() == null){
+				propertyValue.setValue(null);
+				propertyValue.setInvalid(false);
+				propertyValue.setMissing(true);
+			}
 		} else {
 			try {
 				String valueOfPropertyPattern = "\\d{1,9}";
 				if (propertyValueString.matches(valueOfPropertyPattern)){
 					Integer propertyValueI = Integer.parseInt(propertyValueString);
-					propertyValue.setValue(propertyValueI);
+					propertyValue.setValue(propertyValueI + Optional.ofNullable(propertyValue.getValue()).orElse(0));
 				}
 				else{
 					throw new NumberFormatException(); 
@@ -1026,8 +1038,8 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 
 	private String getTypeOfPropertyLossCode(Element itemElement) {
 		String typeOfPropertyLoss = XmlUtils.xPathStringSearch(itemElement, "nc:ItemStatus/cjis:ItemStatusCode");
-		String typeOfPropertyLossCode = Optional.fromNullable(TypeOfPropertyLossCode.valueOfIepdCode(typeOfPropertyLoss))
-				.transform(item->item.code).orNull(); 
+		String typeOfPropertyLossCode = Optional.ofNullable(TypeOfPropertyLossCode.valueOfIepdCode(typeOfPropertyLoss))
+				.map(item->item.code).orElse(null); 
 		if (typeOfPropertyLossCode == null){
 			typeOfPropertyLossCode = TypeOfPropertyLossCode.valueOfIepdCode("UNKNOWN").code;
 		}
