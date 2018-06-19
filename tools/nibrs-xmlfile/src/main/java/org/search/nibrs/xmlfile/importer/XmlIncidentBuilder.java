@@ -873,7 +873,9 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 			int drugIndex = propertySegment.getPopulatedSuspectedDrugTypeCount(); 
 			int propertyDescriptionIndex = propertySegment.getPopulatedPropertyDescriptionCount();
 			String propertyDescription = XmlUtils.xPathStringSearch(substanceElement, "j:ItemCategoryNIBRSPropertyCategoryCode");
-			propertySegment.setPropertyDescription(propertyDescriptionIndex, propertyDescription);
+			if (!(PropertyDescriptionCode._10.code.equals(propertyDescription) && propertySegment.containsPropertyDescription(propertyDescription))){
+				propertySegment.setPropertyDescription(propertyDescriptionIndex, propertyDescription);
+			}
 			
 			parsePropertyValue(incident, errorList, reportSource, substanceElement, propertySegment, propertyDescriptionIndex); 
 			parseRecoveredDate(incident, errorList, reportSource, substanceElement, propertySegment, propertyDescriptionIndex);
