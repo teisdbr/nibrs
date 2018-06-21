@@ -21,7 +21,8 @@ services:
 
   nibrs-httpd-proxy:
     container_name: nibrs-httpd-proxy
-    image: searchncjis/nibrs-httpd-proxy
+#    image: searchncjis/nibrs-httpd-proxy
+    build: ./nibrs-httpd-proxy
     restart: always
     networks:
       nibrs_nw:
@@ -46,3 +47,39 @@ services:
       - db-analytics-nibrs
     networks:
       nibrs_nw:
+
+# JD Added Below
+
+  nibrs-mysql:
+    container_name: nibrs-mysql
+    image: ojbc/nibrs-mysql
+    build: ./nibrs-mysql
+    networks:
+      nibrs_nw:
+    ports:
+      - "3307:3306"
+
+  nibrs-liferay:
+   container_name: nibrs-liferay
+   image: ojbc/nibrs-liferay
+   build: ./nibrs-liferay
+   environment:
+    - DB_TYPE=MYSQL
+   links:
+    - "nibrs-mysql:db_lep"
+   depends_on:
+    - nibrs-mysql
+   networks:
+    nibrs_nw:
+   ports:
+    - "8080:8080"
+
+  nibrs-idp:
+   container_name: nibrs-idp
+   image: ojbc/nibrs-idp
+   build: ./nibrs-idp
+   depends_on:
+    - nibrs-mysql
+   networks:
+    nibrs_nw:
+
