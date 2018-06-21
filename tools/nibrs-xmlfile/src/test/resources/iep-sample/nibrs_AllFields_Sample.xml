@@ -297,6 +297,31 @@
 				<j:SubstanceUnitCode>XX</j:SubstanceUnitCode>
 			</nc:SubstanceQuantityMeasure>
 		</nc:Substance>
+		<nc:Substance>
+			<!-- Element 14, Type Property Loss/etc  Substituted for nc:ItemStatus -->
+			<nc:ItemStatus>
+				<cjis:ItemStatusCode>RECOVERED</cjis:ItemStatusCode>
+			</nc:ItemStatus>
+			<!-- Element 16, Value of Property in US Dollars -->
+			<nc:ItemValue>
+				<nc:ItemValueAmount>
+					<nc:Amount>1200</nc:Amount>
+				</nc:ItemValueAmount>
+				<!-- Element 17, Date Recovered -->
+				<nc:ItemValueDate>
+					<nc:Date>2016-02-28</nc:Date>
+				</nc:ItemValueDate>
+			</nc:ItemValue>
+			<!-- Element 15, Property Description -->
+			<j:ItemCategoryNIBRSPropertyCategoryCode>10</j:ItemCategoryNIBRSPropertyCategoryCode>
+			<!-- Element 20, Suspected Involved Drug Type -->
+			<j:DrugCategoryCode>X</j:DrugCategoryCode>
+			<nc:SubstanceQuantityMeasure>
+				<!-- Element 21/22, Estimated Quantity/Fraction -->
+				<nc:MeasureDecimalValue>1.5</nc:MeasureDecimalValue>
+				<j:SubstanceUnitCode>LB</j:SubstanceUnitCode>
+			</nc:SubstanceQuantityMeasure>
+		</nc:Substance>
 		<!--End Property-->
 		<nc:Person s:id="PersonVictim1">
 			<!-- Element 26, Age of Victim (only one would be included per victim)-->
