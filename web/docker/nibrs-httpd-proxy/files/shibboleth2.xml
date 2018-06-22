@@ -39,7 +39,7 @@
 
     <RequestMapper type="Native">
       <RequestMap redirectToSSL="443">
-      	<Host name="localhost">
+      	<Host name="nibrs.search.org">
       		
 	      	<Path name="nibrs-web" authType="shibboleth" requireSession="true" exportAssertion="true"/>
 	      
