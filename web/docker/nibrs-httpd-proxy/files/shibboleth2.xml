@@ -46,9 +46,19 @@
       	</Host>
       </RequestMap>
     </RequestMapper>
+    
+    <RequestMapper type="Native">
+      <RequestMap redirectToSSL="443">
+      	<Host name="localhost">
+      		
+	      	<Path name="ojb-web-util" authType="shibboleth" requireSession="true" exportAssertion="true"/>
+	      
+      	</Host>
+      </RequestMap>
+    </RequestMapper>
 
     <!-- The ApplicationDefaults element is where most of Shibboleth's SAML bits are defined. -->
-    <ApplicationDefaults entityID="https://nibrs.localhost/shibboleth" REMOTE_USER="localIdentifier">
+    <ApplicationDefaults entityID="https://sp.nibrs.local/shibboleth" REMOTE_USER="localIdentifier">
         
 
         <!--
