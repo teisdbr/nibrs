@@ -16,7 +16,6 @@ COPY files/password-authn-config.xml /opt/shibboleth-idp/conf/authn
 COPY files/attribute-resolver.xml /opt/shibboleth-idp/conf/attribute-resolver.xml
 COPY files/attribute-filter.xml /opt/shibboleth-idp/conf/attribute-filter.xml
 COPY files/idp.properties /opt/shibboleth-idp/conf/idp.properties
-COPY files/idp-metadata.xml /opt/shibboleth-idp/metadata
 COPY files/idp-signing.* /opt/shibboleth-idp/credentials/
 COPY files/login.vm /opt/shibboleth-idp/views
 COPY files/nibrs-logo.png /opt/shibboleth-idp/edit-webapp/images

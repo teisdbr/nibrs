@@ -75,7 +75,7 @@ services:
     - "8080:8080"
 
   nibrs-idp:
-   container_name: nibrs-idp
+   container_name: idp
    image: ojbc/nibrs-idp
    build: ./nibrs-idp
    depends_on:
