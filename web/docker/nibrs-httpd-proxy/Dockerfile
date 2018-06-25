@@ -10,3 +10,4 @@ COPY files/sp-cert.pem /opt/shibboleth-sp/etc/shibboleth/
 COPY files/sp-key.pem /opt/shibboleth-sp/etc/shibboleth/
 COPY files/nibrs-ctf.xml /opt/shibboleth-sp/etc/shibboleth/nibrs-ctf.xml
 COPY files/shibboleth2.xml /opt/shibboleth-sp/etc/shibboleth/
+COPY files/shib.conf /opt/shibboleth-sp/etc/shibboleth/shib.conf
