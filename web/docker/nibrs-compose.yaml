@@ -50,10 +50,10 @@ services:
 
 # JD Added Below
 
-  nibrs-mysql:
-    container_name: nibrs-mysql
-    image: ojbc/nibrs-mysql
-    build: ./nibrs-mysql
+  nibrs-liferay-mysql:
+    container_name: nibrs-liferay-mysql
+    image: ojbc/nibrs-liferay-mysql
+    build: ./nibrs-liferay-mysql
     networks:
       nibrs_nw:
     ports:
@@ -66,9 +66,9 @@ services:
    environment:
     - DB_TYPE=MYSQL
    links:
-    - "nibrs-mysql:db_lep"
+    - "nibrs-liferay-mysql:db_lep"
    depends_on:
-    - nibrs-mysql
+    - nibrs-liferay-mysql
    networks:
     nibrs_nw:
    ports:
@@ -79,7 +79,7 @@ services:
    image: ojbc/nibrs-idp
    build: ./nibrs-idp
    depends_on:
-    - nibrs-mysql
+    - nibrs-liferay-mysql
    networks:
     nibrs_nw:
 
