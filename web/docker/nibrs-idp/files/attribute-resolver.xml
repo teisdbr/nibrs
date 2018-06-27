@@ -83,7 +83,7 @@
 	   
 	    <resolver:DataConnector id="MySQL" xsi:type="RelationalDatabase" xmlns="urn:mace:shibboleth:2.0:resolver:dc">
 	        <ApplicationManagedConnection jdbcDriver="com.mysql.jdbc.Driver"
-	        jdbcURL="jdbc:mysql://nibrs-mysql:3306/lportal" jdbcUserName="lportal" jdbcPassword="lportal" />
+	        jdbcURL="jdbc:mysql://nibrs-liferay-mysql:3306/lportal" jdbcUserName="lportal" jdbcPassword="lportal" />
 	        <QueryTemplate>
 	            
 	            <![CDATA[
@@ -115,7 +115,7 @@
 	    </resolver:DataConnector>
 	      <resolver:DataConnector id="MySQL2" xsi:type="RelationalDatabase" xmlns="urn:mace:shibboleth:2.0:resolver:dc">
 	        <ApplicationManagedConnection jdbcDriver="com.mysql.jdbc.Driver"
-	        jdbcURL="jdbc:mysql://nibrs-mysql:3306/lportal" jdbcUserName="lportal" jdbcPassword="lportal" />
+	        jdbcURL="jdbc:mysql://nibrs-liferay-mysql:3306/lportal" jdbcUserName="lportal" jdbcPassword="lportal" />
 	        <QueryTemplate>
 	            <!-- based on this join, all attributes must be populated in the DB for all users -->
 	            <![CDATA[
