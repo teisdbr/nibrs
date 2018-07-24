@@ -51,6 +51,7 @@ import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.BlankRightFillStringRule;
 import org.search.nibrs.validation.rules.NotBlankRule;
 import org.search.nibrs.validation.rules.NumericValueRule;
@@ -73,6 +74,7 @@ public class GroupAIncidentReportRulesFactory {
 		private String dataElementIdentifier;
 		private NIBRSErrorCode errorCode;
 		
+
 		public DuplicateSegmentIdentifierRule(Function<GroupAIncidentReport, List<T>> segmentProducer, String dataElementIdentifier, NIBRSErrorCode errorCode) {
 			this.segmentProducer = segmentProducer;
 			this.dataElementIdentifier = dataElementIdentifier;
@@ -125,8 +127,13 @@ public class GroupAIncidentReportRulesFactory {
 	private List<Rule<GroupAIncidentReport>> rulesList = new ArrayList<>();
 	private Set<String> cargoTheftOffenses = new HashSet<>();
 	private Set<String> trueExceptionalClearanceCodes = new HashSet<>();
+	private ValidatorProperties validatorProperties;
+
+	public static GroupAIncidentReportRulesFactory instance(ValidatorProperties validatorProperties) {
+		return new GroupAIncidentReportRulesFactory(validatorProperties);
+	}
 	
-	public GroupAIncidentReportRulesFactory() {
+	private GroupAIncidentReportRulesFactory() {
 		
 		cargoTheftOffenses.add(OffenseCode._120.code);
 		cargoTheftOffenses.add(OffenseCode._210.code);
@@ -199,6 +206,11 @@ public class GroupAIncidentReportRulesFactory {
 		
 	}
 	
+	public GroupAIncidentReportRulesFactory(ValidatorProperties validatorProperties) {
+		this();
+		this.validatorProperties = validatorProperties; 
+	}
+
 	Rule<GroupAIncidentReport> getRule560() {
 		return new Rule<GroupAIncidentReport>() {
 			@Override
@@ -370,7 +382,7 @@ public class GroupAIncidentReportRulesFactory {
 						&& ClearedExceptionallyCode.applicableCodeSet().contains(exceptionalClearanceCode)){
 					long allKnownOffenderCount = subject.getOffenders()
 							.stream()
-							.filter(item ->  ( item.isIdentifyingInfoComplete()) )
+							.filter(item -> item.isIdentifyingInfoComplete(validatorProperties.getStateToFbiRaceCodeMapping()) )
 							.count();
 					if (allKnownOffenderCount == 0){
 						ret = subject.getErrorTemplate();

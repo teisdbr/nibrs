@@ -32,7 +32,6 @@ import org.search.nibrs.validation.ArresteeSegmentRulesFactory;
 import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.Rule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -55,7 +54,7 @@ public class GroupAIncidentReportValidator {
 	
 	@Autowired
 	public GroupAIncidentReportValidator(ValidatorProperties validatorProperties) {
-		incidentReportRules = new GroupAIncidentReportRulesFactory().getRulesList();
+		incidentReportRules = new GroupAIncidentReportRulesFactory(validatorProperties).getRulesList();
 		offenseSegmentRules = new OffenseSegmentRulesFactory().getRulesList();
 		propertySegmentRules = new PropertySegmentRulesFactory().getRulesList();
 		victimSegmentRules = VictimSegmentRulesFactory.instance(validatorProperties).getRulesList();

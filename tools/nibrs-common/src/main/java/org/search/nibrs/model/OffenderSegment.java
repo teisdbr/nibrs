@@ -15,6 +15,8 @@
  */
 package org.search.nibrs.model;
 
+import java.util.Map;
+
 import org.search.nibrs.common.ParsedObject;
 import org.search.nibrs.model.codes.RaceCode;
 import org.search.nibrs.model.codes.SexCode;
@@ -95,8 +97,8 @@ public class OffenderSegment extends AbstractPersonSegment
 		return !(offenderSequenceNumber.isMissing() || offenderSequenceNumber.isInvalid()) && offenderSequenceNumber.getValue() == 0;
 	}
 
-	public boolean isIdentifyingInfoComplete() {
-		return getRace() != null && RaceCode.knownCodeSet().contains(getRace()) 
+	public boolean isIdentifyingInfoComplete(Map<String, String> stateToFbiRaceCodeMapping) {
+		return getRace() != null && RaceCode.knownCodeSet().contains(stateToFbiRaceCodeMapping.get(getRace())) 
 				&& getSex() != null && SexCode.knownCodeSet().contains(getSex()) 
 				&& getAge() != null && !getAge().isUnknown();
 	}

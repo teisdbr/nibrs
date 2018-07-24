@@ -48,11 +48,12 @@ import org.search.nibrs.model.codes.RelationshipOfVictimToOffenderCode;
 import org.search.nibrs.model.codes.SexCode;
 import org.search.nibrs.model.codes.TypeOfPropertyLossCode;
 import org.search.nibrs.model.codes.TypeOfVictimCode;
+import org.search.nibrs.validation.ValidatorProperties;
 import org.search.nibrs.validation.rules.Rule;
 
 public class GroupAIncidentReportRulesFactoryTest {
 	
-	private GroupAIncidentReportRulesFactory rulesFactory = new GroupAIncidentReportRulesFactory();
+	private GroupAIncidentReportRulesFactory rulesFactory = GroupAIncidentReportRulesFactory.instance(new ValidatorProperties());
 	
 	@Test
 	public void testRule560() {
