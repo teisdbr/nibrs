@@ -22,14 +22,14 @@ services:
   nibrs-httpd-proxy:
     container_name: nibrs-httpd-proxy
 #    image: searchncjis/nibrs-httpd-proxy
-    build: ./nibrs-httpd-proxy
+    build: ../../../nibrs-private/docker/nibrs-httpd-proxy
     restart: always
     networks:
       nibrs_nw:
     ports:
       - "443:443"
       - "80:80"
-    # we need this volume since this SSL cert and key must be on the docker host file system
+# we need this volume since this SSL cert and key must be on the docker host file system
     volumes:
       - "/opt/certs/:/opt/certs/"
 
@@ -47,8 +47,6 @@ services:
       - db-analytics-nibrs
     networks:
       nibrs_nw:
-
-# JD Added Below
 
   nibrs-liferay-mysql:
     container_name: nibrs-liferay-mysql
@@ -77,9 +75,12 @@ services:
   nibrs-idp:
    container_name: idp
    image: ojbc/nibrs-idp
-   build: ./nibrs-idp
+   build: ../../../nibrs-private/docker/nibrs-idp
    depends_on:
     - nibrs-liferay-mysql
    networks:
     nibrs_nw:
+   # we need this volume since this SSL cert and key must be on the docker host file system
+#volumes:
+#     - "/opt/certs/:/opt/certs/"
 
