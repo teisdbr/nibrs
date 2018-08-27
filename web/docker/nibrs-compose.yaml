@@ -60,7 +60,7 @@ services:
   nibrs-liferay:
    container_name: nibrs-liferay
    image: ojbc/nibrs-liferay
-   build: ./nibrs-liferay
+   build: ../../../nibrs-private/docker/nibrs-liferay
    environment:
     - DB_TYPE=MYSQL
    links:
