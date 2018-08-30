@@ -15,12 +15,15 @@
  */
 package org.search.nibrs.stagingdata.repository.segment;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.search.nibrs.stagingdata.model.segment.ArrestReportSegment;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 @Transactional
 public interface ArrestReportSegmentRepository extends JpaRepository<ArrestReportSegment, Integer>{
@@ -34,4 +37,11 @@ public interface ArrestReportSegmentRepository extends JpaRepository<ArrestRepor
 	@EntityGraph(value="allArrestReportSegmentJoins", type=EntityGraphType.LOAD)
 	ArrestReportSegment findByArrestReportSegmentId(Integer arrestReportSegmentId);
 
+	@Query("SELECT DISTINCT a.arrestReportSegmentId from ArrestReportSegment a "
+			+ "WHERE (?1 = null OR a.ori = ?1) AND "
+			+ "		(year(a.arrestDate) = ?2 AND ( ?3 = 0 OR month(a.arrestDate) = ?3)) ")
+	List<Integer> findIdsByOriAndArrestDate(String ori, Integer year, Integer month);
+
+	@EntityGraph(value="allArrestReportSegmentJoins", type=EntityGraphType.LOAD)
+	List<ArrestReportSegment> findAll(Iterable<Integer> ids);
 }

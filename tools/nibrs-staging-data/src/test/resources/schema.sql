@@ -21,6 +21,8 @@ Drop schema if exists search_nibrs_staging;
 
 CREATE schema search_nibrs_staging;
 
+Use search_nibrs_staging; 
+
 CREATE TABLE CargoTheftIndicatorType (
                 CargoTheftIndicatorTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
@@ -549,7 +551,7 @@ CREATE TABLE OffenseSegment (
 
 
 CREATE TABLE BiasMotivation (
-                BiasMotivationID IDENTITY NOT NULL AUTO_INCREMENT,
+                BiasMotivationID INTEGER NOT NULL AUTO_INCREMENT,
                 OffenseSegmentID INTEGER NOT NULL,
                 BiasMotivationTypeID INTEGER NOT NULL,
                 CONSTRAINT BiasMotivationID PRIMARY KEY (BiasMotivationID)
