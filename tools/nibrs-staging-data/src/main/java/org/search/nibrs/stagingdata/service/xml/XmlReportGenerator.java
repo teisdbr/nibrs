@@ -134,7 +134,7 @@ public class XmlReportGenerator {
 		
 		addMessageMetadataElement("GroupBArrest" + arrestReportSegment.getArrestReportSegmentId(), submissionElement);
 		
-		Element reportElement = XmlUtils.appendChildElement(submissionElement, NIBRS, "report"); 
+		Element reportElement = XmlUtils.appendChildElement(submissionElement, NIBRS, "Report"); 
 		addReportHeaderElement(arrestReportSegment, reportElement);
 		addPersonElements(arrestReportSegment, reportElement);
 		

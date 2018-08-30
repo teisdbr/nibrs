@@ -112,7 +112,7 @@ public class XmlReportGeneratorTest {
                 .thenUse(new ByNameAndTextRecSelector())
                 .whenElementIsNamed("Item")
                 .thenUse(new ByNameAndTextRecSelector())
-                .whenElementIsNamed("OffenseSegment")
+                .whenElementIsNamed("Offense")
                 .thenUse(ElementSelectors.byXPath("./@s:id", prefix2UriMap, ElementSelectors.byNameAndText))
                 .whenElementIsNamed("OffenseForce")
                 .thenUse(new ByNameAndTextRecSelector())

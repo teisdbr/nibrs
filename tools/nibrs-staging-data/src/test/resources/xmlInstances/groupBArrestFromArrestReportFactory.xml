@@ -30,7 +30,7 @@
             </j:OrganizationAugmentation>
         </cjis:MessageSubmittingOrganization>
     </cjis:MessageMetadata>
-    <nibrs:report>
+    <nibrs:Report>
         <nibrs:ReportHeader>
             <nibrs:NIBRSReportCategoryCode>GROUP B ARREST REPORT</nibrs:NIBRSReportCategoryCode>
             <nibrs:ReportActionCategoryCode>I</nibrs:ReportActionCategoryCode>
@@ -57,7 +57,7 @@
                     <nc:RangeMinimumIntegerValue>22</nc:RangeMinimumIntegerValue>
                 </nc:MeasureRangeValue>
             </nc:PersonAgeMeasure>
-            <nc:PersonEthnicityCode>N</nc:PersonEthnicityCode>
+            <j:PersonEthnicityCode>N</j:PersonEthnicityCode>
             <j:PersonRaceNDExCode>W</j:PersonRaceNDExCode>
             <j:PersonResidentCode>N</j:PersonResidentCode>
             <j:PersonSexCode>F</j:PersonSexCode>
@@ -85,5 +85,5 @@
             <nc:Activity s:ref="Arrest-1"/>
             <j:Subject s:ref="Arrestee-1"/>
         </j:ArrestSubjectAssociation>
-    </nibrs:report>
+    </nibrs:Report>
 </nibrs:Submission>

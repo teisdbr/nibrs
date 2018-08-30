@@ -30,7 +30,7 @@
             </j:OrganizationAugmentation>
         </cjis:MessageSubmittingOrganization>
     </cjis:MessageMetadata>
-    <nibrs:report>
+    <nibrs:Report>
         <nibrs:ReportHeader>
             <nibrs:NIBRSReportCategoryCode>GROUP A INCIDENT REPORT</nibrs:NIBRSReportCategoryCode>
             <nibrs:ReportActionCategoryCode>I</nibrs:ReportActionCategoryCode>
@@ -65,7 +65,7 @@
                 </j:IncidentExceptionalClearanceDate>
             </j:IncidentAugmentation>
         </nc:Incident>
-        <j:OffenseSegment s:id="OffenseSegment-13A">
+        <j:Offense s:id="Offense-13A">
             <nibrs:OffenseUCRCode>13A</nibrs:OffenseUCRCode>
             <nibrs:CriminalActivityCategoryCode>J</nibrs:CriminalActivityCategoryCode>
             <j:OffenseFactorBiasMotivationCode>ANTIMULTIRACIAL GROUP</j:OffenseFactorBiasMotivationCode>
@@ -76,9 +76,9 @@
                 <j:ForceCategoryCode>14</j:ForceCategoryCode>
             </j:OffenseForce>
             <j:OffenseAttemptedIndicator>false</j:OffenseAttemptedIndicator>
-        </j:OffenseSegment>
+        </j:Offense>
         <nc:Location s:id="Location-13A">
-            <j:LocationCategoryCode>15</j:LocationCategoryCode>
+            <nibrs:LocationCategoryCode>15</nibrs:LocationCategoryCode>
         </nc:Location>
         <nc:Item>
             <nc:ItemStatus>
@@ -145,23 +145,23 @@
                 <j:SubstanceUnitCode>OZ</j:SubstanceUnitCode>
             </nc:SubstanceQuantityMeasure>
         </nc:Substance>
-        <nc:Person s:id="VictimSegment-1">
+        <nc:Person s:id="Victim-1">
             <nc:PersonAgeMeasure>
                 <nc:MeasureRangeValue>
                     <nc:RangeMaximumIntegerValue>22</nc:RangeMaximumIntegerValue>
                     <nc:RangeMinimumIntegerValue>20</nc:RangeMinimumIntegerValue>
                 </nc:MeasureRangeValue>
             </nc:PersonAgeMeasure>
-            <nc:PersonEthnicityCode>N</nc:PersonEthnicityCode>
+            <j:PersonEthnicityCode>N</j:PersonEthnicityCode>
             <j:PersonRaceNDExCode>B</j:PersonRaceNDExCode>
             <j:PersonResidentCode>R</j:PersonResidentCode>
             <j:PersonSexCode>F</j:PersonSexCode>
         </nc:Person>
-        <nc:Person s:id="OffenderSegment-1">
+        <nc:Person s:id="Offender-1">
             <nc:PersonAgeMeasure>
                 <nc:MeasureIntegerValue>22</nc:MeasureIntegerValue>
             </nc:PersonAgeMeasure>
-            <nc:PersonEthnicityCode>H</nc:PersonEthnicityCode>
+            <j:PersonEthnicityCode>H</j:PersonEthnicityCode>
             <j:PersonRaceNDExCode>W</j:PersonRaceNDExCode>
             <j:PersonSexCode>M</j:PersonSexCode>
         </nc:Person>
@@ -169,23 +169,23 @@
             <nc:PersonAgeMeasure>
                 <nc:MeasureIntegerValue>22</nc:MeasureIntegerValue>
             </nc:PersonAgeMeasure>
-            <nc:PersonEthnicityCode>U</nc:PersonEthnicityCode>
+            <j:PersonEthnicityCode>U</j:PersonEthnicityCode>
             <j:PersonRaceNDExCode>W</j:PersonRaceNDExCode>
             <j:PersonResidentCode>R</j:PersonResidentCode>
             <j:PersonSexCode>M</j:PersonSexCode>
         </nc:Person>
-        <j:VictimSegment>
-            <nc:RoleOfPerson s:ref="VictimSegment-1"/>
+        <j:Victim>
+            <nc:RoleOfPerson s:ref="Victim-1"/>
             <j:VictimSequenceNumberText>1</j:VictimSequenceNumberText>
             <j:VictimInjury>
                 <j:InjuryCategoryCode>N</j:InjuryCategoryCode>
             </j:VictimInjury>
             <j:VictimCategoryCode>I</j:VictimCategoryCode>
             <j:VictimAggravatedAssaultHomicideFactorCode>01</j:VictimAggravatedAssaultHomicideFactorCode>
-        </j:VictimSegment>
+        </j:Victim>
         <j:Subject>
-            <nc:RoleOfPerson s:ref="OffenderSegment-1"/>
-            <j:OffenderSequenceNumberText>1</j:OffenderSequenceNumberText>
+            <nc:RoleOfPerson s:ref="Offender-1"/>
+            <j:SubjectSequenceNumberText>1</j:SubjectSequenceNumberText>
         </j:Subject>
         <j:Arrestee s:id="Arrestee-1">
             <nc:RoleOfPerson s:ref="PersonArrestee-1"/>
@@ -210,17 +210,17 @@
             <j:Subject s:ref="Arrestee-1"/>
         </j:ArrestSubjectAssociation>
         <j:OffenseLocationAssociation>
-            <j:Offense s:ref="OffenseSegment-13A"/>
+            <j:Offense s:ref="Offense-13A"/>
             <nc:Location s:ref="Location-13A"/>
         </j:OffenseLocationAssociation>
         <j:OffenseVictimAssociation>
-            <j:Offense s:ref="OffenseSegment-13A"/>
-            <j:Victim s:ref="VictimSegment-1"/>
+            <j:Offense s:ref="Offense-13A"/>
+            <j:Victim s:ref="Victim-1"/>
         </j:OffenseVictimAssociation>
         <j:SubjectVictimAssociation>
-            <j:Subject s:ref="OffenderSegment-1"/>
-            <j:Victim s:ref="VictimSegment-1"/>
+            <j:Subject s:ref="Offender-1"/>
+            <j:Victim s:ref="Victim-1"/>
             <nibrs:VictimToSubjectRelationshipCode>Family Member_Spouse</nibrs:VictimToSubjectRelationshipCode>
         </j:SubjectVictimAssociation>
-    </nibrs:report>
+    </nibrs:Report>
 </nibrs:Submission>
