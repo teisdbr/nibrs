@@ -238,7 +238,8 @@ public class GroupAIncidentService {
 //					Optional.ofNullable(administrativeSegmentRepository.findFirstByIncidentNumber(groupAIncidentReport.getIncidentNumber()));
 //				
 //			AdministrativeSegment administrativeSegment = existingAdministrativeSegment.orElseGet(AdministrativeSegment::new); 
-
+			
+			log.info("Persisting GroupAIncident: " + groupAIncidentReport.getIncidentNumber());
 			administrativeSegment.setAgency(agencyRepository.findFirstByAgencyOri(groupAIncidentReport.getOri()));
 			
 			String reportActionType = String.valueOf(groupAIncidentReport.getReportActionType()).trim();
@@ -525,7 +526,7 @@ public class GroupAIncidentService {
 									victimOffenderRelationship, 
 									victimOffenderRelationshipTypeRepository::findFirstByStateCode, 
 									VictimOffenderRelationshipType::new);
-					victimOffenderAssociation.setVictimOffenderRelationshipType(victimOffenderRelationshipType);	
+					victimOffenderAssociation.setVictimOffenderRelationshipType(victimOffenderRelationshipType);
 					victimOffenderAssociations.add(victimOffenderAssociation);
 				}
 			}

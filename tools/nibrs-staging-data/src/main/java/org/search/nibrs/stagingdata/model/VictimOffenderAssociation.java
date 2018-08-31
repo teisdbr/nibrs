@@ -30,6 +30,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.search.nibrs.stagingdata.model.segment.OffenderSegment;
 import org.search.nibrs.stagingdata.model.segment.VictimSegment;
 
+import com.google.common.base.Objects;
+
 
 @Entity
 public class VictimOffenderAssociation implements Serializable{
@@ -122,22 +124,22 @@ public class VictimOffenderAssociation implements Serializable{
 		if (offenderSegment == null) {
 			if (other.offenderSegment != null)
 				return false;
-		} else if (!offenderSegment.getOffenderSegmentId().equals(other.offenderSegment.getOffenderSegmentId()))
+		} else if (!Objects.equal(offenderSegment.getOffenderSegmentId(), other.offenderSegment.getOffenderSegmentId()))
 			return false;
 		if (victimOffenderAssociationId == null) {
 			if (other.victimOffenderAssociationId != null)
 				return false;
-		} else if (!victimOffenderAssociationId.equals(other.victimOffenderAssociationId))
+		} else if (!Objects.equal(victimOffenderAssociationId, other.victimOffenderAssociationId))
 			return false;
 		if (victimOffenderRelationshipType == null) {
 			if (other.victimOffenderRelationshipType != null)
 				return false;
-		} else if (!victimOffenderRelationshipType.equals(other.victimOffenderRelationshipType))
+		} else if (!Objects.equal(victimOffenderRelationshipType, other.victimOffenderRelationshipType))
 			return false;
 		if (victimSegment == null) {
 			if (other.victimSegment != null)
 				return false;
-		} else if (!victimSegment.getVictimSegmentId().equals(other.victimSegment.getVictimSegmentId()))
+		} else if (!Objects.equal(victimSegment.getVictimSegmentId(), other.victimSegment.getVictimSegmentId()))
 			return false;
 		return true;
 	}
