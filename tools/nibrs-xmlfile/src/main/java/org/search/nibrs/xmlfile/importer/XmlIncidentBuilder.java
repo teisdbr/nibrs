@@ -760,6 +760,7 @@ public class XmlIncidentBuilder extends AbstractIncidentBuilder{
 					try {
 						Integer offenderNumberRelatedValue = Integer.parseInt(offenderNumberRelatedString);
 						offenderNumberRelated.setValue(offenderNumberRelatedValue);
+						newVictim.setOffenderNumberRelated(i, offenderNumberRelated);
 					} catch (NumberFormatException nfe) {
 						NIBRSError e = new NIBRSError();
 						e.setContext(reportSource);
