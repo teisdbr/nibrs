@@ -145,7 +145,7 @@
                 <j:SubstanceUnitCode>OZ</j:SubstanceUnitCode>
             </nc:SubstanceQuantityMeasure>
         </nc:Substance>
-        <nc:Person s:id="Victim-1">
+        <nc:Person s:id="PersonVictim-1">
             <nc:PersonAgeMeasure>
                 <nc:MeasureRangeValue>
                     <nc:RangeMaximumIntegerValue>22</nc:RangeMaximumIntegerValue>
@@ -157,7 +157,7 @@
             <j:PersonResidentCode>R</j:PersonResidentCode>
             <j:PersonSexCode>F</j:PersonSexCode>
         </nc:Person>
-        <nc:Person s:id="Offender-1">
+        <nc:Person s:id="PersonOffender-1">
             <nc:PersonAgeMeasure>
                 <nc:MeasureIntegerValue>22</nc:MeasureIntegerValue>
             </nc:PersonAgeMeasure>
@@ -174,8 +174,8 @@
             <j:PersonResidentCode>R</j:PersonResidentCode>
             <j:PersonSexCode>M</j:PersonSexCode>
         </nc:Person>
-        <j:Victim>
-            <nc:RoleOfPerson s:ref="Victim-1"/>
+        <j:Victim s:id="Victim-1">
+            <nc:RoleOfPerson s:ref="PersonVictim-1"/>
             <j:VictimSequenceNumberText>1</j:VictimSequenceNumberText>
             <j:VictimInjury>
                 <j:InjuryCategoryCode>N</j:InjuryCategoryCode>
@@ -183,8 +183,8 @@
             <j:VictimCategoryCode>I</j:VictimCategoryCode>
             <j:VictimAggravatedAssaultHomicideFactorCode>01</j:VictimAggravatedAssaultHomicideFactorCode>
         </j:Victim>
-        <j:Subject>
-            <nc:RoleOfPerson s:ref="Offender-1"/>
+        <j:Subject s:id="Offender-1">
+            <nc:RoleOfPerson s:ref="PersonOffender-1"/>
             <j:SubjectSequenceNumberText>1</j:SubjectSequenceNumberText>
         </j:Subject>
         <j:Arrestee s:id="Arrestee-1">

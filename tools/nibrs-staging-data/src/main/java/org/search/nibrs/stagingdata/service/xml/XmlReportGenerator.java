@@ -430,7 +430,7 @@ public class XmlReportGenerator {
 			String victimType = victim.getTypeOfVictimType().getFbiCode();
 			if ("L".equals(victimType) || "I".equals(victimType)) {
 				Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Person");
-				XmlUtils.addAttribute(victimElement, Namespace.S, "id", "Victim-" + victim.getVictimSequenceNumber());
+				XmlUtils.addAttribute(victimElement, Namespace.S, "id", "PersonVictim-" + victim.getVictimSequenceNumber());
 				Integer ageMin = victim.getAgeOfVictimMin();
 				Integer ageMax = victim.getAgeOfVictimMax();
 				if ( ageMin != null) {
@@ -489,7 +489,7 @@ public class XmlReportGenerator {
 	private void addOffenderPersonElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (OffenderSegment offender : administrativeSegment.getOffenderSegments()) {
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Person");
-			XmlUtils.addAttribute(offenderElement, Namespace.S, "id", "Offender-" + offender.getOffenderSequenceNumber());
+			XmlUtils.addAttribute(offenderElement, Namespace.S, "id", "PersonOffender-" + offender.getOffenderSequenceNumber());
 			Integer ageMin = offender.getAgeOfOffenderMin();
 			Integer ageMax = offender.getAgeOfOffenderMax();
 			if ( ageMin != null) {
@@ -558,8 +558,9 @@ public class XmlReportGenerator {
 	private void addVictimElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
 			Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "Victim");
-			Element e = XmlUtils.appendChildElement(victimElement, Namespace.NC, "RoleOfPerson");
-			XmlUtils.addAttribute(e, Namespace.S, "ref", "Victim-" + victim.getVictimSequenceNumber());
+			XmlUtils.addAttribute(victimElement, Namespace.S, "id", "Victim-" + victim.getVictimSequenceNumber());
+			Element roleOfPerson = XmlUtils.appendChildElement(victimElement, Namespace.NC, "RoleOfPerson");
+			XmlUtils.addAttribute(roleOfPerson, Namespace.S, "ref", "PersonVictim-" + victim.getVictimSequenceNumber());
 			XmlUtils.appendElementAndValue(victimElement, Namespace.J, "VictimSequenceNumberText", String.valueOf(victim.getVictimSequenceNumber()));
 			
 			for (TypeInjuryType typeInjuryType :victim.getTypeInjuryTypes()){
@@ -584,8 +585,9 @@ public class XmlReportGenerator {
 	private void addSubjectElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (OffenderSegment offender : administrativeSegment.getOffenderSegments()) {
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "Subject");
-			Element e = XmlUtils.appendChildElement(offenderElement, Namespace.NC, "RoleOfPerson");
-			XmlUtils.addAttribute(e, Namespace.S, "ref", "Offender-" + offender.getOffenderSequenceNumber());
+			XmlUtils.addAttribute(offenderElement, Namespace.S, "id", "Offender-" + offender.getOffenderSequenceNumber());
+			Element roleOfPerson = XmlUtils.appendChildElement(offenderElement, Namespace.NC, "RoleOfPerson");
+			XmlUtils.addAttribute(roleOfPerson, Namespace.S, "ref", "PersonOffender-" + offender.getOffenderSequenceNumber());
 			XmlUtils.appendElementAndValue(offenderElement, Namespace.J, "SubjectSequenceNumberText", String.valueOf(offender.getOffenderSequenceNumber()));
 		}
 	}
