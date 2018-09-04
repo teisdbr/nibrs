@@ -154,7 +154,7 @@ public class XmlIncidentBuilderGroupAIncidentReportTest {
 		assertThat(victimSegment2.getSex(), is("M"));
 		
 		assertThat(victimSegment2.getOffenderNumberRelated(0).getValue(), is(1));
-		assertThat(victimSegment2.getPopulatedOffenderNumberRelatedCount(), is(1));
+		assertThat(victimSegment2.getPopulatedOffenderNumberRelatedCount(), is(2));
 		assertThat(victimSegment2.getVictimOffenderRelationship(0), is("ST"));
 		assertThat(victimSegment2.getUcrOffenseCodeConnection(0), is("240")); 
 		assertThat(victimSegment2.getPopulatedUcrOffenseCodeConnectionCount(), is(1));

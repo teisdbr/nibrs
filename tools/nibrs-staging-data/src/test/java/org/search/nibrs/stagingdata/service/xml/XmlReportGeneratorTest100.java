@@ -84,13 +84,16 @@ public class XmlReportGeneratorTest100 {
 	@Test
 	public void createGroupAIncidentReport() throws Exception {
 	    File directorty = new File(nibrsFileFolderPath); 
+	    if (!directorty.exists()){
+	    	directorty.mkdirs(); 
+	    }
 	    FileUtils.cleanDirectory(directorty);
 		
 		List<Integer> ids = administrativeSegmentRepository.findIdsByOriAndIncidentDate(null, 2018, 1);
 		List<Integer> administrativeSegmentIds = ids.stream().limit(50).collect(Collectors.toList()); 
-		List<AdministrativeSegment> administrativeSegments = administrativeSegmentRepository.findAll(administrativeSegmentIds);
 		
-		for (AdministrativeSegment administrativeSegment : administrativeSegments) {
+		for (Integer administrativeSegmentId : administrativeSegmentIds) {
+			AdministrativeSegment administrativeSegment = administrativeSegmentRepository.findByAdministrativeSegmentId(administrativeSegmentId);
 			Document document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
 			
 			String fileName = nibrsFileFolderPath + "GroupAIncident" + administrativeSegment.getIncidentNumber() + "-" + LocalDateTime.now().format(formatter) + ".xml";
@@ -112,9 +115,9 @@ public class XmlReportGeneratorTest100 {
 		
 		List<Integer> ids = arrestReportSegmentRepository.findIdsByOriAndArrestDate(null, 2018, 1);
 		List<Integer> arrestReportSegmentIds = ids.stream().limit(50).collect(Collectors.toList()); 
-		List<ArrestReportSegment> arrestReportSegments = arrestReportSegmentRepository.findAll(arrestReportSegmentIds);
 		
-		for (ArrestReportSegment arrestReportSegment : arrestReportSegments) {
+		for (Integer arrestReportSegmentId : arrestReportSegmentIds) {
+			ArrestReportSegment arrestReportSegment = arrestReportSegmentRepository.findByArrestReportSegmentId(arrestReportSegmentId);
 			Document document = xmlReportGenerator.createGroupBArrestReport(arrestReportSegment);
 			
 			String fileName = nibrsFileFolderPath + "GroupBArrestReport" + arrestReportSegment.getArrestTransactionNumber() + "-" + LocalDateTime.now().format(formatter) + ".xml";

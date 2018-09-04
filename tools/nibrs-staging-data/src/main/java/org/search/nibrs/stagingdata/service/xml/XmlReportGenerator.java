@@ -562,8 +562,12 @@ public class XmlReportGenerator {
 		for (VictimSegment victim : administrativeSegment.getVictimSegments()) {
 			Element victimElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "Victim");
 			XmlUtils.addAttribute(victimElement, Namespace.S, "id", "Victim-" + victim.getVictimSequenceNumber());
-			Element roleOfPerson = XmlUtils.appendChildElement(victimElement, Namespace.NC, "RoleOfPerson");
-			XmlUtils.addAttribute(roleOfPerson, Namespace.S, "ref", "PersonVictim-" + victim.getVictimSequenceNumber());
+			
+			String victimType = victim.getTypeOfVictimType().getFbiCode();
+			if ("L".equals(victimType) || "I".equals(victimType)) {
+				Element roleOfPerson = XmlUtils.appendChildElement(victimElement, Namespace.NC, "RoleOfPerson");
+				XmlUtils.addAttribute(roleOfPerson, Namespace.S, "ref", "PersonVictim-" + victim.getVictimSequenceNumber());
+			}
 			XmlUtils.appendElementAndValue(victimElement, Namespace.J, "VictimSequenceNumberText", String.valueOf(victim.getVictimSequenceNumber()));
 			
 			for (TypeInjuryType typeInjuryType :victim.getTypeInjuryTypes()){
