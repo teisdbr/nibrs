@@ -488,6 +488,8 @@ public class XmlReportGenerator {
 
 	private void addOffenderPersonElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (OffenderSegment offender : administrativeSegment.getOffenderSegments()) {
+			if (offender.getOffenderSequenceNumber() == 0) continue; 
+			
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.NC, "Person");
 			XmlUtils.addAttribute(offenderElement, Namespace.S, "id", "PersonOffender-" + offender.getOffenderSequenceNumber());
 			Integer ageMin = offender.getAgeOfOffenderMin();
@@ -495,6 +497,7 @@ public class XmlReportGenerator {
 			if ( ageMin != null) {
 				addPersonAgeMeasure(offenderElement, ageMin, ageMax);
 			}
+			
 			
 			addPersonInfo(offender.getEthnicityOfPersonType(), offender.getRaceOfPersonType(), null, 
 					offender.getSexOfPersonType(), offenderElement);
@@ -586,9 +589,17 @@ public class XmlReportGenerator {
 		for (OffenderSegment offender : administrativeSegment.getOffenderSegments()) {
 			Element offenderElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "Subject");
 			XmlUtils.addAttribute(offenderElement, Namespace.S, "id", "Offender-" + offender.getOffenderSequenceNumber());
-			Element roleOfPerson = XmlUtils.appendChildElement(offenderElement, Namespace.NC, "RoleOfPerson");
-			XmlUtils.addAttribute(roleOfPerson, Namespace.S, "ref", "PersonOffender-" + offender.getOffenderSequenceNumber());
-			XmlUtils.appendElementAndValue(offenderElement, Namespace.J, "SubjectSequenceNumberText", String.valueOf(offender.getOffenderSequenceNumber()));
+			
+			String offenderSequenceNumber = String.valueOf(offender.getOffenderSequenceNumber()); 
+			if (offender.getOffenderSequenceNumber() == 0) {
+				offenderSequenceNumber = StringUtils.leftPad(offenderSequenceNumber, 2, "0");
+			}
+			else{
+				Element roleOfPerson = XmlUtils.appendChildElement(offenderElement, Namespace.NC, "RoleOfPerson");
+				XmlUtils.addAttribute(roleOfPerson, Namespace.S, "ref", "PersonOffender-" + offender.getOffenderSequenceNumber());
+			}
+			
+			XmlUtils.appendElementAndValue(offenderElement, Namespace.J, "SubjectSequenceNumberText", offenderSequenceNumber);
 		}
 	}
 
