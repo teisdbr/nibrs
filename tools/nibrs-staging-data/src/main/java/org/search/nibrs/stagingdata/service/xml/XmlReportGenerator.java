@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -171,8 +172,11 @@ public class XmlReportGenerator {
 		
 		Integer ageMin = arrestReportSegment.getAgeOfArresteeMin();
 		Integer ageMax = arrestReportSegment.getAgeOfArresteeMax();
-		if ( ageMin != null) {
+		if ( ageMin != null && ageMin > 0) {
 			addPersonAgeMeasure(arresteeElement, ageMin, ageMax);
+		}
+		else if (Objects.equals(arrestReportSegment.getNonNumericAge(), "00")){
+			addPersonAgeMeasure(arresteeElement, "00");
 		}
 		
 		addPersonInfo(arrestReportSegment.getEthnicityOfPersonType(), arrestReportSegment.getRaceOfPersonType(), 
@@ -434,24 +438,15 @@ public class XmlReportGenerator {
 				XmlUtils.addAttribute(victimElement, Namespace.S, "id", "PersonVictim-" + victim.getVictimSequenceNumber());
 				Integer ageMin = victim.getAgeOfVictimMin();
 				Integer ageMax = victim.getAgeOfVictimMax();
-				if ( ageMin != null) {
+				if ( ageMin != null && ageMin > 0) {
 					addPersonAgeMeasure(victimElement, ageMin, ageMax);
 				}
 				else{
 					if (BooleanUtils.toBoolean(victim.getAgeFirstWeekIndicator()) ||
 						BooleanUtils.toBoolean(victim.getAgeFirstYearIndicator()) || 
-						BooleanUtils.toBoolean(victim.getAgeNeonateIndicator())){
-						Element personAgeMeasure = XmlUtils.appendChildElement(victimElement, Namespace.NC, "PersonAgeMeasure");
-						
-						if (BooleanUtils.toBoolean(victim.getAgeFirstWeekIndicator())){
-							XmlUtils.appendElementAndValue(personAgeMeasure, Namespace.NC, "MeasureIntegerValue", "NB");
-						}
-						else if(BooleanUtils.toBoolean(victim.getAgeFirstYearIndicator())){
-							XmlUtils.appendElementAndValue(personAgeMeasure, Namespace.NC, "MeasureIntegerValue", "BB");
-						}
-						else if(BooleanUtils.toBoolean(victim.getAgeNeonateIndicator())){
-							XmlUtils.appendElementAndValue(personAgeMeasure, Namespace.NC, "MeasureIntegerValue", "NN");
-						}
+						BooleanUtils.toBoolean(victim.getAgeNeonateIndicator()) ||
+						Objects.equals(victim.getNonNumericAge(), "00")){
+						addPersonAgeMeasure(victimElement, victim.getNonNumericAge());
 					}
 				}
 				
@@ -486,6 +481,15 @@ public class XmlReportGenerator {
 			XmlUtils.appendElementAndValue(e, Namespace.NC, "RangeMinimumIntegerValue", String.valueOf(ageMin));
 		}
 	}
+	
+	private void addPersonAgeMeasure(Element victimElement, String nonNumericAge) {
+		
+		if (appProperties.getNonNumericAgeCodeMapping().containsKey(nonNumericAge)){
+			Element e = XmlUtils.appendChildElement(victimElement, Namespace.NC, "PersonAgeMeasure");
+			XmlUtils.appendElementAndValue(e, Namespace.NC, "MeasureValueText", 
+					appProperties.getNonNumericAgeCodeMapping().get(nonNumericAge));
+		}
+	}
 
 	private void addOffenderPersonElements(AdministrativeSegment administrativeSegment, Element reportElement) {
 		for (OffenderSegment offender : administrativeSegment.getOffenderSegments()) {
@@ -495,10 +499,12 @@ public class XmlReportGenerator {
 			XmlUtils.addAttribute(offenderElement, Namespace.S, "id", "PersonOffender-" + offender.getOffenderSequenceNumber());
 			Integer ageMin = offender.getAgeOfOffenderMin();
 			Integer ageMax = offender.getAgeOfOffenderMax();
-			if ( ageMin != null) {
+			if ( ageMin != null && ageMin > 0) {
 				addPersonAgeMeasure(offenderElement, ageMin, ageMax);
 			}
-			
+			else if (Objects.equals(offender.getNonNumericAge(), "00")){
+				addPersonAgeMeasure(offenderElement, offender.getNonNumericAge());
+			}
 			
 			addPersonInfo(offender.getEthnicityOfPersonType(), offender.getRaceOfPersonType(), null, 
 					offender.getSexOfPersonType(), offenderElement);
@@ -512,8 +518,11 @@ public class XmlReportGenerator {
 			
 			Integer ageMin = arrestee.getAgeOfArresteeMin();
 			Integer ageMax = arrestee.getAgeOfArresteeMax();
-			if ( ageMin != null) {
+			if ( ageMin != null && ageMin > 0) {
 				addPersonAgeMeasure(arresteeElement, ageMin, ageMax);
+			}
+			else if (Objects.equals(arrestee.getNonNumericAge(), "00")){
+				addPersonAgeMeasure(arresteeElement, arrestee.getNonNumericAge());
 			}
 			
 			addPersonInfo(arrestee.getEthnicityOfPersonType(), arrestee.getRaceOfPersonType(), arrestee.getResidentStatusOfPersonType(), 

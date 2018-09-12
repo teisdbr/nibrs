@@ -15,6 +15,9 @@
  */
 package org.search.nibrs.stagingdata;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +26,15 @@ import org.springframework.stereotype.Component;
 public class AppProperties {
 
     private String submittingAgencyOri = "SUBORI123";
+	private Map<String, String> nonNumericAgeCodeMapping = new HashMap<>();
+
+	public AppProperties() {
+		super();
+		getNonNumericAgeCodeMapping().put("NN", "NEONATAL");
+		getNonNumericAgeCodeMapping().put("NB", "NEWBORN");
+		getNonNumericAgeCodeMapping().put("BB", "BABY");
+		getNonNumericAgeCodeMapping().put("00", "UNKNOWN");
+	}
 
 	public String getSubmittingAgencyOri() {
 		return submittingAgencyOri;
@@ -30,6 +42,10 @@ public class AppProperties {
 
 	public void setSubmittingAgencyOri(String submittingAgencyOri) {
 		this.submittingAgencyOri = submittingAgencyOri;
+	}
+
+	public Map<String, String> getNonNumericAgeCodeMapping() {
+		return nonNumericAgeCodeMapping;
 	}
 
 }

@@ -403,6 +403,7 @@ public class AdministrativeSegmentFactory {
 		victimSegment.setAgeNeonateIndicator(0);
 		victimSegment.setAgeFirstWeekIndicator(0);
 		victimSegment.setAgeFirstYearIndicator(0);
+		victimSegment.setNonNumericAge("00");
 		
 		victimSegment.setSexOfPersonType(sexOfPersonTypeRepository.findFirstByStateCode("U"));
 		victimSegment.setRaceOfPersonType(raceOfPersonTypeRepository.findFirstByStateCode("U"));

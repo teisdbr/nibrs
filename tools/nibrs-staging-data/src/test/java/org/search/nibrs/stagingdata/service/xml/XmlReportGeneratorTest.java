@@ -77,31 +77,37 @@ public class XmlReportGeneratorTest {
 	
 
 	@Test
-	public void testCreateGroupAIncidentReport() throws Exception {
-		AdministrativeSegment administrativeSegment = administrativeSegmentFactory.getBasicAdministrativeSegment();
-		administrativeSegmentRepository.save(administrativeSegment);
+	public void testCreateGroupAIncidentReportWithNormalAge() throws Exception {
 		
 		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncident();
 		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
 		
-		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("1234568910");
+		AdministrativeSegment administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("54236732");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
 		
 		Document document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
-		XmlUtils.printNode(document.getDocumentElement());
-//        compareGroupAIncident("src/test/resources/xmlInstances/groupAIncidentFromBaselineIncident.xml", document); 
+		XmlUtils.printNode(document);
 		
-		administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("54236732");
+        compareGroupAIncident("src/test/resources/xmlInstances/groupAIncidentWithNormalAgeFromBaselineIncident.xml", document); 
+	}
+
+	@Test
+	public void testCreateGroupAIncidentReportWithNonNumericAge() throws Exception {
+		
+		GroupAIncidentReport groupAIncidentReport = BaselineIncidentFactory.getBaselineIncidentWithNonNumericAges();
+		groupAIncidentService.saveGroupAIncidentReports(groupAIncidentReport);
+		
+		AdministrativeSegment administrativeSegment =  administrativeSegmentRepository.findByIncidentNumber("54236733");
 		assertNotNull(administrativeSegment);
 		log.info(administrativeSegment);
 		
-		document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
+		Document document = xmlReportGenerator.createGroupAIncidentReport(administrativeSegment);
 		XmlUtils.printNode(document);
 		
-        compareGroupAIncident("src/test/resources/xmlInstances/groupAIncidentFromAdminsitrativeFactory.xml", document); 
+		compareGroupAIncident("src/test/resources/xmlInstances/groupAIncidentWithNonNumericAgeFromBaselineIncident.xml", document); 
 	}
-
+	
 	private void compareGroupAIncident(String expectedFilePath, Document document) {
 		
 		Map<String, String> prefix2UriMap = new HashMap<>();
@@ -160,6 +166,22 @@ public class XmlReportGeneratorTest {
 		
 	}
 
+	@Test
+	public void testCreateGroupBArrestReportWithUnknownAge() throws Exception {
+		GroupBArrestReport groupBArrestReport = BaselineIncidentFactory.getBaselineGroupBArrestReportWithUnknownAge();
+		arrestReportService.saveGroupBArrestReports(groupBArrestReport);
+		
+		ArrestReportSegment arrestReportSegment =  arrestReportSegmentRepository.findByArrestTransactionNumber("45678");
+		assertNotNull(arrestReportSegment);
+		log.info(arrestReportSegment);
+		
+		Document document = xmlReportGenerator.createGroupBArrestReport(arrestReportSegment);
+		XmlUtils.printNode(document.getDocumentElement());
+		
+		compareGroupBArrestReport("src/test/resources/xmlInstances/groupBArrestWithUnknownAgeFromBaselineIncident.xml", document);
+		
+	}
+	
 	private void compareGroupBArrestReport(String expectedFilePath, Document document) {
 		ElementSelector es = ElementSelectors.conditionalBuilder()
                 .whenElementIsNamed("ArresteeArmedWithCode")

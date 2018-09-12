@@ -16,6 +16,7 @@
 package org.search.nibrs.stagingdata.model.segment;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -76,7 +77,9 @@ public class ArresteeSegment {
 	private MultipleArresteeSegmentsIndicatorType multipleArresteeSegmentsIndicatorType;
 	
 	private Integer ageOfArresteeMin; 
-	private Integer ageOfArresteeMax; 
+	private Integer ageOfArresteeMax;
+	private String nonNumericAge;
+
 	@ManyToOne
 	@JoinColumn(name="sexOfPersonTypeId") 
 	private SexOfPersonType sexOfPersonType; 
@@ -218,6 +221,7 @@ public class ArresteeSegment {
 		result = prime * result + ((administrativeSegment == null) ? 0 : administrativeSegment.hashCode());
 		result = prime * result + ((ageOfArresteeMax == null) ? 0 : ageOfArresteeMax.hashCode());
 		result = prime * result + ((ageOfArresteeMin == null) ? 0 : ageOfArresteeMin.hashCode());
+		result = prime * result + Objects.hashCode(nonNumericAge);
 		result = prime * result + ((arrestDate == null) ? 0 : arrestDate.hashCode());
 		result = prime * result + ((arrestDateType == null) ? 0 : arrestDateType.hashCode());
 		result = prime * result + ((arrestTransactionNumber == null) ? 0 : arrestTransactionNumber.hashCode());
@@ -337,6 +341,10 @@ public class ArresteeSegment {
 				return false;
 		} else if (!ucrOffenseCodeType.equals(other.ucrOffenseCodeType))
 			return false;
+		
+		if (!Objects.equals(nonNumericAge, other.getNonNumericAge())){
+			return false; 
+		}
 		return true;
 	}
 	
@@ -369,7 +377,13 @@ public class ArresteeSegment {
 
     public boolean isAgeUnknown() {
     	// set forth in rule for data element 52
-    	return ageOfArresteeMax == null && ageOfArresteeMin == null;
+    	return ageOfArresteeMax == null && ageOfArresteeMin == null && Objects.equals(nonNumericAge, "00");
     }
+	public String getNonNumericAge() {
+		return nonNumericAge;
+	}
+	public void setNonNumericAge(String nonNumericAge) {
+		this.nonNumericAge = nonNumericAge;
+	}
 
 }

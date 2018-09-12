@@ -458,6 +458,7 @@ public class GroupAIncidentService {
 				victimSegment.setAgeNeonateIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNeonate).orElse(false)));
 				victimSegment.setAgeFirstWeekIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isNewborn).orElse(false)));
 				victimSegment.setAgeFirstYearIndicator(BooleanUtils.toIntegerObject(victimAge.map(NIBRSAge::isBaby).orElse(false)));
+				victimSegment.setNonNumericAge(victimAge.map(NIBRSAge::getNonNumericAge).orElse(null));
 				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
 						victim.getSex(), sexOfPersonTypeRepository::findFirstByStateCode, SexOfPersonType::new);
@@ -616,9 +617,11 @@ public class GroupAIncidentService {
 							MultipleArresteeSegmentsIndicatorType::new);
 				arresteeSegment.setMultipleArresteeSegmentsIndicatorType(multipleArresteeSegmentsIndicatorType);
 				
-				arresteeSegment.setAgeOfArresteeMin(arrestee.getAge().getAgeMin());
-				arresteeSegment.setAgeOfArresteeMax(arrestee.getAge().getAgeMax());
-
+				Optional<NIBRSAge> arresteeAge = Optional.ofNullable(arrestee.getAge());
+				arresteeSegment.setAgeOfArresteeMin(arresteeAge.map(NIBRSAge::getAgeMin).orElse(null));
+				arresteeSegment.setAgeOfArresteeMax(arresteeAge.map(NIBRSAge::getAgeMax).orElse(null));
+				arresteeSegment.setNonNumericAge(arresteeAge.map(NIBRSAge::getNonNumericAge).orElse(null));
+				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
 						arrestee.getSex(), sexOfPersonTypeRepository::findFirstByStateCode, SexOfPersonType::new);
 				arresteeSegment.setSexOfPersonType(sexOfPersonType);
@@ -672,6 +675,7 @@ public class GroupAIncidentService {
 				Optional<NIBRSAge> offenderAge = Optional.ofNullable(offender.getAge());
 				offenderSegment.setAgeOfOffenderMax(offenderAge.map(NIBRSAge::getAgeMax).orElse(null));
 				offenderSegment.setAgeOfOffenderMin(offenderAge.map(NIBRSAge::getAgeMin).orElse(null));
+				offenderSegment.setNonNumericAge(offenderAge.map(NIBRSAge::getNonNumericAge).orElse(null));
 				offenderSegment.setOffenderSequenceNumber(offender.getOffenderSequenceNumber().getValue());
 				
 				SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(

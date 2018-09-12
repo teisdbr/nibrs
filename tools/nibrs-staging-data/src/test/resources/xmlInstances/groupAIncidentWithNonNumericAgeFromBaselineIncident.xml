@@ -17,9 +17,9 @@
 -->
 <nibrs:Submission xmlns:nibrs="http://fbi.gov/cjis/nibrs/4.2" xmlns:cjis="http://fbi.gov/cjis/1.0" xmlns:j="http://release.niem.gov/niem/domains/jxdm/5.2/" xmlns:nc="http://release.niem.gov/niem/niem-core/3.0/" xmlns:s="http://release.niem.gov/niem/structures/3.0/">
     <cjis:MessageMetadata>
-        <cjis:MessageDateTime>2018-05-31T01:13:48</cjis:MessageDateTime>
+        <cjis:MessageDateTime>2018-09-12T12:56:18</cjis:MessageDateTime>
         <cjis:MessageIdentification>
-            <nc:IdentificationID>GroupAIncident2</nc:IdentificationID>
+            <nc:IdentificationID>GroupAIncident1</nc:IdentificationID>
         </cjis:MessageIdentification>
         <cjis:MessageImplementationVersion>4.2</cjis:MessageImplementationVersion>
         <cjis:MessageSubmittingOrganization>
@@ -52,7 +52,7 @@
         </nibrs:ReportHeader>
         <nc:Incident>
             <nc:ActivityIdentification>
-                <nc:IdentificationID>54236732</nc:IdentificationID>
+                <nc:IdentificationID>54236733</nc:IdentificationID>
             </nc:ActivityIdentification>
             <nc:ActivityDate>
                 <nc:Date>2016-05-12</nc:Date>
@@ -124,6 +124,17 @@
             <j:DrugCategoryCode>E</j:DrugCategoryCode>
             <nc:SubstanceQuantityMeasure>
                 <nc:MeasureDecimalValue>0.001</nc:MeasureDecimalValue>
+                <j:SubstanceUnitCode>OZ</j:SubstanceUnitCode>
+            </nc:SubstanceQuantityMeasure>
+        </nc:Substance>
+        <nc:Substance>
+            <nc:ItemStatus>
+                <cjis:ItemStatusCode>SEIZED</cjis:ItemStatusCode>
+            </nc:ItemStatus>
+            <j:ItemCategoryNIBRSPropertyCategoryCode>10</j:ItemCategoryNIBRSPropertyCategoryCode>
+            <j:DrugCategoryCode>E</j:DrugCategoryCode>
+            <nc:SubstanceQuantityMeasure>
+                <nc:MeasureDecimalValue>0.001</nc:MeasureDecimalValue>
                 <j:SubstanceUnitCode>LB</j:SubstanceUnitCode>
             </nc:SubstanceQuantityMeasure>
         </nc:Substance>
@@ -134,23 +145,9 @@
             <j:ItemCategoryNIBRSPropertyCategoryCode>10</j:ItemCategoryNIBRSPropertyCategoryCode>
             <j:DrugCategoryCode>X</j:DrugCategoryCode>
         </nc:Substance>
-        <nc:Substance>
-            <nc:ItemStatus>
-                <cjis:ItemStatusCode>SEIZED</cjis:ItemStatusCode>
-            </nc:ItemStatus>
-            <j:ItemCategoryNIBRSPropertyCategoryCode>10</j:ItemCategoryNIBRSPropertyCategoryCode>
-            <j:DrugCategoryCode>E</j:DrugCategoryCode>
-            <nc:SubstanceQuantityMeasure>
-                <nc:MeasureDecimalValue>0.001</nc:MeasureDecimalValue>
-                <j:SubstanceUnitCode>OZ</j:SubstanceUnitCode>
-            </nc:SubstanceQuantityMeasure>
-        </nc:Substance>
         <nc:Person s:id="PersonVictim-1">
             <nc:PersonAgeMeasure>
-                <nc:MeasureRangeValue>
-                    <nc:RangeMaximumIntegerValue>22</nc:RangeMaximumIntegerValue>
-                    <nc:RangeMinimumIntegerValue>20</nc:RangeMinimumIntegerValue>
-                </nc:MeasureRangeValue>
+                <nc:MeasureValueText>BABY</nc:MeasureValueText>
             </nc:PersonAgeMeasure>
             <j:PersonEthnicityCode>N</j:PersonEthnicityCode>
             <j:PersonRaceNDExCode>B</j:PersonRaceNDExCode>
@@ -159,7 +156,7 @@
         </nc:Person>
         <nc:Person s:id="PersonOffender-1">
             <nc:PersonAgeMeasure>
-                <nc:MeasureIntegerValue>22</nc:MeasureIntegerValue>
+                <nc:MeasureValueText>UNKNOWN</nc:MeasureValueText>
             </nc:PersonAgeMeasure>
             <j:PersonEthnicityCode>H</j:PersonEthnicityCode>
             <j:PersonRaceNDExCode>W</j:PersonRaceNDExCode>
@@ -167,7 +164,7 @@
         </nc:Person>
         <nc:Person s:id="PersonArrestee-1">
             <nc:PersonAgeMeasure>
-                <nc:MeasureIntegerValue>22</nc:MeasureIntegerValue>
+                <nc:MeasureValueText>UNKNOWN</nc:MeasureValueText>
             </nc:PersonAgeMeasure>
             <j:PersonEthnicityCode>U</j:PersonEthnicityCode>
             <j:PersonRaceNDExCode>W</j:PersonRaceNDExCode>

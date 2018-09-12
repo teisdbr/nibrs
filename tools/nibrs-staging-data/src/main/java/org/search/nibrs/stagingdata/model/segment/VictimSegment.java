@@ -83,6 +83,7 @@ public class VictimSegment {
 	private Integer ageNeonateIndicator;
 	private Integer ageFirstWeekIndicator;
 	private Integer ageFirstYearIndicator;
+	private String nonNumericAge;
 	
 	@ManyToOne
 	@JoinColumn(name="sexOfPersonTypeId") 
@@ -271,6 +272,7 @@ public class VictimSegment {
 		result = prime * result + ((ageNeonateIndicator == null) ? 0 : ageNeonateIndicator.hashCode());
 		result = prime * result + ((ageOfVictimMax == null) ? 0 : ageOfVictimMax.hashCode());
 		result = prime * result + ((ageOfVictimMin == null) ? 0 : ageOfVictimMin.hashCode());
+		result = prime * result + ((nonNumericAge == null) ? 0 : nonNumericAge.hashCode());
 		result = prime * result + ((aggravatedAssaultHomicideCircumstancesTypes == null) ? 0
 				: aggravatedAssaultHomicideCircumstancesTypes.hashCode());
 		result = prime * result + ((ethnicityOfPersonType == null) ? 0 : ethnicityOfPersonType.hashCode());
@@ -411,5 +413,11 @@ public class VictimSegment {
 	}
 	public void setOfficerOtherJurisdictionOri(String officerOtherJurisdictionOri) {
 		this.officerOtherJurisdictionOri = officerOtherJurisdictionOri;
+	}
+	public String getNonNumericAge() {
+		return nonNumericAge;
+	}
+	public void setNonNumericAge(String nonNumericAge) {
+		this.nonNumericAge = nonNumericAge;
 	}
 }

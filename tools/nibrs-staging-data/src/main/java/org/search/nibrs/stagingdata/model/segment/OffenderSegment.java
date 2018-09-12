@@ -15,6 +15,7 @@
  */
 package org.search.nibrs.stagingdata.model.segment;
 
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -57,7 +58,8 @@ public class OffenderSegment {
 	private Integer offenderSequenceNumber; 
 
 	private Integer ageOfOffenderMin; 
-	private Integer ageOfOffenderMax; 
+	private Integer ageOfOffenderMax;
+	private String nonNumericAge; 
 	@ManyToOne
 	@JoinColumn(name="sexOfPersonTypeId") 
 	private SexOfPersonType sexOfPersonType; 
@@ -170,7 +172,13 @@ public class OffenderSegment {
 
     public boolean isAgeUnknown() {
     	// set forth in rule for data element 52
-    	return ageOfOffenderMax == null && ageOfOffenderMin == null;
+    	return ageOfOffenderMax == null && ageOfOffenderMin == null && Objects.equals(nonNumericAge, "00");
     }
+	public String getNonNumericAge() {
+		return nonNumericAge;
+	}
+	public void setNonNumericAge(String nonNumericAge) {
+		this.nonNumericAge = nonNumericAge;
+	}
 
 }

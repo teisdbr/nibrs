@@ -230,6 +230,7 @@ public class ArrestReportService {
 			
 			arrestReportSegment.setAgeOfArresteeMin(arrestee.getAge().getAgeMin());
 			arrestReportSegment.setAgeOfArresteeMax(arrestee.getAge().getAgeMax());
+			arrestReportSegment.setNonNumericAge(arrestee.getAge().getNonNumericAge());
 	
 			SexOfPersonType sexOfPersonType = codeTableService.getCodeTableType(
 					arrestee.getSex(), sexOfPersonTypeRepository::findFirstByStateCode, SexOfPersonType::new);

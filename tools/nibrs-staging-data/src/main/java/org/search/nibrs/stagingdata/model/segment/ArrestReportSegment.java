@@ -16,6 +16,7 @@
 package org.search.nibrs.stagingdata.model.segment;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -85,7 +86,8 @@ public class ArrestReportSegment {
 	private TypeOfArrestType typeOfArrestType; 
 	private Integer ageOfArresteeMin; 
 	private Integer ageOfArresteeMax;
-	
+	private String nonNumericAge;
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="sexOfPersonTypeId") 
 	private SexOfPersonType sexOfPersonType;
@@ -387,9 +389,16 @@ public class ArrestReportSegment {
 				+ arrestTransactionNumber + ", arresteeSequenceNumber=" + arresteeSequenceNumber + ", arrestDate="
 				+ arrestDate + ", arrestDateType=" + arrestDateType + ", typeOfArrestType=" + typeOfArrestType
 				+ ", ageOfArresteeMin=" + ageOfArresteeMin + ", ageOfArresteeMax=" + ageOfArresteeMax
+				+ ", nonNumericAge=" + Objects.toString(nonNumericAge) 
 				+ ", sexOfPersonType=" + sexOfPersonType + ", raceOfPersonType=" + raceOfPersonType
 				+ ", ethnicityOfPersonType=" + ethnicityOfPersonType + ", residentStatusOfPersonType="
 				+ residentStatusOfPersonType + ", dispositionOfArresteeUnder18Type=" + dispositionOfArresteeUnder18Type
 				+ ", ucrOffenseCodeType=" + ucrOffenseCodeType + "]";
+	}
+	public String getNonNumericAge() {
+		return nonNumericAge;
+	}
+	public void setNonNumericAge(String nonNumericAge) {
+		this.nonNumericAge = nonNumericAge;
 	}
 }
