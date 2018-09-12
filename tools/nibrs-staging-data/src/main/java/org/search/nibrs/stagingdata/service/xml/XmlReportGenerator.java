@@ -366,6 +366,7 @@ public class XmlReportGenerator {
 
 	private void addItemValueAndAmount(PropertyType propertyType, Element parent) {
 		String value = Optional.ofNullable(propertyType.getValueOfProperty())
+				.map(item->item.intValue())
 				.map(String::valueOf).orElse(null);
 		if (value != null) {
 			Element itemValue = XmlUtils.appendChildElement(parent, Namespace.NC, "ItemValue");

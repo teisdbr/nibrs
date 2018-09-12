@@ -86,7 +86,7 @@
             </nc:ItemStatus>
             <nc:ItemValue>
                 <nc:ItemValueAmount>
-                    <nc:Amount>5000.0</nc:Amount>
+                    <nc:Amount>5000</nc:Amount>
                 </nc:ItemValueAmount>
             </nc:ItemValue>
             <j:ItemCategoryNIBRSPropertyCategoryCode>20</j:ItemCategoryNIBRSPropertyCategoryCode>
@@ -97,7 +97,7 @@
             </nc:ItemStatus>
             <nc:ItemValue>
                 <nc:ItemValueAmount>
-                    <nc:Amount>100.0</nc:Amount>
+                    <nc:Amount>100</nc:Amount>
                 </nc:ItemValueAmount>
             </nc:ItemValue>
             <j:ItemCategoryNIBRSPropertyCategoryCode>11</j:ItemCategoryNIBRSPropertyCategoryCode>
@@ -108,7 +108,7 @@
             </nc:ItemStatus>
             <nc:ItemValue>
                 <nc:ItemValueAmount>
-                    <nc:Amount>5000.0</nc:Amount>
+                    <nc:Amount>5000</nc:Amount>
                 </nc:ItemValueAmount>
                 <nc:ItemValueDate>
                     <nc:Date>2015-01-08</nc:Date>
