@@ -137,7 +137,7 @@ public class PropertyType implements Serializable{
 		if (propertySegment == null) {
 			if (other.propertySegment != null)
 				return false;
-		} else if (!propertySegment.getPropertySegmentId().equals(other.propertySegment.getPropertySegmentId()))
+		} else if (!propertySegment.equals(other.propertySegment))
 			return false;
 		if (propertyTypeId == null) {
 			if (other.propertyTypeId != null)

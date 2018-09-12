@@ -167,7 +167,7 @@ public class PropertySegment {
 		if (administrativeSegment == null) {
 			if (other.administrativeSegment != null)
 				return false;
-		} else if (!administrativeSegment.equals(other.administrativeSegment))
+		} else if (!administrativeSegment.getIncidentNumber().equals(other.administrativeSegment.getIncidentNumber()))
 			return false;
 		if (numberOfRecoveredMotorVehicles == null) {
 			if (other.numberOfRecoveredMotorVehicles != null)

@@ -124,7 +124,7 @@ public class VictimOffenderAssociation implements Serializable{
 		if (offenderSegment == null) {
 			if (other.offenderSegment != null)
 				return false;
-		} else if (!Objects.equal(offenderSegment.getOffenderSegmentId(), other.offenderSegment.getOffenderSegmentId()))
+		} else if (!Objects.equal(offenderSegment.getOffenderSequenceNumber(), other.offenderSegment.getOffenderSequenceNumber()))
 			return false;
 		if (victimOffenderAssociationId == null) {
 			if (other.victimOffenderAssociationId != null)
