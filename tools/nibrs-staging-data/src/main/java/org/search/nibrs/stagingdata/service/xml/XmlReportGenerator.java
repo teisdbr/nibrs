@@ -551,7 +551,7 @@ public class XmlReportGenerator {
 			if ("L".equals(victimType)) {
 				Element enforcementOfficialElement = XmlUtils.appendChildElement(reportElement, Namespace.J, "EnforcementOfficial");
 				Element e = XmlUtils.appendChildElement(enforcementOfficialElement, Namespace.NC, "RoleOfPerson");
-				XmlUtils.addAttribute(e, Namespace.S, "ref", "Victim-" + victim.getVictimSequenceNumber());
+				XmlUtils.addAttribute(e, Namespace.S, "ref", "PersonVictim-" + victim.getVictimSequenceNumber());
 				XmlUtils.appendElementAndValue(enforcementOfficialElement, Namespace.J, "EnforcementOfficialActivityCategoryCode", 
 						victim.getOfficerActivityCircumstanceType().getFbiCode());
 				XmlUtils.appendElementAndValue(enforcementOfficialElement, Namespace.J, "EnforcementOfficialAssignmentCategoryCode", 
