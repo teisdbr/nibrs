@@ -162,6 +162,7 @@ public class GroupAIncidentReportRulesFactory {
 		rulesList.add(getRule104("yearOfTape"));
 		rulesList.add(getRule104("monthOfTape"));
 		rulesList.add(getRule104("cargoTheftIndicator"));
+		rulesList.add(getRule106());
 		rulesList.add(getRule115());
 		rulesList.add(getRule117());
 		rulesList.add(getRule119());
@@ -1307,6 +1308,36 @@ public class GroupAIncidentReportRulesFactory {
 					ret.setValue(subject.getCargoTheftIndicator());
 					ret.setDataElementIdentifier("2A");
 					ret.setNIBRSErrorCode(NIBRSErrorCode._122);
+				}
+				return ret;
+			}
+		};
+		
+		return ret;
+	}
+	
+	Rule<GroupAIncidentReport> getRule106() {
+		
+		Rule<GroupAIncidentReport> ret = new Rule<GroupAIncidentReport>() {
+			@Override
+			public NIBRSError apply(GroupAIncidentReport subject) {
+				List<OffenseSegment> offenses = subject.getOffenses();
+				
+				boolean containCrimeRequiresIncidentHour = offenses.stream()
+						.anyMatch(offense -> OffenseCode.isCrimeRequireIncidentHour(offense.getUcrOffenseCode()));
+				boolean hasLeoVictims = subject.getVictims().stream().anyMatch(VictimSegment::isLawEnforcementOfficer);
+				
+				NIBRSError ret = null;
+				ParsedObject<Integer> incidentHour = subject.getIncidentHour();
+				if (containCrimeRequiresIncidentHour &&  hasLeoVictims
+						&& (incidentHour.isInvalid() || incidentHour.isMissing()
+								|| incidentHour.getValue() == null 
+								|| incidentHour.getValue() < 0 
+								|| incidentHour.getValue() > 23) ) {
+					ret = subject.getErrorTemplate();
+					ret.setValue(subject.getIncidentHour().getValue());
+					ret.setDataElementIdentifier("3");
+					ret.setNIBRSErrorCode(NIBRSErrorCode._106);
 				}
 				return ret;
 			}

@@ -16,15 +16,13 @@
 package org.search.nibrs.validation.groupa;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import org.junit.Test;
@@ -1395,6 +1393,44 @@ public class GroupAIncidentReportRulesFactoryTest {
 		assertEquals(report.getSource(), e.getContext());
 	}
 
+	@Test
+	public void testRule106() {
+		Rule<GroupAIncidentReport> rule106 = rulesFactory.getRule106();
+		GroupAIncidentReport report = buildBaseReport();
+		report.setIncidentHour(new ParsedObject<Integer>(2));
+		NIBRSError e = rule106.apply(report);
+		assertNull(e);
+		report.setIncidentHour(new ParsedObject<Integer>(null));
+		e = rule106.apply(report);
+		assertNull(e);
+		
+		OffenseSegment offense = new OffenseSegment();
+		report.addOffense(offense);
+		VictimSegment victim = new VictimSegment();
+		report.addVictim(victim);
+		victim.setTypeOfVictim(TypeOfVictimCode.L.code);
+		offense.setUcrOffenseCode(OffenseCode._13B.code);
+		e = rule106.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._106, e.getNIBRSErrorCode());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
+		assertTrue(Objects.equals(report.getIncidentHour().getValue(), e.getValue()));
+		assertEquals(report.getSource(), e.getContext());
+
+		report.setIncidentHour(new ParsedObject<Integer>(30));
+		e = rule106.apply(report);
+		assertNotNull(e);
+		assertEquals(NIBRSErrorCode._106, e.getNIBRSErrorCode());
+		assertEquals(GroupAIncidentReport.ADMIN_SEGMENT_TYPE_IDENTIFIER, e.getSegmentType());
+		assertTrue(Objects.equals(report.getIncidentHour().getValue(), e.getValue()));
+		assertEquals(report.getSource(), e.getContext());
+		
+		report.setIncidentHour(new ParsedObject<Integer>(23));
+		e = rule106.apply(report);
+		assertNull(e);
+
+	}
+	
 	@Test
 	public void testRule170() {
 		Rule<GroupAIncidentReport> rule170 = rulesFactory.getRule170();
