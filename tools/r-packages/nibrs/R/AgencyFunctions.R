@@ -52,6 +52,11 @@ loadAgencies <- function(conn, rawIncidents, rawArrestees) {
 
 }
 
+#' @importFrom DBI dbClearResult dbSendQuery
+truncateAgencies <- function(conn) {
+  dbClearResult(dbSendQuery(conn, "truncate Agency"))
+}
+
 #' @import dplyr
 #' @import tidyr
 #' @import tibble

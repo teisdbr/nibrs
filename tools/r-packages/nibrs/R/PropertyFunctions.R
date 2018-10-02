@@ -208,11 +208,15 @@ writeSuspectedDrugType <- function(conn, propertySegmentDataFrame, propertyTypeD
 writeRawPropertySegmentTables <- function(conn, inputDfList, tableList) {
 
   dfName <- load(inputDfList[4])
-  propertySegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
-    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V3003'='AgencyORI'))
+  propertySegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character)
   rm(list=dfName)
 
+  if ('ORI' %in% colnames(propertySegmentDf)) {
+    propertySegmentDf <- propertySegmentDf %>% rename(V3003=ORI, V3004=INCNUM)
+  }
+
   propertySegmentDf <- propertySegmentDf %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V3003'='AgencyORI')) %>%
     inner_join(tableList$AdministrativeSegment %>% select(ORI, IncidentNumber, AdministrativeSegmentID), by=c('V3003'='ORI', 'V3004'='IncidentNumber')) %>%
     mutate(SegmentActionTypeTypeID=99998L)
 
@@ -226,8 +230,8 @@ writeRawPropertySegmentTables <- function(conn, inputDfList, tableList) {
       RecoveredDate=as_date(ifelse(is.na(V3009), NA, ymd(V3009))),
       RecoveredDateID=createKeyFromDate(RecoveredDate)
     ) %>%
-    left_join(tableList$TypePropertyLossEtcType %>% select(TypePropertyLossEtcTypeID, TypePropertyLossEtcCode), by=c('V3006'='TypePropertyLossEtcCode')) %>%
-    left_join(tableList$PropertyDescriptionType %>% select(PropertyDescriptionTypeID, PropertyDescriptionCode), by=c('V3007'='PropertyDescriptionCode')) %>%
+    left_join(tableList$TypePropertyLossEtcType %>% select(TypePropertyLossEtcTypeID, StateCode), by=c('V3006'='StateCode')) %>%
+    left_join(tableList$PropertyDescriptionType %>% select(PropertyDescriptionTypeID, StateCode), by=c('V3007'='StateCode')) %>%
     mutate(TypePropertyLossEtcTypeID=ifelse(is.na(TypePropertyLossEtcTypeID), 99998L, TypePropertyLossEtcTypeID),
            PropertyDescriptionTypeID=ifelse(is.na(PropertyDescriptionTypeID), 99998L, PropertyDescriptionTypeID),
            RecoveredDateID=ifelse(is.na(RecoveredDateID), BLANK_DATE_VALUE, RecoveredDateID)) %>%
@@ -245,8 +249,8 @@ writeRawPropertySegmentTables <- function(conn, inputDfList, tableList) {
     mutate(PropertySegmentID=row_number())
 
   SuspectedDrugType <- PropertySegment %>%
-    gather(key=index, value=SuspectedDrugTypeCode, V3012, V3016, V3020) %>%
-    select(PropertySegmentID, SuspectedDrugTypeCode) %>%
+    gather(key=index, value=StateCode, V3012, V3016, V3020) %>%
+    select(PropertySegmentID, StateCode) %>%
     bind_cols(
       PropertySegment %>%
         gather(key=index, value=TypeDrugMeasurementCode, V3015, V3019, V3023) %>%
@@ -258,10 +262,10 @@ writeRawPropertySegmentTables <- function(conn, inputDfList, tableList) {
         gather(key=index, value=qqqq, V3014, V3018, V3022) %>%
         select(qqqq)
     ) %>%
-    filter(trimws(SuspectedDrugTypeCode) != '') %>%
+    filter(trimws(StateCode) != '') %>%
     mutate(EstimatedDrugQuantity=qqq + (qqqq*.001)) %>%
-    left_join(tableList$TypeDrugMeasurementType %>% select(TypeDrugMeasurementTypeID, TypeDrugMeasurementCode), by='TypeDrugMeasurementCode') %>%
-    left_join(tableList$SuspectedDrugTypeType %>% select(SuspectedDrugTypeTypeID, SuspectedDrugTypeCode), by='SuspectedDrugTypeCode') %>%
+    left_join(tableList$TypeDrugMeasurementType %>% select(TypeDrugMeasurementTypeID, TypeDrugMeasurementCode=StateCode), by='TypeDrugMeasurementCode') %>%
+    left_join(tableList$SuspectedDrugTypeType %>% select(SuspectedDrugTypeTypeID, StateCode), by='StateCode') %>%
     mutate(TypeDrugMeasurementTypeID=ifelse(is.na(TypeDrugMeasurementTypeID), 99998L, TypeDrugMeasurementTypeID),
            SuspectedDrugTypeTypeID=ifelse(is.na(SuspectedDrugTypeTypeID), 99998L, SuspectedDrugTypeTypeID)) %>%
     select(PropertySegmentID, SuspectedDrugTypeTypeID, TypeDrugMeasurementTypeID, EstimatedDrugQuantity) %>%

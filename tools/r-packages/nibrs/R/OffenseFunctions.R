@@ -19,6 +19,7 @@ truncateOffenses <- function(conn) {
   dbClearResult(dbSendQuery(conn, "truncate OffenderSuspectedOfUsing"))
   dbClearResult(dbSendQuery(conn, "truncate TypeCriminalActivity"))
   dbClearResult(dbSendQuery(conn, "truncate TypeOfWeaponForceInvolved"))
+  dbClearResult(dbSendQuery(conn, "truncate BiasMotivation"))
 }
 
 #' @import dplyr
@@ -246,26 +247,26 @@ writeRawOffenseSegmentTables <- function(conn, inputDfList, tableList) {
     select(-V2001, -V2002, -V2005, -V2021) %>%
     mutate(V2011=gsub(x=V2011, pattern='\\(([0-9]+)\\).+', replacement='\\1'),
            UCROffenseCode=V2006) %>%
-    left_join(tableList$UCROffenseCodeType %>% select(UCROffenseCodeTypeID, UCROffenseCode), by=c('V2006'='UCROffenseCode')) %>%
-    left_join(tableList$LocationTypeType %>% select(LocationTypeTypeID, LocationTypeCode), by=c('V2011'='LocationTypeCode')) %>%
-    left_join(tableList$MethodOfEntryType %>% select(MethodOfEntryTypeID, MethodOfEntryCode), by=c('V2013'='MethodOfEntryCode')) %>%
+    left_join(tableList$UCROffenseCodeType %>% select(UCROffenseCodeTypeID, StateCode), by=c('V2006'='StateCode')) %>%
+    left_join(tableList$LocationTypeType %>% select(LocationTypeTypeID, StateCode), by=c('V2011'='StateCode')) %>%
+    left_join(tableList$MethodOfEntryType %>% select(MethodOfEntryTypeID, StateCode), by=c('V2013'='StateCode')) %>%
     select(OffenseSegmentID, SegmentActionTypeTypeID, AdministrativeSegmentID, UCROffenseCodeTypeID, OffenseAttemptedCompleted=V2007,
            LocationTypeTypeID, NumberOfPremisesEntered=V2012, MethodOfEntryTypeID, UCROffenseCode) %>% as_tibble()
 
   OffenderSuspectedOfUsing <- offenseSegmentDf %>%
     select(AdministrativeSegmentID, OffenseSegmentID, V2008:V2010) %>%
-    gather(key=index, value=OffenderSuspectedOfUsingCode, V2008:V2010) %>% filter(OffenderSuspectedOfUsingCode != ' ') %>%
+    gather(key=index, value=StateCode, V2008:V2010) %>% filter(StateCode != ' ') %>%
     select(-index) %>%
-    inner_join(tableList$OffenderSuspectedOfUsingType %>% select(OffenderSuspectedOfUsingTypeID, OffenderSuspectedOfUsingCode), by='OffenderSuspectedOfUsingCode') %>%
+    inner_join(tableList$OffenderSuspectedOfUsingType %>% select(OffenderSuspectedOfUsingTypeID, StateCode), by='StateCode') %>%
     mutate(OffenderSuspectedOfUsingID=row_number()) %>%
     select(OffenderSuspectedOfUsingID, OffenseSegmentID, OffenderSuspectedOfUsingTypeID) %>%
     as_tibble()
 
   TypeCriminalActivity <- offenseSegmentDf %>%
     select(AdministrativeSegmentID, OffenseSegmentID, V2014:V2016) %>%
-    gather(key=index, value=TypeOfCriminalActivityCode, V2014:V2016) %>% filter(TypeOfCriminalActivityCode != ' ') %>%
+    gather(key=index, value=StateCode, V2014:V2016) %>% filter(StateCode != ' ') %>%
     select(-index) %>%
-    inner_join(tableList$TypeOfCriminalActivityType %>% select(TypeOfCriminalActivityTypeID, TypeOfCriminalActivityCode), by='TypeOfCriminalActivityCode') %>%
+    inner_join(tableList$TypeOfCriminalActivityType %>% select(TypeOfCriminalActivityTypeID, StateCode), by='StateCode') %>%
     mutate(TypeCriminalActivityID=row_number()) %>%
     select(TypeCriminalActivityID, OffenseSegmentID, TypeOfCriminalActivityTypeID) %>%
     as_tibble()
@@ -273,20 +274,20 @@ writeRawOffenseSegmentTables <- function(conn, inputDfList, tableList) {
   BiasMotivation <- offenseSegmentDf %>%
     mutate_at(vars(starts_with('V2020')), gsub, pattern='\\(([0-9]+)\\).+', replacement='\\1') %>%
     select(AdministrativeSegmentID, OffenseSegmentID, starts_with('V2020')) %>%
-    gather(key=index, value=BiasMotivationCode, starts_with('V2020')) %>% filter(BiasMotivationCode != ' ') %>%
+    gather(key=index, value=StateCode, starts_with('V2020')) %>% filter(StateCode != ' ') %>%
     select(-index) %>%
-    inner_join(tableList$BiasMotivationType %>% select(BiasMotivationTypeID, BiasMotivationCode), by='BiasMotivationCode') %>%
+    inner_join(tableList$BiasMotivationType %>% select(BiasMotivationTypeID, StateCode), by='StateCode') %>%
     mutate(BiasMotivationID=row_number()) %>%
     select(BiasMotivationID, OffenseSegmentID, BiasMotivationTypeID) %>%
     as_tibble()
 
   TypeOfWeaponForceInvolved <- offenseSegmentDf %>%
     select(AdministrativeSegmentID, OffenseSegmentID, V2017:V2019) %>%
-    gather(key=index, value=TypeOfWeaponForceInvolvedCode, V2017:V2019) %>% filter(TypeOfWeaponForceInvolvedCode != ' ') %>%
+    gather(key=index, value=StateCode, V2017:V2019) %>% filter(StateCode != ' ') %>%
     select(-index) %>%
-    mutate(AutomaticWeaponIndicator=ifelse(str_length(TypeOfWeaponForceInvolvedCode)==3, str_sub(TypeOfWeaponForceInvolvedCode, 3, 3), NA_character_)) %>%
-    mutate(TypeOfWeaponForceInvolvedCode=str_sub(TypeOfWeaponForceInvolvedCode, 1, 2)) %>%
-    inner_join(tableList$TypeOfWeaponForceInvolvedType %>% select(TypeOfWeaponForceInvolvedTypeID, TypeOfWeaponForceInvolvedCode), by='TypeOfWeaponForceInvolvedCode') %>%
+    mutate(AutomaticWeaponIndicator=ifelse(str_length(StateCode)==3, str_sub(StateCode, 3, 3), NA_character_)) %>%
+    mutate(StateCode=str_sub(StateCode, 1, 2)) %>%
+    inner_join(tableList$TypeOfWeaponForceInvolvedType %>% select(TypeOfWeaponForceInvolvedTypeID, StateCode), by='StateCode') %>%
     mutate(TypeOfWeaponForceInvolvedID=row_number()) %>%
     select(TypeOfWeaponForceInvolvedID, OffenseSegmentID, TypeOfWeaponForceInvolvedTypeID, AutomaticWeaponIndicator) %>%
     as_tibble()

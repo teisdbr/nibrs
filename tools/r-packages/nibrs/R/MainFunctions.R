@@ -24,7 +24,7 @@ NULL
 #' GitHub repo), and return the loaded tables in a list of tibbles.
 #'
 #' Note that the extract files are limited in important ways.  For details, consult the ICPSR website (and in particular, the extract file codebooks).
-#' @importFrom RMySQL dbClearResult dbSendQuery
+#' @importFrom DBI dbClearResult dbSendQuery
 #' @import tidyverse
 #' @param conn the database connection to use
 #' @param incidentFile path to the ICPSR NIBRS incident-level file
@@ -34,7 +34,7 @@ NULL
 #' @param arresteeRecords number of records to read from the arrestee file, or -1 to read all records
 #' @return a list of tibbles, where the name of each list member is the name of the table in the database
 #' @export
-loadICPSRExtract <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbname="nibrs_analytics", username="root"),
+loadICPSRExtract <- function(conn=DBI::dbConnect(RMariaDB::MariaDB(), host="localhost", dbname="nibrs_analytics", username="root"),
                       incidentFile, arresteeFile, versionYear, incidentRecords=-1, arresteeRecords=-1) {
 
   tryCatch({
@@ -136,6 +136,11 @@ createKeyFromDate <- function(d) {
   as.integer(format(d, "%Y%m%d"))
 }
 
+#' @importFrom DBI dbClearResult dbSendQuery
+truncateDate <- function(conn) {
+  dbClearResult(dbSendQuery(conn, "truncate DateType"))
+}
+
 #' @importFrom lubridate as_date year quarter month wday day
 #' @import dplyr
 #' @import tibble
@@ -197,7 +202,7 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
 #' Load NIBRS records from the ICPSR raw files, write them to the staging database (structured per the model provided in this package's same
 #' GitHub repo), and return the loaded tables in a list of tibbles.
 #'
-#' @importFrom RMySQL dbClearResult dbSendQuery
+#' @importFrom DBI dbClearResult dbSendQuery
 #' @import tidyverse
 #' @importFrom stringr str_sub
 #' @param conn the database connection to use
@@ -206,7 +211,7 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
 #' @param records number of records to read for the specified state, or -1 to extract all records
 #' @return a list of tibbles, where the name of each list member is the name of the table in the database
 #' @export
-loadICPSRRaw <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", dbname="nibrs_analytics", username="root"),
+loadICPSRRaw <- function(conn=DBI::dbConnect(RMariaDB::MariaDB(), host="localhost", dbname="nibrs_analytics", username="root"),
                              dataDir, state, records=-1) {
 
   tryCatch({
@@ -217,22 +222,26 @@ loadICPSRRaw <- function(conn=DBI::dbConnect(RMySQL::MySQL(), host="localhost", 
 
     ret <- loadCodeTables(spreadsheetFile, conn)
 
+    truncateDate(conn)
+    truncateAgencies(conn)
     truncateIncidents(conn)
     truncateOffenses(conn)
     truncateProperty(conn)
     truncateOffender(conn)
     truncateVictim(conn)
+    truncateArresteeSegments(conn)
+    truncateArrestReportSegments(conn)
 
     inputDfList <- sort(list.files(path=dataDir, pattern='*.rda', full.names=TRUE, recursive=TRUE))
 
     ret <- writeRawAgencyTables(conn, inputDfList, state, ret)
-    ret <- writeRawAdministrativeSegmentTables(conn, inputDfList, ret)
+    ret <- writeRawAdministrativeSegmentTables(conn, inputDfList, ret, records)
     ret <- writeRawOffenseSegmentTables(conn, inputDfList, ret)
     ret <- writeRawPropertySegmentTables(conn, inputDfList, ret)
     ret <- writeRawOffenderSegmentTables(conn, inputDfList, ret)
     ret <- writeRawVictimSegmentTables(conn, inputDfList, ret)
     ret <- writeRawArresteeSegmentTables(conn, inputDfList, ret)
-    ret <- writeRawArrestReportSegmentTables(conn, inputDfList, ret)
+    ret <- writeRawArrestReportSegmentTables(conn, inputDfList, ret, records)
 
     allDates <- c(
       ret$AdministrativeSegment$IncidentDate,

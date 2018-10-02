@@ -76,24 +76,25 @@ writeOffenders <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID)
 writeRawOffenderSegmentTables <- function(conn, inputDfList, tableList) {
 
   dfName <- load(inputDfList[6])
-  offenderSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
-    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V5003'='AgencyORI'))
+  offenderSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character)
   rm(list=dfName)
 
+  if ('ORI' %in% colnames(offenderSegmentDf)) {
+    offenderSegmentDf <- offenderSegmentDf %>% rename(V5003=ORI, V5004=INCNUM)
+  }
+
   offenderSegmentDf <- offenderSegmentDf %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V5003'='AgencyORI')) %>%
     inner_join(tableList$AdministrativeSegment %>% select(ORI, IncidentNumber, AdministrativeSegmentID), by=c('V5003'='ORI', 'V5004'='IncidentNumber')) %>%
     mutate(OffenderSegmentID=row_number(), SegmentActionTypeTypeID=99998L)
 
   OffenderSegment <- offenderSegmentDf %>%
     mutate(OffenderSequenceNumber=as.integer(V5006),
            AgeOfOffenderMin=as.integer(V5007),
-           AgeOfOffenderMax=AgeOfOffenderMin,
-           RaceOfPersonCode=V5009,
-           EthnicityOfPersonCode=V5011,
-           SexOfPersonCode=V5008) %>%
-    left_join(tableList$RaceOfPersonType %>% select(RaceOfPersonTypeID, RaceOfPersonCode), by='RaceOfPersonCode') %>%
-    left_join(tableList$SexOfPersonType %>% select(SexOfPersonTypeID, SexOfPersonCode), by='SexOfPersonCode') %>%
-    left_join(tableList$EthnicityOfPersonType %>% select(EthnicityOfPersonTypeID, EthnicityOfPersonCode), by='EthnicityOfPersonCode') %>%
+           AgeOfOffenderMax=AgeOfOffenderMin) %>%
+    left_join(tableList$RaceOfPersonType %>% select(RaceOfPersonTypeID, StateCode), by=c('V5009'='StateCode')) %>%
+    left_join(tableList$SexOfPersonType %>% select(SexOfPersonTypeID, StateCode), by=c('V5008'='StateCode')) %>%
+    left_join(tableList$EthnicityOfPersonType %>% select(EthnicityOfPersonTypeID, StateCode), by=c('V5011'='StateCode')) %>%
     mutate(RaceOfPersonTypeID=ifelse(is.na(RaceOfPersonTypeID), 99998L, RaceOfPersonTypeID),
            EthnicityOfPersonTypeID=ifelse(is.na(EthnicityOfPersonTypeID), 99998L, EthnicityOfPersonTypeID),
            SexOfPersonTypeID=ifelse(is.na(SexOfPersonTypeID), 99998L, SexOfPersonTypeID)) %>%

@@ -73,38 +73,50 @@ writeIncidents <- function(conn, rawIncidentDataFrame, segmentActionTypeTypeID, 
 }
 
 #' @import dplyr
-#' @import tidyr
-#' @import tibble
 #' @importFrom DBI dbWriteTable
-writeRawAdministrativeSegmentTables <- function(conn, inputDfList, tableList) {
+#' @importFrom lubridate month year ymd
+writeRawAdministrativeSegmentTables <- function(conn, inputDfList, tableList, records=-1) {
 
   dfName <- load(inputDfList[2])
-  adminSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character) %>%
-    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V1003'='AgencyORI'))
+  adminSegmentDf <- get(dfName) %>%  mutate_if(is.factor, as.character)
   rm(list=dfName)
 
   currentMonth <- formatC(month(Sys.Date()), width=2, flag="0")
   currentYear <- year(Sys.Date()) %>% as.integer()
 
+  adminSegmentDf <- adminSegmentDf  %>%
+    inner_join(tableList$Agency %>% select(AgencyORI), by=c('V1003'='AgencyORI'))
+
+  if (records != -1) {
+    adminSegmentDf <- adminSegmentDf %>% head(records)
+  }
+
+  if (nrow(adminSegmentDf) == 0) {
+    stop('No Administrative Segment records available.')
+  }
+
   AdministrativeSegment <- adminSegmentDf %>%
     select(ORI=V1003, IncidentNumber=V1004, INCDATE=V1005, IncidentHour=V1007,
-           V1013, V1016,
+           V1013, V1016, V1014,
            ReportDateIndicator=V1006) %>%
     mutate(IncidentHour=gsub(x=IncidentHour, pattern='\\(([0-9]+)\\).+', replacement='\\1')) %>%
     mutate(INCDATE=ifelse(trimws(INCDATE)=='' | is.na(INCDATE), NA, INCDATE)) %>%
-    mutate(IncidentDate=ymd(INCDATE),
+    mutate(V1014=ifelse(trimws(V1014)=='' | is.na(V1014), NA, V1014)) %>%
+    mutate(IncidentDate=ymd(INCDATE), ExceptionalClearanceDate=ymd(V1014),
            IncidentDateID=createKeyFromDate(IncidentDate),
+           ExceptionalClearanceDateID=createKeyFromDate(ExceptionalClearanceDate),
+           ExceptionalClearanceDateID=case_when(is.na(ExceptionalClearanceDateID) ~ 99998L, TRUE ~ ExceptionalClearanceDateID),
            MonthOfTape=currentMonth, YearOfTape=currentYear, CityIndicator=NA_character_, SegmentActionTypeTypeID=99998L,
            V1016=ifelse(trimws(V1016)=='' | is.na(V1016), 99998L, V1016),
            IncidentHour=ifelse(is.na(IncidentHour), NA_integer_, as.integer(IncidentHour))) %>%
     select(-INCDATE) %>%
     mutate(AdministrativeSegmentID=row_number()) %>%
     left_join(tableList$Agency %>% select(AgencyID, ORI=AgencyORI), by='ORI') %>%
-    left_join(tableList$ClearedExceptionallyType %>% select(ClearedExceptionallyTypeID, ClearedExceptionallyCode), by=c('V1013'='ClearedExceptionallyCode')) %>%
-    left_join(tableList$CargoTheftIndicatorType %>% select(CargoTheftIndicatorTypeID, CargoTheftIndicatorCode), by=c('V1016'='CargoTheftIndicatorCode')) %>%
+    left_join(tableList$ClearedExceptionallyType %>% select(ClearedExceptionallyTypeID, StateCode), by=c('V1013'='StateCode')) %>%
+    left_join(tableList$CargoTheftIndicatorType %>% select(CargoTheftIndicatorTypeID, StateCode), by=c('V1016'='StateCode')) %>%
     mutate(ClearedExceptionallyTypeID=ifelse(is.na(ClearedExceptionallyTypeID), 99998L, ClearedExceptionallyTypeID)) %>%
     mutate(CargoTheftIndicatorTypeID=ifelse(is.na(CargoTheftIndicatorTypeID), 99998L, CargoTheftIndicatorTypeID)) %>%
-    select(-V1013, -V1016) %>% as_tibble()
+    select(-V1013, -V1016, -V1014) %>% as_tibble()
 
   rm(adminSegmentDf)
 
