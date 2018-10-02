@@ -220,6 +220,10 @@ public enum OffenseCode {
 				|| isDrugNarcoticOffense(code);
 	}
 	
+	public static final boolean isCrimeRequireIncidentHour(String code) {
+		return Arrays.asList(_09A.code, _13A.code, _13B.code, _13C.code).contains(code);
+	}
+	
 	public static final boolean isGamblingOffenseCode(String code) {
 		return codeMatchesRegex(code, "39[ABCD]");
 	}

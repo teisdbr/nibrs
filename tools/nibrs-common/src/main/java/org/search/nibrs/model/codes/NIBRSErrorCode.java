@@ -85,6 +85,7 @@ public enum NIBRSErrorCode {
 	_101("101","Admin Segment","MANDATORY FIELDS MISSING IN ADMIN SEGMENT","The referenced data element in a Group A Incident Report must be populated with a valid data value and cannot be blank."),
 	_104("104","Admin Segment","INVALID DATA VALUE—NOT ON FBI VALIDATION TABLE","The referenced data element must contain a valid data value when it is entered."),
 	_105("105","Admin Segment","INVALID DATA VALUE FOR DATE","The data element in error contains a date that is not entered correctly. Each component of the date must be valid; that is, months must be 01 through 12, days must be 01 through 31, and year must include the century (i.e., 19xx, 20xx). In addition, days cannot exceed maximum for the month (e.g., June cannot have 31days). Also, the date cannot exceed the current date."),
+	_106("106","Admin Segment","INVALID DATA VALUE FOR HOUR","For Offenses of 09A, 13A, 13B and 13C ONLY–When data element 25 (Type of Victim) = L (Law Enforcement Officer) then Data Element 3 (Incident Date/Hour) must be populated with a valid hour (00-23). Incident Hour Unknown (Blank) is not a valid entry."),
 	_115("115","Admin Segment","CANNOT HAVE EMBEDDED BLANKS BETWEEN FIRST AND LAST NON-BLANK CHARACTERS","(Incident Number) Must be blank right-fill if under 12 characters in length. Cannot have embedded blanks between the first and last characters entered."),
 /**
  * 116 not implemented
