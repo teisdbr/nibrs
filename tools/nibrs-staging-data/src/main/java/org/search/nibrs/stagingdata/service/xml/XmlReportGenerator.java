@@ -189,10 +189,19 @@ public class XmlReportGenerator {
 		appendIdentificationIdElement(incidentElement, NC, "ActivityIdentification", administrativeSegment.getIncidentNumber());
 		
 		Date incidentDate = administrativeSegment.getIncidentDate();
+		String incidentHour = administrativeSegment.getIncidentHour(); 
 		if (incidentDate != null) {
 			Element activityDate = XmlUtils.appendChildElement(incidentElement, Namespace.NC, "ActivityDate");
-			Element e = XmlUtils.appendChildElement(activityDate, Namespace.NC, "Date");
-			e.setTextContent(DATE_FORMAT.format(incidentDate));
+			
+			if (StringUtils.isNotBlank(incidentHour)){
+				String incidentHourString = "T" + StringUtils.leftPad(incidentHour, 2, '0') + ":00:00"; 
+				Element element = XmlUtils.appendChildElement(activityDate, Namespace.NC, "DateTime");
+				element.setTextContent(DATE_FORMAT.format(incidentDate) + incidentHourString);
+			}
+			else {
+				Element e = XmlUtils.appendChildElement(activityDate, Namespace.NC, "Date");
+				e.setTextContent(DATE_FORMAT.format(incidentDate));
+			}
 		}
 		
 		Element incidentAugmentation = XmlUtils.appendChildElement(incidentElement, Namespace.CJIS, "IncidentAugmentation");
