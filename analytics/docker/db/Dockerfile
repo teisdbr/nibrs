@@ -1,4 +1,4 @@
-# 
+#
 # Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# 
+#
 
 # Docker image that installs mariadb (mysql) and loads the data into the db
 # user is analytics
@@ -30,8 +30,8 @@ WORKDIR /usr
 
 RUN bin/mysql_install_db --user=root
 
-COPY files/server-config.sh /tmp
-COPY files/nibrs_analytics.sql.gz /tmp
+COPY files/server-config.sh /tmp/
+COPY files/search_nibrs_dimensional.sql.gz /tmp/
 RUN chmod a+x /tmp/server-config.sh
 RUN /tmp/server-config.sh
 

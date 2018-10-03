@@ -8,13 +8,14 @@ cd /tmp
 
 until /usr/bin/mysqladmin -u root status > /dev/null 2>&1; do sleep 1; done
 
+echo "create database search_nibrs_dimensional" | mysql -u root
+
 # Allow other machines in the docker network to connect, but no others
 # NOTE: This is a highly unsecure setup.  This is only for demo purposes.  Don't do this outside of a local demo environment!
-echo "CREATE USER 'analytics'@'%' IDENTIFIED BY ''" | mysql -u root
-echo "GRANT ALL PRIVILEGES ON *.* TO 'analytics'@'%' WITH GRANT OPTION" | mysql -u root
+mysql -u root -e "CREATE USER 'analytics';"
+mysql -u root -e "GRANT ALL PRIVILEGES ON search_nibrs_dimensional.* TO 'analytics'@'%';"
 
-gunzip nibrs_analytics.sql.gz
+gunzip search_nibrs_dimensional.sql.gz
 
-echo "create database nibrs_analytics" | mysql -u root
-mysql -u root nibrs_analytics < /tmp/nibrs_analytics.sql
-rm -f /tmp/nibrs_analytics.sql
+mysql -u root search_nibrs_dimensional < /tmp/search_nibrs_dimensional.sql
+rm -f /tmp/search_nibrs_dimensional.sql

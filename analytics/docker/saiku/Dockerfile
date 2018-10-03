@@ -16,7 +16,7 @@
 
 # Dockerfile that extends base saiku to add demo data sources
 
-FROM ojbc/saiku
+FROM ojbc/saiku:ojbc-3.17
 
 # set this arg to dev to create an image where the default (admin) saiku user has admin privileges
 # do this by passing --build-arg MODE=dev
@@ -33,9 +33,8 @@ RUN /tmp/server-config.sh ${MODE}
 
 RUN wget -P /opt/saiku-server/tomcat/webapps/saiku/WEB-INF/lib https://downloads.mariadb.com/Connectors/java/connector-java-2.1.2/mariadb-java-client-2.1.2.jar
 
-COPY files/help.html /opt/saiku-server/tomcat/webapps/saiku-ui/
-RUN sed -i "182,184d" /opt/saiku-server/tomcat/webapps/saiku-ui/index.html
-RUN sed -i "186i <a href='#' onclick='window.open(\"help.html\");return false;'>About this dataset...</a>" /opt/saiku-server/tomcat/webapps/saiku-ui/index.html
+COPY files/help.html /opt/saiku-server/tomcat/webapps/ROOT/
+RUN sed -i "270i <a href='#' onclick='window.open(\"help.html\");return false;'>About this dataset...</a>" /opt/saiku-server/tomcat/webapps/ROOT/index.html
 
 RUN cd /opt/saiku-server/tomcat
 
