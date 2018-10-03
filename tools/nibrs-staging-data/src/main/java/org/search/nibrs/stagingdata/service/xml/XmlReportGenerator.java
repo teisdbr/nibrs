@@ -82,6 +82,8 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.coremedia.iso.boxes.ItemLocationBox.Item;
+
 @Service
 public class XmlReportGenerator {
 
@@ -421,8 +423,12 @@ public class XmlReportGenerator {
 						if (suspectedDrugType.getEstimatedDrugQuantity()!= null || (suspectedDrugType.getTypeDrugMeasurementType() != null && 
 								suspectedDrugType.getTypeDrugMeasurementType().getTypeDrugMeasurementTypeId() != 99998)){
 							Element substanceQuantityMeasure = XmlUtils.appendChildElement(substanceElement, Namespace.NC, "SubstanceQuantityMeasure");
-							XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.NC, "MeasureDecimalValue", 
-									Optional.ofNullable(suspectedDrugType.getEstimatedDrugQuantity()).map(String::valueOf).orElse(null));
+							
+							String estimatedDrugQuantityString = Optional.ofNullable(suspectedDrugType.getEstimatedDrugQuantity())
+									.map(String::valueOf)
+									.map(item->{return "1.0".equals(item)? "1":item;})
+									.orElse(null); 
+							XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.NC, "MeasureDecimalValue", estimatedDrugQuantityString);
 							XmlUtils.appendElementAndValue(substanceQuantityMeasure, Namespace.J, "SubstanceUnitCode",
 									suspectedDrugType.getTypeDrugMeasurementType().getFbiCode());
 						}
