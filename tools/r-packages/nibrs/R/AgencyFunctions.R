@@ -77,15 +77,15 @@ writeRawAgencyTables <- function(conn, inputDfList, state, tableList) {
     distinct() %>%
     mutate(AgencyID=row_number()) %>%
     mutate(AgencyName=case_when(
-      AgencyTypeID==3 ~ paste0(AgencyName, ' COUNTY SO'),
-      AgencyTypeID==2 ~ paste0(AgencyName, ' PD'),
+      AgencyTypeID==3 ~ paste0(trimws(AgencyName), ' COUNTY SO'),
+      AgencyTypeID==2 ~ paste0(trimws(AgencyName), ' PD'),
       TRUE ~ AgencyName
     )) %>% as_tibble()
 
   rm(batchHeaderDf)
 
   writeLines(paste0("Writing ", nrow(Agency), " Agency rows to database"))
-  dbWriteTable(conn=conn, name="Agency", value=Agency, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, Agency, 'Agency', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
   attr(Agency, 'type') <- 'FT'
 
   tableList$Agency <- Agency

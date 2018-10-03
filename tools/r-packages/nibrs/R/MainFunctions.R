@@ -257,8 +257,8 @@ loadICPSRRaw <- function(conn=DBI::dbConnect(RMariaDB::MariaDB(), host="localhos
 
     ret$OffenseSegment <- select(ret$OffenseSegment, -UCROffenseCode)
 
-    materializedViewsSqlFile=system.file("raw", 'MaterializedViews.sql', package=getPackageName())
-    createMaterializedViews(conn, materializedViewsSqlFile)
+    #materializedViewsSqlFile=system.file("raw", 'MaterializedViews.sql', package=getPackageName())
+    #createMaterializedViews(conn, materializedViewsSqlFile)
 
     ret
 

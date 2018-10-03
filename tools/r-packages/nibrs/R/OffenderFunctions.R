@@ -99,12 +99,13 @@ writeRawOffenderSegmentTables <- function(conn, inputDfList, tableList) {
            EthnicityOfPersonTypeID=ifelse(is.na(EthnicityOfPersonTypeID), 99998L, EthnicityOfPersonTypeID),
            SexOfPersonTypeID=ifelse(is.na(SexOfPersonTypeID), 99998L, SexOfPersonTypeID)) %>%
     select(OffenderSegmentID, SegmentActionTypeTypeID, AdministrativeSegmentID, OffenderSequenceNumber, AgeOfOffenderMin, AgeOfOffenderMax,
-           SexOfPersonTypeID, RaceOfPersonTypeID, EthnicityOfPersonTypeID)
+           SexOfPersonTypeID, RaceOfPersonTypeID, EthnicityOfPersonTypeID) %>% as_tibble()
 
   rm(offenderSegmentDf)
 
   writeLines(paste0('Writing ', nrow(OffenderSegment), ' offender segments to database'))
-  dbWriteTable(conn=conn, name='OffenderSegment', value=OffenderSegment, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, OffenderSegment, 'OffenderSegment', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(OffenderSegment, 'type') <- 'FT'
 
   tableList$OffenderSegment <- OffenderSegment

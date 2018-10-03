@@ -121,7 +121,8 @@ writeRawAdministrativeSegmentTables <- function(conn, inputDfList, tableList, re
   rm(adminSegmentDf)
 
   writeLines(paste0("Writing ", nrow(AdministrativeSegment), " administrative segments to database"))
-  dbWriteTable(conn=conn, name="AdministrativeSegment", value=AdministrativeSegment, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, AdministrativeSegment, 'AdministrativeSegment', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(AdministrativeSegment, 'type') <- 'FT'
 
   tableList$AdministrativeSegment <- AdministrativeSegment

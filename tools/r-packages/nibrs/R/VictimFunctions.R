@@ -502,23 +502,28 @@ writeRawVictimSegmentTables <- function(conn, inputDfList, tableList) {
   rm(victimSegmentDf)
 
   writeLines(paste0("Writing ", nrow(VictimSegment), " VictimSegment association rows to database"))
-  dbWriteTable(conn=conn, name="VictimSegment", value=VictimSegment, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, VictimSegment, 'VictimSegment', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(VictimSegment, 'type') <- 'FT'
 
   writeLines(paste0("Writing ", nrow(VictimOffenseAssociation), " VictimOffenseAssociation association rows to database"))
-  dbWriteTable(conn=conn, name="VictimOffenseAssociation", value=VictimOffenseAssociation, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, VictimOffenseAssociation, 'VictimOffenseAssociation', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(VictimOffenseAssociation, 'type') <- 'AT'
 
   writeLines(paste0("Writing ", nrow(VictimOffenderAssociation), " VictimOffenderAssociation association rows to database"))
-  dbWriteTable(conn=conn, name="VictimOffenderAssociation", value=VictimOffenderAssociation, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, VictimOffenderAssociation, 'VictimOffenderAssociation', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(VictimOffenderAssociation, 'type') <- 'AT'
 
   writeLines(paste0("Writing ", nrow(AggravatedAssaultHomicideCircumstances), " AggravatedAssaultHomicideCircumstances association rows to database"))
-  dbWriteTable(conn=conn, name="AggravatedAssaultHomicideCircumstances", value=AggravatedAssaultHomicideCircumstances, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, AggravatedAssaultHomicideCircumstances, 'AggravatedAssaultHomicideCircumstances', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(AggravatedAssaultHomicideCircumstances, 'type') <- 'AT'
 
   writeLines(paste0("Writing ", nrow(TypeInjury), " TypeInjury association rows to database"))
-  dbWriteTable(conn=conn, name="TypeInjury", value=TypeInjury, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, TypeInjury, 'TypeInjury', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(TypeInjury, 'type') <- 'AT'
 
   tableList$VictimSegment <- VictimSegment

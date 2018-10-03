@@ -1,1 +1,0 @@
-download nibrs_analytics.sql.gz from https://github.com/ojbc/docker/tree/master/analytics-db/files

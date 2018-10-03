@@ -1,0 +1,832 @@
+#' @importFrom DBI dbReadTable
+#' @importFrom lubridate is.Date
+#' @import dplyr
+#' @import purrr
+#' @import tibble
+#' @export
+loadDimensional <- function(stagingConn, dimensionalConn, writeToDatabase=TRUE, sampleFraction=NULL) {
+
+  dimensionTables <- c(
+    'AdditionalJustifiableHomicideCircumstancesType',
+    'AggravatedAssaultHomicideCircumstancesType',
+    'ArresteeWasArmedWithType',
+    'BiasMotivationType',
+    'ClearedExceptionallyType',
+    'DispositionOfArresteeUnder18Type',
+    'EthnicityOfPersonType',
+    'LocationTypeType',
+    'MethodOfEntryType',
+    'OffenderSuspectedOfUsingType',
+    'OfficerActivityCircumstanceType',
+    'OfficerAssignmentTypeType',
+    'PropertyDescriptionType',
+    'RaceOfPersonType',
+    'VictimOffenderRelationshipType',
+    'ResidentStatusOfPersonType',
+    'SexOfPersonType',
+    'SuspectedDrugTypeType',
+    'TypeDrugMeasurementType',
+    'TypeInjuryType',
+    'TypeOfArrestType',
+    'TypeOfCriminalActivityType',
+    'TypeOfVictimType',
+    'TypeOfWeaponForceInvolvedType',
+    'TypePropertyLossEtcType',
+    'UCROffenseCodeType',
+    'DateType',
+    'Agency',
+    'AgencyType'
+  )
+
+  stagingTables <- c(
+    'AdministrativeSegment',
+    'OffenseSegment',
+    'VictimSegment',
+    'VictimOffenseAssociation',
+    'OffenderSuspectedOfUsing',
+    'TypeCriminalActivity',
+    'BiasMotivation',
+    'TypeOfWeaponForceInvolved',
+    'TypeInjury',
+    'AggravatedAssaultHomicideCircumstances',
+    'OffenderSegment',
+    'VictimOffenderAssociation',
+    'PropertySegment',
+    'PropertyType',
+    'SuspectedDrugType',
+    'ArresteeSegment',
+    'ArresteeSegmentWasArmedWith',
+    'ArrestReportSegment',
+    'ArrestReportSegmentWasArmedWith'
+  )
+
+  writeLines('Reading dimension tables from staging')
+  dimensionTables <- map(dimensionTables, function(tableName) {
+    ret <- dbReadTable(stagingConn, tableName) %>% as_tibble()
+    ret
+  }) %>% set_names(dimensionTables) %>%
+    enhanceDimensionTables()
+
+  writeLines('Reading fact tables from staging')
+  stagingTables <- map(stagingTables, function(tableName) {
+    ret <- dbReadTable(stagingConn, tableName) %>% as_tibble()
+    if ('SegmentActionTypeTypeID' %in% colnames(ret)) {
+      ret <- ret %>% select(-SegmentActionTypeTypeID)
+    }
+    if ('NonNumericAge' %in% colnames(ret)) {
+      ret <- ret %>% select(-NonNumericAge)
+    }
+    ret
+  }) %>% set_names(stagingTables)
+
+  createOffenderAgeDim <- function(AgeOfOffenderMin) {
+    case_when(
+      AgeOfOffenderMin == 99 ~ '> 98 years',
+      is.na(AgeOfOffenderMin) ~ 'N/A',
+      TRUE ~ as.character(AgeOfOffenderMin)
+    )
+  }
+
+  createVictimAgeDim <- function(AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator, AgeOfVictimMin) {
+    case_when(
+      AgeNeonateIndicator == 1 ~ '< 24 hours',
+      AgeFirstWeekIndicator == 1 ~ '< 1 week',
+      AgeFirstYearIndicator == 1 ~ '< 1 year',
+      AgeOfVictimMin == 99 ~ '> 98 years',
+      is.na(AgeOfVictimMin) ~ 'N/A',
+      TRUE ~ as.character(AgeOfVictimMin)
+    )
+  }
+
+  createClearedIndicator <- function(ArresteeSegmentID, ClearedExceptionallyTypeID) {
+    case_when(
+      !is.na(ArresteeSegmentID) ~ 1L,
+      ClearedExceptionallyTypeID < 6 ~ 1L,
+      TRUE ~ 0L
+    )
+  }
+
+  createClearanceType <- function(ClearedExceptionallyTypeID, ArresteeSegmentID) {
+    case_when(
+      ClearedExceptionallyTypeID < 6 ~ ClearedExceptionallyTypeID,
+      is.na(ArresteeSegmentID) ~ 12L,
+      TRUE ~ 11L
+    )
+  }
+
+  createUcrAgeGroup <- function(age, AgeNeonateIndicator=NULL, AgeFirstWeekIndicator=NULL, AgeFirstYearIndicator=NULL) {
+    if (is.null(AgeNeonateIndicator)) {
+      AgeNeonateIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstWeekIndicator)) {
+      AgeFirstWeekIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstYearIndicator)) {
+      AgeFirstYearIndicator=rep(0, length(age))
+    }
+    case_when(
+      AgeNeonateIndicator==1 ~ '< 10',
+      AgeFirstWeekIndicator==1 ~ '< 10',
+      AgeFirstYearIndicator==1 ~ '< 10',
+      age <=  9 ~ '< 10',
+      age <= 12 ~ '10-12',
+      age <= 14 ~ '13-14',
+      age %in% 15:24 ~ as.character(age),
+      age <= 29 ~ '25-29',
+      age <= 34 ~ '30-34',
+      age <= 39 ~ '35-39',
+      age <= 44 ~ '40-44',
+      age <= 49 ~ '45-49',
+      age <= 54 ~ '50-54',
+      age <= 59 ~ '55-59',
+      age <= 64 ~ '60-64',
+      age >= 65 ~ '65+',
+      TRUE ~ 'Unknown'
+    )
+  }
+
+  createAgeGroup <- function(age, AgeNeonateIndicator=NULL, AgeFirstWeekIndicator=NULL, AgeFirstYearIndicator=NULL) {
+    if (is.null(AgeNeonateIndicator)) {
+      AgeNeonateIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstWeekIndicator)) {
+      AgeFirstWeekIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstYearIndicator)) {
+      AgeFirstYearIndicator=rep(0, length(age))
+    }
+    case_when(
+      AgeNeonateIndicator==1 ~ '1 or less',
+      AgeFirstWeekIndicator==1 ~ '1 or less',
+      AgeFirstYearIndicator==1 ~ '1 or less',
+      age <= 1 ~ '1 or less',
+      age <= 5 ~ '2-5',
+      age <= 10 ~ '6-10',
+      age <= 13 ~ '11-13',
+      age <= 17 ~ '14-17',
+      age <= 20 ~ '18-20',
+      age <= 25 ~ '21-25',
+      age <= 30 ~ '26-30',
+      age <= 40 ~ '31-40',
+      age <= 50 ~ '41-50',
+      age <= 60 ~ '51-60',
+      age <= 70 ~ '61-70',
+      age <= 80 ~ '71-80',
+      age >= 81 ~ '81+',
+      TRUE ~ 'Unknown'
+    )
+  }
+
+  createUcrAgeGroupSort <- function(age, AgeNeonateIndicator=NULL, AgeFirstWeekIndicator=NULL, AgeFirstYearIndicator=NULL) {
+    if (is.null(AgeNeonateIndicator)) {
+      AgeNeonateIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstWeekIndicator)) {
+      AgeFirstWeekIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstYearIndicator)) {
+      AgeFirstYearIndicator=rep(0, length(age))
+    }
+    case_when(
+      AgeNeonateIndicator==1 ~ 1,
+      AgeFirstWeekIndicator==1 ~ 1,
+      AgeFirstYearIndicator==1 ~ 1,
+      age <=  9 ~ 1,
+      age <= 12 ~ 2,
+      age <= 14 ~ 3,
+      age %in% 15:24 ~ age-11,
+      age <= 29 ~ 14,
+      age <= 34 ~ 15,
+      age <= 39 ~ 16,
+      age <= 44 ~ 17,
+      age <= 49 ~ 18,
+      age <= 54 ~ 19,
+      age <= 59 ~ 20,
+      age <= 64 ~ 21,
+      age >= 65 ~ 22,
+      TRUE ~ 100
+    )
+  }
+
+  createAgeGroupSort <- function(age, AgeNeonateIndicator=NULL, AgeFirstWeekIndicator=NULL, AgeFirstYearIndicator=NULL) {
+    if (is.null(AgeNeonateIndicator)) {
+      AgeNeonateIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstWeekIndicator)) {
+      AgeFirstWeekIndicator=rep(0, length(age))
+    }
+    if (is.null(AgeFirstYearIndicator)) {
+      AgeFirstYearIndicator=rep(0, length(age))
+    }
+    case_when(
+      AgeNeonateIndicator==1 ~ 1,
+      AgeFirstWeekIndicator==1 ~ 1,
+      AgeFirstYearIndicator==1 ~ 1,
+      age <= 1 ~ 1,
+      age <= 5 ~ 2,
+      age <= 10 ~ 3,
+      age <= 13 ~ 4,
+      age <= 17 ~ 5,
+      age <= 20 ~ 6,
+      age <= 25 ~ 7,
+      age <= 30 ~ 8,
+      age <= 40 ~ 9,
+      age <= 50 ~ 10,
+      age <= 60 ~ 11,
+      age <= 70 ~ 12,
+      age <= 80 ~ 13,
+      age >= 81 ~ 14,
+      TRUE ~ 100
+    )
+  }
+
+  createMotorVehiclesDim <- function(mv) {
+    case_when(
+      mv==0 ~ '0',
+      mv==1 ~ '1',
+      mv==2 ~ '2',
+      TRUE ~ '3+'
+    )
+  }
+
+  ret <- list()
+
+  samp <- function(adf) {
+    ret <- adf
+    if (!is.null(sampleFraction)) {
+      ret <- adf %>% sample_frac(sampleFraction)
+    }
+    ret
+  }
+
+  writeLines('Creating Incident View')
+  ret$FullIncidentView <- stagingTables$AdministrativeSegment %>%
+    samp() %>%
+    left_join(stagingTables$OffenseSegment, by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$VictimSegment, by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$VictimOffenseAssociation, by=c('VictimSegmentID', 'OffenseSegmentID')) %>%
+    left_join(stagingTables$OffenderSuspectedOfUsing, by='OffenseSegmentID') %>%
+    left_join(stagingTables$TypeCriminalActivity, by='OffenseSegmentID') %>%
+    left_join(stagingTables$BiasMotivation, by='OffenseSegmentID') %>%
+    left_join(stagingTables$TypeOfWeaponForceInvolved, by='OffenseSegmentID') %>%
+    left_join(stagingTables$TypeInjury, by='VictimSegmentID') %>%
+    left_join(stagingTables$AggravatedAssaultHomicideCircumstances, by='VictimSegmentID') %>%
+    left_join(stagingTables$OffenderSegment %>%
+                rename(
+                  OffenderSexOfPersonTypeID=SexOfPersonTypeID,
+                  OffenderRaceOfPersonTypeID=RaceOfPersonTypeID,
+                  OffenderEthnicityOfPersonTypeID=EthnicityOfPersonTypeID
+                ), by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$VictimOffenderAssociation, by=c('VictimSegmentID', 'OffenderSegmentID')) %>%
+    left_join(stagingTables$PropertySegment, by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$PropertyType, by='PropertySegmentID') %>%
+    left_join(stagingTables$SuspectedDrugType, by='PropertySegmentID') %>%
+    left_join(stagingTables$ArresteeSegment %>% select(AdministrativeSegmentID, ArresteeSegmentID), by='AdministrativeSegmentID') %>%
+    mutate_at(vars(ends_with('ID')), as.integer) %>%
+    mutate(
+      NumberOfPremisesEnteredDim=case_when(is.na(NumberOfPremisesEntered) ~ 'N/A', TRUE ~ as.character(NumberOfPremisesEntered)),
+      StolenMotorVehiclesDim=createMotorVehiclesDim(NumberOfStolenMotorVehicles),
+      RecoveredMotorVehiclesDim=createMotorVehiclesDim(NumberOfRecoveredMotorVehicles),
+      VictimAgeDim=createVictimAgeDim(AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator, AgeOfVictimMin),
+      VictimAgeGroup=createAgeGroup(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimAgeGroupSort=createAgeGroupSort(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimUcrAgeGroup=createUcrAgeGroup(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimUcrAgeGroupSort=createUcrAgeGroupSort(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      OffenderAgeDim=createOffenderAgeDim(AgeOfOffenderMin),
+      OffenderAgeGroup=createAgeGroup(AgeOfOffenderMin),
+      OffenderAgeGroupSort=createAgeGroupSort(AgeOfOffenderMin),
+      OffenderUcrAgeGroup=createUcrAgeGroup(AgeOfOffenderMin),
+      OffenderUcrAgeGroupSort=createUcrAgeGroupSort(AgeOfOffenderMin),
+      ClearedIndicator=createClearedIndicator(ArresteeSegmentID, ClearedExceptionallyTypeID),
+      ClearanceType=createClearanceType(ClearedExceptionallyTypeID, ArresteeSegmentID),
+      AggravatedAssaultHomicideCircumstancesTypeID=case_when(is.na(AggravatedAssaultHomicideCircumstancesTypeID) ~ 99998L, TRUE ~ AggravatedAssaultHomicideCircumstancesTypeID),
+      OffenderSuspectedOfUsingTypeID=case_when(is.na(OffenderSuspectedOfUsingTypeID) ~ 9L, TRUE ~ OffenderSuspectedOfUsingTypeID),
+      TypeOfCriminalActivityTypeID=case_when(is.na(TypeOfCriminalActivityTypeID) ~ 7L, TRUE ~ TypeOfCriminalActivityTypeID),
+      BiasMotivationTypeID=case_when(is.na(BiasMotivationTypeID) ~ 99998L, TRUE ~ BiasMotivationTypeID),
+      TypeOfWeaponForceInvolvedTypeID=case_when(is.na(TypeOfWeaponForceInvolvedTypeID) ~ 99999L, TRUE ~ TypeOfWeaponForceInvolvedTypeID),
+      AutomaticWeaponIndicator=case_when(is.na(AutomaticWeaponIndicator) ~ 'N', TRUE ~ AutomaticWeaponIndicator),
+      TypeInjuryTypeID=case_when(is.na(TypeInjuryTypeID) ~ 1L, TRUE ~ TypeInjuryTypeID),
+      VictimOffenseAssociationID=case_when(is.na(VictimOffenseAssociationID) ~ -1L, TRUE ~ VictimOffenseAssociationID),
+      VictimOffenderAssociationID=case_when(is.na(VictimOffenderAssociationID) ~ -1L, TRUE ~ VictimOffenderAssociationID),
+      TypePropertyLossEtcTypeID=case_when(is.na(TypePropertyLossEtcTypeID) ~ 1L, TRUE ~ TypePropertyLossEtcTypeID),
+      NumberOfStolenMotorVehicles=case_when(is.na(NumberOfStolenMotorVehicles) ~ 0L, TRUE ~ NumberOfStolenMotorVehicles),
+      NumberOfRecoveredMotorVehicles=case_when(is.na(NumberOfRecoveredMotorVehicles) ~ 0L, TRUE ~ NumberOfRecoveredMotorVehicles),
+      PropertyDescriptionTypeID=case_when(is.na(PropertyDescriptionTypeID) ~ 99998L, TRUE ~ PropertyDescriptionTypeID),
+      ValueOfProperty=case_when(is.na(ValueOfProperty) ~ 0, TRUE ~ ValueOfProperty),
+      RecoveredDateID=case_when(is.na(RecoveredDateID) ~ 99998L, TRUE ~ RecoveredDateID),
+      SuspectedDrugTypeTypeID=case_when(is.na(SuspectedDrugTypeTypeID) ~ 99998L, TRUE ~ SuspectedDrugTypeTypeID),
+      TypeDrugMeasurementTypeID=case_when(is.na(TypeDrugMeasurementTypeID) ~ 99998L, TRUE ~ TypeDrugMeasurementTypeID),
+      EstimatedDrugQuantity=case_when(is.na(EstimatedDrugQuantity) ~ 0, TRUE ~ EstimatedDrugQuantity),
+      IncidentHour=as.integer(IncidentHour)
+    ) %>%
+    left_join(stagingTables$OffenseSegment %>% select(AdministrativeSegmentID, OffenseSegmentID) %>% distinct() %>%
+                group_by(AdministrativeSegmentID) %>% summarize(OffensesPerIncident=n()), by='AdministrativeSegmentID') %>%
+    mutate(OffensesPerIncident=case_when(is.na(OffensesPerIncident) ~ 0L, TRUE ~ OffensesPerIncident),
+           OffensesPerIncidentDim=case_when(
+             OffensesPerIncident <= 4 ~ as.character(OffensesPerIncident),
+             TRUE ~ '5+'
+           )) %>%
+    select(
+      AdministrativeSegmentID,
+      IncidentHour,
+      ClearedExceptionallyTypeID,
+      IncidentDate,
+      IncidentDateID,
+      AgencyID,
+      OffenseAttemptedCompleted,
+      LocationTypeTypeID,
+      NumberOfPremisesEntered,
+      MethodOfEntryTypeID,
+      UCROffenseCodeTypeID,
+      TypeOfVictimTypeID,
+      OfficerActivityCircumstanceTypeID,
+      OfficerAssignmentTypeTypeID,
+      SexOfPersonTypeID,
+      RaceOfPersonTypeID,
+      EthnicityOfPersonTypeID,
+      ResidentStatusOfPersonTypeID,
+      AdditionalJustifiableHomicideCircumstancesTypeID,
+      AgeOfVictimMin,
+      AgeOfVictimMax,
+      AgeNeonateIndicator,
+      AgeFirstWeekIndicator,
+      AgeFirstYearIndicator,
+      AgeOfOffenderMin,
+      AgeOfOffenderMax,
+      OffenderSexOfPersonTypeID,
+      OffenderRaceOfPersonTypeID,
+      OffenderEthnicityOfPersonTypeID,
+      VictimOffenderRelationshipTypeID,
+      RecoveredDate,
+      VictimSegmentID,
+      OffenseSegmentID,
+      OffenderSegmentID,
+      PropertySegmentID,
+      PropertyTypeID,
+      AggravatedAssaultHomicideCircumstancesTypeID,
+      OffenderSuspectedOfUsingTypeID,
+      TypeOfCriminalActivityTypeID,
+      BiasMotivationTypeID,
+      TypeOfWeaponForceInvolvedTypeID,
+      AutomaticWeaponIndicator,
+      TypeInjuryTypeID,
+      VictimOffenseAssociationID,
+      VictimOffenderAssociationID,
+      TypePropertyLossEtcTypeID,
+      NumberOfStolenMotorVehicles,
+      NumberOfRecoveredMotorVehicles,
+      PropertyDescriptionTypeID,
+      ValueOfProperty,
+      RecoveredDateID,
+      SuspectedDrugTypeTypeID,
+      TypeDrugMeasurementTypeID,
+      EstimatedDrugQuantity,
+      ArresteeSegmentID,
+      OffensesPerIncident,
+      OffensesPerIncidentDim,
+      NumberOfPremisesEnteredDim,
+      VictimAgeDim,
+      VictimAgeGroup,
+      VictimAgeGroupSort,
+      VictimUcrAgeGroup,
+      VictimUcrAgeGroupSort,
+      OffenderAgeDim,
+      OffenderAgeGroup,
+      OffenderAgeGroupSort,
+      OffenderUcrAgeGroup,
+      OffenderUcrAgeGroupSort,
+      ClearedIndicator,
+      ClearanceType,
+      RecoveredMotorVehiclesDim,
+      StolenMotorVehiclesDim
+    )
+
+  writeLines('Creating Victim-Offense View')
+  ret$FullVictimOffenseView <- stagingTables$AdministrativeSegment %>%
+    samp() %>%
+    left_join(stagingTables$OffenseSegment, by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$VictimSegment, by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$VictimOffenseAssociation, by=c('OffenseSegmentID', 'VictimSegmentID')) %>%
+    left_join(stagingTables$OffenderSuspectedOfUsing, by='OffenseSegmentID') %>%
+    left_join(stagingTables$TypeCriminalActivity, by='OffenseSegmentID') %>%
+    left_join(stagingTables$BiasMotivation, by='OffenseSegmentID') %>%
+    left_join(stagingTables$TypeOfWeaponForceInvolved, by='OffenseSegmentID') %>%
+    left_join(stagingTables$TypeInjury, by='VictimSegmentID') %>%
+    left_join(stagingTables$AggravatedAssaultHomicideCircumstances, by='VictimSegmentID') %>%
+    left_join(stagingTables$ArresteeSegment %>% select(AdministrativeSegmentID, ArresteeSegmentID), by='AdministrativeSegmentID') %>%
+    mutate_at(vars(ends_with('ID')), as.integer) %>%
+    mutate(
+      NumberOfPremisesEnteredDim=case_when(is.na(NumberOfPremisesEntered) ~ 'N/A', TRUE ~ as.character(NumberOfPremisesEntered)),
+      VictimAgeDim=createVictimAgeDim(AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator, AgeOfVictimMin),
+      VictimAgeGroup=createAgeGroup(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimAgeGroupSort=createAgeGroupSort(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimUcrAgeGroup=createUcrAgeGroup(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimUcrAgeGroupSort=createUcrAgeGroupSort(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      ClearedIndicator=createClearedIndicator(ArresteeSegmentID, ClearedExceptionallyTypeID),
+      ClearanceType=createClearanceType(ClearedExceptionallyTypeID, ArresteeSegmentID),
+      AggravatedAssaultHomicideCircumstancesTypeID=case_when(is.na(AggravatedAssaultHomicideCircumstancesTypeID) ~ 99998L, TRUE ~ AggravatedAssaultHomicideCircumstancesTypeID),
+      OffenderSuspectedOfUsingTypeID=case_when(is.na(OffenderSuspectedOfUsingTypeID) ~ 9L, TRUE ~ OffenderSuspectedOfUsingTypeID),
+      TypeOfCriminalActivityTypeID=case_when(is.na(TypeOfCriminalActivityTypeID) ~ 7L, TRUE ~ TypeOfCriminalActivityTypeID),
+      BiasMotivationTypeID=case_when(is.na(BiasMotivationTypeID) ~ 99998L, TRUE ~ BiasMotivationTypeID),
+      TypeOfWeaponForceInvolvedTypeID=case_when(is.na(TypeOfWeaponForceInvolvedTypeID) ~ 99999L, TRUE ~ TypeOfWeaponForceInvolvedTypeID),
+      AutomaticWeaponIndicator=case_when(is.na(AutomaticWeaponIndicator) ~ 'N', TRUE ~ AutomaticWeaponIndicator),
+      TypeInjuryTypeID=case_when(is.na(TypeInjuryTypeID) ~ 1L, TRUE ~ TypeInjuryTypeID),
+      VictimOffenseAssociationID=case_when(is.na(VictimOffenseAssociationID) ~ -1L, TRUE ~ VictimOffenseAssociationID)
+    ) %>%
+    select(
+      AdministrativeSegmentID,
+      IncidentHour,
+      ClearedExceptionallyTypeID,
+      IncidentDate,
+      IncidentDateID,
+      AgencyID,
+      OffenseAttemptedCompleted,
+      LocationTypeTypeID,
+      NumberOfPremisesEntered,
+      NumberOfPremisesEnteredDim,
+      MethodOfEntryTypeID,
+      UCROffenseCodeTypeID,
+      OffenseSegmentID,
+      TypeOfVictimTypeID,
+      OfficerActivityCircumstanceTypeID,
+      OfficerAssignmentTypeTypeID,
+      SexOfPersonTypeID,
+      RaceOfPersonTypeID,
+      EthnicityOfPersonTypeID,
+      ResidentStatusOfPersonTypeID,
+      AdditionalJustifiableHomicideCircumstancesTypeID,
+      AgeOfVictimMin,
+      AgeOfVictimMax,
+      AgeNeonateIndicator,
+      AgeFirstWeekIndicator,
+      AgeFirstYearIndicator,
+      VictimAgeDim,
+      VictimAgeGroup,
+      VictimAgeGroupSort,
+      VictimUcrAgeGroup,
+      VictimUcrAgeGroupSort,
+      VictimSegmentID,
+      AggravatedAssaultHomicideCircumstancesTypeID,
+      OffenderSuspectedOfUsingTypeID,
+      TypeOfCriminalActivityTypeID,
+      BiasMotivationTypeID,
+      TypeOfWeaponForceInvolvedTypeID,
+      AutomaticWeaponIndicator,
+      TypeInjuryTypeID,
+      VictimOffenseAssociationID,
+      ClearedIndicator,
+      ClearanceType
+    )
+
+  writeLines('Creating Victim-Offender View')
+  ret$FullVictimOffenderView <- stagingTables$AdministrativeSegment %>%
+    samp() %>%
+    left_join(stagingTables$OffenderSegment %>%
+                rename(
+                  OffenderSexOfPersonTypeID=SexOfPersonTypeID,
+                  OffenderRaceOfPersonTypeID=RaceOfPersonTypeID,
+                  OffenderEthnicityOfPersonTypeID=EthnicityOfPersonTypeID,
+                ), by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$VictimSegment %>%
+                rename(
+                  VictimSexOfPersonTypeID=SexOfPersonTypeID,
+                  VictimRaceOfPersonTypeID=RaceOfPersonTypeID,
+                  VictimEthnicityOfPersonTypeID=EthnicityOfPersonTypeID,
+                  VictimResidentStatusOfPersonTypeID=ResidentStatusOfPersonTypeID
+                ), by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$VictimOffenderAssociation, by=c('OffenderSegmentID', 'VictimSegmentID')) %>%
+    left_join(stagingTables$TypeInjury, by='VictimSegmentID') %>%
+    left_join(stagingTables$AggravatedAssaultHomicideCircumstances, by='VictimSegmentID') %>%
+    left_join(stagingTables$ArresteeSegment %>% select(AdministrativeSegmentID, ArresteeSegmentID), by='AdministrativeSegmentID') %>%
+    mutate_at(vars(ends_with('ID')), as.integer) %>%
+    mutate(
+      VictimAgeDim=createVictimAgeDim(AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator, AgeOfVictimMin),
+      VictimAgeGroup=createAgeGroup(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimAgeGroupSort=createAgeGroupSort(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimUcrAgeGroup=createUcrAgeGroup(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      VictimUcrAgeGroupSort=createUcrAgeGroupSort(AgeOfVictimMin, AgeNeonateIndicator, AgeFirstWeekIndicator, AgeFirstYearIndicator),
+      OffenderAgeDim=createOffenderAgeDim(AgeOfOffenderMin),
+      OffenderAgeGroup=createAgeGroup(AgeOfOffenderMin),
+      OffenderAgeGroupSort=createAgeGroupSort(AgeOfOffenderMin),
+      OffenderUcrAgeGroup=createUcrAgeGroup(AgeOfOffenderMin),
+      OffenderUcrAgeGroupSort=createUcrAgeGroupSort(AgeOfOffenderMin),
+      ClearedIndicator=createClearedIndicator(ArresteeSegmentID, ClearedExceptionallyTypeID),
+      ClearanceType=createClearanceType(ClearedExceptionallyTypeID, ArresteeSegmentID),
+      AggravatedAssaultHomicideCircumstancesTypeID=case_when(is.na(AggravatedAssaultHomicideCircumstancesTypeID) ~ 99998L, TRUE ~ AggravatedAssaultHomicideCircumstancesTypeID),
+      TypeInjuryTypeID=case_when(is.na(TypeInjuryTypeID) ~ 1L, TRUE ~ TypeInjuryTypeID),
+      VictimOffenderAssociationID=case_when(is.na(VictimOffenderAssociationID) ~ -1L, TRUE ~ VictimOffenderAssociationID)
+    ) %>%
+    select(
+      AdministrativeSegmentID,
+      IncidentHour,
+      ClearedExceptionallyTypeID,
+      IncidentDate,
+      IncidentDateID,
+      AgencyID,
+      OffenderSequenceNumber,
+      AgeOfOffenderMin,
+      AgeOfOffenderMax,
+      OffenderAgeDim,
+      OffenderAgeGroup,
+      OffenderAgeGroupSort,
+      OffenderUcrAgeGroup,
+      OffenderUcrAgeGroupSort,
+      OffenderSexOfPersonTypeID,
+      OffenderRaceOfPersonTypeID,
+      OffenderEthnicityOfPersonTypeID,
+      OffenderSegmentID,
+      VictimSequenceNumber,
+      TypeOfVictimTypeID,
+      OfficerActivityCircumstanceTypeID,
+      OfficerAssignmentTypeTypeID,
+      VictimSexOfPersonTypeID,
+      VictimRaceOfPersonTypeID,
+      VictimEthnicityOfPersonTypeID,
+      VictimResidentStatusOfPersonTypeID,
+      AdditionalJustifiableHomicideCircumstancesTypeID,
+      AgeOfVictimMin,
+      AgeOfVictimMax,
+      AgeNeonateIndicator,
+      AgeFirstWeekIndicator,
+      AgeFirstYearIndicator,
+      VictimAgeDim,
+      VictimAgeGroup,
+      VictimAgeGroupSort,
+      VictimUcrAgeGroup,
+      VictimUcrAgeGroupSort,
+      VictimSegmentID,
+      VictimOffenderRelationshipTypeID,
+      AggravatedAssaultHomicideCircumstancesTypeID,
+      TypeInjuryTypeID,
+      VictimOffenderAssociationID,
+      ClearedIndicator,
+      ClearanceType
+    )
+
+  writeLines('Creating Group A Arrest View')
+  ret$FullGroupAArrestView <- stagingTables$AdministrativeSegment %>%
+    samp() %>%
+    inner_join(stagingTables$ArresteeSegment, by='AdministrativeSegmentID') %>%
+    left_join(stagingTables$ArresteeSegmentWasArmedWith, by='ArresteeSegmentID') %>%
+    mutate_at(vars(ends_with('ID')), as.integer) %>%
+    mutate(
+      ArresteeAgeDim=createOffenderAgeDim(AgeOfArresteeMin),
+      ArresteeAgeGroup=createAgeGroup(AgeOfArresteeMin),
+      ArresteeAgeGroupSort=createAgeGroupSort(AgeOfArresteeMin),
+      ArresteeUcrAgeGroup=createUcrAgeGroup(AgeOfArresteeMin),
+      ArresteeUcrAgeGroupSort=createUcrAgeGroupSort(AgeOfArresteeMin),
+      ArresteeWasArmedWithTypeID=case_when(is.na(ArresteeWasArmedWithTypeID) ~ -1L, TRUE ~ ArresteeWasArmedWithTypeID),
+      AutomaticWeaponIndicator=case_when(is.na(AutomaticWeaponIndicator) ~ 'N', TRUE ~ AutomaticWeaponIndicator),
+      ArrestDateID=case_when(is.na(ArrestDateID) ~ 99998L, TRUE ~ ArrestDateID)
+    ) %>%
+    select(
+      AdministrativeSegmentID,
+      IncidentHour,
+      ClearedExceptionallyTypeID,
+      IncidentDate,
+      IncidentDateID,
+      AgencyID,
+      ArresteeSequenceNumber,
+      ArrestTransactionNumber,
+      ArrestDate,
+      TypeOfArrestTypeID,
+      MultipleArresteeSegmentsIndicatorTypeID,
+      AgeOfArresteeMin,
+      AgeOfArresteeMax,
+      ArresteeAgeDim,
+      ArresteeAgeGroup,
+      ArresteeAgeGroupSort,
+      ArresteeUcrAgeGroup,
+      ArresteeUcrAgeGroupSort,
+      SexOfPersonTypeID,
+      RaceOfPersonTypeID,
+      EthnicityOfPersonTypeID,
+      ResidentStatusOfPersonTypeID,
+      DispositionOfArresteeUnder18TypeID,
+      UCROffenseCodeTypeID,
+      ArrestDateID,
+      ArresteeSegmentID,
+      ArresteeSegmentWasArmedWithID,
+      ArresteeWasArmedWithTypeID,
+      AutomaticWeaponIndicator
+    )
+
+  writeLines('Creating Property View')
+  ret$FullPropertyView <- stagingTables$AdministrativeSegment %>%
+    samp() %>%
+    inner_join(stagingTables$PropertySegment, by='AdministrativeSegmentID') %>%
+    inner_join(stagingTables$PropertyType, by='PropertySegmentID') %>%
+    left_join(stagingTables$SuspectedDrugType, by='PropertySegmentID') %>%
+    left_join(stagingTables$ArresteeSegment, by='AdministrativeSegmentID') %>%
+    mutate_at(vars(ends_with('ID')), as.integer) %>%
+    mutate(
+      StolenMotorVehiclesDim=createMotorVehiclesDim(NumberOfStolenMotorVehicles),
+      RecoveredMotorVehiclesDim=createMotorVehiclesDim(NumberOfRecoveredMotorVehicles),
+      ClearedIndicator=createClearedIndicator(ArresteeSegmentID, ClearedExceptionallyTypeID),
+      ClearanceType=createClearanceType(ClearedExceptionallyTypeID, ArresteeSegmentID),
+      TypePropertyLossEtcTypeID=case_when(is.na(TypePropertyLossEtcTypeID) ~ 1L, TRUE ~ TypePropertyLossEtcTypeID),
+      NumberOfStolenMotorVehicles=case_when(is.na(NumberOfStolenMotorVehicles) ~ 0L, TRUE ~ NumberOfStolenMotorVehicles),
+      NumberOfRecoveredMotorVehicles=case_when(is.na(NumberOfRecoveredMotorVehicles) ~ 0L, TRUE ~ NumberOfRecoveredMotorVehicles),
+      PropertyDescriptionTypeID=case_when(is.na(PropertyDescriptionTypeID) ~ 99998L, TRUE ~ PropertyDescriptionTypeID),
+      ValueOfProperty=case_when(is.na(ValueOfProperty) ~ 0, TRUE ~ ValueOfProperty),
+      RecoveredDateID=case_when(is.na(RecoveredDateID) ~ 99998L, TRUE ~ RecoveredDateID),
+      SuspectedDrugTypeTypeID=case_when(is.na(SuspectedDrugTypeTypeID) ~ 99998L, TRUE ~ SuspectedDrugTypeTypeID),
+      TypeDrugMeasurementTypeID=case_when(is.na(TypeDrugMeasurementTypeID) ~ 99998L, TRUE ~ TypeDrugMeasurementTypeID),
+      EstimatedDrugQuantity=case_when(is.na(EstimatedDrugQuantity) ~ 0, TRUE ~ EstimatedDrugQuantity)
+    ) %>%
+    select(
+      AdministrativeSegmentID,
+      IncidentHour,
+      ClearedExceptionallyTypeID,
+      IncidentDate,
+      IncidentDateID,
+      AgencyID,
+      TypePropertyLossEtcTypeID,
+      NumberOfStolenMotorVehicles,
+      NumberOfRecoveredMotorVehicles,
+      PropertySegmentID,
+      PropertyDescriptionTypeID,
+      ValueOfProperty,
+      RecoveredDate,
+      RecoveredDateID,
+      SuspectedDrugTypeID,
+      PropertyTypeID,
+      SuspectedDrugTypeTypeID,
+      TypeDrugMeasurementTypeID,
+      EstimatedDrugQuantity,
+      ClearedIndicator,
+      ClearanceType,
+      StolenMotorVehiclesDim,
+      RecoveredMotorVehiclesDim
+    )
+
+  writeLines('Creating Group B Arrest View')
+  ret$FullGroupBArrestView <- stagingTables$ArrestReportSegment %>%
+    samp() %>%
+    left_join(stagingTables$ArrestReportSegmentWasArmedWith, by='ArrestReportSegmentID') %>%
+    mutate_at(vars(ends_with('ID')), as.integer) %>%
+    mutate(
+      ArresteeAgeDim=createOffenderAgeDim(AgeOfArresteeMin),
+      ArresteeAgeGroup=createAgeGroup(AgeOfArresteeMin),
+      ArresteeAgeGroupSort=createAgeGroupSort(AgeOfArresteeMin),
+      ArresteeUcrAgeGroup=createUcrAgeGroup(AgeOfArresteeMin),
+      ArresteeUcrAgeGroupSort=createUcrAgeGroupSort(AgeOfArresteeMin),
+      ArresteeWasArmedWithTypeID=case_when(is.na(ArresteeWasArmedWithTypeID) ~ -1L, TRUE ~ ArresteeWasArmedWithTypeID),
+      AutomaticWeaponIndicator=case_when(is.na(AutomaticWeaponIndicator) ~ 'N', TRUE ~ AutomaticWeaponIndicator),
+      ArrestDateID=case_when(is.na(ArrestDateID) ~ 99998L, TRUE ~ ArrestDateID)
+    ) %>%
+    select(
+      ArrestDate,
+      TypeOfArrestTypeID,
+      UCROffenseCodeTypeID,
+      AgeOfArresteeMin,
+      AgeOfArresteeMax,
+      ArresteeAgeDim,
+      ArresteeAgeGroup,
+      ArresteeAgeGroupSort,
+      ArresteeUcrAgeGroup,
+      ArresteeUcrAgeGroupSort,
+      SexOfPersonTypeID,
+      RaceOfPersonTypeID,
+      EthnicityOfPersonTypeID,
+      ResidentStatusOfPersonTypeID,
+      DispositionOfArresteeUnder18TypeID,
+      ArrestReportSegmentID,
+      ArrestDateID,
+      AgencyID,
+      ArrestReportSegmentWasArmedWithID,
+      ArresteeWasArmedWithTypeID,
+      AutomaticWeaponIndicator
+    )
+
+  ret <- map(ret, function(fdf) {
+    attr(fdf, 'type') <- 'FT'
+    fdf
+  }) %>%
+    c(dimensionTables)
+
+  if (writeToDatabase) {
+    walk2(ret, names(ret), function(ddf, tableName) {
+      writeLines(paste0('Writing dimensional db table ', tableName))
+      writeDataFrameToDatabase(dimensionalConn, ddf, tableName, viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+      writeLines(paste0('Creating indexes for table ', tableName))
+      if (attr(ddf, 'type') == 'CT') {
+        # note: "create index if not exists" only works on MariaDB...
+        dbExecute(dimensionalConn, paste0('create unique index if not exists ', tableName, '_pk on ', tableName, ' (', tableName, 'ID)'))
+      } else {
+        ddf %>% head(0) %>% select_if(~!(is.double(.x) | is.Date(.x))) %>% colnames() %>% walk(function(cnm) {
+          dbExecute(dimensionalConn, paste0('create index if not exists idx_', cnm, ' on ', tableName, ' (', cnm, ')'))
+        })
+      }
+    })
+    dbExecute(dimensionalConn, paste0('create index if not exists idx_AgencyTypeID on Agency (AgencyTypeID)'))
+  }
+
+  ret
+
+}
+
+#' @import dplyr
+#' @import tibble
+#' @import stringr
+enhanceDimensionTables <- function(dimensionTables) {
+
+  ret <- dimensionTables
+
+  ret$LocationTypeType <- ret$LocationTypeType %>%
+    mutate(
+      LocationTypeDetailCategoryDescription=case_when(
+        LocationTypeTypeID %in% c(2,3,5,6,7,8,12,14,17,19,21,23,24,37,38,40,41,44,45,47,48,54,55) ~ "Commercial",
+        LocationTypeTypeID %in% c(1,11,22,39,57) ~ "Public",
+        LocationTypeTypeID %in% c(4) ~ "Religious",
+        LocationTypeTypeID %in% c(9) ~ "Health Facility",
+        LocationTypeTypeID %in% c(10,16,42,50,51) ~ "Outdoors",
+        LocationTypeTypeID %in% c(13,18) ~ "Roadway",
+        LocationTypeTypeID %in% c(15) ~ "Public Safety",
+        LocationTypeTypeID %in% c(20) ~ "Residence",
+        LocationTypeTypeID %in% c(25,99) ~ "Other/Unknown",
+        LocationTypeTypeID %in% c(46) ~ "Farm",
+        LocationTypeTypeID %in% c(49) ~ "Military",
+        LocationTypeTypeID %in% c(52,53) ~ "Educational Institution",
+        LocationTypeTypeID %in% c(56) ~ "Tribal",
+        LocationTypeTypeID %in% c(58) ~ "Cyberspace",
+        TRUE ~ "Unknown"
+      ),
+      LocationTypeCategoryDescription=case_when(
+        LocationTypeTypeID %in% c(20) ~ "Residence",
+        LocationTypeTypeID %in% c(25,99) ~ "Other/Unknown",
+        TRUE ~ "Non-Residence"
+      )
+    )
+
+  ret$VictimOffenderRelationshipType <- ret$VictimOffenderRelationshipType %>%
+    mutate(
+      VictimOffenderRelationshipCategoryDescription=case_when(
+        VictimOffenderRelationshipTypeID %in% c(1,2,3,4,5,6,7,8,9,10,11,12) ~ "Victim was Family",
+        VictimOffenderRelationshipTypeID %in% c(18,20) ~ "Victim was Intimate Partner",
+        VictimOffenderRelationshipTypeID %in% c(14,15,16,17,19,21,22,23,24) ~ "Victim was Otherwise Known",
+        VictimOffenderRelationshipTypeID %in% c(25) ~ "Victim was Stranger",
+        VictimOffenderRelationshipTypeID %in% c(99) ~ "Relationship Unknown",
+        VictimOffenderRelationshipTypeID %in% c(98) ~ "None",
+        VictimOffenderRelationshipTypeID %in% c(13) ~ "Victim Was Offender",
+        TRUE ~ "Unknown"
+      )
+    )
+
+  ret$CompletionStatusType <- tribble(
+    ~CompletionStatusTypeID, ~CompletionStatusDescription,
+    1, 'Completed',
+    0, 'Attempted'
+  )
+
+  ret$ClearanceType <- tribble(
+    ~ClearanceTypeID, ~ClearanceTypeDescription, ~ClearanceTypeCategory, ~ClearanceTypeCategorySort, ~ClearanceTypeYN,
+    1, 'Death of Offender', 'Cleared Exceptionally', 1, 'Cleared',
+    2, 'Prosecution Declined', 'Cleared Exceptionally', 1, 'Cleared',
+    3, 'In Custody of Other Jurisdiction', 'Cleared Exceptionally', 1, 'Cleared',
+    4, 'Victim Refused to Cooperate', 'Cleared Exceptionally', 1, 'Cleared',
+    5, 'Juvenile/No Custody', 'Cleared Exceptionally', 1, 'Cleared',
+    11, 'Cleared by Arrest', 'Cleared by Arrest', 2, 'Cleared',
+    12, 'Not Cleared', 'Not Cleared', 3, 'Not Cleared'
+  )
+
+  ret$HourType <- tibble(
+    HourTypeID=0:23
+  ) %>% mutate(
+    HourTypeDescription=paste0(str_pad(HourTypeID, 2, 'left', '0'), ':00-', str_pad(HourTypeID+1, 2, 'left', '0'), ':00'),
+    HourTypeDetailCategory=case_when(
+      HourTypeID %in% 0:5 ~ 'Early Morning',
+      HourTypeID %in% 6:11 ~ 'Morning',
+      HourTypeID %in% 12:17 ~ 'Afternoon',
+      TRUE ~ 'Evening'
+    ),
+    HourTypeDetailCategorySort=case_when(
+      HourTypeID %in% 0:5 ~ 1L,
+      HourTypeID %in% 6:11 ~ 2L,
+      HourTypeID %in% 12:17 ~ 3L,
+      TRUE ~ 4L
+    ),
+    HourTypeCategory=case_when(
+      HourTypeID %in% 0:11 ~ 'AM',
+      TRUE ~ 'PM'
+    ),
+    HourTypeCategorySort=case_when(
+      HourTypeID %in% 0:11 ~ 1L,
+      TRUE ~ 2L
+    ),
+  ) %>% bind_rows(
+    tribble(
+      ~HourTypeID, ~HourTypeDescription, ~HourTypeDetailCategory, ~HourTypeDetailCategorySort, ~HourTypeCategory, ~HourTypeCategorySort,
+      99, 'Unknown', 'Unknown', 100, 'Unknown', 100
+    )
+  )
+
+  ret %>% map(function(ddf) {
+    attr(ddf, 'type') <- 'CT'
+    ddf
+  })
+
+}
+
+
+

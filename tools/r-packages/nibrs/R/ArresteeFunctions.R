@@ -335,11 +335,13 @@ writeRawArresteeSegmentTables <- function(conn, inputDfList, tableList) {
   rm(arresteeSegmentDf)
 
   writeLines(paste0("Writing ", nrow(ArresteeSegment), " arrestee segments to database"))
-  dbWriteTable(conn=conn, name="ArresteeSegment", value=ArresteeSegment, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, ArresteeSegment, 'ArresteeSegment', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(ArresteeSegment, 'type') <- 'FT'
 
   writeLines(paste0("Writing ", nrow(ArresteeSegmentWasArmedWith), " ArresteeSegmentWasArmedWith association rows to database"))
-  dbWriteTable(conn=conn, name="ArresteeSegmentWasArmedWith", value=ArresteeSegmentWasArmedWith, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, ArresteeSegmentWasArmedWith, 'ArresteeSegmentWasArmedWith', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(ArresteeSegmentWasArmedWith, 'type') <- 'AT'
 
   tableList$ArresteeSegment <- ArresteeSegment
@@ -417,11 +419,11 @@ writeRawArrestReportSegmentTables <- function(conn, inputDfList, tableList, reco
   rm(arresteeSegmentDf)
 
   writeLines(paste0("Writing ", nrow(ArrestReportSegment), " arrest report segments to database"))
-  dbWriteTable(conn=conn, name="ArrestReportSegment", value=ArrestReportSegment, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, ArrestReportSegment, 'ArrestReportSegment', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
   attr(ArrestReportSegment, 'type') <- 'FT'
 
   writeLines(paste0("Writing ", nrow(ArrestReportSegmentWasArmedWith), " ArrestReportSegmentWasArmedWith association rows to database"))
-  dbWriteTable(conn=conn, name="ArrestReportSegmentWasArmedWith", value=ArrestReportSegmentWasArmedWith, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, ArrestReportSegmentWasArmedWith, 'ArrestReportSegmentWasArmedWith', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
   attr(ArrestReportSegmentWasArmedWith, 'type') <- 'AT'
 
   tableList$ArrestReportSegment <- ArrestReportSegment

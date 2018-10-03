@@ -238,7 +238,7 @@ writeRawPropertySegmentTables <- function(conn, inputDfList, tableList) {
     select(AdministrativeSegmentID, TypePropertyLossEtcTypeID, PropertyDescriptionTypeID, ValueOfProperty, RecoveredDate, RecoveredDateID,
            V3010, V3011, SegmentActionTypeTypeID, V3012:V3023) %>%
     filter(TypePropertyLossEtcTypeID != 99999L) %>%
-    mutate(PropertyTypeID=row_number())
+    mutate(PropertyTypeID=row_number()) %>% as_tibble()
 
   PropertySegment <- PropertyType %>%
     select(AdministrativeSegmentID, TypePropertyLossEtcTypeID, SegmentActionTypeTypeID, NumberOfStolenMotorVehicles=V3010,
@@ -282,15 +282,18 @@ writeRawPropertySegmentTables <- function(conn, inputDfList, tableList) {
   rm(propertySegmentDf)
 
   writeLines(paste0("Writing ", nrow(PropertySegment), " property segments to database"))
-  dbWriteTable(conn=conn, name="PropertySegment", value=PropertySegment, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, PropertySegment, 'PropertySegment', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(PropertySegment, 'type') <- 'FT'
 
   writeLines(paste0("Writing ", nrow(SuspectedDrugType), " SuspectedDrugType association rows to database"))
-  dbWriteTable(conn=conn, name="SuspectedDrugType", value=SuspectedDrugType, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, SuspectedDrugType, 'SuspectedDrugType', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(SuspectedDrugType, 'type') <- 'AT'
 
   writeLines(paste0("Writing ", nrow(PropertyType), " PropertyType association rows to database"))
-  dbWriteTable(conn=conn, name="PropertyType", value=PropertyType, append=TRUE, row.names = FALSE)
+  writeDataFrameToDatabase(conn, PropertyType, 'PropertyType', viaBulk=TRUE, localBulk=FALSE, append=FALSE)
+
   attr(PropertyType, 'type') <- 'AT'
 
   tableList$PropertySegment <- PropertySegment
