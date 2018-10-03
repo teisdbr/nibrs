@@ -13,7 +13,5 @@ RcppExports.o
 nibrs.so
 filter.o
 tools/r-packages/nibrs/man
-NIBRSAnalyticsMondrianSchema.xml
-nibrs_analytics.sql.gz
 **/*.iml
 **/*.architect~
