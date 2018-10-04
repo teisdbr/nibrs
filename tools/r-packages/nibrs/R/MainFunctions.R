@@ -95,7 +95,7 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
 #' @param records number of records to read for the specified state, or -1 to extract all records
 #' @return a list of tibbles, where the name of each list member is the name of the table in the database
 #' @export
-loadICPSRRaw <- function(conn=DBI::dbConnect(RMariaDB::MariaDB(), host="localhost", dbname="nibrs_analytics", username="root"),
+loadICPSRRaw <- function(conn=DBI::dbConnect(RMariaDB::MariaDB(), host="localhost", dbname="search_nibrs_staging", username="root"),
                              dataDir, state, records=-1) {
 
   tryCatch({

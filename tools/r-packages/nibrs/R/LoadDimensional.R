@@ -28,7 +28,10 @@
 #' @param seed random seed.  Set this to the same value in subsequent calls to generate the same random sample.
 #' @return a list with all the dimensional database tables, as tibbles
 #' @export
-loadDimensional <- function(stagingConn, dimensionalConn, writeToDatabase=TRUE, sampleFraction=NULL, seed=12341234) {
+loadDimensional <- function(
+  stagingConn=DBI::dbConnect(RMariaDB::MariaDB(), host="localhost", dbname="search_nibrs_staging", username="root"),
+  dimensionalConn=DBI::dbConnect(RMariaDB::MariaDB(), host="localhost", dbname="search_nibrs_dimensional", username="root"),
+  writeToDatabase=TRUE, sampleFraction=NULL, seed=12341234) {
 
   dimensionTables <- c(
     'AdditionalJustifiableHomicideCircumstancesType',
