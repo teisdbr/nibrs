@@ -86,6 +86,7 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
 #' GitHub repo), and return the loaded tables in a list of tibbles.
 #'
 #' @importFrom DBI dbClearResult dbSendQuery
+#' @import RMariaDB
 #' @import tidyverse
 #' @importFrom stringr str_sub
 #' @param conn the database connection to use
