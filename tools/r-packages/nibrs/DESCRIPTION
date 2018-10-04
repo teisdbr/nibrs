@@ -10,7 +10,7 @@ Encoding: UTF-8
 Imports: tidyverse,
   DBI,
   RMariaDB,
-  openxlsx,
+  readxl,
   lubridate
 LazyData: true
 RoxygenNote: 6.1.0
