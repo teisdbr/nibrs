@@ -89,7 +89,7 @@ writeDateDimensionTable <- function(conn, minDate, maxDate, datesToExclude=as_da
 #' @import tidyverse
 #' @importFrom stringr str_sub
 #' @param conn the database connection to use
-#' @param dataDir path to the root directory containing serialized R data frames in subdirectories
+#' @param dataDir path to the root directory containing serialized R data frames from ICPSR in subdirectories
 #' @param state two-letter state code of data to extract
 #' @param records number of records to read for the specified state, or -1 to extract all records
 #' @return a list of tibbles, where the name of each list member is the name of the table in the database

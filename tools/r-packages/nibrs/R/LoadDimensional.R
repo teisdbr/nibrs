@@ -1,8 +1,18 @@
+#' Load the NIBRS dimensional database from a staging database
+#'
+#' Load the NIBRS dimensional database from a staging database, optionally taking a random sample of Administrative Segment
+#' and Group B Arrest Segment records.
 #' @importFrom DBI dbReadTable
 #' @importFrom lubridate is.Date
 #' @import dplyr
 #' @import purrr
 #' @import tibble
+#' @param stagingConn connection to the staging database
+#' @param dimensionalConn connection to the dimensional database
+#' @param writeToDatabase whether to write to the dimensional database or not
+#' @param sampleFraction numeric value between 0 and 1 indicating percentage of records in the sample.  NULL to take all records.
+#' @param seed random seed.  Set this to the same value in subsequent calls to generate the same random sample.
+#' @return a list with all the dimensional database tables, as tibbles
 #' @export
 loadDimensional <- function(stagingConn, dimensionalConn, writeToDatabase=TRUE, sampleFraction=NULL, seed=12341234) {
 
