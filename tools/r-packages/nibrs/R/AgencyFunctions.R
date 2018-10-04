@@ -12,46 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#' @importFrom DBI dbWriteTable dbSendQuery dbClearResult
-#' @importFrom readr read_fwf fwf_positions
-#' @import dplyr
-loadAgencies <- function(conn, rawIncidents, rawArrestees) {
-
-  dbClearResult(dbSendQuery(conn, "truncate Agency"))
-
-  Agency <- rawIncidents %>%
-    select(AgencyORI=ORI,
-           AgencyName=BH007,
-           BH012,
-           StateCode=BH008) %>%
-    bind_rows(
-      rawArrestees %>%
-        select(AgencyORI=ORI,
-               AgencyName=BH007,
-               BH012,
-               StateCode=BH008)
-    ) %>%
-    mutate(StateName=stateLookup[StateCode],
-           AgencyTypeID=ifelse(is.na(BH012), 99998, BH012+1)) %>%
-    select(-BH012) %>%
-    distinct() %>%
-    mutate(AgencyID=row_number()) %>%
-    mutate(AgencyName=case_when(
-      AgencyTypeID==3 ~ paste0(AgencyName, ' COUNTY SO'),
-      AgencyTypeID==2 ~ paste0(AgencyName, ' PD'),
-      TRUE ~ AgencyName
-    ))
-
-  writeLines(paste0("Writing ", nrow(Agency), " Agency rows to database"))
-
-  dbWriteTable(conn=conn, name="Agency", value=Agency, append=TRUE, row.names = FALSE)
-
-  attr(Agency, 'type') <- 'FT'
-
-  Agency
-
-}
-
 #' @importFrom DBI dbClearResult dbSendQuery
 truncateAgencies <- function(conn) {
   dbClearResult(dbSendQuery(conn, "truncate Agency"))

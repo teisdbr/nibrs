@@ -19,58 +19,6 @@ truncateOffender <- function(conn) {
 
 #' @import dplyr
 #' @import tidyr
-#' @importFrom DBI dbWriteTable
-writeOffenders <- function(conn, rawIncidentsDataFrame, segmentActionTypeTypeID) {
-
-  OffenderSegment <- bind_cols(
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V50061:V50063) %>%
-      gather(V_OffenderSequenceNumber, OffenderSequenceNumber, V50061:V50063),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V50071:V50073) %>%
-      gather(V_OffenderAge, AgeOfOffenderMin, V50071:V50073) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V50081:V50083) %>%
-      gather(V_OffenderSex, SexOfPersonTypeID, V50081:V50083) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V50091:V50093) %>%
-      gather(V_OffenderRace, RaceOfPersonTypeID, V50091:V50093) %>%
-      select(-AdministrativeSegmentID),
-
-    rawIncidentsDataFrame %>%
-      select(AdministrativeSegmentID, V50111:V50113) %>%
-      gather(V_OffenderEthnicity, EthnicityOfPersonTypeID, V50111:V50113) %>%
-      select(-AdministrativeSegmentID)
-
-  ) %>%
-    filter(OffenderSequenceNumber > 0) %>% select(-starts_with('V_')) %>%
-    mutate(AgeOfOffenderMin=ifelse(AgeOfOffenderMin < 0, NA, AgeOfOffenderMin),
-           AgeOfOffenderMax=AgeOfOffenderMin,
-           SexOfPersonTypeID=ifelse(SexOfPersonTypeID < 0, 99999, SexOfPersonTypeID+1),
-           RaceOfPersonTypeID=ifelse(RaceOfPersonTypeID < 0, 99999, RaceOfPersonTypeID),
-           EthnicityOfPersonTypeID=ifelse(EthnicityOfPersonTypeID < 0, 99999, EthnicityOfPersonTypeID),
-           SegmentActionTypeTypeID=segmentActionTypeTypeID) %>%
-    ungroup() %>%
-    mutate(OffenderSegmentID=row_number())
-
-  writeLines(paste0('Writing ', nrow(OffenderSegment), ' offender segments to database'))
-
-  dbWriteTable(conn=conn, name='OffenderSegment', value=OffenderSegment, append=TRUE, row.names = FALSE)
-
-  attr(OffenderSegment, 'type') <- 'FT'
-
-  OffenderSegment
-
-}
-
-#' @import dplyr
-#' @import tidyr
 #' @import tibble
 #' @importFrom DBI dbWriteTable
 writeRawOffenderSegmentTables <- function(conn, inputDfList, tableList) {
