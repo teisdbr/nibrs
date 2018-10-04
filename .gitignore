@@ -13,5 +13,6 @@ RcppExports.o
 nibrs.so
 filter.o
 tools/r-packages/nibrs/man
+tools/r-packages/nibrs_1.0.0.tar.gz
 **/*.iml
 **/*.architect~
