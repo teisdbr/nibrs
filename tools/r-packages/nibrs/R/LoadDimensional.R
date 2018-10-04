@@ -4,7 +4,7 @@
 #' @import purrr
 #' @import tibble
 #' @export
-loadDimensional <- function(stagingConn, dimensionalConn, writeToDatabase=TRUE, sampleFraction=NULL) {
+loadDimensional <- function(stagingConn, dimensionalConn, writeToDatabase=TRUE, sampleFraction=NULL, seed=12341234) {
 
   dimensionTables <- c(
     'AdditionalJustifiableHomicideCircumstancesType',
@@ -254,6 +254,7 @@ loadDimensional <- function(stagingConn, dimensionalConn, writeToDatabase=TRUE, 
   samp <- function(adf) {
     ret <- adf
     if (!is.null(sampleFraction)) {
+      set.seed(seed)
       ret <- adf %>% sample_frac(sampleFraction)
     }
     ret
