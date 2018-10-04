@@ -18,7 +18,7 @@
 # user is analytics
 
 # to connect to the db from localhost, assuming you've mapped host port 23306 to container 3306, like this:
-#   docker run -d --rm --name db-analytics-nibrs -p 23306:3306 searchncjis/db-analytics-nibrs
+#   docker run -d --rm --name nibrs-analytics-db -p 23306:3306 searchncjis/nibrs-analytics-db
 # run:
 #   mysql -u analytics -h localhost -P 23306 --protocol=tcp
 
