@@ -1,0 +1,1 @@
+{"connectionname":"Analytics","connectiontype":"MONDRIAN","jdbcurl":"jdbc:mariadb://nibrs-analytics-db/search_nibrs_dimensional","schema":"/datasources/Analytics.xml","driver":"org.mariadb.jdbc.Driver","username":"analytics","password":"","security_type":null}

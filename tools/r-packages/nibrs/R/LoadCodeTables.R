@@ -13,30 +13,37 @@
 # limitations under the License.
 
 #' @importFrom DBI dbClearResult dbSendQuery dbWriteTable
-#' @importFrom openxlsx read.xlsx
+#' @importFrom readxl read_excel
 #' @import dplyr
 #' @import purrr
 #' @import tibble
 #' @export
 loadCodeTables <- function(spreadsheetFile, conn) {
 
-  TOC <- read.xlsx(spreadsheetFile, sheet='TOC')
+  TOC <- read_excel(spreadsheetFile, sheet='TOC')
 
   map2(TOC$Table, TOC$Tab, function(codeTableName, tabName) {
-    ct <- read.xlsx(spreadsheetFile, sheet=tabName) %>%
+    ct <- read_excel(spreadsheetFile, sheet=tabName) %>%
       select(-starts_with('X_')) %>% as_tibble()
     writeLines(paste0("Loading code table: ", codeTableName))
     dbClearResult(dbSendQuery(conn, paste0("truncate ", codeTableName)))
     if (codeTableName=='UCROffenseCodeType') {
-      colnames(ct) <- c('UCROffenseCodeTypeID', 'UCROffenseCode', 'UCROffenseCodeDescription', 'OffenseCategory1',
+      colnames(ct) <- c('UCROffenseCodeTypeID', 'StateCode', 'StateDescription', 'OffenseCategory1',
                         'OffenseCategory2', 'OffenseCategory3', 'OffenseCategory4')
     } else if (codeTableName=='BiasMotivationType') {
-      colnames(ct) <- c('BiasMotivationTypeID', 'BiasMotivationCode', 'BiasMotivationDescription', 'BiasMotivationCategory')
+      colnames(ct) <- c('BiasMotivationTypeID', 'StateCode', 'StateDescription', 'BiasMotivationCategory')
     } else if (codeTableName=='AgencyType') {
-      colnames(ct) <- c('AgencyTypeID', 'AgencyTypeCode', 'AgencyTypeDescription')
+      colnames(ct) <- c('AgencyTypeID', 'StateCode', 'StateDescription')
     } else {
-      colnames(ct) <- c(paste0(codeTableName, 'ID'), paste0(gsub(x=codeTableName, pattern='(.+)Type', replacement='\\1'), c('Code','Description')))
+      colnames(ct) <- c(paste0(codeTableName, 'ID'), 'StateCode', 'StateDescription')
     }
+    ct <- ct %>% mutate(NIBRSCode=StateCode, NIBRSDescription=StateDescription) %>%
+      mutate_at(vars(ends_with('ID')), as.integer) %>%
+      mutate_at(vars(-ends_with('ID')), as.character) %>%
+      mutate(
+        StateCode=case_when(is.na(StateCode) & StateDescription=='Blank' ~ ' ', TRUE ~ StateCode),
+        NIBRSCode=case_when(is.na(NIBRSCode) & NIBRSDescription=='Blank' ~ ' ', TRUE ~ NIBRSCode)
+      )
     dbWriteTable(conn=conn, value=ct, name=codeTableName, append=TRUE, row.names = FALSE)
     attr(ct, 'type') <- 'CT'
     ct

@@ -46,7 +46,7 @@
     <column id="COL12" populated="true" UUID="29b55e94-8897-4a61-993b-784fd4bc4c83" autoIncrement="false" autoIncrementSequenceName="AdministrativeSegment_ReportDateIndicator_seq" defaultValue="" name="ReportDateIndicator" nullable="1" physicalName="ReportDateIndicator" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL13" populated="true" UUID="bee86730-1b6c-4119-8735-dc5853d93fdc" autoIncrement="false" autoIncrementSequenceName="AdministrativeSegment_IncidentHour_seq" defaultValue="" name="IncidentHour" nullable="0" physicalName="IncidentHour" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL13" populated="true" UUID="bee86730-1b6c-4119-8735-dc5853d93fdc" autoIncrement="false" autoIncrementSequenceName="AdministrativeSegment_IncidentHour_seq" defaultValue="" name="IncidentHour" nullable="1" physicalName="IncidentHour" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL14" populated="true" UUID="745a14ca-a9f0-48be-8c9f-fc1e6916ffb9" autoIncrement="false" autoIncrementSequenceName="AdministrativeSegment_ClearedExceptionallyTypeID_seq" defaultValue="" name="ClearedExceptionallyTypeID" nullable="0" physicalName="ClearedExceptionallyTypeID" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -500,7 +500,7 @@
   <table id="TAB145" populated="true" UUID="97f4a759-81d2-4da1-b6e9-90d535e560f7" name="UCROffenseCodeType" objectType="TABLE" physicalName="UCROffenseCodeType" >
    <remarks></remarks>
    <folder id="FOLTAB1451" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL146" populated="true" UUID="582210f0-f90d-433e-b006-6b286c340bfd" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_UCROffenseCodeTypeID_seq" defaultValue="" name="UCROffenseCodeTypeID" nullable="0" physicalName="UCROffenseCodeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL146" populated="true" UUID="582210f0-f90d-433e-b006-6b286c340bfd" autoIncrement="true" autoIncrementSequenceName="UCROffenseCodeType_UCROffenseCodeTypeID_seq" defaultValue="" name="UCROffenseCodeTypeID" nullable="0" physicalName="UCROffenseCodeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL147" populated="true" UUID="b6099d84-d128-4107-ba51-fdc8292d8bbe" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_StateCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -509,10 +509,10 @@
     <column id="COL148" populated="true" UUID="83bbabe7-cb4d-482a-a236-a9b28e4f8e11" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_StateDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL149" populated="true" UUID="c4ec6dcb-682f-4e7e-ae06-5df28669e41e" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_FBICode_seq" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL149" populated="true" UUID="c4ec6dcb-682f-4e7e-ae06-5df28669e41e" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_NIBRSCode_seq" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL150" populated="true" UUID="3e499226-da90-46cb-b9b9-ed1f923a46cd" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_FBIDescription_seq" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL150" populated="true" UUID="3e499226-da90-46cb-b9b9-ed1f923a46cd" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_NIBRSDescription_seq" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL151" populated="true" UUID="93810e86-9d6f-433a-b921-06de283097f7" autoIncrement="false" autoIncrementSequenceName="UCROffenseCodeType_OffenseCategory1_seq" defaultValue="" name="OffenseCategory1" nullable="0" physicalName="OffenseCategory1" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -541,7 +541,7 @@
   <table id="TAB157" populated="true" UUID="ee6aaa50-03cf-4f38-bd57-536e55b94e39" name="TypePropertyLossEtcType" objectType="TABLE" physicalName="TypePropertyLossEtcType" >
    <remarks></remarks>
    <folder id="FOLTAB1571" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL158" populated="true" UUID="86ab7851-8177-444d-8638-9523fb6769b1" autoIncrement="false" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossID_seq_1" defaultValue="" name="TypePropertyLossEtcTypeID" nullable="0" physicalName="TypePropertyLossEtcTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL158" populated="true" UUID="86ab7851-8177-444d-8638-9523fb6769b1" autoIncrement="true" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossID_seq_1" defaultValue="" name="TypePropertyLossEtcTypeID" nullable="0" physicalName="TypePropertyLossEtcTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL159" populated="true" UUID="818130b1-b52d-4bc4-8d38-24601c428efd" autoIncrement="false" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -550,10 +550,10 @@
     <column id="COL160" populated="true" UUID="391743bd-5630-47fb-a180-7a42db535f5b" autoIncrement="false" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="85" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL161" populated="true" UUID="7f0b38f9-f8e5-4185-8895-fd0bcbcd5ffb" autoIncrement="false" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossCode_seq_1" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL161" populated="true" UUID="7f0b38f9-f8e5-4185-8895-fd0bcbcd5ffb" autoIncrement="false" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossCode_seq_1" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL162" populated="true" UUID="42f2c6dc-e13a-44d0-9895-9ed3707bd9dc" autoIncrement="false" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossDescription_seq_1" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="85" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL162" populated="true" UUID="42f2c6dc-e13a-44d0-9895-9ed3707bd9dc" autoIncrement="false" autoIncrementSequenceName="TypePropertyLossEtcType_TypePropertyLossDescription_seq_1" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="85" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -570,7 +570,7 @@
   <table id="TAB165" populated="true" UUID="10ce526f-f504-4470-8309-8c33fe8d14d2" name="AggravatedAssaultHomicideCircumstancesType" objectType="TABLE" physicalName="AggravatedAssaultHomicideCircumstancesType" >
    <remarks></remarks>
    <folder id="FOLTAB1651" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL166" populated="true" UUID="4474d139-2d20-4e5b-b14e-d1c031f91a5d" autoIncrement="false" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideTypeID_seq" defaultValue="" name="AggravatedAssaultHomicideCircumstancesTypeID" nullable="0" physicalName="AggravatedAssaultHomicideCircumstancesTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL166" populated="true" UUID="4474d139-2d20-4e5b-b14e-d1c031f91a5d" autoIncrement="true" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideTypeID_seq" defaultValue="" name="AggravatedAssaultHomicideCircumstancesTypeID" nullable="0" physicalName="AggravatedAssaultHomicideCircumstancesTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL167" populated="true" UUID="d1fcd44c-fad8-4778-8473-2c365b9b2eb5" autoIncrement="false" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -579,10 +579,10 @@
     <column id="COL168" populated="true" UUID="20862d7a-67bc-48e8-8604-9f2052cdc38c" autoIncrement="false" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="55" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL169" populated="true" UUID="543b1b7e-4823-4492-a7fb-a8410df374db" autoIncrement="false" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideCode_seq_1" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL169" populated="true" UUID="543b1b7e-4823-4492-a7fb-a8410df374db" autoIncrement="false" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideCode_seq_1" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL170" populated="true" UUID="56d33d38-984a-4d6c-8dcd-9288a30cd3f3" autoIncrement="false" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideDescription_seq_1" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="55" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL170" populated="true" UUID="56d33d38-984a-4d6c-8dcd-9288a30cd3f3" autoIncrement="false" autoIncrementSequenceName="AggravatedAssaultHomicideCircumstancesType_AssaultHomicideDescription_seq_1" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="55" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -599,7 +599,7 @@
   <table id="TAB173" populated="true" UUID="5e9bedff-dc58-45ee-a707-fe9655b930a0" name="VictimOffenderRelationshipType" objectType="TABLE" physicalName="VictimOffenderRelationshipType" >
    <remarks></remarks>
    <folder id="FOLTAB1731" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL174" populated="true" UUID="3993e402-cc23-46cf-8005-30620a8d12ea" autoIncrement="false" autoIncrementSequenceName="RelationshipsRelationshipVictimToOffendersType_RelationshipTypeID_seq_1" defaultValue="" name="VictimOffenderRelationshipTypeID" nullable="0" physicalName="VictimOffenderRelationshipTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL174" populated="true" UUID="3993e402-cc23-46cf-8005-30620a8d12ea" autoIncrement="true" autoIncrementSequenceName="RelationshipsRelationshipVictimToOffendersType_RelationshipTypeID_seq_1" defaultValue="" name="VictimOffenderRelationshipTypeID" nullable="0" physicalName="VictimOffenderRelationshipTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL175" populated="true" UUID="6ecdf8e0-75b5-49f1-b7c5-bd43b1006724" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -608,10 +608,10 @@
     <column id="COL176" populated="true" UUID="c7bc3dc4-2353-4e41-9f60-d5675f5f56df" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL177" populated="true" UUID="ddb40bad-37c7-428a-bb1b-563fe0cdc71a" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL177" populated="true" UUID="ddb40bad-37c7-428a-bb1b-563fe0cdc71a" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL178" populated="true" UUID="a2f46848-dce3-4121-9cbe-d568510da773" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL178" populated="true" UUID="a2f46848-dce3-4121-9cbe-d568510da773" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -628,7 +628,7 @@
   <table id="TAB181" populated="true" UUID="5d9abfd6-d247-4643-9ec6-d2e4a7efa42c" name="SegmentActionTypeType" objectType="TABLE" physicalName="SegmentActionTypeType" >
    <remarks></remarks>
    <folder id="FOLTAB1811" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL182" populated="true" UUID="34fe14fb-eb0e-4cb3-9b52-85c9fdcc8d61" autoIncrement="false" autoIncrementSequenceName="SegmentActionTypeType_SegmentActionTypeID_seq" defaultValue="" name="SegmentActionTypeTypeID" nullable="0" physicalName="SegmentActionTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL182" populated="true" UUID="34fe14fb-eb0e-4cb3-9b52-85c9fdcc8d61" autoIncrement="true" autoIncrementSequenceName="SegmentActionTypeType_SegmentActionTypeID_seq" defaultValue="" name="SegmentActionTypeTypeID" nullable="0" physicalName="SegmentActionTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL183" populated="true" UUID="044016af-8805-4803-8ea3-1ffd48a95dd2" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_1" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -637,10 +637,10 @@
     <column id="COL184" populated="true" UUID="f405c37f-fc05-431e-9c4a-11a9b9219460" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_1" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="25" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL185" populated="true" UUID="38a2556a-a94b-4937-a33a-c42246d79331" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_1" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL185" populated="true" UUID="38a2556a-a94b-4937-a33a-c42246d79331" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_1" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL186" populated="true" UUID="ddddee40-5c64-449b-8100-1f5b20c088a0" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_1" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="25" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL186" populated="true" UUID="ddddee40-5c64-449b-8100-1f5b20c088a0" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_1" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="25" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -657,7 +657,7 @@
   <table id="TAB189" populated="true" UUID="37b65c86-bcfc-4404-9bce-ce89fd4b4714" name="OffenderSuspectedOfUsingType" objectType="TABLE" physicalName="OffenderSuspectedOfUsingType" >
    <remarks></remarks>
    <folder id="FOLTAB1891" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL190" populated="true" UUID="aab41bd0-4cd6-4451-8ad7-70b2213551b4" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_OffenderSuspectedOfUsingID_seq" defaultValue="" name="OffenderSuspectedOfUsingTypeID" nullable="0" physicalName="OffenderSuspectedOfUsingTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL190" populated="true" UUID="aab41bd0-4cd6-4451-8ad7-70b2213551b4" autoIncrement="true" autoIncrementSequenceName="OffenderSuspectedOfUsingType_OffenderSuspectedOfUsingID_seq" defaultValue="" name="OffenderSuspectedOfUsingTypeID" nullable="0" physicalName="OffenderSuspectedOfUsingTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL191" populated="true" UUID="be66fdfc-1a72-4ac6-9a67-f625f7ede854" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_OffenderSuspectedOfUsingType_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -666,10 +666,10 @@
     <column id="COL192" populated="true" UUID="5c6a548f-1404-4fac-918f-f6dcf6907398" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_StateDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL193" populated="true" UUID="09cd5028-b9f2-4c17-869b-c48e56b842be" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_OffenderSuspectedOfUsingType_seq_1" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL193" populated="true" UUID="09cd5028-b9f2-4c17-869b-c48e56b842be" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_OffenderSuspectedOfUsingType_seq_1" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL194" populated="true" UUID="d93bb994-dff7-4244-8941-13a79a3b2d7a" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_FBIDescription_seq" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL194" populated="true" UUID="d93bb994-dff7-4244-8941-13a79a3b2d7a" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_NIBRSDescription_seq" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -686,7 +686,7 @@
   <table id="TAB197" populated="true" UUID="5f6e3f58-56c5-4283-98cc-1b3400e0ac4c" name="TypeOfCriminalActivityType" objectType="TABLE" physicalName="TypeOfCriminalActivityType" >
    <remarks></remarks>
    <folder id="FOLTAB1971" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL198" populated="true" UUID="01b6b1ad-20e0-4fe7-a6f6-02b411b3aba4" autoIncrement="false" autoIncrementSequenceName="TypeOfCriminalActivityType_TypeOfCriminalActivityID_seq" defaultValue="" name="TypeOfCriminalActivityTypeID" nullable="0" physicalName="TypeOfCriminalActivityTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL198" populated="true" UUID="01b6b1ad-20e0-4fe7-a6f6-02b411b3aba4" autoIncrement="true" autoIncrementSequenceName="TypeOfCriminalActivityType_TypeOfCriminalActivityID_seq" defaultValue="" name="TypeOfCriminalActivityTypeID" nullable="0" physicalName="TypeOfCriminalActivityTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL199" populated="true" UUID="0f4d0e58-5e03-4360-9908-2b6ab792e11a" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_2" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -695,10 +695,10 @@
     <column id="COL200" populated="true" UUID="006fdfb9-24cb-47e0-a8f6-0bf9d67cfa63" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_2" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="80" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL201" populated="true" UUID="a0780c12-60b2-438d-845a-394b2b5714ac" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_2" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL201" populated="true" UUID="a0780c12-60b2-438d-845a-394b2b5714ac" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_2" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL202" populated="true" UUID="bc3c680b-d8cf-4daf-be93-991f58e8d8e6" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_2" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="80" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL202" populated="true" UUID="bc3c680b-d8cf-4daf-be93-991f58e8d8e6" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_2" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="80" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -741,7 +741,7 @@
   <table id="TAB212" populated="true" UUID="6ec56f69-3eb2-4813-bc40-e68cbed15169" name="SexOfPersonType" objectType="TABLE" physicalName="SexOfPersonType" >
    <remarks></remarks>
    <folder id="FOLTAB2121" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL213" populated="true" UUID="47058e7c-b2d9-4ef3-a471-44490fd06023" autoIncrement="false" autoIncrementSequenceName="SexOfPersonType_SexOfPersonTypeID_seq_2" defaultValue="" name="SexOfPersonTypeID" nullable="0" physicalName="SexOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL213" populated="true" UUID="47058e7c-b2d9-4ef3-a471-44490fd06023" autoIncrement="true" autoIncrementSequenceName="SexOfPersonType_SexOfPersonTypeID_seq_2" defaultValue="" name="SexOfPersonTypeID" nullable="0" physicalName="SexOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL214" populated="true" UUID="1ce4e2e9-87d7-4578-8892-d42923e9860f" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_3" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -750,10 +750,10 @@
     <column id="COL215" populated="true" UUID="22c91df6-0d97-4953-96c6-a99c7932f1fc" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_3" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="35" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL216" populated="true" UUID="a99487c7-96b8-4ffc-91a2-dc56a20d8086" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_3" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL216" populated="true" UUID="a99487c7-96b8-4ffc-91a2-dc56a20d8086" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_3" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL217" populated="true" UUID="fe1334a3-c93f-412b-9982-8e1a619ee0c8" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_3" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="35" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL217" populated="true" UUID="fe1334a3-c93f-412b-9982-8e1a619ee0c8" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_3" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="35" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -770,7 +770,7 @@
   <table id="TAB220" populated="true" UUID="8d61dc44-b607-4321-bf60-14a593866262" name="RaceOfPersonType" objectType="TABLE" physicalName="RaceOfPersonType" >
    <remarks></remarks>
    <folder id="FOLTAB2201" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL221" populated="true" UUID="fed16ea5-1965-42cc-a887-83343013a7ba" autoIncrement="false" autoIncrementSequenceName="RaceOfPersonType_RaceOfPersonTypeID_seq_3" defaultValue="" name="RaceOfPersonTypeID" nullable="0" physicalName="RaceOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL221" populated="true" UUID="fed16ea5-1965-42cc-a887-83343013a7ba" autoIncrement="true" autoIncrementSequenceName="RaceOfPersonType_RaceOfPersonTypeID_seq_3" defaultValue="" name="RaceOfPersonTypeID" nullable="0" physicalName="RaceOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL222" populated="true" UUID="df725150-6fc8-4246-a4e4-bd302bd53b2d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_4" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -779,10 +779,10 @@
     <column id="COL223" populated="true" UUID="5bec5383-cdf6-435b-acd9-b7f602e544e9" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_4" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="42" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL224" populated="true" UUID="7e34c96b-539a-47e6-80e8-30be70b10b85" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_4" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL224" populated="true" UUID="7e34c96b-539a-47e6-80e8-30be70b10b85" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_4" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL225" populated="true" UUID="bc45ac77-617a-41e9-857f-d7e5f0551b34" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_4" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="42" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL225" populated="true" UUID="bc45ac77-617a-41e9-857f-d7e5f0551b34" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_4" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="42" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -799,7 +799,7 @@
   <table id="TAB228" populated="true" UUID="9f5c51be-cc81-4332-a8a4-f7966d2e25e2" name="PropertyDescriptionType" objectType="TABLE" physicalName="PropertyDescriptionType" >
    <remarks></remarks>
    <folder id="FOLTAB2281" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL229" populated="true" UUID="041a0677-af6f-44b8-958e-01d44feab7e5" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_PropertyDescriptionTypeID_seq" defaultValue="" name="PropertyDescriptionTypeID" nullable="0" physicalName="PropertyDescriptionTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL229" populated="true" UUID="041a0677-af6f-44b8-958e-01d44feab7e5" autoIncrement="true" autoIncrementSequenceName="PropertyDescriptionType_PropertyDescriptionTypeID_seq" defaultValue="" name="PropertyDescriptionTypeID" nullable="0" physicalName="PropertyDescriptionTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL230" populated="true" UUID="4ad1d047-2852-4cf7-aff0-f462dfe50a06" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_5" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -808,10 +808,10 @@
     <column id="COL231" populated="true" UUID="4829a635-5fde-4092-b189-88005050361a" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_5" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL232" populated="true" UUID="61fbf4e2-e914-476d-92ce-71daec148275" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_5" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL232" populated="true" UUID="61fbf4e2-e914-476d-92ce-71daec148275" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_5" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL233" populated="true" UUID="5b527648-8aae-4d9a-b691-d2933665550b" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_5" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL233" populated="true" UUID="5b527648-8aae-4d9a-b691-d2933665550b" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_5" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="70" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -828,7 +828,7 @@
   <table id="TAB236" populated="true" UUID="088500c7-bc10-4324-bb85-65dcba446007" name="TypeDrugMeasurementType" objectType="TABLE" physicalName="TypeDrugMeasurementType" >
    <remarks></remarks>
    <folder id="FOLTAB2361" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL237" populated="true" UUID="28785c3a-cdac-4487-98d8-883e5447c02f" autoIncrement="false" autoIncrementSequenceName="TypeDrugMeasurementTypeID_TypeDrugMeasurementTypeID_seq_1_1_1" defaultValue="" name="TypeDrugMeasurementTypeID" nullable="0" physicalName="TypeDrugMeasurementTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL237" populated="true" UUID="28785c3a-cdac-4487-98d8-883e5447c02f" autoIncrement="true" autoIncrementSequenceName="TypeDrugMeasurementTypeID_TypeDrugMeasurementTypeID_seq_1_1_1" defaultValue="" name="TypeDrugMeasurementTypeID" nullable="0" physicalName="TypeDrugMeasurementTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL238" populated="true" UUID="97fea080-e6d5-44a9-99aa-21e263363e03" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_6" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -837,10 +837,10 @@
     <column id="COL239" populated="true" UUID="7c762882-3e2d-4fd9-9c23-f808174e6df1" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_6" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL240" populated="true" UUID="dd559ed3-2475-42be-b7e5-f37840d57dee" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_6" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL240" populated="true" UUID="dd559ed3-2475-42be-b7e5-f37840d57dee" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_6" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL241" populated="true" UUID="b155b9b8-c78a-487d-9243-eb0d2046b2a7" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_6" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="20" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL241" populated="true" UUID="b155b9b8-c78a-487d-9243-eb0d2046b2a7" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_6" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="20" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -857,7 +857,7 @@
   <table id="TAB244" populated="true" UUID="4b9a2b82-2913-405b-9837-77b2e0dc1479" name="TypeOfVictimType" objectType="TABLE" physicalName="TypeOfVictimType" >
    <remarks></remarks>
    <folder id="FOLTAB2441" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL245" populated="true" UUID="fd29d6d8-8956-4e7e-a0ba-b2b960380298" autoIncrement="false" autoIncrementSequenceName="TypeOfVictimType_TypeOfVictimTypeID_seq_1" defaultValue="" name="TypeOfVictimTypeID" nullable="0" physicalName="TypeOfVictimTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL245" populated="true" UUID="fd29d6d8-8956-4e7e-a0ba-b2b960380298" autoIncrement="true" autoIncrementSequenceName="TypeOfVictimType_TypeOfVictimTypeID_seq_1" defaultValue="" name="TypeOfVictimTypeID" nullable="0" physicalName="TypeOfVictimTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL246" populated="true" UUID="e6fe5d59-ce3a-490d-9697-9eaaf1818a51" autoIncrement="false" autoIncrementSequenceName="TypeOfVictimType_StateCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -866,10 +866,10 @@
     <column id="COL247" populated="true" UUID="741eaf1b-2f59-476b-b45e-7cf52c586dc2" autoIncrement="false" autoIncrementSequenceName="TypeOfVictimType_StateDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL248" populated="true" UUID="41dbe285-1100-4b79-890e-7fd013b2969d" autoIncrement="false" autoIncrementSequenceName="TypeOfVictimType_FBICode_seq" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL248" populated="true" UUID="41dbe285-1100-4b79-890e-7fd013b2969d" autoIncrement="false" autoIncrementSequenceName="TypeOfVictimType_NIBRSCode_seq" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL249" populated="true" UUID="62bb58bf-db5c-4f75-b3e1-a7e096d12f99" autoIncrement="false" autoIncrementSequenceName="TypeOfVictimType_FBIDescription_seq" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL249" populated="true" UUID="62bb58bf-db5c-4f75-b3e1-a7e096d12f99" autoIncrement="false" autoIncrementSequenceName="TypeOfVictimType_NIBRSDescription_seq" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -886,7 +886,7 @@
   <table id="TAB252" populated="true" UUID="68d0ff05-62d1-4e96-bab1-e1e5339396e1" name="EthnicityOfPersonType" objectType="TABLE" physicalName="EthnicityOfPersonType" >
    <remarks></remarks>
    <folder id="FOLTAB2521" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL253" populated="true" UUID="b8c35489-5523-4428-8934-204727423f68" autoIncrement="false" autoIncrementSequenceName="EthnicityOfPersonType_EthnicityOfPersonTypeID_seq_2_1" defaultValue="" name="EthnicityOfPersonTypeID" nullable="0" physicalName="EthnicityOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL253" populated="true" UUID="b8c35489-5523-4428-8934-204727423f68" autoIncrement="true" autoIncrementSequenceName="EthnicityOfPersonType_EthnicityOfPersonTypeID_seq_2_1" defaultValue="" name="EthnicityOfPersonTypeID" nullable="0" physicalName="EthnicityOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL254" populated="true" UUID="c57c8cbe-d1f9-46f9-94ca-8e39516d4a62" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_7" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -895,10 +895,10 @@
     <column id="COL255" populated="true" UUID="5abe39b5-2914-4b6e-918d-805406b6cd8c" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_7" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL256" populated="true" UUID="1bb5ddeb-60bf-475b-9039-8c4337412026" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_7" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL256" populated="true" UUID="1bb5ddeb-60bf-475b-9039-8c4337412026" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_7" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL257" populated="true" UUID="45148399-07eb-4662-9d76-f7941f9fabf2" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_7" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL257" populated="true" UUID="45148399-07eb-4662-9d76-f7941f9fabf2" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_7" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -915,13 +915,13 @@
   <table id="TAB260" populated="true" UUID="117e8573-af47-4160-a616-68f4440736e3" name="ResidentStatusOfPersonType" objectType="TABLE" physicalName="ResidentStatusOfPersonType" >
    <remarks></remarks>
    <folder id="FOLTAB2601" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL261" populated="true" UUID="17b85c7a-68a6-43e1-be20-8052925a27b0" autoIncrement="false" autoIncrementSequenceName="ResidentStatusCodeLookup_1_EthnicityOfPersonTypeID_seq_2" defaultValue="" name="ResidentStatusOfPersonTypeID" nullable="0" physicalName="ResidentStatusOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL261" populated="true" UUID="17b85c7a-68a6-43e1-be20-8052925a27b0" autoIncrement="true" autoIncrementSequenceName="ResidentStatusCodeLookup_1_EthnicityOfPersonTypeID_seq_2" defaultValue="" name="ResidentStatusOfPersonTypeID" nullable="0" physicalName="ResidentStatusOfPersonTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL262" populated="true" UUID="619f97c9-4bd1-4db0-9884-cefee0a8bc34" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_8" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL262" populated="true" UUID="619f97c9-4bd1-4db0-9884-cefee0a8bc34" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_8" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL263" populated="true" UUID="28ae593f-4121-485c-be5b-236f6f7a9269" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_8" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL263" populated="true" UUID="28ae593f-4121-485c-be5b-236f6f7a9269" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_8" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL264" populated="true" UUID="8524e224-d165-4911-ad9a-c7312394a0f2" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_8" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -967,7 +967,7 @@
   <table id="TAB274" populated="true" UUID="e8957b8f-263d-46f7-a874-d49f54a69101" name="TypeInjuryType" objectType="TABLE" physicalName="TypeInjuryType" >
    <remarks></remarks>
    <folder id="FOLTAB2741" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL275" populated="true" UUID="fc741e46-972b-4433-9b90-603b42603ac6" autoIncrement="false" autoIncrementSequenceName="TypeInjuryType_TypeOfInjuryCodeID_seq" defaultValue="" name="TypeInjuryTypeID" nullable="0" physicalName="TypeInjuryTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL275" populated="true" UUID="fc741e46-972b-4433-9b90-603b42603ac6" autoIncrement="true" autoIncrementSequenceName="TypeInjuryType_TypeOfInjuryCodeID_seq" defaultValue="" name="TypeInjuryTypeID" nullable="0" physicalName="TypeInjuryTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL276" populated="true" UUID="3271469a-ddb4-4e6c-85b1-d926122fe627" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_9" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -976,10 +976,10 @@
     <column id="COL277" populated="true" UUID="c2f53bd3-607b-4742-9466-57fbf5a38fbd" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_9" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL278" populated="true" UUID="e4bfa85d-9d7c-4f22-96c4-c1340ce63a95" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_9" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL278" populated="true" UUID="e4bfa85d-9d7c-4f22-96c4-c1340ce63a95" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_9" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL279" populated="true" UUID="e0777042-c28f-4f77-baed-e5d3c63e8292" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_9" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL279" populated="true" UUID="e0777042-c28f-4f77-baed-e5d3c63e8292" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_9" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="25" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -996,7 +996,7 @@
   <table id="TAB282" populated="true" UUID="293da801-2d71-48e1-8cf9-3edb1af2a354" name="AdditionalJustifiableHomicideCircumstancesType" objectType="TABLE" physicalName="AdditionalJustifiableHomicideCircumstancesType" >
    <remarks></remarks>
    <folder id="FOLTAB2821" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL283" populated="true" UUID="e4674568-52e9-48e3-be05-0378b1944dba" autoIncrement="false" autoIncrementSequenceName="AdditionalJustifiableHomicideCircumstancesType_AdditionalJustifiableHomicideCircumstancesTypeID_seq_1" defaultValue="" name="AdditionalJustifiableHomicideCircumstancesTypeID" nullable="0" physicalName="AdditionalJustifiableHomicideCircumstancesTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL283" populated="true" UUID="e4674568-52e9-48e3-be05-0378b1944dba" autoIncrement="true" autoIncrementSequenceName="AdditionalJustifiableHomicideCircumstancesType_AdditionalJustifiableHomicideCircumstancesTypeID_seq_1" defaultValue="" name="AdditionalJustifiableHomicideCircumstancesTypeID" nullable="0" physicalName="AdditionalJustifiableHomicideCircumstancesTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL284" populated="true" UUID="b33e7f67-3de4-4764-b775-ae92be118b25" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_10" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1005,10 +1005,10 @@
     <column id="COL285" populated="true" UUID="38d1697a-d071-4f55-abb8-c274a353f1ae" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_10" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="80" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL286" populated="true" UUID="3f5b8c84-f842-49af-88dc-4b50ba56de96" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_10" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL286" populated="true" UUID="3f5b8c84-f842-49af-88dc-4b50ba56de96" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_10" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL287" populated="true" UUID="b59074d6-196a-409d-a854-a0929a2f384b" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_10" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="80" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL287" populated="true" UUID="b59074d6-196a-409d-a854-a0929a2f384b" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_10" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="80" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1025,7 +1025,7 @@
   <table id="TAB290" populated="true" UUID="e60c67f9-562a-45f1-abc2-860880ba1b2c" name="TypeOfArrestType" objectType="TABLE" physicalName="TypeOfArrestType" >
    <remarks></remarks>
    <folder id="FOLTAB2901" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL291" populated="true" UUID="1fbcfbe9-d0b2-49ef-af54-607306fc4786" autoIncrement="false" autoIncrementSequenceName="TypeOfArrestType_TypeOfArrestID_seq" defaultValue="" name="TypeOfArrestTypeID" nullable="0" physicalName="TypeOfArrestTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL291" populated="true" UUID="1fbcfbe9-d0b2-49ef-af54-607306fc4786" autoIncrement="true" autoIncrementSequenceName="TypeOfArrestType_TypeOfArrestID_seq" defaultValue="" name="TypeOfArrestTypeID" nullable="0" physicalName="TypeOfArrestTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL292" populated="true" UUID="e324877d-d8c7-4112-94e1-606fb19b9867" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_11" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1034,10 +1034,10 @@
     <column id="COL293" populated="true" UUID="9a6a3910-a8fc-4569-9deb-9b3148f8f14d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_11" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="20" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL294" populated="true" UUID="765995c9-f8da-4451-89ea-8f7992b5e618" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_11" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL294" populated="true" UUID="765995c9-f8da-4451-89ea-8f7992b5e618" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_11" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL295" populated="true" UUID="a2b5d21c-d56f-4c59-b9da-f098e076b810" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_11" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="20" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL295" populated="true" UUID="a2b5d21c-d56f-4c59-b9da-f098e076b810" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_11" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="20" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1054,7 +1054,7 @@
   <table id="TAB298" populated="true" UUID="7df735ac-563d-4241-96df-22b9d251e2b0" name="MultipleArresteeSegmentsIndicatorType" objectType="TABLE" physicalName="MultipleArresteeSegmentsIndicatorType" >
    <remarks></remarks>
    <folder id="FOLTAB2981" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL299" populated="true" UUID="47e6ad4e-b009-4d33-b554-265fd2a23836" autoIncrement="false" autoIncrementSequenceName="MultipleArresteeSegmentsIndicatorLookup_TypeOfArrestID_seq_1" defaultValue="" name="MultipleArresteeSegmentsIndicatorTypeID" nullable="0" physicalName="MultipleArresteeSegmentsIndicatorTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL299" populated="true" UUID="47e6ad4e-b009-4d33-b554-265fd2a23836" autoIncrement="true" autoIncrementSequenceName="MultipleArresteeSegmentsIndicatorLookup_TypeOfArrestID_seq_1" defaultValue="" name="MultipleArresteeSegmentsIndicatorTypeID" nullable="0" physicalName="MultipleArresteeSegmentsIndicatorTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL300" populated="true" UUID="01f79d8b-c209-47d4-9281-9ee940d7c84b" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_12" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1063,10 +1063,10 @@
     <column id="COL301" populated="true" UUID="938d53f4-0b1a-4b1b-a9d7-99301f4bf9fc" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_12" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="15" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL302" populated="true" UUID="9f62a07f-cb47-4f81-b898-90a1beb9bf88" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_12" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL302" populated="true" UUID="9f62a07f-cb47-4f81-b898-90a1beb9bf88" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_12" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL303" populated="true" UUID="ba26a2bf-9085-4696-a261-6a3539bc00a7" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_12" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="15" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL303" populated="true" UUID="ba26a2bf-9085-4696-a261-6a3539bc00a7" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_12" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="15" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1109,7 +1109,7 @@
   <table id="TAB313" populated="true" UUID="de138ba4-1aa4-423e-be40-0d34573a0127" name="ArresteeWasArmedWithType" objectType="TABLE" physicalName="ArresteeWasArmedWithType" >
    <remarks></remarks>
    <folder id="FOLTAB3131" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL314" populated="true" UUID="22d382b3-c62c-4abf-b15e-97037e57d56c" autoIncrement="false" autoIncrementSequenceName="ArresteeWasArmedWithType_ArresteeArmedWithTypeID_seq" defaultValue="" name="ArresteeWasArmedWithTypeID" nullable="0" physicalName="ArresteeWasArmedWithTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL314" populated="true" UUID="22d382b3-c62c-4abf-b15e-97037e57d56c" autoIncrement="true" autoIncrementSequenceName="ArresteeWasArmedWithType_ArresteeArmedWithTypeID_seq" defaultValue="" name="ArresteeWasArmedWithTypeID" nullable="0" physicalName="ArresteeWasArmedWithTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL315" populated="true" UUID="243f0168-4487-45df-85f6-14a2ad908764" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_13" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL238" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1118,10 +1118,10 @@
     <column id="COL316" populated="true" UUID="4c9b14e4-1553-4f74-b4dc-ffbb9e5c1ffb" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_13" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL239" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL317" populated="true" UUID="06c41cd6-7ff3-4b05-b830-f14d9d77f5cc" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_13" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL317" populated="true" UUID="06c41cd6-7ff3-4b05-b830-f14d9d77f5cc" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_13" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL318" populated="true" UUID="6298e107-10a3-4f7c-b61c-66db20843cf7" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_13" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL318" populated="true" UUID="6298e107-10a3-4f7c-b61c-66db20843cf7" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_13" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1138,7 +1138,7 @@
   <table id="TAB321" populated="true" UUID="0c868bc9-e895-40e7-a72a-d19db409b79b" name="DispositionOfArresteeUnder18Type" objectType="TABLE" physicalName="DispositionOfArresteeUnder18Type" >
    <remarks></remarks>
    <folder id="FOLTAB3211" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL322" populated="true" UUID="2a716a28-592f-44d5-aa7e-a692c447d950" autoIncrement="false" autoIncrementSequenceName="DispositionOfArresteeUnder18Lookup_SexOfPersonTypeID_seq_1" defaultValue="" name="DispositionOfArresteeUnder18TypeID" nullable="0" physicalName="DispositionOfArresteeUnder18TypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL322" populated="true" UUID="2a716a28-592f-44d5-aa7e-a692c447d950" autoIncrement="true" autoIncrementSequenceName="DispositionOfArresteeUnder18Lookup_SexOfPersonTypeID_seq_1" defaultValue="" name="DispositionOfArresteeUnder18TypeID" nullable="0" physicalName="DispositionOfArresteeUnder18TypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL323" populated="true" UUID="bb6e083b-1352-4a8e-a433-692054342a63" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_14" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL238" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1147,10 +1147,10 @@
     <column id="COL324" populated="true" UUID="b6172934-b354-4a5b-b1b2-51bf9628c6a6" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_14" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL239" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL325" populated="true" UUID="e78d4e75-3661-4707-ae16-246467b05bf0" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_14" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL325" populated="true" UUID="e78d4e75-3661-4707-ae16-246467b05bf0" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_14" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL326" populated="true" UUID="1a6481e0-12a9-429e-92d0-cecbc70632ec" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_14" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL326" populated="true" UUID="1a6481e0-12a9-429e-92d0-cecbc70632ec" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_14" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1244,7 +1244,7 @@
   <table id="TAB353" populated="true" UUID="6a82b26e-d594-4f6d-8a92-5ffd1288e139" name="ClearedExceptionallyType" objectType="TABLE" physicalName="ClearedExceptionallyType" >
    <remarks></remarks>
    <folder id="FOLTAB3531" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL354" populated="true" UUID="2e3daedc-073b-4aad-821d-310c0f638d7b" autoIncrement="false" autoIncrementSequenceName="ClearedExceptionallyType_ClearedExceptionallyTypeID_seq_1" defaultValue="" name="ClearedExceptionallyTypeID" nullable="0" physicalName="ClearedExceptionallyTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL354" populated="true" UUID="2e3daedc-073b-4aad-821d-310c0f638d7b" autoIncrement="true" autoIncrementSequenceName="ClearedExceptionallyType_ClearedExceptionallyTypeID_seq_1" defaultValue="" name="ClearedExceptionallyTypeID" nullable="0" physicalName="ClearedExceptionallyTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL355" populated="true" UUID="9b7fe3d6-1636-4831-93f5-12a2c7fe67b7" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_15" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL183" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1253,10 +1253,10 @@
     <column id="COL356" populated="true" UUID="32516bc5-9c84-47f9-a930-391acfa65a5d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_15" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="220" referenceCount="1" scale="0" source-column-ref="COL184" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL357" populated="true" UUID="b16faf3e-d232-424d-a51e-a5a54dc0fd5d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_15" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL357" populated="true" UUID="b16faf3e-d232-424d-a51e-a5a54dc0fd5d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_15" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL358" populated="true" UUID="d8f3c33b-5abe-4f6e-af2c-9c3fbab6db85" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_15" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="220" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL358" populated="true" UUID="d8f3c33b-5abe-4f6e-af2c-9c3fbab6db85" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_15" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="220" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1273,7 +1273,7 @@
   <table id="TAB361" populated="true" UUID="beae3efa-35e6-445f-9ada-4db8415f87a5" name="LocationTypeType" objectType="TABLE" physicalName="LocationTypeType" >
    <remarks></remarks>
    <folder id="FOLTAB3611" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL362" populated="true" UUID="b5056e5e-3970-400b-bf05-2cd3e7b66c7c" autoIncrement="false" autoIncrementSequenceName="LocationTypeType_LocationTypeTypeID_seq" defaultValue="" name="LocationTypeTypeID" nullable="0" physicalName="LocationTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL362" populated="true" UUID="b5056e5e-3970-400b-bf05-2cd3e7b66c7c" autoIncrement="true" autoIncrementSequenceName="LocationTypeType_LocationTypeTypeID_seq" defaultValue="" name="LocationTypeTypeID" nullable="0" physicalName="LocationTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL363" populated="true" UUID="0e3c6124-da05-449c-a304-d921c6fa3063" autoIncrement="false" autoIncrementSequenceName="LocationTypeType_StateCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1282,10 +1282,10 @@
     <column id="COL364" populated="true" UUID="b428ac02-fb9f-4879-932f-dc0894e834eb" autoIncrement="false" autoIncrementSequenceName="LocationTypeType_StateDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="45" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL365" populated="true" UUID="566a1ea1-2f12-4f67-886c-dc1c8b5c5a99" autoIncrement="false" autoIncrementSequenceName="LocationTypeType_FBICode_seq" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL365" populated="true" UUID="566a1ea1-2f12-4f67-886c-dc1c8b5c5a99" autoIncrement="false" autoIncrementSequenceName="LocationTypeType_NIBRSCode_seq" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL366" populated="true" UUID="75f16dc8-e9c0-4153-b8f1-736e9d94cc95" autoIncrement="false" autoIncrementSequenceName="LocationTypeType_FBIDescription_seq" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="45" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL366" populated="true" UUID="75f16dc8-e9c0-4153-b8f1-736e9d94cc95" autoIncrement="false" autoIncrementSequenceName="LocationTypeType_NIBRSDescription_seq" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="45" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1302,7 +1302,7 @@
   <table id="TAB369" populated="true" UUID="0ac6be08-abc1-4d42-9da9-a2e4005873f4" name="MethodOfEntryType" objectType="TABLE" physicalName="MethodOfEntryType" >
    <remarks></remarks>
    <folder id="FOLTAB3691" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL370" populated="true" UUID="b1cedd6e-7cc4-4fb3-8bd7-b8661a520f7b" autoIncrement="false" autoIncrementSequenceName="MethodOfEntryType_MethodOfEntryTypeID_seq_1" defaultValue="" name="MethodOfEntryTypeID" nullable="0" physicalName="MethodOfEntryTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL370" populated="true" UUID="b1cedd6e-7cc4-4fb3-8bd7-b8661a520f7b" autoIncrement="true" autoIncrementSequenceName="MethodOfEntryType_MethodOfEntryTypeID_seq_1" defaultValue="" name="MethodOfEntryTypeID" nullable="0" physicalName="MethodOfEntryTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL371" populated="true" UUID="8c15ea0b-ff5b-470a-80e2-6ef78f103e33" autoIncrement="false" autoIncrementSequenceName="MethodOfEntryType_StateCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1311,10 +1311,10 @@
     <column id="COL372" populated="true" UUID="446144bd-74e3-4236-8094-4b1686be2e96" autoIncrement="false" autoIncrementSequenceName="MethodOfEntryType_StateDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="10" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL373" populated="true" UUID="5ebb4d82-e030-4f97-bd74-3069e065d424" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_OffenderSuspectedOfUsingType_seq_2" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL193" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL373" populated="true" UUID="5ebb4d82-e030-4f97-bd74-3069e065d424" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_OffenderSuspectedOfUsingType_seq_2" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL193" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL374" populated="true" UUID="f8f1ca17-c48d-40a7-8fd6-0611db2fcaba" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_FBIDescription_seq_1" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="10" referenceCount="1" scale="0" source-column-ref="COL194" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL374" populated="true" UUID="f8f1ca17-c48d-40a7-8fd6-0611db2fcaba" autoIncrement="false" autoIncrementSequenceName="OffenderSuspectedOfUsingType_NIBRSDescription_seq_1" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="10" referenceCount="1" scale="0" source-column-ref="COL194" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1331,7 +1331,7 @@
   <table id="TAB377" populated="true" UUID="e583c270-3483-4052-bcfd-5bd7a802b078" name="BiasMotivationType" objectType="TABLE" physicalName="BiasMotivationType" >
    <remarks></remarks>
    <folder id="FOLTAB3771" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL378" populated="true" UUID="683bb481-09e7-40c7-95f1-f8b197e55e83" autoIncrement="false" autoIncrementSequenceName="BiasMotivationType_BiasMotivationTypeID_seq_1" defaultValue="" name="BiasMotivationTypeID" nullable="0" physicalName="BiasMotivationTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL378" populated="true" UUID="683bb481-09e7-40c7-95f1-f8b197e55e83" autoIncrement="true" autoIncrementSequenceName="BiasMotivationType_BiasMotivationTypeID_seq_1" defaultValue="" name="BiasMotivationTypeID" nullable="0" physicalName="BiasMotivationTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL379" populated="true" UUID="e92fd0d6-1fec-4b2e-a619-bd1484c886eb" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_16" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1340,10 +1340,10 @@
     <column id="COL380" populated="true" UUID="2069b567-e47c-46db-996d-456453baf577" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_16" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="60" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL381" populated="true" UUID="1c3b9957-4c1b-4cd9-9187-c26900f02a5d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_16" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL381" populated="true" UUID="1c3b9957-4c1b-4cd9-9187-c26900f02a5d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_16" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL382" populated="true" UUID="67c42191-f871-4b52-a1dc-f287f56c9ac8" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_16" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="60" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL382" populated="true" UUID="67c42191-f871-4b52-a1dc-f287f56c9ac8" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_16" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="60" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL383" populated="true" UUID="f725f27d-bf81-4a9d-8359-b24980cb6b4c" autoIncrement="false" autoIncrementSequenceName="BiasMotivationType_BiasMotivationCategory_seq" defaultValue="" name="BiasMotivationCategory" nullable="0" physicalName="BiasMotivationCategory" precision="30" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1363,7 +1363,7 @@
   <table id="TAB386" populated="true" UUID="d7df96cc-fad9-499e-99ee-3de7dbd986ee" name="SuspectedDrugTypeType" objectType="TABLE" physicalName="SuspectedDrugTypeType" >
    <remarks></remarks>
    <folder id="FOLTAB3861" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL387" populated="true" UUID="70aa5834-4fdf-412c-a429-eb52625ddfb3" autoIncrement="false" autoIncrementSequenceName="SuspectedDrugTypeType_SuspectedDrugTypeTypeID_seq_1_1_1" defaultValue="" name="SuspectedDrugTypeTypeID" nullable="0" physicalName="SuspectedDrugTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL387" populated="true" UUID="70aa5834-4fdf-412c-a429-eb52625ddfb3" autoIncrement="true" autoIncrementSequenceName="SuspectedDrugTypeType_SuspectedDrugTypeTypeID_seq_1_1_1" defaultValue="" name="SuspectedDrugTypeTypeID" nullable="0" physicalName="SuspectedDrugTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL388" populated="true" UUID="1fc85302-c023-47f1-82b7-d55b17a9739e" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_17" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1372,10 +1372,10 @@
     <column id="COL389" populated="true" UUID="57461346-c228-4106-a460-e38cb6ea71a6" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_17" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="32" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL390" populated="true" UUID="43530715-4c16-4528-9cfb-0b27e84ea2f0" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_17" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL390" populated="true" UUID="43530715-4c16-4528-9cfb-0b27e84ea2f0" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_17" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL391" populated="true" UUID="fce703bc-9e4e-47d8-8699-534ade77982e" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_17" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="32" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL391" populated="true" UUID="fce703bc-9e4e-47d8-8699-534ade77982e" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_17" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="32" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1438,7 +1438,7 @@
   <table id="TAB406" populated="true" UUID="332fc079-7676-45eb-bae1-86014df00c47" name="TypeOfWeaponForceInvolvedType" objectType="TABLE" physicalName="TypeOfWeaponForceInvolvedType" >
    <remarks></remarks>
    <folder id="FOLTAB4061" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL407" populated="true" UUID="6e512ecf-a26f-4781-9bf1-bbe32cdbe414" autoIncrement="false" autoIncrementSequenceName="TypeOfWeaponForceType_TypeOfWeaponForceID_seq_1" defaultValue="" name="TypeOfWeaponForceInvolvedTypeID" nullable="0" physicalName="TypeOfWeaponForceInvolvedTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL407" populated="true" UUID="6e512ecf-a26f-4781-9bf1-bbe32cdbe414" autoIncrement="true" autoIncrementSequenceName="TypeOfWeaponForceType_TypeOfWeaponForceID_seq_1" defaultValue="" name="TypeOfWeaponForceInvolvedTypeID" nullable="0" physicalName="TypeOfWeaponForceInvolvedTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL408" populated="true" UUID="b4384369-3c22-4009-85e3-995ea40ed328" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_18" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL238" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1447,10 +1447,10 @@
     <column id="COL409" populated="true" UUID="049b1316-b25e-4f22-9244-1bd66302aecf" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_18" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL239" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL410" populated="true" UUID="b39261a9-c149-448c-a14c-315f2b1b1361" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_18" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL410" populated="true" UUID="b39261a9-c149-448c-a14c-315f2b1b1361" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_18" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL411" populated="true" UUID="90f8e115-44f0-4598-a644-5d5c1dfb80bf" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_18" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL411" populated="true" UUID="90f8e115-44f0-4598-a644-5d5c1dfb80bf" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_18" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="30" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1467,7 +1467,7 @@
   <table id="TAB414" populated="true" UUID="c67426da-0c3b-47d3-a5db-7724d7ba8d10" name="OfficerActivityCircumstanceType" objectType="TABLE" physicalName="OfficerActivityCircumstanceType" >
    <remarks></remarks>
    <folder id="FOLTAB4141" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL415" populated="true" UUID="47526ed9-4d09-4035-bb80-890d0bad34cd" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimTypeID_seq_2" defaultValue="" name="OfficerActivityCircumstanceTypeID" nullable="0" physicalName="OfficerActivityCircumstanceTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL415" populated="true" UUID="47526ed9-4d09-4035-bb80-890d0bad34cd" autoIncrement="true" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimTypeID_seq_2" defaultValue="" name="OfficerActivityCircumstanceTypeID" nullable="0" physicalName="OfficerActivityCircumstanceTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL416" populated="true" UUID="b89d1b63-8b5a-479d-895f-2fb72168bffb" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1476,10 +1476,10 @@
     <column id="COL417" populated="true" UUID="727f99d0-2bea-42ff-8737-a0b66bebd82e" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimDescription_seq" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL418" populated="true" UUID="73e9cc0f-e7d1-401b-ba10-94d11fec5c8d" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq_1" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL418" populated="true" UUID="73e9cc0f-e7d1-401b-ba10-94d11fec5c8d" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq_1" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL419" populated="true" UUID="ec7dfa8b-48a6-4de1-a5fa-a44c7fdceb3b" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimDescription_seq_1" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL419" populated="true" UUID="ec7dfa8b-48a6-4de1-a5fa-a44c7fdceb3b" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimDescription_seq_1" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="75" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1496,7 +1496,7 @@
   <table id="TAB422" populated="true" UUID="bd29045e-5133-42cb-8aad-271fc9aec67c" name="OfficerAssignmentTypeType" objectType="TABLE" physicalName="OfficerAssignmentTypeType" >
    <remarks></remarks>
    <folder id="FOLTAB4221" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL423" populated="true" UUID="9c3cfdaf-5756-460b-8d42-edb85e372af6" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimTypeID_seq_3" defaultValue="" name="OfficerAssignmentTypeTypeID" nullable="0" physicalName="OfficerAssignmentTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL415" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL423" populated="true" UUID="9c3cfdaf-5756-460b-8d42-edb85e372af6" autoIncrement="true" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimTypeID_seq_3" defaultValue="" name="OfficerAssignmentTypeTypeID" nullable="0" physicalName="OfficerAssignmentTypeTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" source-column-ref="COL415" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL424" populated="true" UUID="119e680c-be9e-40e8-94cf-b72f4f59e318" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq_1" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL418" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1505,10 +1505,10 @@
     <column id="COL425" populated="true" UUID="43eb77e7-e656-423f-8e7b-e9eb21a315df" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimDescription_seq_1" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="100" referenceCount="1" scale="0" source-column-ref="COL419" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL426" populated="true" UUID="2a52b4fa-388f-44f0-aef9-bdf9528ec7e2" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq_1_1" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL418" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL426" populated="true" UUID="2a52b4fa-388f-44f0-aef9-bdf9528ec7e2" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimCode_seq_1_1" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL418" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL427" populated="true" UUID="a29f2256-5987-496c-b908-543b18b03ac2" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimDescription_seq_1_1" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="100" referenceCount="1" scale="0" source-column-ref="COL419" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL427" populated="true" UUID="a29f2256-5987-496c-b908-543b18b03ac2" autoIncrement="false" autoIncrementSequenceName="TypeOfOfficerActivityCircumstanceType_TypeOfVictimDescription_seq_1_1" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="100" referenceCount="1" scale="0" source-column-ref="COL419" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1548,7 +1548,7 @@
   <table id="TAB436" populated="true" UUID="1f71df2f-83b8-4f7b-b6ae-d33d4f8034be" name="Agency" objectType="TABLE" physicalName="Agency" >
    <remarks></remarks>
    <folder id="FOLTAB4361" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL437" populated="true" UUID="844ac31c-ec8f-429d-98b9-a0af429fcbd0" autoIncrement="false" autoIncrementSequenceName="Agency_AgencyID_seq_1_2" defaultValue="" name="AgencyID" nullable="0" physicalName="AgencyID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL437" populated="true" UUID="844ac31c-ec8f-429d-98b9-a0af429fcbd0" autoIncrement="true" autoIncrementSequenceName="Agency_AgencyID_seq_1_2" defaultValue="" name="AgencyID" nullable="0" physicalName="AgencyID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL438" populated="true" UUID="b5abc4ce-6e70-4977-b933-86f3a5cda3e8" autoIncrement="false" autoIncrementSequenceName="Agency_AgencyORI_seq" defaultValue="" name="AgencyORI" nullable="0" physicalName="AgencyORI" precision="9" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
@@ -1691,7 +1691,7 @@
   <table id="TAB477" populated="true" UUID="1a1d764d-10a3-4a39-8d81-ac525bc71661" name="AgencyType" objectType="TABLE" physicalName="AgencyType" >
    <remarks></remarks>
    <folder id="FOLTAB4771" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL478" populated="true" UUID="fb48ac46-3473-4e48-8790-05743b73d93d" autoIncrement="false" autoIncrementSequenceName="AgencyType_AgencyTypeID_seq_1" defaultValue="" name="AgencyTypeID" nullable="0" physicalName="AgencyTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL478" populated="true" UUID="fb48ac46-3473-4e48-8790-05743b73d93d" autoIncrement="true" autoIncrementSequenceName="AgencyType_AgencyTypeID_seq_1" defaultValue="" name="AgencyTypeID" nullable="0" physicalName="AgencyTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL479" populated="true" UUID="bc6aed0d-ef82-40f8-9bb9-4c079407eaea" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_19" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL238" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1700,10 +1700,10 @@
     <column id="COL480" populated="true" UUID="1206c1b5-b914-4a91-bf33-0a2e9c1cda3e" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_19" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="80" referenceCount="1" scale="0" source-column-ref="COL239" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL481" populated="true" UUID="64c54b82-51f4-47b2-b275-29d64472bda4" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_19" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL481" populated="true" UUID="64c54b82-51f4-47b2-b275-29d64472bda4" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_19" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="2" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL482" populated="true" UUID="5bcee87c-9668-45f1-81f6-853b6fe79c14" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_19" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="80" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL482" populated="true" UUID="5bcee87c-9668-45f1-81f6-853b6fe79c14" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_19" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="80" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -1720,7 +1720,7 @@
   <table id="TAB485" populated="true" UUID="a7c917a9-efd4-4e1b-92fe-8cf817886743" name="CargoTheftIndicatorType" objectType="TABLE" physicalName="CargoTheftIndicatorType" >
    <remarks></remarks>
    <folder id="FOLTAB4851" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL486" populated="true" UUID="322069f2-5063-4fde-88ed-0af7cd1ce061" autoIncrement="false" autoIncrementSequenceName="CargoTheftIndicatorType_CargoTheftIndicatorTypeID_seq_1" defaultValue="" name="CargoTheftIndicatorTypeID" nullable="0" physicalName="CargoTheftIndicatorTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL486" populated="true" UUID="322069f2-5063-4fde-88ed-0af7cd1ce061" autoIncrement="true" autoIncrementSequenceName="CargoTheftIndicatorType_CargoTheftIndicatorTypeID_seq_1" defaultValue="" name="CargoTheftIndicatorTypeID" nullable="0" physicalName="CargoTheftIndicatorTypeID" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL487" populated="true" UUID="a60d561a-606a-4b90-9172-356361c1d466" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateCode_seq_20" defaultValue="" name="StateCode" nullable="0" physicalName="StateCode" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -1729,10 +1729,10 @@
     <column id="COL488" populated="true" UUID="16629be3-210d-4d4a-800c-d3e0a387a09d" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_StateDescription_seq_20" defaultValue="" name="StateDescription" nullable="0" physicalName="StateDescription" precision="7" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL489" populated="true" UUID="b5021f94-da4b-45e3-8188-c4df608b7988" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBICode_seq_20" defaultValue="" name="FBICode" nullable="0" physicalName="FBICode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL489" populated="true" UUID="b5021f94-da4b-45e3-8188-c4df608b7988" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSCode_seq_20" defaultValue="" name="NIBRSCode" nullable="0" physicalName="NIBRSCode" precision="1" referenceCount="1" scale="0" source-column-ref="COL232" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL490" populated="true" UUID="3ec1ae4f-70fd-48c4-bab1-d57aba005776" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_FBIDescription_seq_20" defaultValue="" name="FBIDescription" nullable="0" physicalName="FBIDescription" precision="7" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL490" populated="true" UUID="3ec1ae4f-70fd-48c4-bab1-d57aba005776" autoIncrement="false" autoIncrementSequenceName="PropertyDescriptionType_NIBRSDescription_seq_20" defaultValue="" name="NIBRSDescription" nullable="0" physicalName="NIBRSDescription" precision="7" referenceCount="1" scale="0" source-column-ref="COL233" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -2018,7 +2018,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.H2DDLGenerator" allow-connection="true"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="true" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.6595236053843678" viewportX="1094" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.6595236053843678" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="1162" y="756" bgColor="0xbfd6ff" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB20" x="2040" y="1264" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB27" x="1131" y="376" bgColor="0xbfd6ff" fgColor="0x000000" rounded="false" dashed="false"/>

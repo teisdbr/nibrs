@@ -1,0 +1,17 @@
+# Docker Compose file that runs a local nibrs staging database.  This is typically
+# only used in development/testing.
+
+# To run with the other NIBRS containers:
+# docker-compose -f nibrs-analytics-compose.yaml -f nibrs-local-staging-compose.yaml up -d
+
+version: '3.2'
+
+services:
+   nibrs-staging-db:
+    container_name: nibrs-staging-db
+    image: searchncjis/nibrs-staging-db
+    networks:
+      # this network is defined in the main nibrs compose file
+      nibrs_analytics_nw:
+    ports:
+      - "13306:3306"

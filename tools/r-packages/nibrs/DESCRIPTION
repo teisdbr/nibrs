@@ -7,12 +7,10 @@ Authors@R: person("SEARCH - The National Consortium for Justice Information and 
 Description: This package provides support for processing National Incident Based Reporting System (NIBRS) data in various formats.
 License: Apache License, Version 2.0
 Encoding: UTF-8
-LinkingTo: Rcpp
-Imports: Rcpp,
-  tidyverse,
+Imports: tidyverse,
   DBI,
-  RMySQL,
-  openxlsx,
+  RMariaDB,
+  readxl,
   lubridate
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
