@@ -89,8 +89,7 @@ loadDimensional <- function(
 
   writeLines('Reading dimension tables from staging')
   dimensionTables <- map(dimensionTables, function(tableName) {
-    ret <- dbReadTable(stagingConn, tableName) %>% as_tibble()
-    ret
+    dbReadTable(stagingConn, tableName) %>% as_tibble()
   }) %>% set_names(dimensionTables) %>%
     enhanceDimensionTables()
 
@@ -849,9 +848,14 @@ enhanceDimensionTables <- function(dimensionTables) {
     )
   )
 
-  ret %>% map(function(ddf) {
-    attr(ddf, 'type') <- 'CT'
-    ddf
+  map2(ret, names(ret), function(ddf, tableName) {
+    ret <- ddf
+    if ('FBICode' %in% colnames(ddf)) {
+      writeLines(paste0('Renaming FBI Code/Description columns to NIBRS Code/Description in table ', tableName))
+      ret <- rename(ddf, NIBRSCode=FBICode, NIBRSDescription=FBIDescription)
+    }
+    attr(ret, 'type') <- 'CT'
+    ret
   })
 
 }
