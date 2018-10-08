@@ -29,7 +29,7 @@
 
 # docker run -it --rm --network docker_nibrs_analytics_nw searchncjis/nibrs-load \
 #      R -e 'dfs <- nibrs::loadDimensional(stagingConn=DBI::dbConnect(RMariaDB::MariaDB(), host="nibrs-staging-db", dbname="search_nibrs_staging"),
-#        dimensionalConn=DBI::dbConnect(RMariaDB::MariaDB(), host="nibrs-analytics-db", dbname="search_nibrs_dimensional", user="analytics", sampleFraction=.05)'
+#        dimensionalConn=DBI::dbConnect(RMariaDB::MariaDB(), host="nibrs-analytics-db", dbname="search_nibrs_dimensional", user="analytics", sampleFraction=.05))'
 
 # (Note that if you want to write the whole db rather than a random sample of records, remove the sampleFraction= parameter)
 
