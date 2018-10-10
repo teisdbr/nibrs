@@ -32,8 +32,8 @@ public class TypeDrugMeasurementType {
 	
 	private String stateCode; 
 	private String stateDescription; 
-	private String fbiCode; 
-	private String fbiDescription; 
+	private String nibrsCode; 
+	private String nibrsDescription; 
 	
 	public TypeDrugMeasurementType() {
 		super();
@@ -45,13 +45,13 @@ public class TypeDrugMeasurementType {
 	}
 
 	public TypeDrugMeasurementType(Integer typeDrugMeasurementTypeId, String stateCode, String stateDescription,
-			String fbiCode, String fbiDescription) {
+			String nibrsCode, String nibrsDescription) {
 		super();
 		this.typeDrugMeasurementTypeId = typeDrugMeasurementTypeId;
 		this.stateCode = stateCode;
 		this.stateDescription = stateDescription;
-		this.fbiCode = fbiCode;
-		this.fbiDescription = fbiDescription;
+		this.nibrsCode = nibrsCode;
+		this.nibrsDescription = nibrsDescription;
 	}
 
 	public String toString(){
@@ -82,28 +82,28 @@ public class TypeDrugMeasurementType {
 		this.stateDescription = stateDescription;
 	}
 
-	public String getFbiCode() {
-		return fbiCode;
+	public String getNibrsCode() {
+		return nibrsCode;
 	}
 
-	public void setFbiCode(String fbiCode) {
-		this.fbiCode = fbiCode;
+	public void setNibrsCode(String nibrsCode) {
+		this.nibrsCode = nibrsCode;
 	}
 
-	public String getFbiDescription() {
-		return fbiDescription;
+	public String getNibrsDescription() {
+		return nibrsDescription;
 	}
 
-	public void setFbiDescription(String fbiDescription) {
-		this.fbiDescription = fbiDescription;
+	public void setNibrsDescription(String nibrsDescription) {
+		this.nibrsDescription = nibrsDescription;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fbiCode == null) ? 0 : fbiCode.hashCode());
-		result = prime * result + ((fbiDescription == null) ? 0 : fbiDescription.hashCode());
+		result = prime * result + ((nibrsCode == null) ? 0 : nibrsCode.hashCode());
+		result = prime * result + ((nibrsDescription == null) ? 0 : nibrsDescription.hashCode());
 		result = prime * result + ((stateCode == null) ? 0 : stateCode.hashCode());
 		result = prime * result + ((stateDescription == null) ? 0 : stateDescription.hashCode());
 		result = prime * result + ((typeDrugMeasurementTypeId == null) ? 0 : typeDrugMeasurementTypeId.hashCode());
@@ -119,15 +119,15 @@ public class TypeDrugMeasurementType {
 		if (getClass() != obj.getClass())
 			return false;
 		TypeDrugMeasurementType other = (TypeDrugMeasurementType) obj;
-		if (fbiCode == null) {
-			if (other.fbiCode != null)
+		if (nibrsCode == null) {
+			if (other.nibrsCode != null)
 				return false;
-		} else if (!fbiCode.equals(other.fbiCode))
+		} else if (!nibrsCode.equals(other.nibrsCode))
 			return false;
-		if (fbiDescription == null) {
-			if (other.fbiDescription != null)
+		if (nibrsDescription == null) {
+			if (other.nibrsDescription != null)
 				return false;
-		} else if (!fbiDescription.equals(other.fbiDescription))
+		} else if (!nibrsDescription.equals(other.nibrsDescription))
 			return false;
 		if (stateCode == null) {
 			if (other.stateCode != null)

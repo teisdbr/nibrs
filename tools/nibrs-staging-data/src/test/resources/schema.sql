@@ -23,12 +23,13 @@ CREATE schema search_nibrs_staging;
 
 Use search_nibrs_staging; 
 
+
 CREATE TABLE CargoTheftIndicatorType (
                 CargoTheftIndicatorTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(7) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(7) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(7) NOT NULL,
                 CONSTRAINT CargoTheftIndicatorTypeID PRIMARY KEY (CargoTheftIndicatorTypeID)
 );
 
@@ -37,8 +38,8 @@ CREATE TABLE AgencyType (
                 AgencyTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(80) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(80) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(80) NOT NULL,
                 CONSTRAINT AgencyTypeID PRIMARY KEY (AgencyTypeID)
 );
 
@@ -76,8 +77,8 @@ CREATE TABLE OfficerAssignmentTypeType (
                 OfficerAssignmentTypeTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(100) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(100) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(100) NOT NULL,
                 CONSTRAINT OfficerAssignmentTypeType_pk PRIMARY KEY (OfficerAssignmentTypeTypeID)
 );
 
@@ -86,8 +87,8 @@ CREATE TABLE OfficerActivityCircumstanceType (
                 OfficerActivityCircumstanceTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(75) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(75) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(75) NOT NULL,
                 CONSTRAINT OfficerActivityCircumstanceType_pk PRIMARY KEY (OfficerActivityCircumstanceTypeID)
 );
 
@@ -96,8 +97,8 @@ CREATE TABLE TypeOfWeaponForceInvolvedType (
                 TypeOfWeaponForceInvolvedTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(30) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(30) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(30) NOT NULL,
                 CONSTRAINT TypeOfWeaponForceInvolvedType_pk PRIMARY KEY (TypeOfWeaponForceInvolvedTypeID)
 );
 
@@ -106,8 +107,8 @@ CREATE TABLE SuspectedDrugTypeType (
                 SuspectedDrugTypeTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(32) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(32) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(32) NOT NULL,
                 CONSTRAINT SuspectedDrugTypeType_pk PRIMARY KEY (SuspectedDrugTypeTypeID)
 );
 
@@ -116,8 +117,8 @@ CREATE TABLE BiasMotivationType (
                 BiasMotivationTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(60) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(60) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(60) NOT NULL,
                 BiasMotivationCategory VARCHAR(30) NOT NULL,
                 CONSTRAINT BiasMotivationType_pk PRIMARY KEY (BiasMotivationTypeID)
 );
@@ -127,8 +128,8 @@ CREATE TABLE MethodOfEntryType (
                 MethodOfEntryTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(10) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(10) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(10) NOT NULL,
                 CONSTRAINT MethodOfEntryType_pk PRIMARY KEY (MethodOfEntryTypeID)
 );
 
@@ -137,8 +138,8 @@ CREATE TABLE LocationTypeType (
                 LocationTypeTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(45) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(45) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(45) NOT NULL,
                 CONSTRAINT LocationTypeType_pk PRIMARY KEY (LocationTypeTypeID)
 );
 
@@ -147,8 +148,8 @@ CREATE TABLE ClearedExceptionallyType (
                 ClearedExceptionallyTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(220) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(220) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(220) NOT NULL,
                 CONSTRAINT ClearedExceptionallyType_pk PRIMARY KEY (ClearedExceptionallyTypeID)
 );
 
@@ -157,8 +158,8 @@ CREATE TABLE DispositionOfArresteeUnder18Type (
                 DispositionOfArresteeUnder18TypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(30) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(30) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(30) NOT NULL,
                 CONSTRAINT DispositionOfArresteeUnder18Type_pk PRIMARY KEY (DispositionOfArresteeUnder18TypeID)
 );
 
@@ -167,8 +168,8 @@ CREATE TABLE ArresteeWasArmedWithType (
                 ArresteeWasArmedWithTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(30) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(30) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(30) NOT NULL,
                 CONSTRAINT ArresteeWasArmedWithType_pk PRIMARY KEY (ArresteeWasArmedWithTypeID)
 );
 
@@ -177,8 +178,8 @@ CREATE TABLE MultipleArresteeSegmentsIndicatorType (
                 MultipleArresteeSegmentsIndicatorTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(15) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(15) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(15) NOT NULL,
                 CONSTRAINT MultipleArresteeSegmentsIndicatorType_pk PRIMARY KEY (MultipleArresteeSegmentsIndicatorTypeID)
 );
 
@@ -187,8 +188,8 @@ CREATE TABLE TypeOfArrestType (
                 TypeOfArrestTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(20) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(20) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(20) NOT NULL,
                 CONSTRAINT TypeOfArrestType_pk PRIMARY KEY (TypeOfArrestTypeID)
 );
 
@@ -197,8 +198,8 @@ CREATE TABLE AdditionalJustifiableHomicideCircumstancesType (
                 AdditionalJustifiableHomicideCircumstancesTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(80) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(80) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(80) NOT NULL,
                 CONSTRAINT AdditionalJustifiableHomicideCircumstancesType_pk PRIMARY KEY (AdditionalJustifiableHomicideCircumstancesTypeID)
 );
 
@@ -207,16 +208,16 @@ CREATE TABLE TypeInjuryType (
                 TypeInjuryTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(25) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(25) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(25) NOT NULL,
                 CONSTRAINT TypeInjuryType_pk PRIMARY KEY (TypeInjuryTypeID)
 );
 
 
 CREATE TABLE ResidentStatusOfPersonType (
                 ResidentStatusOfPersonTypeID INTEGER NOT NULL AUTO_INCREMENT,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(25) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(25) NOT NULL,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(25) NOT NULL,
                 CONSTRAINT ResidentStatusOfPersonType_pk PRIMARY KEY (ResidentStatusOfPersonTypeID)
@@ -227,8 +228,8 @@ CREATE TABLE EthnicityOfPersonType (
                 EthnicityOfPersonTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(25) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(25) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(25) NOT NULL,
                 CONSTRAINT EthnicityOfPersonType_pk PRIMARY KEY (EthnicityOfPersonTypeID)
 );
 
@@ -237,8 +238,8 @@ CREATE TABLE TypeOfVictimType (
                 TypeOfVictimTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(75) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(75) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(75) NOT NULL,
                 CONSTRAINT TypeOfVictimType_pk PRIMARY KEY (TypeOfVictimTypeID)
 );
 
@@ -247,8 +248,8 @@ CREATE TABLE TypeDrugMeasurementType (
                 TypeDrugMeasurementTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(20) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(20) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(20) NOT NULL,
                 CONSTRAINT TypeDrugMeasurementType_pk PRIMARY KEY (TypeDrugMeasurementTypeID)
 );
 
@@ -257,8 +258,8 @@ CREATE TABLE PropertyDescriptionType (
                 PropertyDescriptionTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(70) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(70) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(70) NOT NULL,
                 CONSTRAINT PropertyDescriptionType_pk PRIMARY KEY (PropertyDescriptionTypeID)
 );
 
@@ -267,8 +268,8 @@ CREATE TABLE RaceOfPersonType (
                 RaceOfPersonTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(42) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(42) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(42) NOT NULL,
                 CONSTRAINT RaceOfPersonType_pk PRIMARY KEY (RaceOfPersonTypeID)
 );
 
@@ -277,8 +278,8 @@ CREATE TABLE SexOfPersonType (
                 SexOfPersonTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(35) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(35) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(35) NOT NULL,
                 CONSTRAINT SexOfPersonType_pk PRIMARY KEY (SexOfPersonTypeID)
 );
 
@@ -287,8 +288,8 @@ CREATE TABLE TypeOfCriminalActivityType (
                 TypeOfCriminalActivityTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(80) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(80) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(80) NOT NULL,
                 CONSTRAINT TypeOfCriminalActivityType_pk PRIMARY KEY (TypeOfCriminalActivityTypeID)
 );
 
@@ -297,8 +298,8 @@ CREATE TABLE OffenderSuspectedOfUsingType (
                 OffenderSuspectedOfUsingTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(20) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(20) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(20) NOT NULL,
                 CONSTRAINT OffenderSuspectedOfUsingType_pk PRIMARY KEY (OffenderSuspectedOfUsingTypeID)
 );
 
@@ -307,8 +308,8 @@ CREATE TABLE SegmentActionTypeType (
                 SegmentActionTypeTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(25) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(25) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(25) NOT NULL,
                 CONSTRAINT SegmentActionTypeType_pk PRIMARY KEY (SegmentActionTypeTypeID)
 );
 
@@ -317,8 +318,8 @@ CREATE TABLE VictimOffenderRelationshipType (
                 VictimOffenderRelationshipTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(2) NOT NULL,
                 StateDescription VARCHAR(50) NOT NULL,
-                FBICode VARCHAR(2) NOT NULL,
-                FBIDescription VARCHAR(50) NOT NULL,
+                NIBRSCode VARCHAR(2) NOT NULL,
+                NIBRSDescription VARCHAR(50) NOT NULL,
                 CONSTRAINT VictimOffenderRelationshipType_pk PRIMARY KEY (VictimOffenderRelationshipTypeID)
 );
 
@@ -327,8 +328,8 @@ CREATE TABLE AggravatedAssaultHomicideCircumstancesType (
                 AggravatedAssaultHomicideCircumstancesTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(3) NOT NULL,
                 StateDescription VARCHAR(55) NOT NULL,
-                FBICode VARCHAR(3) NOT NULL,
-                FBIDescription VARCHAR(55) NOT NULL,
+                NIBRSCode VARCHAR(3) NOT NULL,
+                NIBRSDescription VARCHAR(55) NOT NULL,
                 CONSTRAINT AggravatedAssaultHomicideCircumstancesType_pk PRIMARY KEY (AggravatedAssaultHomicideCircumstancesTypeID)
 );
 
@@ -337,8 +338,8 @@ CREATE TABLE TypePropertyLossEtcType (
                 TypePropertyLossEtcTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
                 StateDescription VARCHAR(85) NOT NULL,
-                FBICode VARCHAR(1) NOT NULL,
-                FBIDescription VARCHAR(85) NOT NULL,
+                NIBRSCode VARCHAR(1) NOT NULL,
+                NIBRSDescription VARCHAR(85) NOT NULL,
                 CONSTRAINT TypePropertyLossEtcType_pk PRIMARY KEY (TypePropertyLossEtcTypeID)
 );
 
@@ -347,8 +348,8 @@ CREATE TABLE UCROffenseCodeType (
                 UCROffenseCodeTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(3) NOT NULL,
                 StateDescription VARCHAR(70) NOT NULL,
-                FBICode VARCHAR(3) NOT NULL,
-                FBIDescription VARCHAR(70) NOT NULL,
+                NIBRSCode VARCHAR(3) NOT NULL,
+                NIBRSDescription VARCHAR(70) NOT NULL,
                 OffenseCategory1 VARCHAR(70) NOT NULL,
                 OffenseCategory2 VARCHAR(70) NOT NULL,
                 OffenseCategory3 VARCHAR(70) NOT NULL,
@@ -404,7 +405,7 @@ CREATE TABLE AdministrativeSegment (
                 IncidentDate DATE,
                 IncidentDateID INTEGER NOT NULL,
                 ReportDateIndicator VARCHAR(1),
-                IncidentHour VARCHAR(2) NOT NULL,
+                IncidentHour VARCHAR(2),
                 ClearedExceptionallyTypeID INTEGER NOT NULL,
                 ExceptionalClearanceDate DATE,
                 ExceptionalClearanceDateID INTEGER NOT NULL,
@@ -474,7 +475,7 @@ CREATE TABLE VictimSegment (
                 AgeNeonateIndicator INTEGER NOT NULL,
                 AgeFirstWeekIndicator INTEGER NOT NULL,
                 AgeFirstYearIndicator INTEGER NOT NULL,
-                NonNumericAge Varchar(2),
+                NonNumericAge VARCHAR(2),
                 SexOfPersonTypeID INTEGER NOT NULL,
                 RaceOfPersonTypeID INTEGER NOT NULL,
                 EthnicityOfPersonTypeID INTEGER NOT NULL,

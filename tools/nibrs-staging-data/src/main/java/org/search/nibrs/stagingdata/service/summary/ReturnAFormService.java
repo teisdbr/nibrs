@@ -130,7 +130,7 @@ public class ReturnAFormService {
 			List<OffenseSegment> offenses = getClearedOffenses(administrativeSegment);
 			for (OffenseSegment offense: offenses){
 				ReturnARowName returnARowName = null; 
-				switch (OffenseCode.forCode(offense.getUcrOffenseCodeType().getFbiCode())){
+				switch (OffenseCode.forCode(offense.getUcrOffenseCodeType().getNibrsCode())){
 				case _09A:
 					returnARowName = ReturnARowName.MURDER_NONNEGLIGENT_HOMICIDE;
 					break; 
@@ -184,12 +184,12 @@ public class ReturnAFormService {
 	private void countClearedMotorVehicleTheftOffense(ReturnAForm returnAForm, OffenseSegment offense,
 			boolean isClearanceInvolvingOnlyJuvenile) {
 		List<PropertySegment> properties =  offense.getAdministrativeSegment().getPropertySegments()
-				.stream().filter(property->TypeOfPropertyLossCode._7.code.equals(property.getTypePropertyLossEtcType().getFbiCode()))
+				.stream().filter(property->TypeOfPropertyLossCode._7.code.equals(property.getTypePropertyLossEtcType().getNibrsCode()))
 				.collect(Collectors.toList());
 		
 		for (PropertySegment property: properties){
 			List<String> motorVehicleCodes = property.getPropertyTypes().stream()
-					.map(propertyType -> propertyType.getPropertyDescriptionType().getFbiCode())
+					.map(propertyType -> propertyType.getPropertyDescriptionType().getNibrsCode())
 					.filter(code -> PropertyDescriptionCode.isMotorVehicleCode(code))
 					.collect(Collectors.toList()); 
 			if ("A".equals(offense.getOffenseAttemptedCompleted())){
@@ -259,7 +259,7 @@ public class ReturnAFormService {
 
 	private boolean isClearanceInvolvingOnlyJuvenile(AdministrativeSegment administrativeSegment) {
 		boolean isClearanceInvolvingOnlyJuvenile = false; 
-		if (ClearedExceptionallyCode.applicableCodeSet().contains(administrativeSegment.getClearedExceptionallyType().getFbiCode())){
+		if (ClearedExceptionallyCode.applicableCodeSet().contains(administrativeSegment.getClearedExceptionallyType().getNibrsCode())){
 			Set<OffenderSegment> offenders = administrativeSegment.getOffenderSegments();
 			isClearanceInvolvingOnlyJuvenile = offenders.stream().allMatch(offender -> offender.isJuvenile() || offender.isAgeUnknown()); 
 		}
@@ -281,7 +281,7 @@ public class ReturnAFormService {
 			
 			int increment = 1;
 			int numberOfPremisesEntered = Optional.ofNullable(offense.getNumberOfPremisesEntered()).orElse(0);
-			if (numberOfPremisesEntered > 0 && "19".equals(offense.getLocationType().getFbiCode())){
+			if (numberOfPremisesEntered > 0 && "19".equals(offense.getLocationType().getNibrsCode())){
 				increment = offense.getNumberOfPremisesEntered(); 
 			}
 			
@@ -296,15 +296,15 @@ public class ReturnAFormService {
 	private ReturnARowName getBurglaryRow(OffenseSegment offense) {
 		ReturnARowName returnARowName = null; 
 		if ("C".equals(offense.getOffenseAttemptedCompleted())){
-			if (offense.getMethodOfEntryType().getFbiCode().equals("F")){
+			if (offense.getMethodOfEntryType().getNibrsCode().equals("F")){
 				returnARowName = ReturnARowName.FORCIBLE_ENTRY_BURGLARY; 
 			}
-			else if (offense.getMethodOfEntryType().getFbiCode().equals("N")){
+			else if (offense.getMethodOfEntryType().getNibrsCode().equals("N")){
 				returnARowName = ReturnARowName.UNLAWFUL_ENTRY_NO_FORCE_BURGLARY; 
 			}
 		}
 		else if ("A".equals(offense.getOffenseAttemptedCompleted()) && 
-				Arrays.asList("N", "F").contains(offense.getMethodOfEntryType().getFbiCode())){
+				Arrays.asList("N", "F").contains(offense.getMethodOfEntryType().getNibrsCode())){
 			returnARowName = ReturnARowName.ATTEMPTED_FORCIBLE_ENTRY_BURGLARY; 
 		}
 		return returnARowName;
@@ -321,11 +321,11 @@ public class ReturnAFormService {
 				continue;
 			}
 			
-			if (offense.getUcrOffenseCodeType().getFbiCode().equals(OffenseCode._200.code)){
+			if (offense.getUcrOffenseCodeType().getNibrsCode().equals(OffenseCode._200.code)){
 				offenses.add(offense);
 				continue;
 			}
-			Integer offenseValue = Optional.ofNullable(partIOffensesMap.get(offense.getUcrOffenseCodeType().getFbiCode())).orElse(99); 
+			Integer offenseValue = Optional.ofNullable(partIOffensesMap.get(offense.getUcrOffenseCodeType().getNibrsCode())).orElse(99); 
 			
 			if (offenseValue < reportingOffenseValue){
 				reportingOffense = offense; 
@@ -349,7 +349,7 @@ public class ReturnAFormService {
 			for (OffenseSegment offense: offensesToReport){
 				
 				ReturnARowName returnARowName = null; 
-				switch (OffenseCode.forCode(offense.getUcrOffenseCodeType().getFbiCode())){
+				switch (OffenseCode.forCode(offense.getUcrOffenseCodeType().getNibrsCode())){
 				case _09A:
 					returnARowName = ReturnARowName.MURDER_NONNEGLIGENT_HOMICIDE; 
 					break; 
@@ -487,12 +487,12 @@ public class ReturnAFormService {
 	private void countMotorVehicleTheftOffense(ReturnAForm returnAForm, OffenseSegment offense) {
 		
 		List<PropertySegment> properties =  offense.getAdministrativeSegment().getPropertySegments()
-				.stream().filter(property->TypeOfPropertyLossCode._7.code.equals(property.getTypePropertyLossEtcType().getFbiCode()))
+				.stream().filter(property->TypeOfPropertyLossCode._7.code.equals(property.getTypePropertyLossEtcType().getNibrsCode()))
 				.collect(Collectors.toList());
 		
 		for (PropertySegment property: properties){
 			List<String> motorVehicleCodes = property.getPropertyTypes().stream()
-					.map(propertyType -> propertyType.getPropertyDescriptionType().getFbiCode())
+					.map(propertyType -> propertyType.getPropertyDescriptionType().getNibrsCode())
 					.filter(code -> PropertyDescriptionCode.isMotorVehicleCode(code))
 					.collect(Collectors.toList()); 
 			
@@ -551,7 +551,7 @@ public class ReturnAFormService {
 		if (returnARowName != null){
 			int numberOfPremisesEntered = Optional.ofNullable(offense.getNumberOfPremisesEntered()).orElse(0);
 			if ( numberOfPremisesEntered > 0 
-					&& LocationTypeCode._19.code.equals(offense.getLocationType().getFbiCode())){
+					&& LocationTypeCode._19.code.equals(offense.getLocationType().getNibrsCode())){
 				returnAForm.getRows()[returnARowName.ordinal()].increaseReportedOffenses(offense.getNumberOfPremisesEntered());
 			}
 			else {
@@ -565,7 +565,7 @@ public class ReturnAFormService {
 		boolean containsValidWeaponForceType = 
 				offense.getTypeOfWeaponForceInvolveds()
 				.stream()
-				.filter(type -> Arrays.asList("40", "90", "95", "99", " ").contains(type.getTypeOfWeaponForceInvolvedType().getFbiCode()))
+				.filter(type -> Arrays.asList("40", "90", "95", "99", " ").contains(type.getTypeOfWeaponForceInvolvedType().getNibrsCode()))
 				.count() > 0;
 				
 		if (containsValidWeaponForceType){
@@ -578,7 +578,7 @@ public class ReturnAFormService {
 		List<String> typeOfWeaponInvolvedCodes = offense.getTypeOfWeaponForceInvolveds()
 				.stream()
 				.map(TypeOfWeaponForceInvolved::getTypeOfWeaponForceInvolvedType)
-				.map(TypeOfWeaponForceInvolvedType::getFbiCode)
+				.map(TypeOfWeaponForceInvolvedType::getNibrsCode)
 				.collect(Collectors.toList()); 
 
 		if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, Arrays.asList("11", "12", "13", "14", "15"))){
@@ -603,7 +603,7 @@ public class ReturnAFormService {
 		List<String> typeOfWeaponInvolvedCodes = offense.getTypeOfWeaponForceInvolveds()
 				.stream()
 				.map(TypeOfWeaponForceInvolved::getTypeOfWeaponForceInvolvedType)
-				.map(TypeOfWeaponForceInvolvedType::getFbiCode)
+				.map(TypeOfWeaponForceInvolvedType::getNibrsCode)
 				.collect(Collectors.toList()); 
 		
 		if (CollectionUtils.containsAny(typeOfWeaponInvolvedCodes, Arrays.asList("11", "12", "13", "14", "15"))){
@@ -630,7 +630,7 @@ public class ReturnAFormService {
 		ReturnARowName returnARowName = null;
 		List<VictimSegment> victimSegments = administrativeSegment.getVictimSegments()
 			.stream().filter(victim->victim.getOffenseSegments().contains(offense))
-			.filter(victim->victim.getSexOfPersonType().getFbiCode().equals("F"))
+			.filter(victim->victim.getSexOfPersonType().getNibrsCode().equals("F"))
 			.collect(Collectors.toList());
 		if (victimSegments.size() > 0){
 			switch (offense.getOffenseAttemptedCompleted()){
@@ -657,11 +657,11 @@ public class ReturnAFormService {
 				continue;
 			}
 			
-			if (offense.getUcrOffenseCodeType().getFbiCode().equals(OffenseCode._09C.code)){
+			if (offense.getUcrOffenseCodeType().getNibrsCode().equals(OffenseCode._09C.code)){
 				offenses.add(offense);
 				continue;
 			}
-			Integer offenseValue = Optional.ofNullable(partIOffensesMap.get(offense.getUcrOffenseCodeType().getFbiCode())).orElse(99); 
+			Integer offenseValue = Optional.ofNullable(partIOffensesMap.get(offense.getUcrOffenseCodeType().getNibrsCode())).orElse(99); 
 			
 			if (offenseValue < reportingOffenseValue){
 				reportingOffense = offense; 
