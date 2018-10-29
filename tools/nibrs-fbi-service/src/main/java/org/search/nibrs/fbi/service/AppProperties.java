@@ -26,7 +26,7 @@ public class AppProperties {
 
     private String nibrsNiemDocumentRequestFolder = "/tmp/nibrs/niemDocument/request";
 	private String stagingDataRestServiceBaseUrl = "http://localhost:8080/";
-	private String nibrsNiemServiceEndpointUrl = "http://localhost:443/UCR/NOE/NIBRSServices";
+	private String nibrsNiemServiceEndpointUrl = "https4://localhost:443/UCR/NOE/NIBRSServices";
 	private String truststoreLocation = "";
 	private String truststorePassword = "";
 	private String fbiKeyPassword="";

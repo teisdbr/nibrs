@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2016 SEARCH-The National Consortium for Justice Information and Statistics
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<ns2:SubmitNibrsNIEMDocumentResponse xmlns:ns2="http://ws.nibrs.ucr.cjis.fbi.gov/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://ws.nibrs.ucr.cjis.fbi.gov/ NIBRSServicesService.xsd">
+	<return>
+		<ingestResponse>
+			<ddocname>2017_12_WVNDX0100_6816_INC</ddocname>
+			<status>ERRORS</status>
+			<violations>
+				<badValue>WVNDX0100</badValue>
+				<dataElement>1</dataElement>
+				<violationCode>932</violationCode>
+				<violationDescription>THE ORI WAS NOT FOUND IN THE REFERENCE DATA.
+				</violationDescription>
+				<violationLevel>E</violationLevel>
+			</violations>
+			<violations>
+				<badValue>WVNDX0100</badValue>
+				<dataElement>1</dataElement>
+				<violationCode>932</violationCode>
+				<violationDescription>THE ORI WAS NOT FOUND IN THE REFERENCE DATA.
+				</violationDescription>
+				<violationLevel>E</violationLevel>
+			</violations>
+			<violations>
+				<badValue>6</badValue>
+				<dataElement>17</dataElement>
+				<propertyLossCode>6</propertyLossCode>
+				<segmentLevel>3</segmentLevel>
+				<violationCode>355</violationCode>
+				<violationDescription>PROPERTY LOSS CODE (14) MUST=5 (RECOVERED) FOR
+					DATA TO BE ENTERED</violationDescription>
+				<violationLevel>E</violationLevel>
+			</violations>
+			<violations>
+				<badValue>1</badValue>
+				<dataElement>23</dataElement>
+				<segmentLevel>4</segmentLevel>
+				<sequenceNumber>1</sequenceNumber>
+				<violationCode>451</violationCode>
+				<violationDescription>VICTIM NUMBER ALREADY EXISTS
+				</violationDescription>
+				<violationLevel>E</violationLevel>
+			</violations>
+		</ingestResponse>
+	</return>
+</ns2:SubmitNibrsNIEMDocumentResponse>

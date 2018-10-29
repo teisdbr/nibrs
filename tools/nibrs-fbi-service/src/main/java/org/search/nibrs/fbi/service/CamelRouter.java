@@ -34,12 +34,15 @@ public class CamelRouter extends RouteBuilder {
     public void configure() throws Exception {
         fromF("file:%s/input?idempotent=true&moveFailed=%s/error&move=processed/", 
         		appProperties.getNibrsNiemDocumentRequestFolder(), appProperties.getNibrsNiemDocumentRequestFolder()).routeId("niemDocumentFileInput")
-        		.to("direct:submitNiemDocument")
+		        .to("xslt:xsl/SOAPWrapper.xsl")
+        		.transform().method("submissionRequestProcessor", "processSubmissionRequest")
                 .end();
         
         from("direct:submitNiemDocument").routeId("callFBINibrsNiemService")
+        	.removeHeaders("*")
         	.log(LoggingLevel.DEBUG, "Before calling the FBI service")
-        	.to("https4://" + appProperties.getNibrsNiemServiceEndpointUrl())
+        	.log(LoggingLevel.DEBUG, "About to send to FBI $body")
+        	.to(appProperties.getNibrsNiemServiceEndpointUrl())
         	.log(LoggingLevel.DEBUG, "After calling the FBI service")
         	.end();
         
