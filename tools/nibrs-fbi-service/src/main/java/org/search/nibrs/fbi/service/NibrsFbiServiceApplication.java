@@ -17,15 +17,17 @@ package org.search.nibrs.fbi.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
 @ImportResource({"classpath*:camel-beans.xml"})
+@EnableAspectJAutoProxy
 public class NibrsFbiServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(NibrsFbiServiceApplication.class, args);
-//		ApplicationContext applicationContext = SpringApplication.run(NibrsRouteApplication.class, args);
+//		ApplicationContext applicationContext = SpringApplication.run(NibrsFbiServiceApplication.class, args);
 //		Arrays.stream(applicationContext.getBeanDefinitionNames())
 //			.forEach(System.out::println);
 	}
