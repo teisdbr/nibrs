@@ -82,8 +82,6 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.coremedia.iso.boxes.ItemLocationBox.Item;
-
 @Service
 public class XmlReportGenerator {
 

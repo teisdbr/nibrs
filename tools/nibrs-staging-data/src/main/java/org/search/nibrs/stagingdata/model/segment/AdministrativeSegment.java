@@ -86,7 +86,6 @@ public class AdministrativeSegment {
     private Set<VictimSegment> victimSegments;
     
 	@ManyToOne(fetch=FetchType.LAZY)
-
 	@JoinColumn(name="agencyId")
 	private Agency agency; 
 	private String incidentNumber; 
@@ -105,8 +104,8 @@ public class AdministrativeSegment {
 	
 	private String reportDateIndicator; 
 	private String incidentHour;
+	
 	@ManyToOne(fetch=FetchType.LAZY)
-
 	@JoinColumn(name="clearedExceptionallyTypeId") 
 	private ClearedExceptionallyType clearedExceptionallyType; 
 	

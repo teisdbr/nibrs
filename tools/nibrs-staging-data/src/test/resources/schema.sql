@@ -24,6 +24,29 @@ CREATE schema search_nibrs_staging;
 Use search_nibrs_staging; 
 
 
+
+CREATE TABLE Submission (
+                SubmissionID INTEGER NOT NULL AUTO_INCREMENT,
+                IncidentIdentifier VARCHAR(50) NOT NULL,
+                RequestFilePath VARCHAR(300) NOT NULL,
+                ResponseFilePath VARCHAR(300),
+                AcceptedIndicator BOOLEAN DEFAULT false NOT NULL,
+                ResponseTimestamp TIMESTAMP,
+                SubmissionTimestamp TIMESTAMP NOT NULL,
+                CONSTRAINT SubmissionID PRIMARY KEY (SubmissionID)
+);
+
+
+CREATE TABLE Violation (
+                ViolationID INTEGER NOT NULL AUTO_INCREMENT,
+                SubmissionID INTEGER NOT NULL,
+                ViolationCode VARCHAR(3) NOT NULL,
+                ViolationLevel VARCHAR(1) NOT NULL,
+                ViolationTimestamp TIMESTAMP DEFAULT now() NOT NULL,
+                CONSTRAINT ViolationID PRIMARY KEY (ViolationID)
+);
+
+
 CREATE TABLE CargoTheftIndicatorType (
                 CargoTheftIndicatorTypeID INTEGER NOT NULL AUTO_INCREMENT,
                 StateCode VARCHAR(1) NOT NULL,
@@ -627,6 +650,12 @@ CREATE TABLE LEOKASegment (
                 CONSTRAINT idLEOKASegment PRIMARY KEY (LEOKASegmentID)
 );
 
+
+ALTER TABLE Violation ADD CONSTRAINT Submission_Violation_fk
+FOREIGN KEY (SubmissionID)
+REFERENCES Submission (SubmissionID)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
 
 ALTER TABLE AdministrativeSegment ADD CONSTRAINT CargoTheftIndicatorType_AdministrativeSegment_fk
 FOREIGN KEY (CargoTheftIndicatorTypeID)
