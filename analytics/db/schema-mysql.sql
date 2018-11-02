@@ -29,8 +29,8 @@ CREATE TABLE Submission (
                 RequestFilePath VARCHAR(300) NOT NULL,
                 ResponseFilePath VARCHAR(300),
                 AcceptedIndicator BOOLEAN DEFAULT false NOT NULL,
-                ResponseTimestamp DATETIME,
-                SubmissionTimestamp DATETIME DEFAULT now() NOT NULL,
+                ResponseTimestamp timestamp,
+                SubmissionTimestamp TIMESTAMP NOT NULL,
                 PRIMARY KEY (SubmissionID)
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE Violation (
                 SubmissionID INT NOT NULL,
                 ViolationCode VARCHAR(3) NOT NULL,
                 ViolationLevel VARCHAR(1) NOT NULL,
-                ViolationTimestamp DATETIME DEFAULT now() NOT NULL,
+                ViolationTimestamp TIMESTAMP NOT NULL,
                 PRIMARY KEY (ViolationID)
 );
 

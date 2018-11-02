@@ -42,7 +42,7 @@ CREATE TABLE Violation (
                 SubmissionID INTEGER NOT NULL,
                 ViolationCode VARCHAR(3) NOT NULL,
                 ViolationLevel VARCHAR(1) NOT NULL,
-                ViolationTimestamp TIMESTAMP DEFAULT now() NOT NULL,
+                ViolationTimestamp TIMESTAMP NOT NULL,
                 CONSTRAINT ViolationID PRIMARY KEY (ViolationID)
 );
 
