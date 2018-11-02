@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -43,9 +42,7 @@ public class Submission {
 	private String responseFilePath;
 	
 	private Boolean acceptedIndicator;
-	@Convert(converter = LocalDateTimeConverter.class)
 	private LocalDateTime submissionTimestamp;
-	@Convert(converter = LocalDateTimeConverter.class)
 	private LocalDateTime responseTimestamp;
 	
     @OneToMany(mappedBy = "submission", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
